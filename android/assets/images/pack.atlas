@@ -1,0 +1,209 @@
+
+pack.png
+size: 2048,2048
+format: RGBA8888
+filter: MipMapLinearNearest,Linear
+repeat: none
+gnomeAttack0
+  rotate: false
+  xy: 1284, 1846
+  size: 173, 132
+  orig: 173, 132
+  offset: 0, 0
+  index: -1
+gnomeAttack1
+  rotate: false
+  xy: 2, 2
+  size: 173, 132
+  orig: 173, 132
+  offset: 0, 0
+  index: -1
+gnomeAttack2
+  rotate: false
+  xy: 1284, 1712
+  size: 173, 132
+  orig: 173, 132
+  offset: 0, 0
+  index: -1
+gnomeAttack3
+  rotate: false
+  xy: 1459, 1846
+  size: 173, 132
+  orig: 173, 132
+  offset: 0, 0
+  index: -1
+gnomeAttack4
+  rotate: false
+  xy: 177, 2
+  size: 173, 132
+  orig: 173, 132
+  offset: 0, 0
+  index: -1
+gnomeDie0
+  rotate: false
+  xy: 1284, 1578
+  size: 173, 132
+  orig: 173, 132
+  offset: 0, 0
+  index: -1
+gnomeDie1
+  rotate: false
+  xy: 1459, 1712
+  size: 173, 132
+  orig: 173, 132
+  offset: 0, 0
+  index: -1
+gnomeDie2
+  rotate: false
+  xy: 1634, 1846
+  size: 173, 132
+  orig: 173, 132
+  offset: 0, 0
+  index: -1
+gnomeDie3
+  rotate: false
+  xy: 352, 2
+  size: 173, 132
+  orig: 173, 132
+  offset: 0, 0
+  index: -1
+gnomeRun0
+  rotate: false
+  xy: 1284, 1444
+  size: 173, 132
+  orig: 173, 132
+  offset: 0, 0
+  index: -1
+gnomeRun1
+  rotate: false
+  xy: 1459, 1578
+  size: 173, 132
+  orig: 173, 132
+  offset: 0, 0
+  index: -1
+gnomeRun3
+  rotate: false
+  xy: 1459, 1578
+  size: 173, 132
+  orig: 173, 132
+  offset: 0, 0
+  index: -1
+gnomeRun2
+  rotate: false
+  xy: 1634, 1712
+  size: 173, 132
+  orig: 173, 132
+  offset: 0, 0
+  index: -1
+gnomeStay0
+  rotate: false
+  xy: 1809, 1846
+  size: 173, 132
+  orig: 173, 132
+  offset: 0, 0
+  index: -1
+gnomeStay1
+  rotate: false
+  xy: 527, 2
+  size: 173, 132
+  orig: 173, 132
+  offset: 0, 0
+  index: -1
+gnomeStay3
+  rotate: false
+  xy: 527, 2
+  size: 173, 132
+  orig: 173, 132
+  offset: 0, 0
+  index: -1
+gnomeStay2
+  rotate: false
+  xy: 1284, 1310
+  size: 173, 132
+  orig: 173, 132
+  offset: 0, 0
+  index: -1
+gnomeWalk0
+  rotate: false
+  xy: 1459, 1444
+  size: 173, 132
+  orig: 173, 132
+  offset: 0, 0
+  index: -1
+gnomeWalk1
+  rotate: false
+  xy: 1634, 1578
+  size: 173, 132
+  orig: 173, 132
+  offset: 0, 0
+  index: -1
+gnomeWalk2
+  rotate: false
+  xy: 1809, 1712
+  size: 173, 132
+  orig: 173, 132
+  offset: 0, 0
+  index: -1
+gnomeWalk3
+  rotate: false
+  xy: 702, 2
+  size: 173, 132
+  orig: 173, 132
+  offset: 0, 0
+  index: -1
+gnomeWalk4
+  rotate: false
+  xy: 1284, 1176
+  size: 173, 132
+  orig: 173, 132
+  offset: 0, 0
+  index: -1
+level_bg
+  rotate: false
+  xy: 2, 1058
+  size: 1280, 920
+  orig: 1280, 920
+  offset: 0, 0
+  index: -1
+level_bg_old
+  rotate: false
+  xy: 2, 136
+  size: 1280, 920
+  orig: 1280, 920
+  offset: 0, 0
+  index: -1
+zombieWalk0
+  rotate: false
+  xy: 1459, 1340
+  size: 98, 102
+  orig: 98, 102
+  offset: 0, 0
+  index: -1
+zombieWalk1
+  rotate: false
+  xy: 1634, 1474
+  size: 98, 102
+  orig: 98, 102
+  offset: 0, 0
+  index: -1
+zombieWalk2
+  rotate: false
+  xy: 1809, 1608
+  size: 98, 102
+  orig: 98, 102
+  offset: 0, 0
+  index: -1
+zombieWalk3
+  rotate: false
+  xy: 877, 32
+  size: 98, 102
+  orig: 98, 102
+  offset: 0, 0
+  index: -1
+zombieWalk4
+  rotate: false
+  xy: 1284, 1072
+  size: 98, 102
+  orig: 98, 102
+  offset: 0, 0
+  index: -1
