@@ -9,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.timgapps.warfare.Level.Level;
@@ -41,27 +42,50 @@ public class Zombie extends GameUnit {
         createAnimations();     // создадим анимации для различных состояний персонажа
         level.addChild(this, x, y);
         createBody(x, y);
+
     }
 
 
     @Override
     public void createBody(float x, float y) {
 
+//        BodyDef def = new BodyDef();
+//        def.type = BodyDef.BodyType.DynamicBody;
+//        body = world.createBody(def);
+//
+//        FixtureDef fDef = new FixtureDef();
+//        CircleShape shape = new CircleShape();
+//        shape.setRadius(38 / Level.WORLD_SCALE);
+//
+//        fDef.shape = shape;
+//        fDef.density = 1;
+//        fDef.restitution = 0.1f;
+//        body.createFixture(fDef).setUserData(this);
+//        shape.dispose();
+//
+//        body.setTransform((x + 16) / Level.WORLD_SCALE, y / Level.WORLD_SCALE, 0);
+
         BodyDef def = new BodyDef();
         def.type = BodyDef.BodyType.DynamicBody;
         body = world.createBody(def);
 
         FixtureDef fDef = new FixtureDef();
-        CircleShape shape = new CircleShape();
-        shape.setRadius(38 / Level.WORLD_SCALE);
+//        CircleShape shape = new CircleShape();
+//        shape.setRadius(38 / Level.WORLD_SCALE);
+
+        PolygonShape shape = new PolygonShape();
+        shape.setAsBox(32 / Level.WORLD_SCALE, 12 / Level.WORLD_SCALE);
+        fDef.filter.categoryBits = GameUnit.ENEMY_BIT;
+        fDef.filter.maskBits = GameUnit.PLAYER_BIT;
+
 
         fDef.shape = shape;
-        fDef.density = 1;
-        fDef.restitution = 0.1f;
+//        fDef.density = 1;
+//        fDef.restitution = 0.1f;
         body.createFixture(fDef).setUserData(this);
         shape.dispose();
 
-        body.setTransform((x + 16) / Level.WORLD_SCALE, y / Level.WORLD_SCALE, 0);
+        body.setTransform((x) / Level.WORLD_SCALE, y / Level.WORLD_SCALE, 0);
     }
 
 
@@ -74,29 +98,43 @@ public class Zombie extends GameUnit {
 
 //        if (isDraw) {
         if (currentState == Gnome.State.WALKING) {
-            batch.draw((TextureRegion) walkAnimation.getKeyFrame(stateTime, true), getX() - 48, getY() - 46);
+            batch.draw((TextureRegion) walkAnimation.getKeyFrame(stateTime, true), getX() - 32, getY() - 26);
         }
 
         if (currentState == Gnome.State.ATTACK) {
-            batch.draw((TextureRegion) attackAnimation.getKeyFrame(stateTime, true), getX() - 48, getY() - 46);
+            batch.draw((TextureRegion) attackAnimation.getKeyFrame(stateTime, true), getX() - 32, getY() - 46);
         }
 
         if (currentState == Gnome.State.STAY) {
-            batch.draw((TextureRegion) stayAnimation.getKeyFrame(stateTime, true), getX() - 48, getY() - 46);
+            batch.draw((TextureRegion) stayAnimation.getKeyFrame(stateTime, true), getX() - 32, getY() - 46);
         }
 
         if (currentState == Gnome.State.RUN) {
-            batch.draw((TextureRegion) runAnimation.getKeyFrame(stateTime, true), getX() - 48, getY() - 46);
+            batch.draw((TextureRegion) runAnimation.getKeyFrame(stateTime, true), getX() - 32, getY() - 46);
         }
 
         if (currentState == Gnome.State.DIE) {
-            batch.draw((TextureRegion) dieAnimation.getKeyFrame(stateTime, false), getX() - 48, getY() - 46);
+            batch.draw((TextureRegion) dieAnimation.getKeyFrame(stateTime, false), getX() - 32, getY() - 46);
         }
     }
 
     @Override
     public void act(float delta) {
         super.act(delta);
+
+        if (!body.isActive()) {
+            world.destroyBody(body);
+            this.remove();
+        }
+
+        if (setToDestroy) {
+            body.setActive(false);
+        }
+
+        if (health <= 0) {
+            setToDestroy = true;
+        }
+
         if (body.getPosition().x * Level.WORLD_SCALE > 500)
             moveLeft(body);
         else
@@ -112,7 +150,7 @@ public class Zombie extends GameUnit {
         Vector2 vel = body.getLinearVelocity();
         vel.x = VELOCITY;
         body.setLinearVelocity(vel);
-        System.out.println("body.Position.x = " + body.getPosition().x * Level.WORLD_SCALE);
+//        System.out.println("body.Position.x = " + body.getPosition().x * Level.WORLD_SCALE);
     }
 
     private void createAnimations() {
@@ -155,5 +193,25 @@ public class Zombie extends GameUnit {
     @Override
     public Vector2 getBodyPosition() {
         return body.getPosition();
+    }
+
+//    @Override
+//    public void inflictDamage(GameUnit unit) {
+//        unit.setHealth(unit.getHealth() - damage);
+//    }
+
+    @Override
+    public float getHealth() {
+        return health;
+    }
+
+    @Override
+    public void setHealth(float health) {
+        this.health -= health;
+    }
+
+    @Override
+    public void attack() {
+
     }
 }

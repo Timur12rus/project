@@ -7,8 +7,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.timgapps.warfare.Level.Level;
@@ -19,10 +19,12 @@ import java.util.ArrayList;
 
 public class Gnome extends GameUnit {
 
-    public enum State {WALKING, ATTACK, STAY, DIE, RUN}
+//    public enum State {WALKING, ATTACK, STAY, DIE, RUN}
+
+    private boolean isAttack = false;   // флаг, указывет на то, в состоянии ли атаки находится юнит
 
     private final float VELOCITY = 1f;
-    public State currentState = State.RUN;
+    //    public State currentState = State.RUN;
     private float stateTime;
 
     private Animation walkAnimation;            // анимация для ходьбы
@@ -46,12 +48,43 @@ public class Gnome extends GameUnit {
         level.addChild(this, x, y);
         createBody(x, y);
         body.setLinearVelocity(1, 0);
+        currentState = State.RUN;
     }
 
 
     @Override
     public Vector2 getBodyPosition() {
         return body.getPosition();
+    }
+
+//    @Override
+//    public void inflictDamage(GameUnit unit, float damage) {
+//
+//    }
+
+    @Override
+    public float getHealth() {
+        return health;
+    }
+
+    @Override
+    public void setHealth(float health) {
+        this.health = health;
+    }
+
+    public void attack() {
+        if (currentState != State.ATTACK) {        // проверяем, в состоянии ли "атаки" юнит
+//        if (!isAttack) {        // проверяем, в состоянии ли "атаки" юнит
+//            isAttack = true;    // меняем флаг, на тот что, указывает, что юнит в состоянии "атаки"
+            currentState = State.ATTACK;
+            stateTime = 0;
+        }
+
+    }
+
+    @Override
+    public State getCurrentState() {
+        return currentState;
     }
 
 
@@ -62,17 +95,18 @@ public class Gnome extends GameUnit {
         def.type = BodyDef.BodyType.DynamicBody;
         body = world.createBody(def);
 
-        FixtureDef fDef = new FixtureDef();
-        CircleShape shape = new CircleShape();
-        shape.setRadius(38 / Level.WORLD_SCALE);
+        PolygonShape shape = new PolygonShape();
+        shape.setAsBox(32 / Level.WORLD_SCALE, 12 / Level.WORLD_SCALE);
 
+        FixtureDef fDef = new FixtureDef();
         fDef.shape = shape;
-        fDef.density = 1;
-        fDef.restitution = 0.1f;
+        fDef.filter.categoryBits = GameUnit.PLAYER_BIT;
+        fDef.filter.maskBits = GameUnit.ENEMY_BIT;
+
         body.createFixture(fDef).setUserData(this);
         shape.dispose();
 
-        body.setTransform((x + 16) / Level.WORLD_SCALE, y / Level.WORLD_SCALE, 0);
+        body.setTransform((x) / Level.WORLD_SCALE, y / Level.WORLD_SCALE, 0);
     }
 
 
@@ -85,55 +119,82 @@ public class Gnome extends GameUnit {
 
 //        if (isDraw) {
         if (currentState == State.WALKING) {
-            batch.draw((TextureRegion) walkAnimation.getKeyFrame(stateTime, true), getX() - 48, getY() - 46);
+            batch.draw((TextureRegion) walkAnimation.getKeyFrame(stateTime, true), getX() - 38, getY() - 26);
         }
 
         if (currentState == State.ATTACK) {
-            batch.draw((TextureRegion) attackAnimation.getKeyFrame(stateTime, true), getX() - 48, getY() - 46);
+            batch.draw((TextureRegion) attackAnimation.getKeyFrame(stateTime, true), getX() - 48, getY() - 26);
         }
 
         if (currentState == State.STAY) {
-            batch.draw((TextureRegion) stayAnimation.getKeyFrame(stateTime, true), getX() - 48, getY() - 46);
+            batch.draw((TextureRegion) stayAnimation.getKeyFrame(stateTime, true), getX() - 48, getY() - 26);
         }
 
         if (currentState == State.RUN) {
-            batch.draw((TextureRegion) runAnimation.getKeyFrame(stateTime, true), getX() - 48, getY() - 46);
+            batch.draw((TextureRegion) runAnimation.getKeyFrame(stateTime, true), getX() - 48, getY() - 26);
         }
 
         if (currentState == State.DIE) {
-            batch.draw((TextureRegion) dieAnimation.getKeyFrame(stateTime, false), getX() - 48, getY() - 46);
+            batch.draw((TextureRegion) dieAnimation.getKeyFrame(stateTime, false), getX() - 48, getY() - 26);
         }
     }
 
     @Override
     public void act(float delta) {
         super.act(delta);
-        if (!isHaveTarget) {
-            ArrayList<GameUnit> enemies = level.getArrayEnemies();
-            minDistance = enemies.get(0).getBodyPosition().x * Level.WORLD_SCALE;
-            targetEnemy = enemies.get(0);
-            // найдем "врага-цель"
-            for (int i = 1; i < enemies.size(); i++) {
-                if ((enemies.get(i).getBodyPosition().x - getBodyPosition().x) * Level.WORLD_SCALE < minDistance) {
-                    minDistance = (enemies.get(i).getBodyPosition().x - getBodyPosition().x) * Level.WORLD_SCALE;
-                    targetEnemy = enemies.get(i);   // определили "врага-цель"
-                }
-            }
-            if (targetEnemy != null)
-                isHaveTarget = true;        // изменим флаг на true, т.е. есть "враг-цель"
+
+        if (!isHaveTarget) {    //если нет "врага-цели", то
+            findTarget();       //найдем "врага-цель"
         }
 
-        // если определен "враг-цель", то
-        if (isHaveTarget) {
-            Vector2 pos = new Vector2(body.getPosition());
-            Vector2 enemyPos = targetEnemy.getBodyPosition();
-            Vector2 vel = enemyPos.sub(pos);
-            body.setLinearVelocity(vel.x - 0.5f, vel.y);
+        if (currentState != State.ATTACK) {
+            if (isHaveTarget) {  // если определен "враг-цель", то
+                moveToTarget();     //движемся к цели
+            } else {                  // в противном случае, если "враг-цель" не определен, то двигаемся прямо вправо
+                moveRight(body);    // движемся вправо
+            }
         }
-        else {                  // в противном случае, если "враг-цель" не определен, то двигаемся прямо вправо
-            moveRight(body);
+
+        if (currentState == State.ATTACK) {
+            stay();
+            if (attackAnimation.isAnimationFinished(stateTime)) {
+                stateTime = 0;
+                System.out.println("attackAnimationFinished!");
+                inflictDamage(targetEnemy, damage);
+            }
+            System.out.println("currentState = " + currentState);
         }
+
+        /** обновим позицию текущего игрового объекта **/
         setPosition(body.getPosition().x * Level.WORLD_SCALE - 18, body.getPosition().y * Level.WORLD_SCALE);
+    }
+
+    private void stay() {
+        body.setLinearVelocity(0, 0);
+    }
+
+    private void findTarget() {
+        ArrayList<GameUnit> enemies = level.getArrayEnemies();
+        minDistance = enemies.get(0).getBodyPosition().x * Level.WORLD_SCALE;
+        targetEnemy = enemies.get(0);
+
+        // найдем "врага-цель"
+        for (int i = 1; i < enemies.size(); i++) {
+            if ((enemies.get(i).getBodyPosition().x - getBodyPosition().x) * Level.WORLD_SCALE < minDistance) {
+                minDistance = (enemies.get(i).getBodyPosition().x - getBodyPosition().x) * Level.WORLD_SCALE;
+                targetEnemy = enemies.get(i);   // определили "врага-цель"
+            }
+        }
+        if (targetEnemy != null)
+            isHaveTarget = true;        // изменим флаг на true, т.е. есть "враг-цель"
+    }
+
+    private void moveToTarget() {
+        Vector2 pos = new Vector2(body.getPosition());
+        Vector2 enemyPos = targetEnemy.getBodyPosition();
+
+        Vector2 vel = enemyPos.sub(pos);
+        body.setLinearVelocity(VELOCITY, vel.y);
     }
 
     public void moveRight(Body body) {
@@ -156,7 +217,8 @@ public class Gnome extends GameUnit {
         //  получим кадры и добавим в анимацию атаки персонажа
         for (int i = 0; i < 5; i++)
             frames.add(new TextureRegion(Warfare.atlas.findRegion("gnomeAttack" + i)));
-        attackAnimation = new Animation(0.12f, frames);
+        attackAnimation = new Animation(0.1f, frames);
+//        attackAnimation = new Animation(0.12f, frames);
         frames.clear();
 
         //  получим кадры и добавим в анимацию стоянки персонажа
@@ -178,6 +240,11 @@ public class Gnome extends GameUnit {
             frames.add(new TextureRegion(Warfare.atlas.findRegion("gnomeDie" + i)));
         dieAnimation = new Animation(0.1f, frames);
         frames.clear();
+        stateTime = 0;
+    }
+
+    public void resetTarget() {
+        isHaveTarget = false;
     }
 
 
