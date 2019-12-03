@@ -17,6 +17,7 @@ public abstract class GameUnit extends Actor implements IBody {
     public enum State {WALKING, ATTACK, STAY, DIE, RUN}
     public State currentState = State.STAY;
 
+    /** конструктор **/
     public GameUnit(Level level, float x, float y, float health, float damage) {
         this.level = level;
         this.health = health;
@@ -30,7 +31,6 @@ public abstract class GameUnit extends Actor implements IBody {
     public abstract void setHealth(float health);
 
     public abstract void attack();
-//    public abstract void attack();
 
     public void inflictDamage(GameUnit unit, float damage) {
         if (unit instanceof Zombie) {

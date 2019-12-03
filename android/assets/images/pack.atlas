@@ -172,37 +172,72 @@ level_bg_old
   orig: 1280, 920
   offset: 0, 0
   index: -1
-zombieWalk0
+zombieAttack0
   rotate: false
   xy: 1459, 1340
   size: 98, 102
   orig: 98, 102
   offset: 0, 0
   index: -1
-zombieWalk1
+zombieAttack1
   rotate: false
   xy: 1634, 1474
   size: 98, 102
   orig: 98, 102
   offset: 0, 0
   index: -1
-zombieWalk2
+zombieAttack2
   rotate: false
   xy: 1809, 1608
   size: 98, 102
   orig: 98, 102
   offset: 0, 0
   index: -1
-zombieWalk3
+zombieAttack3
   rotate: false
   xy: 877, 32
   size: 98, 102
   orig: 98, 102
   offset: 0, 0
   index: -1
-zombieWalk4
+zombieAttack4
   rotate: false
   xy: 1284, 1072
+  size: 98, 102
+  orig: 98, 102
+  offset: 0, 0
+  index: -1
+zombieWalk0
+  rotate: false
+  xy: 1459, 1236
+  size: 98, 102
+  orig: 98, 102
+  offset: 0, 0
+  index: -1
+zombieWalk1
+  rotate: false
+  xy: 977, 32
+  size: 98, 102
+  orig: 98, 102
+  offset: 0, 0
+  index: -1
+zombieWalk2
+  rotate: false
+  xy: 1284, 968
+  size: 98, 102
+  orig: 98, 102
+  offset: 0, 0
+  index: -1
+zombieWalk3
+  rotate: false
+  xy: 1077, 32
+  size: 98, 102
+  orig: 98, 102
+  offset: 0, 0
+  index: -1
+zombieWalk4
+  rotate: false
+  xy: 1284, 864
   size: 98, 102
   orig: 98, 102
   offset: 0, 0

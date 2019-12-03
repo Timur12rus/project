@@ -31,12 +31,16 @@ public class Level extends StageGame {
         debugRender = new Box2DDebugRenderer(); // объект debugRendered будем использовать для отладки игрового мира, он позволяет выделить границы полигона
 
         Gnome gnome = new Gnome(this, 100, 400, 10, 10);
-        Zombie zombie = new Zombie(this, 1000, 300, 30, 10);
-        Zombie zombie1 = new Zombie(this, 1400, 450, 30, 10);
+        Zombie zombie = new Zombie(this, 800, 300, 20, 10);
+        Zombie zombie1 = new Zombie(this, 1200, 450, 20, 10);
+        Zombie zombie2 = new Zombie(this, 1600, 250, 20, 10);
+        Zombie zombie3 = new Zombie(this, 2000, 350, 20, 10);
         accumulator = 0;
         arrayEnemies = new ArrayList<GameUnit>();
         arrayEnemies.add(zombie);
         arrayEnemies.add(zombie1);
+        arrayEnemies.add(zombie2);
+        arrayEnemies.add(zombie3);
     }
 
     public ArrayList<GameUnit> getArrayEnemies() {

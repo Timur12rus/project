@@ -14,15 +14,14 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.timgapps.warfare.Level.Level;
 import com.timgapps.warfare.Units.GameUnit;
-import com.timgapps.warfare.Units.Player.Gnome;
 import com.timgapps.warfare.Warfare;
 
-public class Zombie extends GameUnit {
+public class Zombie extends EnemyUnit {
 
     public enum State {WALKING, ATTACK, STAY, DIE, RUN}
 
     private final float VELOCITY = -1f;
-    public Gnome.State currentState = Gnome.State.WALKING;
+    public State currentState = State.ATTACK;
     private float stateTime;
 
     private Animation walkAnimation;            // анимация для ходьбы
@@ -42,7 +41,7 @@ public class Zombie extends GameUnit {
         createAnimations();     // создадим анимации для различных состояний персонажа
         level.addChild(this, x, y);
         createBody(x, y);
-
+        currentState = State.WALKING;
     }
 
 
@@ -97,23 +96,23 @@ public class Zombie extends GameUnit {
 //        batch.setColor(1, 1, 1, 1);
 
 //        if (isDraw) {
-        if (currentState == Gnome.State.WALKING) {
+        if (currentState == State.WALKING) {
             batch.draw((TextureRegion) walkAnimation.getKeyFrame(stateTime, true), getX() - 32, getY() - 26);
         }
 
-        if (currentState == Gnome.State.ATTACK) {
-            batch.draw((TextureRegion) attackAnimation.getKeyFrame(stateTime, true), getX() - 32, getY() - 46);
+        if (currentState == State.ATTACK) {
+            batch.draw((TextureRegion) attackAnimation.getKeyFrame(stateTime, true), getX() - 32, getY() - 26);
         }
 
-        if (currentState == Gnome.State.STAY) {
+        if (currentState == State.STAY) {
             batch.draw((TextureRegion) stayAnimation.getKeyFrame(stateTime, true), getX() - 32, getY() - 46);
         }
 
-        if (currentState == Gnome.State.RUN) {
+        if (currentState == State.RUN) {
             batch.draw((TextureRegion) runAnimation.getKeyFrame(stateTime, true), getX() - 32, getY() - 46);
         }
 
-        if (currentState == Gnome.State.DIE) {
+        if (currentState == State.DIE) {
             batch.draw((TextureRegion) dieAnimation.getKeyFrame(stateTime, false), getX() - 32, getY() - 46);
         }
     }
@@ -127,6 +126,17 @@ public class Zombie extends GameUnit {
             this.remove();
         }
 
+        if (currentState == State.ATTACK) {
+            stay();
+            if (attackAnimation.isAnimationFinished(stateTime)) {
+                stateTime = 0;
+//                System.out.println("attackAnimationFinished!");
+//                inflictDamage(targetEnemy, damage);
+
+            }
+//            System.out.println("currentState = " + currentState);
+        }
+
         if (setToDestroy) {
             body.setActive(false);
         }
@@ -135,10 +145,11 @@ public class Zombie extends GameUnit {
             setToDestroy = true;
         }
 
-        if (body.getPosition().x * Level.WORLD_SCALE > 500)
-            moveLeft(body);
-        else
-            stop(body);
+        if (currentState == State.WALKING)
+            if (body.getPosition().x * Level.WORLD_SCALE > 500)
+                moveLeft(body);
+            else
+                stay();
         setPosition(body.getPosition().x * Level.WORLD_SCALE - 18, body.getPosition().y * Level.WORLD_SCALE);
     }
 
@@ -163,11 +174,11 @@ public class Zombie extends GameUnit {
         walkAnimation = new Animation(0.15f, frames);
         frames.clear();
 
-//        //  получим кадры и добавим в анимацию атаки персонажа
-//        for (int i = 0; i < 5; i++)
-//            frames.add(new TextureRegion(Warfare.atlas.findRegion("gnomeAttack" + i)));
-//        attackAnimation = new Animation(0.12f, frames);
-//        frames.clear();
+        //  получим кадры и добавим в анимацию атаки персонажа
+        for (int i = 0; i < 5; i++)
+            frames.add(new TextureRegion(Warfare.atlas.findRegion("zombieAttack" + i)));
+        attackAnimation = new Animation(0.12f, frames);
+        frames.clear();
 //
 //        //  получим кадры и добавим в анимацию стоянки персонажа
 //        for (int i = 0; i < 4; i++)
@@ -212,6 +223,13 @@ public class Zombie extends GameUnit {
 
     @Override
     public void attack() {
+        if (currentState != State.ATTACK) {        // проверяем, в состоянии ли "атаки" юнит
+            currentState = State.ATTACK;
+            stateTime = 0;
+        }
+    }
 
+    private void stay() {
+        body.setLinearVelocity(0, 0);
     }
 }

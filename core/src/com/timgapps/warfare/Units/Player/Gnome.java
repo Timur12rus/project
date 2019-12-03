@@ -17,7 +17,7 @@ import com.timgapps.warfare.Warfare;
 
 import java.util.ArrayList;
 
-public class Gnome extends GameUnit {
+public class Gnome extends PlayerUnit {
 
 //    public enum State {WALKING, ATTACK, STAY, DIE, RUN}
 
@@ -40,6 +40,10 @@ public class Gnome extends GameUnit {
     private GameUnit targetEnemy;
     private float minDistance = 0; // расстояние до ближайшего вражеского юнита
 
+    private enum Direction {UP, DOWN, NONE}
+
+    private Direction verticalDirectionMovement = Direction.NONE;
+
     public Gnome(Level level, float x, float y, float health, float damage) {
         super(level, x, y, health, damage);
         this.level = level;
@@ -47,7 +51,7 @@ public class Gnome extends GameUnit {
         createAnimations();     // создадим анимации для различных состояний персонажа
         level.addChild(this, x, y);
         createBody(x, y);
-        body.setLinearVelocity(1, 0);
+//        body.setLinearVelocity(1, 0);
         currentState = State.RUN;
     }
 
@@ -74,12 +78,9 @@ public class Gnome extends GameUnit {
 
     public void attack() {
         if (currentState != State.ATTACK) {        // проверяем, в состоянии ли "атаки" юнит
-//        if (!isAttack) {        // проверяем, в состоянии ли "атаки" юнит
-//            isAttack = true;    // меняем флаг, на тот что, указывает, что юнит в состоянии "атаки"
             currentState = State.ATTACK;
             stateTime = 0;
         }
-
     }
 
     @Override
@@ -96,7 +97,7 @@ public class Gnome extends GameUnit {
         body = world.createBody(def);
 
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(32 / Level.WORLD_SCALE, 12 / Level.WORLD_SCALE);
+        shape.setAsBox(12 / Level.WORLD_SCALE, 12 / Level.WORLD_SCALE);
 
         FixtureDef fDef = new FixtureDef();
         fDef.shape = shape;
@@ -119,11 +120,11 @@ public class Gnome extends GameUnit {
 
 //        if (isDraw) {
         if (currentState == State.WALKING) {
-            batch.draw((TextureRegion) walkAnimation.getKeyFrame(stateTime, true), getX() - 38, getY() - 26);
+            batch.draw((TextureRegion) walkAnimation.getKeyFrame(stateTime, true), getX() - 58, getY() - 26);
         }
 
         if (currentState == State.ATTACK) {
-            batch.draw((TextureRegion) attackAnimation.getKeyFrame(stateTime, true), getX() - 48, getY() - 26);
+            batch.draw((TextureRegion) attackAnimation.getKeyFrame(stateTime, false), getX() - 48, getY() - 26);
         }
 
         if (currentState == State.STAY) {
@@ -131,7 +132,7 @@ public class Gnome extends GameUnit {
         }
 
         if (currentState == State.RUN) {
-            batch.draw((TextureRegion) runAnimation.getKeyFrame(stateTime, true), getX() - 48, getY() - 26);
+            batch.draw((TextureRegion) runAnimation.getKeyFrame(stateTime, true), getX() - 58, getY() - 26);
         }
 
         if (currentState == State.DIE) {
@@ -145,6 +146,15 @@ public class Gnome extends GameUnit {
 
         if (!isHaveTarget) {    //если нет "врага-цели", то
             findTarget();       //найдем "врага-цель"
+            verticalDirectionMovement = calculateVerticalDirection();
+            currentState = State.RUN;
+        }
+
+        if (targetEnemy.getHealth() <= 0 || targetEnemy == null) {
+//            currentState = State.RUN;
+            resetTarget();
+//            findTarget();
+//            level.getArrayEnemies().remove()
         }
 
         if (currentState != State.ATTACK) {
@@ -159,10 +169,11 @@ public class Gnome extends GameUnit {
             stay();
             if (attackAnimation.isAnimationFinished(stateTime)) {
                 stateTime = 0;
-                System.out.println("attackAnimationFinished!");
+//                System.out.println("attackAnimationFinished!");
                 inflictDamage(targetEnemy, damage);
+
             }
-            System.out.println("currentState = " + currentState);
+//            System.out.println("currentState = " + currentState);
         }
 
         /** обновим позицию текущего игрового объекта **/
@@ -173,28 +184,65 @@ public class Gnome extends GameUnit {
         body.setLinearVelocity(0, 0);
     }
 
+    private Direction calculateVerticalDirection() {
+        float posY = body.getPosition().y;
+        float posYTarget = targetEnemy.getBodyPosition().y;
+
+        if (posY < posYTarget) verticalDirectionMovement = Direction.UP;
+        if (posY > posYTarget) verticalDirectionMovement = Direction.DOWN;
+        if (posY == posYTarget) verticalDirectionMovement = Direction.NONE;
+
+        return verticalDirectionMovement;
+    }
+
     private void findTarget() {
+        System.out.println("find TARGET!");
         ArrayList<GameUnit> enemies = level.getArrayEnemies();
         minDistance = enemies.get(0).getBodyPosition().x * Level.WORLD_SCALE;
         targetEnemy = enemies.get(0);
+//        System.out.println("Array size = " + enemies.size());
 
         // найдем "врага-цель"
+
         for (int i = 1; i < enemies.size(); i++) {
-            if ((enemies.get(i).getBodyPosition().x - getBodyPosition().x) * Level.WORLD_SCALE < minDistance) {
+            float distanceToEnemy = (enemies.get(i).getBodyPosition().x - getBodyPosition().x) * Level.WORLD_SCALE;
+            if ((distanceToEnemy < minDistance) && (distanceToEnemy > 20)) {
                 minDistance = (enemies.get(i).getBodyPosition().x - getBodyPosition().x) * Level.WORLD_SCALE;
                 targetEnemy = enemies.get(i);   // определили "врага-цель"
+                System.out.println("minDistance = " + minDistance);
+                System.out.println("targetEnemy = " + targetEnemy.toString());
             }
         }
+        minDistance = 0;
         if (targetEnemy != null)
             isHaveTarget = true;        // изменим флаг на true, т.е. есть "враг-цель"
     }
 
     private void moveToTarget() {
-        Vector2 pos = new Vector2(body.getPosition());
-        Vector2 enemyPos = targetEnemy.getBodyPosition();
 
-        Vector2 vel = enemyPos.sub(pos);
-        body.setLinearVelocity(VELOCITY, vel.y);
+//
+        float posY = body.getPosition().y;
+        float posYTarget = targetEnemy.getBodyPosition().y;
+
+//        Vector2 pos = new Vector2(body.getPosition());
+//        Vector2 enemyPos = targetEnemy.getBodyPosition();
+//
+//        Vector2 vel = enemyPos.sub(pos);
+        if (verticalDirectionMovement == Direction.DOWN) {
+            if (posY > posYTarget) {
+                body.setLinearVelocity(VELOCITY, -VELOCITY);
+            } else {
+                verticalDirectionMovement = Direction.NONE;
+            }
+        } else if (verticalDirectionMovement == Direction.UP) {
+            if (posY < posYTarget) {
+                body.setLinearVelocity(VELOCITY, VELOCITY);
+            } else {
+                verticalDirectionMovement = Direction.NONE;
+            }
+        } else if (verticalDirectionMovement == Direction.NONE) {
+            body.setLinearVelocity(VELOCITY, 0);
+        }
     }
 
     public void moveRight(Body body) {
