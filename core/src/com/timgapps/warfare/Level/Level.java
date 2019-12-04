@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.boontaran.games.StageGame;
 import com.timgapps.warfare.Tools.WorldContactListener;
+import com.timgapps.warfare.Units.Enemy.EnemyUnit;
 import com.timgapps.warfare.Units.Enemy.Zombie;
 import com.timgapps.warfare.Units.GameUnit;
 import com.timgapps.warfare.Units.Player.Gnome;
@@ -22,7 +23,7 @@ public class Level extends StageGame {
     private World world;
     private float accumulator;
     public static final float STEP = 1 / 55f;
-    private ArrayList<GameUnit> arrayEnemies;
+    private ArrayList<EnemyUnit> arrayEnemies;
 
     public Level() {
         setBackGround("level_bg");
@@ -33,18 +34,31 @@ public class Level extends StageGame {
         Gnome gnome = new Gnome(this, 100, 400, 10, 10);
         Zombie zombie = new Zombie(this, 800, 300, 20, 10);
         Zombie zombie1 = new Zombie(this, 1200, 450, 20, 10);
-        Zombie zombie2 = new Zombie(this, 1600, 250, 20, 10);
+        Zombie zombie2 = new Zombie(this, 1400, 250, 20, 10);
         Zombie zombie3 = new Zombie(this, 2000, 350, 20, 10);
         accumulator = 0;
-        arrayEnemies = new ArrayList<GameUnit>();
+        arrayEnemies = new ArrayList<EnemyUnit>();
         arrayEnemies.add(zombie);
         arrayEnemies.add(zombie1);
         arrayEnemies.add(zombie2);
         arrayEnemies.add(zombie3);
     }
 
-    public ArrayList<GameUnit> getArrayEnemies() {
+    public ArrayList<EnemyUnit> getArrayEnemies() {
         return arrayEnemies;
+    }
+
+    public void removeEnemyUnitFromArray(EnemyUnit unit) {
+        int targetIndex = 0;
+        for (int i = 0; i < arrayEnemies.size(); i++) {
+            if (unit.equals(arrayEnemies.get(i))) {
+                arrayEnemies.remove(i);
+                System.out.println("remove i= " + i);
+                System.out.println("break");
+                break;
+            }
+        }
+//        arrayEnemies.remove(i);
     }
 
     private void setBackGround(String region) {

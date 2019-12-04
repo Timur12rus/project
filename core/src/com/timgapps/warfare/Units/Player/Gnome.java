@@ -12,6 +12,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.timgapps.warfare.Level.Level;
+import com.timgapps.warfare.Units.Enemy.EnemyUnit;
 import com.timgapps.warfare.Units.GameUnit;
 import com.timgapps.warfare.Warfare;
 
@@ -197,7 +198,7 @@ public class Gnome extends PlayerUnit {
 
     private void findTarget() {
         System.out.println("find TARGET!");
-        ArrayList<GameUnit> enemies = level.getArrayEnemies();
+        ArrayList<EnemyUnit> enemies = level.getArrayEnemies();
         minDistance = enemies.get(0).getBodyPosition().x * Level.WORLD_SCALE;
         targetEnemy = enemies.get(0);
 //        System.out.println("Array size = " + enemies.size());
@@ -206,9 +207,24 @@ public class Gnome extends PlayerUnit {
 
         for (int i = 1; i < enemies.size(); i++) {
             float distanceToEnemy = (enemies.get(i).getBodyPosition().x - getBodyPosition().x) * Level.WORLD_SCALE;
-            if ((distanceToEnemy < minDistance) && (distanceToEnemy > 20)) {
-                minDistance = (enemies.get(i).getBodyPosition().x - getBodyPosition().x) * Level.WORLD_SCALE;
+//            if ((distanceToEnemy < minDistance) && (distanceToEnemy > 20)) {
+////                minDistance = (enemies.get(i).getBodyPosition().x - getBodyPosition().x) * Level.WORLD_SCALE;
+////                targetEnemy = enemies.get(i);   // определили "врага-цель"
+////                System.out.println("minDistance = " + minDistance);
+////                System.out.println("targetEnemy = " + targetEnemy.toString());
+////            }
+
+
+            Vector2 line = new Vector2(body.getPosition().sub(enemies.get(i).getBodyPosition()));
+            System.out.println("lineX = " + line.x);
+            System.out.println("lineY = " + line.y);
+//            if (((distanceToEnemy < minDistance)) /** ((Math.abs(line.x)) > Math.abs(line.y)) && **/) {
+            if (((distanceToEnemy < minDistance)) &&/** ((Math.abs(line.x)) > Math.abs(line.y)) && **/(minDistance > 20)) {
                 targetEnemy = enemies.get(i);   // определили "врага-цель"
+
+                minDistance = distanceToEnemy;
+
+//                targetEnemy = enemies.get(i);   // определили "врага-цель"
                 System.out.println("minDistance = " + minDistance);
                 System.out.println("targetEnemy = " + targetEnemy.toString());
             }

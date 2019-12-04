@@ -124,6 +124,7 @@ public class Zombie extends EnemyUnit {
         if (!body.isActive()) {
             world.destroyBody(body);
             this.remove();
+            level.removeEnemyUnitFromArray(this);
         }
 
         if (currentState == State.ATTACK) {
