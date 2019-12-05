@@ -20,7 +20,7 @@ public class Zombie extends EnemyUnit {
 
     public enum State {WALKING, ATTACK, STAY, DIE, RUN}
 
-    private final float VELOCITY = -1f;
+    private final float VELOCITY = -0.4f;
     public State currentState = State.ATTACK;
     private float stateTime;
 
@@ -135,7 +135,6 @@ public class Zombie extends EnemyUnit {
 //                inflictDamage(targetEnemy, damage);
 
             }
-//            System.out.println("currentState = " + currentState);
         }
 
         if (setToDestroy) {

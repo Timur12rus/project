@@ -24,6 +24,7 @@ public class Level extends StageGame {
     private float accumulator;
     public static final float STEP = 1 / 55f;
     private ArrayList<EnemyUnit> arrayEnemies;
+    private float count = 120;
 
     public Level() {
         setBackGround("level_bg");
@@ -31,17 +32,23 @@ public class Level extends StageGame {
         world.setContactListener(new WorldContactListener()); // присваиваем слушатель ContactListener, который регистрирует событие столкновения в игровом мире
         debugRender = new Box2DDebugRenderer(); // объект debugRendered будем использовать для отладки игрового мира, он позволяет выделить границы полигона
 
-        Gnome gnome = new Gnome(this, 100, 400, 10, 10);
+//        Gnome gnome = new Gnome(this, 100, 400, 10, 10);
         Zombie zombie = new Zombie(this, 800, 300, 20, 10);
         Zombie zombie1 = new Zombie(this, 1200, 450, 20, 10);
         Zombie zombie2 = new Zombie(this, 1400, 250, 20, 10);
-        Zombie zombie3 = new Zombie(this, 2000, 350, 20, 10);
+        Zombie zombie3 = new Zombie(this, 1300, 350, 20, 10);
+        Zombie zombie4 = new Zombie(this, 1700, 400, 20, 10);
+        Zombie zombie5 = new Zombie(this, 2000, 350, 20, 10);
         accumulator = 0;
         arrayEnemies = new ArrayList<EnemyUnit>();
         arrayEnemies.add(zombie);
         arrayEnemies.add(zombie1);
         arrayEnemies.add(zombie2);
         arrayEnemies.add(zombie3);
+        arrayEnemies.add(zombie4);
+        arrayEnemies.add(zombie5);
+
+        Gnome gnome = new Gnome(this, 100, 400, 10, 10);
     }
 
     public ArrayList<EnemyUnit> getArrayEnemies() {
@@ -50,14 +57,16 @@ public class Level extends StageGame {
 
     public void removeEnemyUnitFromArray(EnemyUnit unit) {
         int targetIndex = 0;
-        for (int i = 0; i < arrayEnemies.size(); i++) {
-            if (unit.equals(arrayEnemies.get(i))) {
-                arrayEnemies.remove(i);
-                System.out.println("remove i= " + i);
-                System.out.println("break");
-                break;
-            }
-        }
+//        for (int i = 0; i < arrayEnemies.size(); i++) {
+//            if (unit.equals(arrayEnemies.get(i))) {
+//                arrayEnemies.remove(i);
+//                System.out.println("remove i= " + i);
+//                System.out.println("break");
+//                break;
+//            }
+//        }
+
+        arrayEnemies.remove(unit);
 //        arrayEnemies.remove(i);
     }
 
@@ -83,13 +92,19 @@ public class Level extends StageGame {
     @Override
     protected void update(float delta) {
         super.update(delta);
+        count--;
+        System.out.println("count = " + count);
 
+        if (count < 0) {
+            Gnome gnome1 = new Gnome(this, 100, 400, 10, 10);
+            count = 400;
+        }
 
         /** Timur **/
         accumulator += delta;
         while (accumulator >= STEP) {
 //            if (state == PLAY) {
-                world.step(STEP, 8, 6);
+            world.step(STEP, 8, 6);
 //            }
             accumulator -= STEP;
 

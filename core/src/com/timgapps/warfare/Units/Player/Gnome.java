@@ -24,7 +24,7 @@ public class Gnome extends PlayerUnit {
 
     private boolean isAttack = false;   // флаг, указывет на то, в состоянии ли атаки находится юнит
 
-    private final float VELOCITY = 1f;
+    private final float VELOCITY = 0.8f;
     //    public State currentState = State.RUN;
     private float stateTime;
 
@@ -147,15 +147,18 @@ public class Gnome extends PlayerUnit {
 
         if (!isHaveTarget) {    //если нет "врага-цели", то
             findTarget();       //найдем "врага-цель"
-            verticalDirectionMovement = calculateVerticalDirection();
-            currentState = State.RUN;
+////            verticalDirectionMovement = calculateVerticalDirection();
+//            currentState = State.RUN;
         }
 
-        if (targetEnemy.getHealth() <= 0 || targetEnemy == null) {
+
+        if (targetEnemy != null) {
+            if (targetEnemy.getHealth() <= 0 || targetEnemy == null) {
 //            currentState = State.RUN;
-            resetTarget();
+                resetTarget();
 //            findTarget();
 //            level.getArrayEnemies().remove()
+            }
         }
 
         if (currentState != State.ATTACK) {
@@ -199,43 +202,51 @@ public class Gnome extends PlayerUnit {
     private void findTarget() {
         System.out.println("find TARGET!");
         ArrayList<EnemyUnit> enemies = level.getArrayEnemies();
-        minDistance = enemies.get(0).getBodyPosition().x * Level.WORLD_SCALE;
-        targetEnemy = enemies.get(0);
-//        System.out.println("Array size = " + enemies.size());
+        ArrayList<EnemyUnit> targetEnemies = new ArrayList<EnemyUnit>();
 
         // найдем "врага-цель"
 
-        for (int i = 1; i < enemies.size(); i++) {
+        for (int i = 0; i < enemies.size(); i++) {
+            // расстояние от врага до текущего юнита
             float distanceToEnemy = (enemies.get(i).getBodyPosition().x - getBodyPosition().x) * Level.WORLD_SCALE;
-//            if ((distanceToEnemy < minDistance) && (distanceToEnemy > 20)) {
-////                minDistance = (enemies.get(i).getBodyPosition().x - getBodyPosition().x) * Level.WORLD_SCALE;
-////                targetEnemy = enemies.get(i);   // определили "врага-цель"
-////                System.out.println("minDistance = " + minDistance);
-////                System.out.println("targetEnemy = " + targetEnemy.toString());
-////            }
 
-
+            // расстояние по прямой от вражеского юнита до текущего юнита
             Vector2 line = new Vector2(body.getPosition().sub(enemies.get(i).getBodyPosition()));
-            System.out.println("lineX = " + line.x);
-            System.out.println("lineY = " + line.y);
-//            if (((distanceToEnemy < minDistance)) /** ((Math.abs(line.x)) > Math.abs(line.y)) && **/) {
-            if (((distanceToEnemy < minDistance)) &&/** ((Math.abs(line.x)) > Math.abs(line.y)) && **/(minDistance > 20)) {
-                targetEnemy = enemies.get(i);   // определили "врага-цель"
 
-                minDistance = distanceToEnemy;
-
-//                targetEnemy = enemies.get(i);   // определили "врага-цель"
-                System.out.println("minDistance = " + minDistance);
-                System.out.println("targetEnemy = " + targetEnemy.toString());
+            // сделаем проверку условия
+            if (((Math.abs(line.x)) * VELOCITY > (Math.abs(line.y)) * VELOCITY && (distanceToEnemy > 20))) {
+                targetEnemies.add(enemies.get(i));
             }
         }
-        minDistance = 0;
-        if (targetEnemy != null)
-            isHaveTarget = true;        // изменим флаг на true, т.е. есть "враг-цель"
+
+        try {
+            minDistance = (targetEnemies.get(0).getBodyPosition().x - getBodyPosition().x) * Level.WORLD_SCALE;
+            targetEnemy = targetEnemies.get(0);
+
+//        minDistance = (targetEnemies.get(0).getBodyPosition().x - getBodyPosition().x) * Level.WORLD_SCALE;
+            for (int i = 1; i < targetEnemies.size(); i++) {
+                float distanceToEnemy = (targetEnemies.get(i).getBodyPosition().x - getBodyPosition().x) * Level.WORLD_SCALE;
+                if (distanceToEnemy < minDistance) {
+                    minDistance = distanceToEnemy;
+                    targetEnemy = targetEnemies.get(i);
+                    System.out.println("targetEnemy = " + targetEnemy.toString());
+                }
+            }
+
+            if (targetEnemy != null) {
+                isHaveTarget = true;        // изменим флаг на true, т.е. есть "враг-цель"
+                verticalDirectionMovement = calculateVerticalDirection();
+                currentState = State.RUN;
+            }
+            minDistance = 0;
+        } catch (Exception e) {
+            currentState = State.RUN;
+            verticalDirectionMovement = Direction.NONE;
+        }
     }
 
-    private void moveToTarget() {
 
+    private void moveToTarget() {
 //
         float posY = body.getPosition().y;
         float posYTarget = targetEnemy.getBodyPosition().y;
@@ -244,6 +255,8 @@ public class Gnome extends PlayerUnit {
 //        Vector2 enemyPos = targetEnemy.getBodyPosition();
 //
 //        Vector2 vel = enemyPos.sub(pos);
+
+        // опрледелим направление вертикального перемещения
         if (verticalDirectionMovement == Direction.DOWN) {
             if (posY > posYTarget) {
                 body.setLinearVelocity(VELOCITY, -VELOCITY);
@@ -308,6 +321,7 @@ public class Gnome extends PlayerUnit {
     }
 
     public void resetTarget() {
+        targetEnemy = null;
         isHaveTarget = false;
     }
 
