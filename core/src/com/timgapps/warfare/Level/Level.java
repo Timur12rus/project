@@ -37,8 +37,8 @@ public class Level extends StageGame {
         Zombie zombie1 = new Zombie(this, 1200, 450, 20, 10);
         Zombie zombie2 = new Zombie(this, 1400, 250, 20, 10);
         Zombie zombie3 = new Zombie(this, 1300, 350, 20, 10);
-        Zombie zombie4 = new Zombie(this, 1700, 400, 20, 10);
-        Zombie zombie5 = new Zombie(this, 2000, 350, 20, 10);
+        Zombie zombie4 = new Zombie(this, 1700, 400, 50, 10);
+        Zombie zombie5 = new Zombie(this, 2000, 350, 50, 10);
         accumulator = 0;
         arrayEnemies = new ArrayList<EnemyUnit>();
         arrayEnemies.add(zombie);
@@ -93,11 +93,11 @@ public class Level extends StageGame {
     protected void update(float delta) {
         super.update(delta);
         count--;
-        System.out.println("count = " + count);
-
         if (count < 0) {
-            Gnome gnome1 = new Gnome(this, 100, 400, 10, 10);
-            count = 400;
+            Gnome gnome1 = new Gnome(this, 100, 400, 20, 10);
+            arrayEnemies.add(new Zombie(this, (float) (30 * (Math.random() * 20) + 1000), (float) (30 * (Math.random() * 20) + 200), 50, 10));
+//            new Zombie(this, 1200, 300, 10, 10);
+            count = 1200;
         }
 
         /** Timur **/

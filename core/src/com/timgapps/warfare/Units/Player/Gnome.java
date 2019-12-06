@@ -18,6 +18,8 @@ import com.timgapps.warfare.Warfare;
 
 import java.util.ArrayList;
 
+import static com.badlogic.gdx.math.Vector2.len;
+
 public class Gnome extends PlayerUnit {
 
 //    public enum State {WALKING, ATTACK, STAY, DIE, RUN}
@@ -40,8 +42,12 @@ public class Gnome extends PlayerUnit {
     private boolean isHaveTarget = false;
     private GameUnit targetEnemy;
     private float minDistance = 0; // расстояние до ближайшего вражеского юнита
+    private float distanceToVerticalMovement = 300;     // минимальное расстояние до врага, чтобы изменить направление движения игрока по вертикали
+
 
     private enum Direction {UP, DOWN, NONE}
+
+    private boolean isHaveVerticalDirection = false;
 
     private Direction verticalDirectionMovement = Direction.NONE;
 
@@ -74,13 +80,14 @@ public class Gnome extends PlayerUnit {
 
     @Override
     public void setHealth(float health) {
-        this.health = health;
+        this.health -= health;
     }
 
     public void attack() {
         if (currentState != State.ATTACK) {        // проверяем, в состоянии ли "атаки" юнит
             currentState = State.ATTACK;
             stateTime = 0;
+            isAttack = true;
         }
     }
 
@@ -125,19 +132,19 @@ public class Gnome extends PlayerUnit {
         }
 
         if (currentState == State.ATTACK) {
-            batch.draw((TextureRegion) attackAnimation.getKeyFrame(stateTime, false), getX() - 48, getY() - 26);
+            batch.draw((TextureRegion) attackAnimation.getKeyFrame(stateTime, false), getX() - 104, getY() - 26);
         }
 
         if (currentState == State.STAY) {
-            batch.draw((TextureRegion) stayAnimation.getKeyFrame(stateTime, true), getX() - 48, getY() - 26);
+            batch.draw((TextureRegion) stayAnimation.getKeyFrame(stateTime, false), getX() - 104, getY() - 26);
         }
 
         if (currentState == State.RUN) {
-            batch.draw((TextureRegion) runAnimation.getKeyFrame(stateTime, true), getX() - 58, getY() - 26);
+            batch.draw((TextureRegion) runAnimation.getKeyFrame(stateTime, true), getX() - 104, getY() - 26);
         }
 
         if (currentState == State.DIE) {
-            batch.draw((TextureRegion) dieAnimation.getKeyFrame(stateTime, false), getX() - 48, getY() - 26);
+            batch.draw((TextureRegion) dieAnimation.getKeyFrame(stateTime, false), getX() - 104, getY() - 26);
         }
     }
 
@@ -145,10 +152,28 @@ public class Gnome extends PlayerUnit {
     public void act(float delta) {
         super.act(delta);
 
+        if (!body.isActive()) {
+            world.destroyBody(body);
+            this.remove();
+//            level.removeEnemyUnitFromArray(this);
+        }
+
         if (!isHaveTarget) {    //если нет "врага-цели", то
             findTarget();       //найдем "врага-цель"
 ////            verticalDirectionMovement = calculateVerticalDirection();
 //            currentState = State.RUN;
+        }
+
+        if (isHaveTarget) {
+            Vector2 line = new Vector2();
+            line = targetEnemy.getBodyPosition().sub(body.getPosition());
+            if (!isHaveVerticalDirection) {
+                if (len(line.x, line.y) * Level.WORLD_SCALE < distanceToVerticalMovement) {
+                    verticalDirectionMovement = calculateVerticalDirection();
+
+                }
+            }
+
         }
 
 
@@ -161,7 +186,8 @@ public class Gnome extends PlayerUnit {
             }
         }
 
-        if (currentState != State.ATTACK) {
+        if (currentState == State.RUN) {
+//        if (currentState != State.ATTACK) {
             if (isHaveTarget) {  // если определен "враг-цель", то
                 moveToTarget();     //движемся к цели
             } else {                  // в противном случае, если "враг-цель" не определен, то двигаемся прямо вправо
@@ -175,9 +201,31 @@ public class Gnome extends PlayerUnit {
                 stateTime = 0;
 //                System.out.println("attackAnimationFinished!");
                 inflictDamage(targetEnemy, damage);
+                currentState = State.STAY;
 
             }
 //            System.out.println("currentState = " + currentState);
+        }
+
+        if (currentState == State.STAY && stayAnimation.isAnimationFinished(stateTime)) {
+            if (isAttack)
+                currentState = State.ATTACK;
+            else
+                currentState = State.RUN;
+            stateTime = 0;
+        }
+
+        if (currentState == State.STAY) {
+            stay();
+        }
+
+
+        if (setToDestroy) {
+            body.setActive(false);
+        }
+
+        if (health <= 0) {
+            setToDestroy = true;
         }
 
         /** обновим позицию текущего игрового объекта **/
@@ -192,9 +240,13 @@ public class Gnome extends PlayerUnit {
         float posY = body.getPosition().y;
         float posYTarget = targetEnemy.getBodyPosition().y;
 
+
+        System.out.println("calculate Vertical Direction");
         if (posY < posYTarget) verticalDirectionMovement = Direction.UP;
         if (posY > posYTarget) verticalDirectionMovement = Direction.DOWN;
         if (posY == posYTarget) verticalDirectionMovement = Direction.NONE;
+
+        isHaveVerticalDirection = true;
 
         return verticalDirectionMovement;
     }
@@ -214,7 +266,7 @@ public class Gnome extends PlayerUnit {
             Vector2 line = new Vector2(body.getPosition().sub(enemies.get(i).getBodyPosition()));
 
             // сделаем проверку условия
-            if (((Math.abs(line.x)) * VELOCITY > (Math.abs(line.y)) * VELOCITY && (distanceToEnemy > 20))) {
+            if (((Math.abs(line.x)) * Level.WORLD_SCALE - 30) * VELOCITY > (Math.abs(line.y)) * Level.WORLD_SCALE * VELOCITY && (distanceToEnemy > 20)) {
                 targetEnemies.add(enemies.get(i));
             }
         }
@@ -235,7 +287,7 @@ public class Gnome extends PlayerUnit {
 
             if (targetEnemy != null) {
                 isHaveTarget = true;        // изменим флаг на true, т.е. есть "враг-цель"
-                verticalDirectionMovement = calculateVerticalDirection();
+//                verticalDirectionMovement = calculateVerticalDirection();
                 currentState = State.RUN;
             }
             minDistance = 0;
@@ -250,11 +302,6 @@ public class Gnome extends PlayerUnit {
 //
         float posY = body.getPosition().y;
         float posYTarget = targetEnemy.getBodyPosition().y;
-
-//        Vector2 pos = new Vector2(body.getPosition());
-//        Vector2 enemyPos = targetEnemy.getBodyPosition();
-//
-//        Vector2 vel = enemyPos.sub(pos);
 
         // опрледелим направление вертикального перемещения
         if (verticalDirectionMovement == Direction.DOWN) {
@@ -303,7 +350,7 @@ public class Gnome extends PlayerUnit {
             frames.add(new TextureRegion(Warfare.atlas.findRegion("gnomeStay" + i)));
         for (int i = 4; i < 1; i--)
             frames.add(new TextureRegion(Warfare.atlas.findRegion("gnomeStay" + i)));
-        stayAnimation = new Animation(0.2f, frames);
+        stayAnimation = new Animation(0.25f, frames);
         frames.clear();
 
         //  получим кадры и добавим в анимацию бега персонажа
@@ -323,6 +370,8 @@ public class Gnome extends PlayerUnit {
     public void resetTarget() {
         targetEnemy = null;
         isHaveTarget = false;
+        isAttack = false;
+        isHaveVerticalDirection = false;
     }
 
 

@@ -175,70 +175,168 @@ level_bg_old
 zombieAttack0
   rotate: false
   xy: 1459, 1340
-  size: 98, 102
-  orig: 98, 102
+  size: 153, 102
+  orig: 153, 102
   offset: 0, 0
   index: -1
 zombieAttack1
   rotate: false
   xy: 1634, 1474
-  size: 98, 102
-  orig: 98, 102
+  size: 153, 102
+  orig: 153, 102
   offset: 0, 0
   index: -1
 zombieAttack2
   rotate: false
   xy: 1809, 1608
-  size: 98, 102
-  orig: 98, 102
+  size: 153, 102
+  orig: 153, 102
   offset: 0, 0
   index: -1
 zombieAttack3
   rotate: false
   xy: 877, 32
-  size: 98, 102
-  orig: 98, 102
+  size: 153, 102
+  orig: 153, 102
   offset: 0, 0
   index: -1
 zombieAttack4
   rotate: false
   xy: 1284, 1072
-  size: 98, 102
-  orig: 98, 102
+  size: 153, 102
+  orig: 153, 102
+  offset: 0, 0
+  index: -1
+zombieDie0
+  rotate: false
+  xy: 1459, 1236
+  size: 153, 102
+  orig: 153, 102
+  offset: 0, 0
+  index: -1
+zombieDie1
+  rotate: false
+  xy: 1032, 32
+  size: 153, 102
+  orig: 153, 102
+  offset: 0, 0
+  index: -1
+zombieDie2
+  rotate: false
+  xy: 1284, 968
+  size: 153, 102
+  orig: 153, 102
+  offset: 0, 0
+  index: -1
+zombieDie3
+  rotate: false
+  xy: 1284, 864
+  size: 153, 102
+  orig: 153, 102
+  offset: 0, 0
+  index: -1
+zombieDie4
+  rotate: false
+  xy: 1284, 760
+  size: 153, 102
+  orig: 153, 102
+  offset: 0, 0
+  index: -1
+zombieHart0
+  rotate: false
+  xy: 1284, 656
+  size: 153, 102
+  orig: 153, 102
+  offset: 0, 0
+  index: -1
+zombieHart1
+  rotate: false
+  xy: 1284, 552
+  size: 153, 102
+  orig: 153, 102
+  offset: 0, 0
+  index: -1
+zombieHart2
+  rotate: false
+  xy: 1284, 448
+  size: 153, 102
+  orig: 153, 102
+  offset: 0, 0
+  index: -1
+zombieHart3
+  rotate: false
+  xy: 1284, 344
+  size: 153, 102
+  orig: 153, 102
+  offset: 0, 0
+  index: -1
+zombieHart4
+  rotate: false
+  xy: 1284, 240
+  size: 153, 102
+  orig: 153, 102
+  offset: 0, 0
+  index: -1
+zombieStay0
+  rotate: false
+  xy: 1284, 136
+  size: 153, 102
+  orig: 153, 102
+  offset: 0, 0
+  index: -1
+zombieStay1
+  rotate: false
+  xy: 1187, 32
+  size: 153, 102
+  orig: 153, 102
+  offset: 0, 0
+  index: -1
+zombieStay2
+  rotate: false
+  xy: 1459, 1132
+  size: 153, 102
+  orig: 153, 102
+  offset: 0, 0
+  index: -1
+zombieStay3
+  rotate: false
+  xy: 1439, 1028
+  size: 153, 102
+  orig: 153, 102
+  offset: 0, 0
+  index: -1
+zombieStay4
+  rotate: false
+  xy: 1439, 924
+  size: 153, 102
+  orig: 153, 102
   offset: 0, 0
   index: -1
 zombieWalk0
   rotate: false
-  xy: 1459, 1236
-  size: 98, 102
-  orig: 98, 102
-  offset: 0, 0
-  index: -1
-zombieWalk1
-  rotate: false
-  xy: 977, 32
-  size: 98, 102
-  orig: 98, 102
+  xy: 1439, 820
+  size: 153, 102
+  orig: 153, 102
   offset: 0, 0
   index: -1
 zombieWalk2
   rotate: false
-  xy: 1284, 968
-  size: 98, 102
-  orig: 98, 102
+  xy: 1439, 820
+  size: 153, 102
+  orig: 153, 102
+  offset: 0, 0
+  index: -1
+zombieWalk1
+  rotate: false
+  xy: 1439, 716
+  size: 153, 102
+  orig: 153, 102
   offset: 0, 0
   index: -1
 zombieWalk3
   rotate: false
-  xy: 1077, 32
-  size: 98, 102
-  orig: 98, 102
-  offset: 0, 0
-  index: -1
-zombieWalk4
-  rotate: false
-  xy: 1284, 864
-  size: 98, 102
-  orig: 98, 102
+  xy: 1439, 612
+  size: 153, 102
+  orig: 153, 102
   offset: 0, 0
   index: -1

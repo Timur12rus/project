@@ -3,6 +3,7 @@ package com.timgapps.warfare.Units.Enemy;
 import com.badlogic.gdx.math.Vector2;
 import com.timgapps.warfare.Level.Level;
 import com.timgapps.warfare.Units.GameUnit;
+import com.timgapps.warfare.Units.Player.PlayerUnit;
 
 public class EnemyUnit extends GameUnit {
     public EnemyUnit(Level level, float x, float y, float health, float damage) {
@@ -26,6 +27,10 @@ public class EnemyUnit extends GameUnit {
 
     @Override
     public void attack() {
+
+    }
+
+    public void setTargetPlayer(PlayerUnit targetPlayer) {
 
     }
 

@@ -28,15 +28,11 @@ public class WorldContactListener implements ContactListener {
                     if (userData instanceof PlayerUnit) {
                         if (((PlayerUnit) userData).getCurrentState() != GameUnit.State.ATTACK) {
                             ((PlayerUnit) userData).attack();
-//                            System.out.println("Touched");
-                            System.out.println(userData.toString());
                         } else return;
                     }
                     if (enemyUserData instanceof EnemyUnit) {
                         if (((EnemyUnit) enemyUserData).getCurrentState() != GameUnit.State.ATTACK) {
                             ((EnemyUnit) enemyUserData).attack();
-//                            System.out.println("Touched");
-                            System.out.println(enemyUserData.toString());
                         } else return;
                     }
                 } else {
@@ -45,8 +41,6 @@ public class WorldContactListener implements ContactListener {
                     if (userData instanceof PlayerUnit) {
                         if (((PlayerUnit) userData).getCurrentState() != GameUnit.State.ATTACK) {
                             ((PlayerUnit) userData).attack();
-//                            System.out.println("Touched");
-                            System.out.println(userData.toString());
                         } else return;
                     }
 
@@ -54,8 +48,7 @@ public class WorldContactListener implements ContactListener {
                     if (enemyUserData instanceof EnemyUnit) {
                         if (((EnemyUnit) enemyUserData).getCurrentState() != GameUnit.State.ATTACK) {
                             ((EnemyUnit) enemyUserData).attack();
-//                            System.out.println("Touched");
-                            System.out.println(enemyUserData.toString());
+                            ((EnemyUnit) enemyUserData).setTargetPlayer((PlayerUnit)userData);
                         } else return;
                     }
                 }
