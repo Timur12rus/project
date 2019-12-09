@@ -17,9 +17,6 @@ public class Packer {
         // и путь к папке с результирующим атласом текстур, и имя атласа
         TexturePacker.process(set, "raw_images", "android/assets/images", "pack");
 //        TexturePacker.process(set, "raw_images_en", "android/assets/images_en", "pack");
-
-
-
     }
 
 }

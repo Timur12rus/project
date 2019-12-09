@@ -11,7 +11,7 @@ public abstract class GameUnit extends Actor implements IBody {
     protected float health;
     protected float damage;
     protected Level level;
-    protected boolean setToDestroy = false;
+    protected boolean setToDestroyBody = false;
     public static final short PLAYER_BIT = 1;
     public static final short ENEMY_BIT = 2;
 

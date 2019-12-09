@@ -220,12 +220,12 @@ public class Gnome extends PlayerUnit {
         }
 
 
-        if (setToDestroy) {
+        if (setToDestroyBody) {
             body.setActive(false);
         }
 
         if (health <= 0) {
-            setToDestroy = true;
+            setToDestroyBody = true;
         }
 
         /** обновим позицию текущего игрового объекта **/

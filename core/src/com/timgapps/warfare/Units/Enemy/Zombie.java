@@ -3,6 +3,7 @@ package com.timgapps.warfare.Units.Enemy;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -41,16 +42,24 @@ public class Zombie extends EnemyUnit {
     private boolean isAttack = false;
 
     private boolean continueWalk = false;
+    private boolean isDie = false;
+    private boolean isDamaged = false;
+
+
+    private ParticleEffect bloodSpray;
 
     public Zombie(Level level, float x, float y, float health, float damage) {
         super(level, x, y, health, damage);
         this.level = level;
         this.world = level.getWorld();
+        bloodSpray = new ParticleEffect();
+        bloodSpray.load(Gdx.files.internal("effects/bloodSpray.paty"), Gdx.files.internal("effects/")); //file);     //Air2.paty
         createAnimations();     // создадим анимации для различных состояний персонажа
         level.addChild(this, x, y);
         createBody(x, y);
         stateTime = 0;
         currentState = State.WALKING;
+
     }
 
 
@@ -106,22 +115,28 @@ public class Zombie extends EnemyUnit {
         if (currentState == State.DIE) {
             batch.draw((TextureRegion) dieAnimation.getKeyFrame(stateTime, false), getX() - 64, getY() - 26);
         }
+
+        if (isDamaged)
+            bloodSpray.draw(batch);
     }
 
     @Override
     public void act(float delta) {
         super.act(delta);
 
-        if (!body.isActive()) {
-            world.destroyBody(body);
-            this.remove();
-            level.removeEnemyUnitFromArray(this);
+//        if (!body.isActive()) {
+//            world.destroyBody(body);
+//            this.remove();
+//            level.removeEnemyUnitFromArray(this);
+//        }
+
+
+        if (isDamaged) {
+            bloodSpray.setPosition(getX() + 30, getY() + 60);
+            bloodSpray.update(delta);
         }
-
-
-
-
-
+        if (isDamaged && bloodSpray.isComplete())
+            isDamaged = false;
 
         if (currentState == State.ATTACK && targetPlayer != null && targetPlayer.getHealth() <= 0 && attackAnimation.isAnimationFinished(stateTime)) {
             isAttack = false;
@@ -132,7 +147,7 @@ public class Zombie extends EnemyUnit {
 
         }
 
-        if (targetPlayer != null && targetPlayer.getHealth() <=0) {
+        if (targetPlayer != null && targetPlayer.getHealth() <= 0) {
             isAttack = false;
         }
 
@@ -186,31 +201,23 @@ public class Zombie extends EnemyUnit {
         }
 
 
-//        if (currentState == State.STAY && stayAnimation.isAnimationFinished(stateTime)) {
-//            stateTime = 0;
-//            if (isAttack) {
-//                currentState = State.ATTACK;
-//            } else
-//                currentState = State.WALKING;
+        if (currentState == State.DIE && dieAnimation.isAnimationFinished(stateTime)) {
+            destroy();
+//            setToDestroyBody = true;
+        }
+//
+//        if (setToDestroyBody) {
+//            body.setActive(false);
 //        }
 
-
-//        if (currentState == State.ATTACK) {
-//            stay();
-//            if (attackAnimation.isAnimationFinished(stateTime)) {
-//                stateTime = 0;
-//                inflictDamage(targetPlayer, damage);
-//                currentState = State.STAY;
-//            }
-//        }
-
-        if (setToDestroy) {
+        if (health <= 0 && body.isActive()) {
+//            isDie = true;
+            currentState = State.DIE;
+            stateTime = 0;
             body.setActive(false);
         }
 
-        if (health <= 0) {
-            setToDestroy = true;
-        }
+//
 
         if (currentState == State.WALKING)
             if (body.getPosition().x * Level.WORLD_SCALE > 500)
@@ -224,6 +231,15 @@ public class Zombie extends EnemyUnit {
             stay();
         }
         setPosition(body.getPosition().x * Level.WORLD_SCALE - 18, body.getPosition().y * Level.WORLD_SCALE);
+    }
+
+    private void destroy() {
+        if (!body.isActive()) {
+//            world.destroyBody(body);
+            this.remove();
+            bloodSpray.dispose();
+            level.removeEnemyUnitFromArray(this);
+        }
     }
 
     public void moveLeft(Body body) {
@@ -249,9 +265,16 @@ public class Zombie extends EnemyUnit {
         frames.clear();
 
 
+        //  получим кадры и добавим в анимацию атаки персонажа
+        for (int i = 0; i < 5; i++)
+            frames.add(new TextureRegion(Warfare.atlas.findRegion("zombieDie" + i)));
+        dieAnimation = new Animation(0.12f, frames);
+        frames.clear();
+
+
         for (int i = 0; i < 5; i++)
             frames.add(new TextureRegion(Warfare.atlas.findRegion("zombieHart" + i)));
-        hartAnimation = new Animation(0.07f, frames);
+        hartAnimation = new Animation(0.05f, frames);
         frames.clear();
 
 //
@@ -281,8 +304,10 @@ public class Zombie extends EnemyUnit {
     @Override
     public void setHealth(float health) {
         this.health -= health;
+        isDamaged = true;
+        bloodSpray.start();
         if (health > 0)
-        currentState = State.HART;
+            currentState = State.HART;
         else currentState = State.DIE;
         stateTime = 0;
     }
