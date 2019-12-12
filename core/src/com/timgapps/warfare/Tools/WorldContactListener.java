@@ -33,6 +33,7 @@ public class WorldContactListener implements ContactListener {
                     if (enemyUserData instanceof EnemyUnit) {
                         if (((EnemyUnit) enemyUserData).getCurrentState() != GameUnit.State.ATTACK) {
                             ((EnemyUnit) enemyUserData).attack();
+                            ((EnemyUnit) enemyUserData).setTargetPlayer((PlayerUnit)userData);
                         } else return;
                     }
                 } else {

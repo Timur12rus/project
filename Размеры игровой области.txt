@@ -1,0 +1,3 @@
+
+maxVertical = 300 px
+minVertical = 120 px

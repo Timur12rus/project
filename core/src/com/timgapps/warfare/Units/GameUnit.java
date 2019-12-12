@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.timgapps.warfare.Level.Level;
 import com.timgapps.warfare.Units.Enemy.Zombie;
+import com.timgapps.warfare.Units.Enemy.Zombie1;
 import com.timgapps.warfare.Units.Interfaces.IBody;
 import com.timgapps.warfare.Units.Player.Gnome;
 
@@ -36,6 +37,9 @@ public abstract class GameUnit extends Actor implements IBody {
     public void inflictDamage(GameUnit unit, float damage) {
         if (unit instanceof Zombie) {
             ((Zombie) unit).setHealth(damage);
+        }
+        if (unit instanceof Zombie1) {
+            ((Zombie1) unit).setHealth(damage);
         }
         if (unit instanceof Gnome) {
             ((Gnome) unit).setHealth(damage);
