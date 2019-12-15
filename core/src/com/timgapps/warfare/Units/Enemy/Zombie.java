@@ -71,7 +71,7 @@ public class Zombie extends EnemyUnit {
 
         FixtureDef fDef = new FixtureDef();
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(12 / Level.WORLD_SCALE, 12 / Level.WORLD_SCALE);
+        shape.setAsBox(12 / Level.WORLD_SCALE, 24 / Level.WORLD_SCALE);
         fDef.filter.categoryBits = GameUnit.ENEMY_BIT;
         fDef.filter.maskBits = GameUnit.PLAYER_BIT;
 

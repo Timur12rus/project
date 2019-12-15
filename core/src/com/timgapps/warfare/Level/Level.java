@@ -3,7 +3,9 @@ package com.timgapps.warfare.Level;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.utils.Array;
 import com.boontaran.games.StageGame;
 import com.timgapps.warfare.Level.GUI.UnitButton;
 import com.timgapps.warfare.Level.GUI.UnitContainer;
@@ -38,12 +40,20 @@ public class Level extends StageGame {
 
         Random random = new Random();
 //        Gnome gnome = new Gnome(this, 100, 400, 10, 10);
-        Zombie1 zombie = new Zombie1(this, 800, 130 + (random.nextFloat() * 170), 20, 10);
-        Zombie1 zombie1 = new Zombie1(this, 1200, 130 + (random.nextFloat() * 170), 20, 10);
-        Zombie1 zombie2 = new Zombie1(this, 1400, 130 + (random.nextFloat() * 170), 20, 10);
-        Zombie1 zombie3 = new Zombie1(this, 1300, 130 + (random.nextFloat() * 170), 20, 10);
-        Zombie1 zombie4 = new Zombie1(this, 1700, 130 + (random.nextFloat() * 170), 50, 10);
-        Zombie zombie5 = new Zombie(this, 2000, 130 + (random.nextFloat() * 170), 50, 10);
+//        Zombie1 zombie = new Zombie1(this, 800, 150 + (random.nextFloat() * 150), 20, 10);
+//        Zombie1 zombie1 = new Zombie1(this, 850, 150 + (random.nextFloat() * 150), 20, 10);
+//        Zombie1 zombie2 = new Zombie1(this, 1400, 150 + (random.nextFloat() * 150), 20, 10);
+        Zombie1 zombie3 = new Zombie1(this, 900, 150 + (random.nextFloat() * 150), 20, 10);
+        Zombie1 zombie4 = new Zombie1(this, 870, 150 + (random.nextFloat() * 150), 50, 10);
+        Zombie zombie5 = new Zombie(this, 930, 150 + (random.nextFloat() * 150), 50, 10);
+
+
+        Zombie1 zombie = new Zombie1(this, 800, 250 , 20, 10);
+        Zombie1 zombie1 = new Zombie1(this, 800, 300 , 20, 10);
+        Zombie1 zombie2 = new Zombie1(this, 800, 350 , 20, 10);
+
+//        Zombie1 zombie = new Zombie1(this, 800, 800, 20, 10);
+////        Zombie1 zombie1 = new Zombie1(this, 850, 850, 20, 10);
         accumulator = 0;
         arrayEnemies = new ArrayList<EnemyUnit>();
         arrayEnemies.add(zombie);
@@ -53,11 +63,21 @@ public class Level extends StageGame {
         arrayEnemies.add(zombie4);
         arrayEnemies.add(zombie5);
 
-        Gnome gnome = new Gnome(this, 100, 160, 10, 10);
 
-        addChild(new UnitContainer(new UnitButton(this, new Image(Warfare.atlas.findRegion("gnomeActive")),
-                new Image(Warfare.atlas.findRegion("gnomeInactive")))), getWidth() / 2, 16);
+//        Gnome gnome = new Gnome(this, 100, 160, 10, 10);
+
+//        addChild(new UnitContainer(new UnitButton(this, new Image(Warfare.atlas.findRegion("gnomeActive")),
+//                new Image(Warfare.atlas.findRegion("gnomeInactive")))), getWidth() / 2, 16);
+
+        addChild(new UnitButton(this, new Image(Warfare.atlas.findRegion("gnomeActive")),
+                new Image(Warfare.atlas.findRegion("gnomeInactive"))), getWidth() / 2, 16);
+
+//        addOverlayChild(new UnitContainer(new UnitButton(this, new Image(Warfare.atlas.findRegion("gnomeActive")),
+//                new Image(Warfare.atlas.findRegion("gnomeInactive")))));
+
+
     }
+
 
     public ArrayList<EnemyUnit> getArrayEnemies() {
         return arrayEnemies;
@@ -102,13 +122,14 @@ public class Level extends StageGame {
         super.update(delta);
         count--;
 
-        if (count < 0) {
-            Random random = new Random();
-            Gnome gnome1 = new Gnome(this, 100, 160, 20, 10);
-            arrayEnemies.add(new Zombie(this, (float) (30 * (Math.random() * 20) + 1000), 130 + (random.nextFloat() * 170), 50, 10));
-//            new Zombie(this, 1200, 300, 10, 10);
-            count = 1200;
-        }
+        compareActorsYPos();
+//        if (count < 0) {
+//            Random random = new Random();
+//            Gnome gnome1 = new Gnome(this, 100, 160, 20, 10);
+//            arrayEnemies.add(new Zombie(this, (float) (30 * (Math.random() * 20) + 1000), 130 + (random.nextFloat() * 170), 50, 10));
+////            new Zombie(this, 1200, 300, 10, 10);
+//            count = 1200;
+//        }
 
         /** Timur **/
         accumulator += delta;
@@ -127,5 +148,24 @@ public class Level extends StageGame {
     public void addGnome() {
         Gnome gnome1 = new Gnome(this, 100, 160, 20, 10);
         System.out.println("ADD");
+    }
+
+    public void compareActorsYPos() {
+        ArrayList<EnemyUnit> gameActors = arrayEnemies;
+        boolean needIteration = true;
+        while (needIteration) {
+            needIteration = false;
+            for (int i = 1; i < gameActors.size(); i++) {
+//            gameActors.get(i);
+
+                if (gameActors.get(i).getY() > gameActors.get(i - 1).getY() &&
+                        (gameActors.get(i).getZIndex() > gameActors.get(i - 1).getZIndex())) {
+                    int buf = gameActors.get(i).getZIndex();
+                    gameActors.get(i).setZIndex(gameActors.get(i - 1).getZIndex());
+                    gameActors.get(i - 1).setZIndex(buf);
+                    needIteration = true;
+                }
+            }
+        }
     }
 }

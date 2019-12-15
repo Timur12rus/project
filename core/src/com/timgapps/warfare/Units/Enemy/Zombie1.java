@@ -11,12 +11,15 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Array;
 import com.timgapps.warfare.Level.Level;
 import com.timgapps.warfare.Units.GameUnit;
 import com.timgapps.warfare.Units.Player.PlayerUnit;
 import com.timgapps.warfare.Warfare;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 public class Zombie1 extends EnemyUnit {
@@ -72,7 +75,7 @@ public class Zombie1 extends EnemyUnit {
 
         FixtureDef fDef = new FixtureDef();
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(12 / Level.WORLD_SCALE, 12 / Level.WORLD_SCALE);
+        shape.setAsBox(12 / Level.WORLD_SCALE, 24 / Level.WORLD_SCALE);
         fDef.filter.categoryBits = GameUnit.ENEMY_BIT;
         fDef.filter.maskBits = GameUnit.PLAYER_BIT;
 
@@ -82,7 +85,6 @@ public class Zombie1 extends EnemyUnit {
 
         body.setTransform((x) / Level.WORLD_SCALE, y / Level.WORLD_SCALE, 0);
     }
-
 
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
