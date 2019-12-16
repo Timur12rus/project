@@ -105,7 +105,7 @@ public class Gnome extends PlayerUnit {
         body = world.createBody(def);
 
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(12 / Level.WORLD_SCALE, 24 / Level.WORLD_SCALE);
+        shape.setAsBox(12 / Level.WORLD_SCALE, 12 / Level.WORLD_SCALE);
 
         FixtureDef fDef = new FixtureDef();
         fDef.shape = shape;

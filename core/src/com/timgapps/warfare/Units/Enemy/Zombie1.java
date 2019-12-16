@@ -75,7 +75,7 @@ public class Zombie1 extends EnemyUnit {
 
         FixtureDef fDef = new FixtureDef();
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(12 / Level.WORLD_SCALE, 24 / Level.WORLD_SCALE);
+        shape.setAsBox(12 / Level.WORLD_SCALE, 12 / Level.WORLD_SCALE);
         fDef.filter.categoryBits = GameUnit.ENEMY_BIT;
         fDef.filter.maskBits = GameUnit.PLAYER_BIT;
 
@@ -93,30 +93,31 @@ public class Zombie1 extends EnemyUnit {
 //        }
 //        batch.setColor(1, 1, 1, 1);
 
-//        if (isDraw) {
-        if (currentState == Zombie.State.WALKING) {
-            batch.draw((TextureRegion) walkAnimation.getKeyFrame(stateTime, true), getX() - 64, getY() - 26);
-        }
+        if (isDraw()) {
+            if (currentState == Zombie.State.WALKING) {
+                batch.draw((TextureRegion) walkAnimation.getKeyFrame(stateTime, true), getX() - 64, getY() - 26);
+            }
 
-        if (currentState == Zombie.State.ATTACK) {
-            batch.draw((TextureRegion) attackAnimation.getKeyFrame(stateTime, false), getX() - 64, getY() - 26);
-        }
+            if (currentState == Zombie.State.ATTACK) {
+                batch.draw((TextureRegion) attackAnimation.getKeyFrame(stateTime, false), getX() - 64, getY() - 26);
+            }
 
-        if (currentState == Zombie.State.STAY) {
-            batch.draw((TextureRegion) stayAnimation.getKeyFrame(stateTime, true), getX() - 64, getY() - 26);
-        }
+            if (currentState == Zombie.State.STAY) {
+                batch.draw((TextureRegion) stayAnimation.getKeyFrame(stateTime, true), getX() - 64, getY() - 26);
+            }
 
-        if (currentState == Zombie.State.RUN) {
-            batch.draw((TextureRegion) runAnimation.getKeyFrame(stateTime, true), getX() - 64, getY() - 26);
-        }
+            if (currentState == Zombie.State.RUN) {
+                batch.draw((TextureRegion) runAnimation.getKeyFrame(stateTime, true), getX() - 64, getY() - 26);
+            }
 
-        if (currentState == Zombie.State.HART) {
-            batch.draw((TextureRegion) hartAnimation.getKeyFrame(stateTime, false), getX() - 64, getY() - 26);
-        }
+            if (currentState == Zombie.State.HART) {
+                batch.draw((TextureRegion) hartAnimation.getKeyFrame(stateTime, false), getX() - 64, getY() - 26);
+            }
 
-        if (currentState == Zombie.State.DIE) {
-            batch.draw((TextureRegion) dieAnimation.getKeyFrame(stateTime, false), getX() - 64, getY() - 26);
-        }
+            if (currentState == Zombie.State.DIE) {
+                batch.draw((TextureRegion) dieAnimation.getKeyFrame(stateTime, false), getX() - 64, getY() - 26);
+            }
+        } else setDraw(true);
         if (isDamaged)
             bloodSpray.draw(batch);
     }
@@ -288,12 +289,12 @@ public class Zombie1 extends EnemyUnit {
 //
         //  получим кадры и добавим в анимацию стоянки персонажа
         for (int j = 0; j < 2; j++) {
-        for (int i = 4; i > 0; i--)
-            frames.add(new TextureRegion(Warfare.atlas.findRegion("zombie1Stay" + i)));
-        frames.add(new TextureRegion(Warfare.atlas.findRegion("zombie1Stay1")));
-        frames.add(new TextureRegion(Warfare.atlas.findRegion("zombie1Stay2")));
-        frames.add(new TextureRegion(Warfare.atlas.findRegion("zombie1Stay3")));
-        frames.add(new TextureRegion(Warfare.atlas.findRegion("zombie1Stay4")));
+            for (int i = 4; i > 0; i--)
+                frames.add(new TextureRegion(Warfare.atlas.findRegion("zombie1Stay" + i)));
+            frames.add(new TextureRegion(Warfare.atlas.findRegion("zombie1Stay1")));
+            frames.add(new TextureRegion(Warfare.atlas.findRegion("zombie1Stay2")));
+            frames.add(new TextureRegion(Warfare.atlas.findRegion("zombie1Stay3")));
+            frames.add(new TextureRegion(Warfare.atlas.findRegion("zombie1Stay4")));
 //            frames.add(new TextureRegion(Warfare.atlas.findRegion("zombie1Stay2")));
 //            frames.add(new TextureRegion(Warfare.atlas.findRegion("zombie1Stay1")));
 //        frames.add(new TextureRegion(Warfare.atlas.findRegion("zombie1Stay0")));

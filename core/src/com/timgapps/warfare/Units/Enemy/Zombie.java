@@ -46,6 +46,7 @@ public class Zombie extends EnemyUnit {
     private boolean isDamaged = false;
 
 
+
     private ParticleEffect bloodSpray;
 
     public Zombie(Level level, float x, float y, float health, float damage) {
@@ -71,7 +72,7 @@ public class Zombie extends EnemyUnit {
 
         FixtureDef fDef = new FixtureDef();
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(12 / Level.WORLD_SCALE, 24 / Level.WORLD_SCALE);
+        shape.setAsBox(12 / Level.WORLD_SCALE, 12 / Level.WORLD_SCALE);
         fDef.filter.categoryBits = GameUnit.ENEMY_BIT;
         fDef.filter.maskBits = GameUnit.PLAYER_BIT;
 
@@ -90,29 +91,32 @@ public class Zombie extends EnemyUnit {
 //        }
 //        batch.setColor(1, 1, 1, 1);
 
-//        if (isDraw) {
-        if (currentState == State.WALKING) {
-            batch.draw((TextureRegion) walkAnimation.getKeyFrame(stateTime, true), getX() - 64, getY() - 26);
-        }
+        if (isDraw()) {
+            if (currentState == State.WALKING) {
+                batch.draw((TextureRegion) walkAnimation.getKeyFrame(stateTime, true), getX() - 64, getY() - 26);
+            }
 
-        if (currentState == State.ATTACK) {
-            batch.draw((TextureRegion) attackAnimation.getKeyFrame(stateTime, false), getX() - 64, getY() - 26);
-        }
+            if (currentState == State.ATTACK) {
+                batch.draw((TextureRegion) attackAnimation.getKeyFrame(stateTime, false), getX() - 64, getY() - 26);
+            }
 
-        if (currentState == State.STAY) {
-            batch.draw((TextureRegion) stayAnimation.getKeyFrame(stateTime, true), getX() - 64, getY() - 26);
-        }
+            if (currentState == State.STAY) {
+                batch.draw((TextureRegion) stayAnimation.getKeyFrame(stateTime, true), getX() - 64, getY() - 26);
+            }
 
-        if (currentState == State.RUN) {
-            batch.draw((TextureRegion) runAnimation.getKeyFrame(stateTime, true), getX() - 64, getY() - 26);
-        }
+            if (currentState == State.RUN) {
+                batch.draw((TextureRegion) runAnimation.getKeyFrame(stateTime, true), getX() - 64, getY() - 26);
+            }
 
-        if (currentState == State.HART) {
-            batch.draw((TextureRegion) hartAnimation.getKeyFrame(stateTime, false), getX() - 64, getY() - 26);
-        }
+            if (currentState == State.HART) {
+                batch.draw((TextureRegion) hartAnimation.getKeyFrame(stateTime, false), getX() - 64, getY() - 26);
+            }
 
-        if (currentState == State.DIE) {
-            batch.draw((TextureRegion) dieAnimation.getKeyFrame(stateTime, false), getX() - 64, getY() - 26);
+            if (currentState == State.DIE) {
+                batch.draw((TextureRegion) dieAnimation.getKeyFrame(stateTime, false), getX() - 64, getY() - 26);
+            }
+        } else {
+            setDraw(true);
         }
 
         if (isDamaged)

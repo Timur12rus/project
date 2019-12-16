@@ -43,14 +43,16 @@ public class Level extends StageGame {
 //        Zombie1 zombie = new Zombie1(this, 800, 150 + (random.nextFloat() * 150), 20, 10);
 //        Zombie1 zombie1 = new Zombie1(this, 850, 150 + (random.nextFloat() * 150), 20, 10);
 //        Zombie1 zombie2 = new Zombie1(this, 1400, 150 + (random.nextFloat() * 150), 20, 10);
-        Zombie1 zombie3 = new Zombie1(this, 900, 150 + (random.nextFloat() * 150), 20, 10);
-        Zombie1 zombie4 = new Zombie1(this, 870, 150 + (random.nextFloat() * 150), 50, 10);
-        Zombie zombie5 = new Zombie(this, 930, 150 + (random.nextFloat() * 150), 50, 10);
 
 
-        Zombie1 zombie = new Zombie1(this, 800, 250 , 20, 10);
-        Zombie1 zombie1 = new Zombie1(this, 800, 300 , 20, 10);
-        Zombie1 zombie2 = new Zombie1(this, 800, 350 , 20, 10);
+        Zombie1 zombie = new Zombie1(this, 800, 250, 20, 10);
+        Zombie1 zombie1 = new Zombie1(this, 800, 300, 20, 10);
+        Zombie1 zombie2 = new Zombie1(this, 800, 350, 20, 10);
+
+        Zombie1 zombie3 = new Zombie1(this, 900, 120 + (random.nextFloat() * 150) + 30, 20, 10);
+        Zombie1 zombie4 = new Zombie1(this, 870, 120 + (random.nextFloat() * 150), 50, 10);
+        Zombie zombie5 = new Zombie(this, 930, 150 + (random.nextFloat() * 150) + 20, 50, 10);
+
 
 //        Zombie1 zombie = new Zombie1(this, 800, 800, 20, 10);
 ////        Zombie1 zombie1 = new Zombie1(this, 850, 850, 20, 10);
@@ -74,8 +76,6 @@ public class Level extends StageGame {
 
 //        addOverlayChild(new UnitContainer(new UnitButton(this, new Image(Warfare.atlas.findRegion("gnomeActive")),
 //                new Image(Warfare.atlas.findRegion("gnomeInactive")))));
-
-
     }
 
 
@@ -162,7 +162,9 @@ public class Level extends StageGame {
                         (gameActors.get(i).getZIndex() > gameActors.get(i - 1).getZIndex())) {
                     int buf = gameActors.get(i).getZIndex();
                     gameActors.get(i).setZIndex(gameActors.get(i - 1).getZIndex());
+                    gameActors.get(i).setDraw(false);
                     gameActors.get(i - 1).setZIndex(buf);
+                    gameActors.get(i - 1).setDraw(false);
                     needIteration = true;
                 }
             }
