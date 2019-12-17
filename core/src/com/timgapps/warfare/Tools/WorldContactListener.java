@@ -28,28 +28,30 @@ public class WorldContactListener implements ContactListener {
                     if (userData instanceof PlayerUnit) {
                         if (((PlayerUnit) userData).getCurrentState() != GameUnit.State.ATTACK) {
                             ((PlayerUnit) userData).attack();
+                            ((PlayerUnit) userData).setTargetEnemy((EnemyUnit) enemyUserData);
                         } else return;
                     }
                     if (enemyUserData instanceof EnemyUnit) {
                         if (((EnemyUnit) enemyUserData).getCurrentState() != GameUnit.State.ATTACK) {
                             ((EnemyUnit) enemyUserData).attack();
-                            ((EnemyUnit) enemyUserData).setTargetPlayer((PlayerUnit)userData);
+                            ((EnemyUnit) enemyUserData).setTargetPlayer((PlayerUnit) userData);
                         } else return;
                     }
                 } else {
                     Object userData = fixB.getUserData();
-                    System.out.println(userData.toString());
+                    Object enemyUserData = fixA.getUserData();
+//                    System.out.println(userData.toString());
                     if (userData instanceof PlayerUnit) {
                         if (((PlayerUnit) userData).getCurrentState() != GameUnit.State.ATTACK) {
                             ((PlayerUnit) userData).attack();
+                            ((PlayerUnit) userData).setTargetEnemy((EnemyUnit) enemyUserData);
                         } else return;
                     }
-
-                    Object enemyUserData = fixA.getUserData();
+//                    Object enemyUserData = fixA.getUserData();
                     if (enemyUserData instanceof EnemyUnit) {
                         if (((EnemyUnit) enemyUserData).getCurrentState() != GameUnit.State.ATTACK) {
                             ((EnemyUnit) enemyUserData).attack();
-                            ((EnemyUnit) enemyUserData).setTargetPlayer((PlayerUnit)userData);
+                            ((EnemyUnit) enemyUserData).setTargetPlayer((PlayerUnit) userData);
                         } else return;
                     }
                 }

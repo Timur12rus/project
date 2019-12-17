@@ -14,6 +14,7 @@ import com.timgapps.warfare.Units.Enemy.EnemyUnit;
 import com.timgapps.warfare.Units.Enemy.Zombie;
 import com.timgapps.warfare.Units.Enemy.Zombie1;
 import com.timgapps.warfare.Units.GameUnit;
+import com.timgapps.warfare.Units.Player.Archer1;
 import com.timgapps.warfare.Units.Player.Gnome;
 import com.timgapps.warfare.Utils.Setting;
 import com.timgapps.warfare.Warfare;
@@ -38,44 +39,30 @@ public class Level extends StageGame {
         world.setContactListener(new WorldContactListener()); // присваиваем слушатель ContactListener, который регистрирует событие столкновения в игровом мире
         debugRender = new Box2DDebugRenderer(); // объект debugRendered будем использовать для отладки игрового мира, он позволяет выделить границы полигона
 
-        Random random = new Random();
-//        Gnome gnome = new Gnome(this, 100, 400, 10, 10);
-//        Zombie1 zombie = new Zombie1(this, 800, 150 + (random.nextFloat() * 150), 20, 10);
-//        Zombie1 zombie1 = new Zombie1(this, 850, 150 + (random.nextFloat() * 150), 20, 10);
-//        Zombie1 zombie2 = new Zombie1(this, 1400, 150 + (random.nextFloat() * 150), 20, 10);
 
-
+        /** Добавим вражеских юнитов **/
+//        Random random = new Random();
         Zombie1 zombie = new Zombie1(this, 800, 250, 20, 10);
-        Zombie1 zombie1 = new Zombie1(this, 800, 300, 20, 10);
-        Zombie1 zombie2 = new Zombie1(this, 800, 350, 20, 10);
-
-        Zombie1 zombie3 = new Zombie1(this, 900, 120 + (random.nextFloat() * 150) + 30, 20, 10);
-        Zombie1 zombie4 = new Zombie1(this, 870, 120 + (random.nextFloat() * 150), 50, 10);
-        Zombie zombie5 = new Zombie(this, 930, 150 + (random.nextFloat() * 150) + 20, 50, 10);
-
-
-//        Zombie1 zombie = new Zombie1(this, 800, 800, 20, 10);
-////        Zombie1 zombie1 = new Zombie1(this, 850, 850, 20, 10);
+//        Zombie1 zombie1 = new Zombie1(this, 800, 300, 20, 10);
+//        Zombie1 zombie2 = new Zombie1(this, 800, 350, 20, 10);
+//        Zombie1 zombie3 = new Zombie1(this, 900, 120 + (random.nextFloat() * 150) + 30, 20, 10);
+//        Zombie1 zombie4 = new Zombie1(this, 870, 120 + (random.nextFloat() * 150), 50, 10);
+//        Zombie zombie5 = new Zombie(this, 930, 150 + (random.nextFloat() * 150) + 20, 50, 10);
         accumulator = 0;
         arrayEnemies = new ArrayList<EnemyUnit>();
         arrayEnemies.add(zombie);
-        arrayEnemies.add(zombie1);
-        arrayEnemies.add(zombie2);
-        arrayEnemies.add(zombie3);
-        arrayEnemies.add(zombie4);
-        arrayEnemies.add(zombie5);
+//        arrayEnemies.add(zombie1);
+//        arrayEnemies.add(zombie2);
+//        arrayEnemies.add(zombie3);
+//        arrayEnemies.add(zombie4);
+//        arrayEnemies.add(zombie5);
+
+        addChild(new Archer1(this, 200, 200, 30, 20));
 
 
-//        Gnome gnome = new Gnome(this, 100, 160, 10, 10);
-
-//        addChild(new UnitContainer(new UnitButton(this, new Image(Warfare.atlas.findRegion("gnomeActive")),
-//                new Image(Warfare.atlas.findRegion("gnomeInactive")))), getWidth() / 2, 16);
-
+        /** Добавим кнопки для вызова игровых юнитов **/
         addChild(new UnitButton(this, new Image(Warfare.atlas.findRegion("gnomeActive")),
                 new Image(Warfare.atlas.findRegion("gnomeInactive"))), getWidth() / 2, 16);
-
-//        addOverlayChild(new UnitContainer(new UnitButton(this, new Image(Warfare.atlas.findRegion("gnomeActive")),
-//                new Image(Warfare.atlas.findRegion("gnomeInactive")))));
     }
 
 
@@ -151,23 +138,28 @@ public class Level extends StageGame {
     }
 
     public void compareActorsYPos() {
-        ArrayList<EnemyUnit> gameActors = arrayEnemies;
-        boolean needIteration = true;
-        while (needIteration) {
-            needIteration = false;
-            for (int i = 1; i < gameActors.size(); i++) {
+
+        try {
+            ArrayList<EnemyUnit> gameActors = arrayEnemies;
+            boolean needIteration = true;
+            while (needIteration) {
+                needIteration = false;
+                for (int i = 1; i < gameActors.size(); i++) {
 //            gameActors.get(i);
 
-                if (gameActors.get(i).getY() > gameActors.get(i - 1).getY() &&
-                        (gameActors.get(i).getZIndex() > gameActors.get(i - 1).getZIndex())) {
-                    int buf = gameActors.get(i).getZIndex();
-                    gameActors.get(i).setZIndex(gameActors.get(i - 1).getZIndex());
-                    gameActors.get(i).setDraw(false);
-                    gameActors.get(i - 1).setZIndex(buf);
-                    gameActors.get(i - 1).setDraw(false);
-                    needIteration = true;
+                    if (gameActors.get(i).getY() > gameActors.get(i - 1).getY() &&
+                            (gameActors.get(i).getZIndex() > gameActors.get(i - 1).getZIndex())) {
+                        int buf = gameActors.get(i).getZIndex();
+                        gameActors.get(i).setZIndex(gameActors.get(i - 1).getZIndex());
+                        gameActors.get(i).setDraw(false);
+                        gameActors.get(i - 1).setZIndex(buf);
+                        gameActors.get(i - 1).setDraw(false);
+                        needIteration = true;
+                    }
                 }
             }
+        } catch (Exception e) {
+            return;
         }
     }
 }

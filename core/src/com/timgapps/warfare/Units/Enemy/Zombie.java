@@ -35,7 +35,7 @@ public class Zombie extends EnemyUnit {
     private Animation hartAnimation;            // анимация для получает урон
 
     private World world;
-    private Body body;
+//    private Body body;
     private float x, y;
     private PlayerUnit targetPlayer;
 
@@ -219,7 +219,7 @@ public class Zombie extends EnemyUnit {
         }
 
         if (currentState == State.WALKING)
-            if (body.getPosition().x * Level.WORLD_SCALE > 500)
+            if (body.getPosition().x * Level.WORLD_SCALE > 100)
                 moveLeft(body);
             else {
                 stateTime = 0;
@@ -293,11 +293,6 @@ public class Zombie extends EnemyUnit {
     @Override
     public Vector2 getBodyPosition() {
         return body.getPosition();
-    }
-
-    @Override
-    public float getHealth() {
-        return health;
     }
 
     @Override

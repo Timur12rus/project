@@ -22,19 +22,11 @@ import static com.badlogic.gdx.math.Vector2.len;
 
 public class Gnome extends PlayerUnit {
 
-//    public enum State {WALKING, ATTACK, STAY, DIE, RUN}
-
     private boolean isAttack = false;   // флаг, указывет на то, в состоянии ли атаки находится юнит
 
     private final float VELOCITY = 0.8f;
     //    public State currentState = State.RUN;
     private float stateTime;
-
-    private Animation walkAnimation;            // анимация для ходьбы
-    private Animation attackAnimation;          // анимация для атаки
-    private Animation dieAnimation;             // анимация для уничтожения
-    private Animation stayAnimation;            // анимация для стоит
-    private Animation runAnimation;            // анимация для бежит
 
     private World world;
     private Body body;
@@ -43,9 +35,6 @@ public class Gnome extends PlayerUnit {
     private GameUnit targetEnemy;
     private float minDistance = 0; // расстояние до ближайшего вражеского юнита
     private float distanceToVerticalMovement = 300;     // минимальное расстояние до врага, чтобы изменить направление движения игрока по вертикали
-
-
-    private enum Direction {UP, DOWN, NONE}
 
     private boolean isHaveVerticalDirection = false;
 
@@ -56,26 +45,15 @@ public class Gnome extends PlayerUnit {
         this.level = level;
         this.world = level.getWorld();
         createAnimations();     // создадим анимации для различных состояний персонажа
-        level.addChild(this, x, y);
         createBody(x, y);
-//        body.setLinearVelocity(1, 0);
         currentState = State.RUN;
-    }
+        level.addChild(this, x, y);
 
+    }
 
     @Override
     public Vector2 getBodyPosition() {
         return body.getPosition();
-    }
-
-//    @Override
-//    public void inflictDamage(GameUnit unit, float damage) {
-//
-//    }
-
-    @Override
-    public float getHealth() {
-        return health;
     }
 
     @Override
@@ -114,7 +92,6 @@ public class Gnome extends PlayerUnit {
 
         body.createFixture(fDef).setUserData(this);
         shape.dispose();
-
         body.setTransform((x) / Level.WORLD_SCALE, y / Level.WORLD_SCALE, 0);
     }
 
@@ -170,12 +147,9 @@ public class Gnome extends PlayerUnit {
             if (!isHaveVerticalDirection) {
                 if (len(line.x, line.y) * Level.WORLD_SCALE < distanceToVerticalMovement) {
                     verticalDirectionMovement = calculateVerticalDirection();
-
                 }
             }
-
         }
-
 
         if (targetEnemy != null) {
             if (targetEnemy.getHealth() <= 0 || targetEnemy == null) {
@@ -241,7 +215,7 @@ public class Gnome extends PlayerUnit {
         float posYTarget = targetEnemy.getBodyPosition().y;
 
 
-        System.out.println("calculate Vertical Direction");
+//        System.out.println("calculate Vertical Direction");
         if (posY < posYTarget) verticalDirectionMovement = Direction.UP;
         if (posY > posYTarget) verticalDirectionMovement = Direction.DOWN;
         if (posY == posYTarget) verticalDirectionMovement = Direction.NONE;
@@ -252,26 +226,27 @@ public class Gnome extends PlayerUnit {
     }
 
     private void findTarget() {
-        System.out.println("find TARGET!");
+//        System.out.println("find TARGET!");
         ArrayList<EnemyUnit> enemies = level.getArrayEnemies();
         ArrayList<EnemyUnit> targetEnemies = new ArrayList<EnemyUnit>();
 
         // найдем "врага-цель"
 
-        for (int i = 0; i < enemies.size(); i++) {
-            // расстояние от врага до текущего юнита
-            float distanceToEnemy = (enemies.get(i).getBodyPosition().x - getBodyPosition().x) * Level.WORLD_SCALE;
-
-            // расстояние по прямой от вражеского юнита до текущего юнита
-            Vector2 line = new Vector2(body.getPosition().sub(enemies.get(i).getBodyPosition()));
-
-            // сделаем проверку условия
-            if (((Math.abs(line.x)) * Level.WORLD_SCALE - 30) * VELOCITY > (Math.abs(line.y)) * Level.WORLD_SCALE * VELOCITY && (distanceToEnemy > 20)) {
-                targetEnemies.add(enemies.get(i));
-            }
-        }
-
         try {
+            for (int i = 0; i < enemies.size(); i++) {
+                // расстояние от врага до текущего юнита
+                float distanceToEnemy = (enemies.get(i).getBodyPosition().x - getBodyPosition().x) * Level.WORLD_SCALE;
+
+                // расстояние по прямой от вражеского юнита до текущего юнита
+                Vector2 line = new Vector2(body.getPosition().sub(enemies.get(i).getBodyPosition()));
+
+                // сделаем проверку условия
+                if (((Math.abs(line.x)) * Level.WORLD_SCALE - 30) * VELOCITY > (Math.abs(line.y)) * Level.WORLD_SCALE * VELOCITY && (distanceToEnemy > 10)) {
+                    targetEnemies.add(enemies.get(i));
+                }
+            }
+
+
             minDistance = (targetEnemies.get(0).getBodyPosition().x - getBodyPosition().x) * Level.WORLD_SCALE;
             targetEnemy = targetEnemies.get(0);
 

@@ -1,6 +1,7 @@
 package com.timgapps.warfare.Units;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.timgapps.warfare.Level.Level;
 import com.timgapps.warfare.Units.Enemy.Zombie;
@@ -16,19 +17,24 @@ public abstract class GameUnit extends Actor implements IBody {
     public static final short PLAYER_BIT = 1;
     public static final short ENEMY_BIT = 2;
 
-    public enum State {WALKING, ATTACK, STAY, DIE, RUN}
+    public Body body;
+
+    public enum State {WALKING, ATTACK, STAY, DIE, RUN, HART}
+
     public State currentState = State.STAY;
 
-    /** конструктор **/
+    /**
+     * конструктор
+     **/
     public GameUnit(Level level, float x, float y, float health, float damage) {
         this.level = level;
         this.health = health;
         this.damage = damage;
     }
 
-    public abstract Vector2 getBodyPosition();
-
-    public abstract float getHealth();
+    public Vector2 getBodyPosition() {
+        return body.getPosition();
+    }
 
     public abstract void setHealth(float health);
 
@@ -52,6 +58,10 @@ public abstract class GameUnit extends Actor implements IBody {
 
     public void setCurrentState(State currentState) {
         this.currentState = currentState;
+    }
+
+    public float getHealth() {
+        return health;
     }
 }
 
