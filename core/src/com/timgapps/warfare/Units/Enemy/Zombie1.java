@@ -77,7 +77,7 @@ public class Zombie1 extends EnemyUnit {
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(12 / Level.WORLD_SCALE, 12 / Level.WORLD_SCALE);
         fDef.filter.categoryBits = GameUnit.ENEMY_BIT;
-        fDef.filter.maskBits = GameUnit.PLAYER_BIT;
+        fDef.filter.maskBits = GameUnit.PLAYER_BIT | GameUnit.BULLET_BIT;
 
         fDef.shape = shape;
         body.createFixture(fDef).setUserData(this);
@@ -219,6 +219,7 @@ public class Zombie1 extends EnemyUnit {
             body.setActive(false);
         }
 
+
 //
 
         if (currentState == Zombie.State.WALKING)
@@ -241,6 +242,7 @@ public class Zombie1 extends EnemyUnit {
             this.remove();
             bloodSpray.dispose();
             level.removeEnemyUnitFromArray(this);
+            System.out.println("Destroy()");
         }
     }
 

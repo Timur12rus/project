@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.Array;
 import com.timgapps.warfare.Level.Level;
 import com.timgapps.warfare.Units.Enemy.EnemyUnit;
 import com.timgapps.warfare.Units.GameUnit;
+import com.timgapps.warfare.Units.Player.Bullets.Arrow;
 import com.timgapps.warfare.Warfare;
 
 import java.util.ArrayList;
@@ -36,6 +37,7 @@ public class Archer1 extends PlayerUnit {
 
     private final float ATTACK_DISTANCE = 300;
     private final float VELOCITY = 0.6f;
+    private static float APPEARANCE_TIME = 25;
 
     public Archer1(Level level, float x, float y, float health, float damage) {
         super(level, x, y, health, damage);
@@ -60,17 +62,13 @@ public class Archer1 extends PlayerUnit {
         /** проверим вертикальное перемещение, если достигнем нужной координаты по горизонтали, изменим направление
          * вертикального перемещения
          */
-        if (isHaveTarget)
+        if (isHaveTarget) {
             checkVerticalMovement();
-        /** обновим позицию текущего игрового объекта **/
+            /** обновим позицию текущего игрового объекта **/
 
 
-        /** проверим, может ли игровой юнит атаковать врага **/
-        checkAttack((EnemyUnit) targetEnemy);
-
-        if (currentState == State.ATTACK && attackAnimation.isAnimationFinished(stateTime)) {
-            currentState = State.STAY;
-            stateTime = 0;
+            /** проверим, может ли игровой юнит атаковать врага **/
+            checkAttack((EnemyUnit) targetEnemy);
         }
         setPosition(body.getPosition().x * Level.WORLD_SCALE - 18, body.getPosition().y * Level.WORLD_SCALE);
     }
@@ -80,6 +78,7 @@ public class Archer1 extends PlayerUnit {
      * Метод для поиска цели-врага
      **/
     private void findTarget() {
+        System.out.println("findTarget");
         ArrayList<EnemyUnit> enemies = level.getArrayEnemies();
         Vector2 playerPosition = body.getPosition();
         Vector2 enemyPosition;
@@ -103,6 +102,10 @@ public class Archer1 extends PlayerUnit {
         if (targetEnemy != null) {
             isHaveTarget = true;
             calculateVerticalDirection((EnemyUnit) targetEnemy);
+        } else {
+            if (currentState == State.WALKING && !walkAnimation.isAnimationFinished(stateTime)) {
+                body.setLinearVelocity(VELOCITY, 0);
+            }
         }
     }
 
@@ -113,32 +116,51 @@ public class Archer1 extends PlayerUnit {
     private void checkAttack(EnemyUnit targetEnemy) {
         float distance = (targetEnemy.getBodyPosition().x - body.getPosition().x) * Level.WORLD_SCALE;
 
-        if ((verticalDirectionMovement == Direction.NONE) && (distance < ATTACK_DISTANCE)) {
+        if (currentState == State.ATTACK && attackAnimation.isAnimationFinished(stateTime)) {
+            attack();
+            currentState = State.STAY;
+            stay();
+            stateTime = 0;
+        }
+
+        if ((verticalDirectionMovement == Direction.NONE) && (distance <= ATTACK_DISTANCE)) {
             if ((currentState == State.WALKING) && (walkAnimation.isAnimationFinished(stateTime))) {
                 currentState = State.ATTACK;
                 stay();
                 stateTime = 0;
             } else if ((currentState == State.STAY) && (stayAnimation.isAnimationFinished(stateTime))) {
-                currentState = State.ATTACK;
+                if (targetEnemy.getHealth() <= 0) {
+                    resetTarget();
+                    currentState = State.WALKING;
+                } else {
+                    currentState = State.ATTACK;
+                }
                 stateTime = 0;
             }
         } else if ((verticalDirectionMovement == Direction.NONE) && (distance > ATTACK_DISTANCE)) {
+            if ((currentState == State.STAY) && (stayAnimation.isAnimationFinished(stateTime))) {
+                currentState = State.WALKING;
+            }
             moveRight();
         }
+    }
+
+    public void resetTarget() {
+        targetEnemy = null;
+        isHaveTarget = false;
+//        isAttack = false;
+
+    }
+
+    @Override
+    public void attack() {
+        super.attack();
+        new Arrow(level, body.getPosition().x * Level.WORLD_SCALE, body.getPosition().y * Level.WORLD_SCALE, damage);
     }
 
     private void moveRight() {
         body.setLinearVelocity(VELOCITY, 0);
     }
-
-//    /**
-//     * Метод для проверки горизонтального перемещения
-//     **/
-//    private void checkHorizontalMovement(EnemyUnit targetEnemy) {
-//        if (verticalDirectionMovement == Direction.NONE) {
-//            if ()
-//        }
-//    }
 
     /**
      * Метод для вычисления направления вертикального перемещения
@@ -190,7 +212,6 @@ public class Archer1 extends PlayerUnit {
 
     private void stay() {
         body.setLinearVelocity(0, 0);
-        System.out.println("stay");
     }
 
 
@@ -240,6 +261,7 @@ public class Archer1 extends PlayerUnit {
         //  получим кадры и добавим в анимацию атаки персонажа
         for (int i = 0; i < 5; i++)
             frames.add(new TextureRegion(Warfare.atlas.findRegion("archer1Attack" + i)));
+        frames.add(new TextureRegion(Warfare.atlas.findRegion("archer1Attack0")));
         attackAnimation = new Animation(0.12f, frames);
 //        attackAnimation = new Animation(0.12f, frames);
         frames.clear();
@@ -286,4 +308,7 @@ public class Archer1 extends PlayerUnit {
         body.setTransform((x) / Level.WORLD_SCALE, y / Level.WORLD_SCALE, 0);
     }
 
+    public static float getAppearanceTime() {
+        return APPEARANCE_TIME;
+    }
 }

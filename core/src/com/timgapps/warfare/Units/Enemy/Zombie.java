@@ -35,7 +35,7 @@ public class Zombie extends EnemyUnit {
     private Animation hartAnimation;            // анимация для получает урон
 
     private World world;
-//    private Body body;
+    //    private Body body;
     private float x, y;
     private PlayerUnit targetPlayer;
 
@@ -44,7 +44,6 @@ public class Zombie extends EnemyUnit {
     private boolean continueWalk = false;
     private boolean isDie = false;
     private boolean isDamaged = false;
-
 
 
     private ParticleEffect bloodSpray;
@@ -74,7 +73,7 @@ public class Zombie extends EnemyUnit {
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(12 / Level.WORLD_SCALE, 12 / Level.WORLD_SCALE);
         fDef.filter.categoryBits = GameUnit.ENEMY_BIT;
-        fDef.filter.maskBits = GameUnit.PLAYER_BIT;
+        fDef.filter.maskBits = GameUnit.PLAYER_BIT | GameUnit.BULLET_BIT;
 
         fDef.shape = shape;
         body.createFixture(fDef).setUserData(this);

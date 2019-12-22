@@ -3,12 +3,13 @@ package com.timgapps.warfare.Level.GUI;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.timgapps.warfare.Level.Level;
+import com.timgapps.warfare.Units.Player.Archer1;
+import com.timgapps.warfare.Units.Player.Gnome;
 import com.timgapps.warfare.Warfare;
 
 public class UnitButton extends Group {
@@ -19,8 +20,10 @@ public class UnitButton extends Group {
     private TextureRegion darkLayer;
     private float height;
     private float interpolation;
-    private float time = 15;
+    private float appearanceTime;
     private float percentage = 0;
+
+    public enum TypeOfUnit {GNOME, ARCHER1}
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
@@ -44,7 +47,8 @@ public class UnitButton extends Group {
         }
     }
 
-    public UnitButton(final Level level, Image activeImage, Image inactiveImage) {
+    public UnitButton(final Level level, Image activeImage, Image inactiveImage, final TypeOfUnit typeOfUnit) {
+        this.appearanceTime = setAppearanceTime(typeOfUnit);
         this.activeImage = activeImage;
         this.inactiveImage = inactiveImage;
         this.level = level;
@@ -56,7 +60,7 @@ public class UnitButton extends Group {
 
 
         height = darkLayer.getRegionHeight();
-        interpolation = (height / time) / 60;
+        interpolation = (height / appearanceTime) / 60;
 
         this.addListener(new ClickListener() {
             @Override
@@ -64,11 +68,22 @@ public class UnitButton extends Group {
                 super.clicked(event, x, y);
                 if (isActiveUnitButton) {
                     setInActive();
-                    level.addGnome();
+//                    level.addGnome();
+                    addPlayerUnit(typeOfUnit);
                 }
             }
         });
+    }
 
+    private void addPlayerUnit(TypeOfUnit typeOfUnit) {
+        switch (typeOfUnit) {
+            case GNOME:
+                level.addGnome();
+                break;
+            case ARCHER1:
+                level.addArcher1();
+                break;
+        }
     }
 
     public void setActive() {
@@ -86,6 +101,20 @@ public class UnitButton extends Group {
 
     public boolean getUnitButtonStatus() {
         return isActiveUnitButton;
+    }
+
+    private float setAppearanceTime(TypeOfUnit typeOfUnit) {
+        float appearanceTime = 0;
+        switch (typeOfUnit) {
+            case GNOME:
+                appearanceTime = Gnome.getAppearanceTime();
+                break;
+            case ARCHER1:
+                appearanceTime = Archer1.getAppearanceTime();
+                break;
+        }
+
+        return appearanceTime;
     }
 
 

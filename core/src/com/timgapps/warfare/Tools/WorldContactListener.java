@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 import com.timgapps.warfare.Units.Enemy.EnemyUnit;
 import com.timgapps.warfare.Units.Enemy.Zombie;
 import com.timgapps.warfare.Units.GameUnit;
+import com.timgapps.warfare.Units.Player.Bullets.Bullet;
 import com.timgapps.warfare.Units.Player.Gnome;
 import com.timgapps.warfare.Units.Player.PlayerUnit;
 
@@ -40,7 +41,6 @@ public class WorldContactListener implements ContactListener {
                 } else {
                     Object userData = fixB.getUserData();
                     Object enemyUserData = fixA.getUserData();
-//                    System.out.println(userData.toString());
                     if (userData instanceof PlayerUnit) {
                         if (((PlayerUnit) userData).getCurrentState() != GameUnit.State.ATTACK) {
                             ((PlayerUnit) userData).attack();
@@ -53,6 +53,23 @@ public class WorldContactListener implements ContactListener {
                             ((EnemyUnit) enemyUserData).attack();
                             ((EnemyUnit) enemyUserData).setTargetPlayer((PlayerUnit) userData);
                         } else return;
+                    }
+                }
+                break;
+            case GameUnit.BULLET_BIT | GameUnit.ENEMY_BIT:
+                if (fixA.getFilterData().categoryBits == GameUnit.BULLET_BIT) {
+
+                    Object bulletData = fixA.getUserData();
+                    Object enemyUserData = fixB.getUserData();
+                    if (bulletData instanceof Bullet) {
+                        ((Bullet) bulletData).inflictDamage((EnemyUnit) enemyUserData);
+
+                    }
+                } else {
+                    Object enemyUserData = fixA.getUserData();
+                    Object bulletData = fixB.getUserData();
+                    if (bulletData instanceof Bullet) {
+                        ((Bullet) bulletData).inflictDamage((EnemyUnit) enemyUserData);
                     }
                 }
                 break;

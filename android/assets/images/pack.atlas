@@ -4,6 +4,13 @@ size: 2048,2048
 format: RGBA8888
 filter: MipMapLinearNearest,Linear
 repeat: none
+archer1Active
+  rotate: false
+  xy: 1480, 1236
+  size: 96, 104
+  orig: 96, 104
+  offset: 0, 0
+  index: -1
 archer1Attack0
   rotate: false
   xy: 2, 1180
@@ -109,6 +116,13 @@ archer1Hart4
   orig: 280, 138
   offset: 0, 0
   index: -1
+archer1Inactive
+  rotate: false
+  xy: 1480, 1130
+  size: 96, 104
+  orig: 96, 104
+  offset: 0, 0
+  index: -1
 archer1Stay0
   rotate: false
   xy: 1284, 1482
@@ -165,9 +179,16 @@ archer1Walk3
   orig: 280, 138
   offset: 0, 0
   index: -1
+arrow
+  rotate: false
+  xy: 1130, 1042
+  size: 44, 8
+  orig: 44, 8
+  offset: 0, 0
+  index: -1
 gnomeActive
   rotate: false
-  xy: 1480, 1236
+  xy: 922, 488
   size: 96, 104
   orig: 96, 104
   offset: 0, 0
@@ -237,7 +258,7 @@ gnomeDie3
   index: -1
 gnomeInactive
   rotate: false
-  xy: 1480, 1130
+  xy: 1895, 1400
   size: 96, 104
   orig: 96, 104
   offset: 0, 0
@@ -342,7 +363,7 @@ level_bg
   index: -1
 unitButtonDark
   rotate: false
-  xy: 922, 488
+  xy: 1895, 1294
   size: 96, 104
   orig: 96, 104
   offset: 0, 0

@@ -3,24 +3,18 @@ package com.timgapps.warfare.Level;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.utils.Array;
 import com.boontaran.games.StageGame;
 import com.timgapps.warfare.Level.GUI.UnitButton;
-import com.timgapps.warfare.Level.GUI.UnitContainer;
 import com.timgapps.warfare.Tools.WorldContactListener;
 import com.timgapps.warfare.Units.Enemy.EnemyUnit;
-import com.timgapps.warfare.Units.Enemy.Zombie;
 import com.timgapps.warfare.Units.Enemy.Zombie1;
-import com.timgapps.warfare.Units.GameUnit;
 import com.timgapps.warfare.Units.Player.Archer1;
 import com.timgapps.warfare.Units.Player.Gnome;
 import com.timgapps.warfare.Utils.Setting;
 import com.timgapps.warfare.Warfare;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class Level extends StageGame {
 
@@ -31,7 +25,6 @@ public class Level extends StageGame {
     private float accumulator;
     public static final float STEP = 1 / 55f;
     private ArrayList<EnemyUnit> arrayEnemies;
-    private float count = 120;
 
     public Level() {
         setBackGround("level_bg");
@@ -43,26 +36,35 @@ public class Level extends StageGame {
         /** Добавим вражеских юнитов **/
 //        Random random = new Random();
         Zombie1 zombie = new Zombie1(this, 800, 250, 20, 10);
-//        Zombie1 zombie1 = new Zombie1(this, 800, 300, 20, 10);
-//        Zombie1 zombie2 = new Zombie1(this, 800, 350, 20, 10);
+        Zombie1 zombie1 = new Zombie1(this, 1300, 300, 20, 10);
+        Zombie1 zombie2 = new Zombie1(this, 1100, 350, 20, 10);
+        Zombie1 zombie3 = new Zombie1(this, 900, 200, 20, 10);
 //        Zombie1 zombie3 = new Zombie1(this, 900, 120 + (random.nextFloat() * 150) + 30, 20, 10);
 //        Zombie1 zombie4 = new Zombie1(this, 870, 120 + (random.nextFloat() * 150), 50, 10);
 //        Zombie zombie5 = new Zombie(this, 930, 150 + (random.nextFloat() * 150) + 20, 50, 10);
         accumulator = 0;
         arrayEnemies = new ArrayList<EnemyUnit>();
         arrayEnemies.add(zombie);
+        arrayEnemies.add(zombie1);
+        arrayEnemies.add(zombie2);
+        arrayEnemies.add(zombie3);
 //        arrayEnemies.add(zombie1);
 //        arrayEnemies.add(zombie2);
 //        arrayEnemies.add(zombie3);
 //        arrayEnemies.add(zombie4);
 //        arrayEnemies.add(zombie5);
 
-        addChild(new Archer1(this, 200, 200, 30, 20));
+//        addChild(new Archer1(this, 200, 200, 30, 20));
 
 
         /** Добавим кнопки для вызова игровых юнитов **/
         addChild(new UnitButton(this, new Image(Warfare.atlas.findRegion("gnomeActive")),
-                new Image(Warfare.atlas.findRegion("gnomeInactive"))), getWidth() / 2, 16);
+                        new Image(Warfare.atlas.findRegion("gnomeInactive")), UnitButton.TypeOfUnit.GNOME),
+                500, 16);
+
+        addChild(new UnitButton(this, new Image(Warfare.atlas.findRegion("archer1Active")),
+                        new Image(Warfare.atlas.findRegion("archer1Inactive")), UnitButton.TypeOfUnit.ARCHER1),
+                640, 16);
     }
 
 
@@ -107,34 +109,22 @@ public class Level extends StageGame {
     @Override
     protected void update(float delta) {
         super.update(delta);
-        count--;
-
         compareActorsYPos();
-//        if (count < 0) {
-//            Random random = new Random();
-//            Gnome gnome1 = new Gnome(this, 100, 160, 20, 10);
-//            arrayEnemies.add(new Zombie(this, (float) (30 * (Math.random() * 20) + 1000), 130 + (random.nextFloat() * 170), 50, 10));
-////            new Zombie(this, 1200, 300, 10, 10);
-//            count = 1200;
-//        }
 
         /** Timur **/
         accumulator += delta;
         while (accumulator >= STEP) {
-//            if (state == PLAY) {
             world.step(STEP, 8, 6);
-//            }
             accumulator -= STEP;
-
-//            player1.updatePosition();
-//            updateCamera();
-
         }
     }
 
     public void addGnome() {
-        Gnome gnome1 = new Gnome(this, 100, 160, 20, 10);
-        System.out.println("ADD");
+        new Gnome(this, 100, 160, 20, 10);
+    }
+
+    public void addArcher1() {
+        new Archer1(this, 100, 160, 20, 10);
     }
 
     public void compareActorsYPos() {
