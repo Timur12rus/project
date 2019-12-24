@@ -99,12 +99,13 @@ public class Archer1 extends PlayerUnit {
             }
         }
 
+        /** если имеем цель-врага, то вычислим направление вертикального перемещения **/
         if (targetEnemy != null) {
             isHaveTarget = true;
             calculateVerticalDirection((EnemyUnit) targetEnemy);
         } else {
             if (currentState == State.WALKING && !walkAnimation.isAnimationFinished(stateTime)) {
-                body.setLinearVelocity(VELOCITY, 0);
+                moveRight();
             }
         }
     }
@@ -123,25 +124,37 @@ public class Archer1 extends PlayerUnit {
             stateTime = 0;
         }
 
+        if ((currentState == State.STAY) && (stayAnimation.isAnimationFinished(stateTime))) {
+            if (targetEnemy.getHealth() <= 0) {
+                resetTarget();
+                currentState = State.WALKING;
+            } else {
+                currentState = State.ATTACK;
+            }
+            stateTime = 0;
+        }
+
         if ((verticalDirectionMovement == Direction.NONE) && (distance <= ATTACK_DISTANCE)) {
             if ((currentState == State.WALKING) && (walkAnimation.isAnimationFinished(stateTime))) {
                 currentState = State.ATTACK;
                 stay();
                 stateTime = 0;
-            } else if ((currentState == State.STAY) && (stayAnimation.isAnimationFinished(stateTime))) {
-                if (targetEnemy.getHealth() <= 0) {
-                    resetTarget();
-                    currentState = State.WALKING;
-                } else {
-                    currentState = State.ATTACK;
-                }
+            }
+        }
+
+        if ((verticalDirectionMovement == Direction.NONE) && (distance > ATTACK_DISTANCE)) {
+            if ((currentState == State.STAY) && (stayAnimation.isAnimationFinished(stateTime))) {
+                moveRight();
+                currentState = State.WALKING;
                 stateTime = 0;
             }
-        } else if ((verticalDirectionMovement == Direction.NONE) && (distance > ATTACK_DISTANCE)) {
-            if ((currentState == State.STAY) && (stayAnimation.isAnimationFinished(stateTime))) {
-                currentState = State.WALKING;
+
+            if (currentState == State.WALKING && walkAnimation.isAnimationFinished(stateTime)) {
+                stateTime = 0;
+                moveRight();
             }
-            moveRight();
+//            System.out.println("moveRight");
+//            moveRight();
         }
     }
 

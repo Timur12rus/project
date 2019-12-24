@@ -229,6 +229,7 @@ public class Zombie extends EnemyUnit {
             stay();
         }
         setPosition(body.getPosition().x * Level.WORLD_SCALE - 18, body.getPosition().y * Level.WORLD_SCALE);
+
     }
 
     private void destroy() {

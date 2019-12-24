@@ -13,17 +13,17 @@ import com.timgapps.warfare.Units.Player.Gnome;
 import com.timgapps.warfare.Warfare;
 
 public class UnitButton extends Group {
-    private Image activeImage;
-    private Image inactiveImage;
-    private boolean isActiveUnitButton = false;
+    protected Image activeImage;
+    protected Image inactiveImage;
+    protected boolean isActiveUnitButton = false;
     private Level level;
-    private TextureRegion darkLayer;
-    private float height;
-    private float interpolation;
-    private float appearanceTime;
-    private float percentage = 0;
+    protected TextureRegion darkLayer;
+    protected float height;
+    protected float interpolation;
+    protected float appearanceTime;
+    protected float percentage = 0;
 
-    public enum TypeOfUnit {GNOME, ARCHER1}
+    public enum TypeOfUnit {GNOME, ARCHER1, STONE}
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
@@ -53,6 +53,8 @@ public class UnitButton extends Group {
         this.inactiveImage = inactiveImage;
         this.level = level;
 
+
+
         addActor(activeImage);
         addActor(inactiveImage);
         darkLayer = new TextureRegion(Warfare.atlas.findRegion("unitButtonDark"));
@@ -62,17 +64,21 @@ public class UnitButton extends Group {
         height = darkLayer.getRegionHeight();
         interpolation = (height / appearanceTime) / 60;
 
-        this.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-                if (isActiveUnitButton) {
-                    setInActive();
+        if (!typeOfUnit.equals(TypeOfUnit.STONE)) {
+            this.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    super.clicked(event, x, y);
+                    if (isActiveUnitButton) {
+                        setInActive();
 //                    level.addGnome();
-                    addPlayerUnit(typeOfUnit);
+                        addPlayerUnit(typeOfUnit);
+                    }
                 }
-            }
-        });
+            });
+        }
+
+
     }
 
     private void addPlayerUnit(TypeOfUnit typeOfUnit) {

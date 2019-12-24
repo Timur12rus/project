@@ -5,6 +5,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.boontaran.games.StageGame;
+import com.timgapps.warfare.Level.GUI.StoneButton;
 import com.timgapps.warfare.Level.GUI.UnitButton;
 import com.timgapps.warfare.Tools.WorldContactListener;
 import com.timgapps.warfare.Units.Enemy.EnemyUnit;
@@ -25,6 +26,8 @@ public class Level extends StageGame {
     private float accumulator;
     public static final float STEP = 1 / 55f;
     private ArrayList<EnemyUnit> arrayEnemies;
+
+    private float timeCount = 0;
 
     public Level() {
         setBackGround("level_bg");
@@ -65,6 +68,10 @@ public class Level extends StageGame {
         addChild(new UnitButton(this, new Image(Warfare.atlas.findRegion("archer1Active")),
                         new Image(Warfare.atlas.findRegion("archer1Inactive")), UnitButton.TypeOfUnit.ARCHER1),
                 640, 16);
+
+        addChild(new StoneButton(this, new Image(Warfare.atlas.findRegion("stoneButtonActive")),
+                        new Image(Warfare.atlas.findRegion("stoneButtonInactive")), UnitButton.TypeOfUnit.STONE),
+                780, 16);
     }
 
 
@@ -110,6 +117,8 @@ public class Level extends StageGame {
     protected void update(float delta) {
         super.update(delta);
         compareActorsYPos();
+
+        timeCount += delta;
 
         /** Timur **/
         accumulator += delta;

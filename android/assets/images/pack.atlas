@@ -181,9 +181,16 @@ archer1Walk3
   index: -1
 arrow
   rotate: false
-  xy: 1130, 1042
+  xy: 604, 444
   size: 44, 8
   orig: 44, 8
+  offset: 0, 0
+  index: -1
+block1
+  rotate: false
+  xy: 1480, 1086
+  size: 42, 42
+  orig: 42, 42
   offset: 0, 0
   index: -1
 gnomeActive
@@ -361,9 +368,37 @@ level_bg
   orig: 1280, 720
   offset: 0, 0
   index: -1
-unitButtonDark
+stoneButtonActive
   rotate: false
   xy: 1895, 1294
+  size: 96, 104
+  orig: 96, 104
+  offset: 0, 0
+  index: -1
+stoneButtonInactive
+  rotate: false
+  xy: 506, 550
+  size: 96, 104
+  orig: 96, 104
+  offset: 0, 0
+  index: -1
+targetGreen
+  rotate: false
+  xy: 2, 30
+  size: 120, 52
+  orig: 120, 52
+  offset: 0, 0
+  index: -1
+targetRed
+  rotate: false
+  xy: 124, 30
+  size: 120, 52
+  orig: 120, 52
+  offset: 0, 0
+  index: -1
+unitButtonDark
+  rotate: false
+  xy: 506, 444
   size: 96, 104
   orig: 96, 104
   offset: 0, 0
@@ -678,70 +713,70 @@ zombieHart3
   index: -1
 zombieHart4
   rotate: false
-  xy: 506, 454
+  xy: 604, 454
   size: 153, 102
   orig: 153, 102
   offset: 0, 0
   index: -1
 zombieStay0
   rotate: false
-  xy: 506, 350
+  xy: 506, 340
   size: 153, 102
   orig: 153, 102
   offset: 0, 0
   index: -1
 zombieStay1
   rotate: false
-  xy: 506, 246
+  xy: 506, 236
   size: 153, 102
   orig: 153, 102
   offset: 0, 0
   index: -1
 zombieStay2
   rotate: false
-  xy: 506, 142
+  xy: 506, 132
   size: 153, 102
   orig: 153, 102
   offset: 0, 0
   index: -1
 zombieStay3
   rotate: false
-  xy: 507, 38
+  xy: 507, 28
   size: 153, 102
   orig: 153, 102
   offset: 0, 0
   index: -1
 zombieStay4
   rotate: false
-  xy: 661, 380
+  xy: 661, 350
   size: 153, 102
   orig: 153, 102
   offset: 0, 0
   index: -1
 zombieWalk0
   rotate: false
-  xy: 661, 276
+  xy: 661, 246
   size: 153, 102
   orig: 153, 102
   offset: 0, 0
   index: -1
 zombieWalk2
   rotate: false
-  xy: 661, 276
+  xy: 661, 246
   size: 153, 102
   orig: 153, 102
   offset: 0, 0
   index: -1
 zombieWalk1
   rotate: false
-  xy: 661, 172
+  xy: 661, 142
   size: 153, 102
   orig: 153, 102
   offset: 0, 0
   index: -1
 zombieWalk3
   rotate: false
-  xy: 662, 68
+  xy: 662, 38
   size: 153, 102
   orig: 153, 102
   offset: 0, 0
