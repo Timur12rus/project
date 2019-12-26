@@ -45,7 +45,7 @@ public class StoneButton extends UnitButton {
     }
 
     private void throwStone(Level level, float x, float y, float damage) {
-        new Stone(level, x, y + 600, damage, y + greenTarget.getHeight() / 2);
+        new Stone(level, x, y + 600, damage, 12 + y + greenTarget.getHeight() / 2);
     }
 
     private void inactiveTargetImages() {

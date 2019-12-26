@@ -40,6 +40,7 @@ public class Stone extends Bullet {
         this.targetY = targetY;
         this.damage = damage;
         createBody(x, y);
+
         stoneRectangle = new Rectangle(); // прямоугльник для проверки столкновения с игровыми юнитами
 
         image = new TextureRegion(Warfare.atlas.findRegion("block1"));
@@ -48,12 +49,12 @@ public class Stone extends Bullet {
 
         level.addChild(this);
 //        body.setLinearVelocity(0, -VELOCITY);
-        stoneRectangle.setPosition(x, y);
+        stoneRectangle.setPosition(x - image.getRegionWidth() / 2, y);
 
         shapeRenderer = new ShapeRenderer();
 
         velocity = new Vector2(0, -5);
-        position = new Vector2(x, y);
+        position = new Vector2(x - image.getRegionWidth() / 2, y);
     }
 
     @Override
@@ -68,6 +69,7 @@ public class Stone extends Bullet {
         /** изменим позицию нашего актреа **/
         if (position.y < targetY) {
             checkCollisionEnemyUnit();
+            stoneRectangle.setSize(0,0);
 
         } else {
             position.add(velocity);
