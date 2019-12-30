@@ -1,4 +1,4 @@
-package com.timgapps.warfare.Units.Player;
+package com.timgapps.warfare.Units.GameUnits.Player;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -12,8 +12,8 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.timgapps.warfare.Level.Level;
-import com.timgapps.warfare.Units.Enemy.EnemyUnit;
-import com.timgapps.warfare.Units.GameUnit;
+import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnit;
+import com.timgapps.warfare.Units.GameUnits.GameUnit;
 import com.timgapps.warfare.Warfare;
 
 import java.util.ArrayList;
@@ -29,7 +29,6 @@ public class Gnome extends PlayerUnit {
     private float stateTime;
 
     private World world;
-    private Body body;
     private float x, y;
     private boolean isHaveTarget = false;
     private GameUnit targetEnemy;
@@ -46,9 +45,10 @@ public class Gnome extends PlayerUnit {
         this.level = level;
         this.world = level.getWorld();
         createAnimations();     // создадим анимации для различных состояний персонажа
-        createBody(x, y);
+//        body = createBody(x, y);
         currentState = State.RUN;
         level.addChild(this, x, y);
+        level.arrayActors.add(this);
 
     }
 
@@ -73,27 +73,6 @@ public class Gnome extends PlayerUnit {
     @Override
     public State getCurrentState() {
         return currentState;
-    }
-
-
-    @Override
-    public void createBody(float x, float y) {
-
-        BodyDef def = new BodyDef();
-        def.type = BodyDef.BodyType.DynamicBody;
-        body = world.createBody(def);
-
-        PolygonShape shape = new PolygonShape();
-        shape.setAsBox(12 / Level.WORLD_SCALE, 12 / Level.WORLD_SCALE);
-
-        FixtureDef fDef = new FixtureDef();
-        fDef.shape = shape;
-        fDef.filter.categoryBits = GameUnit.PLAYER_BIT;
-        fDef.filter.maskBits = GameUnit.ENEMY_BIT;
-
-        body.createFixture(fDef).setUserData(this);
-        shape.dispose();
-        body.setTransform((x) / Level.WORLD_SCALE, y / Level.WORLD_SCALE, 0);
     }
 
 
@@ -203,8 +182,8 @@ public class Gnome extends PlayerUnit {
             setToDestroyBody = true;
         }
 
-        /** обновим позицию текущего игрового объекта **/
-        setPosition(body.getPosition().x * Level.WORLD_SCALE - 18, body.getPosition().y * Level.WORLD_SCALE);
+//        /** обновим позицию текущего игрового объекта **/
+//        setPosition(body.getPosition().x * Level.WORLD_SCALE - 18, body.getPosition().y * Level.WORLD_SCALE);
     }
 
     private void stay() {

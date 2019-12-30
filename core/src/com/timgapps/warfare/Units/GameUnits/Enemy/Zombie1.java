@@ -1,4 +1,4 @@
-package com.timgapps.warfare.Units.Enemy;
+package com.timgapps.warfare.Units.GameUnits.Enemy;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -11,15 +11,12 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Array;
 import com.timgapps.warfare.Level.Level;
-import com.timgapps.warfare.Units.GameUnit;
-import com.timgapps.warfare.Units.Player.PlayerUnit;
+import com.timgapps.warfare.Units.GameUnits.GameUnit;
+import com.timgapps.warfare.Units.GameUnits.Player.PlayerUnit;
 import com.timgapps.warfare.Warfare;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Random;
 
 public class Zombie1 extends EnemyUnit {
@@ -38,7 +35,7 @@ public class Zombie1 extends EnemyUnit {
     private Animation hartAnimation;            // анимация для получает урон
 
     private World world;
-    private Body body;
+
     private float x, y;
     private PlayerUnit targetPlayer;
 
@@ -59,32 +56,34 @@ public class Zombie1 extends EnemyUnit {
         bloodSpray.load(Gdx.files.internal("effects/bloodSpray.paty"), Gdx.files.internal("effects/")); //file);     //Air2.paty
         createAnimations();     // создадим анимации для различных состояний персонажа
         level.addChild(this, x, y);
-        createBody(x, y);
+
+//        body = createBody(x, y);
         stateTime = 0;
         currentState = Zombie.State.WALKING;
+        level.arrayActors.add(this);
 
     }
 
 
-    @Override
-    public void createBody(float x, float y) {
-
-        BodyDef def = new BodyDef();
-        def.type = BodyDef.BodyType.DynamicBody;
-        body = world.createBody(def);
-
-        FixtureDef fDef = new FixtureDef();
-        PolygonShape shape = new PolygonShape();
-        shape.setAsBox(12 / Level.WORLD_SCALE, 12 / Level.WORLD_SCALE);
-        fDef.filter.categoryBits = GameUnit.ENEMY_BIT;
-        fDef.filter.maskBits = GameUnit.PLAYER_BIT | GameUnit.BULLET_BIT;
-
-        fDef.shape = shape;
-        body.createFixture(fDef).setUserData(this);
-        shape.dispose();
-
-        body.setTransform((x) / Level.WORLD_SCALE, y / Level.WORLD_SCALE, 0);
-    }
+//    @Override
+//    public Body createBody(float x, float y) {
+//
+//        BodyDef def = new BodyDef();
+//        def.type = BodyDef.BodyType.DynamicBody;
+//         body = world.createBody(def);
+//
+//        FixtureDef fDef = new FixtureDef();
+//        PolygonShape shape = new PolygonShape();
+//        shape.setAsBox(12 / Level.WORLD_SCALE, 12 / Level.WORLD_SCALE);
+//        fDef.filter.categoryBits = GameUnit.ENEMY_BIT;
+//        fDef.filter.maskBits = GameUnit.PLAYER_BIT | GameUnit.BULLET_BIT;
+//
+//        fDef.shape = shape;
+//        body.createFixture(fDef).setUserData(this);
+//        shape.dispose();
+//
+//        body.setTransform((x) / Level.WORLD_SCALE, y / Level.WORLD_SCALE, 0);
+//    }
 
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
@@ -95,27 +94,27 @@ public class Zombie1 extends EnemyUnit {
 
         if (isDraw()) {
             if (currentState == Zombie.State.WALKING) {
-                batch.draw((TextureRegion) walkAnimation.getKeyFrame(stateTime, true), getX() - 64, getY() - 26);
+                batch.draw((TextureRegion) walkAnimation.getKeyFrame(stateTime, true), getX() - 82, getY() - 12);
             }
 
             if (currentState == Zombie.State.ATTACK) {
-                batch.draw((TextureRegion) attackAnimation.getKeyFrame(stateTime, false), getX() - 64, getY() - 26);
+                batch.draw((TextureRegion) attackAnimation.getKeyFrame(stateTime, false), getX() - 82, getY() - 12);
             }
 
             if (currentState == Zombie.State.STAY) {
-                batch.draw((TextureRegion) stayAnimation.getKeyFrame(stateTime, true), getX() - 64, getY() - 26);
+                batch.draw((TextureRegion) stayAnimation.getKeyFrame(stateTime, true), getX() - 82, getY() - 12);
             }
 
             if (currentState == Zombie.State.RUN) {
-                batch.draw((TextureRegion) runAnimation.getKeyFrame(stateTime, true), getX() - 64, getY() - 26);
+                batch.draw((TextureRegion) runAnimation.getKeyFrame(stateTime, true), getX() - 82, getY() - 12);
             }
 
             if (currentState == Zombie.State.HART) {
-                batch.draw((TextureRegion) hartAnimation.getKeyFrame(stateTime, false), getX() - 64, getY() - 26);
+                batch.draw((TextureRegion) hartAnimation.getKeyFrame(stateTime, false), getX() - 82, getY() - 12);
             }
 
             if (currentState == Zombie.State.DIE) {
-                batch.draw((TextureRegion) dieAnimation.getKeyFrame(stateTime, false), getX() - 64, getY() - 26);
+                batch.draw((TextureRegion) dieAnimation.getKeyFrame(stateTime, false), getX() - 82, getY() - 12);
             }
         } else setDraw(true);
         if (isDamaged)
@@ -126,11 +125,11 @@ public class Zombie1 extends EnemyUnit {
     public void act(float delta) {
         super.act(delta);
 
-//        if (!body.isActive()) {
-//            world.destroyBody(body);
-//            this.remove();
-//            level.removeEnemyUnitFromArray(this);
-//        }
+        if (!body.isActive()) {
+            world.destroyBody(body);
+            this.remove();
+            level.removeEnemyUnitFromArray(this);
+        }
 
 
         if (isDamaged) {
@@ -187,7 +186,7 @@ public class Zombie1 extends EnemyUnit {
                 currentState = Zombie.State.WALKING;
 
             } else {
-//                stateTime = 0;
+                stateTime = 0;
                 currentState = Zombie.State.STAY;
 //                stay();
             }
@@ -201,7 +200,6 @@ public class Zombie1 extends EnemyUnit {
                 currentState = Zombie.State.STAY;
             }
         }
-
 
         if (currentState == Zombie.State.DIE && dieAnimation.isAnimationFinished(stateTime)) {
             destroy();
@@ -219,9 +217,6 @@ public class Zombie1 extends EnemyUnit {
             body.setActive(false);
         }
 
-
-//
-
         if (currentState == Zombie.State.WALKING)
             if (body.getPosition().x * Level.WORLD_SCALE > 500)
                 moveLeft(body);
@@ -233,7 +228,6 @@ public class Zombie1 extends EnemyUnit {
         if (currentState == Zombie.State.STAY) {
             stay();
         }
-        setPosition(body.getPosition().x * Level.WORLD_SCALE - 18, body.getPosition().y * Level.WORLD_SCALE);
     }
 
     private void destroy() {
@@ -255,18 +249,15 @@ public class Zombie1 extends EnemyUnit {
     private void createAnimations() {
         Array<TextureRegion> frames = new Array<TextureRegion>();
         // получим кадры и добавим в анимацию ходьбы персонажа
-        for (int j = 0; j < 2; j++) {
-            for (int i = 0; i < 3; i++)
-                frames.add(new TextureRegion(Warfare.atlas.findRegion("zombie1Walk" + i)));
-//
-//        frames.add(new TextureRegion(Warfare.atlas.findRegion("zombie1Walk4")));
-//        frames.add(new TextureRegion(Warfare.atlas.findRegion("zombie1Walk3")));
+//        for (int j = 0; j < 2; j++) {
+        for (int i = 0; i < 4; i++)
+            frames.add(new TextureRegion(Warfare.atlas.findRegion("zombie1Walk" + i)));
+        frames.add(new TextureRegion(Warfare.atlas.findRegion("zombie1Walk1")));
 //        frames.add(new TextureRegion(Warfare.atlas.findRegion("zombie1Walk2")));
-            frames.add(new TextureRegion(Warfare.atlas.findRegion("zombie1Walk1")));
-            frames.add(new TextureRegion(Warfare.atlas.findRegion("zombie1Walk0")));
-        }
+//        frames.add(new TextureRegion(Warfare.atlas.findRegion("zombie1Walk3")));
+//        }
 
-        walkAnimation = new Animation(0.2f, frames);
+        walkAnimation = new Animation(0.12f, frames);
         frames.clear();
 
         //  получим кадры и добавим в анимацию атаки персонажа
@@ -311,11 +302,6 @@ public class Zombie1 extends EnemyUnit {
     }
 
     @Override
-    public float getHealth() {
-        return health;
-    }
-
-    @Override
     public void setHealth(float health) {
         this.health -= health;
         isDamaged = true;
@@ -328,11 +314,6 @@ public class Zombie1 extends EnemyUnit {
 
     @Override
     public void attack() {
-//        if (currentState != State.ATTACK) {        // проверяем, в состоянии ли "атаки" юнит
-//            currentState = State.ATTACK;
-//            stateTime = 0;
-//            isAttack = true;
-//        }
 
         if (!isAttack) {        // проверяем, в состоянии ли "атаки" юнит
             currentState = Zombie.State.STAY;

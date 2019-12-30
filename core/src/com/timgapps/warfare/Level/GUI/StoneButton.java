@@ -5,7 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.timgapps.warfare.Level.Level;
-import com.timgapps.warfare.Units.Player.Bullets.Stone;
+import com.timgapps.warfare.Units.GameUnits.Player.Bullets.Stone;
 import com.timgapps.warfare.Warfare;
 
 public class StoneButton extends UnitButton {

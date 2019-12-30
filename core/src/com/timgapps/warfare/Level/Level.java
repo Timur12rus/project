@@ -3,15 +3,16 @@ package com.timgapps.warfare.Level;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.boontaran.games.StageGame;
 import com.timgapps.warfare.Level.GUI.StoneButton;
 import com.timgapps.warfare.Level.GUI.UnitButton;
 import com.timgapps.warfare.Tools.WorldContactListener;
-import com.timgapps.warfare.Units.Enemy.EnemyUnit;
-import com.timgapps.warfare.Units.Enemy.Zombie1;
-import com.timgapps.warfare.Units.Player.Archer1;
-import com.timgapps.warfare.Units.Player.Gnome;
+import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnit;
+import com.timgapps.warfare.Units.GameUnits.Enemy.Zombie1;
+import com.timgapps.warfare.Units.GameUnits.Player.Archer1;
+import com.timgapps.warfare.Units.GameUnits.Player.Gnome;
 import com.timgapps.warfare.Utils.Setting;
 import com.timgapps.warfare.Warfare;
 
@@ -26,11 +27,14 @@ public class Level extends StageGame {
     private float accumulator;
     public static final float STEP = 1 / 55f;
     private ArrayList<EnemyUnit> arrayEnemies;
+    public ArrayList<Actor> arrayActors;
 
     private float timeCount = 0;
 
     public Level() {
         setBackGround("level_bg");
+        arrayEnemies = new ArrayList<EnemyUnit>();
+        arrayActors = new ArrayList<Actor>();
         world = new World(new Vector2(0, 0), true);
         world.setContactListener(new WorldContactListener()); // присваиваем слушатель ContactListener, который регистрирует событие столкновения в игровом мире
         debugRender = new Box2DDebugRenderer(); // объект debugRendered будем использовать для отладки игрового мира, он позволяет выделить границы полигона
@@ -46,7 +50,7 @@ public class Level extends StageGame {
 //        Zombie1 zombie4 = new Zombie1(this, 870, 120 + (random.nextFloat() * 150), 50, 10);
 //        Zombie zombie5 = new Zombie(this, 930, 150 + (random.nextFloat() * 150) + 20, 50, 10);
         accumulator = 0;
-        arrayEnemies = new ArrayList<EnemyUnit>();
+
         arrayEnemies.add(zombie);
         arrayEnemies.add(zombie1);
         arrayEnemies.add(zombie2);
@@ -116,7 +120,6 @@ public class Level extends StageGame {
     @Override
     protected void update(float delta) {
         super.update(delta);
-        compareActorsYPos();
 
         timeCount += delta;
 
@@ -126,6 +129,8 @@ public class Level extends StageGame {
             world.step(STEP, 8, 6);
             accumulator -= STEP;
         }
+
+        compareActorsYPos();
     }
 
     public void addGnome() {
@@ -138,27 +143,60 @@ public class Level extends StageGame {
 
     public void compareActorsYPos() {
 
-        try {
-            ArrayList<EnemyUnit> gameActors = arrayEnemies;
-            boolean needIteration = true;
-            while (needIteration) {
-                needIteration = false;
-                for (int i = 1; i < gameActors.size(); i++) {
-//            gameActors.get(i);
 
-                    if (gameActors.get(i).getY() > gameActors.get(i - 1).getY() &&
-                            (gameActors.get(i).getZIndex() > gameActors.get(i - 1).getZIndex())) {
-                        int buf = gameActors.get(i).getZIndex();
-                        gameActors.get(i).setZIndex(gameActors.get(i - 1).getZIndex());
-                        gameActors.get(i).setDraw(false);
-                        gameActors.get(i - 1).setZIndex(buf);
-                        gameActors.get(i - 1).setDraw(false);
-                        needIteration = true;
+//        try {
+        if (arrayActors.size() > 1) {
+            ArrayList<Actor> gameActors = arrayActors;
+//            ArrayList<Actor> gameActors = arrayActors;
+            boolean sorted = false;
+            int tempZIndex;
+            Actor tempActor;
+            while (!sorted) {
+                sorted = true;
+                for (int i = 0; i < gameActors.size() - 1; i++) {
+                    if (gameActors.get(i).getZIndex() < gameActors.get(i + 1).getZIndex()) {
+                        if (gameActors.get(i).getY() < gameActors.get(i + 1).getY()) {
+                            tempZIndex = gameActors.get(i).getZIndex();
+                            gameActors.get(i).setZIndex(gameActors.get(i + 1).getZIndex());
+                            gameActors.get(i + 1).setZIndex(tempZIndex);
+
+                            tempActor = gameActors.get(i);
+
+                            gameActors.set(i, gameActors.get(i + 1));
+                            gameActors.set(i + 1, tempActor);
+                            sorted = false;
+                        }
                     }
                 }
             }
-        } catch (Exception e) {
-            return;
         }
+//        } catch (Exception e) {
+//            return;
+//        }
+
+
+//        try {
+//
+////            ArrayList<EnemyUnit> gameActors = arrayEnemies;
+//            boolean needIteration = true;
+//            while (needIteration) {
+//                needIteration = false;
+//                for (int i = 1; i < gameActors.size(); i++) {
+//
+//                    System.out.println(gameActors.toString());
+//                    if ((gameActors.get(i).getY() > gameActors.get(i - 1).getY())
+//                            && (gameActors.get(i).getZIndex() > gameActors.get(i - 1).getZIndex())) {
+//                        int buf = gameActors.get(i).getZIndex();
+//                        gameActors.get(i).setZIndex(gameActors.get(i - 1).getZIndex());
+//                        gameActors.get(i - 1).setZIndex(buf);
+//                        needIteration = true;
+//                    }
+//
+//
+//                }
+//            }
+//        } catch (Exception e) {
+//            return;
+//        }
     }
 }

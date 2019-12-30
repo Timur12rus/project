@@ -1,4 +1,4 @@
-package com.timgapps.warfare.Units.Enemy;
+package com.timgapps.warfare.Units.GameUnits.Enemy;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -13,8 +13,8 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.timgapps.warfare.Level.Level;
-import com.timgapps.warfare.Units.GameUnit;
-import com.timgapps.warfare.Units.Player.PlayerUnit;
+import com.timgapps.warfare.Units.GameUnits.GameUnit;
+import com.timgapps.warfare.Units.GameUnits.Player.PlayerUnit;
 import com.timgapps.warfare.Warfare;
 
 import java.util.Random;
@@ -56,31 +56,32 @@ public class Zombie extends EnemyUnit {
         bloodSpray.load(Gdx.files.internal("effects/bloodSpray.paty"), Gdx.files.internal("effects/")); //file);     //Air2.paty
         createAnimations();     // создадим анимации для различных состояний персонажа
         level.addChild(this, x, y);
-        createBody(x, y);
+//        createBody(x, y);
         stateTime = 0;
         currentState = State.WALKING;
+        level.arrayActors.add(this);
     }
 
 
-    @Override
-    public void createBody(float x, float y) {
-
-        BodyDef def = new BodyDef();
-        def.type = BodyDef.BodyType.DynamicBody;
-        body = world.createBody(def);
-
-        FixtureDef fDef = new FixtureDef();
-        PolygonShape shape = new PolygonShape();
-        shape.setAsBox(12 / Level.WORLD_SCALE, 12 / Level.WORLD_SCALE);
-        fDef.filter.categoryBits = GameUnit.ENEMY_BIT;
-        fDef.filter.maskBits = GameUnit.PLAYER_BIT | GameUnit.BULLET_BIT;
-
-        fDef.shape = shape;
-        body.createFixture(fDef).setUserData(this);
-        shape.dispose();
-
-        body.setTransform((x) / Level.WORLD_SCALE, y / Level.WORLD_SCALE, 0);
-    }
+//    @Override
+//    public void createBody(float x, float y) {
+//
+//        BodyDef def = new BodyDef();
+//        def.type = BodyDef.BodyType.DynamicBody;
+//        body = world.createBody(def);
+//
+//        FixtureDef fDef = new FixtureDef();
+//        PolygonShape shape = new PolygonShape();
+//        shape.setAsBox(12 / Level.WORLD_SCALE, 12 / Level.WORLD_SCALE);
+//        fDef.filter.categoryBits = GameUnit.ENEMY_BIT;
+//        fDef.filter.maskBits = GameUnit.PLAYER_BIT | GameUnit.BULLET_BIT;
+//
+//        fDef.shape = shape;
+//        body.createFixture(fDef).setUserData(this);
+//        shape.dispose();
+//
+//        body.setTransform((x) / Level.WORLD_SCALE, y / Level.WORLD_SCALE, 0);
+//    }
 
 
     public void draw(Batch batch, float parentAlpha) {

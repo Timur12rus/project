@@ -8,8 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.timgapps.warfare.Level.Level;
-import com.timgapps.warfare.Units.Player.Archer1;
-import com.timgapps.warfare.Units.Player.Gnome;
+import com.timgapps.warfare.Units.GameUnits.Player.Archer1;
+import com.timgapps.warfare.Units.GameUnits.Player.Gnome;
 import com.timgapps.warfare.Warfare;
 
 public class UnitButton extends Group {

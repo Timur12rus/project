@@ -592,6 +592,13 @@ zombie1Walk1
   orig: 152, 102
   offset: 0, 0
   index: -1
+zombie1Walk3
+  rotate: false
+  xy: 1383, 658
+  size: 152, 102
+  orig: 152, 102
+  offset: 0, 0
+  index: -1
 zombie1Walk4
   rotate: false
   xy: 1383, 658
@@ -600,13 +607,6 @@ zombie1Walk4
   offset: 0, 0
   index: -1
 zombie1Walk2
-  rotate: false
-  xy: 613, 558
-  size: 152, 102
-  orig: 152, 102
-  offset: 0, 0
-  index: -1
-zombie1Walk3
   rotate: false
   xy: 613, 558
   size: 152, 102
