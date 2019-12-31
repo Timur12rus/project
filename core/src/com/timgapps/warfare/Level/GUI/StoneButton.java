@@ -13,6 +13,10 @@ public class StoneButton extends UnitButton {
 
     private Image greenTarget, redTarget;
     private float posX, posY;
+    private final float Y_MIN = 100;
+    private final float Y_MAX = 280;
+    private final float X_MIN = -680;
+    private final float X_MAX = 220;
 
     public StoneButton(final Level level, Image activeImage, Image inactiveImage, TypeOfUnit typeOfUnit) {
         super(level, activeImage, inactiveImage, typeOfUnit);
@@ -31,21 +35,39 @@ public class StoneButton extends UnitButton {
                 super.touchDragged(event, x, y, pointer);
                 greenTarget.setVisible(true);
                 greenTarget.setPosition(x, y);
+                redTarget.setPosition(x, y);
+                checkTargetCoordinates(x, y);
             }
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchUp(event, x, y, pointer, button);
-//                greenTarget.setVisible(false);
-//                greenTarget.setPosition(0, 0);
-                throwStone(level, x + getX() + greenTarget.getWidth() / 2, y, 10);
+
+                if (greenTarget.isVisible())
+                    throwStone(level, x + getX() + greenTarget.getWidth() / 2, y, 5);
+                greenTarget.setVisible(false);
+                redTarget.setVisible(false);
+                greenTarget.setPosition(0, 0);
+                redTarget.setPosition(0, 0);
+
             }
         });
 
     }
 
+    private void checkTargetCoordinates(float x, float y) {
+        if (x < X_MIN || x > X_MAX || y < Y_MIN || y > Y_MAX) {
+            System.out.println("x = " + x);
+            greenTarget.setVisible(false);
+            redTarget.setVisible(true);
+        } else {
+            greenTarget.setVisible(true);
+            redTarget.setVisible(false);
+        }
+    }
+
     private void throwStone(Level level, float x, float y, float damage) {
-        new Stone(level, x, y + 600, damage, 12 + y + greenTarget.getHeight() / 2);
+        new Stone(level, x, y + 600, damage, 14 + y + greenTarget.getHeight() / 2);
     }
 
     private void inactiveTargetImages() {

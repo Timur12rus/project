@@ -20,39 +20,40 @@ public class WorldContactListener implements ContactListener {
 
         switch (cDef) {
             case GameUnit.PLAYER_BIT | GameUnit.ENEMY_BIT:
-                if (fixA.getFilterData().categoryBits == GameUnit.PLAYER_BIT) {
-
-                    Object userData = fixA.getUserData();
-                    Object enemyUserData = fixB.getUserData();
-                    if (userData instanceof PlayerUnit) {
-                        if (((PlayerUnit) userData).getCurrentState() != GameUnit.State.ATTACK) {
-                            ((PlayerUnit) userData).attack();
-                            ((PlayerUnit) userData).setTargetEnemy((EnemyUnit) enemyUserData);
-                        } else return;
-                    }
-                    if (enemyUserData instanceof EnemyUnit) {
-                        if (((EnemyUnit) enemyUserData).getCurrentState() != GameUnit.State.ATTACK) {
-                            ((EnemyUnit) enemyUserData).attack();
-                            ((EnemyUnit) enemyUserData).setTargetPlayer((PlayerUnit) userData);
-                        } else return;
-                    }
-                } else {
-                    Object userData = fixB.getUserData();
-                    Object enemyUserData = fixA.getUserData();
-                    if (userData instanceof PlayerUnit) {
-                        if (((PlayerUnit) userData).getCurrentState() != GameUnit.State.ATTACK) {
-                            ((PlayerUnit) userData).attack();
-                            ((PlayerUnit) userData).setTargetEnemy((EnemyUnit) enemyUserData);
-                        } else return;
-                    }
+                checkPlayerToEnemyCollision(fixA, fixB);
+//                if (fixA.getFilterData().categoryBits == GameUnit.PLAYER_BIT) {
+//
+//                    Object userData = fixA.getUserData();
+//                    Object enemyUserData = fixB.getUserData();
+//                    if (userData instanceof PlayerUnit) {
+//                        if (((PlayerUnit) userData).getCurrentState() != GameUnit.State.ATTACK) {
+//                            ((PlayerUnit) userData).attack();
+//                            ((PlayerUnit) userData).setTargetEnemy((EnemyUnit) enemyUserData);
+//                        } else return;
+//                    }
+//                    if (enemyUserData instanceof EnemyUnit) {
+//                        if (((EnemyUnit) enemyUserData).getCurrentState() != GameUnit.State.ATTACK) {
+//                            ((EnemyUnit) enemyUserData).attack();
+//                            ((EnemyUnit) enemyUserData).setTargetPlayer((PlayerUnit) userData);
+//                        } else return;
+//                    }
+//                } else {
+//                    Object userData = fixB.getUserData();
 //                    Object enemyUserData = fixA.getUserData();
-                    if (enemyUserData instanceof EnemyUnit) {
-                        if (((EnemyUnit) enemyUserData).getCurrentState() != GameUnit.State.ATTACK) {
-                            ((EnemyUnit) enemyUserData).attack();
-                            ((EnemyUnit) enemyUserData).setTargetPlayer((PlayerUnit) userData);
-                        } else return;
-                    }
-                }
+//                    if (userData instanceof PlayerUnit) {
+//                        if (((PlayerUnit) userData).getCurrentState() != GameUnit.State.ATTACK) {
+//                            ((PlayerUnit) userData).attack();
+//                            ((PlayerUnit) userData).setTargetEnemy((EnemyUnit) enemyUserData);
+//                        } else return;
+//                    }
+////                    Object enemyUserData = fixA.getUserData();
+//                    if (enemyUserData instanceof EnemyUnit) {
+//                        if (((EnemyUnit) enemyUserData).getCurrentState() != GameUnit.State.ATTACK) {
+//                            ((EnemyUnit) enemyUserData).attack();
+//                            ((EnemyUnit) enemyUserData).setTargetPlayer((PlayerUnit) userData);
+//                        } else return;
+//                    }
+//                }
                 break;
             case GameUnit.BULLET_BIT | GameUnit.ENEMY_BIT:
                 if (fixA.getFilterData().categoryBits == GameUnit.BULLET_BIT) {
@@ -115,5 +116,41 @@ public class WorldContactListener implements ContactListener {
     @Override
     public void postSolve(Contact contact, ContactImpulse impulse) {
 
+    }
+
+    private void checkPlayerToEnemyCollision(Fixture fixA, Fixture fixB) {
+        if (fixA.getFilterData().categoryBits == GameUnit.PLAYER_BIT) {
+
+            Object userData = fixA.getUserData();
+            Object enemyUserData = fixB.getUserData();
+            if (userData instanceof PlayerUnit) {
+                if (((PlayerUnit) userData).getCurrentState() != GameUnit.State.ATTACK) {
+                    ((PlayerUnit) userData).attack();
+                    ((PlayerUnit) userData).setTargetEnemy((EnemyUnit) enemyUserData);
+                } else return;
+            }
+            if (enemyUserData instanceof EnemyUnit) {
+                if (((EnemyUnit) enemyUserData).getCurrentState() != GameUnit.State.ATTACK) {
+                    ((EnemyUnit) enemyUserData).attack();
+                    ((EnemyUnit) enemyUserData).setTargetPlayer((PlayerUnit) userData);
+                } else return;
+            }
+        } else {
+            Object userData = fixB.getUserData();
+            Object enemyUserData = fixA.getUserData();
+            if (userData instanceof PlayerUnit) {
+                if (((PlayerUnit) userData).getCurrentState() != GameUnit.State.ATTACK) {
+                    ((PlayerUnit) userData).attack();
+                    ((PlayerUnit) userData).setTargetEnemy((EnemyUnit) enemyUserData);
+                } else return;
+            }
+//                    Object enemyUserData = fixA.getUserData();
+            if (enemyUserData instanceof EnemyUnit) {
+                if (((EnemyUnit) enemyUserData).getCurrentState() != GameUnit.State.ATTACK) {
+                    ((EnemyUnit) enemyUserData).attack();
+                    ((EnemyUnit) enemyUserData).setTargetPlayer((PlayerUnit) userData);
+                } else return;
+            }
+        }
     }
 }

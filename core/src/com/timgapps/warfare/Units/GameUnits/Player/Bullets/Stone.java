@@ -23,7 +23,7 @@ public class Stone extends Bullet {
 
     private float targetY;
     private TextureRegion image;
-    private final float VELOCITY = 5;
+    private final float VELOCITY = -14;
     private float damage;
 
     private Rectangle stoneRectangle;
@@ -32,57 +32,91 @@ public class Stone extends Bullet {
     private Vector2 velocity;
     private Vector2 position;
     private boolean isDebug = true;
+    private boolean isDestroyed = false;
 
+    private boolean moveIsEnd = false;
+    private boolean isDamaged = false;
 
     public Stone(Level level, float x, float y, float damage, float targetY) {
         super(level, x, y);
         this.targetY = targetY;
         this.damage = damage;
 
-//        stoneRectangle = new Rectangle(); // прямоугльник для проверки столкновения с игровыми юнитами
+        stoneRectangle = new Rectangle(); // прямоугльник для проверки столкновения с игровыми юнитами
 
         image = new TextureRegion(Warfare.atlas.findRegion("block1"));
 
+        body = createBody(x, y - 300);
+
+        stoneRectangle.setSize(image.getRegionWidth(), 12);
 //        stoneRectangle.setSize(image.getRegionWidth(), 10);
+        stoneRectangle.setPosition(x - image.getRegionWidth() / 2, y);
+
+        shapeRenderer = new ShapeRenderer();
+
+        velocity = new Vector2(0, VELOCITY);
+        position = new Vector2(x - image.getRegionWidth() / 2, y);
 
         level.addChild(this);
         level.arrayActors.add(this);
-        body.setLinearVelocity(0, -VELOCITY);
+
+
+//        body.setLinearVelocity(0, VELOCITY);
     }
 
     @Override
     public void act(float delta) {
-        super.act(delta);
+//        super.act(delta);
 
 
-        if (body.getPosition().y * Level.WORLD_SCALE < targetY) {
-            body.setLinearVelocity(0, 0);
+//        if (body.getPosition().y * Level.WORLD_SCALE < targetY) {
+//            body.setLinearVelocity(0, 0);
+//        }
+//
+//        body.setAngularVelocity(0);
+
+        if (!body.isActive() && isDestroyed) {
+            world.destroyBody(body);
+            this.remove();
         }
 
-        body.setAngularVelocity(0);
+        /** изменим позицию нашего актреа **/
+        if ((position.y < targetY)) {
 
-//        /** изменим позицию нашего актреа **/
+            if (moveIsEnd && !isDamaged) {
+                body.setTransform((getX() + 20) / Level.WORLD_SCALE, (getY() + 10) / Level.WORLD_SCALE, 0);
+            }
+            if (!moveIsEnd)
+                checkCollisionEnemyUnit();
+
+        } else {
+            position.add(velocity);
+        }
+
 //        if (position.y < targetY) {
-//            checkCollisionEnemyUnit();
-//
-//        } else {
-//            position.add(velocity);
+//            body.setTransform((getX() + 20) / Level.WORLD_SCALE, (getY() + 10) / Level.WORLD_SCALE, 0);
+//            System.out.println("bodyY = " + body.getPosition().y * Level.WORLD_SCALE);
 //        }
 
-//        /** изменим позицию нашего прямоугольника для определения коллизий **/
-//        stoneRectangle.setPosition(position.x, position.y);
-//        setPosition(position.x, position.y);
+        /** изменим позицию нашего прямоугольника для определения коллизий **/
+        stoneRectangle.setPosition(position.x, position.y);
+        setPosition(position.x, position.y);
     }
 
     private void checkCollisionEnemyUnit() {
         ArrayList<EnemyUnit> arrayEnemies = level.getArrayEnemies();
         for (int i = 0; i < arrayEnemies.size(); i++) {
 
-//            if (Intersector.overlaps(stoneRectangle, arrayEnemies.get(i).getRectangle())) {
-//                arrayEnemies.get(i).setHealth(damage);
-//                stoneRectangle.setSize(0,0);
-////                this.remove();
-//            }
+            if (Intersector.overlaps(stoneRectangle, arrayEnemies.get(i).getRectangle())) {
+                arrayEnemies.get(i).setHealth(damage);
+                isDamaged = true;
+                isDestroyed = true;
+                body.setActive(false);
+
+
+            } else {
+                moveIsEnd = true;
+            }
 
         }
     }
@@ -91,17 +125,17 @@ public class Stone extends Bullet {
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
 
-        batch.draw(image, getX() - 20, getY() - 20);
+//        batch.draw(image, getX() - 20, getY() - 20);
+        batch.draw(image, getX(), getY());
 
-//        if (isDebug) {
-//            batch.end();
-//            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-//            shapeRenderer.setColor(Color.RED);
-//            shapeRenderer.rect(getX(), getY(), stoneRectangle.width, stoneRectangle.height);
-//            shapeRenderer.end();
-//            batch.begin();
-//        }
-
+        if (isDebug) {
+            batch.end();
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+            shapeRenderer.setColor(Color.RED);
+            shapeRenderer.rect(getX(), getY(), stoneRectangle.width, stoneRectangle.height);
+            shapeRenderer.end();
+            batch.begin();
+        }
     }
 
     @Override
@@ -114,17 +148,17 @@ public class Stone extends Bullet {
 
         FixtureDef fDef = new FixtureDef();
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(20 / Level.WORLD_SCALE, 20 / Level.WORLD_SCALE);
+        shape.setAsBox(20 / Level.WORLD_SCALE, 6 / Level.WORLD_SCALE);
 
         fDef.shape = shape;
-        fDef.filter.categoryBits = GameUnit.BULLET_BIT;
+        fDef.filter.categoryBits = GameUnit.STONE_BIT;
         fDef.filter.maskBits = GameUnit.ENEMY_BIT;
-        fDef.density = 0.01f;
+        fDef.density = 10f;
 
         body.createFixture(fDef);
         shape.dispose();
-//        body.setAngularDamping(0);
-//        body.setLinearDamping(0);
+        body.setAngularDamping(0);
+        body.setLinearDamping(0);
         body.setTransform(x / Level.WORLD_SCALE, y / Level.WORLD_SCALE, 0);
         return body;
     }

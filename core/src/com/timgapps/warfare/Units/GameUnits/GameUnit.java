@@ -1,5 +1,9 @@
 package com.timgapps.warfare.Units.GameUnits;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
@@ -11,6 +15,10 @@ import com.timgapps.warfare.Units.GameUnits.Interfaces.IBody;
 import com.timgapps.warfare.Units.GameUnits.Player.Gnome;
 
 public abstract class GameUnit extends Actor implements IBody {
+
+    protected Rectangle bodyRectangle;
+    protected Vector2 bodyRectanglePosition;
+
     protected World world;
     protected float health;
     protected float damage;
@@ -20,9 +28,13 @@ public abstract class GameUnit extends Actor implements IBody {
 
     protected Vector2 velocity;
 
+    protected ShapeRenderer shapeRenderer;
+    protected boolean isDebug = true;
+
     public static final short PLAYER_BIT = 1;
     public static final short ENEMY_BIT = 2;
     public static final short BULLET_BIT = 4;
+    public static final short STONE_BIT = 4;
 
     protected Body body;
 
@@ -43,6 +55,14 @@ public abstract class GameUnit extends Actor implements IBody {
         isDraw = true;              // isDraw = true - значит отрисовывается актёр
 
         currentState = State.STAY;
+
+        bodyRectangle = new Rectangle();
+        bodyRectanglePosition = new Vector2(x, y);          // позиция прямоугольника "тела"
+
+
+        if (isDebug) {                                      // проверим, если true отрисовываем прямоугольник "тело"
+            shapeRenderer = new ShapeRenderer();
+        }
     }
 
     public Vector2 getBodyPosition() {
@@ -107,6 +127,20 @@ public abstract class GameUnit extends Actor implements IBody {
         return health;
     }
 
+
+    @Override
+    public void draw(Batch batch, float parentAlpha) {
+        super.draw(batch, parentAlpha);
+
+        if (isDebug) {
+            batch.end();
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+            shapeRenderer.setColor(Color.RED);
+            shapeRenderer.rect(bodyRectangle.getX(), bodyRectangle.getY(), bodyRectangle.getWidth(), bodyRectangle.getHeight());
+            shapeRenderer.end();
+            batch.begin();
+        }
+    }
 }
 
 

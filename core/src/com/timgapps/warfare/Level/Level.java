@@ -5,6 +5,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.utils.Array;
 import com.boontaran.games.StageGame;
 import com.timgapps.warfare.Level.GUI.StoneButton;
 import com.timgapps.warfare.Level.GUI.UnitButton;
@@ -43,8 +44,8 @@ public class Level extends StageGame {
         /** Добавим вражеских юнитов **/
 //        Random random = new Random();
         Zombie1 zombie = new Zombie1(this, 800, 250, 20, 10);
-        Zombie1 zombie1 = new Zombie1(this, 1300, 300, 20, 10);
-        Zombie1 zombie2 = new Zombie1(this, 1100, 350, 20, 10);
+        Zombie1 zombie1 = new Zombie1(this, 1300, 230, 20, 10);
+        Zombie1 zombie2 = new Zombie1(this, 1100, 170, 20, 10);
         Zombie1 zombie3 = new Zombie1(this, 900, 200, 20, 10);
 //        Zombie1 zombie3 = new Zombie1(this, 900, 120 + (random.nextFloat() * 150) + 30, 20, 10);
 //        Zombie1 zombie4 = new Zombie1(this, 870, 120 + (random.nextFloat() * 150), 50, 10);
@@ -144,16 +145,42 @@ public class Level extends StageGame {
     public void compareActorsYPos() {
 
 
-//        try {
+        /** Полностью рабочий код, но с ошиблкой Zindex cannot be < 0 **/
+//        if (arrayActors.size() > 1) {
+//            ArrayList<Actor> gameActors = arrayActors;
+////            ArrayList<Actor> gameActors = arrayActors;
+//            boolean sorted = false;
+//            int tempZIndex;
+//            Actor tempActor;
+//            while (!sorted) {
+//                sorted = true;
+//                for (int i = 0; i < gameActors.size() - 1; i++) {
+//                    if (gameActors.get(i).getZIndex() < gameActors.get(i + 1).getZIndex()) {
+//                        if (gameActors.get(i).getY() < gameActors.get(i + 1).getY()) {
+//                            tempZIndex = gameActors.get(i).getZIndex();
+//                            gameActors.get(i).setZIndex(gameActors.get(i + 1).getZIndex());
+//                            gameActors.get(i + 1).setZIndex(tempZIndex);
+//
+//                            tempActor = gameActors.get(i);
+//
+//                            gameActors.set(i, gameActors.get(i + 1));
+//                            gameActors.set(i + 1, tempActor);
+//                            sorted = false;
+//                        }
+//                    }
+//                }
+//            }
+//        }
+
         if (arrayActors.size() > 1) {
-            ArrayList<Actor> gameActors = arrayActors;
+            Array<Actor> gameActors = stage.getActors();
 //            ArrayList<Actor> gameActors = arrayActors;
             boolean sorted = false;
             int tempZIndex;
             Actor tempActor;
             while (!sorted) {
                 sorted = true;
-                for (int i = 0; i < gameActors.size() - 1; i++) {
+                for (int i = 0; i < gameActors.size - 1; i++) {
                     if (gameActors.get(i).getZIndex() < gameActors.get(i + 1).getZIndex()) {
                         if (gameActors.get(i).getY() < gameActors.get(i + 1).getY()) {
                             tempZIndex = gameActors.get(i).getZIndex();
@@ -170,6 +197,8 @@ public class Level extends StageGame {
                 }
             }
         }
+
+
 //        } catch (Exception e) {
 //            return;
 //        }

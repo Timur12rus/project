@@ -15,7 +15,7 @@ import com.timgapps.warfare.Units.GameUnits.Player.PlayerUnit;
 
 public class EnemyUnit extends GameUnit {
 
-    protected Rectangle rectangle;
+    //    protected Rectangle rectangle;
     private ShapeRenderer shapeRenderer;
 
     public void setDraw(boolean draw) {
@@ -33,6 +33,7 @@ public class EnemyUnit extends GameUnit {
     public EnemyUnit(Level level, float x, float y, float health, float damage) {
         super(level, x, y, health, damage);
 
+        bodyRectangle.setSize(48, 16);
         if (isDebug) {
             shapeRenderer = new ShapeRenderer();
         }
@@ -42,7 +43,10 @@ public class EnemyUnit extends GameUnit {
     public void act(float delta) {
         super.act(delta);
         /** обновим позицию текущего игрового объекта **/
-        setPosition(body.getPosition().x * Level.WORLD_SCALE - 18, body.getPosition().y * Level.WORLD_SCALE);
+        setPosition(body.getPosition().x * Level.WORLD_SCALE - 24, body.getPosition().y * Level.WORLD_SCALE - 8);
+
+        /** Обновим позицию прямоугльника "тела", который служит для определения столкновений с камнем **/
+        bodyRectangle.setPosition(getX(), getY());
     }
 
     @Override
@@ -61,7 +65,7 @@ public class EnemyUnit extends GameUnit {
         Body body = world.createBody(def);
 
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(28 / Level.WORLD_SCALE, 8 / Level.WORLD_SCALE);
+        shape.setAsBox(24 / Level.WORLD_SCALE, 8 / Level.WORLD_SCALE);
 
         FixtureDef fDef = new FixtureDef();
         fDef.shape = shape;
@@ -81,7 +85,7 @@ public class EnemyUnit extends GameUnit {
     }
 
     public Rectangle getRectangle() {
-        return rectangle;
+        return bodyRectangle;
     }
 
 

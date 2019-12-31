@@ -94,27 +94,27 @@ public class Zombie1 extends EnemyUnit {
 
         if (isDraw()) {
             if (currentState == Zombie.State.WALKING) {
-                batch.draw((TextureRegion) walkAnimation.getKeyFrame(stateTime, true), getX() - 82, getY() - 12);
+                batch.draw((TextureRegion) walkAnimation.getKeyFrame(stateTime, true), getX() - 82, getY() - 6);
             }
 
             if (currentState == Zombie.State.ATTACK) {
-                batch.draw((TextureRegion) attackAnimation.getKeyFrame(stateTime, false), getX() - 82, getY() - 12);
+                batch.draw((TextureRegion) attackAnimation.getKeyFrame(stateTime, false), getX() - 82, getY() - 6);
             }
 
             if (currentState == Zombie.State.STAY) {
-                batch.draw((TextureRegion) stayAnimation.getKeyFrame(stateTime, true), getX() - 82, getY() - 12);
+                batch.draw((TextureRegion) stayAnimation.getKeyFrame(stateTime, true), getX() - 82, getY() - 6);
             }
 
             if (currentState == Zombie.State.RUN) {
-                batch.draw((TextureRegion) runAnimation.getKeyFrame(stateTime, true), getX() - 82, getY() - 12);
+                batch.draw((TextureRegion) runAnimation.getKeyFrame(stateTime, true), getX() - 82, getY() - 6);
             }
 
             if (currentState == Zombie.State.HART) {
-                batch.draw((TextureRegion) hartAnimation.getKeyFrame(stateTime, false), getX() - 82, getY() - 12);
+                batch.draw((TextureRegion) hartAnimation.getKeyFrame(stateTime, false), getX() - 82, getY() - 6);
             }
 
             if (currentState == Zombie.State.DIE) {
-                batch.draw((TextureRegion) dieAnimation.getKeyFrame(stateTime, false), getX() - 82, getY() - 12);
+                batch.draw((TextureRegion) dieAnimation.getKeyFrame(stateTime, false), getX() - 82, getY() - 14);
             }
         } else setDraw(true);
         if (isDamaged)
