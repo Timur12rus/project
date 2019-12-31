@@ -34,7 +34,7 @@ public abstract class GameUnit extends Actor implements IBody {
     public static final short PLAYER_BIT = 1;
     public static final short ENEMY_BIT = 2;
     public static final short BULLET_BIT = 4;
-    public static final short STONE_BIT = 4;
+    public static final short STONE_BIT = 8;
 
     protected Body body;
 
@@ -140,6 +140,10 @@ public abstract class GameUnit extends Actor implements IBody {
             shapeRenderer.end();
             batch.begin();
         }
+    }
+
+    public float getDamage() {
+        return damage;
     }
 }
 

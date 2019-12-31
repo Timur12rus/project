@@ -36,6 +36,7 @@ public class Stone extends Bullet {
 
     private boolean moveIsEnd = false;
     private boolean isDamaged = false;
+    private float health = 5;
 
     public Stone(Level level, float x, float y, float damage, float targetY) {
         super(level, x, y);
@@ -46,7 +47,6 @@ public class Stone extends Bullet {
 
         image = new TextureRegion(Warfare.atlas.findRegion("block1"));
 
-        body = createBody(x, y - 300);
 
         stoneRectangle.setSize(image.getRegionWidth(), 12);
 //        stoneRectangle.setSize(image.getRegionWidth(), 10);
@@ -60,6 +60,7 @@ public class Stone extends Bullet {
         level.addChild(this);
         level.arrayActors.add(this);
 
+        body = createBody(x, y - 300);
 
 //        body.setLinearVelocity(0, VELOCITY);
     }
@@ -79,6 +80,12 @@ public class Stone extends Bullet {
             world.destroyBody(body);
             this.remove();
         }
+
+        if (health <= 0) {
+            isDestroyed = true;
+            body.setActive(false);
+        }
+
 
         /** изменим позицию нашего актреа **/
         if ((position.y < targetY)) {
@@ -101,6 +108,10 @@ public class Stone extends Bullet {
         /** изменим позицию нашего прямоугольника для определения коллизий **/
         stoneRectangle.setPosition(position.x, position.y);
         setPosition(position.x, position.y);
+    }
+
+    public void setHealth(float damage) {
+        health = -damage;
     }
 
     private void checkCollisionEnemyUnit() {
@@ -155,7 +166,7 @@ public class Stone extends Bullet {
         fDef.filter.maskBits = GameUnit.ENEMY_BIT;
         fDef.density = 10f;
 
-        body.createFixture(fDef);
+        body.createFixture(fDef).setUserData(this);
         shape.dispose();
         body.setAngularDamping(0);
         body.setLinearDamping(0);

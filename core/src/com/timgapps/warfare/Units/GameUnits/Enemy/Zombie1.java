@@ -248,14 +248,9 @@ public class Zombie1 extends EnemyUnit {
 
     private void createAnimations() {
         Array<TextureRegion> frames = new Array<TextureRegion>();
-        // получим кадры и добавим в анимацию ходьбы персонажа
-//        for (int j = 0; j < 2; j++) {
         for (int i = 0; i < 4; i++)
             frames.add(new TextureRegion(Warfare.atlas.findRegion("zombie1Walk" + i)));
         frames.add(new TextureRegion(Warfare.atlas.findRegion("zombie1Walk1")));
-//        frames.add(new TextureRegion(Warfare.atlas.findRegion("zombie1Walk2")));
-//        frames.add(new TextureRegion(Warfare.atlas.findRegion("zombie1Walk3")));
-//        }
 
         walkAnimation = new Animation(0.12f, frames);
         frames.clear();
@@ -279,7 +274,6 @@ public class Zombie1 extends EnemyUnit {
         hartAnimation = new Animation(0.05f, frames);
         frames.clear();
 
-//
         //  получим кадры и добавим в анимацию стоянки персонажа
         for (int j = 0; j < 2; j++) {
             for (int i = 4; i > 0; i--)
@@ -288,9 +282,6 @@ public class Zombie1 extends EnemyUnit {
             frames.add(new TextureRegion(Warfare.atlas.findRegion("zombie1Stay2")));
             frames.add(new TextureRegion(Warfare.atlas.findRegion("zombie1Stay3")));
             frames.add(new TextureRegion(Warfare.atlas.findRegion("zombie1Stay4")));
-//            frames.add(new TextureRegion(Warfare.atlas.findRegion("zombie1Stay2")));
-//            frames.add(new TextureRegion(Warfare.atlas.findRegion("zombie1Stay1")));
-//        frames.add(new TextureRegion(Warfare.atlas.findRegion("zombie1Stay0")));
         }
         stayAnimation = new Animation(0.35f, frames);
         frames.clear();
