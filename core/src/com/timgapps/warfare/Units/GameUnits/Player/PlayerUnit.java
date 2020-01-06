@@ -19,6 +19,8 @@ public class PlayerUnit extends GameUnit {
     protected Animation runAnimation;            // анимация для бежит
     protected Animation hartAnimation;            // анимация для получает урон
 
+    public static int energyPrice;     // количество энергии для рождения юнита
+
     @Override
     public Body createBody(float x, float y) {
         BodyDef def = new BodyDef();
@@ -61,5 +63,9 @@ public class PlayerUnit extends GameUnit {
         super.act(delta);
         /** обновим позицию текущего игрового объекта **/
         setPosition(body.getPosition().x * Level.WORLD_SCALE - 18, body.getPosition().y * Level.WORLD_SCALE);
+    }
+
+    public static int getEnergyPrice() {
+        return energyPrice;
     }
 }

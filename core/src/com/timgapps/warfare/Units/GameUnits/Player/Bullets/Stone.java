@@ -36,7 +36,10 @@ public class Stone extends Bullet {
 
     private boolean moveIsEnd = false;
     private boolean isDamaged = false;
-    private float health = 5;
+    private float health = 50;
+    private static final float APPEARANCE_TIME = 10;
+
+    private static int ENERGY_PRICE = 6;
 
     public Stone(Level level, float x, float y, float damage, float targetY) {
         super(level, x, y);
@@ -111,7 +114,9 @@ public class Stone extends Bullet {
     }
 
     public void setHealth(float damage) {
-        health = -damage;
+        System.out.println("damage = " + damage);
+        health -= damage;
+        System.out.println("health = " + health);
     }
 
     private void checkCollisionEnemyUnit() {
@@ -130,6 +135,10 @@ public class Stone extends Bullet {
             }
 
         }
+    }
+
+    public float getHealth() {
+        return health;
     }
 
     @Override
@@ -172,5 +181,13 @@ public class Stone extends Bullet {
         body.setLinearDamping(0);
         body.setTransform(x / Level.WORLD_SCALE, y / Level.WORLD_SCALE, 0);
         return body;
+    }
+
+    public static float getAppearanceTime() {
+        return APPEARANCE_TIME;
+    }
+
+    public static int getEnergyPrice() {
+        return ENERGY_PRICE;
     }
 }

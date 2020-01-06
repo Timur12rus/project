@@ -12,6 +12,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.timgapps.warfare.Game;
 import com.timgapps.warfare.Level.Level;
 import com.timgapps.warfare.Units.GameUnits.GameUnit;
+import com.timgapps.warfare.Units.GameUnits.Player.Bullets.Stone;
 import com.timgapps.warfare.Units.GameUnits.Player.PlayerUnit;
 
 public class EnemyUnit extends GameUnit {
@@ -31,6 +32,10 @@ public class EnemyUnit extends GameUnit {
 
     private boolean isDraw = true;
 
+    protected boolean isAttackStone = false;
+
+    protected Stone stone;
+
     public EnemyUnit(Level level, float x, float y, float health, float damage) {
         super(level, x, y, health, damage);
 
@@ -40,9 +45,21 @@ public class EnemyUnit extends GameUnit {
         }
     }
 
+
+    public void setAttackStone(Stone stone) {
+        if (!isAttackStone) {
+            isAttackStone = true;
+            this.stone = stone;
+//            System.out.println("isAttackStone = " + isAttackStone);
+//        stone.setHealth(damage);
+        }
+    }
+
     @Override
     public void act(float delta) {
         super.act(delta);
+
+
         /** обновим позицию текущего игрового объекта **/
         setPosition(body.getPosition().x * Level.WORLD_SCALE - 24, body.getPosition().y * Level.WORLD_SCALE - 8);
 

@@ -38,7 +38,8 @@ public class Gnome extends PlayerUnit {
     private boolean isHaveVerticalDirection = false;
 
     private Direction verticalDirectionMovement = Direction.NONE;
-    private static float APPEARANCE_TIME = 15;
+    private static float APPEARANCE_TIME = 10;
+    protected static int ENERGY_PRICE = 15;
 
     public Gnome(Level level, float x, float y, float health, float damage) {
         super(level, x, y, health, damage);
@@ -329,7 +330,13 @@ public class Gnome extends PlayerUnit {
         isHaveVerticalDirection = false;
     }
 
+    public static int getEnergyPrice() {
+        return ENERGY_PRICE;
+    }
+
     public static float getAppearanceTime() {
         return APPEARANCE_TIME;
     }
+
+
 }

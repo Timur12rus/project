@@ -5,7 +5,6 @@ import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnit;
 import com.timgapps.warfare.Units.GameUnits.GameUnit;
 import com.timgapps.warfare.Units.GameUnits.Player.Bullets.Bullet;
@@ -28,7 +27,7 @@ public class WorldContactListener implements ContactListener {
                 checkPlayerBulletToEnemy(fixA, fixB);
                 break;
             case GameUnit.STONE_BIT | GameUnit.ENEMY_BIT:
-                checkStoneToEnemy(fixA, fixB);
+                checkCollisionStoneToEnemy(fixA, fixB);
                 break;
         }
     }
@@ -106,23 +105,24 @@ public class WorldContactListener implements ContactListener {
         }
     }
 
-    private void checkStoneToEnemy(Fixture fixA, Fixture fixB) {
+    /**
+     * Метод для проверки столкновения КАМНЯ ИГРОВОГО ЮНИТА С ВРАЖЕСКИМ ЮНИТОМ
+     **/
+    private void checkCollisionStoneToEnemy(Fixture fixA, Fixture fixB) {
         if (fixA.getFilterData().categoryBits == GameUnit.STONE_BIT) {
 
             Object stoneData = fixA.getUserData();
             Object enemyUserData = fixB.getUserData();
 
             if (((EnemyUnit) enemyUserData).getCurrentState() != GameUnit.State.ATTACK) {
-                ((EnemyUnit) enemyUserData).attack();
-                ((Stone) stoneData).setHealth(((EnemyUnit) enemyUserData).getDamage());
+                ((EnemyUnit) enemyUserData).setAttackStone((Stone) stoneData);
             }
         } else {
             Object stoneData = fixB.getUserData();
             Object enemyUserData = fixA.getUserData();
 
             if (((EnemyUnit) enemyUserData).getCurrentState() != GameUnit.State.ATTACK) {
-                ((EnemyUnit) enemyUserData).attack();
-                ((Stone) stoneData).setHealth(((EnemyUnit) enemyUserData).getDamage());
+                ((EnemyUnit) enemyUserData).setAttackStone((Stone) stoneData);
             }
         }
     }

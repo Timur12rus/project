@@ -14,6 +14,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.timgapps.warfare.Level.Level;
 import com.timgapps.warfare.Units.GameUnits.GameUnit;
+import com.timgapps.warfare.Units.GameUnits.Player.Bullets.Stone;
 import com.timgapps.warfare.Units.GameUnits.Player.PlayerUnit;
 import com.timgapps.warfare.Warfare;
 
@@ -169,15 +170,6 @@ public class Zombie1 extends EnemyUnit {
                 currentState = Zombie.State.WALKING;
         }
 
-//        if (currentState == State.HART && hartAnimation.isAnimationFinished(stateTime)) {
-//            if (isAttack = true) {
-//                currentState = State.ATTACK;
-//            } else {
-//                currentState = State.STAY;
-//            }
-//            stateTime = 0;
-//        }
-
         if (currentState == Zombie.State.WALKING && walkAnimation.isAnimationFinished(stateTime)) {
             Random random = new Random();
             continueWalk = random.nextBoolean();
@@ -192,7 +184,11 @@ public class Zombie1 extends EnemyUnit {
             }
         }
 
-        if (currentState == Zombie.State.ATTACK) {
+
+        /** Здесь проверяем, атакует ли юнит врага
+         * @isAttackStone - флаг, не должен быть true
+         **/
+        if (currentState == Zombie.State.ATTACK && !isAttackStone) {
             stay();
             if (attackAnimation.isAnimationFinished(stateTime)) {
                 stateTime = 0;
@@ -200,6 +196,29 @@ public class Zombie1 extends EnemyUnit {
                 currentState = Zombie.State.STAY;
             }
         }
+
+
+        /** Здесь проверяем, атакует ли юнит камень в данный момент
+         * @isAttackStone - флаг, true - аттакует, false - нет
+         * **/
+        if (isAttackStone && currentState != Zombie.State.ATTACK) {
+            stateTime = 0;
+            currentState = Zombie.State.ATTACK;
+        }
+
+        if (currentState == Zombie.State.ATTACK && isAttackStone) {
+            stay();
+            if (attackAnimation.isAnimationFinished(stateTime)) {
+                stone.setHealth(damage);
+//                isAttackStone = false;
+                if (stone.getHealth() <= 0) {
+                    isAttackStone = false;
+                }
+                stateTime = 0;
+                currentState = Zombie.State.STAY;
+            }
+        }
+
 
         if (currentState == Zombie.State.DIE && dieAnimation.isAnimationFinished(stateTime)) {
             destroy();
@@ -212,8 +231,9 @@ public class Zombie1 extends EnemyUnit {
 
         if (health <= 0 && body.isActive()) {
 //            isDie = true;
-            currentState = Zombie.State.DIE;
+
             stateTime = 0;
+            currentState = Zombie.State.DIE;
             body.setActive(false);
         }
 
@@ -229,6 +249,15 @@ public class Zombie1 extends EnemyUnit {
             stay();
         }
     }
+
+//    public void setAttackStone(Stone stone) {
+//        System.out.println("stoneAttack");
+//        isAttackStone = super.isAttackStone;
+//        System.out.println("isAttackStone = " + isAttackStone);
+////        super.setAttackStone(stone);
+//
+////        stone.setHealth(damage);
+//    }
 
     private void destroy() {
         if (!body.isActive()) {

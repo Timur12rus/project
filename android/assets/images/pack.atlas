@@ -188,9 +188,16 @@ arrow
   index: -1
 block1
   rotate: false
-  xy: 1480, 1086
+  xy: 1020, 550
   size: 42, 42
   orig: 42, 42
+  offset: 0, 0
+  index: -1
+energy_icon
+  rotate: false
+  xy: 1480, 1080
+  size: 48, 48
+  orig: 48, 48
   offset: 0, 0
   index: -1
 gnomeActive

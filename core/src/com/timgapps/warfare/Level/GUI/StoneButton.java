@@ -33,23 +33,25 @@ public class StoneButton extends UnitButton {
             @Override
             public void touchDragged(InputEvent event, float x, float y, int pointer) {
                 super.touchDragged(event, x, y, pointer);
-                greenTarget.setVisible(true);
-                greenTarget.setPosition(x, y);
-                redTarget.setPosition(x, y);
-                checkTargetCoordinates(x, y);
+                if (isActiveUnitButton) {
+                    greenTarget.setVisible(true);
+                    greenTarget.setPosition(x, y);
+                    redTarget.setPosition(x, y);
+                    checkTargetCoordinates(x, y);
+                }
             }
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchUp(event, x, y, pointer, button);
-
-                if (greenTarget.isVisible())
-                    throwStone(level, x + getX() + greenTarget.getWidth() / 2, y, 5);
-                greenTarget.setVisible(false);
-                redTarget.setVisible(false);
-                greenTarget.setPosition(0, 0);
-                redTarget.setPosition(0, 0);
-
+                if (isActiveUnitButton) {
+                    if (greenTarget.isVisible())
+                        throwStone(level, x + getX() + greenTarget.getWidth() / 2, y, 5);
+                    greenTarget.setVisible(false);
+                    redTarget.setVisible(false);
+                    greenTarget.setPosition(0, 0);
+                    redTarget.setPosition(0, 0);
+                }
             }
         });
 
@@ -57,7 +59,7 @@ public class StoneButton extends UnitButton {
 
     private void checkTargetCoordinates(float x, float y) {
         if (x < X_MIN || x > X_MAX || y < Y_MIN || y > Y_MAX) {
-            System.out.println("x = " + x);
+//            System.out.println("x = " + x);
             greenTarget.setVisible(false);
             redTarget.setVisible(true);
         } else {
@@ -67,6 +69,8 @@ public class StoneButton extends UnitButton {
     }
 
     private void throwStone(Level level, float x, float y, float damage) {
+        setInActive();
+        level.setEnergyCount(Stone.getEnergyPrice());
         new Stone(level, x, y + 600, damage, 14 + y + greenTarget.getHeight() / 2);
     }
 

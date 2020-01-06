@@ -7,10 +7,12 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Array;
 import com.boontaran.games.StageGame;
+import com.timgapps.warfare.Level.GUI.HUD;
 import com.timgapps.warfare.Level.GUI.StoneButton;
 import com.timgapps.warfare.Level.GUI.UnitButton;
 import com.timgapps.warfare.Tools.WorldContactListener;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnit;
+import com.timgapps.warfare.Units.GameUnits.Enemy.Zombie;
 import com.timgapps.warfare.Units.GameUnits.Enemy.Zombie1;
 import com.timgapps.warfare.Units.GameUnits.Player.Archer1;
 import com.timgapps.warfare.Units.GameUnits.Player.Gnome;
@@ -31,6 +33,9 @@ public class Level extends StageGame {
     public ArrayList<Actor> arrayActors;
 
     private float timeCount = 0;
+    private HUD hud;
+
+    private float energyCount = 0;
 
     public Level() {
         setBackGround("level_bg");
@@ -47,6 +52,7 @@ public class Level extends StageGame {
         Zombie1 zombie1 = new Zombie1(this, 1300, 230, 20, 10);
         Zombie1 zombie2 = new Zombie1(this, 1100, 170, 20, 10);
         Zombie1 zombie3 = new Zombie1(this, 900, 200, 20, 10);
+        Zombie zombie4 = new Zombie(this, 1200, 200, 20, 10);
 //        Zombie1 zombie3 = new Zombie1(this, 900, 120 + (random.nextFloat() * 150) + 30, 20, 10);
 //        Zombie1 zombie4 = new Zombie1(this, 870, 120 + (random.nextFloat() * 150), 50, 10);
 //        Zombie zombie5 = new Zombie(this, 930, 150 + (random.nextFloat() * 150) + 20, 50, 10);
@@ -56,6 +62,7 @@ public class Level extends StageGame {
         arrayEnemies.add(zombie1);
         arrayEnemies.add(zombie2);
         arrayEnemies.add(zombie3);
+        arrayEnemies.add(zombie4);
 //        arrayEnemies.add(zombie1);
 //        arrayEnemies.add(zombie2);
 //        arrayEnemies.add(zombie3);
@@ -63,6 +70,10 @@ public class Level extends StageGame {
 //        arrayEnemies.add(zombie5);
 
 //        addChild(new Archer1(this, 200, 200, 30, 20));
+
+        hud = new HUD(this);
+        addOverlayChild(hud);
+//        hud.setPosition(32, getHeight() - 64);
 
 
         /** Добавим кнопки для вызова игровых юнитов **/
@@ -122,7 +133,9 @@ public class Level extends StageGame {
     protected void update(float delta) {
         super.update(delta);
 
-        timeCount += delta;
+//        timeCount += delta;
+
+        energyCount += delta;
 
         /** Timur **/
         accumulator += delta;
@@ -227,5 +240,13 @@ public class Level extends StageGame {
 //        } catch (Exception e) {
 //            return;
 //        }
+    }
+
+    public int getEnergyCount() {
+        return (int) energyCount;
+    }
+
+    public void setEnergyCount(float priceEnergy) {
+        this.energyCount -= priceEnergy;
     }
 }

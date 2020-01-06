@@ -32,10 +32,12 @@ public class Archer1 extends PlayerUnit {
 
     private final float ATTACK_DISTANCE = 300;
     private final float VELOCITY = 0.6f;
-    private static float APPEARANCE_TIME = 25;
+    private static float APPEARANCE_TIME = 30;
+    protected static int ENERGY_PRICE = 20;
 
     public Archer1(Level level, float x, float y, float health, float damage) {
         super(level, x, y, health, damage);
+        energyPrice = 20;
         this.level = level;
         this.world = level.getWorld();
 
@@ -297,25 +299,9 @@ public class Archer1 extends PlayerUnit {
 
     }
 
-//    @Override
-//    public Body createBody(float x, float y) {
-//
-//        BodyDef def = new BodyDef();
-//        def.type = BodyDef.BodyType.DynamicBody;
-//        body = world.createBody(def);
-//
-//        PolygonShape shape = new PolygonShape();
-//        shape.setAsBox(12 / Level.WORLD_SCALE, 12 / Level.WORLD_SCALE);
-//
-//        FixtureDef fDef = new FixtureDef();
-//        fDef.shape = shape;
-//        fDef.filter.categoryBits = GameUnit.PLAYER_BIT;
-//        fDef.filter.maskBits = GameUnit.ENEMY_BIT;
-//
-//        body.createFixture(fDef).setUserData(this);
-//        shape.dispose();
-//        body.setTransform((x) / Level.WORLD_SCALE, y / Level.WORLD_SCALE, 0);
-//    }
+    public static int getEnergyPrice() {
+        return ENERGY_PRICE;
+    }
 
     public static float getAppearanceTime() {
         return APPEARANCE_TIME;
