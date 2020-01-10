@@ -45,7 +45,8 @@ public class LevelMap extends StageGame {
         levelIcons.get(0).addListener(iconListener);
 
         for (int i = 2; i < 11; i++) {
-            levelIcons.add(new LevelIcon(2, false));
+            levelIcons.add(new LevelIcon(2, true));
+            levelIcons.get(i - 1).addListener(iconListener);
         }
 
         missionInfo = new MissionInfo();
