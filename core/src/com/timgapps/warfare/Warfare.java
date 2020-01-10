@@ -3,14 +3,15 @@ package com.timgapps.warfare;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.I18NBundle;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.boontaran.games.StageGame;
 import com.timgapps.warfare.Level.Level;
-
-import java.util.Locale;
+import com.timgapps.warfare.Level.LevelMap.LevelMap;
 
 public class Warfare extends Game {
 
@@ -25,6 +26,10 @@ public class Warfare extends Game {
     private I18NBundle bundle;   // для выбора ресурсов в зависимости от локализации использеются класс I18NBundle
     private String path_to_atlas; // в зависимости от локали в переменную path_to_atlas будет возвращаться путь к нужному нам атласу
     private Level level;
+    private LevelMap levelMap;
+
+    private Viewport mViewport;
+    private OrthographicCamera mOrthographicCamera;
 
     public Warfare(GameCallback gameCallback) {    // это конструктор для класса CrazyCatapult с переменной класса GameCallback
         this.gameCallback = gameCallback;
@@ -39,6 +44,11 @@ public class Warfare extends Game {
         StageGame.setAppSize(V_WIDTH, V_HEIGHT);
         batch = new SpriteBatch();
         Gdx.input.setCatchBackKey(true);    // метод setCatchBackKey определяет перехватывать ли кнопку <-Back на устройстве
+
+        mOrthographicCamera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        mViewport = new StretchViewport(V_WIDTH, V_HEIGHT, mOrthographicCamera); // The width and height do not need to be in pixels
+        batch.setProjectionMatrix(mOrthographicCamera.combined);
+
 
 //        Locale locale = Locale.getDefault();
 //        bundle = I18NBundle.createBundle(Gdx.files.internal("MyBundle"), locale); // передаем методу createBundle() путь к  папке с файлами конфигурации, в
@@ -83,12 +93,64 @@ public class Warfare extends Game {
 //        font40 = assetManager.get("font40.ttf", BitmapFont.class);
 //        font10 = assetManager.get("font40.ttf", BitmapFont.class);
 
+        /** Вызываем метод для запуска игрового уровня **/
         showLevel();
+
+        /** Вызываем метод для запуска карты уровней **/
+        showMap();
 //        showIntro();
     }
 
+    private void showMap() {
+        levelMap = new LevelMap();
+        setScreen(levelMap);
+
+        levelMap.setCallback(new StageGame.Callback() {
+
+            @Override
+            public void call(int code) {
+                // отрабатываем действие в зависимости от полученных сообщений
+                if (code == LevelMap.ON_BACK) {
+                    showExit();
+                    hideLevelMap();
+                } else if (code == LevelMap.ON_LEVEL_SELECTED) {
+                    // при получении кода ON_LEVEL_SELECTED вызываем метод открытия уровня
+                    showLevel(levelMap.getSelectedLevelId());
+
+                    hideLevelMap();
+                }
+            }
+        });
+    }
+
+    private void showExit() {
+        System.out.println("EXIT");
+    }
+
+
+    private void showLevel(int id) { // метод показа игрового уровня, передаем идентификатор уровня
+
+        switch (id) {   // создаем уровень на основе идентификатора
+            case 1:
+                level = new Level(1);
+                break;
+            case 2:
+                level = new Level(2);
+                break;
+            default:
+                level = new Level(1);
+                break;
+        }
+
+        setScreen(level);
+    }
+
+    public void hideLevelMap() {
+        levelMap = null;
+    }
+
     private void showLevel() {
-        level = new Level();
+        level = new Level(1);
         setScreen(level);
     }
 }

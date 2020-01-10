@@ -16,14 +16,14 @@ import com.timgapps.warfare.Warfare;
 public class UnitButton extends Group {
     protected Image activeImage;
     protected Image inactiveImage;
-    protected boolean isActiveUnitButton = false;
+    protected boolean isReadyUnitButton = false;
     private Level level;
     protected TextureRegion darkLayer;
     protected float height;
     protected float interpolation;
     protected float appearanceTime;
     protected float percentage = 0;
-    private int energyPrice;
+    protected int energyPrice;
 
     public enum TypeOfUnit {GNOME, ARCHER1, STONE}
 
@@ -49,7 +49,8 @@ public class UnitButton extends Group {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     super.clicked(event, x, y);
-                    if (isActiveUnitButton) {
+                    if ((isReadyUnitButton) && (checkEnergyCount(energyPrice))) {
+                        isReadyUnitButton = false;
                         setInActive();
 //                    level.addGnome();
                         addPlayerUnit(typeOfUnit);
@@ -63,7 +64,7 @@ public class UnitButton extends Group {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
-        if (!isActiveUnitButton) {
+        if (!isReadyUnitButton) {
             batch.setColor(Color.BLACK);
             batch.draw(darkLayer, getX(), getY(), darkLayer.getRegionWidth(), height - percentage);
             batch.setColor(Color.WHITE);
@@ -73,20 +74,24 @@ public class UnitButton extends Group {
     @Override
     public void act(float delta) {
         super.act(delta);
-        if (!isActiveUnitButton) {
-            if (percentage < height) {
+        if (!isReadyUnitButton) {
+            if (percentage < height) {                   // проверяем, прошло ли достаточно времени, чтобы родился юнит
                 percentage += interpolation;
-            } else if (checkEnergyCount(energyPrice)) {
-                setActive();
-            }
-//            else {
-//                setInActive();
+            } else
+//                if (checkEnergyCount(energyPrice)) {  // если времени достаточно для рождения юнита, проверяем хватает ли энергии
+                isReadyUnitButton = true;                             // если энергии хватает, делаем кнопку активной
+//                setActive();                             // если энергии хватает, делаем кнопку активной
 //            }
-        } else if (isActiveUnitButton) {
-            if (!checkEnergyCount(energyPrice))
+        } else
+//            (isReadyUnitButton) {                     //
+            if (checkEnergyCount(energyPrice))
+                setActive();
+            else {
                 setInActive();
-        }
+            }
     }
+
+//}
 
     private void addPlayerUnit(TypeOfUnit typeOfUnit) {
         switch (typeOfUnit) {
@@ -105,17 +110,17 @@ public class UnitButton extends Group {
         percentage = 0;
         activeImage.setVisible(true);
         inactiveImage.setVisible(false);
-        isActiveUnitButton = true;
+//        isReadyUnitButton = true;
     }
 
     public void setInActive() {
         activeImage.setVisible(false);
         inactiveImage.setVisible(true);
-        isActiveUnitButton = false;
+//        isReadyUnitButton = false;
     }
 
     public boolean getUnitButtonStatus() {
-        return isActiveUnitButton;
+        return isReadyUnitButton;
     }
 
     private float setAppearanceTime(TypeOfUnit typeOfUnit) {
@@ -134,7 +139,7 @@ public class UnitButton extends Group {
         return appearanceTime;
     }
 
-    private int setEnergyPrice(TypeOfUnit typeOfUnit) {
+    protected int setEnergyPrice(TypeOfUnit typeOfUnit) {
         int energyPrice = 0;
         switch (typeOfUnit) {
             case GNOME:
@@ -150,7 +155,7 @@ public class UnitButton extends Group {
         return energyPrice;
     }
 
-    private boolean checkEnergyCount(int energyPrice) {
+    protected boolean checkEnergyCount(int energyPrice) {
         if (level.getEnergyCount() >= energyPrice)
             return true;
         else return false;

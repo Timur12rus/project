@@ -17,23 +17,24 @@ public class StoneButton extends UnitButton {
     private final float Y_MAX = 280;
     private final float X_MIN = -680;
     private final float X_MAX = 220;
+//    protected int energyPrice;
 
     public StoneButton(final Level level, Image activeImage, Image inactiveImage, TypeOfUnit typeOfUnit) {
         super(level, activeImage, inactiveImage, typeOfUnit);
         greenTarget = new Image(Warfare.atlas.findRegion("targetGreen"));
         redTarget = new Image(Warfare.atlas.findRegion("targetRed"));
+//        this.energyPrice = setEnergyPrice(typeOfUnit);
 //        posX = x;
 //        posY = y;
         addActor(greenTarget);
         addActor(redTarget);
         inactiveTargetImages();
 
-
         this.addListener(new ClickListener() {
             @Override
             public void touchDragged(InputEvent event, float x, float y, int pointer) {
                 super.touchDragged(event, x, y, pointer);
-                if (isActiveUnitButton) {
+                if (isReadyUnitButton) {
                     greenTarget.setVisible(true);
                     greenTarget.setPosition(x, y);
                     redTarget.setPosition(x, y);
@@ -44,9 +45,11 @@ public class StoneButton extends UnitButton {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchUp(event, x, y, pointer, button);
-                if (isActiveUnitButton) {
-                    if (greenTarget.isVisible())
+                if (isReadyUnitButton) {
+                    if (greenTarget.isVisible()) {
                         throwStone(level, x + getX() + greenTarget.getWidth() / 2, y, 5);
+                        isReadyUnitButton = false;
+                    }
                     greenTarget.setVisible(false);
                     redTarget.setVisible(false);
                     greenTarget.setPosition(0, 0);
@@ -54,7 +57,6 @@ public class StoneButton extends UnitButton {
                 }
             }
         });
-
     }
 
     private void checkTargetCoordinates(float x, float y) {
@@ -92,5 +94,6 @@ public class StoneButton extends UnitButton {
     @Override
     public void act(float delta) {
         super.act(delta);
+        System.out.println("isReadyUnitButton StoneButton" + isReadyUnitButton);
     }
 }

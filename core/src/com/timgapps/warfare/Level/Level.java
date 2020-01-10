@@ -36,8 +36,14 @@ public class Level extends StageGame {
     private HUD hud;
 
     private float energyCount = 0;
+    private float coinCount = 0;
+    private int levelNumber;
 
-    public Level() {
+
+    public Level(int levelNumber) {
+
+        this.levelNumber = levelNumber;
+        System.out.println("Level Number " + levelNumber);
         setBackGround("level_bg");
         arrayEnemies = new ArrayList<EnemyUnit>();
         arrayActors = new ArrayList<Actor>();
@@ -96,18 +102,7 @@ public class Level extends StageGame {
     }
 
     public void removeEnemyUnitFromArray(EnemyUnit unit) {
-        int targetIndex = 0;
-//        for (int i = 0; i < arrayEnemies.size(); i++) {
-//            if (unit.equals(arrayEnemies.get(i))) {
-//                arrayEnemies.remove(i);
-//                System.out.println("remove i= " + i);
-//                System.out.println("break");
-//                break;
-//            }
-//        }
-
         arrayEnemies.remove(unit);
-//        arrayEnemies.remove(i);
     }
 
     private void setBackGround(String region) {
@@ -210,43 +205,23 @@ public class Level extends StageGame {
                 }
             }
         }
-
-
-//        } catch (Exception e) {
-//            return;
-//        }
-
-
-//        try {
-//
-////            ArrayList<EnemyUnit> gameActors = arrayEnemies;
-//            boolean needIteration = true;
-//            while (needIteration) {
-//                needIteration = false;
-//                for (int i = 1; i < gameActors.size(); i++) {
-//
-//                    System.out.println(gameActors.toString());
-//                    if ((gameActors.get(i).getY() > gameActors.get(i - 1).getY())
-//                            && (gameActors.get(i).getZIndex() > gameActors.get(i - 1).getZIndex())) {
-//                        int buf = gameActors.get(i).getZIndex();
-//                        gameActors.get(i).setZIndex(gameActors.get(i - 1).getZIndex());
-//                        gameActors.get(i - 1).setZIndex(buf);
-//                        needIteration = true;
-//                    }
-//
-//
-//                }
-//            }
-//        } catch (Exception e) {
-//            return;
-//        }
     }
 
     public int getEnergyCount() {
         return (int) energyCount;
     }
 
+    public int getCoinCount() {
+        return (int) coinCount;
+    }
+
     public void setEnergyCount(float priceEnergy) {
         this.energyCount -= priceEnergy;
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        hud.dispose();
     }
 }

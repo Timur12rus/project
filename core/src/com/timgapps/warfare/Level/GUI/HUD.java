@@ -9,12 +9,14 @@ import com.timgapps.warfare.Warfare;
 
 public class HUD extends Group {
     private TextureRegion energyPanel;
+    private TextureRegion coinPanel;
     private TextManager textManager;
     private Level level;
 
     public HUD(Level level) {
         this.level = level;
         this.energyPanel = Warfare.atlas.findRegion("energy_icon");
+        this.coinPanel = Warfare.atlas.findRegion("coin_icon");
         textManager = new TextManager(level);
     }
 
@@ -28,6 +30,11 @@ public class HUD extends Group {
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
         batch.draw(energyPanel, 32, Warfare.V_HEIGHT - 64);
-        textManager.displayMessage(batch, level.getEnergyCount());
+        batch.draw(coinPanel, Warfare.V_WIDTH - 64 - coinPanel.getRegionWidth(), Warfare.V_HEIGHT - 64);
+        textManager.displayMessage(batch, level.getEnergyCount(), level.getCoinCount());
+    }
+
+    public void dispose() {
+        textManager.dispose();
     }
 }
