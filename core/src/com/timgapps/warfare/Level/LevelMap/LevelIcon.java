@@ -11,7 +11,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.boontaran.games.StageGame;
 import com.timgapps.warfare.Warfare;
 
 import java.util.ArrayList;
@@ -19,38 +18,41 @@ import java.util.ArrayList;
 public class LevelIcon extends Group {
     private ArrayList<Image> activeStars;
     private ArrayList<Image> inactiveStars;
-    private ImageButton levelButton;
     private Image inactiveLevelIcon, levelIcon, levelIconDown;
 
     private boolean isActive;
     private int id;
+
+    private String levelOfDifficulty;
+    private int coinsCount;
+    private int scoreCount;
+
+    private LevelIconData data; // объект данных уровня
 
 
     public LevelIcon(int id, boolean isActive) {
 
         this.id = id;
         this.isActive = isActive;
+        levelOfDifficulty = "Easy";
+        coinsCount = 10;
+
+
+        /** инициализируем объект данных уровня **/
+        data = new LevelIconData(id, coinsCount, scoreCount, levelOfDifficulty);
 
         /** неактивный значок **/
         inactiveLevelIcon = new Image(Warfare.atlas.findRegion("levelIcon_inactive"));
         levelIcon = new Image(Warfare.atlas.findRegion("levelIcon_active"));
         levelIconDown = new Image(Warfare.atlas.findRegion("levelIcon_active_down"));
 
-        /** активный значок (это кнопка) **/
-
-        levelButton = new ImageButton(new TextureRegionDrawable(Warfare.atlas.findRegion("levelIcon_active")),
-                new TextureRegionDrawable(Warfare.atlas.findRegion("levelIcon_active_down")));
-
         /** добавим неактивный значок и активный **/
-
-
         addActor(levelIcon);
         addActor(levelIconDown);
         addActor(inactiveLevelIcon);
 
         levelIconDown.setVisible(false);
 
-//        addActor(levelButton);
 
         /** создадим массив из трёх активных здвёзд **/
         createActiveStars();
@@ -91,7 +93,7 @@ public class LevelIcon extends Group {
         for (int i = 0; i < 3; i++) {
             inactiveStars.add(new Image(Warfare.atlas.findRegion("star_inactive")));
             addActor(inactiveStars.get(i));
-            inactiveStars.get(i).setPosition(levelButton.getX() + i * inactiveStars.get(i).getWidth(), levelButton.getY() - 20);
+            inactiveStars.get(i).setPosition(levelIcon.getX() + i * inactiveStars.get(i).getWidth(), levelIcon.getY() - 20);
 //            inactiveStars.get(i).setPosition(i * 36, getY());
         }
     }
@@ -102,20 +104,18 @@ public class LevelIcon extends Group {
             activeStars.add(new Image(Warfare.atlas.findRegion("star_active")));
             addActor(activeStars.get(i));
 //            activeStars.get(i).setPosition(i * 36, getY());
-            activeStars.get(i).setPosition(levelButton.getX() + i * activeStars.get(i).getWidth(), levelButton.getY() - 20);
+            activeStars.get(i).setPosition(levelIcon.getX() + i * activeStars.get(i).getWidth(), levelIcon.getY() - 20);
         }
     }
 
     public void checkIsActive() {
         if (isActive) {
             inactiveLevelIcon.setVisible(false);
-            levelButton.setVisible(true);
             activeStars.get(0).setVisible(true);
             activeStars.get(1).setVisible(true);
             activeStars.get(2).setVisible(true);
         } else {
             inactiveLevelIcon.setVisible(true);
-            levelButton.setVisible(false);
             activeStars.get(0).setVisible(false);
             activeStars.get(1).setVisible(false);
             activeStars.get(2).setVisible(false);
@@ -128,5 +128,9 @@ public class LevelIcon extends Group {
 
     public int getId() {
         return id;
+    }
+
+    public LevelIconData getData() {
+        return data;
     }
 }
