@@ -3,13 +3,20 @@ package com.timgapps.warfare;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.FileHandleResolver;
+import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
+import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.boontaran.games.StageGame;
+import com.timgapps.warfare.Level.GameManager;
 import com.timgapps.warfare.Level.Level;
 import com.timgapps.warfare.Level.LevelMap.LevelMap;
 
@@ -23,6 +30,9 @@ public class Warfare extends Game {
     private boolean loadingAssets = false; // будем присваивать true в процессе загрузки ресурсов
     private AssetManager assetManager;
     public static TextureAtlas atlas; // через переменную класса TextureAtlas мы будем работать с атласом текстур
+    public static BitmapFont font40;
+    public static BitmapFont font20;
+    public static BitmapFont font10;
     private I18NBundle bundle;   // для выбора ресурсов в зависимости от локализации использеются класс I18NBundle
     private String path_to_atlas; // в зависимости от локали в переменную path_to_atlas будет возвращаться путь к нужному нам атласу
     private Level level;
@@ -30,6 +40,8 @@ public class Warfare extends Game {
 
     private Viewport mViewport;
     private OrthographicCamera mOrthographicCamera;
+
+    private GameManager gameManager;
 
     public Warfare(GameCallback gameCallback) {    // это конструктор для класса CrazyCatapult с переменной класса GameCallback
         this.gameCallback = gameCallback;
@@ -58,6 +70,24 @@ public class Warfare extends Game {
         loadingAssets = true; // присваиваем переменной значение true;
         assetManager = new AssetManager();  //Создаем объект класса AssetManager
         assetManager.load(path_to_atlas, TextureAtlas.class);  // методом load() выполняем сначала загрузку атласа(путь к атласу, и передаем класс TextureAtlas.class)
+
+
+        // Подготовим шрифт для работы
+        // Для начала создадим обработчик шрифта
+        FileHandleResolver resolver = new InternalFileHandleResolver();
+        assetManager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
+        assetManager.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
+
+        FreetypeFontLoader.FreeTypeFontLoaderParameter sizeParams = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
+        sizeParams.fontFileName = "fonts/GROBOLD.ttf";
+        sizeParams.fontParameters.size = 40;    // 40
+        assetManager.load("font40.ttf", BitmapFont.class, sizeParams);
+
+        FreetypeFontLoader.FreeTypeFontLoaderParameter sizeParams20 = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
+        sizeParams20.fontFileName = "fonts/GROBOLD.ttf";
+        sizeParams20.fontParameters.size = 30;    // 40
+        assetManager.load("font20.ttf", BitmapFont.class, sizeParams20);
+        gameManager = new GameManager();
 
     }
 
@@ -90,7 +120,8 @@ public class Warfare extends Game {
 
 //        catatlas = assetManager.get("catatlas.atlas", TextureAtlas.class);
 
-//        font40 = assetManager.get("font40.ttf", BitmapFont.class);
+        font40 = assetManager.get("font40.ttf", BitmapFont.class);
+        font20 = assetManager.get("font20.ttf", BitmapFont.class);
 //        font10 = assetManager.get("font40.ttf", BitmapFont.class);
 
         /** Вызываем метод для запуска игрового уровня **/

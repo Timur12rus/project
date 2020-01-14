@@ -480,6 +480,13 @@ unitButtonDark
   orig: 96, 104
   offset: 0, 0
   index: -1
+upgradeTeamBtn
+  rotate: false
+  xy: 1712, 20
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: -1
 zombie1Attack0
   rotate: false
   xy: 1130, 500

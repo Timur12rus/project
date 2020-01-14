@@ -21,6 +21,7 @@ public class PlayerUnit extends GameUnit {
 
     public static int energyPrice;     // количество энергии для рождения юнита
 
+
     @Override
     public Body createBody(float x, float y) {
         BodyDef def = new BodyDef();

@@ -34,10 +34,11 @@ public class StoneButton extends UnitButton {
             @Override
             public void touchDragged(InputEvent event, float x, float y, int pointer) {
                 super.touchDragged(event, x, y, pointer);
+                x -= greenTarget.getWidth();
                 if (isReadyUnitButton) {
                     greenTarget.setVisible(true);
                     greenTarget.setPosition(x, y);
-                    redTarget.setPosition(x, y);
+                    redTarget.setPosition(greenTarget.getX(), greenTarget.getY());
                     checkTargetCoordinates(x, y);
                 }
             }
@@ -45,6 +46,7 @@ public class StoneButton extends UnitButton {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchUp(event, x, y, pointer, button);
+                x -= greenTarget.getWidth();
                 if (isReadyUnitButton) {
                     if (greenTarget.isVisible()) {
                         throwStone(level, x + getX() + greenTarget.getWidth() / 2, y, 5);

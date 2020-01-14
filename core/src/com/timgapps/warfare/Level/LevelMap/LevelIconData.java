@@ -1,13 +1,13 @@
 package com.timgapps.warfare.Level.LevelMap;
 
 public class LevelIconData {
-    private int id, coinsCount, scorCount;
+    private int id, coinsCount, scoreCount;
     private String levelOfDifficulty;
 
     public LevelIconData(int id, int coinsCount, int scoreCount, String levelOfDifficulty) {
         this.id = id;
         this.coinsCount = coinsCount;
-        this.scorCount = scoreCount;
+        this.scoreCount = scoreCount;
         this.levelOfDifficulty = levelOfDifficulty;
     }
 
@@ -19,8 +19,8 @@ public class LevelIconData {
         return coinsCount;
     }
 
-    public int getScorCount() {
-        return scorCount;
+    public int getScoreCount() {
+        return scoreCount;
     }
 
     public String getLevelOfDifficulty() {
