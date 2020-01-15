@@ -1,6 +1,7 @@
 package com.timgapps.warfare.Level.GUI.Screens;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -12,41 +13,70 @@ import com.timgapps.warfare.Warfare;
 
 import java.util.ArrayList;
 
+/**
+ * Класс ЭКРАНА АПГРЕЙДА ИГРОВОЙ КОМАНДЫ
+ **/
 public class TeamUpgradeScreen extends Group {
     public static final int ON_RESUME = 1;
     public Label screenTitle; // отображаем текст заголовка
 
     private Image background;
 
-    private Group teamEntity;
-    private Group teamEntity2;
-
     private ArrayList<TeamEntity> team;
 
-    private static final String reallyLongString = "This\nIs\nA\nReally\nLong\nString\nThat\nHas\nLots\nOf\nLines\nAnd\nRepeats.\n"
-            + "This\nIs\nA\nReally\nLong\nString\nThat\nHas\nLots\nOf\nLines\nAnd\nRepeats.\n"
-            + "This\nIs\nA\nReally\nLong\nString\nThat\nHas\nLots\nOf\nLines\nAnd\nRepeats.\n";
+    private float teamTableWidth;
+    private float teamTableHeight;
+
+    private float paddingLeft = 48;
+    private float paddingTop = 48;
+
+    private static final String reallyLongString = "This\nIs\nA\nReally\nLong\nString\nThat\nHas\nLots\nOf\nLines\nAnd\nRepeats.\n";
+//            + "This\nIs\nA\nReally\nLong\nString\nThat\nHas\nLots\nOf\nLines\nAnd\nRepeats.\n"
+//            + "This\nIs\nA\nReally\nLong\nString\nThat\nHas\nLots\nOf\nLines\nAnd\nRepeats.\n";
 
 
-    public TeamUpgradeScreen() {
+    /**
+     * передаем в конструктор список team, который содержит в себе КОМАНДУ ЮНИТОВ
+     **/
+    public TeamUpgradeScreen(ArrayList<TeamEntity> team) {
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.fontColor = Color.DARK_GRAY;
         labelStyle.font = Warfare.font40;
 
         /** Создадим фон для окна, где будет отображаться команда**/
-        background = new Image(Warfare.atlas.findRegion("mission_start_bg"));
+        background = new Image(Warfare.atlas.findRegion("teamScreen"));
         background.setX((Warfare.V_WIDTH - background.getWidth()) / 2); // устанавливаем позицию заголовка
         background.setY(Warfare.V_HEIGHT / 2 - background.getHeight() / 2);
 
         addActor(background);
 
+        /** рабочий код 14.01.2020 **/
+//        this.team = new ArrayList<TeamEntity>();
+//        team.add(new TeamEntity(TeamEntity.ARCHER));
 
-        team = new ArrayList<TeamEntity>();
 
-        teamEntity = new TeamEntity(TeamEntity.GNOME);
-        teamEntity2 = new TeamEntity(TeamEntity.ARCHER);
-//        addActor(gnomeImage);
+        final Table teamTable = new Table();
+        for (int i = 0; i < team.size(); i++) {
+            teamTableWidth += team.get(i).getWidth() + 24;
+            teamTable.setWidth(teamTableWidth);
+            teamTable.add(team.get(i)).width(team.get(i).getWidth()).height(team.get(i).getHeight()).padLeft(12).padRight(12);
+//            teamTable.add(team.get(i)).width(team.get(i).getWidth()).height(team.get(i).getHeight()).padLeft(12).padRight(12);
+        }
+        teamTableHeight = team.get(0).getHeight();  //  высота таблицы в px
 
+        teamTable.setHeight(teamTableHeight);
+
+        /** добавим горизонтальную серую черту-разделитель **/
+        teamTable.row();
+        for (int i = 1; i < 6; i++) {
+            Image line = new Image(Warfare.atlas.findRegion("line"));
+            teamTable.add(line).width(line.getWidth()).height(line.getHeight()).padTop(16);
+        }
+
+        teamTable.debug();
+        teamTable.setPosition(background.getX() + paddingLeft,
+                background.getY() + background.getHeight() - 60 - paddingTop - teamTableHeight);
+        addActor(teamTable);
 
         final Label text = new Label(reallyLongString, labelStyle);
         text.setAlignment(Align.center);
@@ -58,15 +88,8 @@ public class TeamUpgradeScreen extends Group {
         text3.setAlignment(Align.center);
         text3.setWrap(true);
 
+
         final Table scrollTable = new Table();
-
-        final Table teamTable = new Table();
-        teamTable.add(teamEntity).width(teamEntity.getWidth()).height(teamEntity.getHeight());
-        teamTable.add(teamEntity2).width(teamEntity2.getWidth()).height(teamEntity2.getHeight());
-        teamTable.debug();
-
-        scrollTable.add(teamTable);
-        scrollTable.row();
         scrollTable.add(text);
         scrollTable.row();
 //        scrollTable.add(text2);
@@ -74,16 +97,12 @@ public class TeamUpgradeScreen extends Group {
 //        scrollTable.add(text3);
 
         final ScrollPane scroller = new ScrollPane(scrollTable);
-
-
         final Table table = new Table().debug();
-        table.setWidth(400);
-        table.setHeight(250);
-//        table.setFillParent(true);
-//        table.add(background);
-        table.add(scroller).fill().expand();
+        table.setWidth(teamTableWidth);
+        table.setHeight(240);
 
-        table.setPosition(background.getX() + 16, background.getY() + 32);
+        table.add(scroller).fill().expand();
+        table.setPosition(teamTable.getX(), background.getY() + 64);
         addActor(table);
 
     }

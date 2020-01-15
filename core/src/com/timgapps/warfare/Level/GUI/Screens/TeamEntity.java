@@ -8,6 +8,7 @@ import com.timgapps.warfare.Warfare;
 
 public class TeamEntity extends Group {
 
+    public static final int NONE = 0;
     public static final int GNOME = 1;
     public static final int ARCHER = 2;
     public static final int STONE = 3;
@@ -26,6 +27,16 @@ public class TeamEntity extends Group {
             case ARCHER:
                 unitImage = new ImageButton(new TextureRegionDrawable(Warfare.atlas.findRegion("archer1Active")),
                         new TextureRegionDrawable(Warfare.atlas.findRegion("archer1Inactive")));
+                break;
+
+            case STONE:
+                unitImage = new ImageButton(new TextureRegionDrawable(Warfare.atlas.findRegion("stoneButtonActive")),
+                        new TextureRegionDrawable(Warfare.atlas.findRegion("stoneButtonInactive")));
+                break;
+
+            case NONE:
+                unitImage = new ImageButton(new TextureRegionDrawable(Warfare.atlas.findRegion("emptyButtonActive")),
+                        new TextureRegionDrawable(Warfare.atlas.findRegion("emptyButtonInactive")));
                 break;
         }
 

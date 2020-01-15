@@ -87,8 +87,6 @@ public class Warfare extends Game {
         sizeParams20.fontFileName = "fonts/GROBOLD.ttf";
         sizeParams20.fontParameters.size = 30;    // 40
         assetManager.load("font20.ttf", BitmapFont.class, sizeParams20);
-        gameManager = new GameManager();
-
     }
 
     @Override
@@ -125,7 +123,9 @@ public class Warfare extends Game {
 //        font10 = assetManager.get("font40.ttf", BitmapFont.class);
 
         /** Вызываем метод для запуска игрового уровня **/
-        showLevel();
+//        showLevel();
+
+        gameManager = new GameManager();
 
         /** Вызываем метод для запуска карты уровней **/
         showMap();
@@ -133,8 +133,9 @@ public class Warfare extends Game {
     }
 
     private void showMap() {
-        levelMap = new LevelMap();
+        levelMap = new LevelMap(gameManager);
         setScreen(levelMap);
+        System.out.println("Show map");
 
         levelMap.setCallback(new StageGame.Callback() {
 
@@ -181,6 +182,7 @@ public class Warfare extends Game {
     }
 
     private void showLevel() {
+        System.out.println("Show level");
         level = new Level(1);
         setScreen(level);
     }

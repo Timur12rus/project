@@ -54,7 +54,7 @@ public class LevelMap extends StageGame {
 
     public LevelMap(GameManager gameManager) {
         setBackGround("map");
-        this.gameManager = new GameManager();
+        this.gameManager = gameManager;
 
 //        font40 = Warfare.assetManager.get("font40.ttf", BitmapFont.class);
 
@@ -100,8 +100,8 @@ public class LevelMap extends StageGame {
             }
         });
 
-        /** создадим окно апргейда команды **/
-        teamUpgradeScreen = new TeamUpgradeScreen();
+        /** создадим окно апргейда команды и передаём информацию о составе команды**/
+        teamUpgradeScreen = new TeamUpgradeScreen(gameManager.getTeam());
 //        teamUpgradeScreen = new TeamUpgradeScreen();
         teamUpgradeScreen.setVisible(false);
         addChild(teamUpgradeScreen);
