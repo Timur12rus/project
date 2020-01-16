@@ -242,6 +242,13 @@ energy_icon
   orig: 48, 48
   offset: 0, 0
   index: -1
+food_icon
+  rotate: false
+  xy: 1957, 554
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
 gnomeActive
   rotate: false
   xy: 1918, 92
@@ -403,6 +410,13 @@ gnomeWalk4
   orig: 173, 132
   offset: 0, 0
   index: -1
+iron_icon
+  rotate: false
+  xy: 1957, 488
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
 level_bg
   rotate: false
   xy: 2, 1322
@@ -433,14 +447,14 @@ mission_start_bg
   index: -1
 star_active
   rotate: false
-  xy: 1848, 586
+  xy: 1994, 1806
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 star_inactive
   rotate: false
-  xy: 1994, 1806
+  xy: 46, 12
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
@@ -533,6 +547,13 @@ upgradeTeamBtn
   xy: 872, 74
   size: 96, 96
   orig: 96, 96
+  offset: 0, 0
+  index: -1
+wood_icon
+  rotate: false
+  xy: 932, 938
+  size: 64, 64
+  orig: 64, 64
   offset: 0, 0
   index: -1
 zombie1Attack0

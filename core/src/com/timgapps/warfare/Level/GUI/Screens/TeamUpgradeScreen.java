@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
+import com.timgapps.warfare.Level.GUI.Screens.ResourcesView.ResourcesTable;
 import com.timgapps.warfare.Warfare;
 
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ public class TeamUpgradeScreen extends Group {
     private float teamTableHeight;
 
     private float paddingLeft = 48;
-    private float paddingTop = 48;
+    private float paddingTop = 24;
 
     private static final String reallyLongString = "This\nIs\nA\nReally\nLong\nString\nThat\nHas\nLots\nOf\nLines\nAnd\nRepeats.\n";
 //            + "This\nIs\nA\nReally\nLong\nString\nThat\nHas\nLots\nOf\nLines\nAnd\nRepeats.\n"
@@ -64,45 +65,75 @@ public class TeamUpgradeScreen extends Group {
         }
         teamTableHeight = team.get(0).getHeight();  //  высота таблицы в px
 
-        teamTable.setHeight(teamTableHeight);
+
 
         /** добавим горизонтальную серую черту-разделитель **/
+        float deltaHeight = 0;
         teamTable.row();
         for (int i = 1; i < 6; i++) {
             Image line = new Image(Warfare.atlas.findRegion("line"));
+            deltaHeight = line.getHeight();
             teamTable.add(line).width(line.getWidth()).height(line.getHeight()).padTop(16);
         }
+        teamTableHeight += deltaHeight + 16;
+        teamTable.setHeight(teamTableHeight);
 
         teamTable.debug();
+
         teamTable.setPosition(background.getX() + paddingLeft,
                 background.getY() + background.getHeight() - 60 - paddingTop - teamTableHeight);
         addActor(teamTable);
 
+        ResourcesTable resourcesTable = new ResourcesTable(10, 5, 0);
+//        /** Таблица ресурсов **/
+//        final Table resourcesTable = new Table();
+//        resourcesTable.debug();
+//        resourcesTable.add(new Image(Warfare.atlas.findRegion("food_icon"))).width(64).height(64);
+//        resourcesTable.row();
+////        resourcesTable.add(new Image(Warfare.atlas.findRegion("iron_icon"))).width(64).height(64);
+//        resourcesTable.add(new Image(Warfare.atlas.findRegion("iron_icon"))).width(64).height(64).padTop(16);
+//        resourcesTable.row();
+////        resourcesTable.add(new Image(Warfare.atlas.findRegion("iron_icon"))).width(64).height(64);
+//        resourcesTable.add(new Image(Warfare.atlas.findRegion("wood_icon"))).width(64).height(64).padTop(16);
+//        resourcesTable.setHeight(224);
+//        resourcesTable.setPosition(teamTable.getX() + teamTableWidth + 64,
+//                teamTable.getY() - (resourcesTable.getHeight() - teamTable.getHeight()));
+//
+//        System.out.println("resourceTableHeight = " + resourcesTable.getHeight());
+
+//        resourcesTable.debug();
+
+        resourcesTable.setPosition(teamTable.getX() + teamTableWidth + 24,
+                teamTable.getY() - (resourcesTable.getHeight() - teamTable.getHeight()));
+        addActor(resourcesTable);
+
+
+
         final Label text = new Label(reallyLongString, labelStyle);
         text.setAlignment(Align.center);
         text.setWrap(true);
-        final Label text2 = new Label("This is a short string!", labelStyle);
-        text2.setAlignment(Align.center);
-        text2.setWrap(true);
-        final Label text3 = new Label(reallyLongString, labelStyle);
-        text3.setAlignment(Align.center);
-        text3.setWrap(true);
+
+
+//        final Label text2 = new Label("This is a short string!", labelStyle);
+//        text2.setAlignment(Align.center);
+//        text2.setWrap(true);
+//        final Label text3 = new Label(reallyLongString, labelStyle);
+//        text3.setAlignment(Align.center);
+//        text3.setWrap(true);
 
 
         final Table scrollTable = new Table();
         scrollTable.add(text);
         scrollTable.row();
-//        scrollTable.add(text2);
-//        scrollTable.row();
-//        scrollTable.add(text3);
 
         final ScrollPane scroller = new ScrollPane(scrollTable);
+//        final Table table = new Table();
         final Table table = new Table().debug();
         table.setWidth(teamTableWidth);
-        table.setHeight(240);
+        table.setHeight(270);
 
         table.add(scroller).fill().expand();
-        table.setPosition(teamTable.getX(), background.getY() + 64);
+        table.setPosition(teamTable.getX(), background.getY() + 30);
         addActor(table);
 
     }

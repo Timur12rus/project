@@ -38,19 +38,12 @@ public class MissionInfoScreen extends Group {
 
     private Table rewardTable;
 
-
-
     public MissionInfoScreen() {
-
-
         background = new Image(Warfare.atlas.findRegion("mission_start_bg"));
         background.setX((Warfare.V_WIDTH - background.getWidth()) / 2); // устанавливаем позицию заголовка
         background.setY(((Warfare.V_HEIGHT / 2 - background.getHeight() / 2)));
 
         addActor(background);
-
-
-
 
         initializeLabels();
 
