@@ -88,6 +88,7 @@ public class LevelMap extends StageGame {
         missionInfoScreen = new MissionInfoScreen();
         missionInfoScreen.setVisible(false);
         addChild(missionInfoScreen);
+
         missionInfoScreen.addListener(new MessageListener() {
             @Override
             protected void receivedMessage(int message, Actor actor) {
@@ -116,6 +117,19 @@ public class LevelMap extends StageGame {
                 showTeamUpgradeScreen();
             }
         });
+
+        teamUpgradeScreen.addListener(new MessageListener(){
+            @Override
+            protected void receivedMessage(int message, Actor actor) {
+                if (message == teamUpgradeScreen.ON_RESUME) {
+//                    Warfare.media.playSound("click.ogg");
+                    resumeLevelMap();
+                }
+//                else if (message == missionInfoScreen.ON_START) { //
+//                    call(ON_LEVEL_SELECTED);
+//                }
+            }
+        });
     }
 
     private void showTeamUpgradeScreen() {
@@ -138,6 +152,7 @@ public class LevelMap extends StageGame {
     private void resumeLevelMap() {
         /** скрываем окно с описанием уровня **/
         missionInfoScreen.hide();
+        teamUpgradeScreen.hide();
     }
 
 

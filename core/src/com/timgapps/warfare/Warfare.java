@@ -79,13 +79,17 @@ public class Warfare extends Game {
         assetManager.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
 
         FreetypeFontLoader.FreeTypeFontLoaderParameter sizeParams = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
-        sizeParams.fontFileName = "fonts/GROBOLD.ttf";
+        sizeParams.fontFileName = "fonts/Nickname.ttf";
+//        sizeParams.fontFileName = "fonts/GROBOLD.ttf";
         sizeParams.fontParameters.size = 40;    // 40
+//        sizeParams.fontParameters.size = 40;    // 40
         assetManager.load("font40.ttf", BitmapFont.class, sizeParams);
 
         FreetypeFontLoader.FreeTypeFontLoaderParameter sizeParams20 = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
-        sizeParams20.fontFileName = "fonts/GROBOLD.ttf";
+        sizeParams20.fontFileName = "fonts/Nickname.ttf";
+//        sizeParams20.fontFileName = "fonts/GROBOLD.ttf";
         sizeParams20.fontParameters.size = 30;    // 40
+//        sizeParams20.fontParameters.size = 30;    // 40
         assetManager.load("font20.ttf", BitmapFont.class, sizeParams20);
     }
 

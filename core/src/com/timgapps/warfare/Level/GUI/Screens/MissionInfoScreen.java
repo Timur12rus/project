@@ -74,10 +74,6 @@ public class MissionInfoScreen extends Group {
                 fire(new MessageEvent(ON_START));
             }
         });
-
-
-
-
     }
 
     public void setData(LevelIconData data) {
@@ -87,14 +83,12 @@ public class MissionInfoScreen extends Group {
         this.levelOfDifficulty = data.getLevelOfDifficulty();
 
         updateData();
-
     }
 
     private void updateData() {
         missionTitle.setText("Mission " + id);
         difficulty.setText(levelOfDifficulty);
         coinsCountText.setText("" + coinsCount);
-
     }
 
     /**
@@ -123,7 +117,6 @@ public class MissionInfoScreen extends Group {
         missionTitle.setPosition(background.getX() + background.getWidth() / 2 - missionTitle.getWidth() / 2,
                 background.getY() + background.getHeight() - missionTitle.getHeight() - 8);
         addActor(missionTitle);
-
 
         Label.LabelStyle difficultlyLabelStyle = new Label.LabelStyle();
         difficultlyLabelStyle.fontColor = Color.FOREST;
@@ -157,19 +150,16 @@ public class MissionInfoScreen extends Group {
 //        coinsCountText.setPosition(rewardText.getX(), rewardText.getY() - coinsCountText.getHeight() - 16);
 //        addActor(coinsCountText);
 
-
         coinImage = new Image(Warfare.atlas.findRegion("coin_icon"));
 //        coinImage.debug();
 //        coinImage.setPosition(coinsCountText.getX() + coinsCountText.getWidth(), coinsCountText.getY());
 //        addActor(coinImage);
-
 
         rewardTable.add(coinsCountText);
         rewardTable.add(coinImage).width(48).height(48);
         rewardTable.setPosition(background.getX() + background.getWidth() / 2, rewardText.getY() - rewardTable.getHeight() - 48);
 //        rewardTable.setPosition(missionTitle.getX(), rewardText.getY() - rewardTable.getHeight() - 48);
         addActor(rewardTable);
-
 
 //        difficulty = new BitmapFont();
 //        rewardText = new BitmapFont();
