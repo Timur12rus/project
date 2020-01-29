@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.timgapps.warfare.Warfare;
 
@@ -19,6 +20,9 @@ public class UpgradeButton extends Group {
     private Image bg, bgDown, coin;
 
     private float width, height;
+
+    private int upgradeCost;
+    Label.LabelStyle labelStyle;
 
     public UpgradeButton() {
 
@@ -32,18 +36,26 @@ public class UpgradeButton extends Group {
         bgDown.setVisible(false);
         setSize(bg.getWidth(), bg.getHeight());  // устанавливаем её размер по размеру текстуры
 
-        Label.LabelStyle labelStyle = new Label.LabelStyle();
+        labelStyle = new Label.LabelStyle();
 //        style.fontColor = new Color(0x000000ff);
         labelStyle.fontColor = Color.DARK_GRAY;
         labelStyle.font = Warfare.font40;
 
-        label = new Label("150", labelStyle);
+        label = new Label("" + upgradeCost, labelStyle);
 
-        addActor(label);
-        label.setX(getWidth() / 4);
-        addActor(coin);
-        coin.setX(label.getX() + label.getWidth());
-        coin.setY((bg.getHeight() - coin.getHeight()) / 2);
+        Table table = new Table();
+        table.setWidth(bg.getWidth());
+        table.setHeight(bg.getHeight());
+        table.add(label);
+        table.add(coin);
+
+        addActor(table);
+
+//        addActor(label);
+//        label.setX(getWidth() / 4);
+//        addActor(coin);
+//        coin.setX(label.getX() + label.getWidth());
+//        coin.setY((bg.getHeight() - coin.getHeight()) / 2);
 
         /** добавляет слушателя события корневому элементу, отключая его для дочерних элементов **/
         addCaptureListener(new EventListener() { // добавляет слушателя события корневому элементу, отключая его для дочерних элементов
@@ -67,8 +79,27 @@ public class UpgradeButton extends Group {
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 bgDown.setVisible(false);
                 super.touchUp(event, x, y, pointer, button);
+
+
             }
         });
     }
-    
+
+    /**
+     * метод для уставки цвета ТЕКСТА КНОПКИ
+     * @param upgradeCost - количество монет, стоимость апгрейда
+     * @param canBeUpgrade - флаг, может ли быть улучшен, если true - может, если false - не может
+     *
+     **/
+    public void setUpgradeCost(int upgradeCost, boolean canBeUpgrade) {
+        this.upgradeCost = upgradeCost;
+        if (canBeUpgrade) {
+            labelStyle.fontColor = Color.DARK_GRAY;
+        } else {
+            labelStyle.fontColor = Color.RED;
+//            label.setStyle();
+        }
+        label.setText("" + upgradeCost);
+    }
+
 }

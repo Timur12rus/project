@@ -1,7 +1,6 @@
 package com.timgapps.warfare.Level.GUI.Screens;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -10,13 +9,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.boontaran.MessageEvent;
 import com.timgapps.warfare.Level.GUI.Screens.ResourcesView.CollectionTable;
-import com.timgapps.warfare.Level.GUI.Screens.ResourcesView.ResourcesTable;
 import com.timgapps.warfare.Level.GUI.Screens.UpgradeWindow.UpgradeScreen;
+import com.timgapps.warfare.Level.GameManager;
 import com.timgapps.warfare.Warfare;
 
 import java.util.ArrayList;
@@ -50,7 +48,9 @@ public class TeamUpgradeScreen extends Group {
     /**
      * передаем в конструктор список team, который содержит в себе КОМАНДУ ЮНИТОВ
      **/
-    public TeamUpgradeScreen(ArrayList<TeamEntity> team) {
+    public TeamUpgradeScreen(GameManager gameManager) {
+
+        team = gameManager.getTeam();
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.fontColor = Color.DARK_GRAY;
         labelStyle.font = Warfare.font40;
@@ -61,7 +61,7 @@ public class TeamUpgradeScreen extends Group {
         background.setX((Warfare.V_WIDTH - background.getWidth()) / 2); // устанавливаем позицию заголовка
         background.setY(Warfare.V_HEIGHT / 2 - background.getHeight() / 2);
 
-        upgradeScreen = new UpgradeScreen();
+        upgradeScreen = new UpgradeScreen(gameManager);
 
         addActor(background);
 
@@ -117,10 +117,12 @@ public class TeamUpgradeScreen extends Group {
                 background.getY() + background.getHeight() - 60 - paddingTop - teamTableHeight);
         addActor(teamTable);
 
-        ResourcesTable resourcesTable = new ResourcesTable(10, 5, 0);
-        resourcesTable.setPosition(teamTable.getX() + teamTableWidth + 24,
-                teamTable.getY() - (resourcesTable.getHeight() - teamTable.getHeight()));
-        addActor(resourcesTable);
+
+        /** Добавляем панель (таблицу) с реурсами(ПИЩА, ЖЕЛЕЗО, ДЕРЕВО) **/
+//        ResourcesTable resourcesTable = new ResourcesTable(10, 5, 0);
+//        resourcesTable.setPosition(teamTable.getX() + teamTableWidth + 24,
+//                teamTable.getY() - (resourcesTable.getHeight() - teamTable.getHeight()));
+//        addActor(resourcesTable);
 
 
         final Label text = new Label(reallyLongString, labelStyle);
@@ -211,7 +213,9 @@ public class TeamUpgradeScreen extends Group {
     }
 
     private void showUpgradeScreen(TeamEntity teamEntity) {
-        upgradeScreen.showUpgradeScreen(teamEntity);
+        upgradeScreen.setUnitUpgradeData(teamEntity);
+        upgradeScreen.showUpgradeScreen();
+//        upgradeScreen.showUpgradeScreen(teamEntity);
 
     }
 

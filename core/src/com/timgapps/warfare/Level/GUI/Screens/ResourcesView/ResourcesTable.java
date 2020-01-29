@@ -22,14 +22,14 @@ public class ResourcesTable extends Table {
         labelStyle.font = Warfare.font20;
 
 //        foodText = new Label("Food", labelStyle);
-        foodCountLabel = new Label("x " + foodCount, labelStyle);
+        foodCountLabel = new Label("" + foodCount, labelStyle);
 
 //        ironText = new Label("Iron", labelStyle);
-        ironCountLabel = new Label("x " + ironCount, labelStyle);
+        ironCountLabel = new Label("" + ironCount, labelStyle);
 
 
 //        woodText = new Label("Wood", labelStyle);
-        woodCountLabel = new Label("x " + woodCount, labelStyle);
+        woodCountLabel = new Label("" + woodCount, labelStyle);
 
 
         setWidth(180);
@@ -53,7 +53,12 @@ public class ResourcesTable extends Table {
         foodCountLabel.setText("x " + foodCount);
         ironCountLabel.setText("x " + ironCount);
         woodCountLabel.setText("x " + woodCount);
+    }
 
+    public void updateResources(int foodCount, int ironCount, int woodCount) {
+        foodCountLabel.setText("" + foodCount);
+        ironCountLabel.setText("" + ironCount);
+        woodCountLabel.setText("" + woodCount);
     }
 
     @Override

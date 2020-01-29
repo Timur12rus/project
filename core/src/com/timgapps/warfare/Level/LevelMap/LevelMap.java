@@ -48,13 +48,16 @@ public class LevelMap extends StageGame {
 
     public static BitmapFont font40;
 
-    private ImageButton upgradeTeamButton;
+    private ImageButton upgradeTeamButton;      // кнопка для вызова окна апгрейда юнитов
 
     private GameManager gameManager;
+
+    private CoinsPanel coinsPanel;              // панель с монетами
 
     public LevelMap(GameManager gameManager) {
         setBackGround("map");
         this.gameManager = gameManager;
+
 
 //        font40 = Warfare.assetManager.get("font40.ttf", BitmapFont.class);
 
@@ -102,7 +105,8 @@ public class LevelMap extends StageGame {
         });
 
         /** создадим окно апргейда команды и передаём информацию о составе команды**/
-        teamUpgradeScreen = new TeamUpgradeScreen(gameManager.getTeam());
+        teamUpgradeScreen = new TeamUpgradeScreen(gameManager);
+//        teamUpgradeScreen = new TeamUpgradeScreen(gameManager.getTeam());
 //        teamUpgradeScreen = new TeamUpgradeScreen();
         teamUpgradeScreen.setVisible(false);
         addChild(teamUpgradeScreen);
@@ -118,7 +122,7 @@ public class LevelMap extends StageGame {
             }
         });
 
-        teamUpgradeScreen.addListener(new MessageListener(){
+        teamUpgradeScreen.addListener(new MessageListener() {
             @Override
             protected void receivedMessage(int message, Actor actor) {
                 if (message == teamUpgradeScreen.ON_RESUME) {
@@ -130,6 +134,9 @@ public class LevelMap extends StageGame {
 //                }
             }
         });
+
+        coinsPanel = new CoinsPanel(gameManager.getCoinsCount());
+        addChild(coinsPanel, getWidth() - coinsPanel.getWidth() - 32, getHeight() - coinsPanel.getHeight() - 32);
     }
 
     private void showTeamUpgradeScreen() {
