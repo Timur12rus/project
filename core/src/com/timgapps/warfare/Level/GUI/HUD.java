@@ -15,7 +15,7 @@ public class HUD extends Group {
 
     public HUD(Level level) {
         this.level = level;
-        this.energyPanel = Warfare.atlas.findRegion("energy_icon");
+        this.energyPanel = Warfare.atlas.findRegion("energyIcon");
         this.coinPanel = Warfare.atlas.findRegion("coin_icon");
         textManager = new TextManager(level);
     }

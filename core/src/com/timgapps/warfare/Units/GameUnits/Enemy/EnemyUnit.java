@@ -24,7 +24,10 @@ public class EnemyUnit extends GameUnit {
         isDraw = draw;
     }
 
-    private boolean isDebug = true;
+    /**
+     * переменная отвечает за то, отрисовывать ли прямоугольник для определения коллизий с камнем
+     **/
+//    private boolean isDebug = false;
 
     public boolean isDraw() {
         return isDraw;

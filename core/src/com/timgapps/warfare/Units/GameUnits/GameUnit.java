@@ -29,7 +29,10 @@ public abstract class GameUnit extends Actor implements IBody {
     protected Vector2 velocity;
 
     protected ShapeRenderer shapeRenderer;
-    protected boolean isDebug = true;
+    /**
+     * переменная отвечает за то, отрисовывать ли прямоугольник для определения коллизий с камнем
+     **/
+    protected boolean isDebug = false;
 
     public static final short PLAYER_BIT = 1;
     public static final short ENEMY_BIT = 2;

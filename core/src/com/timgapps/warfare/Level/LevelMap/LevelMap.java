@@ -1,6 +1,5 @@
 package com.timgapps.warfare.Level.LevelMap;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -10,13 +9,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.boontaran.MessageEvent;
 import com.boontaran.MessageListener;
 import com.boontaran.games.StageGame;
+import com.timgapps.warfare.Level.GUI.Screens.CoinsPanel;
 import com.timgapps.warfare.Level.GUI.Screens.MissionInfoScreen;
-import com.timgapps.warfare.Level.GUI.Screens.ScrollPaneTest;
 import com.timgapps.warfare.Level.GUI.Screens.TeamUpgradeScreen;
 import com.timgapps.warfare.Level.GUI.TextManager;
 import com.timgapps.warfare.Level.GameManager;
@@ -135,7 +132,8 @@ public class LevelMap extends StageGame {
             }
         });
 
-        coinsPanel = new CoinsPanel(gameManager.getCoinsCount());
+        coinsPanel = gameManager.getCoinsPanel();
+//        coinsPanel = new CoinsPanel(gameManager.getCoinsCount());
         addChild(coinsPanel, getWidth() - coinsPanel.getWidth() - 32, getHeight() - coinsPanel.getHeight() - 32);
     }
 

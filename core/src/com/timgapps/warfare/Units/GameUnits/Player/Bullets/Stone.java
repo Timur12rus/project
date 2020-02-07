@@ -31,7 +31,8 @@ public class Stone extends Bullet {
     private ShapeRenderer shapeRenderer;
     private Vector2 velocity;
     private Vector2 position;
-    private boolean isDebug = true;
+    private boolean isDebug = false;
+//    private boolean isDebug = true;
     private boolean isDestroyed = false;
 
     private boolean moveIsEnd = false;

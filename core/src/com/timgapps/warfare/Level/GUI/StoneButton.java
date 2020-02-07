@@ -96,6 +96,6 @@ public class StoneButton extends UnitButton {
     @Override
     public void act(float delta) {
         super.act(delta);
-        System.out.println("isReadyUnitButton StoneButton" + isReadyUnitButton);
+//        System.out.println("isReadyUnitButton StoneButton" + isReadyUnitButton);
     }
 }

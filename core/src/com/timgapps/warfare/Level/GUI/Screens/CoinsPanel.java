@@ -1,4 +1,4 @@
-package com.timgapps.warfare.Level.LevelMap;
+package com.timgapps.warfare.Level.GUI.Screens;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -36,6 +36,11 @@ public class CoinsPanel extends Group {
 
         addActor(table);
 
+    }
+
+    public void setCoinsCount(int coins) {
+        coinsCount = coins;
+        coinsValueLabel.setText("" + coinsCount);
     }
 
 }

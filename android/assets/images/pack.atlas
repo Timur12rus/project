@@ -4,534 +4,562 @@ size: 2048,2048
 format: RGBA8888
 filter: MipMapLinearNearest,Linear
 repeat: none
-archer1Active
-  rotate: false
-  xy: 1917, 528
-  size: 96, 104
-  orig: 96, 104
-  offset: 0, 0
-  index: -1
 archer1Attack0
   rotate: false
-  xy: 2, 111
+  xy: 2, 112
   size: 280, 138
   orig: 280, 138
   offset: 0, 0
   index: -1
 archer1Attack1
   rotate: false
-  xy: 614, 463
+  xy: 614, 464
   size: 280, 138
   orig: 280, 138
   offset: 0, 0
   index: -1
 archer1Attack2
   rotate: false
-  xy: 1284, 1298
+  xy: 1284, 1299
   size: 280, 138
   orig: 280, 138
   offset: 0, 0
   index: -1
 archer1Attack3
   rotate: false
-  xy: 284, 111
+  xy: 284, 112
   size: 280, 138
   orig: 280, 138
   offset: 0, 0
   index: -1
 archer1Attack4
   rotate: false
-  xy: 614, 323
+  xy: 614, 324
   size: 280, 138
   orig: 280, 138
   offset: 0, 0
   index: -1
 archer1Die0
   rotate: false
-  xy: 896, 463
+  xy: 896, 464
   size: 280, 138
   orig: 280, 138
   offset: 0, 0
   index: -1
 archer1Die1
   rotate: false
-  xy: 1284, 1158
+  xy: 1284, 1159
   size: 280, 138
   orig: 280, 138
   offset: 0, 0
   index: -1
 archer1Die2
   rotate: false
-  xy: 1566, 1298
+  xy: 1566, 1299
   size: 280, 138
   orig: 280, 138
   offset: 0, 0
   index: -1
 archer1Die3
   rotate: false
-  xy: 896, 323
+  xy: 896, 324
   size: 280, 138
   orig: 280, 138
   offset: 0, 0
   index: -1
 archer1Die4
   rotate: false
-  xy: 1284, 1018
+  xy: 1284, 1019
   size: 280, 138
   orig: 280, 138
   offset: 0, 0
   index: -1
 archer1Hart0
   rotate: false
-  xy: 1566, 1158
+  xy: 1566, 1159
   size: 280, 138
   orig: 280, 138
   offset: 0, 0
   index: -1
 archer1Hart1
   rotate: false
-  xy: 1284, 878
+  xy: 1284, 879
   size: 280, 138
   orig: 280, 138
   offset: 0, 0
   index: -1
 archer1Hart2
   rotate: false
-  xy: 1566, 1018
+  xy: 1566, 1019
   size: 280, 138
   orig: 280, 138
   offset: 0, 0
   index: -1
 archer1Hart3
   rotate: false
-  xy: 1284, 738
+  xy: 1284, 739
   size: 280, 138
   orig: 280, 138
   offset: 0, 0
   index: -1
 archer1Hart4
   rotate: false
-  xy: 1566, 878
+  xy: 1566, 879
   size: 280, 138
   orig: 280, 138
   offset: 0, 0
   index: -1
 archer1Stay0
   rotate: false
-  xy: 1566, 738
+  xy: 1566, 739
   size: 280, 138
   orig: 280, 138
   offset: 0, 0
   index: -1
 archer1Stay1
   rotate: false
-  xy: 1284, 598
+  xy: 1284, 599
   size: 280, 138
   orig: 280, 138
   offset: 0, 0
   index: -1
 archer1Stay2
   rotate: false
-  xy: 1566, 598
+  xy: 1566, 599
   size: 280, 138
   orig: 280, 138
   offset: 0, 0
   index: -1
 archer1Stay3
   rotate: false
-  xy: 614, 183
+  xy: 614, 184
   size: 280, 138
   orig: 280, 138
   offset: 0, 0
   index: -1
 archer1Walk0
   rotate: false
-  xy: 896, 183
+  xy: 896, 184
   size: 280, 138
   orig: 280, 138
   offset: 0, 0
   index: -1
 archer1Walk1
   rotate: false
-  xy: 1178, 458
+  xy: 1178, 459
   size: 280, 138
   orig: 280, 138
   offset: 0, 0
   index: -1
 archer1Walk2
   rotate: false
-  xy: 1178, 318
+  xy: 1178, 319
   size: 280, 138
   orig: 280, 138
   offset: 0, 0
   index: -1
 archer1Walk3
   rotate: false
-  xy: 1460, 458
+  xy: 1460, 459
   size: 280, 138
   orig: 280, 138
   offset: 0, 0
   index: -1
+archerUnitImage
+  rotate: false
+  xy: 1878, 201
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
 arrow
   rotate: false
-  xy: 1917, 464
+  xy: 1895, 5
   size: 44, 8
   orig: 44, 8
   offset: 0, 0
   index: -1
 block1
   rotate: false
-  xy: 566, 207
+  xy: 566, 208
   size: 42, 42
   orig: 42, 42
   offset: 0, 0
   index: -1
 button_close
   rotate: false
-  xy: 1772, 4
+  xy: 1805, 5
   size: 50, 50
   orig: 50, 50
   offset: 0, 0
   index: -1
 button_close_dwn
   rotate: false
-  xy: 1986, 1763
+  xy: 1986, 1764
   size: 50, 50
   orig: 50, 50
   offset: 0, 0
   index: -1
 button_ok
   rotate: false
-  xy: 566, 117
+  xy: 566, 118
   size: 190, 64
   orig: 190, 64
   offset: 0, 0
   index: -1
 button_ok_dwn
   rotate: false
-  xy: 758, 117
+  xy: 758, 118
   size: 190, 64
   orig: 190, 64
   offset: 0, 0
   index: -1
 clock_icon
   rotate: false
-  xy: 1986, 1989
+  xy: 1986, 1990
   size: 56, 56
   orig: 56, 56
   offset: 0, 0
   index: -1
 coin_icon
   rotate: false
-  xy: 1986, 1713
+  xy: 1086, 2
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: -1
-coinsPanel2
+coinsPanel
   rotate: false
-  xy: 1878, 170
-  size: 166, 54
-  orig: 166, 54
+  xy: 1895, 15
+  size: 145, 54
+  orig: 145, 54
   offset: 0, 0
   index: -1
 damage_icon
   rotate: false
-  xy: 1986, 1931
+  xy: 1986, 1932
   size: 56, 56
   orig: 56, 56
   offset: 0, 0
   index: -1
 div_line
   rotate: false
-  xy: 1284, 1438
+  xy: 1284, 1439
   size: 679, 55
   orig: 679, 55
   offset: 0, 0
   index: -1
+energyIcon
+  rotate: false
+  xy: 1857, 7
+  size: 36, 48
+  orig: 36, 48
+  offset: 0, 0
+  index: -1
 energy_icon
   rotate: false
-  xy: 1986, 1663
+  xy: 1986, 1714
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: -1
+food_icon
+  rotate: false
+  xy: 1086, 52
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
 gnomeAttack0
   rotate: false
-  xy: 1178, 184
+  xy: 1178, 185
   size: 173, 132
   orig: 173, 132
   offset: 0, 0
   index: -1
 gnomeAttack1
   rotate: false
-  xy: 1460, 324
+  xy: 1460, 325
   size: 173, 132
   orig: 173, 132
   offset: 0, 0
   index: -1
 gnomeAttack2
   rotate: false
-  xy: 1848, 1304
+  xy: 1848, 1305
   size: 173, 132
   orig: 173, 132
   offset: 0, 0
   index: -1
 gnomeAttack3
   rotate: false
-  xy: 1848, 1170
+  xy: 1848, 1171
   size: 173, 132
   orig: 173, 132
   offset: 0, 0
   index: -1
 gnomeAttack4
   rotate: false
-  xy: 1848, 1036
+  xy: 1848, 1037
   size: 173, 132
   orig: 173, 132
   offset: 0, 0
   index: -1
 gnomeDie0
   rotate: false
-  xy: 1848, 902
+  xy: 1848, 903
   size: 173, 132
   orig: 173, 132
   offset: 0, 0
   index: -1
 gnomeDie1
   rotate: false
-  xy: 1848, 768
+  xy: 1848, 769
   size: 173, 132
   orig: 173, 132
   offset: 0, 0
   index: -1
 gnomeDie2
   rotate: false
-  xy: 1848, 634
+  xy: 1848, 635
   size: 173, 132
   orig: 173, 132
   offset: 0, 0
   index: -1
 gnomeDie3
   rotate: false
-  xy: 1353, 184
+  xy: 1353, 185
   size: 173, 132
   orig: 173, 132
   offset: 0, 0
   index: -1
 gnomeRun0
   rotate: false
-  xy: 1635, 324
+  xy: 1635, 325
   size: 173, 132
   orig: 173, 132
   offset: 0, 0
   index: -1
 gnomeRun1
   rotate: false
-  xy: 1528, 190
+  xy: 1528, 191
   size: 173, 132
   orig: 173, 132
   offset: 0, 0
   index: -1
 gnomeRun3
   rotate: false
-  xy: 1528, 190
+  xy: 1528, 191
   size: 173, 132
   orig: 173, 132
   offset: 0, 0
   index: -1
 gnomeRun2
   rotate: false
-  xy: 1703, 190
+  xy: 1703, 191
   size: 173, 132
   orig: 173, 132
   offset: 0, 0
   index: -1
 gnomeStay0
   rotate: false
-  xy: 1742, 464
+  xy: 1742, 465
   size: 173, 132
   orig: 173, 132
   offset: 0, 0
   index: -1
 gnomeStay1
   rotate: false
-  xy: 1810, 330
+  xy: 1810, 331
   size: 173, 132
   orig: 173, 132
   offset: 0, 0
   index: -1
 gnomeStay3
   rotate: false
-  xy: 1810, 330
+  xy: 1810, 331
   size: 173, 132
   orig: 173, 132
   offset: 0, 0
   index: -1
 gnomeStay2
   rotate: false
-  xy: 950, 49
+  xy: 1720, 57
   size: 173, 132
   orig: 173, 132
   offset: 0, 0
   index: -1
+gnomeUnitImage
+  rotate: false
+  xy: 1917, 505
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
 gnomeWalk0
   rotate: false
-  xy: 1125, 49
+  xy: 1178, 51
   size: 173, 132
   orig: 173, 132
   offset: 0, 0
   index: -1
 gnomeWalk1
   rotate: false
-  xy: 1300, 50
-  size: 173, 132
-  orig: 173, 132
-  offset: 0, 0
-  index: -1
-gnomeWalk2
-  rotate: false
-  xy: 1475, 50
-  size: 173, 132
-  orig: 173, 132
-  offset: 0, 0
-  index: -1
-gnomeWalk3
-  rotate: false
-  xy: 1650, 56
-  size: 173, 132
-  orig: 173, 132
-  offset: 0, 0
-  index: -1
-gnomeWalk4
-  rotate: false
-  xy: 1825, 36
+  xy: 1353, 51
   size: 173, 132
   orig: 173, 132
   offset: 0, 0
   index: -1
 heart_icon
   rotate: false
-  xy: 1986, 1873
+  xy: 1986, 1874
   size: 56, 56
   orig: 56, 56
   offset: 0, 0
   index: -1
+levelIcon
+  rotate: false
+  xy: 1986, 1676
+  size: 42, 36
+  orig: 42, 36
+  offset: 0, 0
+  index: -1
 level_bg
   rotate: false
-  xy: 2, 1325
+  xy: 2, 1326
   size: 1280, 720
   orig: 1280, 720
   offset: 0, 0
   index: -1
 line
   rotate: false
-  xy: 931, 15
+  xy: 1917, 471
   size: 120, 32
   orig: 120, 32
   offset: 0, 0
   index: -1
 map
   rotate: false
-  xy: 2, 603
+  xy: 2, 604
   size: 1280, 720
   orig: 1280, 720
   offset: 0, 0
   index: -1
 mission_start_bg
   rotate: false
-  xy: 2, 251
+  xy: 2, 252
   size: 610, 350
   orig: 610, 350
   offset: 0, 0
   index: -1
 speed_icon
   rotate: false
-  xy: 1986, 1815
+  xy: 1986, 1816
   size: 56, 56
   orig: 56, 56
   offset: 0, 0
   index: -1
 star_active
   rotate: false
-  xy: 2000, 136
+  xy: 1848, 601
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 star_inactive
   rotate: false
-  xy: 1848, 600
+  xy: 1142, 150
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 targetGreen
   rotate: false
-  xy: 1917, 474
-  size: 120, 52
-  orig: 120, 52
-  offset: 0, 0
-  index: -1
-targetRed
-  rotate: false
-  xy: 1650, 2
+  xy: 1683, 3
   size: 120, 52
   orig: 120, 52
   offset: 0, 0
   index: -1
 teamScreen
   rotate: false
-  xy: 1284, 1495
+  xy: 1284, 1496
   size: 700, 550
   orig: 700, 550
   offset: 0, 0
   index: -1
-zombie1Attack0
+thorUnitImage
   rotate: false
-  xy: 1878, 226
-  size: 152, 102
-  orig: 152, 102
+  xy: 1895, 71
+  size: 128, 128
+  orig: 128, 128
   offset: 0, 0
   index: -1
-zombie1Attack1
+yellowButton
   rotate: false
-  xy: 467, 7
+  xy: 950, 118
+  size: 190, 64
+  orig: 190, 64
+  offset: 0, 0
+  index: -1
+yellowButton_dwn
+  rotate: false
+  xy: 1528, 125
+  size: 190, 64
+  orig: 190, 64
+  offset: 0, 0
+  index: -1
+zombie1Attack0
+  rotate: false
+  xy: 467, 8
   size: 152, 102
   orig: 152, 102
   offset: 0, 0
   index: -1
 zombieAttack0
   rotate: false
-  xy: 2, 7
+  xy: 2, 8
   size: 153, 102
   orig: 153, 102
   offset: 0, 0
   index: -1
 zombieAttack1
   rotate: false
-  xy: 157, 7
+  xy: 157, 8
   size: 153, 102
   orig: 153, 102
   offset: 0, 0
   index: -1
 zombieAttack2
   rotate: false
-  xy: 312, 7
+  xy: 312, 8
   size: 153, 102
   orig: 153, 102
   offset: 0, 0
   index: -1
 zombieAttack3
   rotate: false
-  xy: 621, 13
+  xy: 621, 14
   size: 153, 102
   orig: 153, 102
   offset: 0, 0
   index: -1
 zombieAttack4
   rotate: false
-  xy: 776, 13
+  xy: 776, 14
+  size: 153, 102
+  orig: 153, 102
+  offset: 0, 0
+  index: -1
+zombieDie0
+  rotate: false
+  xy: 931, 14
+  size: 153, 102
+  orig: 153, 102
+  offset: 0, 0
+  index: -1
+zombieDie1
+  rotate: false
+  xy: 1528, 21
   size: 153, 102
   orig: 153, 102
   offset: 0, 0
@@ -542,464 +570,485 @@ size: 2048,1024
 format: RGBA8888
 filter: MipMapLinearNearest,Linear
 repeat: none
-archer1Inactive
+archer1Active
   rotate: false
-  xy: 1616, 672
+  xy: 1947, 886
   size: 96, 104
   orig: 96, 104
   offset: 0, 0
   index: -1
-coinsPanel
+archer1Inactive
   rotate: false
-  xy: 1461, 618
-  size: 145, 54
-  orig: 145, 54
+  xy: 1769, 678
+  size: 96, 104
+  orig: 96, 104
+  offset: 0, 0
+  index: -1
+coinsPanel2
+  rotate: false
+  xy: 2, 2
+  size: 166, 54
+  orig: 166, 54
   offset: 0, 0
   index: -1
 emptyButtonActive
   rotate: false
-  xy: 1771, 776
+  xy: 1615, 470
   size: 96, 104
   orig: 96, 104
   offset: 0, 0
   index: -1
 unitButtonDark
   rotate: false
-  xy: 1771, 776
+  xy: 1615, 470
   size: 96, 104
   orig: 96, 104
   offset: 0, 0
   index: -1
 emptyButtonInactive
   rotate: false
-  xy: 1925, 880
+  xy: 1769, 572
   size: 96, 104
   orig: 96, 104
   offset: 0, 0
   index: -1
-food_icon
-  rotate: false
-  xy: 1370, 294
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: -1
 gnomeActive
   rotate: false
-  xy: 1306, 360
+  xy: 1943, 780
   size: 96, 104
   orig: 96, 104
   offset: 0, 0
   index: -1
 gnomeInactive
   rotate: false
-  xy: 776, 214
+  xy: 797, 220
   size: 96, 104
   orig: 96, 104
   offset: 0, 0
   index: -1
+gnomeWalk2
+  rotate: false
+  xy: 2, 192
+  size: 173, 132
+  orig: 173, 132
+  offset: 0, 0
+  index: -1
+gnomeWalk3
+  rotate: false
+  xy: 844, 858
+  size: 173, 132
+  orig: 173, 132
+  offset: 0, 0
+  index: -1
+gnomeWalk4
+  rotate: false
+  xy: 2, 58
+  size: 173, 132
+  orig: 173, 132
+  offset: 0, 0
+  index: -1
 iron_icon
   rotate: false
-  xy: 1436, 294
+  xy: 1867, 718
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 levelIcon_active
   rotate: false
-  xy: 972, 264
+  xy: 793, 16
   size: 98, 96
   orig: 98, 96
   offset: 0, 0
   index: -1
 levelIcon_active_down
   rotate: false
-  xy: 1072, 264
+  xy: 998, 320
   size: 98, 96
   orig: 98, 96
   offset: 0, 0
   index: -1
 levelIcon_inactive
   rotate: false
-  xy: 1172, 264
+  xy: 993, 116
   size: 98, 96
   orig: 98, 96
   offset: 0, 0
   index: -1
 stoneButtonActive
   rotate: false
-  xy: 775, 108
+  xy: 797, 114
   size: 96, 104
   orig: 96, 104
   offset: 0, 0
   index: -1
 stoneButtonInactive
   rotate: false
-  xy: 774, 2
+  xy: 895, 232
   size: 96, 104
   orig: 96, 104
   offset: 0, 0
   index: -1
+targetRed
+  rotate: false
+  xy: 999, 418
+  size: 120, 52
+  orig: 120, 52
+  offset: 0, 0
+  index: -1
 thorActive
   rotate: false
-  xy: 1404, 360
+  xy: 895, 126
   size: 96, 104
   orig: 96, 104
   offset: 0, 0
   index: -1
 thorInactive
   rotate: false
-  xy: 874, 256
+  xy: 993, 214
   size: 96, 104
   orig: 96, 104
   offset: 0, 0
   index: -1
 upgradeScreen
   rotate: false
-  xy: 2, 320
+  xy: 2, 326
   size: 840, 664
   orig: 840, 664
   offset: 0, 0
   index: -1
 upgradeTeamBtn
   rotate: false
-  xy: 1272, 262
+  xy: 1121, 374
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: -1
 wood_icon
   rotate: false
-  xy: 1461, 552
+  xy: 1219, 406
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
+zombie1Attack1
+  rotate: false
+  xy: 844, 338
+  size: 152, 102
+  orig: 152, 102
+  offset: 0, 0
+  index: -1
 zombie1Attack2
   rotate: false
-  xy: 1309, 882
+  xy: 1639, 888
   size: 152, 102
   orig: 152, 102
   offset: 0, 0
   index: -1
 zombie1Attack3
   rotate: false
-  xy: 312, 8
+  xy: 1793, 888
   size: 152, 102
   orig: 152, 102
   offset: 0, 0
   index: -1
 zombie1Attack4
   rotate: false
-  xy: 467, 112
+  xy: 177, 14
   size: 152, 102
   orig: 152, 102
   offset: 0, 0
   index: -1
 zombie1Die0
   rotate: false
-  xy: 622, 216
+  xy: 331, 14
   size: 152, 102
   orig: 152, 102
   offset: 0, 0
   index: -1
 zombie1Die1
   rotate: false
-  xy: 844, 466
+  xy: 485, 14
   size: 152, 102
   orig: 152, 102
   offset: 0, 0
   index: -1
 zombie1Die2
   rotate: false
-  xy: 999, 570
+  xy: 639, 14
   size: 152, 102
   orig: 152, 102
   offset: 0, 0
   index: -1
 zombie1Die3
   rotate: false
-  xy: 1154, 674
+  xy: 1019, 784
   size: 152, 102
   orig: 152, 102
   offset: 0, 0
   index: -1
 zombie1Die4
   rotate: false
-  xy: 1309, 778
+  xy: 1173, 784
   size: 152, 102
   orig: 152, 102
   offset: 0, 0
   index: -1
 zombie1Hart0
   rotate: false
-  xy: 1463, 882
+  xy: 1327, 784
   size: 152, 102
   orig: 152, 102
   offset: 0, 0
   index: -1
 zombie1Hart1
   rotate: false
-  xy: 466, 8
+  xy: 1481, 784
   size: 152, 102
   orig: 152, 102
   offset: 0, 0
   index: -1
 zombie1Hart2
   rotate: false
-  xy: 621, 112
+  xy: 1635, 784
   size: 152, 102
   orig: 152, 102
   offset: 0, 0
   index: -1
 zombie1Hart3
   rotate: false
-  xy: 844, 362
+  xy: 1789, 784
   size: 152, 102
   orig: 152, 102
   offset: 0, 0
   index: -1
 zombie1Hart4
   rotate: false
-  xy: 998, 466
+  xy: 999, 680
   size: 152, 102
   orig: 152, 102
   offset: 0, 0
   index: -1
 zombie1Run0
   rotate: false
-  xy: 1153, 570
+  xy: 999, 576
   size: 152, 102
   orig: 152, 102
   offset: 0, 0
   index: -1
 zombie1Run1
   rotate: false
-  xy: 1308, 674
+  xy: 1153, 680
   size: 152, 102
   orig: 152, 102
   offset: 0, 0
   index: -1
 zombie1Run2
   rotate: false
-  xy: 1463, 778
+  xy: 999, 472
   size: 152, 102
   orig: 152, 102
   offset: 0, 0
   index: -1
 zombie1Run3
   rotate: false
-  xy: 1617, 882
+  xy: 1153, 576
   size: 152, 102
   orig: 152, 102
   offset: 0, 0
   index: -1
 zombie1Run4
   rotate: false
-  xy: 620, 8
+  xy: 1307, 680
   size: 152, 102
   orig: 152, 102
   offset: 0, 0
   index: -1
 zombie1Stay0
   rotate: false
-  xy: 998, 362
+  xy: 1153, 472
   size: 152, 102
   orig: 152, 102
   offset: 0, 0
   index: -1
 zombie1Stay1
   rotate: false
-  xy: 1152, 466
+  xy: 1307, 576
   size: 152, 102
   orig: 152, 102
   offset: 0, 0
   index: -1
 zombie1Stay2
   rotate: false
-  xy: 1307, 570
+  xy: 1461, 680
   size: 152, 102
   orig: 152, 102
   offset: 0, 0
   index: -1
 zombie1Stay3
   rotate: false
-  xy: 1462, 674
+  xy: 1307, 472
   size: 152, 102
   orig: 152, 102
   offset: 0, 0
   index: -1
 zombie1Stay4
   rotate: false
-  xy: 1617, 778
+  xy: 1461, 576
   size: 152, 102
   orig: 152, 102
   offset: 0, 0
   index: -1
 zombie1Walk0
   rotate: false
-  xy: 1771, 882
+  xy: 1615, 680
   size: 152, 102
   orig: 152, 102
   offset: 0, 0
   index: -1
 zombie1Walk1
   rotate: false
-  xy: 1152, 362
+  xy: 1461, 472
   size: 152, 102
   orig: 152, 102
   offset: 0, 0
   index: -1
 zombie1Walk3
   rotate: false
-  xy: 1152, 362
+  xy: 1461, 472
   size: 152, 102
   orig: 152, 102
   offset: 0, 0
   index: -1
 zombie1Walk4
   rotate: false
-  xy: 1152, 362
+  xy: 1461, 472
   size: 152, 102
   orig: 152, 102
   offset: 0, 0
   index: -1
 zombie1Walk2
   rotate: false
-  xy: 1306, 466
+  xy: 1615, 576
   size: 152, 102
   orig: 152, 102
   offset: 0, 0
   index: -1
-zombieDie0
-  rotate: false
-  xy: 2, 216
-  size: 153, 102
-  orig: 153, 102
-  offset: 0, 0
-  index: -1
-zombieDie1
-  rotate: false
-  xy: 844, 882
-  size: 153, 102
-  orig: 153, 102
-  offset: 0, 0
-  index: -1
 zombieDie2
   rotate: false
-  xy: 2, 112
+  xy: 177, 222
   size: 153, 102
   orig: 153, 102
   offset: 0, 0
   index: -1
 zombieDie3
   rotate: false
-  xy: 157, 216
+  xy: 844, 754
   size: 153, 102
   orig: 153, 102
   offset: 0, 0
   index: -1
 zombieDie4
   rotate: false
-  xy: 844, 778
+  xy: 1019, 888
   size: 153, 102
   orig: 153, 102
   offset: 0, 0
   index: -1
 zombieHart0
   rotate: false
-  xy: 999, 882
+  xy: 177, 118
   size: 153, 102
   orig: 153, 102
   offset: 0, 0
   index: -1
 zombieHart1
   rotate: false
-  xy: 2, 8
+  xy: 332, 222
   size: 153, 102
   orig: 153, 102
   offset: 0, 0
   index: -1
 zombieHart2
   rotate: false
-  xy: 157, 112
+  xy: 844, 650
   size: 153, 102
   orig: 153, 102
   offset: 0, 0
   index: -1
 zombieHart3
   rotate: false
-  xy: 312, 216
+  xy: 1174, 888
   size: 153, 102
   orig: 153, 102
   offset: 0, 0
   index: -1
 zombieHart4
   rotate: false
-  xy: 844, 674
+  xy: 332, 118
   size: 153, 102
   orig: 153, 102
   offset: 0, 0
   index: -1
 zombieStay0
   rotate: false
-  xy: 999, 778
+  xy: 487, 222
   size: 153, 102
   orig: 153, 102
   offset: 0, 0
   index: -1
 zombieStay1
   rotate: false
-  xy: 1154, 882
+  xy: 844, 546
   size: 153, 102
   orig: 153, 102
   offset: 0, 0
   index: -1
 zombieStay2
   rotate: false
-  xy: 157, 8
+  xy: 1329, 888
   size: 153, 102
   orig: 153, 102
   offset: 0, 0
   index: -1
 zombieStay3
   rotate: false
-  xy: 312, 112
+  xy: 487, 118
   size: 153, 102
   orig: 153, 102
   offset: 0, 0
   index: -1
 zombieStay4
   rotate: false
-  xy: 467, 216
+  xy: 642, 222
   size: 153, 102
   orig: 153, 102
   offset: 0, 0
   index: -1
 zombieWalk0
   rotate: false
-  xy: 844, 570
+  xy: 844, 442
   size: 153, 102
   orig: 153, 102
   offset: 0, 0
   index: -1
 zombieWalk2
   rotate: false
-  xy: 844, 570
+  xy: 844, 442
   size: 153, 102
   orig: 153, 102
   offset: 0, 0
   index: -1
 zombieWalk1
   rotate: false
-  xy: 999, 674
+  xy: 1484, 888
   size: 153, 102
   orig: 153, 102
   offset: 0, 0
   index: -1
 zombieWalk3
   rotate: false
-  xy: 1154, 778
+  xy: 642, 118
   size: 153, 102
   orig: 153, 102
   offset: 0, 0

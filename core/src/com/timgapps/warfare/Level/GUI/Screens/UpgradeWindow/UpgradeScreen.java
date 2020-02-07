@@ -1,6 +1,9 @@
 package com.timgapps.warfare.Level.GUI.Screens.UpgradeWindow;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -16,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.timgapps.warfare.Level.GUI.Screens.ResourcesView.ResourcesTable;
 import com.timgapps.warfare.Level.GUI.Screens.TeamEntity;
+import com.timgapps.warfare.Level.GUI.Screens.TeamUpgradeScreen;
 import com.timgapps.warfare.Level.GameManager;
 import com.timgapps.warfare.Warfare;
 
@@ -73,8 +77,8 @@ public class UpgradeScreen extends Group {
     private UpgradeButton upgradeButton;
     private ArrayList<TeamEntity> team;
 
-    private Group imageContainer;
-    private Image unitImage;
+    private Group imageContainer;           // контейнер - Group для ханения изображения юнита со значком уровня и энергии
+    private UnitImage unitImage;
 
     private int unitLevel;
     private int newUnitLevel;
@@ -99,29 +103,32 @@ public class UpgradeScreen extends Group {
 
     private ResourcesTable resourcesTable;
 
+    private UnitLevelIcon unitLevelIcon;
 
-    public UpgradeScreen(GameManager gameManager) {
+    private TextureRegionDrawable textureRegionDrawableBg;
+
+    private YellowButton selectUnitButton;  // кнопка "ВЫБРАТЬ" для игрового юнита,
+    // если игровой юнит не состоит в коменде, а нах-ся в коллекции
+
+
+    private TeamUpgradeScreen teamUpgradeScreen;
+
+    public UpgradeScreen(GameManager gameManager, TeamUpgradeScreen teamUpgradeScreen) {
+
+        this.teamUpgradeScreen = teamUpgradeScreen;
 
         this.gameManager = gameManager;
-        this.team = gameManager.getTeam();
+        this.team = gameManager.getTeam();              // команда - массив типа TeamEntity
         coinsCount = gameManager.getCoinsCount();
-
-//        addHealthValue = 2;
-//        addDamageValue = 2;
-
-//        healthValue = 100;
-//        damageValue = 12;
-//        speedValue = 10;
-//        timePrepearValue = 18;
 
         /** зададим значения характеристик юнита**/
 //        containerX = x;
 //        containerY = y;
 
+
         foodIcon = new Image(Warfare.atlas.findRegion("food_icon"));
         ironIcon = new Image(Warfare.atlas.findRegion("iron_icon"));
         woodIcon = new Image(Warfare.atlas.findRegion("wood_icon"));
-
 
         foodCostValue = 2;
         ironCostValue = 2;
@@ -140,6 +147,8 @@ public class UpgradeScreen extends Group {
         closeButton.setY(background.getY() + background.getHeight() - closeButton.getHeight() - 8);
         addActor(closeButton);
 
+
+        /** слушатель для КНОПКИ ЗАКРЫТИЯ ОКНА **/
         closeButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -149,18 +158,14 @@ public class UpgradeScreen extends Group {
             }
         });
 
-//        imageContainer = new Image(Warfare.atlas.findRegion("thorActive"));      // изображение юнита
-//        imageContainer = new Image(Warfare.atlas.findRegion("thorActive"));      // изображение юнита
-
         imageContainer = new Group();
 
-
-        /** Таблицы в режиме DEBUG **/
-        container = new Table().debug();        // таблица "КОНТЕЙНЕР"
-//        infoTable = new Table().debug();       // таблица с характеристиками юнита
-
-//        container = new Table();        // таблица "КОНТЕЙНЕР"
-        infoTable = new Table();       // таблица с характеристиками юнита
+//        /** Таблицы в режиме DEBUG **/
+//        container = new Table().debug();        // таблица "КОНТЕЙНЕР"
+////        infoTable = new Table().debug();       // таблица с характеристиками юнита
+//
+////        container = new Table();        // таблица "КОНТЕЙНЕР"
+//        infoTable = new Table();       // таблица с характеристиками юнита
 
         upgradeButton = new UpgradeButton();
         upgradeButton.addListener(new ClickListener() {
@@ -168,6 +173,7 @@ public class UpgradeScreen extends Group {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
+                /** проверяем, может ли быть сделан апгрейд, если да - делаем апгрейд, если нет проверяем чего не хватает и выводим сообщение **/
                 if (canBeUpgrade)
                     upgradeTeamEntity(teamEntity);
                 else
@@ -185,10 +191,10 @@ public class UpgradeScreen extends Group {
         greenLabelStyle.fontColor = Color.FOREST;
         greenLabelStyle.font = Warfare.font20;
 
-
         Label.LabelStyle redLabelStyle = new Label.LabelStyle();
         redLabelStyle.fontColor = Color.RED;
         redLabelStyle.font = Warfare.font20;
+
 
         healthLabel = new Label(healthText, labelStyle);        // текст "ЗДОРОВЬЕ"
         damageLabel = new Label(damageText, labelStyle);        // текст "УРОН"
@@ -207,7 +213,6 @@ public class UpgradeScreen extends Group {
 
         toastLabel = new Label("", redLabelStyle);          // текст "СТОИМОСТЬ УЛУЧШЕНИЯ"
 
-
         healthLabel.setAlignment(Align.right);
         damageLabel.setAlignment(Align.right);
         speedLabel.setAlignment(Align.right);
@@ -225,6 +230,21 @@ public class UpgradeScreen extends Group {
         woodCostLabel = new Label("" + woodCostValue, labelStyle);
         upgradeToLevelLabel = new Label(upgradeToLevelText + newUnitLevel, labelStyle);
 
+        /** Таблицы в режиме DEBUG **/
+//        container = new Table().debug();        // таблица "КОНТЕЙНЕР"
+        infoTable = new Table().debug();       // таблица с характеристиками юнита
+//        infoTable = new Table();       // таблица с характеристиками юнита
+
+        Pixmap bgPixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
+        bgPixmap.setColor(new Color(0xfde9c0ff));
+        bgPixmap.fill();
+        textureRegionDrawableBg = new TextureRegionDrawable(new TextureRegion(new Texture(bgPixmap)));
+
+        infoTable.setBackground(textureRegionDrawableBg);
+
+        container = new Table();        // таблица "КОНТЕЙНЕР"
+        container.debug();
+
         container.setHeight(600);
         container.setWidth(550);
         container.left().top();
@@ -232,8 +252,12 @@ public class UpgradeScreen extends Group {
 
         infoTable.add(healthLabel).width(200).padRight(8);
         infoTable.add(new Image(Warfare.atlas.findRegion("heart_icon"))).width(56).height(56);
-        infoTable.add(healthValueLabel).fillX().padLeft(8);
+        infoTable.add(healthValueLabel).width(48).padLeft(8);
         infoTable.add(healthAddValueLabel);
+
+
+//        infoTable.add(healthValueLabel).fillX().padLeft(8);
+//        infoTable.add(healthAddValueLabel);
 
 
         infoTable.row();
@@ -243,25 +267,22 @@ public class UpgradeScreen extends Group {
         infoTable.add(damageAddValueLabel);
 
         infoTable.row();
-
         infoTable.add(speedLabel).width(200).padRight(8);
         infoTable.add(new Image(Warfare.atlas.findRegion("speed_icon"))).width(56).height(56);
         infoTable.add(speedValueLabel).fillX().padLeft(8);
-
         infoTable.row();
 
         infoTable.add(timePrepearLabel).width(200).padRight(8);
         infoTable.add(new Image(Warfare.atlas.findRegion("clock_icon"))).width(56).height(56);
-        infoTable.add(timePrepearValueLabel).expandX().padLeft(8);
-//        infoTable.add(timePrepearValueLabel).fillX().padLeft(8);
+//        infoTable.add(timePrepearValueLabel).expandX().padLeft(8);
+        infoTable.add(timePrepearValueLabel).fillX().padLeft(8);
 
-        container.add(imageContainer).width(200).padLeft(32).left();
-//        container.add(imageContainer).width(imageContainer.getWidth()).padLeft(32).left();
+        /** добавим в общий контейнер изображение юнита и его значок со значением уровня юинта**/
+        container.add(imageContainer).width(200).padLeft(32).left().padTop(32);
 
 
         /** Таблица СТОИМОСТЬ АПГРЕЙДА в режиме DEBUG **/
 //        Table costUpgradeTable = new Table().debug();
-
 
         Table costUpgradeTable = new Table();
 
@@ -289,6 +310,7 @@ public class UpgradeScreen extends Group {
         container.add(upgradeButton).height(upgradeButton.getHeight()).width(upgradeButton.getWidth()).colspan(3).padTop(8);
 
         container.setPosition(background.getX() + paddingLeft, background.getY());
+        container.setPosition(background.getX() + paddingLeft, background.getY() - 16);
         addActor(container);
 
         /** Добавляем панель (таблицу) с реурсами(ПИЩА, ЖЕЛЕЗО, ДЕРЕВО) **/
@@ -304,19 +326,27 @@ public class UpgradeScreen extends Group {
         toastLabel.setVisible(false);
         toastLabel.setPosition(Warfare.V_WIDTH / 2 - toastLabel.getWidth() - 200, Warfare.V_HEIGHT / 2);
         addActor(toastLabel);
+
+
     }
 
-    public void showUpgradeScreen() {
-//    public void showUpgradeScreen(TeamEntity teamEntity) {
-//        imageContainer = teamEntity.getImage();
-//        addActor(imageContainer);
+    public void showUpgradeScreen(boolean showSelectButton) {
+
+        setVisible(true);
+        /** добавим объект - изображение юнита со значком уровня юнита**/
         imageContainer.addActor(unitImage);
 
-//        imageContainer.setDrawable(teamEntity.getImage().getDrawable());
-//        System.out.println("IMAGE = " + imageContainer.toString());
-        setVisible(true);
+        /** если юнит не состоит в команде, отображаем кнопку "ВЫБРАТЬ" **/
+        if (showSelectButton) {
+            unitImage.getSelectButton().setVisible(true);
+        } else {
+            unitImage.getSelectButton().setVisible(false);
+        }
     }
 
+    /**
+     * скрываем окно апгрейда
+     **/
     public void hideUpgradeScreen() {
         imageContainer.removeActor(unitImage);
         setVisible(false);
@@ -333,7 +363,32 @@ public class UpgradeScreen extends Group {
         damageValue = teamEntity.getDAMAGE();
         speedValue = teamEntity.getSPEED();
         timePrepearValue = teamEntity.getTimePrepare();
-        unitImage = teamEntity.getImage();
+
+
+        /** получим объект unitImage - изображение со значками (уровень юнита и стоимость энергии) **/
+        unitImage = teamEntity.getUnitImage();
+        unitImage.setLevelValue(teamEntity.getUnitLevel());
+
+
+        /** получим кнопку "ВЫБРАТЬ ЮНИТА", если юнит не состоит в игровой команде, а находится в коллекции**/
+        selectUnitButton = unitImage.getSelectButton();
+
+        selectUnitButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+//                fire(new MessageEvent(ON_RESUME));
+//                if (toastLabel.isVisible()) toastLabel.setVisible(false);
+
+//                showReplaceUnit(teamEntity);
+
+
+                showReplace();
+
+                /** скрываем экран апгрейда **/
+                hideUpgradeScreen();
+
+            }
+        });
 
         newUnitLevel = teamEntity.getUnitLevel() + 1;
 
@@ -343,6 +398,17 @@ public class UpgradeScreen extends Group {
 
         /** обновим значения всех текстовых значений в информации об апргейде с помощью метода **/
         updateLabelsText();
+    }
+
+    /**
+     * убираем коллекцию с экрана и отображаем выбранного для замены юнита
+     **/
+    private void showReplace() {
+        teamUpgradeScreen.showReplaceUnit(teamEntity);
+    }
+
+    private void showReplaceUnit(TeamEntity teamEntity) {
+        teamUpgradeScreen.showReplaceUnit(teamEntity);
     }
 
     /**
@@ -379,6 +445,23 @@ public class UpgradeScreen extends Group {
         timePrepearValueLabel.setText("" + timePrepearValue);
         healthAddValueLabel.setText(" + " + addHealthValue);
         damageAddValueLabel.setText(" + " + addDamageValue);
+
+//        ScaleToAction sa = new ScaleToAction();
+//        sa.setScale(3);
+//        sa.setDuration(3);
+//
+//        healthAddValueLabel.addAction(sa);
+//
+//        System.out.println("scale");
+
+//        Color color = new Color(Color.WHITE);
+//        ColorAction ca = new ColorAction();
+//        ca.setColor(color);
+//        ca.setDuration(2f);
+//        ca.setEndColor(Color.RED);
+//        healthAddValueLabel.addAction(ca);
+
+
     }
 
 
@@ -389,12 +472,16 @@ public class UpgradeScreen extends Group {
 
     private void upgradeTeamEntity(TeamEntity teamEntity) {
 
+        unitImage.startAction();
+
         /** обновим параметры юнита, которого прокачиваем **/
         teamEntity.setUnitLevel(newUnitLevel);
         teamEntity.addHEALTH(addHealthValue);
         teamEntity.addDAMAGE(addDamageValue);
 
-//        newUnitLevel += 1;                           // увеличили уровень следующего апгрейда
+        /** обновим количество монет и установим новое кол-во монет в панели монет **/
+        coinsCount -= upgradeCost;
+        gameManager.getCoinsPanel().setCoinsCount(coinsCount);
 
         /** вычтем количество ресурсов потраченных на апгрейд **/
         gameManager.addFoodCount(-foodCostValue);
@@ -404,6 +491,10 @@ public class UpgradeScreen extends Group {
         /** обновим значения в таблице ресурсов **/
         resourcesTable.updateResources(gameManager.getFoodCount(), gameManager.getIronCount(), gameManager.getWoodCount());
 
+
+        /**
+         * метод устанавливает значения параметров для улучшения юнита и его изображение
+         **/
         setUnitUpgradeData(teamEntity);
 
 //        /** обновим значение текста следующего уровня апгрейда **/
@@ -437,7 +528,7 @@ public class UpgradeScreen extends Group {
             MoveToAction mta = new MoveToAction();
 
             mta.setPosition(Warfare.V_WIDTH / 2 - 200, Warfare.V_HEIGHT / 2 + 100);
-            mta.setDuration(3f);
+            mta.setDuration(1f);
 
             AlphaAction alphaActionEnd = new AlphaAction();
             alphaActionEnd.setAlpha(0);
@@ -448,4 +539,6 @@ public class UpgradeScreen extends Group {
             toastLabel.addAction(sa);
         }
     }
+
+
 }

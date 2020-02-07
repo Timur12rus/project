@@ -20,4 +20,15 @@ public class CollectionTable extends Table {
             add(unitCollection.get(i)).width(unitCollection.get(i).getWidth()).height(unitCollection.get(i).getHeight()).left().padLeft(12).padRight(12);
         }
     }
+
+    public void clear() {
+        this.clearChildren();
+    }
+
+    public void updateCellTable(ArrayList<TeamEntity> unitCollection) {
+        for (int i = 0; i < unitCollection.size(); i++) {
+            unitCollection.get(i);
+            add(unitCollection.get(i)).width(unitCollection.get(i).getWidth()).height(unitCollection.get(i).getHeight()).left().padLeft(12).padRight(12);
+        }
+    }
 }

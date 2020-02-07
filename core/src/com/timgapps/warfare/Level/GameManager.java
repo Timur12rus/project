@@ -1,7 +1,7 @@
 package com.timgapps.warfare.Level;
 
+import com.timgapps.warfare.Level.GUI.Screens.CoinsPanel;
 import com.timgapps.warfare.Level.GUI.Screens.TeamEntity;
-import com.timgapps.warfare.Units.GameUnits.Player.PlayerUnit;
 
 import java.util.ArrayList;
 
@@ -13,6 +13,7 @@ import java.util.ArrayList;
  */
 public class GameManager {
     private ArrayList<TeamEntity> team;     // команда, массив объектов TeamEntity()
+    private ArrayList<TeamEntity> collection;     // коллекция, массив объектов TeamEntity()
     private int currentLevelId;
 
     private int coinsCount;
@@ -21,22 +22,64 @@ public class GameManager {
     private int ironCount;      // количестов железа
     private int woodCount;      // количество дерева
 
+    private CoinsPanel coinsPanel;
+
+
     public GameManager() {
+        /** создадим КОМАНДУ - массив юнитов в команде**/
         team = new ArrayList<TeamEntity>();
+
+        /** создадим КОЛЛЕКЦИЮ - массив юнитов в коллекции  **/
+        collection = new ArrayList<TeamEntity>();
+
 
         /** количество монет у игрока **/
         coinsCount = 6000;
 
-        foodCount = 10;
-        ironCount = 5;
-        woodCount = 4;
+        coinsPanel = new CoinsPanel(coinsCount);
+
+        foodCount = 20;
+        ironCount = 10;
+        woodCount = 30;
 
         /** Добавляем бойцов в команду **/
+        // TODO: 31.01.2020  Здесь нужно будет изменить код, так чтобы брать данные из сохранненного объекта
         team.add(new TeamEntity(TeamEntity.GNOME));
         team.add(new TeamEntity(TeamEntity.ARCHER));
         team.add(new TeamEntity(TeamEntity.STONE));
         team.add(new TeamEntity(TeamEntity.NONE));
         team.add(new TeamEntity(TeamEntity.NONE));
+
+        /** Добавляем бойцов в коллекцию **/
+        // TODO: 31.01.2020  Здесь нужно будет изменить код, так чтобы брать данные из сохранненного объекта
+        collection.add(new TeamEntity(TeamEntity.THOR));
+        collection.add(new TeamEntity(TeamEntity.NONE));
+    }
+
+    /**
+     * метод возвращает объект CoinsPanel
+     **/
+    public CoinsPanel getCoinsPanel() {
+        return coinsPanel;
+    }
+
+    /**
+     * метод добавляет количество монет к общему количеству монет
+     *
+     * @param coins - количество монет, на сколько прибавить
+     **/
+    public void addCoinsCount(int coins) {
+        coinsCount += coins;
+        coinsPanel.setCoinsCount(coinsCount);       // обновим количество монет в панели для монет (coinsPanel)
+        // TODO: 29.01.2020 ЗДЕСЬ Нужно сохранять данные о количестве монет в файл
+
+    }
+
+    /**
+     * метод возвращает общее количество монет
+     **/
+    public int getCoinsCount() {
+        return coinsCount;
     }
 
     /**
@@ -101,13 +144,12 @@ public class GameManager {
         return team;
     }
 
-
     /**
-     * метод для получения количества монет
-     *
-     * @return coinsCount
-     */
-    public int getCoinsCount() {
-        return coinsCount;
+     * метод для получения коллекции юнитов игрока
+     **/
+    public ArrayList<TeamEntity> getCollection() {
+        return collection;
     }
+
+
 }
