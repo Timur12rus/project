@@ -113,6 +113,9 @@ public class UpgradeScreen extends Group {
 
     private TeamUpgradeScreen teamUpgradeScreen;
 
+    private Label unitNameLabel;
+    private String unitName;
+
     public UpgradeScreen(GameManager gameManager, TeamUpgradeScreen teamUpgradeScreen) {
 
         this.teamUpgradeScreen = teamUpgradeScreen;
@@ -212,6 +215,8 @@ public class UpgradeScreen extends Group {
         upgradeCostLabel = new Label(upgradeCostText, labelStyle);          // текст "СТОИМОСТЬ УЛУЧШЕНИЯ"
 
         toastLabel = new Label("", redLabelStyle);          // текст "СТОИМОСТЬ УЛУЧШЕНИЯ"
+
+        unitNameLabel = new Label("", labelStyle);
 
         healthLabel.setAlignment(Align.right);
         damageLabel.setAlignment(Align.right);
@@ -328,6 +333,15 @@ public class UpgradeScreen extends Group {
         addActor(toastLabel);
 
 
+//        unitNameLabel.setPosition(background.getX() + background.getWidth() - unitNameLabel.getWidth(),
+//                background.getY() + background.getHeight() - unitNameLabel.getHeight());
+
+        unitNameLabel.setPosition(container.getX() + container.getWidth() - unitNameLabel.getWidth(),
+                background.getY() + background.getHeight() - unitNameLabel.getHeight());
+
+        addActor(unitNameLabel);
+
+
     }
 
     public void showUpgradeScreen(boolean showSelectButton) {
@@ -363,6 +377,10 @@ public class UpgradeScreen extends Group {
         damageValue = teamEntity.getDAMAGE();
         speedValue = teamEntity.getSPEED();
         timePrepearValue = teamEntity.getTimePrepare();
+
+        unitNameLabel.setText(teamEntity.getName());
+        unitNameLabel.setPosition(container.getX() + (container.getWidth() - unitNameLabel.getWidth()) / 2,
+                background.getY() + background.getHeight() - unitNameLabel.getHeight() - 32);
 
 
         /** получим объект unitImage - изображение со значками (уровень юнита и стоимость энергии) **/

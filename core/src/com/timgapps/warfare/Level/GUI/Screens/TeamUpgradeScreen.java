@@ -14,7 +14,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.boontaran.MessageEvent;
-import com.timgapps.warfare.Level.GUI.Screens.ResourcesView.CollectionTable;
+import com.timgapps.warfare.Level.GUI.Screens.UpgradeWindow.CollectionTable;
+import com.timgapps.warfare.Level.GUI.Screens.UpgradeWindow.TeamTable;
 import com.timgapps.warfare.Level.GUI.Screens.UpgradeWindow.UpgradeScreen;
 import com.timgapps.warfare.Level.GameManager;
 import com.timgapps.warfare.Warfare;
@@ -61,6 +62,9 @@ public class TeamUpgradeScreen extends Group {
     private Table teamTable;
     private Table collectionTable;
 
+    private Label teamLabel;
+    private String teamText;
+
 
     /**
      * передаем в конструктор список team, который содержит в себе КОМАНДУ ЮНИТОВ
@@ -68,6 +72,9 @@ public class TeamUpgradeScreen extends Group {
     public TeamUpgradeScreen(GameManager gameManager) {
 
         team = gameManager.getTeam();
+
+        teamText = "TEAM";
+
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.fontColor = Color.DARK_GRAY;
         labelStyle.font = Warfare.font40;
@@ -89,10 +96,12 @@ public class TeamUpgradeScreen extends Group {
 
         addActor(background);
 
-        /** рабочий код 14.01.2020 **/
-//        this.team = new ArrayList<TeamEntity>();
-//        team.add(new TeamEntity(TeamEntity.ARCHER));
+        teamLabel = new Label(teamText, labelStyle);
+        teamLabel.setPosition(background.getX() + (background.getWidth() - teamLabel.getWidth()) / 2,
+                                background.getY() + background.getHeight() - teamLabel.getHeight() - 6);
+        addActor(teamLabel);
 
+        /** рабочий код 14.01.2020 **/
         closeButton = new ImageButton(new TextureRegionDrawable(Warfare.atlas.findRegion("button_close")),
                 new TextureRegionDrawable(Warfare.atlas.findRegion("button_close_dwn")));
 
@@ -107,104 +116,66 @@ public class TeamUpgradeScreen extends Group {
             }
         });
 
-
-        teamTable = new Table();
+        /** добавим таблицу с КОМАНДОЙ ЮНИТОВ ***/
+        teamTable = new TeamTable(team);
         teamTable.debug();
-        for (int i = 0; i < team.size(); i++) {
-            teamTableWidth += team.get(i).getWidth() + 24;
-            teamTable.setWidth(teamTableWidth);
-            teamTable.add(team.get(i)).width(team.get(i).getWidth()).height(team.get(i).getHeight()).padLeft(12).padRight(12);
-            addClickListener(team.get(i));
-
-//            teamTable.add(team.get(i)).width(team.get(i).getWidth()).height(team.get(i).getHeight()).padLeft(12).padRight(12);
-        }
-        teamTableHeight = team.get(0).getHeight();  //  высота таблицы в px
-
 
         /** создадим массив КОЛЛЕЦКИИ ЮНИТОВ **/
         unitCollection = gameManager.getCollection();
 
-
-        /** добавим горизонтальную серую черту-разделитель **/
-        float deltaHeight = 0;
-        teamTable.row();
-        for (int i = 1; i < 6; i++) {
-            Image line = new Image(Warfare.atlas.findRegion("line"));
-            deltaHeight = line.getHeight();
-            teamTable.add(line).width(line.getWidth()).height(line.getHeight()).padTop(16);
-        }
-        teamTableHeight += deltaHeight + 16;
-        teamTable.setHeight(teamTableHeight);
-
-//        teamTable.debug();
-
         teamTable.setPosition(background.getX() + paddingLeft,
-                background.getY() + background.getHeight() - 60 - paddingTop - teamTableHeight);
+                background.getY() + background.getHeight() - 60 - paddingTop - teamTable.getHeight());
         addActor(teamTable);
-
-
-        /** Добавляем панель (таблицу) с реурсами(ПИЩА, ЖЕЛЕЗО, ДЕРЕВО) **/
-//        ResourcesTable resourcesTable = new ResourcesTable(10, 5, 0);
-//        resourcesTable.setPosition(teamTable.getX() + teamTableWidth + 24,
-//                teamTable.getY() - (resourcesTable.getHeight() - teamTable.getHeight()));
-//        addActor(resourcesTable);
-
 
         final Label text = new Label(reallyLongString, labelStyle);
         text.setAlignment(Align.center);
         text.setWrap(true);
 
 
-        Image unitImage1 = new Image(Warfare.atlas.findRegion("thorActive"));
-        Image unitImage2 = new Image(Warfare.atlas.findRegion("unitButtonDark"));
-        Image unitImage3 = new Image(Warfare.atlas.findRegion("unitButtonDark"));
-        Image unitImage4 = new Image(Warfare.atlas.findRegion("unitButtonDark"));
-        Image unitImage5 = new Image(Warfare.atlas.findRegion("unitButtonDark"));
-
-        Image unitImage6 = new Image(Warfare.atlas.findRegion("unitButtonDark"));
-        Image unitImage7 = new Image(Warfare.atlas.findRegion("unitButtonDark"));
-        Image unitImage8 = new Image(Warfare.atlas.findRegion("unitButtonDark"));
-        Image unitImage9 = new Image(Warfare.atlas.findRegion("unitButtonDark"));
-        Image unitImage10 = new Image(Warfare.atlas.findRegion("unitButtonDark"));
-
-
-        /** Создадим таблицк КОЛЛЕКЦИИ ЮНИТОВ
+        /** Создадим таблицу КОЛЛЕКЦИИ ЮНИТОВ
          * @param unitCollection - массив юнитов в коллекции
          * **/
         collectionTable = new CollectionTable(unitCollection);
 //        Table collectionTable = new CollectionTable(unitCollection).debug();
 
+        for (int i = 0; i < team.size(); i++) {
+            addClickListener(team.get(i));
+        }
+
         for (int i = 0; i < unitCollection.size(); i++) {
             addClickListener(unitCollection.get(i));
         }
 
+        collectionTable.debug();
+
         final Table scrollTable = new Table();
-//        final Table scrollTable = new Table().debug();
-        scrollTable.add(collectionTable).left().expand().top();
 
-//        scrollTable.add(unitImage).width(unitImage.getWidth()).height(unitImage.getHeight()).left();
-//        scrollTable.add(unitImage).width(unitImage.getWidth()).height(unitImage.getHeight()).left();
-        scrollTable.row();
-//        scrollTable.add(text);
+        scrollTable.left().top();
+//        scrollTable.align(Align.topLeft);
+//        scrollTable.setWidth(collectionTable.getWidth());
+//        scrollTable.setHeight(collectionTable.getHeight());
+        scrollTable.add(collectionTable).width(collectionTable.getWidth()).height(collectionTable.getHeight());
 
+        /** scroller - это окно прокрутки, сама прокрутка **/
         final ScrollPane scroller = new ScrollPane(scrollTable);
 
+
+        /** таблица - "ОКНО", в котором будет размещен scroller**/
         table = new Table();
-//        final Table table = new Table().debug();
-        table.setWidth(teamTableWidth);
 
+        table.left().top();
+        //table = new Table().debug();
+
+        table.setWidth(collectionTable.getWidth());
         table.setHeight(270);
-//        table.setHeight(96 + paddingTop);
-
+//        table.add(scroller);
+//        table.add(scroller).expandX();
         table.add(scroller).fill().expand();
-
 
         table.setPosition(teamTable.getX(), background.getY() + 30);
         addActor(table);
 
         addActor(upgradeScreen);
-//        upgradeScreen.setPosition(table.getX(), table.getY());
-
 
         replaceUnitLabel.setPosition(background.getX() + background.getWidth() / 2 - replaceUnitLabel.getWidth() / 2,
                 background.getY() + background.getHeight() / 2 - replaceUnitLabel.getHeight());
@@ -217,7 +188,6 @@ public class TeamUpgradeScreen extends Group {
                 replaceUnitLabel.getY() - 128);
         addActor(replacedUnitImage);
     }
-
 
     /**
      * метод показывает заменяющего юнита (нового), которого игрок хочет добавить в команду
@@ -237,15 +207,9 @@ public class TeamUpgradeScreen extends Group {
 
         /** устанавливаем флаг - true для того чтобы обозначить, что происходит процесс замены юнита **/
         isReplaceActive = true;
-
-//        System.out.println("Show Replace Unit");
-//        if (replacedUnitImage == null)
-
-
     }
 
     public void hide() {
-//        levelOfDifficulty = " ";
         this.setVisible(false);
     }
 

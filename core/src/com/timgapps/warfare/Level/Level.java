@@ -36,13 +36,15 @@ public class Level extends StageGame {
     private HUD hud;
 
     private float energyCount = 0;
-    private float coinCount = 0;
+    private float coinCount;
     private int levelNumber;
+    private GameManager gameManager;
 
 
-    public Level(int levelNumber) {
+    public Level(int levelNumber, GameManager gameManager) {
 
         this.levelNumber = levelNumber;
+        this.gameManager = gameManager;
         System.out.println("Level Number " + levelNumber);
         setBackGround("level_bg");
         arrayEnemies = new ArrayList<EnemyUnit>();
@@ -77,10 +79,11 @@ public class Level extends StageGame {
 
 //        addChild(new Archer1(this, 200, 200, 30, 20));
 
+        coinCount = gameManager.getCoinsCount();
         hud = new HUD(this);
+        hud.setPosition(32, getHeight() - hud.getHeight());
         addOverlayChild(hud);
 //        hud.setPosition(32, getHeight() - 64);
-
 
         /** Добавим кнопки для вызова игровых юнитов **/
         addChild(new UnitButton(this, new Image(Warfare.atlas.findRegion("gnomeActive")),
@@ -222,6 +225,6 @@ public class Level extends StageGame {
     @Override
     public void dispose() {
         super.dispose();
-        hud.dispose();
+//        hud.dispose();
     }
 }

@@ -105,7 +105,7 @@ public class TeamEntity extends Group {
                 unitButton = new ImageButton(new TextureRegionDrawable(Warfare.atlas.findRegion("stoneButtonActive")),
                         new TextureRegionDrawable(Warfare.atlas.findRegion("stoneButtonInactive")));
 //                unitImage = new Image(Warfare.atlas.findRegion("stoneButtonActive"));
-                NAME = "Stone";
+                NAME = "Rock";
                 DAMAGE = 10;
                 HEALTH = 50;
                 SPEED = 0;
@@ -200,5 +200,9 @@ public class TeamEntity extends Group {
 
     public ImageButton getUnitButton() {
         return unitButton;
+    }
+
+    public String getName() {
+        return NAME;
     }
 }

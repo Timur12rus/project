@@ -47,13 +47,28 @@ public class GameManager {
         team.add(new TeamEntity(TeamEntity.GNOME));
         team.add(new TeamEntity(TeamEntity.ARCHER));
         team.add(new TeamEntity(TeamEntity.STONE));
-        team.add(new TeamEntity(TeamEntity.NONE));
-        team.add(new TeamEntity(TeamEntity.NONE));
+//        team.add(new TeamEntity(TeamEntity.NONE));
+//        team.add(new TeamEntity(TeamEntity.NONE));
 
         /** Добавляем бойцов в коллекцию **/
         // TODO: 31.01.2020  Здесь нужно будет изменить код, так чтобы брать данные из сохранненного объекта
         collection.add(new TeamEntity(TeamEntity.THOR));
-        collection.add(new TeamEntity(TeamEntity.NONE));
+//        collection.add(new TeamEntity(TeamEntity.NONE));
+//        collection.add(new TeamEntity(TeamEntity.NONE));
+//
+//
+//        collection.add(new TeamEntity(TeamEntity.NONE));
+//        collection.add(new TeamEntity(TeamEntity.NONE));
+//        collection.add(new TeamEntity(TeamEntity.NONE));
+//        collection.add(new TeamEntity(TeamEntity.NONE));
+//
+//        collection.add(new TeamEntity(TeamEntity.THOR));
+//        collection.add(new TeamEntity(TeamEntity.NONE));
+//        collection.add(new TeamEntity(TeamEntity.NONE));
+//        collection.add(new TeamEntity(TeamEntity.NONE));
+//        collection.add(new TeamEntity(TeamEntity.NONE));
+//        collection.add(new TeamEntity(TeamEntity.NONE));
+//        collection.add(new TeamEntity(TeamEntity.NONE));
     }
 
     /**

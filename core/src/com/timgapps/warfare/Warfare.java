@@ -168,13 +168,13 @@ public class Warfare extends Game {
 
         switch (id) {   // создаем уровень на основе идентификатора
             case 1:
-                level = new Level(1);
+                level = new Level(1, gameManager);
                 break;
             case 2:
-                level = new Level(2);
+                level = new Level(2, gameManager);
                 break;
             default:
-                level = new Level(1);
+                level = new Level(1, gameManager);
                 break;
         }
 
@@ -187,7 +187,7 @@ public class Warfare extends Game {
 
     private void showLevel() {
         System.out.println("Show level");
-        level = new Level(1);
+        level = new Level(1, gameManager);
         setScreen(level);
     }
 }
