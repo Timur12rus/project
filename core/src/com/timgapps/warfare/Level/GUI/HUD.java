@@ -36,7 +36,15 @@ public class HUD extends Group {
         coinsPanel = new CoinsPanel(coinsCount);
         energyPanel = new EnergyPanel(level);
 
+        /** Таблица для отображения количества энергии и монет **/
+        energyTable = new Table();
+//        energyTable = new Table().debug();
+
+        energyTable.setWidth(level.getWidth() - 64);
+
+
         /** Добавляем элементы в таблицу **/
+
 
         energyTable.add(energyPanel);
         energyTable.add().expandX();
@@ -48,7 +56,7 @@ public class HUD extends Group {
     @Override
     public void act(float delta) {
         super.act(delta);
-        energyCountLabel.setText("" + level.getEnergyCount());
+//        energyCountLabel.setText("" + level.getEnergyCount());
     }
 
     public void updateCoinsCount(int count) {
