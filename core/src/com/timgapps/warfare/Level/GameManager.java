@@ -34,7 +34,7 @@ public class GameManager {
 
 
         /** количество монет у игрока **/
-        coinsCount = 6000;
+        coinsCount = 1000;
 
         coinsPanel = new CoinsPanel(coinsCount);
 

@@ -174,7 +174,7 @@ archerUnitImage
   index: -1
 arrow
   rotate: false
-  xy: 1895, 5
+  xy: 566, 198
   size: 44, 8
   orig: 44, 8
   offset: 0, 0
@@ -230,9 +230,9 @@ coin_icon
   index: -1
 coinsPanel
   rotate: false
-  xy: 1895, 15
-  size: 145, 54
-  orig: 145, 54
+  xy: 1895, 11
+  size: 132, 58
+  orig: 132, 58
   offset: 0, 0
   index: -1
 damage_icon
@@ -591,37 +591,44 @@ coinsPanel2
   orig: 166, 54
   offset: 0, 0
   index: -1
+coinsPanel3
+  rotate: false
+  xy: 1615, 520
+  size: 145, 54
+  orig: 145, 54
+  offset: 0, 0
+  index: -1
 emptyButtonActive
-  rotate: false
-  xy: 1615, 470
-  size: 96, 104
-  orig: 96, 104
-  offset: 0, 0
-  index: -1
-unitButtonDark
-  rotate: false
-  xy: 1615, 470
-  size: 96, 104
-  orig: 96, 104
-  offset: 0, 0
-  index: -1
-emptyButtonInactive
   rotate: false
   xy: 1769, 572
   size: 96, 104
   orig: 96, 104
   offset: 0, 0
   index: -1
-gnomeActive
+unitButtonDark
+  rotate: false
+  xy: 1769, 572
+  size: 96, 104
+  orig: 96, 104
+  offset: 0, 0
+  index: -1
+emptyButtonInactive
   rotate: false
   xy: 1943, 780
   size: 96, 104
   orig: 96, 104
   offset: 0, 0
   index: -1
-gnomeInactive
+gnomeActive
   rotate: false
   xy: 797, 220
+  size: 96, 104
+  orig: 96, 104
+  offset: 0, 0
+  index: -1
+gnomeInactive
+  rotate: false
+  xy: 797, 114
   size: 96, 104
   orig: 96, 104
   offset: 0, 0
@@ -663,49 +670,49 @@ levelIcon_active
   index: -1
 levelIcon_active_down
   rotate: false
-  xy: 998, 320
+  xy: 1762, 474
   size: 98, 96
   orig: 98, 96
   offset: 0, 0
   index: -1
 levelIcon_inactive
   rotate: false
-  xy: 993, 116
+  xy: 1867, 514
   size: 98, 96
   orig: 98, 96
   offset: 0, 0
   index: -1
 stoneButtonActive
   rotate: false
-  xy: 797, 114
+  xy: 895, 232
   size: 96, 104
   orig: 96, 104
   offset: 0, 0
   index: -1
 stoneButtonInactive
   rotate: false
-  xy: 895, 232
+  xy: 895, 126
   size: 96, 104
   orig: 96, 104
   offset: 0, 0
   index: -1
 targetRed
   rotate: false
-  xy: 999, 418
+  xy: 1615, 466
   size: 120, 52
   orig: 120, 52
   offset: 0, 0
   index: -1
 thorActive
   rotate: false
-  xy: 895, 126
+  xy: 1867, 612
   size: 96, 104
   orig: 96, 104
   offset: 0, 0
   index: -1
 thorInactive
   rotate: false
-  xy: 993, 214
+  xy: 1862, 408
   size: 96, 104
   orig: 96, 104
   offset: 0, 0
@@ -719,14 +726,14 @@ upgradeScreen
   index: -1
 upgradeTeamBtn
   rotate: false
-  xy: 1121, 374
+  xy: 999, 374
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: -1
 wood_icon
   rotate: false
-  xy: 1219, 406
+  xy: 1097, 406
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
