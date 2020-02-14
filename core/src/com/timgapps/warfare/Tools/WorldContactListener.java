@@ -56,14 +56,16 @@ public class WorldContactListener implements ContactListener {
             Object enemyUserData = fixB.getUserData();
             if (userData instanceof PlayerUnit) {
                 if (((PlayerUnit) userData).getCurrentState() != GameUnit.State.ATTACK) {
-                    ((PlayerUnit) userData).attack();
                     ((PlayerUnit) userData).setTargetEnemy((EnemyUnit) enemyUserData);
+                    ((PlayerUnit) userData).attack();
+
                 } else return;
             }
             if (enemyUserData instanceof EnemyUnit) {
                 if (((EnemyUnit) enemyUserData).getCurrentState() != GameUnit.State.ATTACK) {
-                    ((EnemyUnit) enemyUserData).attack();
                     ((EnemyUnit) enemyUserData).setTargetPlayer((PlayerUnit) userData);
+                    ((EnemyUnit) enemyUserData).attack();
+
                 } else return;
             }
         } else {
@@ -97,8 +99,8 @@ public class WorldContactListener implements ContactListener {
 
             }
         } else {
-            Object enemyUserData = fixA.getUserData();
             Object bulletData = fixB.getUserData();
+            Object enemyUserData = fixA.getUserData();
             if (bulletData instanceof Bullet) {
                 ((Bullet) bulletData).inflictDamage((EnemyUnit) enemyUserData);
             }

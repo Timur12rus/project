@@ -34,7 +34,7 @@ public class UnitButton extends Group {
         this.inactiveImage = inactiveImage;
         this.level = level;
 
-        System.out.println("energyPrice = " + energyPrice);
+//        System.out.println("energyPrice = " + energyPrice);
 
         addActor(activeImage);
         addActor(inactiveImage);

@@ -19,6 +19,7 @@ public class EnemyUnit extends GameUnit {
 
     //    protected Rectangle rectangle;
     private ShapeRenderer shapeRenderer;
+//    public enum State {WALKING, ATTACK, STAY, DIE, RUN, HART}
 
     public void setDraw(boolean draw) {
         isDraw = draw;
@@ -52,6 +53,7 @@ public class EnemyUnit extends GameUnit {
     public void setAttackStone(Stone stone) {
         if (!isAttackStone) {
             isAttackStone = true;
+            currentState = State.ATTACK;
             this.stone = stone;
 //            System.out.println("isAttackStone = " + isAttackStone);
 //        stone.setHealth(damage);

@@ -139,7 +139,7 @@ public class LevelMap extends StageGame {
 
     private void showTeamUpgradeScreen() {
         teamUpgradeScreen.setVisible(true);
-        System.out.println("SHOW!");
+//        System.out.println("SHOW!");
     }
 
     /**
@@ -171,7 +171,7 @@ public class LevelMap extends StageGame {
         public void clicked(InputEvent event, float x, float y) {
             //будем воспроизводить звук щелчка и передавать в callBack сообщенме onLevelSelected
             selectedLevelId = ((LevelIcon) event.getTarget()).getId();
-            System.out.println("selectedLevelId = " + selectedLevelId);
+//            System.out.println("selectedLevelId = " + selectedLevelId);
 //            call(ON_LEVEL_SELECTED);
             showMissionInfo(selectedLevelId);
         }
@@ -179,7 +179,7 @@ public class LevelMap extends StageGame {
 
 
     private void showMissionInfo(int selectedLevelId) {
-        System.out.println("showMission Info");
+//        System.out.println("showMission Info");
         if (!missionInfoScreen.isVisible()) {
             /** передадим данные об уровне в объект экрана информации об уровне
              * здесь "selectedLevelId - 1", потому что levelIcons.get(..) возвращает элемент списка с индексом на 1 меньше,

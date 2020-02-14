@@ -94,7 +94,7 @@ public abstract class GameUnit extends Actor implements IBody {
      * метод для атаки
      **/
     public void attack() {
-
+        
     }
 
     /**

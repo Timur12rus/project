@@ -20,6 +20,7 @@ import com.timgapps.warfare.Utils.Setting;
 import com.timgapps.warfare.Warfare;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Level extends StageGame {
 
@@ -39,13 +40,14 @@ public class Level extends StageGame {
     private float coinCount;
     private int levelNumber;
     private GameManager gameManager;
+    Random random;
 
 
     public Level(int levelNumber, GameManager gameManager) {
 
         this.levelNumber = levelNumber;
         this.gameManager = gameManager;
-        System.out.println("Level Number " + levelNumber);
+//        System.out.println("Level Number " + levelNumber);
         setBackGround("level_bg");
         arrayEnemies = new ArrayList<EnemyUnit>();
         arrayActors = new ArrayList<Actor>();
@@ -55,7 +57,7 @@ public class Level extends StageGame {
 
 
         /** Добавим вражеских юнитов **/
-//        Random random = new Random();
+        random = new Random();
         Zombie1 zombie = new Zombie1(this, 800, 250, 20, 3);
         Zombie1 zombie1 = new Zombie1(this, 1300, 230, 20, 3);
         Zombie1 zombie2 = new Zombie1(this, 1100, 170, 20, 3);
@@ -208,6 +210,10 @@ public class Level extends StageGame {
                 }
             }
         }
+    }
+
+    public Random getRandom() {
+        return random;
     }
 
     public int getEnergyCount() {

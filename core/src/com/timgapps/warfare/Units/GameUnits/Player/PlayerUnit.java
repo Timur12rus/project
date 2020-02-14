@@ -61,6 +61,10 @@ public class PlayerUnit extends GameUnit {
 
 
     public void setTargetEnemy(EnemyUnit enemyUnit) {
+//        resetTarget();
+//        targetEnemy = enemyUnit;
+//        isHaveTarget = true;
+//        isAttack = true;
     }
 
     @Override

@@ -76,7 +76,7 @@ public class Archer1 extends PlayerUnit {
      * Метод для поиска цели-врага
      **/
     private void findTarget() {
-        System.out.println("findTarget");
+//        System.out.println("findTarget");
         ArrayList<EnemyUnit> enemies = level.getArrayEnemies();
         Vector2 playerPosition = body.getPosition();
         Vector2 enemyPosition;
