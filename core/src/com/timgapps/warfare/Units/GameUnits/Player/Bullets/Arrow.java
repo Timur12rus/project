@@ -7,29 +7,45 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.timgapps.warfare.Level.Level;
+import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnit;
 import com.timgapps.warfare.Units.GameUnits.GameUnit;
+import com.timgapps.warfare.Units.GameUnits.Player.Archer1;
 import com.timgapps.warfare.Warfare;
 
 public class Arrow extends Bullet {
 
     private TextureRegion image;
-    private final float VELOCITY = 10;
+    private final float VELOCITY = 8;
+    private Archer1 archer;
 
-    public Arrow(Level level, float x, float y, float damage) {
+    public Arrow(Level level, Archer1 archer, float x, float y, float damage) {
         super(level, x, y);
         this.damage = damage;
         image = new TextureRegion(Warfare.atlas.findRegion("arrow"));
-        createBody(x, y);
+//        createBody(x, y);
         level.addChild(this);
 //        level.addChild(this, x, y);
         body = createBody(x,y);
         body.setLinearVelocity(VELOCITY, 0);
+        this.archer = archer;
     }
+
+    @Override
+    public void inflictDamage(EnemyUnit enemyUnit) {
+        super.inflictDamage(enemyUnit);
+        archer.resetIsFired();
+    }
+
 
     @Override
     public void act(float delta) {
         super.act(delta);
         setPosition(body.getPosition().x * Level.WORLD_SCALE, body.getPosition().y * Level.WORLD_SCALE + 32);
+
+        if (getX() > Warfare.V_WIDTH) {
+            isDamaged = true;
+            archer.resetIsFired();
+        }
     }
 
     @Override
@@ -43,6 +59,7 @@ public class Arrow extends Bullet {
 
         FixtureDef fDef = new FixtureDef();
         fDef.shape = shape;
+        fDef.density = 0.01f;
         fDef.filter.categoryBits = GameUnit.BULLET_BIT;
         fDef.filter.maskBits = GameUnit.ENEMY_BIT;
 

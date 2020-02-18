@@ -131,8 +131,6 @@ public class Stone extends Bullet {
                 isDamaged = true;
                 isDestroyed = true;
                 body.setActive(false);
-
-
             } else {
                 moveIsEnd = true;
             }

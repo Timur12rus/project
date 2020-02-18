@@ -109,7 +109,7 @@ public class Zombie1 extends Zombie {
 //    }
 //
 //    @Override
-//    public void attack() {
+//    public void fire() {
 //
 //        if (!isAttack) {        // проверяем, в состоянии ли "атаки" юнит
 //            currentState = State.STAY;

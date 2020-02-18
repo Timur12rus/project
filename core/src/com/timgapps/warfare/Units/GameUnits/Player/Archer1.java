@@ -5,11 +5,6 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.timgapps.warfare.Level.Level;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnit;
@@ -21,7 +16,7 @@ import java.util.ArrayList;
 
 public class Archer1 extends PlayerUnit {
 
-    private float stateTime;
+//    private float stateTime;
     private boolean isAttack = false;   // флаг, указывет на то, в состоянии ли атаки находится юнит
     private boolean isHaveTarget = false;
     private GameUnit targetEnemy;
@@ -32,8 +27,12 @@ public class Archer1 extends PlayerUnit {
 
     private final float ATTACK_DISTANCE = 300;
     private final float VELOCITY = 0.6f;
-    private static float APPEARANCE_TIME = 30;
-    protected static int ENERGY_PRICE = 20;
+    private static float APPEARANCE_TIME = 1;
+    //    private static float APPEARANCE_TIME = 30;
+    protected static int ENERGY_PRICE = 1;
+//    protected static int ENERGY_PRICE = 20;
+
+    private boolean isFired = false;
 
     public Archer1(Level level, float x, float y, float health, float damage) {
         super(level, x, y, health, damage);
@@ -81,9 +80,13 @@ public class Archer1 extends PlayerUnit {
         Vector2 playerPosition = body.getPosition();
         Vector2 enemyPosition;
 //        targetEnemy = enemies.get(0);
+
+
+        /** найдем ближайшего к юниту ВРАГА **/
         float minDistance = 0;
         for (int i = 0; i < enemies.size(); i++) {
             enemyPosition = enemies.get(i).getBodyPosition();
+            /** если разница позиций по оси Х > 30, такой ВРАГ подойдет **/
             if ((enemyPosition.x - playerPosition.x) * Level.WORLD_SCALE > 30) {
                 if (minDistance == 0) {
                     minDistance = (enemyPosition.x - playerPosition.x) * Level.WORLD_SCALE;
@@ -115,11 +118,21 @@ public class Archer1 extends PlayerUnit {
     private void checkAttack(EnemyUnit targetEnemy) {
         float distance = (targetEnemy.getBodyPosition().x - body.getPosition().x) * Level.WORLD_SCALE;
 
+
+        /** юнит выпустит стрелу на третьем кадре анимации
+         * @param isFired - флаг, если выстрелил, то isFired = true, не будет стрелять, пока isFired снова не станет - false
+         */
+        if (currentState == State.ATTACK && (attackAnimation.getKeyFrameIndex(stateTime) == 3)) {
+            if (!isFired) {
+                isFired = true;
+                fire();
+            }
+        }
+
         if (currentState == State.ATTACK && attackAnimation.isAnimationFinished(stateTime)) {
-            attack();
+            stateTime = 0;
             currentState = State.STAY;
             stay();
-            stateTime = 0;
         }
 
         if ((currentState == State.STAY) && (stayAnimation.isAnimationFinished(stateTime))) {
@@ -134,17 +147,17 @@ public class Archer1 extends PlayerUnit {
 
         if ((verticalDirectionMovement == Direction.NONE) && (distance <= ATTACK_DISTANCE)) {
             if ((currentState == State.WALKING) && (walkAnimation.isAnimationFinished(stateTime))) {
+                stateTime = 0;
                 currentState = State.ATTACK;
                 stay();
-                stateTime = 0;
             }
         }
 
         if ((verticalDirectionMovement == Direction.NONE) && (distance > ATTACK_DISTANCE)) {
             if ((currentState == State.STAY) && (stayAnimation.isAnimationFinished(stateTime))) {
                 moveRight();
-                currentState = State.WALKING;
                 stateTime = 0;
+                currentState = State.WALKING;
             }
 
             if (currentState == State.WALKING && walkAnimation.isAnimationFinished(stateTime)) {
@@ -163,10 +176,9 @@ public class Archer1 extends PlayerUnit {
 
     }
 
-    @Override
-    public void attack() {
-        super.attack();
-        new Arrow(level, body.getPosition().x * Level.WORLD_SCALE, body.getPosition().y * Level.WORLD_SCALE, damage);
+
+    public void fire() {
+        new Arrow(level, this, body.getPosition().x * Level.WORLD_SCALE, body.getPosition().y * Level.WORLD_SCALE, damage);
     }
 
     private void moveRight() {
@@ -229,7 +241,7 @@ public class Archer1 extends PlayerUnit {
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
 //        if (level.getState() == Level.PLAY) {
-        stateTime += Gdx.graphics.getDeltaTime();
+//        stateTime += Gdx.graphics.getDeltaTime();
 //        }
 //        batch.setColor(1, 1, 1, 1);
 
@@ -305,5 +317,9 @@ public class Archer1 extends PlayerUnit {
 
     public static float getAppearanceTime() {
         return APPEARANCE_TIME;
+    }
+
+    public void resetIsFired() {
+        isFired = false;
     }
 }

@@ -64,12 +64,15 @@ public class TeamUpgradeScreen extends Group {
 
     private Label teamLabel;
     private String teamText;
+    private GameManager gameManager;
 
 
     /**
      * передаем в конструктор список team, который содержит в себе КОМАНДУ ЮНИТОВ
      **/
     public TeamUpgradeScreen(GameManager gameManager) {
+
+        this.gameManager = gameManager;
 
         team = gameManager.getTeam();
 
@@ -98,7 +101,7 @@ public class TeamUpgradeScreen extends Group {
 
         teamLabel = new Label(teamText, labelStyle);
         teamLabel.setPosition(background.getX() + (background.getWidth() - teamLabel.getWidth()) / 2,
-                                background.getY() + background.getHeight() - teamLabel.getHeight() - 6);
+                background.getY() + background.getHeight() - teamLabel.getHeight() - 6);
         addActor(teamLabel);
 
         /** рабочий код 14.01.2020 **/
@@ -289,7 +292,7 @@ public class TeamUpgradeScreen extends Group {
     private void updateTeamTable() {
 //        teamTable.clearChildren();
         for (int i = 0; i < team.size(); i++) {
-            Cell<TeamEntity> cell = teamTable.getCell(team.get(i));
+//            Cell<TeamEntity> cell = teamTable.getCell(team.get(i));
 
             Array<Cell> cells = teamTable.getCells();
             cells.get(i).clearActor();
@@ -302,11 +305,19 @@ public class TeamUpgradeScreen extends Group {
      **/
     private void updateCollectionTable() {
         for (int i = 0; i < unitCollection.size(); i++) {
-            Cell<TeamEntity> cell = collectionTable.getCell(unitCollection.get(i));
+//            Cell<TeamEntity> cell = collectionTable.getCell(unitCollection.get(i));
 
             Array<Cell> cells = collectionTable.getCells();
             cells.get(i).clearActor();
             cells.get(i).setActor(unitCollection.get(i));
         }
+    }
+
+    public void updateTeam() {
+        gameManager.updateTeam();
+    }
+
+    public void updateCollectionTeam() {
+        gameManager.updateCollection();
     }
 }

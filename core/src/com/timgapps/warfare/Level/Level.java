@@ -5,12 +5,15 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
 import com.boontaran.games.StageGame;
 import com.timgapps.warfare.Level.GUI.HUD;
+import com.timgapps.warfare.Level.GUI.Screens.TeamEntity;
 import com.timgapps.warfare.Level.GUI.StoneButton;
 import com.timgapps.warfare.Level.GUI.UnitButton;
 import com.timgapps.warfare.Tools.WorldContactListener;
+import com.timgapps.warfare.Units.GameUnits.Barricade;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnit;
 import com.timgapps.warfare.Units.GameUnits.Enemy.Zombie;
 import com.timgapps.warfare.Units.GameUnits.Enemy.Zombie1;
@@ -42,11 +45,18 @@ public class Level extends StageGame {
     private GameManager gameManager;
     Random random;
 
+    private ArrayList<TeamEntity> team;
+
+    private Barricade barricade;
+
+    private Image rockBig, rockMiddle, rockSmall;
+
 
     public Level(int levelNumber, GameManager gameManager) {
 
         this.levelNumber = levelNumber;
         this.gameManager = gameManager;
+
 //        System.out.println("Level Number " + levelNumber);
         setBackGround("level_bg");
         arrayEnemies = new ArrayList<EnemyUnit>();
@@ -56,23 +66,32 @@ public class Level extends StageGame {
         debugRender = new Box2DDebugRenderer(); // объект debugRendered будем использовать для отладки игрового мира, он позволяет выделить границы полигона
 
 
+        /** создадим баррикаду **/
+        barricade = new Barricade(this, Barricade.ROCKS);
+//        addChild(barricade);
+
+
         /** Добавим вражеских юнитов **/
         random = new Random();
-        Zombie1 zombie = new Zombie1(this, 800, 250, 20, 3);
-        Zombie1 zombie1 = new Zombie1(this, 1300, 230, 20, 3);
-        Zombie1 zombie2 = new Zombie1(this, 1100, 170, 20, 3);
-        Zombie1 zombie3 = new Zombie1(this, 900, 200, 20, 3);
-        Zombie zombie4 = new Zombie(this, 1200, 200, 20, 5);
+
+//        Zombie1 zombie = new Zombie1(this, 800, 250, 20, 3);
+//        Zombie1 zombie1 = new Zombie1(this, 1300, 230, 20, 3);
+//        Zombie1 zombie2 = new Zombie1(this, 1100, 180, 20, 3);
+//        Zombie1 zombie3 = new Zombie1(this, 900, 210, 20, 3);
+//        Zombie zombie4 = new Zombie(this, 1200, 200, 20, 5);
+
 //        Zombie1 zombie3 = new Zombie1(this, 900, 120 + (random.nextFloat() * 150) + 30, 20, 10);
 //        Zombie1 zombie4 = new Zombie1(this, 870, 120 + (random.nextFloat() * 150), 50, 10);
 //        Zombie zombie5 = new Zombie(this, 930, 150 + (random.nextFloat() * 150) + 20, 50, 10);
         accumulator = 0;
 
-        arrayEnemies.add(zombie);
-        arrayEnemies.add(zombie1);
-        arrayEnemies.add(zombie2);
-        arrayEnemies.add(zombie3);
-        arrayEnemies.add(zombie4);
+//        arrayEnemies.add(zombie);
+//        arrayEnemies.add(zombie1);
+//        arrayEnemies.add(zombie2);
+//        arrayEnemies.add(zombie3);
+//        arrayEnemies.add(zombie4);
+
+
 //        arrayEnemies.add(zombie1);
 //        arrayEnemies.add(zombie2);
 //        arrayEnemies.add(zombie3);
@@ -88,17 +107,34 @@ public class Level extends StageGame {
 //        hud.setPosition(32, getHeight() - 64);
 
         /** Добавим кнопки для вызова игровых юнитов **/
-        addChild(new UnitButton(this, new Image(Warfare.atlas.findRegion("gnomeActive")),
-                        new Image(Warfare.atlas.findRegion("gnomeInactive")), UnitButton.TypeOfUnit.GNOME),
-                500, 16);
+//        addChild(new UnitButton(this, new Image(Warfare.atlas.findRegion("gnomeActive")),
+//                        new Image(Warfare.atlas.findRegion("gnomeInactive")), UnitButton.TypeOfUnit.GNOME),
+//                500, 16);
+//
+//        addChild(new UnitButton(this, new Image(Warfare.atlas.findRegion("archer1Active")),
+//                        new Image(Warfare.atlas.findRegion("archer1Inactive")), UnitButton.TypeOfUnit.ARCHER1),
+//                640, 16);
+//
+//        addChild(new StoneButton(this, new Image(Warfare.atlas.findRegion("stoneButtonActive")),
+//                        new Image(Warfare.atlas.findRegion("stoneButtonInactive")), UnitButton.TypeOfUnit.STONE),
+//                780, 16);
 
-        addChild(new UnitButton(this, new Image(Warfare.atlas.findRegion("archer1Active")),
-                        new Image(Warfare.atlas.findRegion("archer1Inactive")), UnitButton.TypeOfUnit.ARCHER1),
-                640, 16);
 
-        addChild(new StoneButton(this, new Image(Warfare.atlas.findRegion("stoneButtonActive")),
-                        new Image(Warfare.atlas.findRegion("stoneButtonInactive")), UnitButton.TypeOfUnit.STONE),
-                780, 16);
+
+//        rockBig = new Image(Warfare.atlas.findRegion("rock_big"));
+//        rockMiddle = new Image(Warfare.atlas.findRegion("rock_middle"));
+//        rockSmall = new Image(Warfare.atlas.findRegion("rock_small"));
+//        arrayActors.add(rockSmall);
+//        arrayActors.add(rockMiddle);
+//        arrayActors.add(rockBig);
+//
+//        addChild(rockSmall, 1100, 300);
+//        addChild(rockMiddle, 1120, 240);
+//        addChild(rockBig, 1090, 150);
+
+        addUnitButtons();
+
+
     }
 
 
@@ -233,4 +269,68 @@ public class Level extends StageGame {
         super.dispose();
 //        hud.dispose();
     }
+
+    public void addUnitButtons() {
+        team = gameManager.getTeam();
+        Table tableUnitButtons = new Table().debug();
+        float unitButtonWidth = team.get(0).getWidth();
+        float unitButtonHeight = team.get(0).getHeight();
+        StoneButton stoneButton = new StoneButton(this, new Image(Warfare.atlas.findRegion("stoneButtonActive")),
+                new Image(Warfare.atlas.findRegion("stoneButtonInactive")), UnitButton.TypeOfUnit.STONE);
+
+
+        for (int i = 0; i < team.size(); i++) {
+//            tableUnitButtons.add(team.get(i).getUnitButton()).padLeft(12).padRight(12);
+            switch (team.get(i).getUnitType()) {
+                case TeamEntity.GNOME:
+                    tableUnitButtons.add(new UnitButton(this, new Image(Warfare.atlas.findRegion("gnomeActive")),
+                            new Image(Warfare.atlas.findRegion("gnomeInactive")), UnitButton.TypeOfUnit.GNOME))
+                            .width(unitButtonWidth).height(unitButtonHeight).padLeft(12).padRight(12);
+                    break;
+                case TeamEntity.ARCHER:
+                    tableUnitButtons.add(new UnitButton(this, new Image(Warfare.atlas.findRegion("archer1Active")),
+                            new Image(Warfare.atlas.findRegion("archer1Inactive")), UnitButton.TypeOfUnit.ARCHER1))
+                            .width(unitButtonWidth).height(unitButtonHeight).padLeft(12).padRight(12);
+                    break;
+                case TeamEntity.THOR:
+//                     tableUnitButtons.add(new UnitButton(this, new Image(Warfare.atlas.findRegion("thorActive")),
+//                             new Image(Warfare.atlas.findRegion("thorInactive")),UnitButton.TypeOfUnit.ARCHER1)).padLeft(12).padRight(12);
+//                     break;
+                    tableUnitButtons.add(new UnitButton(this, new Image(Warfare.atlas.findRegion("archer1Active")),
+                            new Image(Warfare.atlas.findRegion("archer1Inactive")), UnitButton.TypeOfUnit.ARCHER1))
+                            .width(unitButtonWidth).height(unitButtonHeight).padLeft(12).padRight(12);
+                    break;
+
+                case TeamEntity.STONE:
+                    tableUnitButtons.add(stoneButton)
+                            .width(unitButtonWidth).height(unitButtonHeight).padLeft(12).padRight(12);
+                    break;
+            }
+        }
+
+//        tableUnitButtons.setWidth(300);
+        tableUnitButtons.setWidth(team.size() * unitButtonWidth + 24);
+        tableUnitButtons.setHeight(team.get(0).getHeight());
+
+//        System.out.println("Team(0) width = " + team.get(0).getWidth());
+//        System.out.println("Team(0) height = " + team.get(0).getHeight());
+
+        tableUnitButtons.setPosition((getWidth() - tableUnitButtons.getWidth()) / 2, 24);
+//        tableUnitButtons.setPosition((getWidth() - tableUnitButtons.getWidth()) / 2, 32);
+
+        stoneButton.setUnitButtonTablePosX(tableUnitButtons.getX());
+        addOverlayChild(tableUnitButtons);
+    }
+
+//    addChild(new UnitButton(this, new Image(Warfare.atlas.findRegion("gnomeActive")),
+//            new Image(Warfare.atlas.findRegion("gnomeInactive")),UnitButton.TypeOfUnit.GNOME),
+//            500,16);
+//
+//    addChild(new UnitButton(this, new Image(Warfare.atlas.findRegion("archer1Active")),
+//            new Image(Warfare.atlas.findRegion("archer1Inactive")),UnitButton.TypeOfUnit.ARCHER1),
+//            640,16);
+//
+//    addChild(new StoneButton(this, new Image(Warfare.atlas.findRegion("stoneButtonActive")),
+//            new Image(Warfare.atlas.findRegion("stoneButtonInactive")),UnitButton.TypeOfUnit.STONE),
+//            780,16);
 }

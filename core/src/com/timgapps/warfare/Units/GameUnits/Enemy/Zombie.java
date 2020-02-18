@@ -25,7 +25,7 @@ public class Zombie extends EnemyUnit {
 
     protected final float VELOCITY = -0.35f;
     //    public State currentState = State.ATTACK;
-    protected float stateTime;
+//    protected float stateTime;
 
     protected Animation walkAnimation;            // анимация для ходьбы
     protected Animation attackAnimation;          // анимация для атаки
@@ -154,7 +154,13 @@ public class Zombie extends EnemyUnit {
 
         /** если состояние = State.DIE и анимация завершена, то уничтожаем юнита **/
         if (currentState == State.DIE && dieAnimation.isAnimationFinished(stateTime)) {
-            destroy();
+
+            /** МОЖЕТ ПРИГОДИТЬСЯ 17.02.2020
+             //            destroy();
+             **/
+
+            setToDestroy();
+
 //            setToDestroyBody = true;
         }
 //
@@ -185,19 +191,32 @@ public class Zombie extends EnemyUnit {
             stay();
         }
 
-        setPosition(body.getPosition().x * Level.WORLD_SCALE, body.getPosition().y * Level.WORLD_SCALE);
+//        setPosition(body.getPosition().x * Level.WORLD_SCALE, body.getPosition().y * Level.WORLD_SCALE);
 
     }
 
-    protected void destroy() {
-        if (!body.isActive()) {
-//            world.destroyBody(body);
-            bloodSpray.dispose();
-            level.removeEnemyUnitFromArray(this);
-            this.remove();
-
-        }
+    @Override
+    public boolean remove() {
+        bloodSpray.dispose();
+//        System.out.println("dispose REMOVE");
+        level.removeEnemyUnitFromArray(this);
+        return super.remove();
     }
+
+    /**
+     * РАБОЧИЙ КОДА 17.02.2020
+     * <p>
+     * protected void destroy() {
+     * if (!body.isActive()) {
+     * //            world.destroyBody(body);
+     * bloodSpray.dispose();
+     * level.removeEnemyUnitFromArray(this);
+     * this.remove();
+     * <p>
+     * }
+     * }
+     **/
+
 
     public void moveLeft(Body body) {
         Vector2 vel = body.getLinearVelocity();
@@ -288,37 +307,65 @@ public class Zombie extends EnemyUnit {
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
 //        if (level.getState() == Level.PLAY) {
-        stateTime += Gdx.graphics.getDeltaTime();
+//        stateTime += Gdx.graphics.getDeltaTime();
 //        }
 //        batch.setColor(1, 1, 1, 1);
 
         if (isDraw()) {
             if (currentState == State.WALKING) {
-                batch.draw((TextureRegion) walkAnimation.getKeyFrame(stateTime, true), getX() - 114, getY() - 14);
+                batch.draw((TextureRegion) walkAnimation.getKeyFrame(stateTime, true), getX() - 108, getY());
             }
 
             if (currentState == State.ATTACK) {
-                batch.draw((TextureRegion) attackAnimation.getKeyFrame(stateTime, false), getX() - 114, getY() - 14);
+                batch.draw((TextureRegion) attackAnimation.getKeyFrame(stateTime, false), getX() - 108, getY());
             }
 
             if (currentState == State.STAY) {
-                batch.draw((TextureRegion) stayAnimation.getKeyFrame(stateTime, true), getX() - 114, getY() - 14);
+                batch.draw((TextureRegion) stayAnimation.getKeyFrame(stateTime, true), getX() - 108, getY());
             }
 
             if (currentState == State.RUN) {
-                batch.draw((TextureRegion) runAnimation.getKeyFrame(stateTime, true), getX() - 114, getY() - 14);
+                batch.draw((TextureRegion) runAnimation.getKeyFrame(stateTime, true), getX() - 108, getY());
             }
 
             if (currentState == State.HART) {
-                batch.draw((TextureRegion) hartAnimation.getKeyFrame(stateTime, false), getX() - 114, getY() - 14);
+                batch.draw((TextureRegion) hartAnimation.getKeyFrame(stateTime, false), getX() - 108, getY());
             }
 
             if (currentState == State.DIE) {
-                batch.draw((TextureRegion) dieAnimation.getKeyFrame(stateTime, false), getX() - 114, getY() - 14);
+                batch.draw((TextureRegion) dieAnimation.getKeyFrame(stateTime, false), getX() - 108, getY());
             }
         } else {
             setDraw(true);
         }
+
+//        if (isDraw()) {
+//            if (currentState == State.WALKING) {
+//                batch.draw((TextureRegion) walkAnimation.getKeyFrame(stateTime, true), getX() - 114, getY() - 14);
+//            }
+//
+//            if (currentState == State.ATTACK) {
+//                batch.draw((TextureRegion) attackAnimation.getKeyFrame(stateTime, false), getX() - 114, getY() - 14);
+//            }
+//
+//            if (currentState == State.STAY) {
+//                batch.draw((TextureRegion) stayAnimation.getKeyFrame(stateTime, true), getX() - 114, getY() - 14);
+//            }
+//
+//            if (currentState == State.RUN) {
+//                batch.draw((TextureRegion) runAnimation.getKeyFrame(stateTime, true), getX() - 114, getY() - 14);
+//            }
+//
+//            if (currentState == State.HART) {
+//                batch.draw((TextureRegion) hartAnimation.getKeyFrame(stateTime, false), getX() - 114, getY() - 14);
+//            }
+//
+//            if (currentState == State.DIE) {
+//                batch.draw((TextureRegion) dieAnimation.getKeyFrame(stateTime, false), getX() - 114, getY() - 14);
+//            }
+//        } else {
+//            setDraw(true);
+//        }
 
         if (isDamaged)
             bloodSpray.draw(batch);

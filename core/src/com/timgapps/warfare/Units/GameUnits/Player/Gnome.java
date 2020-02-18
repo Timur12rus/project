@@ -22,11 +22,11 @@ import static com.badlogic.gdx.math.Vector2.len;
 
 public class Gnome extends PlayerUnit {
 
-    private boolean isAttack = false;   // флаг, указывет на то, в состоянии ли атаки находится юнит
+//    protected boolean isAttack = false;   // флаг, указывет на то, в состоянии ли атаки находится юнит
 
     private final float VELOCITY = 0.8f;
     //    public State currentState = State.RUN;
-    private float stateTime;
+//    private float stateTime;
 
     private World world;
     private float x, y;
@@ -54,10 +54,6 @@ public class Gnome extends PlayerUnit {
         level.addChild(this, x, y);
         level.arrayActors.add(this);        // добавим юнита к массиву игровых актеров
     }
-
-
-
-
 
     @Override
     public void act(float delta) {
@@ -236,7 +232,7 @@ public class Gnome extends PlayerUnit {
         /** расстояние от врага до текущего юнита (путь который должен пройти игровой юнита до врага **/
         Vector2 distanceToEnemy = (enemyUnit.getBodyPosition().sub(getBodyPosition()));
 
-        /** время необъодимое для движения до вражеского юнита t = S / V **/
+        /** время необходимое для движения до вражеского юнита t = S / V **/
         float time = distanceToEnemy.len() / VELOCITY;
 
 
@@ -362,6 +358,8 @@ public class Gnome extends PlayerUnit {
 //        System.out.println("IsHAVETARGET = " + isHaveTarget);
         targetEnemy = enemyUnit;
         isAttack = true;
+        stateTime = 0;
+        currentState = State.ATTACK;
 //        System.out.println("Set Target ENemy");
 //        System.out.println("CurrentState = " + currentState.toString());
     }
@@ -390,7 +388,7 @@ public class Gnome extends PlayerUnit {
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
 //        if (level.getState() == Level.PLAY) {
-        stateTime += Gdx.graphics.getDeltaTime();
+//        stateTime += Gdx.graphics.getDeltaTime();
 //        }
 //        batch.setColor(1, 1, 1, 1);
 

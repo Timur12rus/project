@@ -7,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.timgapps.warfare.Level.Level;
+import com.timgapps.warfare.Units.GameUnits.Barricade;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnit;
 import com.timgapps.warfare.Units.GameUnits.GameUnit;
 
@@ -19,11 +20,16 @@ public class PlayerUnit extends GameUnit {
     protected Animation runAnimation;            // анимация для бежит
     protected Animation hartAnimation;            // анимация для получает урон
 
+    protected boolean isAttack = false;   // флаг, указывет на то, в состоянии ли атаки находится юнит
+//    protected float stateTime;
+
     public static int energyPrice;     // количество энергии для рождения юнита
 
     public static final int GNOME = 1;
     public static final int ARCHER = 2;
     public static final int STONE = 3;
+
+    protected boolean isAttackBarricade = false;
 
 
     @Override
@@ -38,7 +44,7 @@ public class PlayerUnit extends GameUnit {
         FixtureDef fDef = new FixtureDef();
         fDef.shape = shape;
         fDef.filter.categoryBits = GameUnit.PLAYER_BIT;
-        fDef.filter.maskBits = GameUnit.ENEMY_BIT;
+        fDef.filter.maskBits = GameUnit.ENEMY_BIT | BARRICADE_BIT;
 
         body.createFixture(fDef).setUserData(this);
         shape.dispose();
@@ -72,9 +78,30 @@ public class PlayerUnit extends GameUnit {
         super.act(delta);
         /** обновим позицию текущего игрового объекта **/
         setPosition(body.getPosition().x * Level.WORLD_SCALE - 18, body.getPosition().y * Level.WORLD_SCALE);
+
     }
 
     public static int getEnergyPrice() {
         return energyPrice;
+    }
+
+
+    /**
+     * метод для атаки баррикады!
+     **/
+    public void attackBarricade(Barricade barricade) {
+        if (!isAttackBarricade && !isAttack) {
+            isAttackBarricade = true;
+            stateTime = 0;
+            currentState = State.ATTACK;
+        }
+
+        if (isAttackBarricade && attackAnimation.isAnimationFinished(stateTime)) {
+            barricade.setHealth(damage);
+            if (barricade.getHealth() <= 0) {
+                stateTime = 0;
+                currentState = State.STAY;
+            }
+        }
     }
 }

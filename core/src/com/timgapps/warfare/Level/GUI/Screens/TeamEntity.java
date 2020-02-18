@@ -64,6 +64,7 @@ public class TeamEntity extends Group {
                 addDamageValue = 2;
                 timePrepare = 10;
                 energyCost = 15;
+                unitType = TeamEntity.GNOME;
 
                 // TODO: 23.01.2020 Исправить ПОЛУЧИТЬ ЗНАЧЕНИЕ УРОВНЯ ЮНИТА
                 unitLevel = 1;
@@ -81,6 +82,8 @@ public class TeamEntity extends Group {
                 addDamageValue = 2;
                 timePrepare = 25;
                 energyCost = 20;
+                unitType = TeamEntity.ARCHER;
+
 
                 unitLevel = 1;
                 break;
@@ -99,6 +102,8 @@ public class TeamEntity extends Group {
                 energyCost = 25;
 
                 unitLevel = 1;
+                unitType = TeamEntity.THOR;
+
                 break;
 
             case STONE:
@@ -114,6 +119,7 @@ public class TeamEntity extends Group {
                 addDamageValue = 2;
                 timePrepare = 10;
                 energyCost = 6;
+                unitType = TeamEntity.STONE;
 
                 break;
 
@@ -204,5 +210,9 @@ public class TeamEntity extends Group {
 
     public String getName() {
         return NAME;
+    }
+
+    public int getUnitType() {
+        return unitType;
     }
 }

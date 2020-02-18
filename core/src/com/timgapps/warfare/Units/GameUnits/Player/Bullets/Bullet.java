@@ -26,26 +26,26 @@ public abstract class Bullet extends Actor implements IBody {
 //        body = createBody(x, y);
     }
 
-    @Override
-    public Body createBody(float x, float y) {
-//        BodyDef def = new BodyDef();
-//        def.type = BodyDef.BodyType.DynamicBody;
-//        body = world.createBody(def);
-//
-//        PolygonShape shape = new PolygonShape();
-//        shape.setAsBox(2 / Level.WORLD_SCALE, 2 / Level.WORLD_SCALE);
-//
-//        FixtureDef fDef = new FixtureDef();
-//        fDef.shape = shape;
-//        fDef.filter.categoryBits = GameUnit.BULLET_BIT;
-//        fDef.filter.maskBits = GameUnit.ENEMY_BIT;
-//
-//        body.createFixture(fDef).setUserData(this);
-//        shape.dispose();
-//        body.setTransform((x + 24) / Level.WORLD_SCALE, y / Level.WORLD_SCALE, 0);
-//        return body;
-        return null;
-    }
+//    @Override
+//    public Body createBody(float x, float y) {
+////        BodyDef def = new BodyDef();
+////        def.type = BodyDef.BodyType.DynamicBody;
+////        body = world.createBody(def);
+////
+////        PolygonShape shape = new PolygonShape();
+////        shape.setAsBox(2 / Level.WORLD_SCALE, 2 / Level.WORLD_SCALE);
+////
+////        FixtureDef fDef = new FixtureDef();
+////        fDef.shape = shape;
+////        fDef.filter.categoryBits = GameUnit.BULLET_BIT;
+////        fDef.filter.maskBits = GameUnit.ENEMY_BIT;
+////
+////        body.createFixture(fDef).setUserData(this);
+////        shape.dispose();
+////        body.setTransform((x + 24) / Level.WORLD_SCALE, y / Level.WORLD_SCALE, 0);
+////        return body;
+//        return null;
+//    }
 
     public void inflictDamage(EnemyUnit enemyUnit) {
         if (!isDamaged) {

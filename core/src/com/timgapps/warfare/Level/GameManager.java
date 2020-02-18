@@ -166,5 +166,17 @@ public class GameManager {
         return collection;
     }
 
+    /**
+     * метод для обновления команды юнитов
+     **/
+    public void updateTeam() {
 
+    }
+
+    /**
+     * метод для обновления коллекции юнитов
+     **/
+    public void updateCollection() {
+
+    }
 }

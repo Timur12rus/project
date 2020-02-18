@@ -1,5 +1,6 @@
 package com.timgapps.warfare.Units.GameUnits;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -32,12 +33,17 @@ public abstract class GameUnit extends Actor implements IBody {
     /**
      * переменная отвечает за то, отрисовывать ли прямоугольник для определения коллизий с камнем
      **/
-    protected boolean isDebug = false;
+    protected boolean isDebug = true;
 
     public static final short PLAYER_BIT = 1;
     public static final short ENEMY_BIT = 2;
     public static final short BULLET_BIT = 4;
     public static final short STONE_BIT = 8;
+    public static final short BARRICADE_BIT = 16;
+
+    private boolean isDestroyed = false;
+
+    protected float stateTime;
 
     protected Body body;
 
@@ -94,7 +100,7 @@ public abstract class GameUnit extends Actor implements IBody {
      * метод для атаки
      **/
     public void attack() {
-        
+
     }
 
     /**
@@ -134,7 +140,7 @@ public abstract class GameUnit extends Actor implements IBody {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
-
+        stateTime += Gdx.graphics.getDeltaTime();
         if (isDebug) {
             batch.end();
             shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
@@ -147,6 +153,27 @@ public abstract class GameUnit extends Actor implements IBody {
 
     public float getDamage() {
         return damage;
+    }
+
+    public void setToDestroy() {
+        isDestroyed = true;
+    }
+
+    public void checkToDestroy() {
+        if (!body.isActive() && isDestroyed) {
+            world.destroyBody(body);
+            this.remove();
+        }
+
+        if (isDestroyed) {
+            body.setActive(false);
+        }
+    }
+
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+        checkToDestroy();
     }
 }
 

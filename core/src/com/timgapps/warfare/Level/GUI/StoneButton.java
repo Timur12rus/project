@@ -16,7 +16,9 @@ public class StoneButton extends UnitButton {
     private final float Y_MIN = 100;
     private final float Y_MAX = 280;
     private final float X_MIN = -680;
-    private final float X_MAX = 220;
+    private final float X_MAX = 300;
+
+    private float unitButtonTablePosX = 0;
 //    protected int energyPrice;
 
     public StoneButton(final Level level, Image activeImage, Image inactiveImage, TypeOfUnit typeOfUnit) {
@@ -49,7 +51,10 @@ public class StoneButton extends UnitButton {
                 x -= greenTarget.getWidth();
                 if (isReadyUnitButton) {
                     if (greenTarget.isVisible()) {
-                        throwStone(level, x + getX() + greenTarget.getWidth() / 2, y, 5);
+                        throwStone(level, getX() + unitButtonTablePosX + x + greenTarget.getWidth() / 2, y, 5);
+//                        throwStone(level, x + getX() + greenTarget.getWidth() / 2, y, 5);
+                        System.out.println("GetX = " + getX());
+                        System.out.println("x = " + x);
                         isReadyUnitButton = false;
                     }
                     greenTarget.setVisible(false);
@@ -75,7 +80,8 @@ public class StoneButton extends UnitButton {
     private void throwStone(Level level, float x, float y, float damage) {
         setInActive();
         level.setEnergyCount(Stone.getEnergyPrice());
-        new Stone(level, x, y + 600, damage, 14 + y + greenTarget.getHeight() / 2);
+        new Stone(level, x, y + 600, damage, 32 + y + greenTarget.getHeight() / 2);
+//        new Stone(level, x, y + 600, damage, 14 + y + greenTarget.getHeight() / 2);
     }
 
     private void inactiveTargetImages() {
@@ -97,5 +103,9 @@ public class StoneButton extends UnitButton {
     public void act(float delta) {
         super.act(delta);
 //        System.out.println("isReadyUnitButton StoneButton" + isReadyUnitButton);
+    }
+
+    public void setUnitButtonTablePosX(float posX) {
+        unitButtonTablePosX = posX;
     }
 }

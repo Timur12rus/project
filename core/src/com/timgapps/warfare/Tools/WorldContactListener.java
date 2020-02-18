@@ -5,6 +5,7 @@ import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
+import com.timgapps.warfare.Units.GameUnits.Barricade;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnit;
 import com.timgapps.warfare.Units.GameUnits.GameUnit;
 import com.timgapps.warfare.Units.GameUnits.Player.Bullets.Bullet;
@@ -28,6 +29,9 @@ public class WorldContactListener implements ContactListener {
                 break;
             case GameUnit.STONE_BIT | GameUnit.ENEMY_BIT:
                 checkCollisionStoneToEnemy(fixA, fixB);
+                break;
+            case GameUnit.PLAYER_BIT | GameUnit.BARRICADE_BIT:
+                checkCollisionPlayerToBarricade(fixA, fixB);
                 break;
         }
     }
@@ -88,6 +92,32 @@ public class WorldContactListener implements ContactListener {
     }
 
     /**
+     * Метод для проверки столкновения КАМНЯ ИГРОВОГО ЮНИТА С БАРРИКАДОЙ
+     **/
+    private void checkCollisionPlayerToBarricade(Fixture fixA, Fixture fixB) {
+        if (fixA.getFilterData().categoryBits == GameUnit.BARRICADE_BIT) {
+
+            System.out.println("CHECK BARRICADE!!!!");
+
+            Object barricadeData = fixA.getUserData();
+            Object playerData = fixB.getUserData();
+
+            if (((PlayerUnit) playerData).getCurrentState() != GameUnit.State.ATTACK) {
+                ((PlayerUnit) playerData).attackBarricade((Barricade) barricadeData);
+                System.out.println("ATTACK BARRICADE!");
+            }
+        } else {
+            Object playerData = fixA.getUserData();
+            Object barricadeData = fixB.getUserData();
+
+            if (((PlayerUnit) playerData).getCurrentState() != GameUnit.State.ATTACK) {
+                ((PlayerUnit) playerData).attackBarricade((Barricade) barricadeData);
+                System.out.println("ATTACK BARRICADE!");
+            }
+        }
+    }
+
+    /**
      * Метод для проверки столкновения СНАРЯДА ИГРОВОГО ЮНИТА С ВРАЖЕСКИМ ЮНИТОМ
      **/
     private void checkPlayerBulletToEnemy(Fixture fixA, Fixture fixB) {
@@ -128,4 +158,6 @@ public class WorldContactListener implements ContactListener {
             }
         }
     }
+
+
 }

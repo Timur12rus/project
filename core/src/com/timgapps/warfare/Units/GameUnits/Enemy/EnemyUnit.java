@@ -29,7 +29,6 @@ public class EnemyUnit extends GameUnit {
      * переменная отвечает за то, отрисовывать ли прямоугольник для определения коллизий с камнем
      **/
 //    private boolean isDebug = false;
-
     public boolean isDraw() {
         return isDraw;
     }
@@ -66,10 +65,11 @@ public class EnemyUnit extends GameUnit {
 
 
         /** обновим позицию текущего игрового объекта **/
-        setPosition(body.getPosition().x * Level.WORLD_SCALE - 24, body.getPosition().y * Level.WORLD_SCALE - 8);
+        setPosition(body.getPosition().x * Level.WORLD_SCALE, body.getPosition().y * Level.WORLD_SCALE - 14);
+//        setPosition(body.getPosition().x * Level.WORLD_SCALE - 24, body.getPosition().y * Level.WORLD_SCALE - 22);
 
         /** Обновим позицию прямоугльника "тела", который служит для определения столкновений с камнем **/
-        bodyRectangle.setPosition(getX(), getY());
+        bodyRectangle.setPosition(getX() - 24, getY() + 8);
     }
 
     @Override
@@ -97,7 +97,7 @@ public class EnemyUnit extends GameUnit {
 
         body.createFixture(fDef).setUserData(this);
         shape.dispose();
-        body.setTransform((x) / Level.WORLD_SCALE, y / Level.WORLD_SCALE, 0);
+        body.setTransform(x / Level.WORLD_SCALE, y / Level.WORLD_SCALE, 0);
 
         return body;
     }
