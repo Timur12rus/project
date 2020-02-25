@@ -11,6 +11,7 @@ import com.timgapps.warfare.Units.GameUnits.GameUnit;
 import com.timgapps.warfare.Units.GameUnits.Player.Bullets.Bullet;
 import com.timgapps.warfare.Units.GameUnits.Player.Bullets.Stone;
 import com.timgapps.warfare.Units.GameUnits.Player.PlayerUnit;
+import com.timgapps.warfare.Units.GameUnits.Player.SiegeTower;
 
 public class WorldContactListener implements ContactListener {
     @Override
@@ -33,6 +34,9 @@ public class WorldContactListener implements ContactListener {
             case GameUnit.PLAYER_BIT | GameUnit.BARRICADE_BIT:
                 checkCollisionPlayerToBarricade(fixA, fixB);
                 break;
+            case GameUnit.TOWER_BIT | GameUnit.ENEMY_BIT:
+                checkCollisionTowerToEnemy(fixA, fixB);
+                break;
         }
     }
 
@@ -49,6 +53,26 @@ public class WorldContactListener implements ContactListener {
     public void postSolve(Contact contact, ContactImpulse impulse) {
 
     }
+
+    /**
+     * Метод для проверки столкновения БАШНИ С ВРАЖЕСКИМ ЮНИТОМ
+     **/
+    private void checkCollisionTowerToEnemy(Fixture fixA, Fixture fixB) {
+        if (fixA.getFilterData().categoryBits == GameUnit.TOWER_BIT) {
+
+//            Object towerData = fixA.getUserData();
+            Object enemyUserData = fixB.getUserData();
+
+            ((EnemyUnit) enemyUserData).attackTower();
+
+        } else {
+//            Object towerData = fixB.getUserData();
+            Object enemyUserData = fixA.getUserData();
+
+            ((EnemyUnit) enemyUserData).attackTower();
+        }
+    }
+
 
     /**
      * Метод для проверки столкновения ИГРОВОГО ЮНИТА С ВРАЖЕСКИМ ЮНИТОМ
@@ -92,28 +116,26 @@ public class WorldContactListener implements ContactListener {
     }
 
     /**
-     * Метод для проверки столкновения КАМНЯ ИГРОВОГО ЮНИТА С БАРРИКАДОЙ
+     * Метод для проверки столкновения ИГРОВОГО ЮНИТА С БАРРИКАДОЙ
      **/
     private void checkCollisionPlayerToBarricade(Fixture fixA, Fixture fixB) {
         if (fixA.getFilterData().categoryBits == GameUnit.BARRICADE_BIT) {
 
-            System.out.println("CHECK BARRICADE!!!!");
-
-            Object barricadeData = fixA.getUserData();
+//            Object barricadeData = fixA.getUserData();
             Object playerData = fixB.getUserData();
 
-            if (((PlayerUnit) playerData).getCurrentState() != GameUnit.State.ATTACK) {
-                ((PlayerUnit) playerData).attackBarricade((Barricade) barricadeData);
-                System.out.println("ATTACK BARRICADE!");
-            }
+//            if (((PlayerUnit) playerData).getCurrentState() != GameUnit.State.ATTACK) {
+            ((PlayerUnit) playerData).attackBarricade();
+//                ((PlayerUnit) playerData).attackBarricade((Barricade) barricadeData);
+//            }
         } else {
             Object playerData = fixA.getUserData();
-            Object barricadeData = fixB.getUserData();
+//            Object barricadeData = fixB.getUserData();
 
-            if (((PlayerUnit) playerData).getCurrentState() != GameUnit.State.ATTACK) {
-                ((PlayerUnit) playerData).attackBarricade((Barricade) barricadeData);
-                System.out.println("ATTACK BARRICADE!");
-            }
+//            if (((PlayerUnit) playerData).getCurrentState() != GameUnit.State.ATTACK) {
+            ((PlayerUnit) playerData).attackBarricade();
+//                ((PlayerUnit) playerData).attackBarricade((Barricade) barricadeData);
+//            }
         }
     }
 

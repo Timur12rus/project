@@ -22,6 +22,8 @@ public class GameManager {
     private int ironCount;      // количестов железа
     private int woodCount;      // количество дерева
 
+    private float towerHealth;  // количество здоровья у ОСАДНОЙ БАШНИ
+
     private CoinsPanel coinsPanel;
 
 
@@ -41,6 +43,9 @@ public class GameManager {
         foodCount = 20;
         ironCount = 10;
         woodCount = 30;
+
+        /** получи уровень здоровья ОСАДНОЙ БАШНИ **/
+        towerHealth = 10;
 
         /** Добавляем бойцов в команду **/
         // TODO: 31.01.2020  Здесь нужно будет изменить код, так чтобы брать данные из сохранненного объекта
@@ -151,6 +156,10 @@ public class GameManager {
         team.add(new TeamEntity(unitType));
     }
 
+    /** метод для получения уровня здоровья ОСАДНОЙ БАШНИ **/
+    public float getTowerHealth(){
+        return towerHealth;
+    }
 
     /**
      * метод для получения команды игрока

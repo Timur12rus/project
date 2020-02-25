@@ -91,38 +91,4 @@ public class Zombie1 extends Zombie {
         stayAnimation = new Animation(0.35f, frames);
         frames.clear();
     }
-
-//    @Override
-//    public Vector2 getBodyPosition() {
-//        return body.getPosition();
-//    }
-//
-//    @Override
-//    public void setHealth(float health) {
-//        this.health -= health;
-//        isDamaged = true;
-//        bloodSpray.start();
-//        if (health > 0)
-//            currentState = State.HART;
-//        else currentState = State.DIE;
-//        stateTime = 0;
-//    }
-//
-//    @Override
-//    public void fire() {
-//
-//        if (!isAttack) {        // проверяем, в состоянии ли "атаки" юнит
-//            currentState = State.STAY;
-//            stateTime = 0;
-//            isAttack = true;
-//        }
-//    }
-//
-//    private void stay() {
-//        body.setLinearVelocity(0, 0);
-//    }
-//
-//    public void setTargetPlayer(PlayerUnit targetPlayer) {
-//        this.targetPlayer = targetPlayer;
-//    }
 }

@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 public class Archer1 extends PlayerUnit {
 
-//    private float stateTime;
+    //    private float stateTime;
     private boolean isAttack = false;   // флаг, указывет на то, в состоянии ли атаки находится юнит
     private boolean isHaveTarget = false;
     private GameUnit targetEnemy;
@@ -32,6 +32,7 @@ public class Archer1 extends PlayerUnit {
     protected static int ENERGY_PRICE = 1;
 //    protected static int ENERGY_PRICE = 20;
 
+
     private boolean isFired = false;
 
     public Archer1(Level level, float x, float y, float health, float damage) {
@@ -39,6 +40,10 @@ public class Archer1 extends PlayerUnit {
         energyPrice = 20;
         this.level = level;
         this.world = level.getWorld();
+
+        this.setWidth(Warfare.atlas.findRegion("archer1Walk0").getRegionWidth());
+        this.setHeight(Warfare.atlas.findRegion("archer1Walk0").getRegionHeight());
+        this.debug();
 
 //        body = createBody(x, y);
         createAnimations();     // создадим анимации для различных состояний персонажа
@@ -67,7 +72,7 @@ public class Archer1 extends PlayerUnit {
             /** проверим, может ли игровой юнит атаковать врага **/
             checkAttack((EnemyUnit) targetEnemy);
         }
-        setPosition(body.getPosition().x * Level.WORLD_SCALE - 18, body.getPosition().y * Level.WORLD_SCALE);
+        setPosition(body.getPosition().x * Level.WORLD_SCALE - 18, body.getPosition().y * Level.WORLD_SCALE - bodyHeight / 2);
     }
 
 
@@ -91,7 +96,7 @@ public class Archer1 extends PlayerUnit {
                 if (minDistance == 0) {
                     minDistance = (enemyPosition.x - playerPosition.x) * Level.WORLD_SCALE;
                     targetEnemy = enemies.get(i);
-                    System.out.println("minDistance = " + minDistance);
+//                    System.out.println("minDistance = " + minDistance);
                 }
                 if ((enemyPosition.x - playerPosition.x) * Level.WORLD_SCALE < minDistance) {
                     minDistance = (enemyPosition.x - playerPosition.x) * Level.WORLD_SCALE;
@@ -100,12 +105,15 @@ public class Archer1 extends PlayerUnit {
             }
         }
 
-        /** если имеем цель-врага, то вычислим направление вертикального перемещения **/
+        /** если имеем цель-врага, то вычислим направление вертикального перемещения
+         * если не имеем цель-врага, то движемся вправо
+         * **/
         if (targetEnemy != null) {
             isHaveTarget = true;
             calculateVerticalDirection((EnemyUnit) targetEnemy);
         } else {
-            if (currentState == State.WALKING && !walkAnimation.isAnimationFinished(stateTime)) {
+            if (currentState == State.WALKING) {
+//            if (currentState == State.WALKING && !walkAnimation.isAnimationFinished(stateTime)) {
                 moveRight();
             }
         }
@@ -129,13 +137,19 @@ public class Archer1 extends PlayerUnit {
             }
         }
 
+
+        /** если юнит завершил атаку, то текущее состояние устанавливаем = State.STAY **/
         if (currentState == State.ATTACK && attackAnimation.isAnimationFinished(stateTime)) {
             stateTime = 0;
             currentState = State.STAY;
             stay();
         }
 
+        /** если текущее состояние = State.STAY и анмация завершена **/
         if ((currentState == State.STAY) && (stayAnimation.isAnimationFinished(stateTime))) {
+            /** проеверим унчитожен ли ВРАГ-ЦЕЛЬ?
+             * если уничтожен, то устанавливаем текущее состояние = State.WALKING
+             * если не уничтожен, то устанавливаем текщее состояние = State.ATTACK **/
             if (targetEnemy.getHealth() <= 0) {
                 resetTarget();
                 currentState = State.WALKING;
@@ -145,6 +159,10 @@ public class Archer1 extends PlayerUnit {
             stateTime = 0;
         }
 
+
+        /** если вертикальное перемещение = Direction.NONE и и расстояние до врага <= ATTACK_DISTANCE
+         * если текущее состояние = State.WALKING и анимация завершена, установим тек. состояние = State.ATTACK
+         * **/
         if ((verticalDirectionMovement == Direction.NONE) && (distance <= ATTACK_DISTANCE)) {
             if ((currentState == State.WALKING) && (walkAnimation.isAnimationFinished(stateTime))) {
                 stateTime = 0;
@@ -153,6 +171,10 @@ public class Archer1 extends PlayerUnit {
             }
         }
 
+
+        /** если вертикальное перемещение = Direction.NONE и и расстояние до врага <= ATTACK_DISTANCE
+         * если текущее состояние = State.STAY и анимация завершена, установим тек. состояние = State.WALKING и двигаем юнита вправо
+         * **/
         if ((verticalDirectionMovement == Direction.NONE) && (distance > ATTACK_DISTANCE)) {
             if ((currentState == State.STAY) && (stayAnimation.isAnimationFinished(stateTime))) {
                 moveRight();
@@ -182,7 +204,19 @@ public class Archer1 extends PlayerUnit {
     }
 
     private void moveRight() {
-        body.setLinearVelocity(VELOCITY, 0);
+
+        // TODO: 20.02.2020  Нужно будети справить, чтобы юнит мог отбиваться в этот момент от врагов, если они подойдут близко !!!!!
+        System.out.println("barricadeX = " + barricade.getX());
+        System.out.println("archerX = " + getX());
+        if (barricade.getX() - getX() > 100) {
+            body.setLinearVelocity(VELOCITY, 0);
+        } else {
+            if (currentState == State.WALKING && walkAnimation.isAnimationFinished(stateTime)) {
+                stay();
+                stateTime = 0;
+                currentState = State.STAY;
+            }
+        }
     }
 
     /**
@@ -243,32 +277,34 @@ public class Archer1 extends PlayerUnit {
 //        if (level.getState() == Level.PLAY) {
 //        stateTime += Gdx.graphics.getDeltaTime();
 //        }
-//        batch.setColor(1, 1, 1, 1);
+//        batch.setColor(0.1f, 0.1f, 0.1f, 1);
 
 //        if (isDraw) {
         if (currentState == State.WALKING) {
-            batch.draw((TextureRegion) walkAnimation.getKeyFrame(stateTime, true), getX() - 212, getY() - 26);
+            batch.draw((TextureRegion) walkAnimation.getKeyFrame(stateTime, true), getX() - 212, getY());
         }
 
         if (currentState == State.ATTACK) {
-            batch.draw((TextureRegion) attackAnimation.getKeyFrame(stateTime, true), getX() - 212, getY() - 26);
+            batch.draw((TextureRegion) attackAnimation.getKeyFrame(stateTime, true), getX() - 212, getY());
+//            batch.draw((TextureRegion) attackAnimation.getKeyFrame(stateTime, true), getX() - 212, getY() - 26);
         }
 
         if (currentState == State.STAY) {
-            batch.draw((TextureRegion) stayAnimation.getKeyFrame(stateTime, true), getX() - 212, getY() - 26);
+            batch.draw((TextureRegion) stayAnimation.getKeyFrame(stateTime, true), getX() - 212, getY());
         }
 
         if (currentState == State.RUN) {
-            batch.draw((TextureRegion) runAnimation.getKeyFrame(stateTime, true), getX() - 212, getY() - 26);
+            batch.draw((TextureRegion) runAnimation.getKeyFrame(stateTime, true), getX() - 212, getY());
         }
 
         if (currentState == State.DIE) {
-            batch.draw((TextureRegion) dieAnimation.getKeyFrame(stateTime, true), getX() - 212, getY() - 26);
+            batch.draw((TextureRegion) dieAnimation.getKeyFrame(stateTime, true), getX() - 212, getY());
         }
 
         if (currentState == State.HART) {
-            batch.draw((TextureRegion) hartAnimation.getKeyFrame(stateTime, true), getX() - 212, getY() - 26);
+            batch.draw((TextureRegion) hartAnimation.getKeyFrame(stateTime, true), getX() - 212, getY());
         }
+//        batch.setColor(1, 1, 1, 1);
     }
 
     private void createAnimations() {

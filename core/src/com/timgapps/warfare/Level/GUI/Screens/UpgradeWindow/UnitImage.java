@@ -2,6 +2,7 @@ package com.timgapps.warfare.Level.GUI.Screens.UpgradeWindow;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -93,7 +94,7 @@ public class UnitImage extends Group {
 //                levelIcon.getY() - (levelIcon.getHeight() - levelLabel.getHeight()) / 2);
 
         selectButton.setPosition(16 + (image.getWidth() - selectButton.getWidth()) / 2,
-                                    (-selectButton.getHeight()) - 32);
+                (-selectButton.getHeight()) - 32);
 
         addActor(image);
         addActor(levelIcon);
@@ -119,6 +120,11 @@ public class UnitImage extends Group {
 
         SequenceAction sa = new SequenceAction(mtaUp, mtaDown);
         levelIcon.addAction(sa);
+
+
+        SequenceAction flicker = new SequenceAction(Actions.fadeOut(0.25f), Actions.fadeIn(0.25f));
+        image.addAction(flicker);
+//        image.addAction(Actions.repeat(6, flicker));
 //        levelLabel.addAction(sa);
     }
 

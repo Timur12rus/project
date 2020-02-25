@@ -92,6 +92,18 @@ public class Zombie extends EnemyUnit {
                         stateTime = 0;
                         currentState = State.STAY;
                     }
+                } else if (isAttackTower) {              // если юнит атакует ОСАДНУЮ БАШНЮ
+                    if (level.getSiegeTower() != null) {
+                        System.out.println("Attack tower!");
+                        level.getSiegeTower().setHealth(damage);
+                        stateTime = 0;
+                        currentState = State.STAY;
+                        if (level.getSiegeTower().getHealth() <= 0) {
+                            level.getSiegeTower().setToDestroy();
+                            isAttackTower = false;
+                        }
+                    }
+
                 } else {
                     inflictDamage(targetPlayer, damage);
                     stateTime = 0;
@@ -113,7 +125,7 @@ public class Zombie extends EnemyUnit {
 //                System.out.println("StayAnimFinishED!");
 //                if (isAttack) {
 //                    System.out.println("isAttack = TRUE");
-                if (isAttackStone || isAttack) {
+                if (isAttackStone || isAttack || isAttackTower) {
                     stateTime = 0;
                     currentState = State.ATTACK;
                 } else {
@@ -160,17 +172,10 @@ public class Zombie extends EnemyUnit {
              **/
 
             setToDestroy();
-
-//            setToDestroyBody = true;
         }
-//
-//        if (setToDestroyBody) {
-//            body.setActive(false);
-//        }
 
 
         if (health <= 0 && body.isActive()) {
-//            isDie = true;
             currentState = State.DIE;
             stateTime = 0;
             body.setActive(false);

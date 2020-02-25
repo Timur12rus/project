@@ -14,6 +14,7 @@ import com.timgapps.warfare.Level.Level;
 import com.timgapps.warfare.Units.GameUnits.GameUnit;
 import com.timgapps.warfare.Units.GameUnits.Player.Bullets.Stone;
 import com.timgapps.warfare.Units.GameUnits.Player.PlayerUnit;
+import com.timgapps.warfare.Units.GameUnits.Player.SiegeTower;
 
 public class EnemyUnit extends GameUnit {
 
@@ -36,6 +37,7 @@ public class EnemyUnit extends GameUnit {
     private boolean isDraw = true;
 
     protected boolean isAttackStone = false;
+    protected boolean isAttackTower = false;
 
     protected Stone stone;
 
@@ -46,6 +48,21 @@ public class EnemyUnit extends GameUnit {
         if (isDebug) {
             shapeRenderer = new ShapeRenderer();
         }
+    }
+
+    public void attackTower() {
+        if (currentState == State.WALKING) {
+            if (!isAttackTower) {
+                isAttackTower = true;
+                stateTime = 0;
+                currentState = State.ATTACK;
+            }
+        }
+    }
+
+    /** метод для проверки, атакует ли вражеский юнит ОСАДНУЮ БАШНЮ **/
+    public boolean getIsAttackTower() {
+        return isAttackTower;
     }
 
 
@@ -79,6 +96,7 @@ public class EnemyUnit extends GameUnit {
 
 
     public void setTargetPlayer(PlayerUnit targetPlayer) {
+
     }
 
     @Override
@@ -93,7 +111,7 @@ public class EnemyUnit extends GameUnit {
         FixtureDef fDef = new FixtureDef();
         fDef.shape = shape;
         fDef.filter.categoryBits = GameUnit.ENEMY_BIT;
-        fDef.filter.maskBits = GameUnit.PLAYER_BIT | GameUnit.BULLET_BIT | GameUnit.STONE_BIT;
+        fDef.filter.maskBits = GameUnit.PLAYER_BIT | GameUnit.BULLET_BIT | GameUnit.STONE_BIT | TOWER_BIT;
 
         body.createFixture(fDef).setUserData(this);
         shape.dispose();

@@ -45,10 +45,14 @@ public class Gnome extends PlayerUnit {
     private static float APPEARANCE_TIME = 1;
     protected static int ENERGY_PRICE = 1;
 
+
     public Gnome(Level level, float x, float y, float health, float damage) {
         super(level, x, y, health, damage);
         this.level = level;
         this.world = level.getWorld();
+        this.setWidth(Warfare.atlas.findRegion("gnomeWalk0").getRegionWidth());
+        this.setHeight(Warfare.atlas.findRegion("gnomeWalk0").getRegionHeight());
+        this.debug();
         createAnimations();                  // создадим анимации для различных состояний персонажа
         currentState = State.RUN;            // установим текущее состояние юнита = State.RUN
         level.addChild(this, x, y);
@@ -65,11 +69,15 @@ public class Gnome extends PlayerUnit {
 //            level.removeEnemyUnitFromArray(this);
         }
 
-        /** проверим, есть ли "ВРАГ-ЦЕЛЬ" у игрового юнита **/
-        if (!isHaveTarget) {    //если нет "врага-цели", то
-            findTarget();       //найдем "врага-цель"
+        /** проверим, атакует ли юнита баррикаду **/
+        if (!isAttackBarricade) {
+            /** проверим, есть ли "ВРАГ-ЦЕЛЬ" у игрового юнита **/
+            if (!isHaveTarget) {    //если нет "врага-цели", то
+//        if (!isHaveTarget) {    //если нет "врага-цели", то
+                findTarget();       //найдем "врага-цель"
 ////            verticalDirectionMovement = calculateVerticalDirection();
 //            currentState = State.RUN;
+            }
         }
 
         if (isHaveTarget) {
@@ -88,11 +96,34 @@ public class Gnome extends PlayerUnit {
 
 
         if (targetEnemy != null) {
+            if (currentState == State.ATTACK) {
+                stay();
+                if (attackAnimation.isAnimationFinished(stateTime)) {
+                    stateTime = 0;
+                    inflictDamage(targetEnemy, damage);
+                    currentState = State.STAY;
+                }
+            }
+
             if (targetEnemy.getHealth() <= 0 || targetEnemy == null) {
 //            currentState = State.RUN;
                 resetTarget();
 //            findTarget();
 //            level.getArrayEnemies().remove()
+            }
+        } else {
+            if (currentState == State.ATTACK) {
+                stay();
+                if (attackAnimation.isAnimationFinished(stateTime) && isAttackBarricade) {
+                    if (barricade != null) {
+                        barricade.setHealth(damage);
+                        if (barricade.getHealth() <= 0) {
+                            isAttackBarricade = false;
+                        }
+                    }
+                    stateTime = 0;
+                    currentState = State.STAY;
+                }
             }
         }
 
@@ -105,20 +136,20 @@ public class Gnome extends PlayerUnit {
             }
         }
 
-        if (currentState == State.ATTACK) {
-            stay();
-            if (attackAnimation.isAnimationFinished(stateTime)) {
-                stateTime = 0;
-//                System.out.println("attackAnimationFinished!");
-                inflictDamage(targetEnemy, damage);
-                currentState = State.STAY;
 
-            }
-//            System.out.println("currentState = " + currentState);
-        }
+        /** Изменил код 18.02.2020 **/
+//        if (currentState == State.ATTACK) {
+//            stay();
+//            if (attackAnimation.isAnimationFinished(stateTime)) {
+//                stateTime = 0;
+//                inflictDamage(targetEnemy, damage);
+//                currentState = State.STAY;
+//
+//            }
+//        }
 
         if (currentState == State.STAY && stayAnimation.isAnimationFinished(stateTime)) {
-            if (isAttack)
+            if (isAttack || isAttackBarricade)
                 currentState = State.ATTACK;
             else
                 currentState = State.RUN;
@@ -298,7 +329,7 @@ public class Gnome extends PlayerUnit {
     /**
      * метод для создания анимации юнита
      **/
-    private void createAnimations() {
+    protected void createAnimations() {
         Array<TextureRegion> frames = new Array<TextureRegion>();
         // получим кадры и добавим в анимацию ходьбы персонажа
         for (int i = 0; i < 5; i++)
@@ -353,10 +384,12 @@ public class Gnome extends PlayerUnit {
     public void setTargetEnemy(EnemyUnit enemyUnit) {
         super.setTargetEnemy(enemyUnit);
         resetTarget();
+
 //        System.out.println("IsHAVETARGET = " + isHaveTarget);
         isHaveTarget = true;
 //        System.out.println("IsHAVETARGET = " + isHaveTarget);
         targetEnemy = enemyUnit;
+        isAttackBarricade = false;
         isAttack = true;
         stateTime = 0;
         currentState = State.ATTACK;
@@ -385,6 +418,7 @@ public class Gnome extends PlayerUnit {
         return body.getPosition();
     }
 
+    @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
 //        if (level.getState() == Level.PLAY) {
@@ -394,23 +428,23 @@ public class Gnome extends PlayerUnit {
 
 //        if (isDraw) {
         if (currentState == State.WALKING) {
-            batch.draw((TextureRegion) walkAnimation.getKeyFrame(stateTime, true), getX() - 58, getY() - 26);
+            batch.draw((TextureRegion) walkAnimation.getKeyFrame(stateTime, true), getX() - 124, getY());
         }
 
         if (currentState == State.ATTACK) {
-            batch.draw((TextureRegion) attackAnimation.getKeyFrame(stateTime, false), getX() - 104, getY() - 26);
+            batch.draw((TextureRegion) attackAnimation.getKeyFrame(stateTime, false), getX() - 124, getY());
         }
 
         if (currentState == State.STAY) {
-            batch.draw((TextureRegion) stayAnimation.getKeyFrame(stateTime, false), getX() - 104, getY() - 26);
+            batch.draw((TextureRegion) stayAnimation.getKeyFrame(stateTime, false), getX() - 124, getY());
         }
 
         if (currentState == State.RUN) {
-            batch.draw((TextureRegion) runAnimation.getKeyFrame(stateTime, true), getX() - 104, getY() - 26);
+            batch.draw((TextureRegion) runAnimation.getKeyFrame(stateTime, true), getX() - 124, getY());
         }
 
         if (currentState == State.DIE) {
-            batch.draw((TextureRegion) dieAnimation.getKeyFrame(stateTime, false), getX() - 104, getY() - 26);
+            batch.draw((TextureRegion) dieAnimation.getKeyFrame(stateTime, false), getX() - 124, getY());
         }
     }
 
@@ -433,7 +467,6 @@ public class Gnome extends PlayerUnit {
     public State getCurrentState() {
         return currentState;
     }
-
 
 
 }

@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.AlphaAction;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -78,7 +79,7 @@ public class UpgradeScreen extends Group {
     private ArrayList<TeamEntity> team;
 
     private Group imageContainer;           // контейнер - Group для ханения изображения юнита со значком уровня и энергии
-    private UnitImage unitImage;
+    private UnitImage unitImage;            // изображение юнита
 
     private int unitLevel;
     private int newUnitLevel;
@@ -115,6 +116,8 @@ public class UpgradeScreen extends Group {
 
     private Label unitNameLabel;
     private String unitName;
+
+
 
     public UpgradeScreen(GameManager gameManager, TeamUpgradeScreen teamUpgradeScreen) {
 
@@ -282,8 +285,9 @@ public class UpgradeScreen extends Group {
 //        infoTable.add(timePrepearValueLabel).expandX().padLeft(8);
         infoTable.add(timePrepearValueLabel).fillX().padLeft(8);
 
-        /** добавим в общий контейнер изображение юнита и его значок со значением уровня юинта**/
+        /** добавим в общий контейнер изображение юнита и его значок со значением уровня юнита**/
         container.add(imageContainer).width(200).padLeft(32).left().padTop(32);
+
 
 
         /** Таблица СТОИМОСТЬ АПГРЕЙДА в режиме DEBUG **/
@@ -340,8 +344,6 @@ public class UpgradeScreen extends Group {
                 background.getY() + background.getHeight() - unitNameLabel.getHeight());
 
         addActor(unitNameLabel);
-
-
     }
 
     public void showUpgradeScreen(boolean showSelectButton) {
@@ -386,6 +388,11 @@ public class UpgradeScreen extends Group {
         /** получим объект unitImage - изображение со значками (уровень юнита и стоимость энергии) **/
         unitImage = teamEntity.getUnitImage();
         unitImage.setLevelValue(teamEntity.getUnitLevel());
+
+//        unitImage.addAction(flicker);
+
+//        unitImage.addAction(Actions.repeat(6, flicker));
+//        unitImage.addAction(Actions.repeat(6, flicker));
 
 
         /** получим кнопку "ВЫБРАТЬ ЮНИТА", если юнит не состоит в игровой команде, а находится в коллекции**/
@@ -491,6 +498,8 @@ public class UpgradeScreen extends Group {
     private void upgradeTeamEntity(TeamEntity teamEntity) {
 
         unitImage.startAction();
+
+        System.out.println("unitImage.getX()" + unitImage.getX());
 
         /** обновим параметры юнита, которого прокачиваем **/
         teamEntity.setUnitLevel(newUnitLevel);

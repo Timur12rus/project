@@ -19,6 +19,8 @@ import com.timgapps.warfare.Units.GameUnits.Enemy.Zombie;
 import com.timgapps.warfare.Units.GameUnits.Enemy.Zombie1;
 import com.timgapps.warfare.Units.GameUnits.Player.Archer1;
 import com.timgapps.warfare.Units.GameUnits.Player.Gnome;
+import com.timgapps.warfare.Units.GameUnits.Player.SiegeTower;
+import com.timgapps.warfare.Units.GameUnits.Player.Thor;
 import com.timgapps.warfare.Utils.Setting;
 import com.timgapps.warfare.Warfare;
 
@@ -27,7 +29,7 @@ import java.util.Random;
 
 public class Level extends StageGame {
 
-    public static final float WORLD_SCALE = 100; // коэффициент масщтабирования
+    public static final float WORLD_SCALE = 100; // коэффициент масштабирования
     private Box2DDebugRenderer debugRender;
 
     private World world;
@@ -51,6 +53,8 @@ public class Level extends StageGame {
 
     private Image rockBig, rockMiddle, rockSmall;
 
+    private SiegeTower siegeTower;
+
 
     public Level(int levelNumber, GameManager gameManager) {
 
@@ -70,11 +74,13 @@ public class Level extends StageGame {
         barricade = new Barricade(this, Barricade.ROCKS);
 //        addChild(barricade);
 
+        siegeTower = new SiegeTower(this, 8, 240, gameManager.getTowerHealth(), 2);
+
 
         /** Добавим вражеских юнитов **/
         random = new Random();
 
-//        Zombie1 zombie = new Zombie1(this, 800, 250, 20, 3);
+        Zombie1 zombie = new Zombie1(this, 400, 250, 20, 3);
 //        Zombie1 zombie1 = new Zombie1(this, 1300, 230, 20, 3);
 //        Zombie1 zombie2 = new Zombie1(this, 1100, 180, 20, 3);
 //        Zombie1 zombie3 = new Zombie1(this, 900, 210, 20, 3);
@@ -85,7 +91,7 @@ public class Level extends StageGame {
 //        Zombie zombie5 = new Zombie(this, 930, 150 + (random.nextFloat() * 150) + 20, 50, 10);
         accumulator = 0;
 
-//        arrayEnemies.add(zombie);
+        arrayEnemies.add(zombie);
 //        arrayEnemies.add(zombie1);
 //        arrayEnemies.add(zombie2);
 //        arrayEnemies.add(zombie3);
@@ -120,7 +126,6 @@ public class Level extends StageGame {
 //                780, 16);
 
 
-
 //        rockBig = new Image(Warfare.atlas.findRegion("rock_big"));
 //        rockMiddle = new Image(Warfare.atlas.findRegion("rock_middle"));
 //        rockSmall = new Image(Warfare.atlas.findRegion("rock_small"));
@@ -135,6 +140,11 @@ public class Level extends StageGame {
         addUnitButtons();
 
 
+    }
+
+
+    public void getParricadeX() {
+        barricade.getX();
     }
 
 
@@ -184,11 +194,15 @@ public class Level extends StageGame {
     }
 
     public void addGnome() {
-        new Gnome(this, 100, 160, 20, 2);
+        new Gnome(this, 160, 210, 20, 2);
     }
 
     public void addArcher1() {
         new Archer1(this, 100, 160, 20, 2);
+    }
+
+    public void addThor() {
+        new Thor(this, 100, 160, 20, 2);
     }
 
     public void compareActorsYPos() {
@@ -270,6 +284,24 @@ public class Level extends StageGame {
 //        hud.dispose();
     }
 
+
+    /**
+     * метод для получения БАРРИКАДЫ
+     **/
+    public Barricade getBarricade() {
+        return barricade;
+    }
+
+    /**
+     * метод для получения ОСАДНОЙ БАШНИ
+     **/
+    public SiegeTower getSiegeTower() {
+        return siegeTower;
+    }
+
+    /**
+     * метод добавляет таблицу с кнопками юнитов (для их появления)
+     **/
     public void addUnitButtons() {
         team = gameManager.getTeam();
         Table tableUnitButtons = new Table().debug();
@@ -296,8 +328,8 @@ public class Level extends StageGame {
 //                     tableUnitButtons.add(new UnitButton(this, new Image(Warfare.atlas.findRegion("thorActive")),
 //                             new Image(Warfare.atlas.findRegion("thorInactive")),UnitButton.TypeOfUnit.ARCHER1)).padLeft(12).padRight(12);
 //                     break;
-                    tableUnitButtons.add(new UnitButton(this, new Image(Warfare.atlas.findRegion("archer1Active")),
-                            new Image(Warfare.atlas.findRegion("archer1Inactive")), UnitButton.TypeOfUnit.ARCHER1))
+                    tableUnitButtons.add(new UnitButton(this, new Image(Warfare.atlas.findRegion("thorActive")),
+                            new Image(Warfare.atlas.findRegion("thorInactive")), UnitButton.TypeOfUnit.THOR))
                             .width(unitButtonWidth).height(unitButtonHeight).padLeft(12).padRight(12);
                     break;
 

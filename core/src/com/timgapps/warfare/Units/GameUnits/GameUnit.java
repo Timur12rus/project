@@ -40,6 +40,7 @@ public abstract class GameUnit extends Actor implements IBody {
     public static final short BULLET_BIT = 4;
     public static final short STONE_BIT = 8;
     public static final short BARRICADE_BIT = 16;
+    public static final short TOWER_BIT = 32;
 
     private boolean isDestroyed = false;
 

@@ -11,8 +11,12 @@ import com.timgapps.warfare.Level.Level;
 import com.timgapps.warfare.Units.GameUnits.Player.Archer1;
 import com.timgapps.warfare.Units.GameUnits.Player.Bullets.Stone;
 import com.timgapps.warfare.Units.GameUnits.Player.Gnome;
+import com.timgapps.warfare.Units.GameUnits.Player.Thor;
 import com.timgapps.warfare.Warfare;
 
+/**
+ * класс - кнопки на ЭКРАНЕ БИТВЫ для появления юнитов
+ **/
 public class UnitButton extends Group {
     protected Image activeImage;
     protected Image inactiveImage;
@@ -25,8 +29,11 @@ public class UnitButton extends Group {
     protected float percentage = 0;
     protected int energyPrice;
 
-    public enum TypeOfUnit {GNOME, ARCHER1, STONE}
+    public enum TypeOfUnit {GNOME, ARCHER1, THOR, STONE}
 
+    /**
+     * класс UnitButton - кнопки юнитов для их поялвнеия
+     **/
     public UnitButton(final Level level, Image activeImage, Image inactiveImage, final TypeOfUnit typeOfUnit) {
         this.appearanceTime = setAppearanceTime(typeOfUnit);    // время необходимое для рождения юнита
         this.energyPrice = setEnergyPrice(typeOfUnit);          // количество энергии, необходимое для рождения юнита
@@ -93,15 +100,22 @@ public class UnitButton extends Group {
 
 //}
 
+    /**
+     * метод выполняет появление юнита на экране, вычитает из текущего кол-ва энергии кол-во энергии необходимое для появления юнита
+     **/
     private void addPlayerUnit(TypeOfUnit typeOfUnit) {
         switch (typeOfUnit) {
             case GNOME:
                 level.addGnome();
-                level.setEnergyCount(Gnome.getEnergyPrice());
+                level.setEnergyCount(Gnome.getEnergyPrice());    // установим количество энергии, вычтем стоимость энергии для появления юнита
                 break;
             case ARCHER1:
                 level.addArcher1();
-                level.setEnergyCount(Archer1.getEnergyPrice());
+                level.setEnergyCount(Archer1.getEnergyPrice());    // установим количество энергии, вычтем стоимость энергии для появления юнита
+                break;
+            case THOR:
+                level.addThor();
+                level.setEnergyCount(Thor.getEnergyPrice());    // установим количество энергии, вычтем стоимость энергии для появления юнита
                 break;
         }
     }
@@ -132,6 +146,9 @@ public class UnitButton extends Group {
             case ARCHER1:
                 appearanceTime = Archer1.getAppearanceTime();
                 break;
+            case THOR:
+                appearanceTime = Thor.getAppearanceTime();
+                break;
             case STONE:
                 appearanceTime = Stone.getAppearanceTime();
         }
@@ -147,6 +164,9 @@ public class UnitButton extends Group {
                 break;
             case ARCHER1:
                 energyPrice = Archer1.getEnergyPrice();
+                break;
+            case THOR:
+                energyPrice = Thor.getEnergyPrice();
                 break;
             case STONE:
                 energyPrice = Stone.getEnergyPrice();

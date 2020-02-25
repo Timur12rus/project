@@ -4,7 +4,6 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.timgapps.warfare.Level.Level;
 import com.timgapps.warfare.Warfare;
@@ -20,7 +19,7 @@ public class Barricade {
 
     private Body body;
 
-    private float health = 50;
+    private float health = 5;
 
     public Barricade(Level level, int typeOfBarricade) {
         this.level = level;
@@ -49,6 +48,10 @@ public class Barricade {
 //                addActor(rockMiddle);
 //                addActor(rockBig);
         }
+    }
+
+    public float getX() {
+        return rockBig.getX();
     }
 
     public void setHealth(float damage) {

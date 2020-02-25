@@ -30,6 +30,10 @@ public class PlayerUnit extends GameUnit {
     public static final int STONE = 3;
 
     protected boolean isAttackBarricade = false;
+    protected Barricade barricade;
+
+    protected float bodyWidth = 24;
+    protected float bodyHeight = 24;
 
 
     @Override
@@ -39,7 +43,7 @@ public class PlayerUnit extends GameUnit {
         Body body = world.createBody(def);
 
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(12 / Level.WORLD_SCALE, 12 / Level.WORLD_SCALE);
+        shape.setAsBox((bodyWidth / 2) / Level.WORLD_SCALE, (bodyHeight / 2) / Level.WORLD_SCALE);
 
         FixtureDef fDef = new FixtureDef();
         fDef.shape = shape;
@@ -48,7 +52,7 @@ public class PlayerUnit extends GameUnit {
 
         body.createFixture(fDef).setUserData(this);
         shape.dispose();
-        body.setTransform((x) / Level.WORLD_SCALE, y / Level.WORLD_SCALE, 0);
+        body.setTransform(x / Level.WORLD_SCALE, y / Level.WORLD_SCALE, 0);
 
         return body;
     }
@@ -58,6 +62,8 @@ public class PlayerUnit extends GameUnit {
 
     public PlayerUnit(Level level, float x, float y, float health, float damage) {
         super(level, x, y, health, damage);
+        body = createBody(x, y);
+        this.barricade = level.getBarricade();
     }
 
     @Override
@@ -77,8 +83,8 @@ public class PlayerUnit extends GameUnit {
     public void act(float delta) {
         super.act(delta);
         /** обновим позицию текущего игрового объекта **/
-        setPosition(body.getPosition().x * Level.WORLD_SCALE - 18, body.getPosition().y * Level.WORLD_SCALE);
-
+        setPosition(body.getPosition().x * Level.WORLD_SCALE - bodyWidth / 2,
+                body.getPosition().y * Level.WORLD_SCALE - bodyHeight / 2);
     }
 
     public static int getEnergyPrice() {
@@ -89,19 +95,24 @@ public class PlayerUnit extends GameUnit {
     /**
      * метод для атаки баррикады!
      **/
-    public void attackBarricade(Barricade barricade) {
+    public void attackBarricade() {
+//    public void attackBarricade(Barricade barricade) {
         if (!isAttackBarricade && !isAttack) {
+//        if (!isAttackBarricade && !isAttack) {
             isAttackBarricade = true;
+//            this.barricade = barricade;
             stateTime = 0;
             currentState = State.ATTACK;
         }
 
-        if (isAttackBarricade && attackAnimation.isAnimationFinished(stateTime)) {
-            barricade.setHealth(damage);
-            if (barricade.getHealth() <= 0) {
-                stateTime = 0;
-                currentState = State.STAY;
-            }
-        }
+//        if (isAttackBarricade && attackAnimation.isAnimationFinished(stateTime)) {
+//            barricade.setHealth(damage);
+//            System.out.println("DAMAGE");
+//            if (barricade.getHealth() <= 0) {
+//                isAttackBarricade = false;
+//                stateTime = 0;
+//                currentState = State.STAY;
+//            }
+//        }
     }
 }
