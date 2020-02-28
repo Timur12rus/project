@@ -118,7 +118,6 @@ public class UpgradeScreen extends Group {
     private String unitName;
 
 
-
     public UpgradeScreen(GameManager gameManager, TeamUpgradeScreen teamUpgradeScreen) {
 
         this.teamUpgradeScreen = teamUpgradeScreen;
@@ -287,7 +286,6 @@ public class UpgradeScreen extends Group {
 
         /** добавим в общий контейнер изображение юнита и его значок со значением уровня юнита**/
         container.add(imageContainer).width(200).padLeft(32).left().padTop(32);
-
 
 
         /** Таблица СТОИМОСТЬ АПГРЕЙДА в режиме DEBUG **/
@@ -497,7 +495,19 @@ public class UpgradeScreen extends Group {
 
     private void upgradeTeamEntity(TeamEntity teamEntity) {
 
-        unitImage.startAction();
+        /** сделаем невидимыми надпись "УЛУЧШИТЬ ДО УРОВНЯ" и кнопку апгрейда,
+         * до тех пор пока не закончится действие перемещения значков ресурсов
+         */
+        upgradeToLevelLabel.setVisible(false);
+        upgradeButton.setVisible(false);
+
+        /** применим действия к значкам ресурсов (движение и мерцание картинки юнита) **/
+        resourcesTable.startActions();
+//        if (resourcesTable.getIsEndAction()) {
+//            unitImage.startAction();
+//            resourcesTable.setIsAction(false);
+//        }
+
 
         System.out.println("unitImage.getX()" + unitImage.getX());
 
@@ -567,5 +577,21 @@ public class UpgradeScreen extends Group {
         }
     }
 
+    @Override
+    public void act(float delta) {
+        super.act(delta);
 
+        /** проверим, завершилось ли действие перемещения значков на изображение юнита, при апгрейде **/
+        if (resourcesTable.getIsEndAction() == true) {
+            resourcesTable.setIsAction(false);
+
+            /** сделаем видимыми надпись "УЛУЧШИТЬ ДО УРОВНЯ" и кнопку апгрейда **/
+            upgradeToLevelLabel.setVisible(true);
+            upgradeButton.setVisible(true);
+
+            System.out.println("UnitImage.satrtAction");
+            System.out.println("getIaEndAction" + resourcesTable.getIsEndAction());
+            unitImage.startAction();
+        }
+    }
 }

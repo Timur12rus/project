@@ -27,13 +27,6 @@ public class Zombie extends EnemyUnit {
     //    public State currentState = State.ATTACK;
 //    protected float stateTime;
 
-    protected Animation walkAnimation;            // анимация для ходьбы
-    protected Animation attackAnimation;          // анимация для атаки
-    protected Animation dieAnimation;             // анимация для уничтожения
-    protected Animation stayAnimation;            // анимация для стоит
-    protected Animation runAnimation;            // анимация для бежит
-    protected Animation hartAnimation;            // анимация для получает урон
-
     protected World world;
     protected float x, y;
     protected PlayerUnit targetPlayer;
@@ -51,6 +44,12 @@ public class Zombie extends EnemyUnit {
         super(level, x, y, health, damage);
         this.level = level;
         this.world = level.getWorld();
+
+        xPosDamageLabel = 16;
+
+        this.setWidth(Warfare.atlas.findRegion("zombieWalk0").getRegionWidth());
+        this.setHeight(Warfare.atlas.findRegion("zombieWalk0").getRegionHeight());
+
         bloodSpray = new ParticleEffect();
         bloodSpray.load(Gdx.files.internal("effects/bloodSpray.paty"), Gdx.files.internal("effects/")); //file);     //Air2.paty
         createAnimations();     // создадим анимации для различных состояний персонажа
@@ -60,6 +59,7 @@ public class Zombie extends EnemyUnit {
         level.arrayActors.add(this);
 
         stayCount = STAY_COUNT;
+        deltaX = 72;        // смещение рисоания анимации относительно позиции актёра по оси Х
     }
 
     @Override
@@ -275,8 +275,10 @@ public class Zombie extends EnemyUnit {
     }
 
     @Override
-    public void setHealth(float health) {
-        this.health -= health;
+    public void setHealth(float damage) {
+        super.setHealth(damage);
+//        System.out.println("SetHealth to Zombie");
+//        this.health -= damage;
         isDamaged = true;
         bloodSpray.start();
         if (health <= 0) {
@@ -316,62 +318,38 @@ public class Zombie extends EnemyUnit {
 //        }
 //        batch.setColor(1, 1, 1, 1);
 
+
+        /** здесь deltaX - расстояние в пикселях, на сколько сдвигаем изображение относительно позиции актера **/
         if (isDraw()) {
             if (currentState == State.WALKING) {
-                batch.draw((TextureRegion) walkAnimation.getKeyFrame(stateTime, true), getX() - 108, getY());
+                batch.draw((TextureRegion) walkAnimation.getKeyFrame(stateTime, true), getX() - deltaX, getY());
             }
 
             if (currentState == State.ATTACK) {
-                batch.draw((TextureRegion) attackAnimation.getKeyFrame(stateTime, false), getX() - 108, getY());
+                batch.draw((TextureRegion) attackAnimation.getKeyFrame(stateTime, false), getX() - deltaX, getY());
             }
 
             if (currentState == State.STAY) {
-                batch.draw((TextureRegion) stayAnimation.getKeyFrame(stateTime, true), getX() - 108, getY());
+                batch.draw((TextureRegion) stayAnimation.getKeyFrame(stateTime, true), getX() - deltaX, getY());
             }
 
             if (currentState == State.RUN) {
-                batch.draw((TextureRegion) runAnimation.getKeyFrame(stateTime, true), getX() - 108, getY());
+                batch.draw((TextureRegion) runAnimation.getKeyFrame(stateTime, true), getX() - deltaX, getY());
             }
 
             if (currentState == State.HART) {
-                batch.draw((TextureRegion) hartAnimation.getKeyFrame(stateTime, false), getX() - 108, getY());
+                batch.draw((TextureRegion) hartAnimation.getKeyFrame(stateTime, false), getX() - deltaX, getY());
             }
 
             if (currentState == State.DIE) {
-                batch.draw((TextureRegion) dieAnimation.getKeyFrame(stateTime, false), getX() - 108, getY());
+                batch.draw((TextureRegion) dieAnimation.getKeyFrame(stateTime, false), getX() - deltaX, getY());
             }
+
+            if (isDrawHealthBar)
+                drawHealthBar(batch, 4, getHeight() + 6);
         } else {
             setDraw(true);
         }
-
-//        if (isDraw()) {
-//            if (currentState == State.WALKING) {
-//                batch.draw((TextureRegion) walkAnimation.getKeyFrame(stateTime, true), getX() - 114, getY() - 14);
-//            }
-//
-//            if (currentState == State.ATTACK) {
-//                batch.draw((TextureRegion) attackAnimation.getKeyFrame(stateTime, false), getX() - 114, getY() - 14);
-//            }
-//
-//            if (currentState == State.STAY) {
-//                batch.draw((TextureRegion) stayAnimation.getKeyFrame(stateTime, true), getX() - 114, getY() - 14);
-//            }
-//
-//            if (currentState == State.RUN) {
-//                batch.draw((TextureRegion) runAnimation.getKeyFrame(stateTime, true), getX() - 114, getY() - 14);
-//            }
-//
-//            if (currentState == State.HART) {
-//                batch.draw((TextureRegion) hartAnimation.getKeyFrame(stateTime, false), getX() - 114, getY() - 14);
-//            }
-//
-//            if (currentState == State.DIE) {
-//                batch.draw((TextureRegion) dieAnimation.getKeyFrame(stateTime, false), getX() - 114, getY() - 14);
-//            }
-//        } else {
-//            setDraw(true);
-//        }
-
         if (isDamaged)
             bloodSpray.draw(batch);
     }

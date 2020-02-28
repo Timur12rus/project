@@ -57,9 +57,9 @@ public class TeamEntity extends Group {
 //                unitImage = new Image(Warfare.atlas.findRegion("gnomeStay0"));
 
                 NAME = "Gnome";
-                DAMAGE = 10;
-                HEALTH = 50;
-                SPEED = 15;
+                DAMAGE = 14;
+                HEALTH = 30;
+                SPEED = 6;
                 addHealthValue = 2;
                 addDamageValue = 2;
                 timePrepare = 10;
@@ -76,7 +76,7 @@ public class TeamEntity extends Group {
                 NAME = "Archer";
                 DAMAGE = 10;
                 HEALTH = 30;
-                SPEED = 8;
+                SPEED = 4;
 
                 addHealthValue = 2;
                 addDamageValue = 2;
@@ -92,9 +92,9 @@ public class TeamEntity extends Group {
                 unitButton = new ImageButton(new TextureRegionDrawable(Warfare.atlas.findRegion("thorActive")),
                         new TextureRegionDrawable(Warfare.atlas.findRegion("thorInactive")));
                 NAME = "Thor";
-                DAMAGE = 15;
-                HEALTH = 30;
-                SPEED = 10;
+                DAMAGE = 12;
+                HEALTH = 20;
+                SPEED = 8;
 
                 addHealthValue = 2;
                 addDamageValue = 2;

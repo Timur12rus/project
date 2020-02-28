@@ -522,6 +522,13 @@ rock_small
   orig: 66, 58
   offset: 0, 0
   index: -1
+smallLifeIndicator
+  rotate: false
+  xy: 1772, 1112
+  size: 54, 12
+  orig: 54, 12
+  offset: 0, 0
+  index: -1
 speed_icon
   rotate: false
   xy: 1986, 1815
@@ -531,14 +538,14 @@ speed_icon
   index: -1
 star_active
   rotate: false
-  xy: 1772, 1092
+  xy: 1686, 12
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 star_inactive
   rotate: false
-  xy: 1686, 12
+  xy: 1989, 384
   size: 32, 32
   orig: 32, 32
   offset: 0, 0

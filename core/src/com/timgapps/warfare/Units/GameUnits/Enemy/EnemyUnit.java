@@ -1,6 +1,7 @@
 package com.timgapps.warfare.Units.GameUnits.Enemy;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
@@ -22,9 +23,20 @@ public class EnemyUnit extends GameUnit {
     private ShapeRenderer shapeRenderer;
 //    public enum State {WALKING, ATTACK, STAY, DIE, RUN, HART}
 
+    protected Animation walkAnimation;            // анимация для ходьбы
+    protected Animation attackAnimation;          // анимация для атаки
+    protected Animation dieAnimation;             // анимация для уничтожения
+    protected Animation stayAnimation;            // анимация для стоит
+    protected Animation runAnimation;            // анимация для бежит
+    protected Animation hartAnimation;            // анимация для получает урон
+
     public void setDraw(boolean draw) {
         isDraw = draw;
     }
+
+    protected float deltaX, deltaY;
+
+    protected float bodyWidth, bodyHeight;
 
     /**
      * переменная отвечает за то, отрисовывать ли прямоугольник для определения коллизий с камнем
@@ -33,18 +45,18 @@ public class EnemyUnit extends GameUnit {
     public boolean isDraw() {
         return isDraw;
     }
-
     private boolean isDraw = true;
-
     protected boolean isAttackStone = false;
     protected boolean isAttackTower = false;
-
     protected Stone stone;
 
     public EnemyUnit(Level level, float x, float y, float health, float damage) {
         super(level, x, y, health, damage);
 
-        bodyRectangle.setSize(48, 16);
+        bodyWidth = 48;
+        bodyHeight = 16;
+
+        bodyRectangle.setSize(bodyWidth, bodyHeight);
         if (isDebug) {
             shapeRenderer = new ShapeRenderer();
         }
@@ -77,23 +89,28 @@ public class EnemyUnit extends GameUnit {
     }
 
     @Override
+    public void setHealth(float value) {
+        super.setHealth(value);
+        addDamageLabel(getX() + xPosDamageLabel, getY() + getHeight() + 14, value);
+    }
+
+    @Override
     public void act(float delta) {
         super.act(delta);
 
 
         /** обновим позицию текущего игрового объекта **/
-        setPosition(body.getPosition().x * Level.WORLD_SCALE, body.getPosition().y * Level.WORLD_SCALE - 14);
+        setPosition(body.getPosition().x * Level.WORLD_SCALE - bodyWidth / 2, body.getPosition().y * Level.WORLD_SCALE - bodyHeight / 2);
 //        setPosition(body.getPosition().x * Level.WORLD_SCALE - 24, body.getPosition().y * Level.WORLD_SCALE - 22);
 
         /** Обновим позицию прямоугльника "тела", который служит для определения столкновений с камнем **/
-        bodyRectangle.setPosition(getX() - 24, getY() + 8);
+        bodyRectangle.setPosition(getX(), getY());
     }
 
     @Override
     public Vector2 getBodyPosition() {
         return null;
     }
-
 
     public void setTargetPlayer(PlayerUnit targetPlayer) {
 
@@ -128,6 +145,5 @@ public class EnemyUnit extends GameUnit {
     public Rectangle getRectangle() {
         return bodyRectangle;
     }
-
 
 }

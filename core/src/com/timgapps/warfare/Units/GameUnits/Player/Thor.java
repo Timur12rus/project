@@ -10,6 +10,7 @@ import com.timgapps.warfare.Warfare;
 public class Thor extends Gnome {
     public Thor(Level level, float x, float y, float health, float damage) {
         super(level, x, y, health, damage);
+        velocity = 0.8f;
     }
 
     @Override

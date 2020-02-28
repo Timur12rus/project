@@ -16,6 +16,7 @@ import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnit;
 import com.timgapps.warfare.Units.GameUnits.GameUnit;
 import com.timgapps.warfare.Warfare;
 
+import java.awt.Label;
 import java.util.ArrayList;
 
 import static com.badlogic.gdx.math.Vector2.len;
@@ -24,7 +25,7 @@ public class Gnome extends PlayerUnit {
 
 //    protected boolean isAttack = false;   // флаг, указывет на то, в состоянии ли атаки находится юнит
 
-    private final float VELOCITY = 0.8f;
+//    private static float VELOCITY = 0.6f;
     //    public State currentState = State.RUN;
 //    private float stateTime;
 
@@ -50,6 +51,10 @@ public class Gnome extends PlayerUnit {
         super(level, x, y, health, damage);
         this.level = level;
         this.world = level.getWorld();
+
+        velocity = 0.6f;
+        xPosDamageLabel = -50;
+
         this.setWidth(Warfare.atlas.findRegion("gnomeWalk0").getRegionWidth());
         this.setHeight(Warfare.atlas.findRegion("gnomeWalk0").getRegionHeight());
         this.debug();
@@ -264,7 +269,7 @@ public class Gnome extends PlayerUnit {
         Vector2 distanceToEnemy = (enemyUnit.getBodyPosition().sub(getBodyPosition()));
 
         /** время необходимое для движения до вражеского юнита t = S / V **/
-        float time = distanceToEnemy.len() / VELOCITY;
+        float time = distanceToEnemy.len() / velocity;
 
 
         /** рассчитанное время для движения до вражеского юнита tp = Sy / Vy**/
@@ -294,7 +299,7 @@ public class Gnome extends PlayerUnit {
             /** если направления вертикального перемещения DOWN, то проверим условие: **/
             if (posY > posYTarget) {
 //                body.setLinearVelocity(VELOCITY, - VELOCITY);
-                body.setLinearVelocity(velocityDirection.nor().scl(VELOCITY));
+                body.setLinearVelocity(velocityDirection.nor().scl(velocity));
 //                body.setLinearVelocity((float) (VELOCITY * Math.cos(velocityDirection.angle())),
 //                        (float) (VELOCITY * Math.sin(velocityDirection.angle())));
             } else {
@@ -306,12 +311,12 @@ public class Gnome extends PlayerUnit {
 //                body.setLinearVelocity(VELOCITY, VELOCITY);
 //                body.setLinearVelocity((float) (VELOCITY * Math.cos(velocityDirection.angle())),
 //                        (float) (VELOCITY * Math.sin(velocityDirection.angle())));
-                body.setLinearVelocity(velocityDirection.nor().scl(VELOCITY));
+                body.setLinearVelocity(velocityDirection.nor().scl(velocity));
             } else {
                 verticalDirectionMovement = Direction.NONE;
             }
         } else if (verticalDirectionMovement == Direction.NONE) {
-            body.setLinearVelocity(VELOCITY, 0);
+            body.setLinearVelocity(velocity, 0);
         }
     }
 
@@ -320,7 +325,7 @@ public class Gnome extends PlayerUnit {
      **/
     public void moveRight(Body body) {
         Vector2 vel = body.getLinearVelocity();
-        vel.x = VELOCITY;
+        vel.x = velocity;
         vel.y = 0;
         body.setLinearVelocity(vel);
     }
@@ -446,12 +451,17 @@ public class Gnome extends PlayerUnit {
         if (currentState == State.DIE) {
             batch.draw((TextureRegion) dieAnimation.getKeyFrame(stateTime, false), getX() - 124, getY());
         }
+
+        if (isDrawHealthBar)
+            drawHealthBar(batch, -84, getHeight());
+
     }
 
-    @Override
-    public void setHealth(float health) {
-        this.health -= health;
-    }
+
+//    @Override
+//    public void setHealth(float value) {
+//        super.setHealth(value);
+//    }
 
     @Override
     public void attack() {

@@ -1,5 +1,8 @@
 package com.timgapps.warfare.Units.GameUnits;
 
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
@@ -21,9 +24,54 @@ public class Barricade {
 
     private float health = 5;
 
+    private Texture healthTexture;
+    private Texture backTexture;
+    private float fullHealth;
+    private int healthBarWidth;
+    private int healthBarHeight;
+    private boolean isDrawHealthBar = false;
+
+
     public Barricade(Level level, int typeOfBarricade) {
         this.level = level;
         this.typeOfBarricade = typeOfBarricade;
+        createBarricade(typeOfBarricade);
+
+        /** создадим HealthBar **/
+        healthBarWidth = 54;        // ширина HealthBar
+        healthBarHeight = 10;       // высота HealthBar
+        fullHealth = health;
+        createHealthBar(healthBarWidth, healthBarHeight);
+    }
+
+    public void drawHealthBar(Batch batch, float x, float y) {
+        batch.draw(backTexture, getX() + x, getY() + y);
+        batch.draw(healthTexture, getX() + x + 1, getY() + y + 1, health * (healthBarWidth - 2) / fullHealth, healthBarHeight - 2);
+    }
+
+    /**
+     * метод для сздания HealthBar
+     * @param
+     **/
+    private void createHealthBar(int healthBarWidth, int healthBarHeight) {
+        Pixmap healthPixmap = createProceduralPixmap(healthBarWidth - 2, healthBarHeight - 2, 1, 0, 0);
+        Pixmap backPixmap = createProceduralPixmap(healthBarWidth, healthBarHeight, 0, 0, 0);
+        healthTexture = new Texture(healthPixmap);
+        backTexture = new Texture(backPixmap);
+    }
+
+    private Pixmap createProceduralPixmap(int width, int height, int r, int g, int b) {
+        Pixmap pixmap = new Pixmap(width, height, Pixmap.Format.RGBA8888);
+        pixmap.setColor(r, g, b, 1);
+        pixmap.fill();
+        return pixmap;
+    }
+
+
+    /**
+     * метод для создания БАРРИКАДЫ
+     **/
+    private void createBarricade(int typeOfBarricade) {
         switch (typeOfBarricade) {
             case ROCKS:
                 rockBig = new Image(Warfare.atlas.findRegion("rock_big"));
@@ -43,20 +91,26 @@ public class Barricade {
                 level.addChild(rockBig);
 
                 body = createBody(rockBig.getX() + rockBig.getWidth() / 2, rockBig.getY());
-
-//                addActor(rockSmall);
-//                addActor(rockMiddle);
-//                addActor(rockBig);
         }
     }
 
+    /**
+     * метод для получения координаты X БАРРИКАДЫ
+     **/
     public float getX() {
         return rockBig.getX();
     }
 
+    /**
+     * метод для получения координаты X БАРРИКАДЫ
+     **/
+    public float getY() {
+        return rockSmall.getY() + rockSmall.getHeight() + 8;
+    }
+
     public void setHealth(float damage) {
         health -= damage;
-        if (health <=0 ) {
+        if (health <= 0) {
             body.setActive(false);
         }
     }

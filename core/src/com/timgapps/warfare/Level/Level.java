@@ -74,16 +74,17 @@ public class Level extends StageGame {
         barricade = new Barricade(this, Barricade.ROCKS);
 //        addChild(barricade);
 
-        siegeTower = new SiegeTower(this, 8, 240, gameManager.getTowerHealth(), 2);
+        siegeTower = new SiegeTower(this, 8, 260, gameManager.getTowerHealth(), 2);
 
 
         /** Добавим вражеских юнитов **/
         random = new Random();
 
-        Zombie1 zombie = new Zombie1(this, 400, 250, 20, 3);
-//        Zombie1 zombie1 = new Zombie1(this, 1300, 230, 20, 3);
-//        Zombie1 zombie2 = new Zombie1(this, 1100, 180, 20, 3);
-//        Zombie1 zombie3 = new Zombie1(this, 900, 210, 20, 3);
+        Zombie1 zombie = new Zombie1(this, 400, 250, 100, 5);
+        zombie.debug();
+        Zombie1 zombie1 = new Zombie1(this, 1300, 230, 20, 3);
+        Zombie1 zombie2 = new Zombie1(this, 1100, 180, 20, 3);
+        Zombie1 zombie3 = new Zombie1(this, 900, 210, 20, 3);
 //        Zombie zombie4 = new Zombie(this, 1200, 200, 20, 5);
 
 //        Zombie1 zombie3 = new Zombie1(this, 900, 120 + (random.nextFloat() * 150) + 30, 20, 10);
@@ -92,9 +93,9 @@ public class Level extends StageGame {
         accumulator = 0;
 
         arrayEnemies.add(zombie);
-//        arrayEnemies.add(zombie1);
-//        arrayEnemies.add(zombie2);
-//        arrayEnemies.add(zombie3);
+        arrayEnemies.add(zombie1);
+        arrayEnemies.add(zombie2);
+        arrayEnemies.add(zombie3);
 //        arrayEnemies.add(zombie4);
 
 
@@ -194,7 +195,7 @@ public class Level extends StageGame {
     }
 
     public void addGnome() {
-        new Gnome(this, 160, 210, 20, 2);
+        new Gnome(this, 160, 210, 50, 2);
     }
 
     public void addArcher1() {
@@ -258,6 +259,22 @@ public class Level extends StageGame {
                         }
                     }
                 }
+
+//                for (int i = 0; i < arrayActors.size() - 1; i++) {
+//                    if (arrayActors.get(i).getZIndex() < arrayActors.get(i + 1).getZIndex()) {
+//                        if (arrayActors.get(i).getY() < arrayActors.get(i + 1).getY()) {
+//                            tempZIndex = arrayActors.get(i).getZIndex();
+//                            arrayActors.get(i).setZIndex(arrayActors.get(i + 1).getZIndex());
+//                            arrayActors.get(i + 1).setZIndex(tempZIndex);
+//
+//                            tempActor = arrayActors.get(i);
+//
+//                            arrayActors.set(i, arrayActors.get(i + 1));
+//                            arrayActors.set(i + 1, tempActor);
+//                            sorted = false;
+//                        }
+//                    }
+//                }
             }
         }
     }

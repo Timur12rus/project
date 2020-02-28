@@ -26,7 +26,7 @@ public class Archer1 extends PlayerUnit {
     private Direction verticalDirectionMovement = Direction.NONE;
 
     private final float ATTACK_DISTANCE = 300;
-    private final float VELOCITY = 0.6f;
+    //    private final float VELOCITY = 0.6f;
     private static float APPEARANCE_TIME = 1;
     //    private static float APPEARANCE_TIME = 30;
     protected static int ENERGY_PRICE = 1;
@@ -37,9 +37,12 @@ public class Archer1 extends PlayerUnit {
 
     public Archer1(Level level, float x, float y, float health, float damage) {
         super(level, x, y, health, damage);
+        velocity = 0.4f;
         energyPrice = 20;
         this.level = level;
         this.world = level.getWorld();
+
+        xPosDamageLabel = - 45;
 
         this.setWidth(Warfare.atlas.findRegion("archer1Walk0").getRegionWidth());
         this.setHeight(Warfare.atlas.findRegion("archer1Walk0").getRegionHeight());
@@ -72,7 +75,7 @@ public class Archer1 extends PlayerUnit {
             /** проверим, может ли игровой юнит атаковать врага **/
             checkAttack((EnemyUnit) targetEnemy);
         }
-        setPosition(body.getPosition().x * Level.WORLD_SCALE - 18, body.getPosition().y * Level.WORLD_SCALE - bodyHeight / 2);
+//        setPosition(body.getPosition().x * Level.WORLD_SCALE - 18, body.getPosition().y * Level.WORLD_SCALE - bodyHeight / 2);
     }
 
 
@@ -209,7 +212,7 @@ public class Archer1 extends PlayerUnit {
         System.out.println("barricadeX = " + barricade.getX());
         System.out.println("archerX = " + getX());
         if (barricade.getX() - getX() > 100) {
-            body.setLinearVelocity(VELOCITY, 0);
+            body.setLinearVelocity(velocity, 0);
         } else {
             if (currentState == State.WALKING && walkAnimation.isAnimationFinished(stateTime)) {
                 stay();
@@ -260,11 +263,11 @@ public class Archer1 extends PlayerUnit {
     }
 
     private void moveUp() {
-        body.setLinearVelocity(0, VELOCITY);
+        body.setLinearVelocity(0, velocity);
     }
 
     private void moveDown() {
-        body.setLinearVelocity(0, -VELOCITY);
+        body.setLinearVelocity(0, -velocity);
     }
 
     private void stay() {
@@ -281,28 +284,28 @@ public class Archer1 extends PlayerUnit {
 
 //        if (isDraw) {
         if (currentState == State.WALKING) {
-            batch.draw((TextureRegion) walkAnimation.getKeyFrame(stateTime, true), getX() - 212, getY());
+            batch.draw((TextureRegion) walkAnimation.getKeyFrame(stateTime, true), getX() - 174, getY());
         }
 
         if (currentState == State.ATTACK) {
-            batch.draw((TextureRegion) attackAnimation.getKeyFrame(stateTime, true), getX() - 212, getY());
+            batch.draw((TextureRegion) attackAnimation.getKeyFrame(stateTime, true), getX() - 174, getY());
 //            batch.draw((TextureRegion) attackAnimation.getKeyFrame(stateTime, true), getX() - 212, getY() - 26);
         }
 
         if (currentState == State.STAY) {
-            batch.draw((TextureRegion) stayAnimation.getKeyFrame(stateTime, true), getX() - 212, getY());
+            batch.draw((TextureRegion) stayAnimation.getKeyFrame(stateTime, true), getX() - 174, getY());
         }
 
         if (currentState == State.RUN) {
-            batch.draw((TextureRegion) runAnimation.getKeyFrame(stateTime, true), getX() - 212, getY());
+            batch.draw((TextureRegion) runAnimation.getKeyFrame(stateTime, true), getX() - 174, getY());
         }
 
         if (currentState == State.DIE) {
-            batch.draw((TextureRegion) dieAnimation.getKeyFrame(stateTime, true), getX() - 212, getY());
+            batch.draw((TextureRegion) dieAnimation.getKeyFrame(stateTime, true), getX() - 174, getY());
         }
 
         if (currentState == State.HART) {
-            batch.draw((TextureRegion) hartAnimation.getKeyFrame(stateTime, true), getX() - 212, getY());
+            batch.draw((TextureRegion) hartAnimation.getKeyFrame(stateTime, true), getX() - 174, getY());
         }
 //        batch.setColor(1, 1, 1, 1);
     }

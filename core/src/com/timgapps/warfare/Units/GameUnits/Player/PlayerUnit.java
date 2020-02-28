@@ -1,6 +1,8 @@
 package com.timgapps.warfare.Units.GameUnits.Player;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -35,6 +37,19 @@ public class PlayerUnit extends GameUnit {
     protected float bodyWidth = 24;
     protected float bodyHeight = 24;
 
+    protected float deltaX, deltaY;
+
+
+//    protected TextureRegion lifeIndicator;
+
+    public PlayerUnit(Level level, float x, float y, float health, float damage) {
+        super(level, x, y, health, damage);
+        body = createBody(x, y);
+        this.barricade = level.getBarricade();
+
+//        healthBarWidth = 54;
+//        healthBarHeight = 10;
+    }
 
     @Override
     public Body createBody(float x, float y) {
@@ -53,18 +68,11 @@ public class PlayerUnit extends GameUnit {
         body.createFixture(fDef).setUserData(this);
         shape.dispose();
         body.setTransform(x / Level.WORLD_SCALE, y / Level.WORLD_SCALE, 0);
-
         return body;
     }
 
 
     protected enum Direction {UP, DOWN, NONE}
-
-    public PlayerUnit(Level level, float x, float y, float health, float damage) {
-        super(level, x, y, health, damage);
-        body = createBody(x, y);
-        this.barricade = level.getBarricade();
-    }
 
     @Override
     public Vector2 getBodyPosition() {
@@ -92,6 +100,13 @@ public class PlayerUnit extends GameUnit {
     }
 
 
+    @Override
+    public void setHealth(float value) {
+        super.setHealth(value);
+        addDamageLabel(getX() + xPosDamageLabel, getY() + getHeight() + 8 + yPosDamageLabel, value);
+    }
+
+
     /**
      * метод для атаки баррикады!
      **/
@@ -115,4 +130,6 @@ public class PlayerUnit extends GameUnit {
 //            }
 //        }
     }
+
+
 }
