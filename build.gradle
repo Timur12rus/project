@@ -3,12 +3,14 @@ buildscript {
         mavenLocal()
         mavenCentral()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+//        maven { url "https://https://repo.maven.apache.org/maven2/" }
         google()
         jcenter()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.5.2'
-        classpath 'com.badlogicgames.gdx:gdx-tools:1.9.6'
+        classpath 'com.badlogicgames.gdx:gdx-tools:1.9.5'
+//        classpath 'com.badlogicgames.gdx:gdx-tools:1.9.6'
     }
 }
 
@@ -19,7 +21,8 @@ allprojects {
     version = '1.0'
     ext {
         appName = "Warfare"
-        gdxVersion = '1.9.6'
+        gdxVersion = '1.9.5'
+//        gdxVersion = '1.9.6'
         roboVMVersion = '2.3.1'
         box2DLightsVersion = '1.4'
         ashleyVersion = '1.7.0'
@@ -87,6 +90,7 @@ project(":core") {
 
     dependencies {
         implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
+        implementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
         implementation "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         implementation "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
         implementation "com.badlogicgames.gdx:gdx-tools:$gdxVersion"

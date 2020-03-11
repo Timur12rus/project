@@ -23,7 +23,7 @@ public class DamageLabel extends Actor {
         Label damageLabel = new Label("" + damage, greenLabelStyle);
         damageLabel.setPosition(x, y);
 
-        System.out.println("damageLabelx = " + damageLabel.getX() + "\n + damageLabely = " + damageLabel.getY());
+//        System.out.println("damageLabelx = " + damageLabel.getX() + "\n + damageLabely = " + damageLabel.getY());
 
         SequenceAction ma = new SequenceAction(Actions.moveBy(0, 30, 0.2f),
                 Actions.fadeOut(0.3f));

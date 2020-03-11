@@ -99,7 +99,7 @@ public class Zombie extends EnemyUnit {
                         stateTime = 0;
                         currentState = State.STAY;
                         if (level.getSiegeTower().getHealth() <= 0) {
-                            level.getSiegeTower().setToDestroy();
+//                            level.getSiegeTower().setToDestroy();
                             isAttackTower = false;
                         }
                     }

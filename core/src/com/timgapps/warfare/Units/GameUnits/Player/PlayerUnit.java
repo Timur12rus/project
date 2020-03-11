@@ -111,11 +111,9 @@ public class PlayerUnit extends GameUnit {
      * метод для атаки баррикады!
      **/
     public void attackBarricade() {
-//    public void attackBarricade(Barricade barricade) {
-        if (!isAttackBarricade && !isAttack) {
+        if (!isAttackBarricade) {
 //        if (!isAttackBarricade && !isAttack) {
             isAttackBarricade = true;
-//            this.barricade = barricade;
             stateTime = 0;
             currentState = State.ATTACK;
         }
