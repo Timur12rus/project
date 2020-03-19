@@ -1,5 +1,6 @@
 package com.timgapps.warfare.Level;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
@@ -12,6 +13,8 @@ import com.timgapps.warfare.Level.GUI.HUD;
 import com.timgapps.warfare.Level.GUI.Screens.TeamEntity;
 import com.timgapps.warfare.Level.GUI.StoneButton;
 import com.timgapps.warfare.Level.GUI.UnitButton;
+import com.timgapps.warfare.Level.LevelScreens.DarkLayer;
+import com.timgapps.warfare.Level.LevelScreens.LevelCompletedScreen;
 import com.timgapps.warfare.Tools.WorldContactListener;
 import com.timgapps.warfare.Units.GameUnits.Barricade;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnit;
@@ -46,20 +49,24 @@ public class Level extends StageGame {
     private int levelNumber;
     private GameManager gameManager;
     Random random;
-
     private ArrayList<TeamEntity> team;
-
     private Barricade barricade;
-
     private Image rockBig, rockMiddle, rockSmall;
-
     private SiegeTower siegeTower;
+    private LevelCompletedScreen levelCompletedScreen;
+
+    private boolean isActiveScreen = true;
+
+    private DarkLayer darkLayer;
+    private Table tableUnitButtons;
 
 
     public Level(int levelNumber, GameManager gameManager) {
 
         this.levelNumber = levelNumber;
         this.gameManager = gameManager;
+
+        levelCompletedScreen = new LevelCompletedScreen(this);
 
 //        System.out.println("Level Number " + levelNumber);
         setBackGround("level_bg");
@@ -109,40 +116,16 @@ public class Level extends StageGame {
 
 //        addChild(new Archer1(this, 200, 200, 30, 20));
 
+
+        darkLayer = new DarkLayer(0, 0, getWidth(), getHeight(), new Color(0, 0, 0, 0.7f));
+        darkLayer.setVisible(false);
+        addOverlayChild(darkLayer);
+
         coinCount = gameManager.getCoinsCount();
         hud = new HUD(this);
         hud.setPosition(32, getHeight() - hud.getHeight());
         addOverlayChild(hud);
-//        hud.setPosition(32, getHeight() - 64);
-
-        /** Добавим кнопки для вызова игровых юнитов **/
-//        addChild(new UnitButton(this, new Image(Warfare.atlas.findRegion("gnomeActive")),
-//                        new Image(Warfare.atlas.findRegion("gnomeInactive")), UnitButton.TypeOfUnit.GNOME),
-//                500, 16);
-//
-//        addChild(new UnitButton(this, new Image(Warfare.atlas.findRegion("archer1Active")),
-//                        new Image(Warfare.atlas.findRegion("archer1Inactive")), UnitButton.TypeOfUnit.ARCHER1),
-//                640, 16);
-//
-//        addChild(new StoneButton(this, new Image(Warfare.atlas.findRegion("stoneButtonActive")),
-//                        new Image(Warfare.atlas.findRegion("stoneButtonInactive")), UnitButton.TypeOfUnit.STONE),
-//                780, 16);
-
-
-//        rockBig = new Image(Warfare.atlas.findRegion("rock_big"));
-//        rockMiddle = new Image(Warfare.atlas.findRegion("rock_middle"));
-//        rockSmall = new Image(Warfare.atlas.findRegion("rock_small"));
-//        arrayActors.add(rockSmall);
-//        arrayActors.add(rockMiddle);
-//        arrayActors.add(rockBig);
-//
-//        addChild(rockSmall, 1100, 300);
-//        addChild(rockMiddle, 1120, 240);
-//        addChild(rockBig, 1090, 150);
-
         addUnitButtons();
-
-
     }
 
 
@@ -172,8 +155,6 @@ public class Level extends StageGame {
     @Override
     public void render(float delta) {
         super.render(delta);
-//        this.stage.getBatch().setColor(1, 1, 1, 1);     //переустановим альфу для всец сцены
-
         if (Setting.DEBUG_WORLD) {
             debugRender.render(world, camera.combined.cpy().scl(WORLD_SCALE));
         }
@@ -184,7 +165,6 @@ public class Level extends StageGame {
         super.update(delta);
 
 //        timeCount += delta;
-
         energyCount += delta;
 
         /** Timur **/
@@ -262,22 +242,6 @@ public class Level extends StageGame {
                         }
                     }
                 }
-
-//                for (int i = 0; i < arrayActors.size() - 1; i++) {
-//                    if (arrayActors.get(i).getZIndex() < arrayActors.get(i + 1).getZIndex()) {
-//                        if (arrayActors.get(i).getY() < arrayActors.get(i + 1).getY()) {
-//                            tempZIndex = arrayActors.get(i).getZIndex();
-//                            arrayActors.get(i).setZIndex(arrayActors.get(i + 1).getZIndex());
-//                            arrayActors.get(i + 1).setZIndex(tempZIndex);
-//
-//                            tempActor = arrayActors.get(i);
-//
-//                            arrayActors.set(i, arrayActors.get(i + 1));
-//                            arrayActors.set(i + 1, tempActor);
-//                            sorted = false;
-//                        }
-//                    }
-//                }
             }
         }
     }
@@ -324,7 +288,7 @@ public class Level extends StageGame {
      **/
     public void addUnitButtons() {
         team = gameManager.getTeam();
-        Table tableUnitButtons = new Table().debug();
+        tableUnitButtons = new Table().debug();
         float unitButtonWidth = team.get(0).getWidth();
         float unitButtonHeight = team.get(0).getHeight();
         StoneButton stoneButton = new StoneButton(this, new Image(Warfare.atlas.findRegion("stoneButtonActive")),
@@ -360,29 +324,25 @@ public class Level extends StageGame {
             }
         }
 
-//        tableUnitButtons.setWidth(300);
         tableUnitButtons.setWidth(team.size() * unitButtonWidth + 24);
         tableUnitButtons.setHeight(team.get(0).getHeight());
 
-//        System.out.println("Team(0) width = " + team.get(0).getWidth());
-//        System.out.println("Team(0) height = " + team.get(0).getHeight());
-
         tableUnitButtons.setPosition((getWidth() - tableUnitButtons.getWidth()) / 2, 24);
-//        tableUnitButtons.setPosition((getWidth() - tableUnitButtons.getWidth()) / 2, 32);
 
         stoneButton.setUnitButtonTablePosX(tableUnitButtons.getX());
         addOverlayChild(tableUnitButtons);
     }
 
-//    addChild(new UnitButton(this, new Image(Warfare.atlas.findRegion("gnomeActive")),
-//            new Image(Warfare.atlas.findRegion("gnomeInactive")),UnitButton.TypeOfUnit.GNOME),
-//            500,16);
-//
-//    addChild(new UnitButton(this, new Image(Warfare.atlas.findRegion("archer1Active")),
-//            new Image(Warfare.atlas.findRegion("archer1Inactive")),UnitButton.TypeOfUnit.ARCHER1),
-//            640,16);
-//
-//    addChild(new StoneButton(this, new Image(Warfare.atlas.findRegion("stoneButtonActive")),
-//            new Image(Warfare.atlas.findRegion("stoneButtonInactive")),UnitButton.TypeOfUnit.STONE),
-//            780,16);
+    public void levelCompleted() {
+        levelCompletedScreen.setPosition((getWidth() - levelCompletedScreen.getWidth()) / 2, getHeight() * 2 / 3);
+        addOverlayChild(levelCompletedScreen);
+        isActiveScreen = false;
+        darkLayer.setVisible(true);     // затемняем задний план
+        tableUnitButtons.remove();      // кнопки юитов делаем невидимыми
+        levelCompletedScreen.start();   // запускаем экран завершения уровня
+    }
+
+    public int getLevelNumber() {
+        return levelNumber;
+    }
 }

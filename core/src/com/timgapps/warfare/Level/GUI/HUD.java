@@ -17,10 +17,6 @@ import com.timgapps.warfare.Warfare;
 
 public class HUD extends Group {
     private Level level;
-    private Label energyCountLabel;
-    private Label coinCountLabel;
-
-    private Image energyIcon;
     private Image coinIcon;
 
     private Table energyTable;
@@ -41,43 +37,11 @@ public class HUD extends Group {
 //        energyTable = new Table().debug();
 
         energyTable.setWidth(level.getWidth() - 64);
-
-//        /** Изображение ЗНАЧОК ЭНЕРГИИ **/
-//        energyIcon = new Image(Warfare.atlas.findRegion("energyIcon"));
         coinIcon = new Image(Warfare.atlas.findRegion("coin_icon"));
 
         setHeight(coinIcon.getHeight());
-//        setHeight(coinIcon.getHeight());
-
-//        /** Надпись о КОЛИЧЕСТВЕ ЭНЕРГИИ **/
-//        Label.LabelStyle energyLabelStyle = new Label.LabelStyle();
-//        energyLabelStyle.fontColor = new Color(0x35a1afff);
-//        energyLabelStyle.font = Warfare.font20;
-//        energyCountLabel = new Label("" + level.getEnergyCount(), energyLabelStyle);        // надпись "КОЛИЧЕСТВО ЭНЕРГИИ"
-//
-
-//        /** Изображение ЗНАЧОК МОНЕТА **/
-//        energyIcon = new Image(Warfare.atlas.findRegion("energyIcon"));
-//
-//        /** Надпись о КОЛИЧЕСТВЕ МОНЕТ **/
-//        Label.LabelStyle coinLabelStyle = new Label.LabelStyle();
-//        coinLabelStyle.fontColor = Color.YELLOW;
-//        coinLabelStyle.font = Warfare.font20;
-//        coinCountLabel = new Label("" + coinsCount, coinLabelStyle);        // надпись "КОЛИЧЕСТВО ЭНЕРГИИ"
-//        coinCountLabel.setAlignment(Align.right);
-
-        /** Добавляем элементы в таблицу **/
-//        energyTable.add(energyIcon).width(energyIcon.getWidth());
-//        energyTable.add(energyCountLabel).padLeft(8).width(64);
-//        energyTable.add().expandX();
-//        energyTable.add(coinCountLabel).expandX().width(96).right().padRight(8);
-//        energyTable.add(coinIcon).width(coinIcon.getWidth());
-
         energyTable.add(energyPanel);
-//        energyTable.add(energyCountLabel).padLeft(8).width(64);
         energyTable.add().expandX();
-//        energyTable.add(coinCountLabel).expandX().width(96).right().padRight(8);
-//        energyTable.add(coinIcon).width(coinIcon.getWidth());
         energyTable.add(coinsPanel);
 
         addActor(energyTable);
@@ -86,7 +50,6 @@ public class HUD extends Group {
     @Override
     public void act(float delta) {
         super.act(delta);
-//        energyCountLabel.setText("" + level.getEnergyCount());
     }
 
     public void updateCoinsCount(int count) {

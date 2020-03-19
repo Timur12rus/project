@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.AlphaAction;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -108,7 +107,7 @@ public class UpgradeScreen extends Group {
 
     private TextureRegionDrawable textureRegionDrawableBg;
 
-    private YellowButton selectUnitButton;  // кнопка "ВЫБРАТЬ" для игрового юнита,
+    private ColorButton selectUnitButton;  // кнопка "ВЫБРАТЬ" для игрового юнита,
     // если игровой юнит не состоит в коменде, а нах-ся в коллекции
 
 
@@ -572,7 +571,6 @@ public class UpgradeScreen extends Group {
             alphaActionEnd.setDuration(1f);
 
             SequenceAction sa = new SequenceAction(alphaActionStart, mta, alphaActionEnd, checkEndOfAction);
-
             toastLabel.addAction(sa);
         }
     }

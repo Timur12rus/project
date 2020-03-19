@@ -39,6 +39,8 @@ public class Barricade {
     private boolean isDestroyed = false;
 
     private int numOfExplosions = 0;
+    private float posX, posY;
+    private float width;
 
     public Barricade(Level level, int typeOfBarricade) {
         this.level = level;
@@ -48,16 +50,17 @@ public class Barricade {
         barricadeExplosion2 = new BarricadeExplosion(this);
         barricadeExplosion3 = new BarricadeExplosion(this);
 
-        barricadeExplosion1.setPosition(1070, 290);
-        barricadeExplosion3.setPosition(1100, 230);
-        barricadeExplosion2.setPosition(1080, 140);
+        createBarricade(typeOfBarricade);
+
+       barricadeExplosion1.setPosition(posX - 20, posY + 140);
+        barricadeExplosion3.setPosition(posX - 10, posY + 80);
+        barricadeExplosion2.setPosition(posX - 30, posY - 10);
+
         level.addChild(barricadeExplosion1);
         level.addChild(barricadeExplosion3);
         level.addChild(barricadeExplosion2);
 
-        createBarricade(typeOfBarricade);
-
-        /** создадим HealthBar **/
+                /** создадим HealthBar **/
         healthBarWidth = 108;        // ширина HealthBar
         healthBarHeight = 10;       // высота HealthBar
         fullHealth = health;
@@ -86,18 +89,35 @@ public class Barricade {
                 rockMiddle = new Image(Warfare.atlas.findRegion("rock_middle"));
                 rockSmall = new Image(Warfare.atlas.findRegion("rock_small"));
 
-                rockSmall.setPosition(1100, 300);
-                rockMiddle.setPosition(1120, 240);
-                rockBig.setPosition(1090, 150);
+//                rockSmall.setPosition(1100, 300);
+//                rockMiddle.setPosition(1120, 240);
+//                rockBig.setPosition(1090, 150);
+
+                // ширина баррикады
+                width = rockBig.getWidth();
+
+                // координата X
+                posX = level.getWidth() - width - 100;
+                posY = 150;
+
+                rockSmall.setPosition(posX + 10, posY + 150);
+                rockMiddle.setPosition(posX + 30, posY + 90);
+                rockBig.setPosition(posX, posY);
 
                 level.arrayActors.add(rockSmall);
                 level.arrayActors.add(rockMiddle);
                 level.arrayActors.add(rockBig);
 
+
                 level.addChild(rockSmall);
                 level.addChild(rockMiddle);
                 level.addChild(rockBig);
-                body = createBody(rockBig.getX() + rockBig.getWidth() / 2, rockBig.getY());
+
+
+
+                // тело баррикады
+                body = createBody(posX + width / 2, posY);
+//                body = createBody(rockBig.getX() + rockBig.getWidth() / 2, rockBig.getY());
                 break;
         }
     }
@@ -196,6 +216,8 @@ public class Barricade {
                         break;
                 }
                 isDestroyed = true;
+
+                level.levelCompleted();
             }
         }
     }

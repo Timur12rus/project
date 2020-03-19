@@ -27,7 +27,7 @@ public class UnitImage extends Group {
 
     private Table table;
 
-    private YellowButton selectButton;
+    private ColorButton selectButton;
 
 
     /**
@@ -54,7 +54,7 @@ public class UnitImage extends Group {
 
         image = new Image(Warfare.atlas.findRegion(textureRegionName));         // зададим изображение изображение юнита
         energyIcon = new Image(Warfare.atlas.findRegion("energyIcon"));    // зададим изображение изображение юнита
-        selectButton = new YellowButton("Select");
+        selectButton = new ColorButton("Select", ColorButton.YELLOW_BUTTON);
 
 //        levelIcon = new Image(Warfare.atlas.findRegion("levelIcon"));
         levelIcon = new UnitLevelIcon(unitLevel);
@@ -133,7 +133,7 @@ public class UnitImage extends Group {
         levelIcon.setLevelValue(levelValue);
     }
 
-    public YellowButton getSelectButton() {
+    public ColorButton getSelectButton() {
         return selectButton;
     }
 

@@ -363,13 +363,6 @@ fire5
   index: -1
 fire6
   rotate: false
-  xy: 1969, 27
-  size: 48, 58
-  orig: 48, 58
-  offset: 0, 0
-  index: -1
-fire7
-  rotate: false
   xy: 1983, 237
   size: 48, 58
   orig: 48, 58
@@ -627,6 +620,20 @@ speed_icon
   orig: 56, 56
   offset: 0, 0
   index: -1
+star
+  rotate: false
+  xy: 1903, 21
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+starInactive
+  rotate: false
+  xy: 1969, 21
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
 star_active
   rotate: false
   xy: 1373, 13
@@ -688,13 +695,6 @@ wheel
   xy: 1069, 2
   size: 58, 56
   orig: 58, 56
-  offset: 0, 0
-  index: -1
-wood_icon
-  rotate: false
-  xy: 1903, 21
-  size: 64, 64
-  orig: 64, 64
   offset: 0, 0
   index: -1
 yellowButton
@@ -824,7 +824,7 @@ barricadeExplosion8
   index: -1
 coin_icon
   rotate: false
-  xy: 52, 44
+  xy: 168, 44
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
@@ -852,14 +852,21 @@ emptyButtonInactive
   index: -1
 energy_icon
   rotate: false
-  xy: 102, 44
+  xy: 218, 44
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: -1
+fire7
+  rotate: false
+  xy: 68, 34
+  size: 48, 58
+  orig: 48, 58
+  offset: 0, 0
+  index: -1
 fire8
   rotate: false
-  xy: 2, 34
+  xy: 118, 34
   size: 48, 58
   orig: 48, 58
   offset: 0, 0
@@ -1086,6 +1093,13 @@ upgradeTeamBtn
   xy: 1607, 2
   size: 96, 96
   orig: 96, 96
+  offset: 0, 0
+  index: -1
+wood_icon
+  rotate: false
+  xy: 2, 28
+  size: 64, 64
+  orig: 64, 64
   offset: 0, 0
   index: -1
 zombie1Attack1
