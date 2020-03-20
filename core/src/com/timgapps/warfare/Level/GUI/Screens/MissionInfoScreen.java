@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.Align;
 import com.boontaran.MessageEvent;
 import com.timgapps.warfare.Level.GUI.Screens.UpgradeWindow.ColorButton;
 import com.timgapps.warfare.Level.LevelMap.LevelIconData;
+import com.timgapps.warfare.Level.LevelScreens.RewardTable;
 import com.timgapps.warfare.Warfare;
 
 
@@ -24,7 +25,7 @@ public class MissionInfoScreen extends Group {
     // объявим заголовок и кнопку
 
     private ImageButton closeButton;
-//    private ImageButton startButton, closeButton;
+    //    private ImageButton startButton, closeButton;
     private ColorButton startButton;
     private Image background;
 
@@ -39,7 +40,7 @@ public class MissionInfoScreen extends Group {
 
     private Image coinImage;
 
-    private Table rewardTable;
+    private RewardTable rewardTable;
 
     public MissionInfoScreen() {
         background = new Image(Warfare.atlas.findRegion("mission_start_bg"));
@@ -49,6 +50,13 @@ public class MissionInfoScreen extends Group {
         addActor(background);
 
         initializeLabels();
+
+        rewardTable = new RewardTable(100, 10);
+        rewardTable.debug();
+
+        addActor(rewardTable);
+        rewardTable.setPosition(background.getX() + (background.getWidth() - rewardTable.getWidth()) / 2,
+                difficulty.getY() - rewardTable.getHeight() + 24);
 
         startButton = new ColorButton("start", ColorButton.GREEN_BUTTON);
 
@@ -125,85 +133,7 @@ public class MissionInfoScreen extends Group {
         difficultlyLabelStyle.font = Warfare.font20;
         difficulty = new Label("" + levelOfDifficulty, difficultlyLabelStyle);
 
-        difficulty.setPosition(missionTitle.getX(), missionTitle.getY() - difficulty.getHeight() - 16);
+        difficulty.setPosition(background.getX() + (background.getWidth() - difficulty.getWidth()) / 2, missionTitle.getY() - difficulty.getHeight() - 16);
         addActor(difficulty);
-
-//        /** Label для надписи НАГРАДЫ **/
-//        Label.LabelStyle rewardsLabelStyle = new Label.LabelStyle();
-//        rewardsLabelStyle.fontColor = Color.GRAY;
-//        rewardsLabelStyle.font = Warfare.font20;
-//
-//        rewardText = new Label("", rewardsLabelStyle);
-//        rewardText.setText("Reward:");
-//
-//        rewardText.setPosition(difficulty.getX(), difficulty.getY() - rewardText.getHeight() - 32);
-//        addActor(rewardText);
-//
-//        /** Таблица для размещения информации о награде за уровень **/
-//        rewardTable = new Table();
-////        rewardTable = new Table().debug();
-//
-//
-//        /** Label для надписи КОЛИЧЕСТВА МОНЕТ **/
-//        Label.LabelStyle coinsCountLabelStyle = new Label.LabelStyle();
-//        coinsCountLabelStyle.fontColor = Color.ORANGE;
-//        coinsCountLabelStyle.font = Warfare.font20;
-//        coinsCountText = new Label("", coinsCountLabelStyle);
-////        coinsCountText.debug();
-//        coinsCountText.setText("" + coinsCount);
-////        coinsCountText.setPosition(rewardText.getX(), rewardText.getY() - coinsCountText.getHeight() - 16);
-////        addActor(coinsCountText);
-//
-//        coinImage = new Image(Warfare.atlas.findRegion("coin_icon"));
-////        coinImage.debug();
-////        coinImage.setPosition(coinsCountText.getX() + coinsCountText.getWidth(), coinsCountText.getY());
-////        addActor(coinImage);
-//
-//        rewardTable.add(coinsCountText);
-//        rewardTable.add(coinImage).width(48).height(48);
-//        rewardTable.setPosition(background.getX() + background.getWidth() / 2, rewardText.getY() - rewardTable.getHeight() - 48);
-////        rewardTable.setPosition(missionTitle.getX(), rewardText.getY() - rewardTable.getHeight() - 48);
-//        addActor(rewardTable);
-
-//        difficulty = new BitmapFont();
-//        rewardText = new BitmapFont();
-//        coinsCountText = new BitmapFont();
-//        scoreCountText = new BitmapFont();
-
-
-//        missionTitle.setColor(Color.GREEN);
-//        difficulty.setColor(Color.YELLOW);
-//        rewardText.setColor(Color.GRAY);
-//        scoreCountText.setColor(Color.BLUE);
-//        coinsCountText.setColor(Color.YELLOW);
-
-//        scoreCountText.getData().setScale(1.6f, 2.2f);
-//        coinsCountText.getData().setScale(1.6f, 2.2f);
-//        missionTitle.getData().setScale(2, 3);
-
-//        glyphLayout = new GlyphLayout();
     }
-
-    private void displayMessage(Batch batch) {
-
-        // объект класса GlyphLayout хранит в себе информацию о шрифте и содержании текста
-//        glyphLayout.setText(missionTitle, "Mission " + id);
-
-        // отображаем результат в левом верхнем углу
-//        fontEnergy.setColor(Color.BLUE);
-//        missionTitle.draw(batch, glyphLayout, background.getX() + background.getWidth() / 2 - missionTitle.getData().spaceWidth,
-//                background.getY() + background.getHeight() - 24);
-//
-//        glyphLayout.setText(coinsCountText, "" + coinsCount);
-//        missionTitle.draw(batch, glyphLayout, background.getX() + background.getWidth() / 2 - missionTitle.getData().spaceWidth,
-//                background.getY() + background.getHeight() - 100);
-    }
-
-//    @Override
-//    public void draw(Batch batch, float parentAlpha) {
-//        super.draw(batch, parentAlpha);
-////        displayMessage(batch);
-//    }
-
-
 }

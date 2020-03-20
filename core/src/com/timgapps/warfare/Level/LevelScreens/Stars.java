@@ -20,9 +20,18 @@ public class Stars extends Group {
     private boolean firstStarActionIsEnd = false;
     private boolean secondStarActionIsEnd = false;
     private boolean thirdStarActionIsEnd = false;
+    private boolean isEndActions = false;           // указывает, что actions звезд завершены
+
+    private float towerHealth;
+    private float fullTowerHealth;
+    private int starsCount = 0;
 
 
-    public Stars() {
+    public Stars(float towerHealth, float fullTowerHealth) {
+
+        this.towerHealth = towerHealth;
+        this.fullTowerHealth = fullTowerHealth;
+
         starOne = new Image(Warfare.atlas.findRegion("star"));
         starTwo = new Image(Warfare.atlas.findRegion("star"));
         starThree = new Image(Warfare.atlas.findRegion("star"));
@@ -55,10 +64,12 @@ public class Stars extends Group {
         addActor(starTwo);
         addActor(starThree);
 
-        startStarsActions();
-
         setWidth(starOne.getWidth() * 3 + 12);
         setHeight(starOne.getHeight() + 16);
+
+        startStarsActions();
+
+
     }
 
     public void startStarsActions() {
@@ -79,6 +90,7 @@ public class Stars extends Group {
             }
         };
 
+        starsCount++; // starsCount = 1;
         SequenceAction maStarFirst = new SequenceAction(
                 Actions.moveTo(0, 0, 0.5f), Actions.moveTo(-2, 2, 0.1f), checkEndOfActionFirstStar);
         starOne.addAction(maStarFirst);
@@ -97,11 +109,18 @@ public class Stars extends Group {
                 }
             };
             firstStarActionIsEnd = false;
-            starTwo.setVisible(true);
-            SequenceAction maStarSecond = new SequenceAction(
-                    Actions.moveTo(0 + starOne.getWidth() + 8, 16, 0.5f),
-                    Actions.moveTo(starOne.getWidth() + 8 - 2, 18, 0.1f), checkEndOfActionSecondStar);
-            starTwo.addAction(maStarSecond);
+
+            /** проеверим, если здоровье башни больше 33 % , то запускаем action для второй звезды, если нет, isEndActions = true;*/
+            if (((towerHealth / fullTowerHealth) >= 1.0 / 3.0)) {
+                System.out.println("towerHealth = " + towerHealth);
+                System.out.println("fullTowerHealth = " + fullTowerHealth);
+                starsCount++; // starCount = 2;
+                starTwo.setVisible(true);
+                SequenceAction maStarSecond = new SequenceAction(
+                        Actions.moveTo(0 + starOne.getWidth() + 8, 16, 0.5f),
+                        Actions.moveTo(starOne.getWidth() + 8 - 2, 18, 0.1f), checkEndOfActionSecondStar);
+                starTwo.addAction(maStarSecond);
+            } else isEndActions = true;
         }
 
         if (secondStarActionIsEnd) {
@@ -112,14 +131,24 @@ public class Stars extends Group {
                     return true;
                 }
             };
-
             secondStarActionIsEnd = false;
-            starThree.setVisible(true);
-            SequenceAction maStarThird = new SequenceAction(
-                    Actions.moveTo(starTwo.getX() + starTwo.getWidth() + 8, 0, 0.5f),
-                    Actions.moveTo(starTwo.getX() + starTwo.getWidth() + 8 - 2, 2, 0.1f), checkEndOfActionThirdStar);
-            starThree.addAction(maStarThird);
-
+            if ((towerHealth / fullTowerHealth) == 1) {
+                starsCount++; // starCount = 3;
+                starThree.setVisible(true);
+                SequenceAction maStarThird = new SequenceAction(
+                        Actions.moveTo(starTwo.getX() + starTwo.getWidth() + 8, 0, 0.5f),
+                        Actions.moveTo(starTwo.getX() + starTwo.getWidth() + 8 - 2, 2, 0.1f), checkEndOfActionThirdStar);
+                starThree.addAction(maStarThird);
+            } else isEndActions = true;
         }
+
+        if (thirdStarActionIsEnd) {
+            thirdStarActionIsEnd = false;
+            isEndActions = true;
+        }
+    }
+
+    public boolean getIsEndActions() {
+        return isEndActions;
     }
 }

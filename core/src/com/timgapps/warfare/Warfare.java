@@ -141,8 +141,8 @@ public class Warfare extends Game {
         setScreen(levelMap);
         System.out.println("Show map");
 
-        levelMap.setCallback(new StageGame.Callback() {
 
+        levelMap.setCallback(new StageGame.Callback() {
             @Override
             public void call(int code) {
                 // отрабатываем действие в зависимости от полученных сообщений
@@ -152,7 +152,6 @@ public class Warfare extends Game {
                 } else if (code == LevelMap.ON_LEVEL_SELECTED) {
                     // при получении кода ON_LEVEL_SELECTED вызываем метод открытия уровня
                     showLevel(levelMap.getSelectedLevelId());
-
                     hideLevelMap();
                 }
             }
@@ -179,9 +178,25 @@ public class Warfare extends Game {
         }
 
         setScreen(level);
+
+        level.setCallback(new StageGame.Callback() {
+            @Override
+            public void call(int code) {
+                if (code == Level.ON_COMPLETED) {
+                    hideLevel();
+                    showMap();
+                }
+            }
+        });
+    }
+
+    private void hideLevel() {
+        level.dispose();
+        level = null;
     }
 
     public void hideLevelMap() {
+        levelMap.dispose();
         levelMap = null;
     }
 

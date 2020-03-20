@@ -31,7 +31,8 @@ public class RewardTable extends Group {
         coinsCountLabelStyle.font = Warfare.font20;
 
         Label.LabelStyle scoreCountLabelStyle = new Label.LabelStyle();
-        scoreCountLabelStyle.fontColor = Color.BLUE;
+//        scoreCountLabelStyle.fontColor = Color.CYAN;
+        scoreCountLabelStyle.fontColor = new Color(0x35a1afff);
         scoreCountLabelStyle.font = Warfare.font20;
 
         Label coinsCountLabel = new Label("", coinsCountLabelStyle);

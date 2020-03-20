@@ -182,6 +182,10 @@ public class SiegeTower extends Group {
         return health;
     }
 
+    public float getFullHealth() {
+        return fullHealth;
+    }
+
     public Body createBody(float x, float y) {
         BodyDef def = new BodyDef();
         def.type = BodyDef.BodyType.StaticBody;

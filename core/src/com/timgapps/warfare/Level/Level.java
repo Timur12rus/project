@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
+import com.boontaran.MessageListener;
 import com.boontaran.games.StageGame;
 import com.timgapps.warfare.Level.GUI.HUD;
 import com.timgapps.warfare.Level.GUI.Screens.TeamEntity;
@@ -31,6 +32,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Level extends StageGame {
+
+    public static final int ON_COMPLETED = 3;
 
     public static final float WORLD_SCALE = 100; // коэффициент масштабирования
     private Box2DDebugRenderer debugRender;
@@ -65,8 +68,6 @@ public class Level extends StageGame {
 
         this.levelNumber = levelNumber;
         this.gameManager = gameManager;
-
-        levelCompletedScreen = new LevelCompletedScreen(this);
 
 //        System.out.println("Level Number " + levelNumber);
         setBackGround("level_bg");
@@ -126,6 +127,20 @@ public class Level extends StageGame {
         hud.setPosition(32, getHeight() - hud.getHeight());
         addOverlayChild(hud);
         addUnitButtons();
+
+//        siegeTower.setHealth(30);
+
+        levelCompletedScreen = new LevelCompletedScreen(this);
+
+        levelCompletedScreen.addListener(new MessageListener() {
+            @Override
+            protected void receivedMessage(int message, Actor actor) {
+                if (message == LevelCompletedScreen.ON_OK) {   // у нас только одна кнопка,
+//                    savePlayerData();
+                    call(ON_COMPLETED);                       // при получении сообщений от которой мы передаем сообщение ON_COMPLETED
+                }
+            }
+        });
     }
 
 
@@ -339,6 +354,7 @@ public class Level extends StageGame {
         isActiveScreen = false;
         darkLayer.setVisible(true);     // затемняем задний план
         tableUnitButtons.remove();      // кнопки юитов делаем невидимыми
+        hud.hideEnergyPanel();
         levelCompletedScreen.start();   // запускаем экран завершения уровня
     }
 
