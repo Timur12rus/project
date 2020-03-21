@@ -26,6 +26,9 @@ public class GameManager {
 
     private CoinsPanel coinsPanel;
 
+    private int scoreRewardforLevel = 0;
+    private int coinsRewardForLevel = 0;
+
 
     public GameManager() {
         /** создадим КОМАНДУ - массив юнитов в команде**/
@@ -74,6 +77,27 @@ public class GameManager {
 //        collection.add(new TeamEntity(TeamEntity.NONE));
 //        collection.add(new TeamEntity(TeamEntity.NONE));
 //        collection.add(new TeamEntity(TeamEntity.NONE));
+    }
+
+    /** метод устанавливает кол-во очков (награду за уровень) **/
+    public void setScoreRewardforLevel(int score) {
+        scoreRewardforLevel = score;
+    }
+
+    /** метод устанавливает кол-во монет (награду за уровень) **/
+    public void setCoinsRewardforLevel(int score) {
+        coinsRewardForLevel = score;
+    }
+
+
+    /** метод возвращает количество монет (награду за уровень) **/
+    public int getCoinsRewardForLevel() {
+        return coinsRewardForLevel;
+    }
+
+    /** метод возвращает количество очков (награду за уровень) **/
+    public int getScoreRewardForLevel() {
+        return scoreRewardforLevel;
     }
 
     /**

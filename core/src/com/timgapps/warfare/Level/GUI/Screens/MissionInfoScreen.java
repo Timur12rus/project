@@ -95,9 +95,20 @@ public class MissionInfoScreen extends Group {
         updateData();
     }
 
+    /** метод получает кол-во монет (награду за уровень) **/
+    public int getRewardCoinsForLevel() {
+        return coinsCount;
+    }
+
+    /** метод получает кол-во очков (награду за уровень) **/
+    public int getRewardScoreForLevel() {
+        return scoreCount;
+    }
+
     private void updateData() {
         missionTitle.setText("Mission " + id);
         difficulty.setText(levelOfDifficulty);
+        rewardTable.setCoinsCount(coinsCount);
 //        coinsCountText.setText("" + coinsCount);
     }
 

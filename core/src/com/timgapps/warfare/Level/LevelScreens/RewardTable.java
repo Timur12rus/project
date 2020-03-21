@@ -10,6 +10,7 @@ import com.timgapps.warfare.Warfare;
 public class RewardTable extends Group {
     private Label rewardLabel;
     private int coinsCount, scoreCount;
+    Label coinsCountLabel, scoreCountLabel;
 
     public RewardTable(int coinsCount, int scoreCount) {
         this.coinsCount = coinsCount;
@@ -35,10 +36,10 @@ public class RewardTable extends Group {
         scoreCountLabelStyle.fontColor = new Color(0x35a1afff);
         scoreCountLabelStyle.font = Warfare.font20;
 
-        Label coinsCountLabel = new Label("", coinsCountLabelStyle);
+        coinsCountLabel = new Label("", coinsCountLabelStyle);
         coinsCountLabel.setText("" + coinsCount);
 
-        Label scoreCountLabel = new Label("", scoreCountLabelStyle);
+        scoreCountLabel = new Label("", scoreCountLabelStyle);
         scoreCountLabel.setText("" + scoreCount);
 
         Image coinImage = new Image(Warfare.atlas.findRegion("coin_icon"));
@@ -61,6 +62,11 @@ public class RewardTable extends Group {
         addActor(rewardLabel);
         addActor(rewardTable);
 
+    }
+
+    public void setCoinsCount(int coins) {
+        coinsCount = coins;
+        coinsCountLabel.setText("" + coinsCount);
     }
 
 

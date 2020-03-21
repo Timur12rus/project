@@ -2,9 +2,13 @@ package com.timgapps.warfare.Level.LevelMap;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -51,21 +55,12 @@ public class LevelMap extends StageGame {
 
     private CoinsPanel coinsPanel;              // панель с монетами
 
-    public LevelMap(GameManager gameManager) {
+    private boolean isEndCoinsAction = false;
+
+    public LevelMap(final GameManager gameManager) {
         setBackGround("map");
         this.gameManager = gameManager;
-
-
-//        font40 = Warfare.assetManager.get("font40.ttf", BitmapFont.class);
-
-//        mOrthographicCamera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-//        mViewport = new StretchViewport(Warfare.V_WIDTH, Warfare.V_HEIGHT, mOrthographicCamera); // The width and height do not need to be in pixels
-//        Warfare.batch.setProjectionMatrix(mOrthographicCamera.combined);
-
         levelIcons = new ArrayList<LevelIcon>();
-//        levelIcons.add(new LevelIcon(1, true));
-//        levelIcons.get(0).addListener(iconListener);
-
 
         for (int i = 0; i < 10; i++) {
             levelIcons.add(new LevelIcon(i + 1, true));
@@ -79,9 +74,6 @@ public class LevelMap extends StageGame {
         addChild(levelIcons.get(2), 484, 280);
         addChild(levelIcons.get(3), 640, 210);
         addChild(levelIcons.get(4), 800, 130);
-//        addChild(levelIcons.get(6), 244, 56);
-//        addChild(levelIcons.get(7), 244, 56);
-//        addChild(levelIcons.get(8), 244, 56);
 
         /** создадим окно с описанием уровня **/
 
@@ -135,6 +127,8 @@ public class LevelMap extends StageGame {
         coinsPanel = gameManager.getCoinsPanel();
 //        coinsPanel = new CoinsPanel(gameManager.getCoinsCount());
         addChild(coinsPanel, getWidth() - coinsPanel.getWidth() - 32, getHeight() - coinsPanel.getHeight() - 32);
+
+        showAddCoinsAnimation();
     }
 
     private void showTeamUpgradeScreen() {
@@ -161,6 +155,58 @@ public class LevelMap extends StageGame {
     }
 
 
+    // TODO showAddCoinAnimation() !~!!!!!!!!!!!!!!
+
+    private void showAddCoinsAnimation() {
+        Image coinOne = new Image(Warfare.atlas.findRegion("coin_icon"));
+        Image coinTwo = new Image(Warfare.atlas.findRegion("coin_icon"));
+        Image coinThree = new Image(Warfare.atlas.findRegion("coin_icon"));
+
+
+        coinOne.setPosition(getWidth() / 2, getHeight() / 2);
+        coinTwo.setPosition(getWidth() / 2, getHeight() / 2);
+        coinThree.setPosition(getWidth() / 2, getHeight() / 2);
+
+        addChild(coinOne);
+        addChild(coinTwo);
+        addChild(coinThree);
+
+        float endXPos = coinsPanel.getX() + coinsPanel.getWidth() / 2;
+        float endYPos = coinsPanel.getY();
+
+        Action checkEndOfAction = new Action() {
+            @Override
+            public boolean act(float delta) {
+                isEndCoinsAction = true;
+                coinsPanel.addCoins(50);
+                return true;
+            }
+        };
+
+
+        SequenceAction moveActionCoinOne = new SequenceAction(Actions.fadeIn(0),
+                Actions.moveTo(getWidth() / 2 - 32, getHeight() / 2 - 32, 0.8f, new Interpolation.SwingOut(1)),
+                Actions.moveTo(endXPos, endYPos, 1.5f),
+                Actions.fadeOut(0)
+                );
+
+        SequenceAction moveActionCoinTwo = new SequenceAction(Actions.fadeIn(0),
+                Actions.moveTo(getWidth() / 2 + 32, getHeight() / 2 - 32, 0.8f, new Interpolation.SwingOut(1)),
+                Actions.moveTo(endXPos, endYPos, 1.5f),
+                Actions.fadeOut(0)
+        );
+
+        SequenceAction moveActionCoinThree = new SequenceAction(Actions.fadeIn(0),
+                Actions.moveTo(getWidth() / 2 + 32, getHeight() / 2 + 32, 0.8f, new Interpolation.SwingOut(1)),
+                Actions.moveTo(endXPos, endYPos, 1.5f),
+                Actions.fadeOut(0), checkEndOfAction
+        );
+
+        coinOne.addAction(moveActionCoinOne);
+        coinTwo.addAction(moveActionCoinTwo);
+        coinThree.addAction(moveActionCoinThree);
+    }
+
     /**
      * слушатель, назначаем его значкам уровней на нашей карте уровней
      **/
@@ -174,6 +220,10 @@ public class LevelMap extends StageGame {
 //            System.out.println("selectedLevelId = " + selectedLevelId);
 //            call(ON_LEVEL_SELECTED);
             showMissionInfo(selectedLevelId);
+
+            /** установим в GameManager значение наград (монеты и очки за уровень) **/
+            gameManager.setCoinsRewardforLevel(missionInfoScreen.getRewardCoinsForLevel());
+            gameManager.setScoreRewardforLevel(missionInfoScreen.getRewardScoreForLevel());
         }
     };
 

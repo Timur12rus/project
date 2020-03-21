@@ -34,7 +34,8 @@ public class BarricadeExplosion extends Actor {
         Array<TextureRegion> frames = new Array<TextureRegion>();
         // получим кадры и добавим анимацию
         for (int i = 0; i < 6; i++)
-            frames.add(new TextureRegion(Warfare.atlas.findRegion("barricadeExplosion" + i)));
+            frames.add(new TextureRegion(Warfare.atlas.findRegion("explosion" + i)));
+//            frames.add(new TextureRegion(Warfare.atlas.findRegion("barricadeExplosion" + i)));
         explosionAnimation = new Animation(0.08f, frames);
         frames.clear();
     }

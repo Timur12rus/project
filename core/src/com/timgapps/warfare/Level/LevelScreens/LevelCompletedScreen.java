@@ -23,9 +23,12 @@ public class LevelCompletedScreen extends Group {
 
     private ColorButton okButton;
     private RewardTable rewardTable;
+    private int rewardCoinForLevel, rewardScoreForLevel;
 
-    public LevelCompletedScreen(Level level) {
+    public LevelCompletedScreen(Level level, int rewardCoinForLevel, int rewardScoreForLevel) {
         levelNumber = level.getLevelNumber();
+        this.rewardCoinForLevel = rewardCoinForLevel;
+        this.rewardScoreForLevel = rewardScoreForLevel;
 
 //        stars = new Stars(40, level.getSiegeTower().getFullHealth());
         stars = new Stars(level.getSiegeTower().getHealth(), level.getSiegeTower().getFullHealth());
@@ -66,7 +69,9 @@ public class LevelCompletedScreen extends Group {
         addActor(victoryLabel);
         addActor(towerSavedLevel);
 //        addActor(rewardLabel);
-        rewardTable = new RewardTable(100, 10);
+
+        /** создаем таблицу со значениями награды (кол-во монет и очков) **/
+        rewardTable = new RewardTable(rewardCoinForLevel, rewardScoreForLevel);
 
         rewardTable.setPosition(stars.getX() + (stars.getWidth() - rewardTable.getWidth()) / 2, missionLabel.getY() - 56);
         okButton.setPosition(stars.getX() + (stars.getWidth() - okButton.getWidth()) / 2,

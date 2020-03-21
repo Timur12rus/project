@@ -130,7 +130,7 @@ public class Level extends StageGame {
 
 //        siegeTower.setHealth(30);
 
-        levelCompletedScreen = new LevelCompletedScreen(this);
+        levelCompletedScreen = new LevelCompletedScreen(this, gameManager.getCoinsRewardForLevel(), gameManager.getScoreRewardForLevel());
 
         levelCompletedScreen.addListener(new MessageListener() {
             @Override
@@ -360,5 +360,9 @@ public class Level extends StageGame {
 
     public int getLevelNumber() {
         return levelNumber;
+    }
+
+    public GameManager getGameManager() {
+        return gameManager;
     }
 }

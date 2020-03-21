@@ -44,6 +44,11 @@ public class CoinsPanel extends Group {
 
     }
 
+    public void addCoins(int coins) {
+        coinsCount += coins;
+        coinsValueLabel.setText("" + coinsCount);
+    }
+
     public void setCoinsCount(int coins) {
         coinsCount = coins;
         coinsValueLabel.setText("" + coinsCount);

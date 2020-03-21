@@ -139,8 +139,6 @@ public class Warfare extends Game {
     private void showMap() {
         levelMap = new LevelMap(gameManager);
         setScreen(levelMap);
-        System.out.println("Show map");
-
 
         levelMap.setCallback(new StageGame.Callback() {
             @Override

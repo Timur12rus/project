@@ -22,7 +22,8 @@ public class HUD extends Group {
         this.level = level;
         coinsCount = level.getCoinCount();
 
-        coinsPanel = new CoinsPanel(coinsCount);
+        coinsPanel = level.getGameManager().getCoinsPanel();
+//        coinsPanel = new CoinsPanel(coinsCount);
         energyPanel = new EnergyPanel(level);
 
         /** Таблица для отображения количества энергии и монет **/
