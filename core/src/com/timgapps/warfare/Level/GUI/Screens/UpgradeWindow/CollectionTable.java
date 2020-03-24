@@ -6,6 +6,9 @@ import com.timgapps.warfare.Level.GUI.Screens.TeamEntity;
 
 import java.util.ArrayList;
 
+/** Создадим таблицу КОЛЛЕКЦИИ ЮНИТОВ
+ * unitCollection - массив юнитов в коллекции
+ * **/
 public class CollectionTable extends Table {
     private Image unitImage;
     private ArrayList<TeamEntity> unitCollectiion;
@@ -29,8 +32,6 @@ public class CollectionTable extends Table {
             }
             add(unitCollection.get(i)).width(unitCollection.get(i).getWidth()).height(unitCollection.get(i).getHeight()).left().padLeft(12).padRight(12);
         }
-
-
     }
 
     public void clear() {

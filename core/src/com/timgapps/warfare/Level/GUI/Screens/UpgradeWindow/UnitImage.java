@@ -50,6 +50,11 @@ public class UnitImage extends Group {
             case TeamEntity.THOR:
                 textureRegionName = "thorUnitImage";
                 break;
+            case TeamEntity.STONE:
+                textureRegionName = "stoneButtonActive";
+                break;
+
+
         }
 
         image = new Image(Warfare.atlas.findRegion(textureRegionName));         // зададим изображение изображение юнита

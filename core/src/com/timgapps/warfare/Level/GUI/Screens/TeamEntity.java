@@ -40,6 +40,13 @@ public class TeamEntity extends Group {
     private int unitIndex;          // индекс юнита
 
 
+    @Override
+    public String toString() {
+        return NAME;
+//        return super.toString();
+
+    }
+
     /**
      * Объект СУЩНОСТЬ КОМАНДЫ (ЮНИТ) в массиве команды или коллекции
      *
@@ -119,6 +126,8 @@ public class TeamEntity extends Group {
                 addDamageValue = 2;
                 timePrepare = 10;
                 energyCost = 6;
+                unitLevel = 1;
+
                 unitType = TeamEntity.STONE;
 
                 break;
@@ -216,3 +225,4 @@ public class TeamEntity extends Group {
         return unitType;
     }
 }
+

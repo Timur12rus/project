@@ -41,23 +41,15 @@ public class LevelMap extends StageGame {
 
     private MissionInfoScreen missionInfoScreen;
     private TeamUpgradeScreen teamUpgradeScreen;
-//    private TeamUpgradeScreen teamUpgradeScreen;
-
     private Group parent;
-
     private TextManager textManager;
-
     public static BitmapFont font40;
-
     private ImageButton upgradeTeamButton;      // кнопка для вызова окна апгрейда юнитов
-
     private GameManager gameManager;
-
     private CoinsPanel coinsPanel;              // панель с монетами
-
     private boolean isEndCoinsAction = false;
 
-    public LevelMap(final GameManager gameManager) {
+    public LevelMap(GameManager gameManager) {
         setBackGround("map");
         this.gameManager = gameManager;
         levelIcons = new ArrayList<LevelIcon>();
@@ -65,9 +57,7 @@ public class LevelMap extends StageGame {
         for (int i = 0; i < 10; i++) {
             levelIcons.add(new LevelIcon(i + 1, true));
             levelIcons.get(i).addListener(iconListener);
-//            System.out.println("i = " + i + " id = " + levelIcons.get(i).getId());
         }
-
 
         addChild(levelIcons.get(0), 244, 56);
         addChild(levelIcons.get(1), 320, 210);
@@ -76,7 +66,6 @@ public class LevelMap extends StageGame {
         addChild(levelIcons.get(4), 800, 130);
 
         /** создадим окно с описанием уровня **/
-
         missionInfoScreen = new MissionInfoScreen();
         missionInfoScreen.setVisible(false);
         addChild(missionInfoScreen);
@@ -93,10 +82,8 @@ public class LevelMap extends StageGame {
             }
         });
 
-        /** создадим окно апргейда команды и передаём информацию о составе команды**/
+        /** создадим окно апргейда команды и передаём информацию о составе команды(manager)**/
         teamUpgradeScreen = new TeamUpgradeScreen(gameManager);
-//        teamUpgradeScreen = new TeamUpgradeScreen(gameManager.getTeam());
-//        teamUpgradeScreen = new TeamUpgradeScreen();
         teamUpgradeScreen.setVisible(false);
         addChild(teamUpgradeScreen);
 
@@ -118,22 +105,17 @@ public class LevelMap extends StageGame {
 //                    Warfare.media.playSound("click.ogg");
                     resumeLevelMap();
                 }
-//                else if (message == missionInfoScreen.ON_START) { //
-//                    call(ON_LEVEL_SELECTED);
-//                }
             }
         });
 
+        // добавим панель с монетами на экран
         coinsPanel = gameManager.getCoinsPanel();
-//        coinsPanel = new CoinsPanel(gameManager.getCoinsCount());
         addChild(coinsPanel, getWidth() - coinsPanel.getWidth() - 32, getHeight() - coinsPanel.getHeight() - 32);
-
         showAddCoinsAnimation();
     }
 
     private void showTeamUpgradeScreen() {
         teamUpgradeScreen.setVisible(true);
-//        System.out.println("SHOW!");
     }
 
     /**
@@ -151,9 +133,9 @@ public class LevelMap extends StageGame {
     private void resumeLevelMap() {
         /** скрываем окно с описанием уровня **/
         missionInfoScreen.hide();
-        teamUpgradeScreen.hide();
+        teamUpgradeScreen.setVisible(false);
+//        teamUpgradeScreen.hide();
     }
-
 
     // TODO showAddCoinAnimation() !~!!!!!!!!!!!!!!
 
@@ -162,7 +144,7 @@ public class LevelMap extends StageGame {
         Image coinTwo = new Image(Warfare.atlas.findRegion("coin_icon"));
         Image coinThree = new Image(Warfare.atlas.findRegion("coin_icon"));
 
-
+        // установим позицию для добавляемых монет, к которым будут применены action'ы
         coinOne.setPosition(getWidth() / 2, getHeight() / 2);
         coinTwo.setPosition(getWidth() / 2, getHeight() / 2);
         coinThree.setPosition(getWidth() / 2, getHeight() / 2);
@@ -174,28 +156,33 @@ public class LevelMap extends StageGame {
         float endXPos = coinsPanel.getX() + coinsPanel.getWidth() / 2;
         float endYPos = coinsPanel.getY();
 
+        // action проверки завершения действия
         Action checkEndOfAction = new Action() {
             @Override
             public boolean act(float delta) {
                 isEndCoinsAction = true;
+
+                // добавим к общему кол-ву монет монеты (награду)
                 coinsPanel.addCoins(50);
                 return true;
             }
         };
 
-
+        // action для первой монеты
         SequenceAction moveActionCoinOne = new SequenceAction(Actions.fadeIn(0),
                 Actions.moveTo(getWidth() / 2 - 32, getHeight() / 2 - 32, 0.8f, new Interpolation.SwingOut(1)),
                 Actions.moveTo(endXPos, endYPos, 1.5f),
                 Actions.fadeOut(0)
-                );
+        );
 
+        // action для второй монеты
         SequenceAction moveActionCoinTwo = new SequenceAction(Actions.fadeIn(0),
                 Actions.moveTo(getWidth() / 2 + 32, getHeight() / 2 - 32, 0.8f, new Interpolation.SwingOut(1)),
                 Actions.moveTo(endXPos, endYPos, 1.5f),
                 Actions.fadeOut(0)
         );
 
+        // action для третьей монеты
         SequenceAction moveActionCoinThree = new SequenceAction(Actions.fadeIn(0),
                 Actions.moveTo(getWidth() / 2 + 32, getHeight() / 2 + 32, 0.8f, new Interpolation.SwingOut(1)),
                 Actions.moveTo(endXPos, endYPos, 1.5f),
@@ -217,8 +204,8 @@ public class LevelMap extends StageGame {
         public void clicked(InputEvent event, float x, float y) {
             //будем воспроизводить звук щелчка и передавать в callBack сообщенме onLevelSelected
             selectedLevelId = ((LevelIcon) event.getTarget()).getId();
-//            System.out.println("selectedLevelId = " + selectedLevelId);
-//            call(ON_LEVEL_SELECTED);
+
+            // отобразим окно с информацией о выбранном уровне
             showMissionInfo(selectedLevelId);
 
             /** установим в GameManager значение наград (монеты и очки за уровень) **/
@@ -229,7 +216,6 @@ public class LevelMap extends StageGame {
 
 
     private void showMissionInfo(int selectedLevelId) {
-//        System.out.println("showMission Info");
         if (!missionInfoScreen.isVisible()) {
             /** передадим данные об уровне в объект экрана информации об уровне
              * здесь "selectedLevelId - 1", потому что levelIcons.get(..) возвращает элемент списка с индексом на 1 меньше,

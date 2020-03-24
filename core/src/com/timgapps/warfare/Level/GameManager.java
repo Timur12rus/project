@@ -202,14 +202,14 @@ public class GameManager {
     /**
      * метод для обновления команды юнитов
      **/
-    public void updateTeam() {
-
+    public void updateTeam(ArrayList<TeamEntity> team) {
+        this.team = team;
     }
 
     /**
      * метод для обновления коллекции юнитов
      **/
-    public void updateCollection() {
-
+    public void updateCollection(ArrayList<TeamEntity> collection) {
+        this.collection = collection;
     }
 }

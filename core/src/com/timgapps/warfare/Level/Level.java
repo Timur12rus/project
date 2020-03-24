@@ -353,7 +353,8 @@ public class Level extends StageGame {
         addOverlayChild(levelCompletedScreen);
         isActiveScreen = false;
         darkLayer.setVisible(true);     // затемняем задний план
-        tableUnitButtons.remove();      // кнопки юитов делаем невидимыми
+        tableUnitButtons.setVisible(false);      // кнопки юитов делаем невидимыми
+//        tableUnitButtons.remove();      // кнопки юитов делаем невидимыми
         hud.hideEnergyPanel();
         levelCompletedScreen.start();   // запускаем экран завершения уровня
     }

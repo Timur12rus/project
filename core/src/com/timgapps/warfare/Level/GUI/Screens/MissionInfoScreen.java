@@ -16,17 +16,14 @@ import com.timgapps.warfare.Level.GUI.Screens.UpgradeWindow.ColorButton;
 import com.timgapps.warfare.Level.LevelMap.LevelIconData;
 import com.timgapps.warfare.Level.LevelScreens.RewardTable;
 import com.timgapps.warfare.Warfare;
-
-
 public class MissionInfoScreen extends Group {
     public static final int ON_START = 1;
     public static final int ON_RESUME = 2;
 
     // объявим заголовок и кнопку
-
     private ImageButton closeButton;
-    //    private ImageButton startButton, closeButton;
     private ColorButton startButton;
+
     private Image background;
 
     public Label missionTitle; // отображаем текст заголовка
@@ -37,9 +34,7 @@ public class MissionInfoScreen extends Group {
 
     private int id, coinsCount, scoreCount;
     private String levelOfDifficulty;
-
     private Image coinImage;
-
     private RewardTable rewardTable;
 
     public MissionInfoScreen() {
@@ -49,24 +44,24 @@ public class MissionInfoScreen extends Group {
 
         addActor(background);
 
+        // создадим надписи "миссия" и "уровень сложности"
         initializeLabels();
 
         rewardTable = new RewardTable(100, 10);
         rewardTable.debug();
-
         addActor(rewardTable);
         rewardTable.setPosition(background.getX() + (background.getWidth() - rewardTable.getWidth()) / 2,
                 difficulty.getY() - rewardTable.getHeight() + 24);
 
+        // кнопка "СТАРТ" для начала миссии
         startButton = new ColorButton("start", ColorButton.GREEN_BUTTON);
-
         startButton.setX((background.getX() + (background.getWidth() - startButton.getWidth()) / 2));
         startButton.setY(background.getY() + 42);
         addActor(startButton);
 
+        // кнопка "ЗАКРЫТЬ" для закрытия окна с информацией о миссии
         closeButton = new ImageButton(new TextureRegionDrawable(Warfare.atlas.findRegion("button_close")),
                 new TextureRegionDrawable(Warfare.atlas.findRegion("button_close_dwn")));
-
         closeButton.setX(background.getX() + background.getWidth() - closeButton.getWidth() - 28);
         closeButton.setY(background.getY() + background.getHeight() - closeButton.getHeight() - 12);
         addActor(closeButton);
@@ -86,12 +81,14 @@ public class MissionInfoScreen extends Group {
         });
     }
 
+    /** метод для задания характеристик миссии**/
     public void setData(LevelIconData data) {
-        this.id = data.getId();
-        this.coinsCount = data.getCoinsCount();
-        this.scoreCount = data.getScoreCount();
-        this.levelOfDifficulty = data.getLevelOfDifficulty();
+        this.id = data.getId();                                    // номер миссии
+        this.coinsCount = data.getCoinsCount();                    // количество монет
+        this.scoreCount = data.getScoreCount();                  // количество очков
+        this.levelOfDifficulty = data.getLevelOfDifficulty();    // уровень сложност
 
+        // обновим данные о миссии
         updateData();
     }
 
@@ -109,7 +106,6 @@ public class MissionInfoScreen extends Group {
         missionTitle.setText("Mission " + id);
         difficulty.setText(levelOfDifficulty);
         rewardTable.setCoinsCount(coinsCount);
-//        coinsCountText.setText("" + coinsCount);
     }
 
     /**
@@ -130,7 +126,6 @@ public class MissionInfoScreen extends Group {
     private void initializeLabels() {
 
         Label.LabelStyle missionTitleLabelStyle = new Label.LabelStyle();
-
         missionTitleLabelStyle.fontColor = Color.DARK_GRAY;
         missionTitleLabelStyle.font = Warfare.font40;
         missionTitle = new Label("Mission " + id, missionTitleLabelStyle);

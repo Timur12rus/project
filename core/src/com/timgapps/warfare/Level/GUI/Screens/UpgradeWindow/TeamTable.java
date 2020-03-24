@@ -17,28 +17,29 @@ public class TeamTable extends Table {
     private ArrayList<TeamEntity> unitTeam; // массив юнитов "КОМАНДА"
     private float width, height;
     private int numOfUnits = 5;
-
     private Label collectionLabel;
     private String collectionText;
 
+    /** таблица с командой юнитов **/
     public TeamTable(ArrayList<TeamEntity> unitTeam) {
         this.unitTeam = unitTeam;
 
         this.left().top();
 
-        collectionText = "Collection";
-
+        // надпись "КОЛЛЕКЦИЯ"
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.fontColor = Color.DARK_GRAY;
         labelStyle.font = Warfare.font40;
-
+        collectionText = "Collection";
         collectionLabel = new Label(collectionText, labelStyle);
-
 
         for (int i = 0; i < unitTeam.size(); i++) {
             add(unitTeam.get(i)).width(unitTeam.get(i).getWidth()).height(unitTeam.get(i).getHeight()).padLeft(12).padRight(12).left();
         }
 
+        /** проверим, если количество юнитов в команде, меньше ячеек,
+         * то делаем оставшиеся ячейки пустыми
+          */
         if (unitTeam.size() < numOfUnits) {
             for (int i = 0; i < numOfUnits - unitTeam.size(); i++) {
                 add().width(unitTeam.get(0).getWidth()).height(unitTeam.get(0).getHeight()).padLeft(12).padRight(12).left();
@@ -46,23 +47,14 @@ public class TeamTable extends Table {
         }
 
         width = (unitTeam.get(0).getWidth() + 24) * numOfUnits;
-//        width = (unitTeam.get(0).getWidth() + 24) * numOfUnits;
 
         /** добавим горизонтальную серую черту-разделитель **/
-
         row();
         float lineHeight = 0;
-
-//        for (int i = 1; i < 6; i++) {
-//            Image line = new Image(Warfare.atlas.findRegion("line"));
-//            lineHeight = line.getHeight();
-//            add(line).width(line.getWidth()).height(line.getHeight()).padTop(16);
-//        }
-
         add(collectionLabel).colspan(5).center().expandX().padTop(8);
-
         height = unitTeam.get(0).getHeight() + lineHeight + 16;         //  высота таблицы в px
 
+        // установим ширину и высоту таблицы
         setWidth(width);
         setHeight(height);
     }
@@ -71,7 +63,6 @@ public class TeamTable extends Table {
     public void setHeight(float height) {
         this.height = height;
     }
-
     public void setWidth(float width) {
         this.width = width;
     }
