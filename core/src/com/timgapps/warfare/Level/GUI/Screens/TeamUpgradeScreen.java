@@ -58,6 +58,8 @@ public class TeamUpgradeScreen extends Group {
     private Label teamLabel;
     private String teamText;
     private GameManager gameManager;
+    private boolean toRaplaceUnitFromCollectionToTeam = false;
+    private TeamEntity clickedTeamEntity;
 
 
     /**
@@ -240,7 +242,11 @@ public class TeamUpgradeScreen extends Group {
                 /** если флаг isReplaceActive - false, то вызываем окно апгрейда, если true - заменяем юнит в команде на юнит из коллекции **/
                 if (!isReplaceActive)
                     showUpgradeScreen(teamEntity);
-                else replaceUnitFromCollectionToTeam(teamEntity);
+                else {
+                    toRaplaceUnitFromCollectionToTeam = true;
+                    clickedTeamEntity = teamEntity;
+//                    replaceUnitFromCollectionToTeam(teamEntity);
+                }
             }
         });
     }
@@ -270,11 +276,11 @@ public class TeamUpgradeScreen extends Group {
 
         if (team.contains(teamEntity)) {
             int index = team.indexOf(teamEntity);
+            int indexReplacedUnitInCollection = unitCollection.indexOf(replaceUnit);
             team.set(index, replaceUnit);
             System.out.println("team Table contains replaceUnit = " + team.contains(replaceUnit));
             System.out.println("replaceUnit index in collection table = " + unitCollection.indexOf(replaceUnit));
 
-            int indexReplacedUnitInCollection = unitCollection.indexOf(replaceUnit);
             unitCollection.set(indexReplacedUnitInCollection, teamEntity);
             System.out.println("unitCollection contains teamEntity = " + unitCollection.contains(teamEntity));
             System.out.println("unitCollection teamEntity = " + unitCollection.indexOf(teamEntity));
@@ -306,7 +312,6 @@ public class TeamUpgradeScreen extends Group {
         updateCollectionTable();
 
         hideReplaceUnit();
-
         System.out.println("teamTable.get(0) = " + teamTable.getCell(team.get(0)));
 
 
@@ -321,7 +326,7 @@ public class TeamUpgradeScreen extends Group {
     /**
      * метод для обновления таблицы команды юнитов
      **/
-    private void  updateTeamTable() {
+    private void updateTeamTable() {
 //        teamTable.clearChildren();
         Array<Cell> cells = teamTable.getCells();
         for (int i = 0; i < team.size(); i++) {
@@ -355,4 +360,14 @@ public class TeamUpgradeScreen extends Group {
 //    public void updateCollectionTeam() {
 //        gameManager.updateCollection();
 //    }
+
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+        if (toRaplaceUnitFromCollectionToTeam) {
+            replaceUnitFromCollectionToTeam(clickedTeamEntity);
+            toRaplaceUnitFromCollectionToTeam = false;
+        }
+
+    }
 }
