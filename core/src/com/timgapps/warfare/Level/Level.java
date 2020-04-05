@@ -14,7 +14,10 @@ import com.timgapps.warfare.Level.GUI.HUD;
 import com.timgapps.warfare.Level.GUI.Screens.TeamEntity;
 import com.timgapps.warfare.Level.GUI.StoneButton;
 import com.timgapps.warfare.Level.GUI.UnitButton;
+import com.timgapps.warfare.Level.LevelMap.LevelIcon;
+import com.timgapps.warfare.Level.LevelMap.LevelIconData;
 import com.timgapps.warfare.Level.LevelScreens.DarkLayer;
+import com.timgapps.warfare.Level.LevelScreens.GameOverScreen;
 import com.timgapps.warfare.Level.LevelScreens.LevelCompletedScreen;
 import com.timgapps.warfare.Tools.WorldContactListener;
 import com.timgapps.warfare.Units.GameUnits.Barricade;
@@ -57,11 +60,13 @@ public class Level extends StageGame {
     private Image rockBig, rockMiddle, rockSmall;
     private SiegeTower siegeTower;
     private LevelCompletedScreen levelCompletedScreen;
+    private GameOverScreen gameOverScreen;
 
     private boolean isActiveScreen = true;
 
     private DarkLayer darkLayer;
     private Table tableUnitButtons;
+    private int coinsReward;
 
 
     public Level(int levelNumber, GameManager gameManager) {
@@ -131,7 +136,6 @@ public class Level extends StageGame {
 //        siegeTower.setHealth(30);
 
         levelCompletedScreen = new LevelCompletedScreen(this, gameManager.getCoinsRewardForLevel(), gameManager.getScoreRewardForLevel());
-
         levelCompletedScreen.addListener(new MessageListener() {
             @Override
             protected void receivedMessage(int message, Actor actor) {
@@ -141,11 +145,35 @@ public class Level extends StageGame {
                 }
             }
         });
+
+        gameOverScreen = new GameOverScreen(this);
+        gameOverScreen.setPosition((getWidth() - gameOverScreen.getWidth()) / 2, getHeight() * 2 / 3);
+//        addOverlayChild(gameOverScreen);
+
+        gameOver();
+    }
+
+    /**
+     * метод получает кол-во монет в качестве награды
+     **/
+    public int getRewardCoinsCount() {
+        coinsReward = gameManager.getLevelIcons().get(levelNumber - 1).getData().getCoinsCount();
+
+        return coinsReward;
     }
 
 
-    public void getParricadeX() {
-        barricade.getX();
+    /**
+     * метод устанавливает количество звезд после прохождения уровня
+     **/
+    private void setStarsCountToLevelIcon() {
+        // установим количество звезд за уровень для текущего уровня, установив кол-во звезд в объекте данных - Data
+        gameManager.getLevelIcons().get(levelNumber - 1).getData().setStarsCount(calculateStarsCount());
+
+        // обновим кол-во звезд за уровень для текущего уровня
+        gameManager.getLevelIcons().get(levelNumber - 1).updateStarsCount();
+//        gameManager.getLevelIcons().get(levelNumber - 1).updateStarsCount(calculateStarsCount());
+
     }
 
 
@@ -283,6 +311,19 @@ public class Level extends StageGame {
 //        hud.dispose();
     }
 
+    /**
+     * метод разблокирует следующие три уровня
+     **/
+    public void unlockNextLevels() {
+        for (int i = levelNumber - 1; i < levelNumber + 3; i++) {
+            // делаем levelIcon активным
+            gameManager.getLevelIcons().get(i).getData().setActive();
+
+            // обновляем визуальное представление levelIcon
+            gameManager.getLevelIcons().get(i).checkIsActive();
+        }
+    }
+
 
     /**
      * метод для получения БАРРИКАДЫ
@@ -348,15 +389,46 @@ public class Level extends StageGame {
         addOverlayChild(tableUnitButtons);
     }
 
+    public void gameOver() {
+        addOverlayChild(gameOverScreen);
+        darkLayer.setVisible(true);         // затемняем задний план
+        tableUnitButtons.setVisible(false); // кнопки юитов делаем невидимыми
+        hud.hideEnergyPanel();
+    }
+
     public void levelCompleted() {
         levelCompletedScreen.setPosition((getWidth() - levelCompletedScreen.getWidth()) / 2, getHeight() * 2 / 3);
         addOverlayChild(levelCompletedScreen);
+
         isActiveScreen = false;
         darkLayer.setVisible(true);     // затемняем задний план
         tableUnitButtons.setVisible(false);      // кнопки юитов делаем невидимыми
 //        tableUnitButtons.remove();      // кнопки юитов делаем невидимыми
         hud.hideEnergyPanel();
-        levelCompletedScreen.start();   // запускаем экран завершения уровня
+
+        int starsCount = calculateStarsCount();
+        setStarsCountToLevelIcon();
+        levelCompletedScreen.start(starsCount);   // запускаем экран завершения уровня
+    }
+
+    /**
+     * метод для вычисления кол-ва звезд получаемых за уровень
+     **/
+    private int calculateStarsCount() {
+        int starsCount = 1;
+
+        float towerHealth = siegeTower.getHealth();
+        float fullTowerHealth = siegeTower.getFullHealth();
+
+        if (((towerHealth / fullTowerHealth) >= 1.0 / 3.0) && (towerHealth / fullTowerHealth) <= 2.0 / 3.0) {
+            starsCount = 2; // starCount = 2;
+        }
+
+        if ((towerHealth / fullTowerHealth) == 1) {
+            starsCount = 3;
+        }
+//        System.out.println("starsCount = " + starsCount);
+        return starsCount;
     }
 
     public int getLevelNumber() {

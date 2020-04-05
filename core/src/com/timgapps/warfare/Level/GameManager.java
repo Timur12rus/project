@@ -2,6 +2,7 @@ package com.timgapps.warfare.Level;
 
 import com.timgapps.warfare.Level.GUI.Screens.CoinsPanel;
 import com.timgapps.warfare.Level.GUI.Screens.TeamEntity;
+import com.timgapps.warfare.Level.LevelMap.LevelIcon;
 
 import java.util.ArrayList;
 
@@ -29,8 +30,23 @@ public class GameManager {
     private int scoreRewardforLevel = 0;
     private int coinsRewardForLevel = 0;
 
+    private ArrayList<LevelIcon> levelIcons = new ArrayList<LevelIcon>();
+
 
     public GameManager() {
+
+        /** создадим массив уровней (LevelIcons) для хранения информации и данных уровней (кол-во звёзд, заблокировани или разблокирован **/
+
+//        public LevelIcon(int id, int coinsCount, int scoreCount, String levelOfDifficulty, boolean isActive) {
+            levelIcons.add(new LevelIcon(1, 15, 10, LevelIcon.EASY, true));
+            levelIcons.add(new LevelIcon(2, 20, 30, LevelIcon.EASY, false));
+            levelIcons.add(new LevelIcon(3, 10, 20, LevelIcon.EASY, false));
+            levelIcons.add(new LevelIcon(4, 25, 30, LevelIcon.MEDIUM, false));
+            levelIcons.add(new LevelIcon(5, 15, 10, LevelIcon.MEDIUM, false));
+            levelIcons.add(new LevelIcon(6, 10, 20, LevelIcon.EASY, false));
+            levelIcons.add(new LevelIcon(6, 15, 30, LevelIcon.MEDIUM, false));
+
+
         /** создадим КОМАНДУ - массив юнитов в команде**/
         team = new ArrayList<TeamEntity>();
 
@@ -77,6 +93,11 @@ public class GameManager {
 //        collection.add(new TeamEntity(TeamEntity.NONE));
 //        collection.add(new TeamEntity(TeamEntity.NONE));
 //        collection.add(new TeamEntity(TeamEntity.NONE));
+    }
+
+    /** метод возвращает массив уровней LevelIcons, в дальнейшем будем брать отдуда информацию о кол-ве звёзд и блокирован или нет **/
+    public ArrayList<LevelIcon> getLevelIcons() {
+        return levelIcons;
     }
 
     /** метод устанавливает кол-во очков (награду за уровень) **/

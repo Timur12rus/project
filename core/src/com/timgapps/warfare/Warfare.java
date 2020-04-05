@@ -132,12 +132,12 @@ public class Warfare extends Game {
         gameManager = new GameManager();
 
         /** Вызываем метод для запуска карты уровней **/
-        showMap();
+        showMap(0);
 //        showIntro();
     }
 
-    private void showMap() {
-        levelMap = new LevelMap(gameManager);
+    private void showMap(int coinsReward) {
+        levelMap = new LevelMap(gameManager, coinsReward);
         setScreen(levelMap);
 
         levelMap.setCallback(new StageGame.Callback() {
@@ -149,6 +149,7 @@ public class Warfare extends Game {
                     hideLevelMap();
                 } else if (code == LevelMap.ON_LEVEL_SELECTED) {
                     // при получении кода ON_LEVEL_SELECTED вызываем метод открытия уровня
+                    // передаем в showLevel номер выбранного уровня
                     showLevel(levelMap.getSelectedLevelId());
                     hideLevelMap();
                 }
@@ -170,6 +171,15 @@ public class Warfare extends Game {
             case 2:
                 level = new Level(2, gameManager);
                 break;
+            case 3:
+                level = new Level(3, gameManager);
+                break;
+            case 4:
+                level = new Level(4, gameManager);
+                break;
+            case 5:
+                level = new Level(5, gameManager);
+                break;
             default:
                 level = new Level(1, gameManager);
                 break;
@@ -181,8 +191,12 @@ public class Warfare extends Game {
             @Override
             public void call(int code) {
                 if (code == Level.ON_COMPLETED) {
+                    int rewardCoins = level.getRewardCoinsCount();
+                    level.unlockNextLevels();
                     hideLevel();
-                    showMap();
+
+                    // установим количество монет - награду за уровень
+                    showMap(rewardCoins);
                 }
             }
         });

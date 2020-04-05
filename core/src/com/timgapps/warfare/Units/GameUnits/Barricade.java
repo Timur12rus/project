@@ -66,7 +66,7 @@ public class Barricade {
         fullHealth = health;
         createHealthBar(healthBarWidth, healthBarHeight, health);
 
-        barricadeExplosion1.start();
+//        barricadeExplosion1.start();
     }
 
     /**

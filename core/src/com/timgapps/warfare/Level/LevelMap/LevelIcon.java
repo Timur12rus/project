@@ -23,23 +23,23 @@ public class LevelIcon extends Group {
     private boolean isActive;
     private int id;
 
-    private String levelOfDifficulty;
+    private int levelOfDifficulty;
     private int coinsCount;
     private int scoreCount;
 
+    private int starsCount;         // кол-во звезд полученных за уровень, изначально 0
+
     private LevelIconData data; // объект данных уровня
 
+    public static final String EASY = "Easy";
+    public static final String MEDIUM = "Medium";
+    public static final String HARD = "Hard";
 
-    public LevelIcon(int id, boolean isActive) {
 
-        this.id = id;
-        this.isActive = isActive;
-        levelOfDifficulty = "Easy";
-        coinsCount = 10;
-
+    public LevelIcon(int id, int coinsCount, int scoreCount, String levelOfDifficulty, boolean isActive) {
 
         /** инициализируем объект данных уровня **/
-        data = new LevelIconData(id, coinsCount, scoreCount, levelOfDifficulty);
+        data = new LevelIconData(id, coinsCount, scoreCount, levelOfDifficulty, isActive);
 
         /** неактивный значок **/
         inactiveLevelIcon = new Image(Warfare.atlas.findRegion("levelIcon_inactive"));
@@ -53,13 +53,16 @@ public class LevelIcon extends Group {
 
         levelIconDown.setVisible(false);
 
+        starsCount = data.getStarsCount();
 
-        /** создадим массив из трёх активных здвёзд **/
-        createActiveStars();
 
-        /** создадим массив из трёх неактивных здвёзд **/
+        /** создадим массив из трёх неактивных звёзд **/
         createInactiveStars();
 
+        /** создадим массив из трёх активных звёзд **/
+        createActiveStars();
+
+        /** првоерим сколько активных звезд за уровень (из трёх) **/
         checkIsActive();
 
         addCaptureListener(new EventListener() { // добавляет слушателя события корневому элементу, отключая его для дочерних элементов
@@ -88,6 +91,17 @@ public class LevelIcon extends Group {
 
     }
 
+    /** метод для обновления кол-ва звезд за уровень (из трех) **/
+    public void updateStarsCount() {
+//        if (starsCount > getData().getStarsCount())  //если новое кол-во звезд больше, чем предыдущее то установим новое текущее кол-во
+        starsCount = data.getStarsCount();
+//        this.starsCount = starsCount;
+        checkIsActive();
+    }
+
+    /**
+     * метод создает неактивные звезды
+     **/
     private void createInactiveStars() {
         inactiveStars = new ArrayList<Image>();
         for (int i = 0; i < 3; i++) {
@@ -98,22 +112,35 @@ public class LevelIcon extends Group {
         }
     }
 
+    /**
+     * метод создает активные звезды
+     **/
     private void createActiveStars() {
         activeStars = new ArrayList<Image>();
         for (int i = 0; i < 3; i++) {
             activeStars.add(new Image(Warfare.atlas.findRegion("star_active")));
+            activeStars.get(i).setVisible(false);
             addActor(activeStars.get(i));
 //            activeStars.get(i).setPosition(i * 36, getY());
             activeStars.get(i).setPosition(levelIcon.getX() + i * activeStars.get(i).getWidth(), levelIcon.getY() - 20);
         }
     }
 
+    /**
+     * метод для проверки, активны ли звезды за уровень, если isActive = false - звезды неактивны, если isActive = true - активны
+     **/
     public void checkIsActive() {
-        if (isActive) {
+        if (data.isActiveIcon()) {
+            // делаем значок "неактивный" levelIcon невидимым
             inactiveLevelIcon.setVisible(false);
-            activeStars.get(0).setVisible(true);
-            activeStars.get(1).setVisible(true);
-            activeStars.get(2).setVisible(true);
+
+            inactiveStars.get(0).setVisible(true);
+            inactiveStars.get(1).setVisible(true);
+            inactiveStars.get(2).setVisible(true);
+
+            for (int i = 0; i < starsCount; i++) {
+                activeStars.get(i).setVisible(true);
+            }
         } else {
             inactiveLevelIcon.setVisible(true);
             activeStars.get(0).setVisible(false);
@@ -125,11 +152,12 @@ public class LevelIcon extends Group {
         }
     }
 
-
+    /** возвращает Id уровня от 1....и делее**/
     public int getId() {
-        return id;
+        return data.getId();
     }
 
+    /** метод получает data (данные) об уровне **/
     public LevelIconData getData() {
         return data;
     }

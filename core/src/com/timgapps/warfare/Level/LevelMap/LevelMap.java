@@ -48,14 +48,16 @@ public class LevelMap extends StageGame {
     private GameManager gameManager;
     private CoinsPanel coinsPanel;              // панель с монетами
     private boolean isEndCoinsAction = false;
+    private int coinsReward = 0;
 
-    public LevelMap(GameManager gameManager) {
+    public LevelMap(GameManager gameManager, int coinsReward) {
+        this.coinsReward = coinsReward;
         setBackGround("map");
         this.gameManager = gameManager;
-        levelIcons = new ArrayList<LevelIcon>();
+        levelIcons = gameManager.getLevelIcons();
 
-        for (int i = 0; i < 10; i++) {
-            levelIcons.add(new LevelIcon(i + 1, true));
+        for (int i = 0; i < levelIcons.size(); i++) {
+//            levelIcons.add(new LevelIcon(i + 1, true));
             levelIcons.get(i).addListener(iconListener);
         }
 
@@ -111,7 +113,10 @@ public class LevelMap extends StageGame {
         // добавим панель с монетами на экран
         coinsPanel = gameManager.getCoinsPanel();
         addChild(coinsPanel, getWidth() - coinsPanel.getWidth() - 32, getHeight() - coinsPanel.getHeight() - 32);
-        showAddCoinsAnimation();
+
+        // запустим анимацию  получения монет к общему кол-ву монет
+        if (coinsReward > 0)
+            showAddCoinsAnimation();
     }
 
     private void showTeamUpgradeScreen() {
@@ -163,7 +168,7 @@ public class LevelMap extends StageGame {
                 isEndCoinsAction = true;
 
                 // добавим к общему кол-ву монет монеты (награду)
-                coinsPanel.addCoins(50);
+                coinsPanel.addCoins(coinsReward);
                 return true;
             }
         };
@@ -171,21 +176,21 @@ public class LevelMap extends StageGame {
         // action для первой монеты
         SequenceAction moveActionCoinOne = new SequenceAction(Actions.fadeIn(0),
                 Actions.moveTo(getWidth() / 2 - 32, getHeight() / 2 - 32, 0.8f, new Interpolation.SwingOut(1)),
-                Actions.moveTo(endXPos, endYPos, 1.5f),
+                Actions.moveTo(endXPos, endYPos, 0.8f),
                 Actions.fadeOut(0)
         );
 
         // action для второй монеты
         SequenceAction moveActionCoinTwo = new SequenceAction(Actions.fadeIn(0),
                 Actions.moveTo(getWidth() / 2 + 32, getHeight() / 2 - 32, 0.8f, new Interpolation.SwingOut(1)),
-                Actions.moveTo(endXPos, endYPos, 1.5f),
+                Actions.moveTo(endXPos, endYPos, 0.8f),
                 Actions.fadeOut(0)
         );
 
         // action для третьей монеты
         SequenceAction moveActionCoinThree = new SequenceAction(Actions.fadeIn(0),
                 Actions.moveTo(getWidth() / 2 + 32, getHeight() / 2 + 32, 0.8f, new Interpolation.SwingOut(1)),
-                Actions.moveTo(endXPos, endYPos, 1.5f),
+                Actions.moveTo(endXPos, endYPos, 0.8f),
                 Actions.fadeOut(0), checkEndOfAction
         );
 
@@ -208,7 +213,7 @@ public class LevelMap extends StageGame {
             // отобразим окно с информацией о выбранном уровне
             showMissionInfo(selectedLevelId);
 
-            /** установим в GameManager значение наград (монеты и очки за уровень) **/
+//            /** установим в GameManager значение наград (монеты и очки за уровень) **/
             gameManager.setCoinsRewardforLevel(missionInfoScreen.getRewardCoinsForLevel());
             gameManager.setScoreRewardforLevel(missionInfoScreen.getRewardScoreForLevel());
         }
@@ -216,13 +221,21 @@ public class LevelMap extends StageGame {
 
 
     private void showMissionInfo(int selectedLevelId) {
-        if (!missionInfoScreen.isVisible()) {
-            /** передадим данные об уровне в объект экрана информации об уровне
-             * здесь "selectedLevelId - 1", потому что levelIcons.get(..) возвращает элемент списка с индексом на 1 меньше,
-             * т.к. нумеруется с "0"
-             * **/
-            missionInfoScreen.setData(levelIcons.get(selectedLevelId - 1).getData());
-            missionInfoScreen.setVisible(true);
+        if (levelIcons.get(selectedLevelId - 1).getData().isActiveIcon()) {     // проверяем, активен ли уровень,
+            if (!missionInfoScreen.isVisible()) {                               // если да, показываем окно с информацией об уровне
+                /** передадим данные об уровне в объект экрана информации об уровне
+                 * здесь "selectedLevelId - 1", потому что levelIcons.get(..) возвращает элемент списка с индексом на 1 меньше,
+                 * т.к. нумеруется с "0"
+                 * **/
+
+                // TODO возможно можно убрать пару строк снизу
+//                /** установим в GameManager значение наград (монеты и очки за уровень) **/
+//                gameManager.setCoinsRewardforLevel(missionInfoScreen.getRewardCoinsForLevel());
+//                gameManager.setScoreRewardforLevel(missionInfoScreen.getRewardScoreForLevel());
+
+                missionInfoScreen.setData(levelIcons.get(selectedLevelId - 1).getData());
+                missionInfoScreen.setVisible(true);
+            }
         }
     }
 

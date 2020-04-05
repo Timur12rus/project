@@ -24,6 +24,7 @@ public class LevelCompletedScreen extends Group {
     private ColorButton okButton;
     private RewardTable rewardTable;
     private int rewardCoinForLevel, rewardScoreForLevel;
+    private int starsCount = 0;
 
     public LevelCompletedScreen(Level level, int rewardCoinForLevel, int rewardScoreForLevel) {
         levelNumber = level.getLevelNumber();
@@ -31,7 +32,7 @@ public class LevelCompletedScreen extends Group {
         this.rewardScoreForLevel = rewardScoreForLevel;
 
 //        stars = new Stars(40, level.getSiegeTower().getFullHealth());
-        stars = new Stars(level.getSiegeTower().getHealth(), level.getSiegeTower().getFullHealth());
+        stars = new Stars();
         stars.setPosition(0, 0);
         addActor(stars);
 
@@ -103,7 +104,12 @@ public class LevelCompletedScreen extends Group {
         }
     }
 
-    public void start() {
-        stars.startStarsActions();
+//    public void setStarCount(int starsCount) {
+//        this.starsCount = starsCount;
+//    }
+
+    public void start(int starsCount) {
+//        stars.startStarsActions(3);
+        stars.startStarsActions(starsCount);
     }
 }
