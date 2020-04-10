@@ -36,7 +36,9 @@ import java.util.Random;
 
 public class Level extends StageGame {
 
-    public static final int ON_COMPLETED = 3;
+    public static final int ON_COMPLETED = 1;
+    public static final int ON_FAILED = 2;
+    public static final int ON_RETRY = 3;
 
     public static final float WORLD_SCALE = 100; // коэффициент масштабирования
     private Box2DDebugRenderer debugRender;
@@ -69,7 +71,7 @@ public class Level extends StageGame {
     private int coinsReward;
 
 
-    public Level(int levelNumber, GameManager gameManager) {
+    public Level(int levelNumber, final GameManager gameManager) {
 
         this.levelNumber = levelNumber;
         this.gameManager = gameManager;
@@ -147,10 +149,20 @@ public class Level extends StageGame {
         });
 
         gameOverScreen = new GameOverScreen(this);
-        gameOverScreen.setPosition((getWidth() - gameOverScreen.getWidth()) / 2, getHeight() * 2 / 3);
-//        addOverlayChild(gameOverScreen);
+        gameOverScreen.addListener(new MessageListener() {
+            @Override
+            protected void receivedMessage(int message, Actor actor) {
+                if (message == gameOverScreen.ON_MAP) {
+//                    savePlayerData();
+                    call(ON_FAILED);                       // при получении сообщений от которой мы передаем сообщение ON_FAILED
+                }
 
-        gameOver();
+                if (message == GameOverScreen.ON_RETRY) {
+                    call(ON_RETRY);
+                }
+            }
+        });
+
     }
 
     /**
@@ -390,6 +402,7 @@ public class Level extends StageGame {
     }
 
     public void gameOver() {
+        gameOverScreen.setPosition((getWidth() - gameOverScreen.getWidth()) / 2, getHeight() * 2 / 3);
         addOverlayChild(gameOverScreen);
         darkLayer.setVisible(true);         // затемняем задний план
         tableUnitButtons.setVisible(false); // кнопки юитов делаем невидимыми

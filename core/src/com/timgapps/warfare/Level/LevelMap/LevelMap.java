@@ -18,6 +18,7 @@ import com.boontaran.MessageListener;
 import com.boontaran.games.StageGame;
 import com.timgapps.warfare.Level.GUI.Screens.CoinsPanel;
 import com.timgapps.warfare.Level.GUI.Screens.MissionInfoScreen;
+import com.timgapps.warfare.Level.GUI.Screens.GiftsWindow.GiftScreen;
 import com.timgapps.warfare.Level.GUI.Screens.TeamUpgradeScreen;
 import com.timgapps.warfare.Level.GUI.TextManager;
 import com.timgapps.warfare.Level.GameManager;
@@ -41,10 +42,12 @@ public class LevelMap extends StageGame {
 
     private MissionInfoScreen missionInfoScreen;
     private TeamUpgradeScreen teamUpgradeScreen;
+    private GiftScreen giftScreen;
     private Group parent;
     private TextManager textManager;
     public static BitmapFont font40;
     private ImageButton upgradeTeamButton;      // кнопка для вызова окна апгрейда юнитов
+    private GiftIcon giftIcon;
     private GameManager gameManager;
     private CoinsPanel coinsPanel;              // панель с монетами
     private boolean isEndCoinsAction = false;
@@ -84,6 +87,24 @@ public class LevelMap extends StageGame {
             }
         });
 
+        /** создадим окно с вознаграждениями **/
+        giftScreen = new GiftScreen(gameManager);
+        giftScreen.setVisible(false);
+        addChild(giftScreen);
+
+        giftScreen.addListener(new MessageListener() {
+            @Override
+            protected void receivedMessage(int message, Actor actor) {
+                if (message == giftScreen.ON_RESUME) {
+//                    Warfare.media.playSound("click.ogg");
+                    resumeLevelMap();
+                }
+//                else if (message == missionInfoScreen.ON_START) { //
+//                    call(ON_LEVEL_SELECTED);
+//                }
+            }
+        });
+
         /** создадим окно апргейда команды и передаём информацию о составе команды(manager)**/
         teamUpgradeScreen = new TeamUpgradeScreen(gameManager);
         teamUpgradeScreen.setVisible(false);
@@ -117,10 +138,25 @@ public class LevelMap extends StageGame {
         // запустим анимацию  получения монет к общему кол-ву монет
         if (coinsReward > 0)
             showAddCoinsAnimation();
+
+        giftIcon = new GiftIcon();
+        giftIcon.setPosition(getWidth() - giftIcon.getWidth() - 32, getHeight() / 2);
+
+        giftIcon.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                showGiftScreen();
+            }
+        });
+        addChild(giftIcon);
     }
 
     private void showTeamUpgradeScreen() {
         teamUpgradeScreen.setVisible(true);
+    }
+
+    private void showGiftScreen() {
+        giftScreen.setVisible(true);
     }
 
     /**
@@ -139,6 +175,7 @@ public class LevelMap extends StageGame {
         /** скрываем окно с описанием уровня **/
         missionInfoScreen.hide();
         teamUpgradeScreen.setVisible(false);
+        giftScreen.setVisible(false);
 //        teamUpgradeScreen.hide();
     }
 

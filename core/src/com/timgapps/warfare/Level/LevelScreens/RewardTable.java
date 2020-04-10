@@ -11,6 +11,7 @@ public class RewardTable extends Group {
     private Label rewardLabel;
     private int coinsCount, scoreCount;
     Label coinsCountLabel, scoreCountLabel;
+    private float height;
 
     public RewardTable(int coinsCount, int scoreCount) {
         this.coinsCount = coinsCount;
@@ -43,7 +44,7 @@ public class RewardTable extends Group {
         scoreCountLabel.setText("" + scoreCount);
 
         Image coinImage = new Image(Warfare.atlas.findRegion("coin_icon"));
-        Image scoreImage = new Image(Warfare.atlas.findRegion("coin_icon"));
+        Image scoreImage = new Image(Warfare.atlas.findRegion("score_icon"));
         rewardTable.add(coinsCountLabel);
         rewardTable.add(coinImage).width(48).height(48);
 
@@ -59,6 +60,8 @@ public class RewardTable extends Group {
         rewardLabel.setPosition(0, 0);
         rewardTable.setPosition( 0, - rewardTable.getHeight() - 24);
 
+        height = rewardLabel.getHeight() + rewardTable.getHeight() + 24;
+
         addActor(rewardLabel);
         addActor(rewardTable);
 
@@ -69,5 +72,8 @@ public class RewardTable extends Group {
         coinsCountLabel.setText("" + coinsCount);
     }
 
-
+    @Override
+    public float getHeight() {
+        return height;
+    }
 }

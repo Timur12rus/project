@@ -141,6 +141,7 @@ public class SiegeTower extends Group {
     public void checkToDestroy() {
         if (!body.isActive() && isDestroyed && explosion2.isEnd()) {
 //        if (!body.isActive() && isDestroyed && explosion.isEnd()) {
+            level.gameOver();
             world.destroyBody(body);
             this.remove();
             smoke.dispose();

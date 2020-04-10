@@ -42,6 +42,7 @@ public class Warfare extends Game {
     private OrthographicCamera mOrthographicCamera;
 
     private GameManager gameManager;
+    private int levelId;
 
     public Warfare(GameCallback gameCallback) {    // это конструктор для класса CrazyCatapult с переменной класса GameCallback
         this.gameCallback = gameCallback;
@@ -150,7 +151,8 @@ public class Warfare extends Game {
                 } else if (code == LevelMap.ON_LEVEL_SELECTED) {
                     // при получении кода ON_LEVEL_SELECTED вызываем метод открытия уровня
                     // передаем в showLevel номер выбранного уровня
-                    showLevel(levelMap.getSelectedLevelId());
+                    levelId = levelMap.getSelectedLevelId();
+                    showLevel(levelId);
                     hideLevelMap();
                 }
             }
@@ -198,6 +200,17 @@ public class Warfare extends Game {
                     // установим количество монет - награду за уровень
                     showMap(rewardCoins);
                 }
+                if (code == Level.ON_FAILED) {
+                    hideLevel();
+                    // установим количество монет - награду за уровень
+                    showMap(0);
+                }
+
+                if (code == Level.ON_RETRY) {
+                    hideLevel();
+                    showLevel(levelId);
+                }
+
             }
         });
     }
@@ -213,7 +226,6 @@ public class Warfare extends Game {
     }
 
     private void showLevel() {
-        System.out.println("Show level");
         level = new Level(1, gameManager);
         setScreen(level);
     }
