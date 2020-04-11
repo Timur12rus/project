@@ -44,6 +44,7 @@ public class Warfare extends Game {
     private GameManager gameManager;
     private int levelId;
 
+
     public Warfare(GameCallback gameCallback) {    // это конструктор для класса CrazyCatapult с переменной класса GameCallback
         this.gameCallback = gameCallback;
         System.out.println("Create Game");

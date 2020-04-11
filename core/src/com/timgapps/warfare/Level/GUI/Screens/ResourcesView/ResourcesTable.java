@@ -58,9 +58,7 @@ public class ResourcesTable extends Group {
         height = 224;
         table.add(new Image(Warfare.atlas.findRegion("food_icon"))).width(64).height(64);
         table.add(foodCountLabel).expand().left().padLeft(16);
-
         table.row();
-
         table.add(new Image(Warfare.atlas.findRegion("iron_icon"))).width(64).height(64).padTop(16);
         table.add(ironCountLabel).expand().left().padLeft(16);
         table.row();

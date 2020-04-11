@@ -39,9 +39,7 @@ public class CoinsPanel extends Group {
 
         setWidth(table.getWidth());
         setHeight(table.getHeight());
-
         addActor(table);
-
     }
 
     public void addCoins(int coins) {
@@ -52,6 +50,10 @@ public class CoinsPanel extends Group {
     public void setCoinsCount(int coins) {
         coinsCount = coins;
         coinsValueLabel.setText("" + coinsCount);
+    }
+
+    public int getCoinsCount() {
+        return coinsCount;
     }
 
 }

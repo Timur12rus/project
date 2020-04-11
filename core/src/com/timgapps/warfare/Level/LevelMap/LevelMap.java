@@ -30,6 +30,8 @@ public class LevelMap extends StageGame {
     // создаем несколько констант для создания callBack сообщений, которые будут передаваться в зависимости от нажатия кнопок
     public static final int ON_BACK = 1;
     public static final int ON_LEVEL_SELECTED = 2;
+    public static final int ON_SHOW_ANIMATION = 3;
+
     public static final int ON_SHOW_TEAM_UPGRADE = 3;
     public static final int ON_SHARE = 4;
 
@@ -88,7 +90,7 @@ public class LevelMap extends StageGame {
         });
 
         /** создадим окно с вознаграждениями **/
-        giftScreen = new GiftScreen(gameManager);
+        giftScreen = new GiftScreen(this, gameManager);
         giftScreen.setVisible(false);
         addChild(giftScreen);
 
@@ -98,10 +100,10 @@ public class LevelMap extends StageGame {
                 if (message == giftScreen.ON_RESUME) {
 //                    Warfare.media.playSound("click.ogg");
                     resumeLevelMap();
+                } else if (message == giftScreen.ON_SHOW_ANIMATIONS) {
+                    showAddCoinsAnimation();
                 }
-//                else if (message == missionInfoScreen.ON_START) { //
-//                    call(ON_LEVEL_SELECTED);
-//                }
+//
             }
         });
 
@@ -149,6 +151,10 @@ public class LevelMap extends StageGame {
             }
         });
         addChild(giftIcon);
+    }
+
+    public void setCoinsReward(int coinsCount) {
+        coinsReward = coinsCount;
     }
 
     private void showTeamUpgradeScreen() {

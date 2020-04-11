@@ -345,6 +345,11 @@ public class UpgradeScreen extends Group {
 
     public void showUpgradeScreen(boolean showSelectButton) {
 
+        // обновим количество ресурсов в таблице
+        resourcesTable.updateResources(gameManager.getFoodCount(), gameManager.getIronCount(), gameManager.getWoodCount());
+
+        // обновим количество монет
+        coinsCount = gameManager.getCoinsPanel().getCoinsCount();
         setVisible(true);
         /** добавим объект - изображение юнита со значком уровня юнита**/
         imageContainer.addActor(unitImage);
@@ -402,8 +407,6 @@ public class UpgradeScreen extends Group {
 //                if (toastLabel.isVisible()) toastLabel.setVisible(false);
 
 //                showReplaceUnit(teamEntity);
-
-
                 showReplace();
 
                 /** скрываем экран апгрейда **/

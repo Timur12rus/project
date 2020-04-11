@@ -6,35 +6,32 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.boontaran.MessageEvent;
-import com.timgapps.warfare.Level.GUI.Screens.UpgradeWindow.ColorButton;
 import com.timgapps.warfare.Level.GameManager;
-import com.timgapps.warfare.Level.LevelScreens.RewardTable;
+import com.timgapps.warfare.Level.Level;
+import com.timgapps.warfare.Level.LevelMap.LevelMap;
 import com.timgapps.warfare.Warfare;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-import java.util.TimeZone;
-
 public class GiftScreen extends Group {
-    public static final int ON_START = 1;
+    public static final int ON_SHOW_ANIMATIONS = 1;
     public static final int ON_RESUME = 2;
 
     private Image background;
     private ImageButton closeButton;
     private Label rewardTitle; // отображаем текст заголовка
     private GameManager gameManager;
-    private GiftPanel giftPanel;
+    private GiftPanel giftPanel, buffPanel;
 
-    long giftTime;  // времея в которое буедт доступен подарок
-    Date currentDate;   // текущее время
-    Date date;
+    private GiftsTable giftsTable;
+    private LevelMap levelMap;
 
-    public GiftScreen(GameManager gameManager) {
+    // экран - окно, с двумя панелями подарков, кнопкой закрыть
+    public GiftScreen(LevelMap levelMap, GameManager gameManager) {
+        this.levelMap = levelMap;
         this.gameManager = gameManager;
         background = new Image(Warfare.atlas.findRegion("teamScreen"));
         background.setX((Warfare.V_WIDTH - background.getWidth()) / 2); // устанавливаем позицию заголовка
@@ -49,14 +46,12 @@ public class GiftScreen extends Group {
 
         initializeLabels();
 
-        date = new Date();                      // поулим текущее время
-        giftTime = date.getTime() + 30000;   // время в миллисекундах до получения вознаграждения (2ч.)
-//        giftTime = date.getTime() + 7200000L;   // время в миллисекундах до получения вознаграждения (2ч.)
-
-        giftPanel = new GiftPanel();
-        giftPanel.setPosition((background.getWidth() - giftPanel.getWidth()) / 2,
-                background.getY() + 152);
-        addActor(giftPanel);
+        // таблица с панелями подарков (GiftPanel's)
+        giftsTable = new GiftsTable();
+        giftsTable.debug();
+        giftsTable.setPosition(background.getX() + (background.getWidth() - giftsTable.getWidth()) / 2,
+                background.getY() + 64);
+        addActor(giftsTable);
 
         closeButton.addListener(new ClickListener() {
             @Override
@@ -78,72 +73,24 @@ public class GiftScreen extends Group {
         addActor(rewardTitle);
     }
 
-    class GiftPanel extends Group {
-        Image background;
-        Label timeLabel;
-        Label doneLabel;
-        RewardTable rewardTable;
-        ColorButton claimButton;
-        Image boxImage;
-        SimpleDateFormat formatForDate;
+    /**
+     * таблица с панелями подарков (GiftPanel's)
+     **/
+    class GiftsTable extends Table {
+        public GiftsTable() {
 
-        public GiftPanel() {
+            float giftPanelX = background.getX() + (background.getWidth() - 190 * 2 + 64) / 2;
+            float giftPanelY = background.getY() + 64;
 
-            formatForDate = new SimpleDateFormat("HH:mm:ss");
-            formatForDate.setTimeZone(TimeZone.getTimeZone("GMT"));
-//            formatForDate = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
-//            System.out.println(formatForDate.getTimeZone().toString());
-//            formatForDate.setTimeZone();
-            background = new Image(Warfare.atlas.findRegion("gifts_bg"));
-            boxImage = new Image(Warfare.atlas.findRegion("boxImage"));
-
-            Label.LabelStyle timeLabelStyle = new Label.LabelStyle();
-            timeLabelStyle.fontColor = Color.LIGHT_GRAY;
-            timeLabelStyle.font = Warfare.font20;
-
-            timeLabel = new Label("" + formatForDate.format(giftTime - date.getTime()), timeLabelStyle);              // текст оставшееся время в формате времени
-            rewardTable = new RewardTable(100, 35);
-            claimButton = new ColorButton("Claim", ColorButton.YELLOW_BUTTON);
-            claimButton.setVisible(false);
-
-            addActor(background);
-
-            timeLabel.setPosition((background.getWidth() - timeLabel.getWidth()) / 2,
-                    background.getHeight() - 8 - timeLabel.getHeight());
-            addActor(timeLabel);
-
-//            rewardTable.setPosition((background.getWidth() - rewardTable.getWidth()) / 2,
-//                    timeLabel.getY() - rewardTable.getHeight());
-
-            rewardTable.setPosition((background.getWidth() - rewardTable.getWidth()) / 2,
-                    timeLabel.getY() - 32);
-            addActor(rewardTable);
-
-            boxImage.setPosition((background.getWidth() - boxImage.getWidth()) / 2,
-                    background.getY());
-            addActor(boxImage);
-
-            claimButton.setPosition((background.getWidth() - claimButton.getWidth()) / 2,
-                    background.getY() - 16 - claimButton.getHeight());
-            addActor(claimButton);
-
-
-        }
-
-        @Override
-        public void act(float delta) {
-
-            if (!claimButton.isVisible()) {
-                long deltaTime = giftTime - new Date().getTime();
-                if (deltaTime < 0)
-                    claimButton.setVisible(true);
-                if (!claimButton.isVisible()) {
-                    date.setTime(deltaTime);                        // установим значение для даты
-                    timeLabel.setText("" + formatForDate.format(deltaTime));
-                }
-                super.act(delta);
-            }
+            giftPanel = new GiftPanel(giftPanelX, giftPanelY, gameManager, GiftPanel.RESOURCES_GIFT);
+            buffPanel = new GiftPanel(giftPanelX + 190 + 64, giftPanelY, gameManager, GiftPanel.BUFFS_GIFT);
+            add(giftPanel).padLeft(32).padRight(32);
+            add(buffPanel).padLeft(32).padRight(32);
+            setWidth(giftPanel.getWidth() * 2 + 64 * 2);
+            setHeight(giftPanel.getHeight());
         }
     }
 }
+
+
 
