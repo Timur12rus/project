@@ -34,8 +34,6 @@ public class TeamEntity extends Group {
     private int energyCost;
 
     public float width, height;
-
-    private UnitLevelIcon unitLevelIcon;
     private UnitImage unitImage;
     private int unitIndex;          // индекс юнита
 

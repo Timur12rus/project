@@ -9,8 +9,9 @@ public class SavedGame implements Serializable {
     private static final long serialVersionUID = 1L;
     private ArrayList<TeamEntity> team;
 
-    public SavedGame(ArrayList<TeamEntity> team) {
-        this.team = team;
+    public SavedGame() {
+//    public SavedGame(ArrayList<TeamEntity> team) {
+//        this.team = team;
     }
 
     public ArrayList<TeamEntity> getTeam() {
