@@ -2,13 +2,12 @@ package com.timgapps.warfare.Level;
 
 import com.timgapps.warfare.Level.GUI.Screens.CoinsPanel;
 import com.timgapps.warfare.Level.GUI.Screens.TeamEntity;
+import com.timgapps.warfare.Level.GUI.Screens.TeamEntityData;
 import com.timgapps.warfare.Level.LevelMap.LevelIcon;
 import com.timgapps.warfare.Level.SavedData.SavedGame;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
@@ -21,6 +20,8 @@ import java.util.ArrayList;
  */
 public class GameManager {
     private ArrayList<TeamEntity> team;     // команда, массив объектов TeamEntity()
+    private ArrayList<TeamEntityData> teamDataList;     // команда, массив объектов TeamEntity()
+    private ArrayList<TeamEntityData> collectionDataList;     // команда, массив объектов TeamEntity()
     private ArrayList<TeamEntity> collection;     // коллекция, массив объектов TeamEntity()
     private int currentLevelId;
 
@@ -38,9 +39,7 @@ public class GameManager {
     private int coinsRewardForLevel = 0;
 
     private ArrayList<LevelIcon> levelIcons = new ArrayList<LevelIcon>();
-
     private SavedGame savedGame;
-
 
     public GameManager() {
         /** создадим массив уровней (LevelIcons) для хранения информации и данных уровней (кол-во звёзд, заблокировани или разблокирован **/
@@ -65,29 +64,42 @@ public class GameManager {
         // создаем объект для сохранения игры
         savedGame = getSavedGame();
 
-        // если сохранения нет(запускае игру впервый раз), null, то создадим объект для схранниения игры и создадим объект "КОМАНДА" team
+        team = new ArrayList<TeamEntity>();
+        collection = new ArrayList<TeamEntity>();
+
+        // если сохранения нет(запускает игру впервый раз), null, то создадим объект для схранниения игры и создадим объект "КОМАНДА" team
         if (savedGame == null) {
             System.out.println("SavedGame null ");
             savedGame = new SavedGame();
-            team = new ArrayList<TeamEntity>();
+
 
             /** Добавляем бойцов в команду **/
             // TODO: 31.01.2020  Здесь нужно будет изменить код, так чтобы брать данные из сохранненного объекта
-            team.add(new TeamEntity(TeamEntity.GNOME));
-            team.add(new TeamEntity(TeamEntity.ARCHER));
-            team.add(new TeamEntity(TeamEntity.STONE));
+            savedGame.createTeamEntityDataList();
+            savedGame.createCollectionDataList();
 
-            savedGame.setTeam(team);
+//            /** установим значения по умолчанию  для данных TeamEntity **/
+//            savedGame.getTeamDataList().get(0).setDefaultData();
+
+            team.add(new TeamEntity(savedGame.getTeamDataList().get(0)));
+            team.add(new TeamEntity(savedGame.getTeamDataList().get(1)));
+            team.add(new TeamEntity(savedGame.getTeamDataList().get(2)));
+
+            /** создадим КОЛЛЕКЦИЮ - массив юнитов в коллекции  **/
+            collection.add(new TeamEntity(savedGame.getCollectionDataList().get(0)));
+//            savedGame.setTeam(team);
+        } else {
+            team.add(new TeamEntity(savedGame.getTeamDataList().get(0)));
+            team.add(new TeamEntity(savedGame.getTeamDataList().get(1)));
+            team.add(new TeamEntity(savedGame.getTeamDataList().get(2)));
+
+            collection.add(new TeamEntity(savedGame.getCollectionDataList().get(0)));
         }
-
 //        team = savedGame.getTeam();
 //        if (team == null)
 //            team = new ArrayList<TeamEntity>();
 //
 //        savedGame.setTeam(team);
-
-        /** создадим КОЛЛЕКЦИЮ - массив юнитов в коллекции  **/
-        collection = new ArrayList<TeamEntity>();
 
 
         /** количество монет у игрока **/
@@ -110,23 +122,8 @@ public class GameManager {
 
         /** Добавляем бойцов в коллекцию **/
         // TODO: 31.01.2020  Здесь нужно будет изменить код, так чтобы брать данные из сохранненного объекта
-        collection.add(new TeamEntity(TeamEntity.THOR));
-//        collection.add(new TeamEntity(TeamEntity.NONE));
-//        collection.add(new TeamEntity(TeamEntity.NONE));
-//
-//
-//        collection.add(new TeamEntity(TeamEntity.NONE));
-//        collection.add(new TeamEntity(TeamEntity.NONE));
-//        collection.add(new TeamEntity(TeamEntity.NONE));
-//        collection.add(new TeamEntity(TeamEntity.NONE));
 //
 //        collection.add(new TeamEntity(TeamEntity.THOR));
-//        collection.add(new TeamEntity(TeamEntity.NONE));
-//        collection.add(new TeamEntity(TeamEntity.NONE));
-//        collection.add(new TeamEntity(TeamEntity.NONE));
-//        collection.add(new TeamEntity(TeamEntity.NONE));
-//        collection.add(new TeamEntity(TeamEntity.NONE));
-//        collection.add(new TeamEntity(TeamEntity.NONE));
     }
 
     /**
@@ -137,7 +134,7 @@ public class GameManager {
             FileInputStream fileInputStream = new FileInputStream("save.ser");
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
             savedGame = (SavedGame) objectInputStream.readObject();
-            System.out.println("readObject = " + savedGame);
+            System.out.println("readObject = " + savedGame.toString());
         } catch (Exception e) {
             System.out.println("exception = " + e.toString());
             return null;
@@ -146,10 +143,9 @@ public class GameManager {
     }
 
     /**
-     * метод сохраняет динные игры
+     * метод сохраняет данные игры
      **/
-    private void saveGame() {
-
+    public void saveGame() {
         try {
             //создаем 2 потока для сериализации объекта и сохранения его в файл
             FileOutputStream outputStream = new FileOutputStream("save.ser");
@@ -277,9 +273,9 @@ public class GameManager {
         return woodCount;
     }
 
-    public void addTeamEntity(int unitType) {
-        team.add(new TeamEntity(unitType));
-    }
+//    public void addTeamEntity(int unitType) {
+//        team.add(new TeamEntity(unitType));
+//    }
 
     /**
      * метод для получения уровня здоровья ОСАДНОЙ БАШНИ
@@ -308,7 +304,8 @@ public class GameManager {
     public void updateTeam(ArrayList<TeamEntity> team) {
         this.team = team;
 //        savedGame.setTeam(team);
-        saveGame();
+        savedGame.updateTeamDataList(team);
+//        saveGame();
     }
 
     /**
@@ -316,5 +313,7 @@ public class GameManager {
      **/
     public void updateCollection(ArrayList<TeamEntity> collection) {
         this.collection = collection;
+        savedGame.updateCollectionDataList(collection);
     }
+
 }

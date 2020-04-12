@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.timgapps.warfare.Level.GUI.Screens.UpgradeWindow.UnitImage;
 import com.timgapps.warfare.Level.GUI.Screens.UpgradeWindow.UnitLevelIcon;
 import com.timgapps.warfare.Level.GUI.UnitButton;
+import com.timgapps.warfare.Level.LevelScreens.DarkLayer;
 import com.timgapps.warfare.Warfare;
 
 
@@ -18,11 +19,8 @@ public class TeamEntity extends Group {
     public static final int THOR = 3;
     public static final int STONE = 4;
 
-    private int unitType;
-
     private ImageButton unitButton;
-    //    private Image unitImage;
-    private int id;                  // номер в КОМАНДЕ
+    private int unitType;
     private int DAMAGE;
     private int HEALTH;
     private int SPEED;
@@ -36,109 +34,76 @@ public class TeamEntity extends Group {
     public float width, height;
     private UnitImage unitImage;
     private int unitIndex;          // индекс юнита
-
+    private TeamEntityData data;
 
     @Override
     public String toString() {
         return NAME;
-//        return super.toString();
-
     }
 
     /**
      * Объект СУЩНОСТЬ КОМАНДЫ (ЮНИТ) в массиве команды или коллекции
      *
-     * @param unitType - тип юнита
+     * @param data - data, данные: параметры юнита
      **/
-    public TeamEntity(int unitType) {
-//    public TeamEntity(int unitType, int unitIndex) {
-        this.unitType = unitType;
-//        this.unitIndex = unitIndex;
-
+    public TeamEntity(TeamEntityData data) {
+        this.unitType = data.getUnitType();
+        this.data = data;
         switch (unitType) {
             case GNOME:
                 unitButton = new ImageButton(new TextureRegionDrawable(Warfare.atlas.findRegion("gnomeActive")),
                         new TextureRegionDrawable(Warfare.atlas.findRegion("gnomeInactive")));
-//                unitImage = new Image(Warfare.atlas.findRegion("gnomeStay0"));
-
                 NAME = "Gnome";
-                DAMAGE = 14;
-                HEALTH = 30;
                 SPEED = 6;
                 addHealthValue = 2;
                 addDamageValue = 2;
                 timePrepare = 10;
                 energyCost = 15;
-                unitType = TeamEntity.GNOME;
-
-                // TODO: 23.01.2020 Исправить ПОЛУЧИТЬ ЗНАЧЕНИЕ УРОВНЯ ЮНИТА
-                unitLevel = 1;
                 break;
             case ARCHER:
                 unitButton = new ImageButton(new TextureRegionDrawable(Warfare.atlas.findRegion("archer1Active")),
                         new TextureRegionDrawable(Warfare.atlas.findRegion("archer1Inactive")));
-//                unitImage = new Image(Warfare.atlas.findRegion("archer1Stay0"));
                 NAME = "Archer";
-                DAMAGE = 10;
-                HEALTH = 30;
                 SPEED = 4;
-
                 addHealthValue = 2;
                 addDamageValue = 2;
                 timePrepare = 25;
                 energyCost = 20;
-                unitType = TeamEntity.ARCHER;
-
-
-                unitLevel = 1;
                 break;
 
             case THOR:
                 unitButton = new ImageButton(new TextureRegionDrawable(Warfare.atlas.findRegion("thorActive")),
                         new TextureRegionDrawable(Warfare.atlas.findRegion("thorInactive")));
                 NAME = "Thor";
-                DAMAGE = 12;
-                HEALTH = 20;
                 SPEED = 8;
-
                 addHealthValue = 2;
                 addDamageValue = 2;
                 timePrepare = 18;
                 energyCost = 25;
-
-                unitLevel = 1;
-                unitType = TeamEntity.THOR;
-
                 break;
 
             case STONE:
                 unitButton = new ImageButton(new TextureRegionDrawable(Warfare.atlas.findRegion("stoneButtonActive")),
                         new TextureRegionDrawable(Warfare.atlas.findRegion("stoneButtonInactive")));
-//                unitImage = new Image(Warfare.atlas.findRegion("stoneButtonActive"));
                 NAME = "Rock";
-                DAMAGE = 10;
-                HEALTH = 50;
                 SPEED = 0;
-
                 addHealthValue = 2;
                 addDamageValue = 2;
                 timePrepare = 10;
                 energyCost = 6;
-                unitLevel = 1;
-
-                unitType = TeamEntity.STONE;
 
                 break;
 
             case NONE:
                 unitButton = new ImageButton(new TextureRegionDrawable(Warfare.atlas.findRegion("emptyButtonActive")),
                         new TextureRegionDrawable(Warfare.atlas.findRegion("emptyButtonInactive")));
-//                unitImage = new Image(Warfare.atlas.findRegion("stoneButtonActive"));
-                DAMAGE = 10;
-                HEALTH = 50;
                 SPEED = 12;
                 break;
         }
+
+        DAMAGE = data.getDAMAGE();
+        HEALTH = data.getHEALTH();
+        unitLevel = data.getUnitLevel();
 
         unitImage = new UnitImage(unitType, unitLevel, energyCost);
 
@@ -221,6 +186,16 @@ public class TeamEntity extends Group {
 
     public int getUnitType() {
         return unitType;
+    }
+
+    public TeamEntityData getEntityData() {
+        return data;
+    }
+
+    public void updateTeamEntityData() {
+        data.setUnitLevel(unitLevel);
+        data.setHEALTH(HEALTH);
+        data.setDAMAGE(DAMAGE);
     }
 }
 

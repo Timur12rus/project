@@ -518,6 +518,10 @@ public class UpgradeScreen extends Group {
         teamEntity.addHEALTH(addHealthValue);
         teamEntity.addDAMAGE(addDamageValue);
 
+        /** обновим данные юнита и сохраним его данные **/
+        teamEntity.updateTeamEntityData();
+        gameManager.saveGame();
+
         /** обновим количество монет и установим новое кол-во монет в панели монет **/
         coinsCount -= upgradeCost;
         gameManager.getCoinsPanel().setCoinsCount(coinsCount);

@@ -285,8 +285,10 @@ public class TeamUpgradeScreen extends Group {
             System.out.println("unitCollection contains teamEntity = " + unitCollection.contains(teamEntity));
             System.out.println("unitCollection teamEntity = " + unitCollection.indexOf(teamEntity));
 
+            /** обновим команду(team) и коллекцию (collection) и сохраним игру **/
             gameManager.updateTeam(team);
             gameManager.updateCollection(unitCollection);
+            gameManager.saveGame();
         }
 
         System.out.println("After ");
