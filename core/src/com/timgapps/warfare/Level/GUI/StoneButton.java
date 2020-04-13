@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.timgapps.warfare.Level.GUI.Screens.TeamEntityData;
 import com.timgapps.warfare.Level.Level;
 import com.timgapps.warfare.Units.GameUnits.Player.Bullets.Stone;
 import com.timgapps.warfare.Warfare;
@@ -19,15 +20,19 @@ public class StoneButton extends UnitButton {
     private final float X_MAX = 300;
 
     private float unitButtonTablePosX = 0;
+    private int damage;
+    private int health;
 //    protected int energyPrice;
 
-    public StoneButton(final Level level, Image activeImage, Image inactiveImage, TypeOfUnit typeOfUnit) {
-        super(level, activeImage, inactiveImage, typeOfUnit);
+    public StoneButton(final Level level, Image activeImage, Image inactiveImage, TeamEntityData data) {
+        super(level, activeImage, inactiveImage, data);
         greenTarget = new Image(Warfare.atlas.findRegion("targetGreen"));
         redTarget = new Image(Warfare.atlas.findRegion("targetRed"));
 //        this.energyPrice = setEnergyPrice(typeOfUnit);
 //        posX = x;
 //        posY = y;
+        damage = data.getDAMAGE();
+        health = data.getHEALTH();
         addActor(greenTarget);
         addActor(redTarget);
         inactiveTargetImages();
@@ -51,7 +56,7 @@ public class StoneButton extends UnitButton {
                 x -= greenTarget.getWidth();
                 if (isReadyUnitButton) {
                     if (greenTarget.isVisible()) {
-                        throwStone(level, getX() + unitButtonTablePosX + x + greenTarget.getWidth() / 2, y, 5);
+                        throwStone(level, getX() + unitButtonTablePosX + x + greenTarget.getWidth() / 2, y, damage, health);
 //                        throwStone(level, x + getX() + greenTarget.getWidth() / 2, y, 5);
                         System.out.println("GetX = " + getX());
                         System.out.println("x = " + x);
@@ -77,10 +82,10 @@ public class StoneButton extends UnitButton {
         }
     }
 
-    private void throwStone(Level level, float x, float y, float damage) {
+    private void throwStone(Level level, float x, float y, float damage, float health) {
         setInActive();
         level.setEnergyCount(Stone.getEnergyPrice());
-        new Stone(level, x, y + 600, damage, 32 + y + greenTarget.getHeight() / 2);
+        new Stone(level, x, y + 600, damage, health, 32 + y + greenTarget.getHeight() / 2);
 //        new Stone(level, x, y + 600, damage, 14 + y + greenTarget.getHeight() / 2);
     }
 

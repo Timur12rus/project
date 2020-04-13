@@ -143,9 +143,14 @@ public abstract class GameUnit extends Actor implements IBody {
      * @param value - урон
      **/
     public void setHealth(float value) {
-        if (!isDrawHealthBar)
-            isDrawHealthBar = true;
+        if (!isDrawHealthBar) {
+            if (health > 0) isDrawHealthBar = true;
+        }
         health -= value;
+        if (health < 0) {
+            health = 0;
+            isDrawHealthBar = false;
+        }
     }
 
     protected void addDamageLabel(float x, float y, float value) {

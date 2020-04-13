@@ -232,16 +232,16 @@ public class Level extends StageGame {
         compareActorsYPos();
     }
 
-    public void addGnome() {
-        new Gnome(this, 160, 210, 50, 2);
+    public void addGnome(int health, int damage) {
+        new Gnome(this, 160, 210, health, damage);
     }
 
-    public void addArcher1() {
-        new Archer1(this, 100, 160, 20, 2);
+    public void addArcher1(int health, int damage) {
+        new Archer1(this, 100, 160, health, damage);
     }
 
-    public void addThor() {
-        new Thor(this, 100, 160, 20, 2);
+    public void addThor(int health, int damage) {
+        new Thor(this, 100, 160, health, damage);
     }
 
     public void compareActorsYPos() {
@@ -359,21 +359,26 @@ public class Level extends StageGame {
         tableUnitButtons = new Table().debug();
         float unitButtonWidth = team.get(0).getWidth();
         float unitButtonHeight = team.get(0).getHeight();
-        StoneButton stoneButton = new StoneButton(this, new Image(Warfare.atlas.findRegion("stoneButtonActive")),
-                new Image(Warfare.atlas.findRegion("stoneButtonInactive")), UnitButton.TypeOfUnit.STONE);
+        StoneButton stoneButton = null;
+//        StoneButton stoneButton = new StoneButton(this, new Image(Warfare.atlas.findRegion("stoneButtonActive")),
+//                new Image(Warfare.atlas.findRegion("stoneButtonInactive")), );
 
 
         for (int i = 0; i < team.size(); i++) {
 //            tableUnitButtons.add(team.get(i).getUnitButton()).padLeft(12).padRight(12);
             switch (team.get(i).getUnitType()) {
                 case TeamEntity.GNOME:
+//                    tableUnitButtons.add(new UnitButton(this, new Image(Warfare.atlas.findRegion("gnomeActive")),
+//                            new Image(Warfare.atlas.findRegion("gnomeInactive")), TeamEntity.GNOME))
+//                            .width(unitButtonWidth).height(unitButtonHeight).padLeft(12).padRight(12);
+
                     tableUnitButtons.add(new UnitButton(this, new Image(Warfare.atlas.findRegion("gnomeActive")),
-                            new Image(Warfare.atlas.findRegion("gnomeInactive")), UnitButton.TypeOfUnit.GNOME))
+                            new Image(Warfare.atlas.findRegion("gnomeInactive")), team.get(i).getEntityData()))
                             .width(unitButtonWidth).height(unitButtonHeight).padLeft(12).padRight(12);
                     break;
                 case TeamEntity.ARCHER:
                     tableUnitButtons.add(new UnitButton(this, new Image(Warfare.atlas.findRegion("archer1Active")),
-                            new Image(Warfare.atlas.findRegion("archer1Inactive")), UnitButton.TypeOfUnit.ARCHER1))
+                            new Image(Warfare.atlas.findRegion("archer1Inactive")), team.get(i).getEntityData()))
                             .width(unitButtonWidth).height(unitButtonHeight).padLeft(12).padRight(12);
                     break;
                 case TeamEntity.THOR:
@@ -381,11 +386,13 @@ public class Level extends StageGame {
 //                             new Image(Warfare.atlas.findRegion("thorInactive")),UnitButton.TypeOfUnit.ARCHER1)).padLeft(12).padRight(12);
 //                     break;
                     tableUnitButtons.add(new UnitButton(this, new Image(Warfare.atlas.findRegion("thorActive")),
-                            new Image(Warfare.atlas.findRegion("thorInactive")), UnitButton.TypeOfUnit.THOR))
+                            new Image(Warfare.atlas.findRegion("thorInactive")), team.get(i).getEntityData()))
                             .width(unitButtonWidth).height(unitButtonHeight).padLeft(12).padRight(12);
                     break;
 
                 case TeamEntity.STONE:
+                    stoneButton = new StoneButton(this, new Image(Warfare.atlas.findRegion("stoneButtonActive")),
+                            new Image(Warfare.atlas.findRegion("stoneButtonInactive")), team.get(i).getEntityData());
                     tableUnitButtons.add(stoneButton)
                             .width(unitButtonWidth).height(unitButtonHeight).padLeft(12).padRight(12);
                     break;
@@ -397,7 +404,7 @@ public class Level extends StageGame {
 
         tableUnitButtons.setPosition((getWidth() - tableUnitButtons.getWidth()) / 2, 24);
 
-        stoneButton.setUnitButtonTablePosX(tableUnitButtons.getX());
+        if (stoneButton != null) stoneButton.setUnitButtonTablePosX(tableUnitButtons.getX());
         addOverlayChild(tableUnitButtons);
     }
 

@@ -146,6 +146,7 @@ public class Barricade {
         if (health <= 0) {
             health = 0;
             setToDestroy();
+            healthBar.remove();
 //            body.setActive(false);
             barricadeExplosion1.start();
         }

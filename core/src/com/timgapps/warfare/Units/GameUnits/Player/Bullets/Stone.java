@@ -37,17 +37,18 @@ public class Stone extends Bullet {
 
     private boolean moveIsEnd = false;
     private boolean isDamaged = false;
-    private float health = 50;
+    private float health;
 //    private static final float APPEARANCE_TIME = 10;
     private static final float APPEARANCE_TIME = 1;
 
 //    private static int ENERGY_PRICE = 6;
     private static int ENERGY_PRICE = 1;
 
-    public Stone(Level level, float x, float y, float damage, float targetY) {
+    public Stone(Level level, float x, float y, float damage, float health, float targetY) {
         super(level, x, y);
         this.targetY = targetY;
         this.damage = damage;
+        this.health = health;
 
         stoneRectangle = new Rectangle(); // прямоугльник для проверки столкновения с игровыми юнитами
 

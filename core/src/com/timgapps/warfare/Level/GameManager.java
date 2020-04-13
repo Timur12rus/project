@@ -1,5 +1,7 @@
 package com.timgapps.warfare.Level;
 
+import com.badlogic.gdx.Gdx;
+import com.boontaran.DataManager;
 import com.timgapps.warfare.Level.GUI.Screens.CoinsPanel;
 import com.timgapps.warfare.Level.GUI.Screens.TeamEntity;
 import com.timgapps.warfare.Level.GUI.Screens.TeamEntityData;
@@ -40,6 +42,8 @@ public class GameManager {
 
     private ArrayList<LevelIcon> levelIcons = new ArrayList<LevelIcon>();
     private SavedGame savedGame;
+
+    private DataManager manager;
 
     public GameManager() {
         /** создадим массив уровней (LevelIcons) для хранения информации и данных уровней (кол-во звёзд, заблокировани или разблокирован **/
@@ -131,7 +135,7 @@ public class GameManager {
      **/
     private SavedGame getSavedGame() {
         try {
-            FileInputStream fileInputStream = new FileInputStream("save.ser");
+            FileInputStream fileInputStream = new FileInputStream(String.valueOf(Gdx.files.local("save.ser")));
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
             savedGame = (SavedGame) objectInputStream.readObject();
             System.out.println("readObject = " + savedGame.toString());
@@ -148,7 +152,8 @@ public class GameManager {
     public void saveGame() {
         try {
             //создаем 2 потока для сериализации объекта и сохранения его в файл
-            FileOutputStream outputStream = new FileOutputStream("save.ser");
+//            FileOutputStream outputStream = new FileOutputStream("save.ser");
+            FileOutputStream outputStream = new FileOutputStream(String.valueOf(Gdx.files.local("save.ser")));
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
 
             // сохраняем игру в файл

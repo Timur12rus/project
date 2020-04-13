@@ -54,6 +54,12 @@ public class Warfare extends Game {
     }
 
     @Override
+    public void pause() {
+        gameManager.saveGame();
+        super.pause();
+    }
+
+    @Override
     public void create() {
         StageGame.setAppSize(V_WIDTH, V_HEIGHT);
         batch = new SpriteBatch();
