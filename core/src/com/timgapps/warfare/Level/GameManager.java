@@ -1,6 +1,7 @@
 package com.timgapps.warfare.Level;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.boontaran.DataManager;
 import com.timgapps.warfare.Level.GUI.Screens.CoinsPanel;
 import com.timgapps.warfare.Level.GUI.Screens.TeamEntity;
@@ -8,8 +9,8 @@ import com.timgapps.warfare.Level.GUI.Screens.TeamEntityData;
 import com.timgapps.warfare.Level.LevelMap.LevelIcon;
 import com.timgapps.warfare.Level.SavedData.SavedGame;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
@@ -66,7 +67,7 @@ public class GameManager {
 //        team = new ArrayList<TeamEntity>();
 
         // создаем объект для сохранения игры
-        savedGame = getSavedGame();
+        savedGame = loadSavedGame();
 
         team = new ArrayList<TeamEntity>();
         collection = new ArrayList<TeamEntity>();
@@ -81,6 +82,19 @@ public class GameManager {
             // TODO: 31.01.2020  Здесь нужно будет изменить код, так чтобы брать данные из сохранненного объекта
             savedGame.createTeamEntityDataList();
             savedGame.createCollectionDataList();
+
+            // установим кол-во ресурсов
+            foodCount = 6;
+            ironCount = 2;
+            woodCount = 4;
+
+            /** количество монет у игрока **/
+            coinsCount = 100;
+
+            savedGame.setCoinsCount(coinsCount);
+            savedGame.setFoodCount(foodCount);
+            savedGame.setIronCount(ironCount);
+            savedGame.setWoodCount(woodCount);
 
 //            /** установим значения по умолчанию  для данных TeamEntity **/
 //            savedGame.getTeamDataList().get(0).setDefaultData();
@@ -98,22 +112,17 @@ public class GameManager {
             team.add(new TeamEntity(savedGame.getTeamDataList().get(2)));
 
             collection.add(new TeamEntity(savedGame.getCollectionDataList().get(0)));
+
+            // получим кол-во ресурсов
+            foodCount = savedGame.getFoodCount();
+            ironCount = savedGame.getIronCount();
+            woodCount = savedGame.getWoodCount();
+            coinsCount = savedGame.getCoinsCount();
         }
-//        team = savedGame.getTeam();
-//        if (team == null)
-//            team = new ArrayList<TeamEntity>();
-//
-//        savedGame.setTeam(team);
 
 
-        /** количество монет у игрока **/
-        coinsCount = 1000;
 
         coinsPanel = new CoinsPanel(coinsCount);
-
-        foodCount = 20;
-        ironCount = 10;
-        woodCount = 30;
 
         /** получи уровень здоровья ОСАДНОЙ БАШНИ **/
         towerHealth = 50;
@@ -133,15 +142,21 @@ public class GameManager {
     /**
      * метод для загрузки данных игры
      **/
-    private SavedGame getSavedGame() {
-        try {
-            FileInputStream fileInputStream = new FileInputStream(String.valueOf(Gdx.files.local("save.ser")));
-            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-            savedGame = (SavedGame) objectInputStream.readObject();
-            System.out.println("readObject = " + savedGame.toString());
-        } catch (Exception e) {
-            System.out.println("exception = " + e.toString());
-            return null;
+    private SavedGame loadSavedGame() {
+        if (Gdx.files.local("save.ser").exists()) {
+            System.out.println("SavedGame Exists. Reading File ...");
+            try {
+//                FileInputStream fileInputStream = new FileInputStream(String.valueOf(Gdx.files.local("save.ser")));
+                FileHandle file = Gdx.files.local("save.ser");
+
+                ByteArrayInputStream byteArray = new ByteArrayInputStream(file.readBytes());
+                ObjectInputStream objectInputStream = new ObjectInputStream(byteArray);
+                savedGame = (SavedGame) objectInputStream.readObject();
+                System.out.println("readObject = " + savedGame.toString());
+            } catch (Exception e) {
+                System.out.println("exception = " + e.toString());
+                return null;
+            }
         }
         return savedGame;
     }
@@ -150,16 +165,22 @@ public class GameManager {
      * метод сохраняет данные игры
      **/
     public void saveGame() {
+        FileHandle file = Gdx.files.local("save.ser");
         try {
             //создаем 2 потока для сериализации объекта и сохранения его в файл
 //            FileOutputStream outputStream = new FileOutputStream("save.ser");
-            FileOutputStream outputStream = new FileOutputStream(String.valueOf(Gdx.files.local("save.ser")));
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
+//            FileOutputStream outputStream = new FileOutputStream(String.valueOf(Gdx.files.local("save.ser")));
+//            ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
+
+
+            ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArray);
 
             // сохраняем игру в файл
             objectOutputStream.writeObject(savedGame);
 
             //закрываем поток и освобождаем ресурсы
+            file.writeBytes(byteArray.toByteArray(), false);
             objectOutputStream.close();
         } catch (Exception e) {
             System.out.println("Error!");
@@ -221,6 +242,11 @@ public class GameManager {
 
     }
 
+    public void setCoinsCount(int coinsCount) {
+        this.coinsCount = coinsCount;
+        savedGame.setCoinsCount(coinsCount);
+    }
+
     /**
      * метод возвращает общее количество монет
      **/
@@ -235,6 +261,7 @@ public class GameManager {
      **/
     public void addFoodCount(int foodCount) {
         this.foodCount += foodCount;
+        savedGame.setFoodCount(this.foodCount);
     }
 
 
@@ -245,6 +272,7 @@ public class GameManager {
      **/
     public void addIronCount(int ironCount) {
         this.ironCount += ironCount;
+        savedGame.setIronCount(this.ironCount);
     }
 
 
@@ -255,6 +283,7 @@ public class GameManager {
      **/
     public void addWoodCount(int woodCount) {
         this.woodCount += woodCount;
+        savedGame.setWoodCount(this.woodCount);
     }
 
     /**

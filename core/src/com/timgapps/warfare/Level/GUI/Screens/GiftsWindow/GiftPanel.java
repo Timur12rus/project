@@ -140,6 +140,9 @@ class GiftPanel extends Group {
         Image resOne = getImageResourse(firstResourse);
         Image resTwo = getImageResourse(secondResource);
 
+        // сохраним соятояние игры с новыми значениями ресурсов
+        gameManager.saveGame();
+
         // установим позицию для добавляемых монет, к которым будут применены action'ы
         float x = rewardTable.getX() + rewardTable.getWidth() - 96;
         float y = getY() + getHeight() / 2;

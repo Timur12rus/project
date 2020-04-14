@@ -520,11 +520,12 @@ public class UpgradeScreen extends Group {
 
         /** обновим данные юнита и сохраним его данные **/
         teamEntity.updateTeamEntityData();
-        gameManager.saveGame();
 
         /** обновим количество монет и установим новое кол-во монет в панели монет **/
         coinsCount -= upgradeCost;
         gameManager.getCoinsPanel().setCoinsCount(coinsCount);
+        gameManager.setCoinsCount(coinsCount);
+
 
         /** вычтем количество ресурсов потраченных на апгрейд **/
         gameManager.addFoodCount(-foodCostValue);
@@ -534,6 +535,8 @@ public class UpgradeScreen extends Group {
         /** обновим значения в таблице ресурсов **/
         resourcesTable.updateResources(gameManager.getFoodCount(), gameManager.getIronCount(), gameManager.getWoodCount());
 
+        // сохраним состояние игры с новым кол-вом ресурсов
+        gameManager.saveGame();
 
         /**
          * метод устанавливает значения параметров для улучшения юнита и его изображение

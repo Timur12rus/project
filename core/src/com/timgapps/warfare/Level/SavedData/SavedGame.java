@@ -10,6 +10,10 @@ public class SavedGame implements Serializable {
     private static final long serialVersionUID = 1L;
     private ArrayList<TeamEntityData> teamDataList;
     private ArrayList<TeamEntityData> collectionDataList;
+    private int foodCount;
+    private int ironCount;
+    private int woodCount;
+    private int coinsCount;
 
     public SavedGame() {
 //    public SavedGame(ArrayList<TeamEntity> team) {
@@ -42,6 +46,42 @@ public class SavedGame implements Serializable {
 
     public void setTeam(ArrayList<TeamEntityData> teamDataList) {
         this.teamDataList = teamDataList;
+    }
+
+    public void updateResourcesCount(int foodCount, int ironCount, int woodCount) {
+        this.foodCount = foodCount;
+        this.ironCount = ironCount;
+        this.woodCount = woodCount;
+    }
+
+    public void setFoodCount(int foodCount) {
+        this.foodCount = foodCount;
+    }
+
+    public void setIronCount(int ironCount) {
+        this.ironCount = ironCount;
+    }
+    public void setWoodCount(int woodCount) {
+        this.woodCount = woodCount;
+    }
+
+    public int getFoodCount() {
+        return foodCount;
+    }
+    public int getIronCount() {
+        return ironCount;
+    }
+
+    public int getWoodCount() {
+        return woodCount;
+    }
+
+    public void setCoinsCount(int coinsCount) {
+        this.coinsCount = coinsCount;
+    }
+
+    public int getCoinsCount() {
+        return coinsCount;
     }
 
     public void updateTeamDataList(ArrayList<TeamEntity> team) {

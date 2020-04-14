@@ -288,6 +288,9 @@ public class TeamUpgradeScreen extends Group {
             /** обновим команду(team) и коллекцию (collection) и сохраним игру **/
             gameManager.updateTeam(team);
             gameManager.updateCollection(unitCollection);
+
+            // обновим кол-во ресурсов
+
             gameManager.saveGame();
         }
 
