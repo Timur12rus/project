@@ -18,6 +18,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.boontaran.games.StageGame;
 import com.timgapps.warfare.Level.GameManager;
 import com.timgapps.warfare.Level.Level;
+import com.timgapps.warfare.Level.LevelMap.LevMap;
 import com.timgapps.warfare.Level.LevelMap.LevelMap;
 
 public class Warfare extends Game {
@@ -43,6 +44,7 @@ public class Warfare extends Game {
 
     private GameManager gameManager;
     private int levelId;
+    private LevMap levMap;
 
 
     public Warfare(GameCallback gameCallback) {    // это конструктор для класса CrazyCatapult с переменной класса GameCallback
@@ -71,7 +73,7 @@ public class Warfare extends Game {
 
 
 //        Locale locale = Locale.getDefault();
-//        bundle = I18NBundle.createBundle(Gdx.files.internal("MyBundle"), locale); // передаем методу createBundle() путь к  папке с файлами конфигурации, в
+//        bundle = I18NBundle.createBundle(Gdx.files.inte rnal("MyBundle"), locale); // передаем методу createBundle() путь к  папке с файлами конфигурации, в
         // которых будут прописаны пути к ресурсам, а также текущую локаль
         path_to_atlas = "images/pack.atlas";
 
@@ -145,8 +147,12 @@ public class Warfare extends Game {
     }
 
     private void showMap(int coinsReward) {
+
+        levMap = new LevMap("location1");
+        setScreen(levMap);
+
         levelMap = new LevelMap(gameManager, coinsReward);
-        setScreen(levelMap);
+//        setScreen(levelMap);
 
         levelMap.setCallback(new StageGame.Callback() {
             @Override

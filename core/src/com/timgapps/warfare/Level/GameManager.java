@@ -56,7 +56,7 @@ public class GameManager {
         levelIcons.add(new LevelIcon(4, 25, 30, LevelIcon.MEDIUM, false));
         levelIcons.add(new LevelIcon(5, 15, 10, LevelIcon.MEDIUM, false));
         levelIcons.add(new LevelIcon(6, 10, 20, LevelIcon.EASY, false));
-        levelIcons.add(new LevelIcon(6, 15, 30, LevelIcon.MEDIUM, false));
+        levelIcons.add(new LevelIcon(7, 15, 30, LevelIcon.MEDIUM, false));
 
 
         /** загрузим данные игры **/
