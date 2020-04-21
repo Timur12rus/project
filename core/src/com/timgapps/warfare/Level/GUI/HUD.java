@@ -20,7 +20,7 @@ public class HUD extends Group {
 
     public HUD(Level level) {
         this.level = level;
-        coinsCount = level.getCoinCount();
+        coinsCount = level.getCoinsCount();
 
         coinsPanel = level.getGameManager().getCoinsPanel();
 //        coinsPanel = new CoinsPanel(coinsCount);

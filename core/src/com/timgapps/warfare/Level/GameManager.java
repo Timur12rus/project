@@ -7,6 +7,7 @@ import com.timgapps.warfare.Level.GUI.Screens.CoinsPanel;
 import com.timgapps.warfare.Level.GUI.Screens.TeamEntity;
 import com.timgapps.warfare.Level.GUI.Screens.TeamEntityData;
 import com.timgapps.warfare.Level.LevelMap.LevelIcon;
+import com.timgapps.warfare.Level.LevelMap.ScorePanel;
 import com.timgapps.warfare.Level.SavedData.SavedGame;
 
 import java.io.ByteArrayInputStream;
@@ -29,6 +30,7 @@ public class GameManager {
     private int currentLevelId;
 
     private int coinsCount;
+    private int scoreCount;
 
     private int foodCount;      // количество пищи
     private int ironCount;      // количестов железа
@@ -37,6 +39,7 @@ public class GameManager {
     private float towerHealth;  // количество здоровья у ОСАДНОЙ БАШНИ
 
     private CoinsPanel coinsPanel;
+    protected ScorePanel scorePanel;
 
     private int scoreRewardforLevel = 0;
     private int coinsRewardForLevel = 0;
@@ -49,6 +52,8 @@ public class GameManager {
     public GameManager() {
         /** создадим массив уровней (LevelIcons) для хранения информации и данных уровней (кол-во звёзд, заблокировани или разблокирован **/
 
+
+        //TODO сделать сохранение и загрузку данных об уровнях в  массив <LevelIconData> в объекте сохранения игры savedGame()
 //        public LevelIcon(int id, int coinsCount, int scoreCount, String levelOfDifficulty, boolean isActive) {
         levelIcons.add(new LevelIcon(1, 15, 10, LevelIcon.EASY, true));
         levelIcons.add(new LevelIcon(2, 20, 30, LevelIcon.EASY, false));
@@ -57,6 +62,18 @@ public class GameManager {
         levelIcons.add(new LevelIcon(5, 15, 10, LevelIcon.MEDIUM, false));
         levelIcons.add(new LevelIcon(6, 10, 20, LevelIcon.EASY, false));
         levelIcons.add(new LevelIcon(7, 15, 30, LevelIcon.MEDIUM, false));
+        levelIcons.add(new LevelIcon(8, 15, 30, LevelIcon.MEDIUM, false));
+        levelIcons.add(new LevelIcon(9, 15, 30, LevelIcon.MEDIUM, false));
+        levelIcons.add(new LevelIcon(10, 15, 30, LevelIcon.MEDIUM, false));
+        levelIcons.add(new LevelIcon(11, 15, 30, LevelIcon.MEDIUM, false));
+        levelIcons.add(new LevelIcon(12, 15, 30, LevelIcon.MEDIUM, false));
+        levelIcons.add(new LevelIcon(13, 15, 30, LevelIcon.MEDIUM, false));
+        levelIcons.add(new LevelIcon(14, 15, 30, LevelIcon.MEDIUM, false));
+        levelIcons.add(new LevelIcon(15, 15, 30, LevelIcon.MEDIUM, false));
+        levelIcons.add(new LevelIcon(16, 15, 30, LevelIcon.MEDIUM, false));
+        levelIcons.add(new LevelIcon(17, 15, 30, LevelIcon.MEDIUM, false));
+        levelIcons.add(new LevelIcon(18, 15, 30, LevelIcon.MEDIUM, false));
+        levelIcons.add(new LevelIcon(19, 15, 30, LevelIcon.MEDIUM, false));
 
 
         /** загрузим данные игры **/
@@ -90,6 +107,7 @@ public class GameManager {
 
             /** количество монет у игрока **/
             coinsCount = 100;
+            scoreCount = 0;
 
             savedGame.setCoinsCount(coinsCount);
             savedGame.setFoodCount(foodCount);
@@ -118,13 +136,14 @@ public class GameManager {
             ironCount = savedGame.getIronCount();
             woodCount = savedGame.getWoodCount();
             coinsCount = savedGame.getCoinsCount();
+            scoreCount = savedGame.getScoreCount();
         }
 
 
-
         coinsPanel = new CoinsPanel(coinsCount);
+        scorePanel = new ScorePanel(scoreCount);
 
-        /** получи уровень здоровья ОСАДНОЙ БАШНИ **/
+        /** получи кол-во здоровья ОСАДНОЙ БАШНИ **/
         towerHealth = 50;
 
 //        /** Добавляем бойцов в команду **/
@@ -231,6 +250,13 @@ public class GameManager {
     }
 
     /**
+     * метод возвращает объект ScorePanel
+     **/
+    public ScorePanel getScorePanel() {
+        return scorePanel;
+    }
+
+    /**
      * метод добавляет количество монет к общему количеству монет
      *
      * @param coins - количество монет, на сколько прибавить
@@ -242,9 +268,16 @@ public class GameManager {
 
     }
 
+    /** метод для установки кол-ва монет в менеджере и в объекте сохранения игры savedGame() */
     public void setCoinsCount(int coinsCount) {
         this.coinsCount = coinsCount;
         savedGame.setCoinsCount(coinsCount);
+    }
+
+    /** метод добавлет кол-во очков к общему кол-ву очков в менеджере и сохраняет кол-во очков в savedGame(объекте сохранения игры) **/
+    public void addScoreCount(int scoreCount) {
+        this.scoreCount += scoreCount;
+        savedGame.setScoreCount(this.scoreCount);
     }
 
     /**

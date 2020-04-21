@@ -28,8 +28,8 @@ public class CoinsPanel extends Group {
         labelStyle.font = Warfare.font20;
         coinsValueLabel = new Label("" + coinsCount, labelStyle);
 
-        table = new Table();
-//        table = new Table().debug();
+//        table = new Table();
+        table = new Table().debug();
         table.align(Align.right);
         table.setWidth(background.getRegion().getRegionWidth());
         table.setHeight(46);

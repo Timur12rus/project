@@ -36,10 +36,11 @@ public class LevelIcon extends Group {
     public static final String HARD = "Hard";
 
 
-    public LevelIcon(int id, int coinsCount, int scoreCount, String levelOfDifficulty, boolean isActive) {
+    public LevelIcon(int id, int coinsCount, int scoreCount, String levelOfDifficulty, final boolean isActive) {
 
         /** инициализируем объект данных уровня **/
         data = new LevelIconData(id, coinsCount, scoreCount, levelOfDifficulty, isActive);
+        this.isActive = isActive;
 
         /** неактивный значок **/
         inactiveLevelIcon = new Image(Warfare.atlas.findRegion("levelIcon_inactive"));
@@ -47,10 +48,17 @@ public class LevelIcon extends Group {
         levelIconDown = new Image(Warfare.atlas.findRegion("levelIcon_active_down"));
 
         /** добавим неактивный значок и активный **/
-        addActor(levelIcon);
-        addActor(levelIconDown);
-        addActor(inactiveLevelIcon);
 
+//        levelIcon.setVisible(false);
+        addActor(levelIcon);
+        levelIcon.setSize(levelIcon.getWidth(), levelIcon.getHeight());
+
+        addActor(levelIconDown);
+        levelIconDown.setX(levelIcon.getX() + (levelIcon.getWidth() - levelIconDown.getWidth()) / 2);
+        levelIconDown.setY(levelIcon.getY() + (levelIcon.getHeight() - levelIconDown.getHeight()) / 2);
+
+
+        addActor(inactiveLevelIcon);
         levelIconDown.setVisible(false);
 
         starsCount = data.getStarsCount();
@@ -78,20 +86,29 @@ public class LevelIcon extends Group {
 
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                levelIconDown.setVisible(true); // устанавливаем видимость для фона нажатой кнопки, а также оставим вызов метода суперкласса
+//                if (isActive) {
+                if (!inactiveLevelIcon.isVisible())
+                    levelIconDown.setVisible(true); // устанавливаем видимость для фона нажатой кнопки, а также оставим вызов метода суперкласса
+//                    levelIcon.setVisible(false);
+//                }
                 return super.touchDown(event, x, y, pointer, button);
             }
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                levelIconDown.setVisible(false);
+//                if (isActive) {
+                    levelIconDown.setVisible(false);
+//                    levelIcon.setVisible(true);
+//                }
                 super.touchUp(event, x, y, pointer, button);
             }
         });
 
     }
 
-    /** метод для обновления кол-ва звезд за уровень (из трех) **/
+    /**
+     * метод для обновления кол-ва звезд за уровень (из трех)
+     **/
     public void updateStarsCount() {
 //        if (starsCount > getData().getStarsCount())  //если новое кол-во звезд больше, чем предыдущее то установим новое текущее кол-во
         starsCount = data.getStarsCount();
@@ -107,7 +124,7 @@ public class LevelIcon extends Group {
         for (int i = 0; i < 3; i++) {
             inactiveStars.add(new Image(Warfare.atlas.findRegion("star_inactive")));
             addActor(inactiveStars.get(i));
-            inactiveStars.get(i).setPosition(levelIcon.getX() + i * inactiveStars.get(i).getWidth(), levelIcon.getY() - 20);
+            inactiveStars.get(i).setPosition(levelIconDown.getX() + i * inactiveStars.get(i).getWidth(), levelIcon.getY() - 20);
 //            inactiveStars.get(i).setPosition(i * 36, getY());
         }
     }
@@ -122,7 +139,7 @@ public class LevelIcon extends Group {
             activeStars.get(i).setVisible(false);
             addActor(activeStars.get(i));
 //            activeStars.get(i).setPosition(i * 36, getY());
-            activeStars.get(i).setPosition(levelIcon.getX() + i * activeStars.get(i).getWidth(), levelIcon.getY() - 20);
+            activeStars.get(i).setPosition(levelIconDown.getX() + i * activeStars.get(i).getWidth(), levelIcon.getY() - 20);
         }
     }
 
@@ -133,6 +150,7 @@ public class LevelIcon extends Group {
         if (data.isActiveIcon()) {
             // делаем значок "неактивный" levelIcon невидимым
             inactiveLevelIcon.setVisible(false);
+            isActive = true;
 
             inactiveStars.get(0).setVisible(true);
             inactiveStars.get(1).setVisible(true);
@@ -142,6 +160,7 @@ public class LevelIcon extends Group {
                 activeStars.get(i).setVisible(true);
             }
         } else {
+            isActive = false;
             inactiveLevelIcon.setVisible(true);
             activeStars.get(0).setVisible(false);
             activeStars.get(1).setVisible(false);
@@ -152,12 +171,16 @@ public class LevelIcon extends Group {
         }
     }
 
-    /** возвращает Id уровня от 1....и делее**/
+    /**
+     * возвращает Id уровня от 1....и делее
+     **/
     public int getId() {
         return data.getId();
     }
 
-    /** метод получает data (данные) об уровне **/
+    /**
+     * метод получает data (данные) об уровне
+     **/
     public LevelIconData getData() {
         return data;
     }

@@ -142,17 +142,17 @@ public class Warfare extends Game {
         gameManager = new GameManager();
 
         /** Вызываем метод для запуска карты уровней **/
-        showMap(0);
+        showMap(0, 0);
 //        showIntro();
     }
 
-    private void showMap(int coinsReward) {
+    private void showMap(int coinsReward, int scoreReward) {
 
-        levMap = new LevMap("location1");
-        setScreen(levMap);
+//        levMap = new LevMap("location1");
+//        setScreen(levMap);
 
-        levelMap = new LevelMap(gameManager, coinsReward);
-//        setScreen(levelMap);
+        levelMap = new LevelMap(gameManager, coinsReward, scoreReward);
+        setScreen(levelMap);
 
         levelMap.setCallback(new StageGame.Callback() {
             @Override
@@ -207,16 +207,17 @@ public class Warfare extends Game {
             public void call(int code) {
                 if (code == Level.ON_COMPLETED) {
                     int rewardCoins = level.getRewardCoinsCount();
+                    int rewardScore = level.getRewardScoreCount();
                     level.unlockNextLevels();
                     hideLevel();
 
                     // установим количество монет - награду за уровень
-                    showMap(rewardCoins);
+                    showMap(rewardCoins, rewardScore);
                 }
                 if (code == Level.ON_FAILED) {
                     hideLevel();
                     // установим количество монет - награду за уровень
-                    showMap(0);
+                    showMap(0, 0);
                 }
 
                 if (code == Level.ON_RETRY) {

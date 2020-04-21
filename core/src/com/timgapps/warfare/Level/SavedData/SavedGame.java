@@ -2,6 +2,7 @@ package com.timgapps.warfare.Level.SavedData;
 
 import com.timgapps.warfare.Level.GUI.Screens.TeamEntity;
 import com.timgapps.warfare.Level.GUI.Screens.TeamEntityData;
+import com.timgapps.warfare.Level.LevelMap.LevelIconData;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -10,16 +11,28 @@ public class SavedGame implements Serializable {
     private static final long serialVersionUID = 1L;
     private ArrayList<TeamEntityData> teamDataList;
     private ArrayList<TeamEntityData> collectionDataList;
+    private ArrayList<LevelIconData> levelIconDataList;
     private int foodCount;
     private int ironCount;
     private int woodCount;
     private int coinsCount;
+    private int scoreCount;
+
 
     public SavedGame() {
 //    public SavedGame(ArrayList<TeamEntity> team) {
 //        this.team = team;
     }
 
+    /** метод создает массив "ДАННЫХ" уровней (LevelIconData)
+     * в них содержатся данные каждого уровня: кол-во звезд за уровень, номер уровня, награда, пройден или нет
+     */
+    public void createLevelIconDataList() {
+        levelIconDataList = new ArrayList<LevelIconData>();
+
+    }
+
+    /** метод создает массив "ДАННЫХ" юнитов игровой команды **/
     public void createTeamEntityDataList() {
         teamDataList = new ArrayList<TeamEntityData>();
         teamDataList.add(new TeamEntityData(TeamEntityData.THOR));
@@ -30,6 +43,7 @@ public class SavedGame implements Serializable {
         teamDataList.get(2).setDefaultData(TeamEntityData.STONE);
     }
 
+    /** метод создает массив "ДАННЫХ" юнитов коллекции **/
     public void createCollectionDataList() {
         collectionDataList = new ArrayList<TeamEntityData>();
         collectionDataList.add(new TeamEntityData(TeamEntityData.GNOME));
@@ -82,6 +96,14 @@ public class SavedGame implements Serializable {
 
     public int getCoinsCount() {
         return coinsCount;
+    }
+
+    public void setScoreCount(int scoreCount) {
+        this.scoreCount = scoreCount;
+    }
+
+    public int getScoreCount() {
+        return scoreCount;
     }
 
     public void updateTeamDataList(ArrayList<TeamEntity> team) {

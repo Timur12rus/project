@@ -14,15 +14,12 @@ import com.timgapps.warfare.Level.GUI.HUD;
 import com.timgapps.warfare.Level.GUI.Screens.TeamEntity;
 import com.timgapps.warfare.Level.GUI.StoneButton;
 import com.timgapps.warfare.Level.GUI.UnitButton;
-import com.timgapps.warfare.Level.LevelMap.LevelIcon;
-import com.timgapps.warfare.Level.LevelMap.LevelIconData;
 import com.timgapps.warfare.Level.LevelScreens.DarkLayer;
 import com.timgapps.warfare.Level.LevelScreens.GameOverScreen;
 import com.timgapps.warfare.Level.LevelScreens.LevelCompletedScreen;
 import com.timgapps.warfare.Tools.WorldContactListener;
 import com.timgapps.warfare.Units.GameUnits.Barricade;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnit;
-import com.timgapps.warfare.Units.GameUnits.Enemy.Zombie;
 import com.timgapps.warfare.Units.GameUnits.Enemy.Zombie1;
 import com.timgapps.warfare.Units.GameUnits.Player.Archer1;
 import com.timgapps.warfare.Units.GameUnits.Player.Gnome;
@@ -53,7 +50,7 @@ public class Level extends StageGame {
     private HUD hud;
 
     private float energyCount = 0;
-    private float coinCount;
+    private int coinsCount;         // кол-во монет у игрока
     private int levelNumber;
     private GameManager gameManager;
     Random random;
@@ -68,7 +65,8 @@ public class Level extends StageGame {
 
     private DarkLayer darkLayer;
     private Table tableUnitButtons;
-    private int coinsReward;
+    private int coinsReward;            // награда - кол-во монет за уровень
+    private int scoreReward;            // награда - кол-во очков за уровень
 
 
     public Level(int levelNumber, final GameManager gameManager) {
@@ -129,7 +127,7 @@ public class Level extends StageGame {
         darkLayer.setVisible(false);
         addOverlayChild(darkLayer);
 
-        coinCount = gameManager.getCoinsCount();
+        coinsCount = gameManager.getCoinsCount();
         hud = new HUD(this);
         hud.setPosition(32, getHeight() - hud.getHeight());
         addOverlayChild(hud);
@@ -170,10 +168,14 @@ public class Level extends StageGame {
      **/
     public int getRewardCoinsCount() {
         coinsReward = gameManager.getLevelIcons().get(levelNumber - 1).getData().getCoinsCount();
-
         return coinsReward;
     }
 
+    /** метод получает кол-во очков в качестве награды **/
+    public int getRewardScoreCount() {
+        scoreReward = gameManager.getLevelIcons().get(levelNumber - 1).getData().getScoreCount();
+        return scoreReward;
+    }
 
     /**
      * метод устанавливает количество звезд после прохождения уровня
@@ -237,11 +239,12 @@ public class Level extends StageGame {
     }
 
     public void addArcher1(int health, int damage) {
-        new Archer1(this, 100, 160, health, damage);
+        new Archer1(this, 160, 210, health, damage);
+
     }
 
     public void addThor(int health, int damage) {
-        new Thor(this, 100, 160, health, damage);
+        new Thor(this, 160, 210, health, damage);
     }
 
     public void compareActorsYPos() {
@@ -309,8 +312,8 @@ public class Level extends StageGame {
         return (int) energyCount;
     }
 
-    public int getCoinCount() {
-        return (int) coinCount;
+    public int getCoinsCount() {
+        return coinsCount;
     }
 
     public void setEnergyCount(float priceEnergy) {
@@ -427,8 +430,20 @@ public class Level extends StageGame {
         hud.hideEnergyPanel();
 
         int starsCount = calculateStarsCount();
+
+        /** установим кол-во монет в менеджере и сохраняем игру
+         * позже просто выведем анимацию добавления монет и очков полученных за уровень
+         */
+        gameManager.setCoinsCount(coinsCount + getRewardCoinsCount());
+        gameManager.addScoreCount(getRewardScoreCount());
         setStarsCountToLevelIcon();
+
+        gameManager.saveGame();
+
+
         levelCompletedScreen.start(starsCount);   // запускаем экран завершения уровня
+
+
     }
 
     /**
