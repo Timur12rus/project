@@ -2,6 +2,8 @@ package com.timgapps.warfare.Level.LevelMap;
 
 import org.w3c.dom.ls.LSOutput;
 
+import java.io.Serializable;
+
 import static com.timgapps.warfare.Level.LevelMap.LevelIcon.EASY;
 
 /** класс данных о характеристиках уровня:
@@ -10,7 +12,7 @@ import static com.timgapps.warfare.Level.LevelMap.LevelIcon.EASY;
  * id - номер уровня
  * levelOfDifficulty - уровень сложности
  */
-public class LevelIconData {
+public class LevelIconData implements Serializable {
     private int id, coinsCount, scoreCount;
     private String levelOfDifficulty;
     private  boolean isActive;

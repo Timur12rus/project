@@ -36,10 +36,11 @@ public class LevelIcon extends Group {
     public static final String HARD = "Hard";
 
 
-    public LevelIcon(int id, int coinsCount, int scoreCount, String levelOfDifficulty, final boolean isActive) {
+    public LevelIcon(LevelIconData data) {
+//    public LevelIcon(int id, int coinsCount, int scoreCount, String levelOfDifficulty, final boolean isActive) {
 
         /** инициализируем объект данных уровня **/
-        data = new LevelIconData(id, coinsCount, scoreCount, levelOfDifficulty, isActive);
+        this.data = data;
         this.isActive = isActive;
 
         /** неактивный значок **/
@@ -97,7 +98,7 @@ public class LevelIcon extends Group {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
 //                if (isActive) {
-                    levelIconDown.setVisible(false);
+                levelIconDown.setVisible(false);
 //                    levelIcon.setVisible(true);
 //                }
                 super.touchUp(event, x, y, pointer, button);

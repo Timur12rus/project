@@ -18,7 +18,6 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.boontaran.games.StageGame;
 import com.timgapps.warfare.Level.GameManager;
 import com.timgapps.warfare.Level.Level;
-import com.timgapps.warfare.Level.LevelMap.LevMap;
 import com.timgapps.warfare.Level.LevelMap.LevelMap;
 
 public class Warfare extends Game {
@@ -44,7 +43,7 @@ public class Warfare extends Game {
 
     private GameManager gameManager;
     private int levelId;
-    private LevMap levMap;
+//    private LevMap levMap;
 
 
     public Warfare(GameCallback gameCallback) {    // это конструктор для класса CrazyCatapult с переменной класса GameCallback
@@ -208,7 +207,7 @@ public class Warfare extends Game {
                 if (code == Level.ON_COMPLETED) {
                     int rewardCoins = level.getRewardCoinsCount();
                     int rewardScore = level.getRewardScoreCount();
-                    level.unlockNextLevels();
+//                    level.unlockNextLevels();
                     hideLevel();
 
                     // установим количество монет - награду за уровень

@@ -7,6 +7,7 @@ import com.timgapps.warfare.Level.GUI.Screens.CoinsPanel;
 import com.timgapps.warfare.Level.GUI.Screens.TeamEntity;
 import com.timgapps.warfare.Level.GUI.Screens.TeamEntityData;
 import com.timgapps.warfare.Level.LevelMap.LevelIcon;
+import com.timgapps.warfare.Level.LevelMap.LevelIconData;
 import com.timgapps.warfare.Level.LevelMap.ScorePanel;
 import com.timgapps.warfare.Level.SavedData.SavedGame;
 
@@ -50,31 +51,6 @@ public class GameManager {
     private DataManager manager;
 
     public GameManager() {
-        /** создадим массив уровней (LevelIcons) для хранения информации и данных уровней (кол-во звёзд, заблокировани или разблокирован **/
-
-
-        //TODO сделать сохранение и загрузку данных об уровнях в  массив <LevelIconData> в объекте сохранения игры savedGame()
-//        public LevelIcon(int id, int coinsCount, int scoreCount, String levelOfDifficulty, boolean isActive) {
-        levelIcons.add(new LevelIcon(1, 15, 10, LevelIcon.EASY, true));
-        levelIcons.add(new LevelIcon(2, 20, 30, LevelIcon.EASY, false));
-        levelIcons.add(new LevelIcon(3, 10, 20, LevelIcon.EASY, false));
-        levelIcons.add(new LevelIcon(4, 25, 30, LevelIcon.MEDIUM, false));
-        levelIcons.add(new LevelIcon(5, 15, 10, LevelIcon.MEDIUM, false));
-        levelIcons.add(new LevelIcon(6, 10, 20, LevelIcon.EASY, false));
-        levelIcons.add(new LevelIcon(7, 15, 30, LevelIcon.MEDIUM, false));
-        levelIcons.add(new LevelIcon(8, 15, 30, LevelIcon.MEDIUM, false));
-        levelIcons.add(new LevelIcon(9, 15, 30, LevelIcon.MEDIUM, false));
-        levelIcons.add(new LevelIcon(10, 15, 30, LevelIcon.MEDIUM, false));
-        levelIcons.add(new LevelIcon(11, 15, 30, LevelIcon.MEDIUM, false));
-        levelIcons.add(new LevelIcon(12, 15, 30, LevelIcon.MEDIUM, false));
-        levelIcons.add(new LevelIcon(13, 15, 30, LevelIcon.MEDIUM, false));
-        levelIcons.add(new LevelIcon(14, 15, 30, LevelIcon.MEDIUM, false));
-        levelIcons.add(new LevelIcon(15, 15, 30, LevelIcon.MEDIUM, false));
-        levelIcons.add(new LevelIcon(16, 15, 30, LevelIcon.MEDIUM, false));
-        levelIcons.add(new LevelIcon(17, 15, 30, LevelIcon.MEDIUM, false));
-        levelIcons.add(new LevelIcon(18, 15, 30, LevelIcon.MEDIUM, false));
-        levelIcons.add(new LevelIcon(19, 15, 30, LevelIcon.MEDIUM, false));
-
 
         /** загрузим данные игры **/
 
@@ -86,6 +62,29 @@ public class GameManager {
         // создаем объект для сохранения игры
         savedGame = loadSavedGame();
 
+        /** создадим массив уровней (LevelIcons) для хранения информации и данных уровней (кол-во звёзд, заблокировани или разблокирован **/
+        //TODO сделать сохранение и загрузку данных об уровнях в  массив <LevelIconData> в объекте сохранения игры savedGame()
+//        public LevelIcon(int id, int coinsCount, int scoreCount, String levelOfDifficulty, boolean isActive) {
+//        levelIcons.add(new LevelIcon(1, 15, 10, LevelIcon.EASY, true));
+//        levelIcons.add(new LevelIcon(2, 20, 30, LevelIcon.EASY, false));
+//        levelIcons.add(new LevelIcon(3, 10, 20, LevelIcon.EASY, false));
+//        levelIcons.add(new LevelIcon(4, 25, 30, LevelIcon.MEDIUM, false));
+//        levelIcons.add(new LevelIcon(5, 15, 10, LevelIcon.MEDIUM, false));
+//        levelIcons.add(new LevelIcon(6, 10, 20, LevelIcon.EASY, false));
+//        levelIcons.add(new LevelIcon(7, 15, 30, LevelIcon.MEDIUM, false));
+//        levelIcons.add(new LevelIcon(8, 15, 30, LevelIcon.MEDIUM, false));
+//        levelIcons.add(new LevelIcon(9, 15, 30, LevelIcon.MEDIUM, false));
+//        levelIcons.add(new LevelIcon(10, 15, 30, LevelIcon.MEDIUM, false));
+//        levelIcons.add(new LevelIcon(11, 15, 30, LevelIcon.MEDIUM, false));
+//        levelIcons.add(new LevelIcon(12, 15, 30, LevelIcon.MEDIUM, false));
+//        levelIcons.add(new LevelIcon(13, 15, 30, LevelIcon.MEDIUM, false));
+//        levelIcons.add(new LevelIcon(14, 15, 30, LevelIcon.MEDIUM, false));
+//        levelIcons.add(new LevelIcon(15, 15, 30, LevelIcon.MEDIUM, false));
+//        levelIcons.add(new LevelIcon(16, 15, 30, LevelIcon.MEDIUM, false));
+//        levelIcons.add(new LevelIcon(17, 15, 30, LevelIcon.MEDIUM, false));
+//        levelIcons.add(new LevelIcon(18, 15, 30, LevelIcon.MEDIUM, false));
+//        levelIcons.add(new LevelIcon(19, 15, 30, LevelIcon.MEDIUM, false));
+
         team = new ArrayList<TeamEntity>();
         collection = new ArrayList<TeamEntity>();
 
@@ -94,10 +93,13 @@ public class GameManager {
             System.out.println("SavedGame null ");
             savedGame = new SavedGame();
 
+            /** создаем массив "ДАННЫХ" об уровнях (LevelIconData) **/
+            savedGame.createLevelIconDataList();
+
 
             /** Добавляем бойцов в команду **/
-            // TODO: 31.01.2020  Здесь нужно будет изменить код, так чтобы брать данные из сохранненного объекта
-            savedGame.createTeamEntityDataList();
+                // TODO: 31.01.2020  Здесь нужно будет изменить код, так чтобы брать данные из сохранненного объекта
+                savedGame.createTeamEntityDataList();
             savedGame.createCollectionDataList();
 
             // установим кол-во ресурсов
@@ -142,6 +144,10 @@ public class GameManager {
 
         coinsPanel = new CoinsPanel(coinsCount);
         scorePanel = new ScorePanel(scoreCount);
+
+        for (int i = 0; i < savedGame.getLevelIconDataList().size(); i++) {
+            levelIcons.add(new LevelIcon(savedGame.getLevelIconDataList().get(i)));
+        }
 
         /** получи кол-во здоровья ОСАДНОЙ БАШНИ **/
         towerHealth = 50;
@@ -268,13 +274,17 @@ public class GameManager {
 
     }
 
-    /** метод для установки кол-ва монет в менеджере и в объекте сохранения игры savedGame() */
+    /**
+     * метод для установки кол-ва монет в менеджере и в объекте сохранения игры savedGame()
+     */
     public void setCoinsCount(int coinsCount) {
         this.coinsCount = coinsCount;
         savedGame.setCoinsCount(coinsCount);
     }
 
-    /** метод добавлет кол-во очков к общему кол-ву очков в менеджере и сохраняет кол-во очков в savedGame(объекте сохранения игры) **/
+    /**
+     * метод добавлет кол-во очков к общему кол-ву очков в менеджере и сохраняет кол-во очков в savedGame(объекте сохранения игры)
+     **/
     public void addScoreCount(int scoreCount) {
         this.scoreCount += scoreCount;
         savedGame.setScoreCount(this.scoreCount);

@@ -186,6 +186,7 @@ public class Level extends StageGame {
 
         // обновим кол-во звезд за уровень для текущего уровня
         gameManager.getLevelIcons().get(levelNumber - 1).updateStarsCount();
+
 //        gameManager.getLevelIcons().get(levelNumber - 1).updateStarsCount(calculateStarsCount());
 
     }
@@ -329,7 +330,7 @@ public class Level extends StageGame {
     /**
      * метод разблокирует следующие три уровня
      **/
-    public void unlockNextLevels() {
+    private void unlockNextLevels() {
         for (int i = levelNumber - 1; i < levelNumber + 3; i++) {
             // делаем levelIcon активным
             gameManager.getLevelIcons().get(i).getData().setActive();
@@ -437,6 +438,8 @@ public class Level extends StageGame {
         gameManager.setCoinsCount(coinsCount + getRewardCoinsCount());
         gameManager.addScoreCount(getRewardScoreCount());
         setStarsCountToLevelIcon();
+
+        unlockNextLevels();
 
         gameManager.saveGame();
 
