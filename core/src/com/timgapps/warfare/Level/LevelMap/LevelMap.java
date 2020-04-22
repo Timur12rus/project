@@ -30,7 +30,6 @@ import com.timgapps.warfare.Level.GUI.Screens.CoinsPanel;
 import com.timgapps.warfare.Level.GUI.Screens.MissionInfoScreen;
 import com.timgapps.warfare.Level.GUI.Screens.GiftsWindow.GiftScreen;
 import com.timgapps.warfare.Level.GUI.Screens.TeamUpgradeScreen;
-import com.timgapps.warfare.Level.GUI.TextManager;
 import com.timgapps.warfare.Level.GameManager;
 import com.timgapps.warfare.Warfare;
 
@@ -58,13 +57,13 @@ public class LevelMap extends StageGame {
     private TeamUpgradeScreen teamUpgradeScreen;
     private GiftScreen giftScreen;
     private Group parent;
-    private TextManager textManager;
     public static BitmapFont font40;
     private ImageButton upgradeTeamButton;      // кнопка для вызова окна апгрейда юнитов
     private GiftIcon giftIcon;
     private GameManager gameManager;
     private CoinsPanel coinsPanel;              // панель с монетами
     private ScorePanel scorePanel;              // панель с игровыми очками
+    private StarsPanel starsPanel;              // панель с наградой за звезды
     private boolean isEndCoinsAction = false;
     private int coinsReward = 0;
     private int scoreReward = 0;
@@ -172,6 +171,11 @@ public class LevelMap extends StageGame {
         scorePanel = gameManager.getScorePanel();
         scorePanel.setPosition(32, getHeight() - scorePanel.getHeight() - 32);
         addOverlayChild(scorePanel);
+
+        // Добавим панель с наградой за зведзды
+        starsPanel = gameManager.getStarsPanel();
+        starsPanel.setPosition(32, scorePanel.getY() - 4 - starsPanel.getHeight());
+        addOverlayChild(starsPanel);
 
 
 //        addChild(coinsPanel, getWidth() - coinsPanel.getWidth() - 32, getHeight() - coinsPanel.getHeight() - 32);
@@ -427,7 +431,7 @@ public class LevelMap extends StageGame {
 
         // action для второго значка
         SequenceAction moveActionCoinTwo = new SequenceAction(Actions.fadeIn(0),
-                Actions.moveTo(getWidth() / 2 -16 , getHeight() / 2 + 32, 0.8f, new Interpolation.SwingOut(1)),
+                Actions.moveTo(getWidth() / 2 - 16, getHeight() / 2 + 32, 0.8f, new Interpolation.SwingOut(1)),
                 Actions.moveTo(endXPos, endYPos, 0.8f),
                 Actions.fadeOut(0)
         );

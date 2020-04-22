@@ -9,6 +9,7 @@ import com.timgapps.warfare.Level.GUI.Screens.TeamEntityData;
 import com.timgapps.warfare.Level.LevelMap.LevelIcon;
 import com.timgapps.warfare.Level.LevelMap.LevelIconData;
 import com.timgapps.warfare.Level.LevelMap.ScorePanel;
+import com.timgapps.warfare.Level.LevelMap.StarsPanel;
 import com.timgapps.warfare.Level.SavedData.SavedGame;
 
 import java.io.ByteArrayInputStream;
@@ -32,6 +33,7 @@ public class GameManager {
 
     private int coinsCount;
     private int scoreCount;
+    private int starsCount;
 
     private int foodCount;      // количество пищи
     private int ironCount;      // количестов железа
@@ -41,6 +43,7 @@ public class GameManager {
 
     private CoinsPanel coinsPanel;
     protected ScorePanel scorePanel;
+    protected StarsPanel starsPanel;
 
     private int scoreRewardforLevel = 0;
     private int coinsRewardForLevel = 0;
@@ -100,8 +103,8 @@ public class GameManager {
 
 
             /** Добавляем бойцов в команду **/
-                // TODO: 31.01.2020  Здесь нужно будет изменить код, так чтобы брать данные из сохранненного объекта
-                savedGame.createTeamEntityDataList();
+            // TODO: 31.01.2020  Здесь нужно будет изменить код, так чтобы брать данные из сохранненного объекта
+            savedGame.createTeamEntityDataList();
             savedGame.createCollectionDataList();
 
             // установим кол-во ресурсов
@@ -112,6 +115,7 @@ public class GameManager {
             /** количество монет у игрока **/
             coinsCount = 100;
             scoreCount = 0;
+            starsCount = 0;
 
             savedGame.setCoinsCount(coinsCount);
             savedGame.setFoodCount(foodCount);
@@ -144,11 +148,12 @@ public class GameManager {
             woodCount = savedGame.getWoodCount();
             coinsCount = savedGame.getCoinsCount();
             scoreCount = savedGame.getScoreCount();
+            starsCount = savedGame.getStarsCount();
         }
-
 
         coinsPanel = new CoinsPanel(coinsCount);
         scorePanel = new ScorePanel(scoreCount);
+        starsPanel = new StarsPanel(starsCount);
 
         giftTime = savedGame.getGiftTime();
 
@@ -171,14 +176,19 @@ public class GameManager {
 //        collection.add(new TeamEntity(TeamEntity.THOR));
     }
 
-    /** метод для получения времени до получнеия подарка **/
+    /**
+     * метод для получения времени до получнеия подарка
+     **/
     public long getGiftTime() {
         return giftTime;
     }
-    /** метод для установки времени до получнеия подарка **/
+
+    /**
+     * метод для установки времени до получнеия подарка
+     **/
     public void setGiftTime(long giftTime) {
-       this.giftTime = giftTime;
-       savedGame.setGiftTime(this.giftTime);
+        this.giftTime = giftTime;
+        savedGame.setGiftTime(this.giftTime);
     }
 
     /**
@@ -277,6 +287,13 @@ public class GameManager {
      **/
     public ScorePanel getScorePanel() {
         return scorePanel;
+    }
+
+    /**
+     * метод возвращает объект StarsPanel
+     **/
+    public StarsPanel getStarsPanel() {
+        return starsPanel;
     }
 
     /**

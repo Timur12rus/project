@@ -32,7 +32,7 @@ public class ScorePanel extends Group {
         playerLabelStyle.font = Warfare.font20;
         playerLevelLabel = new Label("" + playerLevel, playerLabelStyle);
 
-        /** Изображение ЗНАЧОК МОНЕТА **/
+        /** Изображение ЗНАЧОК ОЧКИ **/
         scoreIcon = new ScoreIcon();
 //        scoreIcon = new Image(Warfare.atlas.findRegion("score_icon"));
         background = new TextureRegionDrawable(Warfare.atlas.findRegion("coinsPanel"));

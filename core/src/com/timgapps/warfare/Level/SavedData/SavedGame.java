@@ -20,6 +20,7 @@ public class SavedGame implements Serializable {
     private int scoreCount;
 
     private long giftTime;      // время необходимое для получения подарка (время которое нужно подождать)
+    private int starsCount;
 
 
     public SavedGame() {
@@ -96,7 +97,6 @@ public class SavedGame implements Serializable {
     public void setFoodCount(int foodCount) {
         this.foodCount = foodCount;
     }
-
     public void setIronCount(int ironCount) {
         this.ironCount = ironCount;
     }
@@ -110,7 +110,6 @@ public class SavedGame implements Serializable {
     public int getIronCount() {
         return ironCount;
     }
-
     public int getWoodCount() {
         return woodCount;
     }
@@ -118,7 +117,6 @@ public class SavedGame implements Serializable {
     public void setCoinsCount(int coinsCount) {
         this.coinsCount = coinsCount;
     }
-
     public int getCoinsCount() {
         return coinsCount;
     }
@@ -126,9 +124,16 @@ public class SavedGame implements Serializable {
     public void setScoreCount(int scoreCount) {
         this.scoreCount = scoreCount;
     }
-
     public int getScoreCount() {
         return scoreCount;
+    }
+
+    public void setStarsCount(int starsCount) {
+        this.starsCount = starsCount;
+    }
+
+    public int getStarsCount() {
+        return starsCount;
     }
 
     public void updateTeamDataList(ArrayList<TeamEntity> team) {

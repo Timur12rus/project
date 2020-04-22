@@ -100,6 +100,11 @@ public class Warfare extends Game {
         sizeParams20.fontParameters.size = 30;    // 40
 //        sizeParams20.fontParameters.size = 30;    // 40
         assetManager.load("font20.ttf", BitmapFont.class, sizeParams20);
+
+        FreetypeFontLoader.FreeTypeFontLoaderParameter sizeParams10 = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
+        sizeParams10.fontFileName = "fonts/Nickname.ttf";
+        sizeParams10.fontParameters.size = 18;
+        assetManager.load("font10.ttf", BitmapFont.class, sizeParams10);
     }
 
     @Override
@@ -133,7 +138,7 @@ public class Warfare extends Game {
 
         font40 = assetManager.get("font40.ttf", BitmapFont.class);
         font20 = assetManager.get("font20.ttf", BitmapFont.class);
-//        font10 = assetManager.get("font40.ttf", BitmapFont.class);
+        font10 = assetManager.get("font10.ttf", BitmapFont.class);
 
         /** Вызываем метод для запуска игрового уровня **/
 //        showLevel();
