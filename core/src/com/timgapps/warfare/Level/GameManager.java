@@ -50,6 +50,8 @@ public class GameManager {
 
     private DataManager manager;
 
+    private long giftTime;      // время до получения подарка
+
     public GameManager() {
 
         /** загрузим данные игры **/
@@ -125,6 +127,9 @@ public class GameManager {
 
             /** создадим КОЛЛЕКЦИЮ - массив юнитов в коллекции  **/
             collection.add(new TeamEntity(savedGame.getCollectionDataList().get(0)));
+            giftTime = 0;
+            savedGame.setGiftTime(giftTime);
+
 //            savedGame.setTeam(team);
         } else {
             team.add(new TeamEntity(savedGame.getTeamDataList().get(0)));
@@ -145,6 +150,8 @@ public class GameManager {
         coinsPanel = new CoinsPanel(coinsCount);
         scorePanel = new ScorePanel(scoreCount);
 
+        giftTime = savedGame.getGiftTime();
+
         for (int i = 0; i < savedGame.getLevelIconDataList().size(); i++) {
             levelIcons.add(new LevelIcon(savedGame.getLevelIconDataList().get(i)));
         }
@@ -162,6 +169,16 @@ public class GameManager {
         // TODO: 31.01.2020  Здесь нужно будет изменить код, так чтобы брать данные из сохранненного объекта
 //
 //        collection.add(new TeamEntity(TeamEntity.THOR));
+    }
+
+    /** метод для получения времени до получнеия подарка **/
+    public long getGiftTime() {
+        return giftTime;
+    }
+    /** метод для установки времени до получнеия подарка **/
+    public void setGiftTime(long giftTime) {
+       this.giftTime = giftTime;
+       savedGame.setGiftTime(this.giftTime);
     }
 
     /**

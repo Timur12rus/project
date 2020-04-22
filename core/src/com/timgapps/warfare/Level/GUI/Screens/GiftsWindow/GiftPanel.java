@@ -10,12 +10,9 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.boontaran.MessageEvent;
 import com.timgapps.warfare.Level.GUI.Screens.CoinsPanel;
 import com.timgapps.warfare.Level.GUI.Screens.UpgradeWindow.ColorButton;
 import com.timgapps.warfare.Level.GameManager;
-import com.timgapps.warfare.Level.LevelMap.LevelMap;
-import com.timgapps.warfare.Level.LevelScreens.RewardTable;
 import com.timgapps.warfare.Warfare;
 
 import java.text.SimpleDateFormat;
@@ -35,7 +32,8 @@ class GiftPanel extends Group {
 
     public static final int RESOURCES_GIFT = 1;
     public static final int BUFFS_GIFT = 2;
-    private long giftTime;
+    private final long DELTA_TIME = 300000L;
+    private long giftTime;          // время в мсек до получения подарка
 
     private boolean isEndCoinsAction = false;
     private CoinsPanel coinsPanel;
@@ -53,7 +51,7 @@ class GiftPanel extends Group {
         xPos = x;
         yPos = y;
         this.gameManager = gameManager;
-        date = new Date();
+        date = new Date();      // получим текущее время
         coinsPanel = gameManager.getCoinsPanel();
         formatForDate = new SimpleDateFormat("HH:mm:ss");
         formatForDate.setTimeZone(TimeZone.getTimeZone("GMT"));
@@ -70,16 +68,23 @@ class GiftPanel extends Group {
 
         // задаём кол-во времени, которое нужно для ожидания подарка ресурсов
         if (giftsType == RESOURCES_GIFT) {
-            giftTime = date.getTime() + 2000;
+            giftTime = gameManager.getGiftTime();
+//            giftTime = date.getTime() + DELTA_TIME;
         }
 
         // задаём кол-во времени, которое нужно для ожидания подарка баффов
         if (giftsType == BUFFS_GIFT) {
-            giftTime = date.getTime() + 2000;
+            giftTime = date.getTime() + DELTA_TIME;
         }
 
         // надпись кол-ва оставшегося времени для подарка
         timeLabel = new Label("" + formatForDate.format(giftTime - date.getTime()), timeLabelStyle);              // текст оставшееся время в формате времени
+
+        if (giftTime - date.getTime() < 0) {
+            timeLabel.setVisible(false);
+        } else {
+            timeLabel.setVisible(true);
+        }
 
         /** таблица с вознаграждениями (две панели) **/
         rewardTable = new GiftRewardTable(120, 2);
@@ -103,7 +108,7 @@ class GiftPanel extends Group {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 showAddCoinsAnimation();
-                showAddResoursesAnimtion();
+                showAddResoursesAnimation();
             }
         });
     }
@@ -130,7 +135,7 @@ class GiftPanel extends Group {
     }
 
 
-    private void showAddResoursesAnimtion() {
+    private void showAddResoursesAnimation() {
         final Random random = new Random();
 
         // получим тип ресурса первого и второго
@@ -195,7 +200,8 @@ class GiftPanel extends Group {
         claimButton.setVisible(false);
         rewardTable.setVisible(false);
         timeLabel.setVisible(false);
-        giftTime = new Date().getTime() + 2000;
+        giftTime = new Date().getTime() + DELTA_TIME;
+        gameManager.setGiftTime(giftTime);      // сохраним значение текщего времени для получения подарка
 
         Image coinOne = new Image(Warfare.atlas.findRegion("coin_icon"));
         Image coinTwo = new Image(Warfare.atlas.findRegion("coin_icon"));
@@ -270,11 +276,16 @@ class GiftPanel extends Group {
     public void act(float delta) {
 
         if (!claimButton.isVisible()) {
+
+            // вычислим разницу во времени между текущим временем и временем, необходимым для получения подарка
             long deltaTime = giftTime - System.currentTimeMillis();
-//            long deltaTime = giftTime - new Date().getTime();
+
+            // если разница < 0 , т.е. если времени прошло больше, чем нужно для получения подарка, тогда делаем кнопку "ПОЛУЧИТЬ" видимой
             if (deltaTime < 0) {
                 claimButton.setVisible(true);
             }
+
+            // если кнопка "ПОЛУЧИТЬ" не видима, то установим значение времени, чтобы обновить время в надписи кол-ва времени (сколько осталось до получения подарка)
             if (!claimButton.isVisible()) {
                 date.setTime(deltaTime);                        // установим значение для даты
                 timeLabel.setText("" + formatForDate.format(deltaTime));

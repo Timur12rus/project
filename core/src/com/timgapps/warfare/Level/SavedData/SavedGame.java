@@ -19,6 +19,8 @@ public class SavedGame implements Serializable {
     private int coinsCount;
     private int scoreCount;
 
+    private long giftTime;      // время необходимое для получения подарка (время которое нужно подождать)
+
 
     public SavedGame() {
 //    public SavedGame(ArrayList<TeamEntity> team) {
@@ -141,5 +143,12 @@ public class SavedGame implements Serializable {
             collectionDataList.set(i, collection.get(i).getEntityData());
 //           teamDataList.get(i) = (TeamEntityData)team.get(i).getEntityData();
         }
+    }
+
+    public void setGiftTime(long giftTime) {
+        this.giftTime = giftTime;
+    }
+    public long getGiftTime() {
+        return giftTime;
     }
 }

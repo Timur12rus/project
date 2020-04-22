@@ -14,6 +14,7 @@ public class GiftIcon extends Group {
     public GiftIcon() {
         rewardIcon = new Image(Warfare.atlas.findRegion("rewardButton"));
         rewardIconDown = new Image(Warfare.atlas.findRegion("rewardButton_dwn"));
+        rewardIconDown.setVisible(false);
 
         setWidth(rewardIcon.getWidth());
         setHeight(rewardIcon.getHeight());
