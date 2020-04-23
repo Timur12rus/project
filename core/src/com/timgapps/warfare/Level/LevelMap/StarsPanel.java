@@ -53,7 +53,6 @@ public class StarsPanel extends Group {
         rewardIcon.setPosition(starsBar.getX() + starsBar.getWidth() - 4, 0);
         textLabel.setPosition(4, starIcon.getHeight() - starIcon.getHeight() - 4);
 
-
         addActor(background);
         addActor(starsBar);
         addActor(starIcon);
@@ -64,7 +63,7 @@ public class StarsPanel extends Group {
         setSize(background.getWidth() + rewardIcon.getWidth(), background.getHeight() + 16);
     }
 
-    /**  метод добавляет количество звезд к общему кол-ву звезд
+    /**  метод добавляет количество звезд к общему кол-ву звезд */
     public void addStarsCount(int count) {
         this.starsCount += count;
     }

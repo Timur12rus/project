@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.boontaran.games.StageGame;
+import com.timgapps.warfare.Level.GUI.Screens.RewardForStars.RewardForStarsScreen;
 import com.timgapps.warfare.Level.GameManager;
 import com.timgapps.warfare.Level.Level;
 import com.timgapps.warfare.Level.LevelMap.LevelMap;
@@ -37,6 +38,7 @@ public class Warfare extends Game {
     private String path_to_atlas; // в зависимости от локали в переменную path_to_atlas будет возвращаться путь к нужному нам атласу
     private Level level;
     private LevelMap levelMap;
+    private RewardForStarsScreen rewardForStarsScreen;
 
     private Viewport mViewport;
     private OrthographicCamera mOrthographicCamera;
@@ -151,7 +153,6 @@ public class Warfare extends Game {
     }
 
     private void showMap(int coinsReward, int scoreReward) {
-
 //        levMap = new LevMap("location1");
 //        setScreen(levMap);
 
@@ -163,14 +164,32 @@ public class Warfare extends Game {
             public void call(int code) {
                 // отрабатываем действие в зависимости от полученных сообщений
                 if (code == LevelMap.ON_BACK) {
-                    showExit();
                     hideLevelMap();
+                    showExit();
                 } else if (code == LevelMap.ON_LEVEL_SELECTED) {
                     // при получении кода ON_LEVEL_SELECTED вызываем метод открытия уровня
                     // передаем в showLevel номер выбранного уровня
                     levelId = levelMap.getSelectedLevelId();
-                    showLevel(levelId);
                     hideLevelMap();
+                    showLevel(levelId);
+                } else if (code == LevelMap.ON_SHOW_REWARD_FOR_STARS_SCREEN) {
+//                    hideLevelMap();
+                    showRewardForStarsScreen();
+                }
+            }
+        });
+    }
+
+    private void showRewardForStarsScreen() {
+        rewardForStarsScreen = new RewardForStarsScreen(gameManager);
+        setScreen(rewardForStarsScreen);
+
+        rewardForStarsScreen.setCallback(new StageGame.Callback() {
+            @Override
+            public void call(int code) {
+                if (code == rewardForStarsScreen.ON_BACK) {
+                    hideRewardForStarsScreen();
+                    showMap(0, 0);
                 }
             }
         });
@@ -179,6 +198,22 @@ public class Warfare extends Game {
     private void showExit() {
         System.out.println("EXIT");
     }
+
+//    private void showRewardForStarsScreen() {
+//        RewardForStarsScreen rewardForStarsScreen = new RewardForStarsScreen(gameManager);
+//        hideLevelMap();
+//        setScreen(rewardForStarsScreen);
+//
+//        rewardForStarsScreen.setCallback(new StageGame.Callback() {
+//            @Override
+//            public void call(int code) {
+//                if (code == rewardForStarsScreen.ON_BACK) {
+//                    hideRewardForStarsScreen();
+//                    showExit();
+//                }
+//            }
+//        });
+//    }
 
 
     private void showLevel(int id) { // метод показа игрового уровня, передаем идентификатор уровня
@@ -231,6 +266,11 @@ public class Warfare extends Game {
 
             }
         });
+    }
+
+    private void hideRewardForStarsScreen() {
+        rewardForStarsScreen.dispose();
+        rewardForStarsScreen = null;
     }
 
     private void hideLevel() {

@@ -4,6 +4,7 @@ import com.timgapps.warfare.Level.GUI.Screens.TeamEntity;
 import com.timgapps.warfare.Level.GUI.Screens.TeamEntityData;
 import com.timgapps.warfare.Level.LevelMap.LevelIcon;
 import com.timgapps.warfare.Level.LevelMap.LevelIconData;
+import com.timgapps.warfare.Level.GUI.Screens.RewardForStars.RewardForStarsData;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -13,14 +14,15 @@ public class SavedGame implements Serializable {
     private ArrayList<TeamEntityData> teamDataList;
     private ArrayList<TeamEntityData> collectionDataList;
     private ArrayList<LevelIconData> levelIconDataList;
+    private ArrayList<RewardForStarsData> rewardForStarsDataList;
+
     private int foodCount;
     private int ironCount;
     private int woodCount;
     private int coinsCount;
     private int scoreCount;
-
-    private long giftTime;      // время необходимое для получения подарка (время которое нужно подождать)
     private int starsCount;
+    private long giftTime;      // время необходимое для получения подарка (время которое нужно подождать)
 
 
     public SavedGame() {
@@ -28,7 +30,8 @@ public class SavedGame implements Serializable {
 //        this.team = team;
     }
 
-    /** метод создает массив "ДАННЫХ" уровней (LevelIconData)
+    /**
+     * метод создает массив "ДАННЫХ" уровней (LevelIconData)
      * в них содержатся данные каждого уровня: кол-во звезд за уровень, номер уровня, награда, пройден или нет
      */
     public void createLevelIconDataList() {
@@ -54,11 +57,31 @@ public class SavedGame implements Serializable {
         levelIconDataList.add(new LevelIconData(19, 15, 30, LevelIcon.MEDIUM, false));
     }
 
+    /**
+     * метод для создания списка с ДАННЫМИ наград за звезды
+     **/
+    public void createRewardForStarsDataList() {
+        rewardForStarsDataList = new ArrayList<RewardForStarsData>();
+        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_STONE, 1));
+        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_ARCHER, 5));
+        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_BOX, 15));
+    }
+
+    /**
+     * метод для получения списка ДАННЫХ наград за звёзды
+     */
+    public ArrayList<RewardForStarsData> getRewardForStarsDataList() {
+        return rewardForStarsDataList;
+    }
+
+
     public ArrayList<LevelIconData> getLevelIconDataList() {
         return levelIconDataList;
     }
 
-    /** метод создает массив "ДАННЫХ" юнитов игровой команды **/
+    /**
+     * метод создает массив "ДАННЫХ" юнитов игровой команды
+     **/
     public void createTeamEntityDataList() {
         teamDataList = new ArrayList<TeamEntityData>();
         teamDataList.add(new TeamEntityData(TeamEntityData.THOR));
@@ -69,7 +92,9 @@ public class SavedGame implements Serializable {
         teamDataList.get(2).setDefaultData(TeamEntityData.STONE);
     }
 
-    /** метод создает массив "ДАННЫХ" юнитов коллекции **/
+    /**
+     * метод создает массив "ДАННЫХ" юнитов коллекции
+     **/
     public void createCollectionDataList() {
         collectionDataList = new ArrayList<TeamEntityData>();
         collectionDataList.add(new TeamEntityData(TeamEntityData.GNOME));
@@ -97,9 +122,11 @@ public class SavedGame implements Serializable {
     public void setFoodCount(int foodCount) {
         this.foodCount = foodCount;
     }
+
     public void setIronCount(int ironCount) {
         this.ironCount = ironCount;
     }
+
     public void setWoodCount(int woodCount) {
         this.woodCount = woodCount;
     }
@@ -107,9 +134,11 @@ public class SavedGame implements Serializable {
     public int getFoodCount() {
         return foodCount;
     }
+
     public int getIronCount() {
         return ironCount;
     }
+
     public int getWoodCount() {
         return woodCount;
     }
@@ -117,6 +146,7 @@ public class SavedGame implements Serializable {
     public void setCoinsCount(int coinsCount) {
         this.coinsCount = coinsCount;
     }
+
     public int getCoinsCount() {
         return coinsCount;
     }
@@ -124,6 +154,7 @@ public class SavedGame implements Serializable {
     public void setScoreCount(int scoreCount) {
         this.scoreCount = scoreCount;
     }
+
     public int getScoreCount() {
         return scoreCount;
     }
@@ -153,6 +184,7 @@ public class SavedGame implements Serializable {
     public void setGiftTime(long giftTime) {
         this.giftTime = giftTime;
     }
+
     public long getGiftTime() {
         return giftTime;
     }

@@ -6,756 +6,763 @@ filter: MipMapLinearNearest,Linear
 repeat: none
 archer1Active
   rotate: false
-  xy: 1946, 427
+  xy: 1946, 387
   size: 96, 104
   orig: 96, 104
   offset: 0, 0
   index: -1
 archer1Attack0
   rotate: false
-  xy: 2, 6
+  xy: 2, 2
   size: 204, 102
   orig: 204, 102
   offset: 0, 0
   index: -1
 archer1Attack1
   rotate: false
-  xy: 1758, 1333
+  xy: 1758, 1329
   size: 204, 102
   orig: 204, 102
   offset: 0, 0
   index: -1
 archer1Attack2
   rotate: false
-  xy: 208, 6
+  xy: 208, 2
   size: 204, 102
   orig: 204, 102
   offset: 0, 0
   index: -1
 archer1Attack3
   rotate: false
-  xy: 614, 200
+  xy: 614, 196
   size: 204, 102
   orig: 204, 102
   offset: 0, 0
   index: -1
 archer1Attack4
   rotate: false
-  xy: 414, 6
+  xy: 414, 2
   size: 204, 102
   orig: 204, 102
   offset: 0, 0
   index: -1
 archer1Die0
   rotate: false
-  xy: 1758, 1229
+  xy: 1758, 1225
   size: 204, 102
   orig: 204, 102
   offset: 0, 0
   index: -1
 archer1Die1
   rotate: false
-  xy: 1476, 1049
+  xy: 1476, 1045
   size: 204, 102
   orig: 204, 102
   offset: 0, 0
   index: -1
 archer1Die2
   rotate: false
-  xy: 862, 218
+  xy: 862, 214
   size: 204, 102
   orig: 204, 102
   offset: 0, 0
   index: -1
 archer1Die3
   rotate: false
-  xy: 1068, 214
+  xy: 1068, 210
   size: 204, 102
   orig: 204, 102
   offset: 0, 0
   index: -1
 archer1Die4
   rotate: false
-  xy: 620, 96
+  xy: 620, 92
   size: 204, 102
   orig: 204, 102
   offset: 0, 0
   index: -1
 archer1Hart0
   rotate: false
-  xy: 2, 110
+  xy: 2, 106
   size: 280, 138
   orig: 280, 138
   offset: 0, 0
   index: -1
 archer1Hart1
   rotate: false
-  xy: 862, 462
+  xy: 862, 458
   size: 280, 138
   orig: 280, 138
   offset: 0, 0
   index: -1
 archer1Hart2
   rotate: false
-  xy: 1476, 1297
+  xy: 1476, 1293
   size: 280, 138
   orig: 280, 138
   offset: 0, 0
   index: -1
 archer1Hart3
   rotate: false
-  xy: 284, 110
+  xy: 284, 106
   size: 280, 138
   orig: 280, 138
   offset: 0, 0
   index: -1
 archer1Hart4
   rotate: false
-  xy: 862, 322
+  xy: 862, 318
   size: 280, 138
   orig: 280, 138
   offset: 0, 0
   index: -1
 archer1Inactive
   rotate: false
-  xy: 1946, 321
+  xy: 1946, 281
   size: 96, 104
   orig: 96, 104
   offset: 0, 0
   index: -1
 archer1Stay0
   rotate: false
-  xy: 826, 114
+  xy: 826, 110
   size: 204, 102
   orig: 204, 102
   offset: 0, 0
   index: -1
 archer1Stay1
   rotate: false
-  xy: 1032, 110
+  xy: 1032, 106
   size: 204, 102
   orig: 204, 102
   offset: 0, 0
   index: -1
 archer1Stay2
   rotate: false
-  xy: 826, 10
+  xy: 826, 6
   size: 204, 102
   orig: 204, 102
   offset: 0, 0
   index: -1
 archer1Stay3
   rotate: false
-  xy: 1032, 6
+  xy: 1032, 2
   size: 204, 102
   orig: 204, 102
   offset: 0, 0
   index: -1
 archer1Walk0
   rotate: false
-  xy: 1687, 1125
+  xy: 1687, 1121
   size: 204, 102
   orig: 204, 102
   offset: 0, 0
   index: -1
 archer1Walk1
   rotate: false
-  xy: 1682, 1021
+  xy: 1682, 1017
   size: 204, 102
   orig: 204, 102
   offset: 0, 0
   index: -1
 archer1Walk2
   rotate: false
-  xy: 1476, 945
+  xy: 1476, 941
   size: 204, 102
   orig: 204, 102
   offset: 0, 0
   index: -1
 archer1Walk3
   rotate: false
-  xy: 1682, 917
+  xy: 1682, 913
   size: 204, 102
   orig: 204, 102
   offset: 0, 0
   index: -1
 archerUnitImage
   rotate: false
-  xy: 1476, 559
+  xy: 1476, 555
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 arrow
   rotate: false
-  xy: 1620, 935
+  xy: 1620, 931
   size: 44, 8
   orig: 44, 8
   offset: 0, 0
   index: -1
+backImage
+  rotate: false
+  xy: 1954, 575
+  size: 92, 80
+  orig: 92, 80
+  offset: 0, 0
+  index: -1
+backImage_dwn
+  rotate: false
+  xy: 1954, 493
+  size: 92, 80
+  orig: 92, 80
+  offset: 0, 0
+  index: -1
 block1
   rotate: false
-  xy: 1946, 277
+  xy: 566, 202
   size: 42, 42
   orig: 42, 42
   offset: 0, 0
   index: -1
 boxImage
   rotate: false
-  xy: 1468, 429
+  xy: 1468, 425
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 button_close
   rotate: false
-  xy: 1990, 269
+  xy: 1962, 149
   size: 50, 50
   orig: 50, 50
   offset: 0, 0
   index: -1
 button_close_dwn
   rotate: false
-  xy: 1962, 151
+  xy: 566, 106
   size: 50, 50
   orig: 50, 50
   offset: 0, 0
   index: -1
 button_ok
   rotate: false
-  xy: 1284, 603
+  xy: 1284, 599
   size: 190, 64
   orig: 190, 64
   offset: 0, 0
   index: -1
 button_ok_dwn
   rotate: false
-  xy: 620, 30
+  xy: 620, 26
   size: 190, 64
   orig: 190, 64
   offset: 0, 0
   index: -1
 clock_icon
   rotate: false
-  xy: 1986, 1988
+  xy: 1986, 1984
   size: 56, 56
   orig: 56, 56
   offset: 0, 0
   index: -1
-coin_icon
-  rotate: false
-  xy: 1964, 1252
-  size: 48, 48
-  orig: 48, 48
-  offset: 0, 0
-  index: -1
 coinsPanel2
   rotate: false
-  xy: 1428, 243
+  xy: 1428, 239
   size: 166, 54
   orig: 166, 54
   offset: 0, 0
   index: -1
 damage_icon
   rotate: false
-  xy: 1414, 1015
+  xy: 1414, 1011
   size: 56, 56
   orig: 56, 56
   offset: 0, 0
   index: -1
 div_line
   rotate: false
-  xy: 1284, 1437
+  xy: 1284, 1433
   size: 679, 55
   orig: 679, 55
   offset: 0, 0
   index: -1
 energyIcon
   rotate: false
-  xy: 566, 200
+  xy: 1496, 28
   size: 36, 48
   orig: 36, 48
   offset: 0, 0
   index: -1
 explosion0
   rotate: false
-  xy: 1144, 460
+  xy: 1144, 456
   size: 160, 140
   orig: 160, 140
   offset: 0, 0
   index: -1
 explosion1
   rotate: false
-  xy: 1144, 318
+  xy: 1144, 314
   size: 160, 140
   orig: 160, 140
   offset: 0, 0
   index: -1
 explosion2
   rotate: false
-  xy: 1284, 811
+  xy: 1284, 807
   size: 160, 140
   orig: 160, 140
   offset: 0, 0
   index: -1
 explosion3
   rotate: false
-  xy: 1284, 669
+  xy: 1284, 665
   size: 160, 140
   orig: 160, 140
   offset: 0, 0
   index: -1
 explosion4
   rotate: false
-  xy: 1306, 461
+  xy: 1306, 457
   size: 160, 140
   orig: 160, 140
   offset: 0, 0
   index: -1
 explosion5
   rotate: false
-  xy: 1306, 319
+  xy: 1306, 315
   size: 160, 140
   orig: 160, 140
   offset: 0, 0
   index: -1
 fire0
   rotate: false
-  xy: 1986, 1870
+  xy: 1986, 1866
   size: 48, 58
   orig: 48, 58
   offset: 0, 0
   index: -1
 fire1
   rotate: false
-  xy: 1986, 1810
+  xy: 1986, 1806
   size: 48, 58
   orig: 48, 58
   offset: 0, 0
   index: -1
 fire2
   rotate: false
-  xy: 1986, 1750
+  xy: 1986, 1746
   size: 48, 58
   orig: 48, 58
   offset: 0, 0
   index: -1
 fire3
   rotate: false
-  xy: 1986, 1690
+  xy: 1986, 1686
   size: 48, 58
   orig: 48, 58
   offset: 0, 0
   index: -1
 fire4
   rotate: false
-  xy: 1986, 1630
+  xy: 1986, 1626
   size: 48, 58
   orig: 48, 58
   offset: 0, 0
   index: -1
 fire5
   rotate: false
-  xy: 1986, 1570
+  xy: 1986, 1566
   size: 48, 58
   orig: 48, 58
   offset: 0, 0
   index: -1
 fire6
   rotate: false
-  xy: 1986, 1510
+  xy: 1986, 1506
   size: 48, 58
   orig: 48, 58
   offset: 0, 0
   index: -1
 fire7
   rotate: false
-  xy: 566, 140
+  xy: 1965, 1430
   size: 48, 58
   orig: 48, 58
   offset: 0, 0
   index: -1
 fire8
   rotate: false
-  xy: 1965, 1434
+  xy: 1964, 1238
   size: 48, 58
   orig: 48, 58
   offset: 0, 0
   index: -1
 food_icon
   rotate: false
-  xy: 1687, 1231
+  xy: 1687, 1227
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 gifts_bg
   rotate: false
-  xy: 1284, 1131
+  xy: 1284, 1127
   size: 190, 304
   orig: 190, 304
   offset: 0, 0
   index: -1
 gifts_bg1
   rotate: false
-  xy: 1284, 953
+  xy: 1284, 949
   size: 128, 176
   orig: 128, 176
   offset: 0, 0
   index: -1
 gnomeAttack0
   rotate: false
-  xy: 1446, 817
+  xy: 1446, 813
   size: 172, 126
   orig: 172, 126
   offset: 0, 0
   index: -1
 gnomeAttack1
   rotate: false
-  xy: 1446, 689
+  xy: 1446, 685
   size: 172, 126
   orig: 172, 126
   offset: 0, 0
   index: -1
 gnomeAttack2
   rotate: false
-  xy: 1620, 789
+  xy: 1620, 785
   size: 172, 126
   orig: 172, 126
   offset: 0, 0
   index: -1
 gnomeAttack3
   rotate: false
-  xy: 1794, 789
+  xy: 1794, 785
   size: 172, 126
   orig: 172, 126
   offset: 0, 0
   index: -1
 gnomeAttack4
   rotate: false
-  xy: 1620, 661
+  xy: 1620, 657
   size: 172, 126
   orig: 172, 126
   offset: 0, 0
   index: -1
 gnomeDie0
   rotate: false
-  xy: 1794, 661
+  xy: 1794, 657
   size: 172, 126
   orig: 172, 126
   offset: 0, 0
   index: -1
 gnomeDie1
   rotate: false
-  xy: 1606, 533
+  xy: 1606, 529
   size: 172, 126
   orig: 172, 126
   offset: 0, 0
   index: -1
 gnomeDie2
   rotate: false
-  xy: 1780, 533
+  xy: 1780, 529
   size: 172, 126
   orig: 172, 126
   offset: 0, 0
   index: -1
 gnomeDie3
   rotate: false
-  xy: 1598, 405
+  xy: 1598, 401
   size: 172, 126
   orig: 172, 126
   offset: 0, 0
   index: -1
 gnomeRun0
   rotate: false
-  xy: 1772, 405
+  xy: 1772, 401
   size: 172, 126
   orig: 172, 126
   offset: 0, 0
   index: -1
 gnomeRun1
   rotate: false
-  xy: 1598, 277
+  xy: 1598, 273
   size: 172, 126
   orig: 172, 126
   offset: 0, 0
   index: -1
 gnomeRun3
   rotate: false
-  xy: 1598, 277
+  xy: 1598, 273
   size: 172, 126
   orig: 172, 126
   offset: 0, 0
   index: -1
 gnomeRun2
   rotate: false
-  xy: 1772, 277
+  xy: 1772, 273
   size: 172, 126
   orig: 172, 126
   offset: 0, 0
   index: -1
 gnomeStay0
   rotate: false
-  xy: 1536, 83
+  xy: 1536, 79
   size: 172, 126
   orig: 172, 126
   offset: 0, 0
   index: -1
 gnomeStay1
   rotate: false
-  xy: 1788, 149
+  xy: 1788, 145
   size: 172, 126
   orig: 172, 126
   offset: 0, 0
   index: -1
 gnomeStay3
   rotate: false
-  xy: 1788, 149
+  xy: 1788, 145
   size: 172, 126
   orig: 172, 126
   offset: 0, 0
   index: -1
 gnomeStay2
   rotate: false
-  xy: 1718, 21
+  xy: 1718, 17
   size: 172, 126
   orig: 172, 126
   offset: 0, 0
   index: -1
 gnomeUnitImage
   rotate: false
-  xy: 1468, 299
+  xy: 1468, 295
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 heart_icon
   rotate: false
-  xy: 1986, 1930
+  xy: 1986, 1926
   size: 56, 56
   orig: 56, 56
   offset: 0, 0
   index: -1
 iron_icon
   rotate: false
-  xy: 1968, 703
+  xy: 1430, 12
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 levelIcon
   rotate: false
-  xy: 1968, 665
+  xy: 1968, 661
   size: 42, 36
   orig: 42, 36
   offset: 0, 0
   index: -1
 levelIcon_active
   rotate: false
-  xy: 1968, 843
+  xy: 1968, 839
   size: 74, 72
   orig: 74, 72
   offset: 0, 0
   index: -1
 levelIcon_inactive
   rotate: false
-  xy: 1968, 769
+  xy: 1968, 765
   size: 74, 72
   orig: 74, 72
   offset: 0, 0
   index: -1
 level_bg
   rotate: false
-  xy: 2, 1324
+  xy: 2, 1320
   size: 1280, 720
   orig: 1280, 720
   offset: 0, 0
   index: -1
 map
   rotate: false
-  xy: 2, 602
+  xy: 2, 598
   size: 1280, 720
   orig: 1280, 720
   offset: 0, 0
   index: -1
 mission_start_bg
   rotate: false
-  xy: 2, 250
+  xy: 2, 246
   size: 610, 350
   orig: 610, 350
   offset: 0, 0
   index: -1
-rock_big
-  rotate: false
-  xy: 1954, 557
-  size: 90, 102
-  orig: 90, 102
-  offset: 0, 0
-  index: -1
 rock_middle
   rotate: false
-  xy: 1430, 2
+  xy: 1962, 201
   size: 79, 78
   orig: 79, 78
   offset: 0, 0
   index: -1
 rock_small
   rotate: false
-  xy: 1710, 151
+  xy: 1710, 147
   size: 66, 58
   orig: 66, 58
   offset: 0, 0
   index: -1
 scorePanel
   rotate: false
-  xy: 1536, 23
+  xy: 1536, 19
   size: 180, 58
   orig: 180, 58
   offset: 0, 0
   index: -1
 smallLifeIndicator
   rotate: false
-  xy: 620, 16
+  xy: 620, 12
   size: 54, 12
   orig: 54, 12
   offset: 0, 0
   index: -1
+smoke
+  rotate: false
+  xy: 566, 158
+  size: 42, 42
+  orig: 42, 42
+  offset: 0, 0
+  index: -1
 speed_icon
   rotate: false
-  xy: 1414, 957
+  xy: 1414, 953
   size: 56, 56
   orig: 56, 56
   offset: 0, 0
   index: -1
 star
   rotate: false
-  xy: 1962, 203
+  xy: 1968, 699
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 starInactive
   rotate: false
-  xy: 1964, 1368
+  xy: 1964, 1364
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 star_active
   rotate: false
-  xy: 2014, 169
+  xy: 2014, 167
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 star_icon
   rotate: false
-  xy: 820, 262
+  xy: 820, 258
   size: 40, 40
   orig: 40, 40
   offset: 0, 0
   index: -1
 star_inactive
   rotate: false
-  xy: 2014, 1268
+  xy: 2014, 1264
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 teamScreen
   rotate: false
-  xy: 1284, 1494
+  xy: 1284, 1490
   size: 700, 550
   orig: 700, 550
   offset: 0, 0
   index: -1
 thorAttack0
   rotate: false
-  xy: 1238, 82
+  xy: 1238, 78
   size: 147, 130
   orig: 147, 130
   offset: 0, 0
   index: -1
 thorAttack1
   rotate: false
-  xy: 1387, 82
+  xy: 1387, 78
   size: 147, 130
   orig: 147, 130
   offset: 0, 0
   index: -1
 thorAttack2
   rotate: false
-  xy: 1892, 17
+  xy: 1892, 13
   size: 147, 130
   orig: 147, 130
   offset: 0, 0
   index: -1
 tower
   rotate: false
-  xy: 614, 304
+  xy: 614, 300
   size: 246, 296
   orig: 246, 296
   offset: 0, 0
   index: -1
 tree
   rotate: false
-  xy: 1476, 1153
+  xy: 1476, 1149
   size: 209, 142
   orig: 209, 142
   offset: 0, 0
   index: -1
 wheel
   rotate: false
-  xy: 1414, 1073
+  xy: 1414, 1069
   size: 58, 56
   orig: 58, 56
   offset: 0, 0
   index: -1
 wood_icon
   rotate: false
-  xy: 1964, 1302
+  xy: 1964, 1298
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 yellowButton
   rotate: false
-  xy: 1238, 16
+  xy: 1238, 12
   size: 190, 64
   orig: 190, 64
   offset: 0, 0
   index: -1
 yellowButton_dwn
   rotate: false
-  xy: 1596, 211
+  xy: 1596, 207
   size: 190, 64
   orig: 190, 64
   offset: 0, 0
   index: -1
 zombie1Attack0
   rotate: false
-  xy: 1274, 214
+  xy: 1274, 210
   size: 152, 102
   orig: 152, 102
   offset: 0, 0
   index: -1
 zombieAttack0
   rotate: false
-  xy: 1893, 1125
+  xy: 1893, 1121
   size: 153, 102
   orig: 153, 102
   offset: 0, 0
   index: -1
 zombieAttack1
   rotate: false
-  xy: 1888, 1021
+  xy: 1888, 1017
   size: 153, 102
   orig: 153, 102
   offset: 0, 0
   index: -1
 zombieAttack2
   rotate: false
-  xy: 1888, 917
+  xy: 1888, 913
   size: 153, 102
   orig: 153, 102
   offset: 0, 0
@@ -829,6 +836,13 @@ barricadeExplosion8
   orig: 96, 96
   offset: 0, 0
   index: -1
+coin_icon
+  rotate: false
+  xy: 444, 76
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
 coinsPanel
   rotate: false
   xy: 310, 66
@@ -866,7 +880,7 @@ emptyButtonInactive
   index: -1
 energy_icon
   rotate: false
-  xy: 444, 76
+  xy: 1387, 1756
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
@@ -948,18 +962,18 @@ rewardButton_dwn
   orig: 104, 96
   offset: 0, 0
   index: -1
-score_icon
+rock_big
   rotate: false
-  xy: 1262, 1756
-  size: 48, 48
-  orig: 48, 48
+  xy: 1295, 1702
+  size: 90, 102
+  orig: 90, 102
   offset: 0, 0
   index: -1
-smoke
+score_icon
   rotate: false
-  xy: 566, 292
-  size: 42, 42
-  orig: 42, 42
+  xy: 1387, 1706
+  size: 48, 48
+  orig: 48, 48
   offset: 0, 0
   index: -1
 stoneButtonActive

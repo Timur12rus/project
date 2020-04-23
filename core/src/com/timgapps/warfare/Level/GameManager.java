@@ -7,11 +7,10 @@ import com.timgapps.warfare.Level.GUI.Screens.CoinsPanel;
 import com.timgapps.warfare.Level.GUI.Screens.TeamEntity;
 import com.timgapps.warfare.Level.GUI.Screens.TeamEntityData;
 import com.timgapps.warfare.Level.LevelMap.LevelIcon;
-import com.timgapps.warfare.Level.LevelMap.LevelIconData;
+import com.timgapps.warfare.Level.GUI.Screens.RewardForStars.RewardForStarsData;
 import com.timgapps.warfare.Level.LevelMap.ScorePanel;
 import com.timgapps.warfare.Level.LevelMap.StarsPanel;
 import com.timgapps.warfare.Level.SavedData.SavedGame;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
@@ -29,6 +28,7 @@ public class GameManager {
     private ArrayList<TeamEntityData> teamDataList;     // команда, массив объектов TeamEntity()
     private ArrayList<TeamEntityData> collectionDataList;     // команда, массив объектов TeamEntity()
     private ArrayList<TeamEntity> collection;     // коллекция, массив объектов TeamEntity()
+    private ArrayList<RewardForStarsData> rewardForStarsDataList;     // коллекция, массив объектов TeamEntity()
     private int currentLevelId;
 
     private int coinsCount;
@@ -101,11 +101,13 @@ public class GameManager {
             /** создаем массив "ДАННЫХ" об уровнях (LevelIconData) **/
             savedGame.createLevelIconDataList();
 
-
             /** Добавляем бойцов в команду **/
             // TODO: 31.01.2020  Здесь нужно будет изменить код, так чтобы брать данные из сохранненного объекта
             savedGame.createTeamEntityDataList();
             savedGame.createCollectionDataList();
+
+            /** создадим список с ДАННЫМИ наград за звезды **/
+            savedGame.createRewardForStarsDataList();
 
             // установим кол-во ресурсов
             foodCount = 6;
@@ -129,6 +131,8 @@ public class GameManager {
             team.add(new TeamEntity(savedGame.getTeamDataList().get(1)));
             team.add(new TeamEntity(savedGame.getTeamDataList().get(2)));
 
+
+
             /** создадим КОЛЛЕКЦИЮ - массив юнитов в коллекции  **/
             collection.add(new TeamEntity(savedGame.getCollectionDataList().get(0)));
             giftTime = 0;
@@ -151,9 +155,13 @@ public class GameManager {
             starsCount = savedGame.getStarsCount();
         }
 
+        /** получим список ДАННЫХ наград за звезды **/
+        rewardForStarsDataList = savedGame.getRewardForStarsDataList();
+
         coinsPanel = new CoinsPanel(coinsCount);
         scorePanel = new ScorePanel(scoreCount);
         starsPanel = new StarsPanel(starsCount);
+
 
         giftTime = savedGame.getGiftTime();
 
@@ -174,6 +182,11 @@ public class GameManager {
         // TODO: 31.01.2020  Здесь нужно будет изменить код, так чтобы брать данные из сохранненного объекта
 //
 //        collection.add(new TeamEntity(TeamEntity.THOR));
+    }
+
+    /** метод для получения ДАННЫХ о наградах за звезды **/
+    public ArrayList<RewardForStarsData> getRewardForStarsDataList() {
+        return rewardForStarsDataList;
     }
 
     /**

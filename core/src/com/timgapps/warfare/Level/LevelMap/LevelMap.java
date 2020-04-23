@@ -23,6 +23,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.boontaran.MessageEvent;
 import com.boontaran.MessageListener;
 import com.boontaran.games.StageGame;
 import com.boontaran.games.tiled.TileLayer;
@@ -43,7 +44,7 @@ public class LevelMap extends StageGame {
     public static final int ON_LEVEL_SELECTED = 2;
     public static final int ON_SHOW_ANIMATION = 3;
 
-    public static final int ON_SHOW_TEAM_UPGRADE = 3;
+    public static final int ON_SHOW_REWARD_FOR_STARS_SCREEN = 4;
     public static final int ON_SHARE = 4;
 
     private Group container;
@@ -174,9 +175,15 @@ public class LevelMap extends StageGame {
 
         // Добавим панель с наградой за зведзды
         starsPanel = gameManager.getStarsPanel();
-        starsPanel.setPosition(32, scorePanel.getY() - 4 - starsPanel.getHeight());
+        starsPanel.setPosition(32, scorePanel.getY() - starsPanel.getHeight());
         addOverlayChild(starsPanel);
 
+        starsPanel.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                call(ON_SHOW_REWARD_FOR_STARS_SCREEN);
+            }
+        });
 
 //        addChild(coinsPanel, getWidth() - coinsPanel.getWidth() - 32, getHeight() - coinsPanel.getHeight() - 32);
 
