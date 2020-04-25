@@ -23,6 +23,7 @@ public class SavedGame implements Serializable {
     private int scoreCount;
     private int starsCount;
     private long giftTime;      // время необходимое для получения подарка (время которое нужно подождать)
+    private int indexOfRewardStars;
 
 
     public SavedGame() {
@@ -61,10 +62,26 @@ public class SavedGame implements Serializable {
      * метод для создания списка с ДАННЫМИ наград за звезды
      **/
     public void createRewardForStarsDataList() {
+        starsCount = 0;
+        indexOfRewardStars = 0;
         rewardForStarsDataList = new ArrayList<RewardForStarsData>();
         rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_STONE, 1));
-        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_ARCHER, 5));
+        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_ARCHER, 4));
         rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_BOX, 15));
+        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_GNOME, 30));
+        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_GNOME, 45));
+        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_GNOME, 80));
+        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_GNOME, 100));
+    }
+
+    /** метод задаёт индекс (номер) следующей награды */
+    public void setIndexRewardStars(int index) {
+        indexOfRewardStars = index;
+    }
+
+    /** метод плучает индекс (номер) следующей награды за звезды /***/
+    public int getIndexOfRewardStars() {
+        return indexOfRewardStars;
     }
 
     /**

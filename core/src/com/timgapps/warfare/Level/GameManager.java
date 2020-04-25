@@ -54,6 +54,7 @@ public class GameManager {
     private DataManager manager;
 
     private long giftTime;      // время до получения подарка
+    private int indexOfRewardStars;
 
     public GameManager() {
 
@@ -155,13 +156,16 @@ public class GameManager {
             starsCount = savedGame.getStarsCount();
         }
 
-        /** получим список ДАННЫХ наград за звезды **/
+        /** получим массив с ДАННЫМИ о наградах за звезды */
         rewardForStarsDataList = savedGame.getRewardForStarsDataList();
+
+        /** получим индекс следующей награды за звёзды */
+        indexOfRewardStars = savedGame.getIndexOfRewardStars();
+        int rewardStarsCount = rewardForStarsDataList.get(indexOfRewardStars).getStarsCount();
 
         coinsPanel = new CoinsPanel(coinsCount);
         scorePanel = new ScorePanel(scoreCount);
-        starsPanel = new StarsPanel(starsCount);
-
+        starsPanel = new StarsPanel(starsCount, rewardStarsCount);
 
         giftTime = savedGame.getGiftTime();
 

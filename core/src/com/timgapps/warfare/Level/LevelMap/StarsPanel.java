@@ -16,7 +16,7 @@ public class StarsPanel extends Group {
     private Table table;
     private Label starsCountLabel;
     private Label textLabel;                         // текст "НАГРАДА ЗА ЗВЕЗДЫ"
-    private int starsRewardCount = 10;       // кол-во звезд необходимых для получения награды
+    private int rewardStarsCount;       // кол-во звезд необходимых для получения награды
     private int starsCount;            // кол-во звезд у игрока текущее
     private Image starIcon;
     private Image background;
@@ -26,13 +26,14 @@ public class StarsPanel extends Group {
     private Texture barTexture, backTexture;
 
 
-    public StarsPanel(int starsCount) {
+    public StarsPanel(int starsCount, int rewardStarsCount) {
         this.starsCount = starsCount;
+        this.rewardStarsCount = rewardStarsCount;
 
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.fontColor = Color.WHITE;
         labelStyle.font = Warfare.font20;
-        starsCountLabel = new Label("" + starsCount + "/" + starsRewardCount, labelStyle);
+        starsCountLabel = new Label("" + starsCount + "/" + rewardStarsCount, labelStyle);
 
         Label.LabelStyle textLabelStyle = new Label.LabelStyle();
         textLabelStyle.fontColor = Color.ORANGE;
@@ -61,6 +62,11 @@ public class StarsPanel extends Group {
         addActor(textLabel);
 
         setSize(background.getWidth() + rewardIcon.getWidth(), background.getHeight() + 16);
+    }
+
+    /** метод получает кол-во звезд у игрока **/
+    public int getStarsCount() {
+        return starsCount;
     }
 
     /**  метод добавляет количество звезд к общему кол-ву звезд */
@@ -102,7 +108,7 @@ public class StarsPanel extends Group {
             super.draw(batch, parentAlpha);
             batch.draw(backTexture, getX(), getY());
             batch.draw(barTexture, getX() + 1, getY() + 1,
-                    starsCount * (barWidth - 2) / starsRewardCount, barHeight - 2);
+                    starsCount * (barWidth - 2) / rewardStarsCount, barHeight - 2);
         }
     }
 }

@@ -775,63 +775,63 @@ filter: MipMapLinearNearest,Linear
 repeat: none
 barricadeExplosion0
   rotate: false
-  xy: 993, 1458
+  xy: 1099, 1648
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: -1
 barricadeExplosion1
   rotate: false
-  xy: 1099, 1654
+  xy: 993, 1452
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: -1
 barricadeExplosion2
   rotate: false
-  xy: 1093, 1556
+  xy: 1093, 1550
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: -1
 barricadeExplosion3
   rotate: false
-  xy: 1091, 1458
+  xy: 1091, 1452
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: -1
 barricadeExplosion4
   rotate: false
-  xy: 993, 1360
+  xy: 1197, 1648
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: -1
 barricadeExplosion5
   rotate: false
-  xy: 1091, 1360
+  xy: 1191, 1550
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: -1
 barricadeExplosion6
   rotate: false
-  xy: 1197, 1654
+  xy: 1189, 1452
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: -1
 barricadeExplosion7
   rotate: false
-  xy: 1191, 1556
+  xy: 1295, 1654
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
   index: -1
 barricadeExplosion8
   rotate: false
-  xy: 1189, 1458
+  xy: 1408, 1708
   size: 96, 96
   orig: 96, 96
   offset: 0, 0
@@ -880,7 +880,7 @@ emptyButtonInactive
   index: -1
 energy_icon
   rotate: false
-  xy: 1387, 1756
+  xy: 1235, 1402
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
@@ -934,9 +934,16 @@ gnomeWalk4
   orig: 172, 126
   offset: 0, 0
   index: -1
+isReceived
+  rotate: false
+  xy: 1696, 1756
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
 levelIcon_active_down
   rotate: false
-  xy: 993, 1556
+  xy: 993, 1550
   size: 98, 96
   orig: 98, 96
   offset: 0, 0
@@ -948,6 +955,13 @@ line
   orig: 120, 32
   offset: 0, 0
   index: -1
+orange_coinsPanel
+  rotate: false
+  xy: 1018, 1746
+  size: 132, 58
+  orig: 132, 58
+  offset: 0, 0
+  index: -1
 rewardButton
   rotate: false
   xy: 460, 238
@@ -957,23 +971,30 @@ rewardButton
   index: -1
 rewardButton_dwn
   rotate: false
-  xy: 993, 1654
+  xy: 993, 1648
   size: 104, 96
   orig: 104, 96
   offset: 0, 0
   index: -1
 rock_big
   rotate: false
-  xy: 1295, 1702
+  xy: 1604, 1702
   size: 90, 102
   orig: 90, 102
   offset: 0, 0
   index: -1
 score_icon
   rotate: false
-  xy: 1387, 1706
+  xy: 1696, 1706
   size: 48, 48
   orig: 48, 48
+  offset: 0, 0
+  index: -1
+star_panel_small
+  rotate: false
+  xy: 1115, 1399
+  size: 118, 51
+  orig: 118, 51
   offset: 0, 0
   index: -1
 stoneButtonActive
@@ -992,14 +1013,14 @@ stoneButtonInactive
   index: -1
 targetGreen
   rotate: false
-  xy: 1018, 1752
+  xy: 993, 1398
   size: 120, 52
   orig: 120, 52
   offset: 0, 0
   index: -1
 targetRed
   rotate: false
-  xy: 1140, 1752
+  xy: 1286, 1752
   size: 120, 52
   orig: 120, 52
   offset: 0, 0
@@ -1153,9 +1174,16 @@ upgradeScreen
   index: -1
 upgradeTeamBtn
   rotate: false
-  xy: 1189, 1360
+  xy: 1506, 1708
   size: 96, 96
   orig: 96, 96
+  offset: 0, 0
+  index: -1
+yellow_coinsPanel
+  rotate: false
+  xy: 1152, 1746
+  size: 132, 58
+  orig: 132, 58
   offset: 0, 0
   index: -1
 zombie1Attack1
