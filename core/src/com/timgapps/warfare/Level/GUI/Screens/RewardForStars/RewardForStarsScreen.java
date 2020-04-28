@@ -90,6 +90,7 @@ public class RewardForStarsScreen extends StageGame {
 
             }
 
+            // создаем бары под юизображениями наград за звезды
             StarsBar bar = new StarsBar(rewardForStarsList.get(i).getX() + BG_PANEL_WIDTH / 2 - barWidth - 8,
                     rewardForStarsList.get(i).getY() - barHeight - 16,
                     rewardForStarsDataList.get(i).getIsReceived(),

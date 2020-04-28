@@ -74,12 +74,16 @@ public class SavedGame implements Serializable {
         rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_GNOME, 100));
     }
 
-    /** метод задаёт индекс (номер) следующей награды */
+    /**
+     * метод задаёт индекс (номер) следующей награды
+     */
     public void setIndexRewardStars(int index) {
         indexOfRewardStars = index;
     }
 
-    /** метод плучает индекс (номер) следующей награды за звезды /***/
+    /**
+     * метод плучает индекс (номер) следующей награды за звезды /
+     ***/
     public int getIndexOfRewardStars() {
         return indexOfRewardStars;
     }
@@ -101,12 +105,15 @@ public class SavedGame implements Serializable {
      **/
     public void createTeamEntityDataList() {
         teamDataList = new ArrayList<TeamEntityData>();
+
         teamDataList.add(new TeamEntityData(TeamEntityData.THOR));
         teamDataList.get(0).setDefaultData(TeamEntityData.THOR);
-        teamDataList.add(new TeamEntityData(TeamEntityData.ARCHER));
-        teamDataList.get(1).setDefaultData(TeamEntityData.ARCHER);
-        teamDataList.add(new TeamEntityData(TeamEntityData.STONE));
-        teamDataList.get(2).setDefaultData(TeamEntityData.STONE);
+//        teamDataList.add(new TeamEntityData(TeamEntityData.STONE));
+//        teamDataList.get(1).setDefaultData(TeamEntityData.STONE);
+//        teamDataList.add(new TeamEntityData(TeamEntityData.ARCHER));
+//        teamDataList.get(2).setDefaultData(TeamEntityData.ARCHER);
+//        teamDataList.add(new TeamEntityData(TeamEntityData.STONE));
+//        teamDataList.get(2).setDefaultData(TeamEntityData.STONE);
     }
 
     /**
@@ -114,8 +121,13 @@ public class SavedGame implements Serializable {
      **/
     public void createCollectionDataList() {
         collectionDataList = new ArrayList<TeamEntityData>();
+
+        collectionDataList.add(new TeamEntityData(TeamEntityData.STONE));
+        collectionDataList.get(0).setDefaultData(TeamEntityData.STONE);
+        collectionDataList.add(new TeamEntityData(TeamEntityData.ARCHER));
+        collectionDataList.get(1).setDefaultData(TeamEntityData.ARCHER);
         collectionDataList.add(new TeamEntityData(TeamEntityData.GNOME));
-        collectionDataList.get(0).setDefaultData(TeamEntityData.GNOME);
+        collectionDataList.get(2).setDefaultData(TeamEntityData.GNOME);
     }
 
     public ArrayList<TeamEntityData> getCollectionDataList() {
@@ -186,14 +198,19 @@ public class SavedGame implements Serializable {
 
     public void updateTeamDataList(ArrayList<TeamEntity> team) {
         for (int i = 0; i < team.size(); i++) {
-            teamDataList.set(i, team.get(i).getEntityData());
+            if (i > teamDataList.size() - 1) {
+                teamDataList.add(team.get(i).getEntityData());
+            } else
+                teamDataList.set(i, team.get(i).getEntityData());
 //           teamDataList.get(i) = (TeamEntityData)team.get(i).getEntityData();
         }
     }
 
     public void updateCollectionDataList(ArrayList<TeamEntity> collection) {
         for (int i = 0; i < collection.size(); i++) {
-            collectionDataList.set(i, collection.get(i).getEntityData());
+            collectionDataList.clear();
+            collectionDataList.add(collection.get(i).getEntityData());
+//            collectionDataList.set(i, collection.get(i).getEntityData());
 //           teamDataList.get(i) = (TeamEntityData)team.get(i).getEntityData();
         }
     }

@@ -11,6 +11,7 @@ import com.timgapps.warfare.Level.GUI.Screens.RewardForStars.RewardForStarsData;
 import com.timgapps.warfare.Level.LevelMap.ScorePanel;
 import com.timgapps.warfare.Level.LevelMap.StarsPanel;
 import com.timgapps.warfare.Level.SavedData.SavedGame;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
@@ -125,27 +126,41 @@ public class GameManager {
             savedGame.setIronCount(ironCount);
             savedGame.setWoodCount(woodCount);
 
-//            /** установим значения по умолчанию  для данных TeamEntity **/
+
+            /** создадим КОМАНДУ - массив юнитов в команде */
+
+            /** установим значения по умолчанию  для данных TeamEntity **/
 //            savedGame.getTeamDataList().get(0).setDefaultData();
-
             team.add(new TeamEntity(savedGame.getTeamDataList().get(0)));
-            team.add(new TeamEntity(savedGame.getTeamDataList().get(1)));
-            team.add(new TeamEntity(savedGame.getTeamDataList().get(2)));
-
+//            team.add(new TeamEntity(savedGame.getTeamDataList().get(1)));
+//            team.add(new TeamEntity(savedGame.getTeamDataList().get(2)));
 
 
             /** создадим КОЛЛЕКЦИЮ - массив юнитов в коллекции  **/
             collection.add(new TeamEntity(savedGame.getCollectionDataList().get(0)));
+            collection.add(new TeamEntity(savedGame.getCollectionDataList().get(1)));
+            collection.add(new TeamEntity(savedGame.getCollectionDataList().get(2)));
+
             giftTime = 0;
             savedGame.setGiftTime(giftTime);
 
 //            savedGame.setTeam(team);
         } else {
-            team.add(new TeamEntity(savedGame.getTeamDataList().get(0)));
-            team.add(new TeamEntity(savedGame.getTeamDataList().get(1)));
-            team.add(new TeamEntity(savedGame.getTeamDataList().get(2)));
 
-            collection.add(new TeamEntity(savedGame.getCollectionDataList().get(0)));
+
+            teamDataList = savedGame.getTeamDataList();
+            collectionDataList = savedGame.getCollectionDataList();
+
+            for (int i = 0; i < teamDataList.size(); i++) {
+                team.add(new TeamEntity(savedGame.getTeamDataList().get(i)));
+
+            }
+            for (int i = 0; i < collectionDataList.size(); i++) {
+                collection.add(new TeamEntity(savedGame.getCollectionDataList().get(i)));
+            }
+//            collection.add(new TeamEntity(savedGame.getCollectionDataList().get(0)));
+//            collection.add(new TeamEntity(savedGame.getCollectionDataList().get(1)));
+//            collection.add(new TeamEntity(savedGame.getCollectionDataList().get(2)));
 
             // получим кол-во ресурсов
             foodCount = savedGame.getFoodCount();
@@ -188,7 +203,9 @@ public class GameManager {
 //        collection.add(new TeamEntity(TeamEntity.THOR));
     }
 
-    /** метод для получения ДАННЫХ о наградах за звезды **/
+    /**
+     * метод для получения ДАННЫХ о наградах за звезды
+     **/
     public ArrayList<RewardForStarsData> getRewardForStarsDataList() {
         return rewardForStarsDataList;
     }
@@ -442,6 +459,11 @@ public class GameManager {
     public void updateCollection(ArrayList<TeamEntity> collection) {
         this.collection = collection;
         savedGame.updateCollectionDataList(collection);
+    }
+
+    /** метод для получения объекта savedGame() */
+    public SavedGame getSavedGame() {
+        return savedGame;
     }
 
 }

@@ -116,6 +116,9 @@ public class UpgradeScreen extends Group {
     private Label unitNameLabel;
     private String unitName;
 
+    private BlockTable blockTable;
+    private Table costUpgradeTable;
+
 
     public UpgradeScreen(GameManager gameManager, TeamUpgradeScreen teamUpgradeScreen) {
 
@@ -124,6 +127,7 @@ public class UpgradeScreen extends Group {
         this.gameManager = gameManager;
         this.team = gameManager.getTeam();              // команда - массив типа TeamEntity
         coinsCount = gameManager.getCoinsCount();
+        blockTable = new BlockTable();
 
         /** зададим значения характеристик юнита**/
 //        containerX = x;
@@ -150,7 +154,6 @@ public class UpgradeScreen extends Group {
         closeButton.setX(background.getX() + background.getWidth() - closeButton.getWidth() - 28);
         closeButton.setY(background.getY() + background.getHeight() - closeButton.getHeight() - 8);
         addActor(closeButton);
-
 
         /** слушатель для КНОПКИ ЗАКРЫТИЯ ОКНА **/
         closeButton.addListener(new ClickListener() {
@@ -290,7 +293,7 @@ public class UpgradeScreen extends Group {
         /** Таблица СТОИМОСТЬ АПГРЕЙДА в режиме DEBUG **/
 //        Table costUpgradeTable = new Table().debug();
 
-        Table costUpgradeTable = new Table();
+        costUpgradeTable = new Table();
 
         Table line = new Table();
         line.setBackground(new TextureRegionDrawable(Warfare.atlas.findRegion("div_line")));
@@ -310,14 +313,32 @@ public class UpgradeScreen extends Group {
         costUpgradeTable.add(upgradeToLevelLabel).colspan(6).padTop(32);
 
         container.row();
+
+        /** добавим таблицу со строимостью апгрейда **/
         container.add(costUpgradeTable).colspan(3);
         container.row();
-
         container.add(upgradeButton).height(upgradeButton.getHeight()).width(upgradeButton.getWidth()).colspan(3).padTop(8);
 
         container.setPosition(background.getX() + paddingLeft, background.getY());
         container.setPosition(background.getX() + paddingLeft, background.getY() - 16);
         addActor(container);
+
+        blockTable.setPosition(500, 260);
+        blockTable.setVisible(false);
+        addActor(blockTable);
+
+        boolean isUnlock = false;
+//        /** проверим, если юнит не разблокирован, то отобразим таблицу с информацией о необходимом кол-ве звёзд (blockTale) **/
+//        if (isUnlock == false) {
+//            costUpgradeTable.setVisible(false);
+//            upgradeButton.setVisible(false);
+//            blockTable.setVisible(true);
+//        } else {
+//            costUpgradeTable.setVisible(true);
+//            upgradeButton.setVisible(true);
+//            blockTable.setVisible(false);
+//        }
+
 
         /** Добавляем панель (таблицу) с реурсами(ПИЩА, ЖЕЛЕЗО, ДЕРЕВО) **/
         resourcesTable = new ResourcesTable(gameManager.getFoodCount(),
@@ -341,10 +362,12 @@ public class UpgradeScreen extends Group {
                 background.getY() + background.getHeight() - unitNameLabel.getHeight());
 
         addActor(unitNameLabel);
+
+
     }
 
-    public void showUpgradeScreen(boolean showSelectButton) {
-
+    public void showUpgradeScreen(boolean showSelectButton, TeamEntity teamEntity) {
+        this.teamEntity = teamEntity;
         // обновим количество ресурсов в таблице
         resourcesTable.updateResources(gameManager.getFoodCount(), gameManager.getIronCount(), gameManager.getWoodCount());
 
@@ -354,12 +377,18 @@ public class UpgradeScreen extends Group {
         /** добавим объект - изображение юнита со значком уровня юнита**/
         imageContainer.addActor(unitImage);
 
+        boolean isUnlock = teamEntity.getEntityData().isUnlock();
+
+        /** если юнит разблокирован, то делаем значок уровня юнита видимым **/
+        if (isUnlock == true) teamEntity.getUnitImage().getUnitLevelIcon().setVisible(true);
+
         /** если юнит не состоит в команде, отображаем кнопку "ВЫБРАТЬ" **/
         if (showSelectButton) {
             unitImage.getSelectButton().setVisible(true);
         } else {
             unitImage.getSelectButton().setVisible(false);
         }
+        showBlockTable(isUnlock);
     }
 
     /**
@@ -426,6 +455,28 @@ public class UpgradeScreen extends Group {
     }
 
     /**
+     * метод показывет надпись : "соберите n-ое кол-во звёзд для разблокировки
+     **/
+    public void showBlockTable(boolean isUnlock) {
+
+        teamEntity.getUnitImage().getUnitLevelIcon().setVisible(false);
+
+        /** проверим, если юнит не разблокирован, то отобразим таблицу с информацией о необходимом кол-ве звёзд (blockTale) **/
+        if (isUnlock == false) {
+            costUpgradeTable.setVisible(false);
+            upgradeButton.setVisible(false);
+            blockTable.setVisible(true);
+        } else {
+            costUpgradeTable.setVisible(true);
+            upgradeButton.setVisible(true);
+            blockTable.setVisible(false);
+            teamEntity.getUnitImage().getUnitLevelIcon().setVisible(true);
+        }
+
+    }
+
+
+    /**
      * убираем коллекцию с экрана и отображаем выбранного для замены юнита
      **/
     private void showReplace() {
@@ -487,6 +538,33 @@ public class UpgradeScreen extends Group {
 //        healthAddValueLabel.addAction(ca);
 
 
+    }
+
+    /**
+     * таблица : собрите n-ое кол-во звезд для разблокировки
+     **/
+    class BlockTable extends Table {
+        Image star;
+        Image blockIcon;
+
+        public BlockTable() {
+            Label label;
+            Label label1;
+            Label.LabelStyle labelStyle = new Label.LabelStyle();
+            labelStyle.fontColor = Color.DARK_GRAY;
+            labelStyle.font = Warfare.font20;
+            label = new Label("" + "collect " + 10, labelStyle);
+            label1 = new Label("for unlock unit", labelStyle);
+
+            star = new Image(Warfare.atlas.findRegion("star_active"));
+            blockIcon = new Image(Warfare.atlas.findRegion("lockIcon"));
+            add(blockIcon).width(blockIcon.getWidth()).padRight(12);
+            add(label);
+            add(star).width(star.getWidth()).padLeft(4).padRight(4);
+            add(label1);
+
+            setSize(200, 64);
+        }
     }
 
 

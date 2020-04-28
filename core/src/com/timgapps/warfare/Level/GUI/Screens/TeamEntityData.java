@@ -20,6 +20,7 @@ public class TeamEntityData implements Serializable {
     private int SPEED;
     private String NAME;
     private int unitLevel;
+    private boolean isUnlock = false;
 
     public TeamEntityData(int unitType) {
         this.unitType = unitType;
@@ -60,6 +61,21 @@ public class TeamEntityData implements Serializable {
                 HEALTH = 50;
                 break;
         }
+        if (unitType == THOR) {
+            setUnlock();        // разблокируем юнита "THOR" , первый доступный юнит
+        }
+    }
+
+    /**
+     * метод меняет статус и картинку на разблокирован
+     */
+    public void setUnlock() {
+        isUnlock = true;
+    }
+
+    /** метод возвращает значение, что юнит и его картинка разблокированы ли (false - заблокирована)*/
+    public boolean isUnlock() {
+        return isUnlock;
     }
 
     public void setDAMAGE(int DAMAGE) {

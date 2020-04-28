@@ -203,7 +203,8 @@ public class Level extends StageGame {
     private void setBackGround(String region) {
         clearBackground();
         Image bg = new Image(Warfare.atlas.findRegion(region));
-        addBackground(bg, true, false);
+        addBackground(bg, true, true);
+//        addBackground(bg, false, false);
     }
 
     public World getWorld() {

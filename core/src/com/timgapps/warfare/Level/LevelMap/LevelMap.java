@@ -312,6 +312,9 @@ public class LevelMap extends StageGame {
 
     private void showTeamUpgradeScreen() {
         isFocused = false;
+
+        teamUpgradeScreen.updateTeam();
+        teamUpgradeScreen.updateCollection();
         teamUpgradeScreen.setVisible(true);
     }
 

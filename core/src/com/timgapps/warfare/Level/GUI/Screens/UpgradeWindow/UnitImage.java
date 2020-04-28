@@ -51,7 +51,7 @@ public class UnitImage extends Group {
                 textureRegionName = "thorUnitImage";
                 break;
             case TeamEntity.STONE:
-                textureRegionName = "stoneButtonActive";
+                textureRegionName = "rockUnitImage";
                 break;
 
 
@@ -108,6 +108,12 @@ public class UnitImage extends Group {
         addActor(selectButton);
     }
 
+    public UnitLevelIcon getUnitLevelIcon() {
+        return levelIcon;
+    }
+
+
+
     /**
      * метод применяет действие к значку УРОВЕНЬ ИГРОКА
      **/
@@ -145,4 +151,5 @@ public class UnitImage extends Group {
     public Image getImage() {
         return image;
     }
+
 }

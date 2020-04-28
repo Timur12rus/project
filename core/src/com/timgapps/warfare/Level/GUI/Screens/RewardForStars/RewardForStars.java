@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.timgapps.warfare.Level.GUI.Screens.TeamEntity;
 import com.timgapps.warfare.Level.GameManager;
 import com.timgapps.warfare.Level.LevelMap.LevelIcon;
 import com.timgapps.warfare.Warfare;
@@ -26,17 +27,21 @@ public class RewardForStars extends Group {
     private RewardForStarsData data;
     private GameManager gameManager;
 
-    public RewardForStars(RewardForStarsData data, GameManager gameManager) {
+    public RewardForStars(final RewardForStarsData data, GameManager gameManager) {
         this.gameManager = gameManager;
         this.data = data;
         Label.LabelStyle labelStyle = new Label.LabelStyle();
-        labelStyle.fontColor = Color.WHITE;
+        if (data.getIsReceived()) {
+            labelStyle.fontColor = Color.LIGHT_GRAY;
+        } else {
+            labelStyle.fontColor = Color.WHITE;
+        }
         labelStyle.font = Warfare.font20;
 
 
         switch (data.getTypeOfReward()) {
             case RewardForStarsData.REWARD_STONE:
-                rewardImage = new Image(Warfare.atlas.findRegion("block1"));
+                rewardImage = new Image(Warfare.atlas.findRegion("block1_image"));
                 name = "Rock";
 //                starsNum = data.getStarsCount();
                 deltaX = 0;
@@ -80,7 +85,11 @@ public class RewardForStars extends Group {
 
         bgYellow.setVisible(false);
         bgOrange.setVisible(false);
-        receivedImg.setVisible(false);
+        if (data.getIsReceived()) {
+            receivedImg.setVisible(true);
+        } else {
+            receivedImg.setVisible(false);
+        }
 
         rewardImage.setPosition((bg.getWidth() - rewardImage.getWidth()) / 2 - deltaX, 36);
 
@@ -120,15 +129,84 @@ public class RewardForStars extends Group {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                getRewardForStars();
+                if (!data.getIsReceived()) {
+                    getRewardForStars();
+                }
             }
         });
     }
 
+    /**
+     * метод для получения награды за звезды при клике на награду
+     **/
+
+    // TODO нужно исправить!!!
     public void getRewardForStars() {
-        if (data.getTypeOfReward() == RewardForStarsData.REWARD_STONE) {
-//            gameManager.getCollection().get(0).setActive();
+        nameLabel.setColor(Color.LIGHT_GRAY);
+
+        switch (data.getTypeOfReward()) {
+            case RewardForStarsData.REWARD_STONE:
+
         }
+
+        if (data.getTypeOfReward() == RewardForStarsData.REWARD_STONE) {
+
+            gameManager.getCollection().get(0).getEntityData().setUnlock();     // снимаем блокировку юнита
+            gameManager.getCollection().get(0).getUnitImageButton().unlock();
+
+            if (gameManager.getTeam().size() < 5)
+
+                // добавим полученный юнит в команду
+                gameManager.getTeam().add(gameManager.getCollection().get(0));  // добавляем в команду полученный юнит из коллекции
+            gameManager.getSavedGame().getTeamDataList().add(gameManager.getSavedGame().getCollectionDataList().get(0));
+
+            // удалим юнит из коллекции
+            gameManager.getCollection().remove(0);
+            gameManager.getSavedGame().getCollectionDataList().remove(0);
+
+            System.out.println("gameManager.getCollection().get(0) = " + gameManager.getCollection().get(0).toString());
+            System.out.println("gameManager.getCollectionDataList().get(0) = " + gameManager.getSavedGame().getCollectionDataList().get(0).toString());
+
+            data.setReceived();
+            gameManager.saveGame();
+        }
+//        if (data.getTypeOfReward() == RewardForStarsData.REWARD_ARCHER) {
+//            // найдем индекс юнита типа = TeamEntity.ARCHER
+//            int index;
+//
+//            for (int i = 0; i < gameManager.getCollection().size(); i++) {
+//                if (gameManager.getCollection().get(i).getUnitType() == TeamEntity.ARCHER) {
+//                    index = i;
+//                    addRewardUnitToTeam(i);
+//                }
+//            }
+//
+//            gameManager.getCollection().get(0).getEntityData().setUnlock();     // снимаем блокировку юнита
+//            gameManager.getCollection().get(0).getUnitImageButton().unlock();
+//        }
+    }
+
+    /** метод добавляет полученного юнита в команду **/
+    private void addRewardUnitToTeam(int i) {
+        gameManager.getCollection().get(i).getEntityData().setUnlock();     // снимаем блокировку юнита
+        gameManager.getCollection().get(i).getUnitImageButton().unlock();
+
+        // добавим полученный юнит в команду
+        gameManager.getTeam().add(gameManager.getCollection().get(i));  // добавляем в команду полученный юнит из коллекции
+        gameManager.getSavedGame().getTeamDataList().add(gameManager.getSavedGame().getCollectionDataList().get(0));
+
+        // удалим юнит из коллекции
+        gameManager.getCollection().remove(0);
+        gameManager.getSavedGame().getCollectionDataList().remove(0);
+
+        System.out.println("gameManager.getCollection().get(0) = " + gameManager.getCollection().get(0).toString());
+        System.out.println("gameManager.getCollectionDataList().get(0) = " + gameManager.getSavedGame().getCollectionDataList().get(0));
+
+    }
+
+    /** метод разблокирует юнита и делает его доступным в коллекции **/
+    private void unlockRewardForStars() {
+
     }
 
     public void setChecked() {
@@ -142,6 +220,7 @@ public class RewardForStars extends Group {
         bg.setVisible(true);
         bgYellow.setVisible(false);
         receivedImg.setVisible(true);
+
     }
 
     public int getRewardCountStars() {

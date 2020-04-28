@@ -1,13 +1,13 @@
 package com.timgapps.warfare.Level.GUI.Screens;
 
+import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.timgapps.warfare.Level.GUI.Screens.UpgradeWindow.UnitImage;
-import com.timgapps.warfare.Level.GUI.Screens.UpgradeWindow.UnitLevelIcon;
-import com.timgapps.warfare.Level.GUI.UnitButton;
-import com.timgapps.warfare.Level.LevelScreens.DarkLayer;
 import com.timgapps.warfare.Warfare;
 
 
@@ -19,7 +19,8 @@ public class TeamEntity extends Group {
     public static final int THOR = 3;
     public static final int STONE = 4;
 
-    private ImageButton unitButton;
+    private UnitImageButton unitButton;
+    //    private ImageButton unitButton;
     private int unitType;
     private int DAMAGE;
     private int HEALTH;
@@ -51,8 +52,14 @@ public class TeamEntity extends Group {
         this.data = data;
         switch (unitType) {
             case GNOME:
-                unitButton = new ImageButton(new TextureRegionDrawable(Warfare.atlas.findRegion("gnomeActive")),
-                        new TextureRegionDrawable(Warfare.atlas.findRegion("gnomeInactive")));
+//                unitButton = new ImageButton(new TextureRegionDrawable(Warfare.atlas.findRegion("gnomeActive")),
+//                        new TextureRegionDrawable(Warfare.atlas.findRegion("gnomeInactive")));
+
+                unitButton = new UnitImageButton(new Image(Warfare.atlas.findRegion("gnomeActive")),
+                        new Image(Warfare.atlas.findRegion("gnomeInactive")),
+                        new Image(Warfare.atlas.findRegion("gnomeLock")),
+                        data.isUnlock());
+
                 NAME = "Gnome";
                 SPEED = 6;
                 addHealthValue = 2;
@@ -61,8 +68,14 @@ public class TeamEntity extends Group {
                 energyCost = 15;
                 break;
             case ARCHER:
-                unitButton = new ImageButton(new TextureRegionDrawable(Warfare.atlas.findRegion("archer1Active")),
-                        new TextureRegionDrawable(Warfare.atlas.findRegion("archer1Inactive")));
+//                unitButton = new ImageButton(new TextureRegionDrawable(Warfare.atlas.findRegion("archer1Active")),
+//                        new TextureRegionDrawable(Warfare.atlas.findRegion("archer1Inactive")));
+
+                unitButton = new UnitImageButton(new Image(Warfare.atlas.findRegion("archer1Active")),
+                        new Image(Warfare.atlas.findRegion("archer1Inactive")),
+                        new Image(Warfare.atlas.findRegion("archer1Lock")),
+                        data.isUnlock());
+
                 NAME = "Archer";
                 SPEED = 4;
                 addHealthValue = 2;
@@ -72,8 +85,13 @@ public class TeamEntity extends Group {
                 break;
 
             case THOR:
-                unitButton = new ImageButton(new TextureRegionDrawable(Warfare.atlas.findRegion("thorActive")),
-                        new TextureRegionDrawable(Warfare.atlas.findRegion("thorInactive")));
+//                unitButton = new ImageButton(new TextureRegionDrawable(Warfare.atlas.findRegion("thorActive")),
+//                        new TextureRegionDrawable(Warfare.atlas.findRegion("thorInactive")));
+                unitButton = new UnitImageButton(new Image(Warfare.atlas.findRegion("thorActive")),
+                        new Image(Warfare.atlas.findRegion("thorInactive")),
+                        new Image(Warfare.atlas.findRegion("thorLock")),
+                        data.isUnlock());
+
                 NAME = "Thor";
                 SPEED = 8;
                 addHealthValue = 2;
@@ -83,8 +101,14 @@ public class TeamEntity extends Group {
                 break;
 
             case STONE:
-                unitButton = new ImageButton(new TextureRegionDrawable(Warfare.atlas.findRegion("stoneButtonActive")),
-                        new TextureRegionDrawable(Warfare.atlas.findRegion("stoneButtonInactive")));
+//                unitButton = new ImageButton(new TextureRegionDrawable(Warfare.atlas.findRegion("stoneButtonActive")),
+//                        new TextureRegionDrawable(Warfare.atlas.findRegion("stoneButtonInactive")));
+                unitButton = new UnitImageButton(new Image(Warfare.atlas.findRegion("stoneButtonActive")),
+                        new Image(Warfare.atlas.findRegion("stoneButtonInactive")),
+                        new Image(Warfare.atlas.findRegion("stoneButtonLock")),
+                        data.isUnlock());
+
+
                 NAME = "Rock";
                 SPEED = 0;
                 addHealthValue = 2;
@@ -95,8 +119,8 @@ public class TeamEntity extends Group {
                 break;
 
             case NONE:
-                unitButton = new ImageButton(new TextureRegionDrawable(Warfare.atlas.findRegion("emptyButtonActive")),
-                        new TextureRegionDrawable(Warfare.atlas.findRegion("emptyButtonInactive")));
+//                unitButton = new ImageButton(new TextureRegionDrawable(Warfare.atlas.findRegion("emptyButtonActive")),
+//                        new TextureRegionDrawable(Warfare.atlas.findRegion("emptyButtonInactive")));
                 SPEED = 12;
                 break;
         }
@@ -114,6 +138,82 @@ public class TeamEntity extends Group {
 //        unitLevelIcon = new UnitLevelIcon(unitLevel);
 //        unitLevelIcon.setPosition(unitImage.getWidth(), unitImage.getHeight() - 20);
 //        addActor(unitLevelIcon);
+    }
+
+    public class UnitImageButton extends Group {
+        Image bgImage, dwnImage, lockImage;
+        boolean isUnlock;
+
+        public UnitImageButton(final Image bgImage, final Image dwnImage, final Image lockImage, final boolean isUnlock) {
+            this.bgImage = bgImage;
+            this.dwnImage = dwnImage;
+            this.lockImage = lockImage;
+            this.isUnlock = isUnlock;       // isLock - значит заблокирован
+
+            setSize(bgImage.getWidth(), bgImage.getHeight());
+
+            dwnImage.setVisible(false);
+            bgImage.setVisible(false);
+            lockImage.setVisible(false);
+
+            if (isUnlock) {                     // если разблокирован
+                bgImage.setVisible(true);
+            } else {                            // в противном случае, заблокирован
+                lockImage.setVisible(true);
+            }
+
+            addActor(bgImage);
+            addActor(dwnImage);
+            dwnImage.setPosition(0, -10);
+            addActor(lockImage);
+
+            addCaptureListener(new EventListener() { // добавляет слушателя события корневому элементу, отключая его для дочерних элементов
+                @Override
+                public boolean handle(Event event) {
+                    event.setTarget(UnitImageButton.this);
+                    return true;
+                }
+            });
+            addListener(new ClickListener() { // создаем слушателя события нажатия кнопки
+                // переопределяем метод TouchDown(), который называется прикасание
+
+                @Override
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    if (!isUnlock) {
+                        lockImage.setY(lockImage.getY() - 10);
+                    } else {
+                        dwnImage.setVisible(true); // устанавливаем видимость для фона нажатой кнопки, а также оставим вызов метода суперкласса
+                        bgImage.setVisible(false);
+                    }
+                    return super.touchDown(event, x, y, pointer, button);
+                }
+
+                @Override
+                public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                    if (!isUnlock) {
+                        lockImage.setY(lockImage.getY() + 10);
+                    } else {
+                        dwnImage.setVisible(false);
+                        bgImage.setVisible(true);
+                    }
+                    super.touchUp(event, x, y, pointer, button);
+                }
+
+//                @Override
+//                public void clicked(InputEvent event, float x, float y) {
+//                    super.clicked(event, x, y);
+//                }
+            });
+        }
+        public void unlock() {
+            isUnlock = true;
+            lockImage.setVisible(false);
+            bgImage.setVisible(true);
+        }
+    }
+
+    public void unlock() {
+        unitButton.unlock();
     }
 
     /**
@@ -176,7 +276,7 @@ public class TeamEntity extends Group {
         this.unitLevel = unitLevel;
     }
 
-    public ImageButton getUnitButton() {
+    public UnitImageButton getUnitImageButton() {
         return unitButton;
     }
 
