@@ -129,7 +129,7 @@ public class RewardForStars extends Group {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                if (!data.getIsReceived()) {
+                if ((!data.getIsReceived()) && (data.getIsChecked())) {
                     getRewardForStars();
                 }
             }
@@ -144,69 +144,85 @@ public class RewardForStars extends Group {
     public void getRewardForStars() {
         nameLabel.setColor(Color.LIGHT_GRAY);
 
+        int index;
         switch (data.getTypeOfReward()) {
-            case RewardForStarsData.REWARD_STONE:
-
+            case RewardForStarsData.REWARD_STONE:                           // если наград "КАМЕНЬ"
+                for (int i = 0; i < gameManager.getCollection().size(); i++) {
+                    if (gameManager.getCollection().get(i).getUnitType() == TeamEntity.STONE) {
+                        addRewardUnitToTeam(i);
+                    }
+                }
+                break;
+            case RewardForStarsData.REWARD_ARCHER:
+                for (int i = 0; i < gameManager.getCollection().size(); i++) {
+                    if (gameManager.getCollection().get(i).getUnitType() == TeamEntity.ARCHER) {
+                        addRewardUnitToTeam(i);
+                    }
+                }
+                break;
         }
 
-        if (data.getTypeOfReward() == RewardForStarsData.REWARD_STONE) {
+//         сохраним данные
+        data.setReceived();
+        gameManager.saveGame();
 
-            gameManager.getCollection().get(0).getEntityData().setUnlock();     // снимаем блокировку юнита
-            gameManager.getCollection().get(0).getUnitImageButton().unlock();
 
-            if (gameManager.getTeam().size() < 5)
-
-                // добавим полученный юнит в команду
-                gameManager.getTeam().add(gameManager.getCollection().get(0));  // добавляем в команду полученный юнит из коллекции
-            gameManager.getSavedGame().getTeamDataList().add(gameManager.getSavedGame().getCollectionDataList().get(0));
-
-            // удалим юнит из коллекции
-            gameManager.getCollection().remove(0);
-            gameManager.getSavedGame().getCollectionDataList().remove(0);
-
-            System.out.println("gameManager.getCollection().get(0) = " + gameManager.getCollection().get(0).toString());
-            System.out.println("gameManager.getCollectionDataList().get(0) = " + gameManager.getSavedGame().getCollectionDataList().get(0).toString());
-
-            data.setReceived();
-            gameManager.saveGame();
-        }
-//        if (data.getTypeOfReward() == RewardForStarsData.REWARD_ARCHER) {
-//            // найдем индекс юнита типа = TeamEntity.ARCHER
-//            int index;
+//        /** ---------------------------------------------------------------------------**/
+////        if (data.getTypeOfReward() == RewardForStarsData.REWARD_STONE) {
+////            for (int i = 0; i < gameManager.getCollection().size(); i++) {
+////                if (gameManager.getCollection().get(i).getUnitType() == TeamEntity.ARCHER) {
+////                    index = i;
+////                    addRewardUnitToTeam(i);
+////                }
+////            }
+//        gameManager.getCollection().get(0).getEntityData().setUnlock();     // снимаем блокировку юнита
+//        gameManager.getCollection().get(0).getUnitImageButton().unlock();
 //
-//            for (int i = 0; i < gameManager.getCollection().size(); i++) {
-//                if (gameManager.getCollection().get(i).getUnitType() == TeamEntity.ARCHER) {
-//                    index = i;
-//                    addRewardUnitToTeam(i);
-//                }
-//            }
+//        if (gameManager.getTeam().size() < 5)
+//            // добавим полученный юнит в команду
+//            gameManager.getTeam().add(gameManager.getCollection().get(0));  // добавляем в команду полученный юнит из коллекции
+//        gameManager.getSavedGame().getTeamDataList().add(gameManager.getSavedGame().getCollectionDataList().get(0));
+//        // удалим юнит из коллекции
+//        gameManager.getCollection().remove(0);
+//        gameManager.getSavedGame().getCollectionDataList().remove(0);
 //
-//            gameManager.getCollection().get(0).getEntityData().setUnlock();     // снимаем блокировку юнита
-//            gameManager.getCollection().get(0).getUnitImageButton().unlock();
-//        }
+//        System.out.println("gameManager.getCollection().get(0) = " + gameManager.getCollection().get(0).toString());
+//        System.out.println("gameManager.getCollectionDataList().get(0) = " + gameManager.getSavedGame().getCollectionDataList().get(0).toString());
+//        /** -------------------------------------------------------------------------------------------------------------------**/
+
+//        data.setReceived();
+//        gameManager.saveGame();
     }
 
-    /** метод добавляет полученного юнита в команду **/
+    /**
+     * метод добавляет полученного юнита в команду
+     **/
     private void addRewardUnitToTeam(int i) {
+//        unlockRewardForStars(i);                                               // разблокируем награду
         gameManager.getCollection().get(i).getEntityData().setUnlock();     // снимаем блокировку юнита
         gameManager.getCollection().get(i).getUnitImageButton().unlock();
 
-        // добавим полученный юнит в команду
-        gameManager.getTeam().add(gameManager.getCollection().get(i));  // добавляем в команду полученный юнит из коллекции
-        gameManager.getSavedGame().getTeamDataList().add(gameManager.getSavedGame().getCollectionDataList().get(0));
+        if (gameManager.getTeam().size() < 5) {
+            // добавим полученный юнит в команду
+            gameManager.getTeam().add(gameManager.getCollection().get(i));  // добавляем в команду полученный юнит из коллекции
+            gameManager.getSavedGame().getTeamDataList().add(gameManager.getSavedGame().getCollectionDataList().get(i));
 
-        // удалим юнит из коллекции
-        gameManager.getCollection().remove(0);
-        gameManager.getSavedGame().getCollectionDataList().remove(0);
+            // удалим юнит из коллекции
+            gameManager.getCollection().remove(i);
+            gameManager.getSavedGame().getCollectionDataList().remove(i);
+        }
 
         System.out.println("gameManager.getCollection().get(0) = " + gameManager.getCollection().get(0).toString());
         System.out.println("gameManager.getCollectionDataList().get(0) = " + gameManager.getSavedGame().getCollectionDataList().get(0));
 
     }
 
-    /** метод разблокирует юнита и делает его доступным в коллекции **/
-    private void unlockRewardForStars() {
-
+    /**
+     * метод разблокирует юнита и делает его доступным в коллекции
+     **/
+    private void unlockRewardForStars(int index) {
+        gameManager.getCollection().get(index).getEntityData().setUnlock();     // снимаем блокировку юнита
+        gameManager.getCollection().get(index).getUnitImageButton().unlock();
     }
 
     public void setChecked() {
