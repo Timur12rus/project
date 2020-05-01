@@ -652,7 +652,7 @@ public class UpgradeScreen extends Group {
             MoveToAction mta = new MoveToAction();
 
             mta.setPosition(Warfare.V_WIDTH / 2 - 200, Warfare.V_HEIGHT / 2 + 100);
-            mta.setDuration(1f);
+            mta.setDuration(0.7f);
 
             AlphaAction alphaActionEnd = new AlphaAction();
             alphaActionEnd.setAlpha(0);

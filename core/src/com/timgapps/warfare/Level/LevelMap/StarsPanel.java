@@ -10,7 +10,10 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.timgapps.warfare.Level.GUI.Screens.RewardForStars.RewardForStarsData;
 import com.timgapps.warfare.Warfare;
+
+import java.util.ArrayList;
 
 public class StarsPanel extends Group {
     private Table table;
@@ -24,11 +27,14 @@ public class StarsPanel extends Group {
     private StarsBar starsBar;
 
     private Texture barTexture, backTexture;
+    private ArrayList<RewardForStarsData> rewardForStarsDataList;
 
 
-    public StarsPanel(int starsCount, int rewardStarsCount) {
+    /** панель с кол-вом звезд (Например: 4/11) **/
+    public StarsPanel(int starsCount, int rewardStarsCount, ArrayList<RewardForStarsData> rewardForStarsDataList,  int indexOfRewardStars) {
         this.starsCount = starsCount;
         this.rewardStarsCount = rewardStarsCount;
+        this.rewardForStarsDataList = rewardForStarsDataList;
 
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.fontColor = Color.WHITE;
@@ -43,7 +49,9 @@ public class StarsPanel extends Group {
 
         /** Изображение ЗНАЧОК ЗВЕЗДА **/
         starIcon = new Image(Warfare.atlas.findRegion("star_icon"));
-        rewardIcon = new Image(Warfare.atlas.findRegion("score_icon"));
+        rewardIcon = rewardForStarsDataList.get(indexOfRewardStars).getRewardSmallIcon();
+//        rewardIcon = new Image(Warfare.atlas.findRegion("score_icon"));
+
         background = new Image(Warfare.atlas.findRegion("coinsPanel"));
         starsBar = new StarsBar();
 

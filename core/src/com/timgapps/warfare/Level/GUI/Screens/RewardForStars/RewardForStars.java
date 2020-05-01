@@ -1,6 +1,4 @@
 package com.timgapps.warfare.Level.GUI.Screens.RewardForStars;
-
-
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
@@ -26,8 +24,11 @@ public class RewardForStars extends Group {
     private float deltaX;       // количество пикселей по Х, на сколько нужно сдвинуть изображение
     private RewardForStarsData data;
     private GameManager gameManager;
+    private RewardForStarsScreen rewardForStarsScreen;
 
-    public RewardForStars(final RewardForStarsData data, GameManager gameManager) {
+    public RewardForStars(final RewardForStarsScreen rewardForStarsScreen, final RewardForStarsData data, GameManager gameManager) {
+        this.rewardForStarsScreen = rewardForStarsScreen;
+
         this.gameManager = gameManager;
         this.data = data;
         Label.LabelStyle labelStyle = new Label.LabelStyle();
@@ -108,6 +109,7 @@ public class RewardForStars extends Group {
             }
         });
 
+//        final RewardForStarsScreen finalRewardForStarsScreen = rewardForStarsScreen;
         addListener(new ClickListener() { // создаем слушателя события нажатия кнопки
             // переопределяем метод TouchDown(), который называется прикасание
 
@@ -132,15 +134,21 @@ public class RewardForStars extends Group {
                 if ((!data.getIsReceived()) && (data.getIsChecked())) {
                     getRewardForStars();
                 }
+
+                if (!data.getIsChecked()) {
+                    rewardForStarsScreen.showToast(data.getStarsCount());
+                }
             }
         });
+    }
+
+    public Image getRewardImage() {
+        return rewardImage;
     }
 
     /**
      * метод для получения награды за звезды при клике на награду
      **/
-
-    // TODO нужно исправить!!!
     public void getRewardForStars() {
         nameLabel.setColor(Color.LIGHT_GRAY);
 

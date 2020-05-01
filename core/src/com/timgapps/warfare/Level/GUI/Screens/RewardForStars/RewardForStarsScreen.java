@@ -4,17 +4,20 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.actions.AlphaAction;
+import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.boontaran.games.StageGame;
 import com.timgapps.warfare.Level.GameManager;
-import com.timgapps.warfare.Level.LevelMap.StarsPanel;
 import com.timgapps.warfare.Warfare;
 
 import java.util.ArrayList;
@@ -31,6 +34,7 @@ public class RewardForStarsScreen extends StageGame {
     private Label countLabel;
     private int starsCount;
     private float xPos;     // позиция Х panelStarsSmall
+    private boolean isStartToastAction = false;
 
     public RewardForStarsScreen(GameManager gameManager) {
         createBackground();
@@ -63,12 +67,24 @@ public class RewardForStarsScreen extends StageGame {
 //            }
 //        };
 
+//        ClickListener rewardForStarsListener = new ClickListener() {
+//            @Override
+//            public void clicked(InputEvent event, float x, float y) {
+//                super.clicked(event, x, y);
+//                showMessage(get);
+//            }
+//        };
+
         /** создадим картинки и бары **/
         for (int i = 0; i < rewardForStarsDataList.size(); i++) {
-            rewardForStarsList.add(new RewardForStars(rewardForStarsDataList.get(i), gameManager));
+
+            rewardForStarsList.add(new RewardForStars(this, rewardForStarsDataList.get(i), gameManager));
             rewardForStarsList.get(i).setPosition(100 + 190 * i + rewardForStarsList.get(i).getWidth(), 360);
             addChild(rewardForStarsList.get(i));
 
+//            rewardForStarsList.get(i).addListener(rewardForStarsListener);
+
+            /** обозначим доступные награды за звезды **/
             if (starsCount > rewardForStarsDataList.get(i).getStarsCount()) {
                 rewardForStarsDataList.get(i).setChecked();
             }
@@ -110,6 +126,43 @@ public class RewardForStarsScreen extends StageGame {
         }
         starsPanelSmall.setPosition(xPos - 8 - starsPanelSmall.getWidth() / 2, 216);
         addChild(starsPanelSmall);
+    }
+
+    public void showToast(int starsCount) {
+        if (isStartToastAction == false) {
+            System.out.println("show Toast!");
+            Label.LabelStyle labelStyle = new Label.LabelStyle();
+            labelStyle.fontColor = Color.RED;
+            labelStyle.font = Warfare.font40;
+            Label toastLabel = new Label("Collect " + starsCount + " stars for reward", labelStyle);
+            toastLabel.setPosition(Warfare.V_WIDTH / 2 - 200, Warfare.V_HEIGHT / 2);
+            addChild(toastLabel);
+
+            Action checkEndOfAction = new Action() {
+                @Override
+                public boolean act(float delta) {
+                    isStartToastAction = false;
+                    return true;
+                }
+            };
+
+            AlphaAction alphaActionStart = new AlphaAction();
+            alphaActionStart.setAlpha(1);
+            alphaActionStart.setDuration(0.02f);
+
+            MoveToAction mta = new MoveToAction();
+
+            mta.setPosition(Warfare.V_WIDTH / 2 - 200, Warfare.V_HEIGHT / 2 + 150);
+            mta.setDuration(0.7f);
+
+            AlphaAction alphaActionEnd = new AlphaAction();
+            alphaActionEnd.setAlpha(0);
+            alphaActionEnd.setDuration(1f);
+
+            SequenceAction sa = new SequenceAction(alphaActionStart, mta, alphaActionEnd, checkEndOfAction);
+            toastLabel.addAction(sa);
+            isStartToastAction = true;
+        }
     }
 
     class StarsBar extends Actor {
