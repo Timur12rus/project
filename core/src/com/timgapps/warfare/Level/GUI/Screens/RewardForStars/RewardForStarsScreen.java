@@ -40,8 +40,9 @@ public class RewardForStarsScreen extends StageGame {
         createBackground();
 
         /** получим текущее кол-во звезд **/
-        starsCount = 7;
+//        starsCount = 7;
 //        starsCount = gameManager.getStarsPanel().getStarsCount();
+        starsCount = gameManager.getSavedGame().getStarsCount();
         System.out.println("starsCount = " + starsCount);
 //        starsCount = 14;
 //        starsCount = 3;
@@ -106,7 +107,7 @@ public class RewardForStarsScreen extends StageGame {
 
             }
 
-            // создаем бары под юизображениями наград за звезды
+            // создаем бары под изображениями наград за звезды
             StarsBar bar = new StarsBar(rewardForStarsList.get(i).getX() + BG_PANEL_WIDTH / 2 - barWidth - 8,
                     rewardForStarsList.get(i).getY() - barHeight - 16,
                     rewardForStarsDataList.get(i).getIsReceived(),
@@ -213,7 +214,7 @@ public class RewardForStarsScreen extends StageGame {
                     xPos = calculatedWidth + x;
                 }
 
-                System.out.println("calculatedWidth = " + calculatedWidth);
+//                System.out.println("calculatedWidth = " + calculatedWidth);
                 progressPixmap = createProceduralPixmap(calculatedWidth - 2, barHeight - 2, new Color(0xf2d900ff));
             } else {    // получена - темно-оранжевый цвет
                 progressPixmap = createProceduralPixmap(barWidth - 2, barHeight - 2, new Color(0xa29100ff));

@@ -589,7 +589,7 @@ public class UpgradeScreen extends Group {
 //        }
 
 
-        System.out.println("unitImage.getX()" + unitImage.getX());
+//        System.out.println("unitImage.getX()" + unitImage.getX());
 
         /** обновим параметры юнита, которого прокачиваем **/
         teamEntity.setUnitLevel(newUnitLevel);

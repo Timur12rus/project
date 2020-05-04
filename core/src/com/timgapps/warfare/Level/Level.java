@@ -42,7 +42,7 @@ public class Level extends StageGame {
 
     private World world;
     private float accumulator;
-    public static final float STEP = 1 / 55f;
+    public static final float STEP = 1 / 60f;
     private ArrayList<EnemyUnit> arrayEnemies;
     public ArrayList<Actor> arrayActors;
 
@@ -434,10 +434,22 @@ public class Level extends StageGame {
         int starsCount = calculateStarsCount();
 
         /** установим кол-во монет в менеджере и сохраняем игру
-         * позже просто выведем анимацию добавления монет и очков полученных за уровень
+         * позже просто выведем анимацию добавления монет, очков и звезд полученных за уровень
          */
         gameManager.setCoinsCount(coinsCount + getRewardCoinsCount());
         gameManager.addScoreCount(getRewardScoreCount());
+
+        /** добавим к панели звёзд полученное кол-во звёзд */
+        gameManager.getStarsPanel().addStarsCount(starsCount);
+
+
+        gameManager.getSavedGame().addStarsCount(starsCount);
+        gameManager.getSavedGame().setIndexRewardStars(gameManager.getStarsPanel().getIndexOfRewardStars());
+
+        gameManager.getStarsPanel().updateCountReward();
+
+
+
         setStarsCountToLevelIcon();
 
         unlockNextLevels();

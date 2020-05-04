@@ -240,7 +240,7 @@ public class LevelMap extends StageGame {
                 y = 0;
             }
 
-            System.out.println("cameraPosition.y + y = " + camera.position.y + y);
+//            System.out.println("cameraPosition.y + y = " + camera.position.y + y);
 //        System.out.println("cameraPosition.x - x = " + cameraXpos - x);
 //        if (cameraXpos + x )
             camera.translate(-x, y);

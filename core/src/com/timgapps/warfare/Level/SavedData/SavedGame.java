@@ -24,6 +24,7 @@ public class SavedGame implements Serializable {
     private int starsCount;
     private long giftTime;      // время необходимое для получения подарка (время которое нужно подождать)
     private int indexOfRewardStars;
+    private int rewardStarsCount;   // кол-во звезд для следующей награды за звезды
 
 
     public SavedGame() {
@@ -62,8 +63,8 @@ public class SavedGame implements Serializable {
      * метод для создания списка с ДАННЫМИ наград за звезды
      **/
     public void createRewardForStarsDataList() {
-        starsCount = 0;
-        indexOfRewardStars = 0;
+        starsCount = 0;             // кол-во звезд у игрока
+        indexOfRewardStars = 0;     // индекс следующей награды за звёзды
         rewardForStarsDataList = new ArrayList<RewardForStarsData>();
         rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_STONE, 1));
         rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_ARCHER, 4));
@@ -194,6 +195,10 @@ public class SavedGame implements Serializable {
 
     public int getStarsCount() {
         return starsCount;
+    }
+
+    public void addStarsCount(int count) {
+        starsCount += count;
     }
 
     public void updateTeamDataList(ArrayList<TeamEntity> team) {

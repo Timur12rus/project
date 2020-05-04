@@ -66,7 +66,7 @@ public class RewardForStars extends Group {
                 break;
         }
 
-        starsNum = data.getStarsCount();
+        starsNum = data.getStarsCount();        // кол-во звезд, необходимое для получения награды
         rewardCountStars = starsNum;
 
         bg = new Image(Warfare.atlas.findRegion("coinsPanel"));
@@ -82,7 +82,7 @@ public class RewardForStars extends Group {
         addActor(bg);                             // добавим фон для группы (прямоугольник)
         addActor(bgYellow);                             // добавим фон для группы (Жедлтый прямоугольник)
         addActor(bgOrange);
-        addActor(receivedImg);
+
 
         bgYellow.setVisible(false);
         bgOrange.setVisible(false);
@@ -100,6 +100,7 @@ public class RewardForStars extends Group {
 
         addActor(rewardImage);                      // добавим изображение
         addActor(nameLabel);
+        addActor(receivedImg);
 
         addCaptureListener(new EventListener() { // добавляет слушателя события корневому элементу, отключая его для дочерних элементов
             @Override
@@ -151,7 +152,6 @@ public class RewardForStars extends Group {
      **/
     public void getRewardForStars() {
         nameLabel.setColor(Color.LIGHT_GRAY);
-
         int index;
         switch (data.getTypeOfReward()) {
             case RewardForStarsData.REWARD_STONE:                           // если наград "КАМЕНЬ"
@@ -171,8 +171,9 @@ public class RewardForStars extends Group {
         }
 
 //         сохраним данные
-        data.setReceived();
-        gameManager.saveGame();
+        data.setReceived();                                  // награда получена
+        gameManager.getStarsPanel().updateCountReward();
+//        gameManager.saveGame();
 
 
 //        /** ---------------------------------------------------------------------------**/

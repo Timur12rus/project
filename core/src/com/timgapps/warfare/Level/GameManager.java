@@ -97,7 +97,7 @@ public class GameManager {
 
         // если сохранения нет(запускает игру впервый раз), null, то создадим объект для схранниения игры и создадим объект "КОМАНДА" team
         if (savedGame == null) {
-            System.out.println("SavedGame null ");
+//            System.out.println("SavedGame null ");
             savedGame = new SavedGame();
 
             /** создаем массив "ДАННЫХ" об уровнях (LevelIconData) **/
@@ -271,6 +271,7 @@ public class GameManager {
             file.writeBytes(byteArray.toByteArray(), false);
             objectOutputStream.close();
         } catch (Exception e) {
+            System.out.println(e);
             System.out.println("Error!");
         }
     }

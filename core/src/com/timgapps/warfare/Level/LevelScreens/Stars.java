@@ -114,7 +114,7 @@ public class Stars extends Group {
 
             /** проеверим, если здоровье башни больше 33 % , то запускаем action для второй звезды, если нет, isEndActions = true;*/
             if (count < starsCount) {       // count = 1
-                System.out.println("count = " + count + "\n starTwo.Start");
+//                System.out.println("count = " + count + "\n starTwo.Start");
                 starTwo.setVisible(true);
                 SequenceAction maStarSecond = new SequenceAction(
                         Actions.moveTo(0 + starOne.getWidth() + 8, 16, 0.5f),
@@ -135,13 +135,13 @@ public class Stars extends Group {
             count++;        // count = 2;
             secondStarActionIsEnd = false;
             if (count < starsCount) {                   // count = 2
-                System.out.println("count = " + count + "\n starThree.Start");
+//                System.out.println("count = " + count + "\n starThree.Start");
 //                count++; // count = 3
                 starThree.setVisible(true);
                 SequenceAction maStarThird = new SequenceAction(
                         Actions.moveTo(starTwo.getX() + starTwo.getWidth() + 8, 0, 0.5f),
                         Actions.moveTo(starTwo.getX() + starTwo.getWidth() + 8 - 2, 2, 0.1f), checkEndOfActionThirdStar);
-                System.out.println("addAction(maStarThird");
+//                System.out.println("addAction(maStarThird");
                 starThree.addAction(maStarThird);
             } else isEndActions = true;
         }

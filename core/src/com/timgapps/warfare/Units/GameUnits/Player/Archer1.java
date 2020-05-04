@@ -209,8 +209,8 @@ public class Archer1 extends PlayerUnit {
     private void moveRight() {
 
         // TODO: 20.02.2020  Нужно будети справить, чтобы юнит мог отбиваться в этот момент от врагов, если они подойдут близко !!!!!
-        System.out.println("barricadeX = " + barricade.getX());
-        System.out.println("archerX = " + getX());
+//        System.out.println("barricadeX = " + barricade.getX());
+//        System.out.println("archerX = " + getX());
         if (barricade.getX() - getX() > 100) {
             body.setLinearVelocity(velocity, 0);
         } else {

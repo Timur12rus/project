@@ -592,6 +592,13 @@ mission_start_bg
   orig: 610, 350
   offset: 0, 0
   index: -1
+redCircle
+  rotate: false
+  xy: 2010, 661
+  size: 36, 36
+  orig: 36, 36
+  offset: 0, 0
+  index: -1
 rockUnitImage
   rotate: false
   xy: 1892, 15

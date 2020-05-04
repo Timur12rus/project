@@ -58,8 +58,8 @@ public class StoneButton extends UnitButton {
                     if (greenTarget.isVisible()) {
                         throwStone(level, getX() + unitButtonTablePosX + x + greenTarget.getWidth() / 2, y, damage, health);
 //                        throwStone(level, x + getX() + greenTarget.getWidth() / 2, y, 5);
-                        System.out.println("GetX = " + getX());
-                        System.out.println("x = " + x);
+//                        System.out.println("GetX = " + getX());
+//                        System.out.println("x = " + x);
                         isReadyUnitButton = false;
                     }
                     greenTarget.setVisible(false);
