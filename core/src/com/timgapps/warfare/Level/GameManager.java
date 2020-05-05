@@ -139,6 +139,17 @@ public class GameManager {
             /** создадим КОЛЛЕКЦИЮ - массив юнитов в коллекции  **/
             collection.add(new TeamEntity(savedGame.getCollectionDataList().get(0)));
             collection.add(new TeamEntity(savedGame.getCollectionDataList().get(1)));
+
+//            collection.add(new TeamEntity(savedGame.getCollectionDataList().get(1)));
+//            collection.add(new TeamEntity(savedGame.getCollectionDataList().get(1)));
+//            collection.add(new TeamEntity(savedGame.getCollectionDataList().get(1)));
+//            collection.add(new TeamEntity(savedGame.getCollectionDataList().get(1)));
+//            collection.add(new TeamEntity(savedGame.getCollectionDataList().get(1)));
+//            collection.add(new TeamEntity(savedGame.getCollectionDataList().get(1)));
+//            collection.add(new TeamEntity(savedGame.getCollectionDataList().get(1)));
+//            collection.add(new TeamEntity(savedGame.getCollectionDataList().get(1)));
+//            collection.add(new TeamEntity(savedGame.getCollectionDataList().get(1)));
+
             collection.add(new TeamEntity(savedGame.getCollectionDataList().get(2)));
 
             giftTime = 0;

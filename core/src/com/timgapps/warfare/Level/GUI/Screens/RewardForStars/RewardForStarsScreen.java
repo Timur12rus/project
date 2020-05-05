@@ -15,6 +15,8 @@ import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.boontaran.games.StageGame;
 import com.timgapps.warfare.Level.GameManager;
@@ -76,12 +78,15 @@ public class RewardForStarsScreen extends StageGame {
 //            }
 //        };
 
+        Group group = new Group();
+
         /** создадим картинки и бары **/
         for (int i = 0; i < rewardForStarsDataList.size(); i++) {
 
             rewardForStarsList.add(new RewardForStars(this, rewardForStarsDataList.get(i), gameManager));
             rewardForStarsList.get(i).setPosition(100 + 190 * i + rewardForStarsList.get(i).getWidth(), 360);
-            addChild(rewardForStarsList.get(i));
+            group.addActor(rewardForStarsList.get(i));
+//            addChild(rewardForStarsList.get(i));
 
 //            rewardForStarsList.get(i).addListener(rewardForStarsListener);
 
@@ -115,18 +120,46 @@ public class RewardForStarsScreen extends StageGame {
                     lastRewardCountStars,   // кол-во звёзд за последнюю награду
                     rewardForStarsList.get(i).getRewardCountStars() // кол-во звёзд за награду
             );
-
-            addChild(bar);
+            group.addActor(bar);
+//            addChild(bar);
 
 
             /** добавим цифры - кол-во звёзд необходимое для получения награды **/
             countLabel = new Label("" + rewardForStarsList.get(i).getRewardCountStars(), countStarsLabelStyle);
             countLabel.setPosition(rewardForStarsList.get(i).getX() + BG_PANEL_WIDTH / 2 - countLabel.getWidth(),
                     rewardForStarsList.get(i).getY() - countLabel.getHeight() - 48);
-            addChild(countLabel);
+            group.addActor(countLabel);
+//            addChild(countLabel);
         }
+
         starsPanelSmall.setPosition(xPos - 8 - starsPanelSmall.getWidth() / 2, 216);
-        addChild(starsPanelSmall);
+        group.addActor(starsPanelSmall);
+//        addChild(starsPanelSmall);
+
+        /** scroller - это окно прокрутки, сама прокрутка **/
+        Table scrollTable = new Table();
+        scrollTable.debug();
+        scrollTable.add(group).width(1200).height(300);
+
+        final ScrollPane scroller = new ScrollPane(scrollTable);
+//        final ScrollPane scroller = new ScrollPane(group);
+//        scroller.set
+        scroller.debug();
+//        scroller.setSize(1600, 600);
+//        scroller.setPosition(100, 100);
+
+        Table table  = new Table();
+        table.debug();
+
+        table.left().top();
+        //table = new Table().debug();
+
+        table.setWidth(600);
+        table.setHeight(300);
+//        table.setFillParent(true);
+        table.add(scroller).fill().expand();
+
+        addChild(table);
     }
 
     public void showToast(int starsCount) {
