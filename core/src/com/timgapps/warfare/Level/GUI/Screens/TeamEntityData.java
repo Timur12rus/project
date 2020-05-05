@@ -21,6 +21,7 @@ public class TeamEntityData implements Serializable {
     private String NAME;
     private int unitLevel;
     private boolean isUnlock = false;
+    private int starsCount;
 
     public TeamEntityData(int unitType) {
         this.unitType = unitType;
@@ -31,6 +32,7 @@ public class TeamEntityData implements Serializable {
             case GNOME:
                 DAMAGE = 14;
                 HEALTH = 30;
+                starsCount = 15;
 //                this.unitType = GNOME;
 
                 // TODO: 23.01.2020 Исправить ПОЛУЧИТЬ ЗНАЧЕНИЕ УРОВНЯ ЮНИТА
@@ -39,6 +41,7 @@ public class TeamEntityData implements Serializable {
             case ARCHER:
                 DAMAGE = 10;
                 HEALTH = 30;
+                starsCount = 4;
 //                unitType = ARCHER;
                 unitLevel = 1;
                 break;
@@ -53,12 +56,14 @@ public class TeamEntityData implements Serializable {
             case STONE:
                 DAMAGE = 10;
                 HEALTH = 50;
+                starsCount = 1;
                 unitLevel = 1;
                 break;
 
             case NONE:
                 DAMAGE = 10;
                 HEALTH = 50;
+                starsCount = 0;
                 break;
         }
         if (unitType == THOR) {
@@ -71,6 +76,11 @@ public class TeamEntityData implements Serializable {
      */
     public void setUnlock() {
         isUnlock = true;
+    }
+
+    /** метод для получения кол-ва здвёзд, необходимых для разблокировки юнита */
+    public int getStarsCount() {
+        return starsCount;
     }
 
     /** метод возвращает значение, что юнит и его картинка разблокированы ли (false - заблокирована)*/

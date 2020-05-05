@@ -1,8 +1,12 @@
 package com.timgapps.warfare.Level.GUI.Screens.GiftsWindow;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -10,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Array;
 import com.timgapps.warfare.Level.GUI.Screens.CoinsPanel;
 import com.timgapps.warfare.Level.GUI.Screens.UpgradeWindow.ColorButton;
 import com.timgapps.warfare.Level.GameManager;
@@ -56,7 +61,9 @@ class GiftPanel extends Group {
         formatForDate = new SimpleDateFormat("HH:mm:ss");
         formatForDate.setTimeZone(TimeZone.getTimeZone("GMT"));
         background = new Image(Warfare.atlas.findRegion("gifts_bg"));
+
         boxImage = new Image(Warfare.atlas.findRegion("boxImage"));
+
         claimButton = new ColorButton("Claim", ColorButton.YELLOW_BUTTON);
 
         // кнопка "ПОЛУЧИТЬ"
@@ -111,6 +118,32 @@ class GiftPanel extends Group {
                 showAddResoursesAnimation();
             }
         });
+    }
+
+    class BoxImage extends Actor {
+        Animation openBoxAnimation;     // анимация отркырия ящика
+        private boolean isStarted;
+        private float stateTime = 0;
+
+        public BoxImage() {
+            Array<TextureRegion> frames = new Array<TextureRegion>();
+            for (int i = 0; i < 6; i++)
+                frames.add(new TextureRegion(Warfare.atlas.findRegion("boxImage" + i)));
+            openBoxAnimation = new Animation(0.15f, frames);
+            frames.clear();
+        }
+
+        @Override
+        public void draw(Batch batch, float parentAlpha) {
+            super.draw(batch, parentAlpha);
+            if (isStarted) {
+                batch.draw((TextureRegion) openBoxAnimation.getKeyFrame(stateTime, false), getX(), getY());
+            }
+        }
+
+        void startAnimation() {
+            isStarted = true;
+        }
     }
 
     private Image getImageResourse(int resourceType) {

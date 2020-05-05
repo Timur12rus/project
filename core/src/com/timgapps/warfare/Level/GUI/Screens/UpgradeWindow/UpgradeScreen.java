@@ -214,7 +214,7 @@ public class UpgradeScreen extends Group {
         timePrepearValueLabel = new Label("" + timePrepearValue, labelStyle);          // текст значения скорость
 
         healthAddValueLabel = new Label(" + " + addHealthValue, greenLabelStyle);  // текст на сколько прибавится здоровья
-        damageAddValueLabel = new Label(" + " + addDamageValue, greenLabelStyle);  // текст на сколько прибавитмя урон
+        damageAddValueLabel = new Label(" + " + addDamageValue, greenLabelStyle);  // текст на сколько прибавится урон
 
         upgradeCostLabel = new Label(upgradeCostText, labelStyle);          // текст "СТОИМОСТЬ УЛУЧШЕНИЯ"
 
@@ -380,7 +380,14 @@ public class UpgradeScreen extends Group {
         boolean isUnlock = teamEntity.getEntityData().isUnlock();
 
         /** если юнит разблокирован, то делаем значок уровня юнита видимым **/
-        if (isUnlock == true) teamEntity.getUnitImage().getUnitLevelIcon().setVisible(true);
+        if (isUnlock == true) {
+            teamEntity.getUnitImage().getUnitLevelIcon().setVisible(true);
+            healthAddValueLabel.setVisible(true);
+            damageAddValueLabel.setVisible(true);
+        } else {
+            healthAddValueLabel.setVisible(false);
+            damageAddValueLabel.setVisible(false);
+        }
 
         /** если юнит не состоит в команде, отображаем кнопку "ВЫБРАТЬ" **/
         if (showSelectButton) {
@@ -389,6 +396,7 @@ public class UpgradeScreen extends Group {
             unitImage.getSelectButton().setVisible(false);
         }
         showBlockTable(isUnlock);
+
     }
 
     /**
@@ -465,6 +473,10 @@ public class UpgradeScreen extends Group {
         if (isUnlock == false) {
             costUpgradeTable.setVisible(false);
             upgradeButton.setVisible(false);
+
+            int counsStars = teamEntity.getEntityData().getStarsCount();        // получим кол-во звезд, необходимы для разблокировки юнита
+
+            blockTable.setLabelStarsCount(counsStars);
             blockTable.setVisible(true);
         } else {
             costUpgradeTable.setVisible(true);
@@ -546,15 +558,17 @@ public class UpgradeScreen extends Group {
     class BlockTable extends Table {
         Image star;
         Image blockIcon;
+        Label label;
+        int starsCount;
 
         public BlockTable() {
-            Label label;
+
             Label label1;
             Label.LabelStyle labelStyle = new Label.LabelStyle();
             labelStyle.fontColor = Color.DARK_GRAY;
             labelStyle.font = Warfare.font20;
-            label = new Label("" + "collect " + 10, labelStyle);
-            label1 = new Label("for unlock unit", labelStyle);
+            label = new Label("" + "collect " + starsCount, labelStyle);
+            label1 = new Label(" for unlock unit", labelStyle);
 
             star = new Image(Warfare.atlas.findRegion("star_active"));
             blockIcon = new Image(Warfare.atlas.findRegion("lockIcon"));
@@ -564,6 +578,11 @@ public class UpgradeScreen extends Group {
             add(label1);
 
             setSize(200, 64);
+        }
+
+        void setLabelStarsCount(int count) {
+            starsCount = count;
+            label.setText("" + "collect " + starsCount);
         }
     }
 

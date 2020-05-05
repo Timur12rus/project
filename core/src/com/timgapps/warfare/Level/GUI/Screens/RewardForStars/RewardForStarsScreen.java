@@ -78,13 +78,17 @@ public class RewardForStarsScreen extends StageGame {
 //            }
 //        };
 
+        float scrollTableWidth = getWidth();
+        float groupWidth = 0;
         Group group = new Group();
 
         /** создадим картинки и бары **/
         for (int i = 0; i < rewardForStarsDataList.size(); i++) {
 
             rewardForStarsList.add(new RewardForStars(this, rewardForStarsDataList.get(i), gameManager));
-            rewardForStarsList.get(i).setPosition(100 + 190 * i + rewardForStarsList.get(i).getWidth(), 360);
+            rewardForStarsList.get(i).setPosition(190 * i + rewardForStarsList.get(i).getWidth(), 144);
+//            rewardForStarsList.get(i).setPosition(190 * i + rewardForStarsList.get(i).getWidth(), 360);
+//            groupWidth += 190 + rewardForStarsList.get(i).getWidth();
             group.addActor(rewardForStarsList.get(i));
 //            addChild(rewardForStarsList.get(i));
 
@@ -132,14 +136,22 @@ public class RewardForStarsScreen extends StageGame {
 //            addChild(countLabel);
         }
 
-        starsPanelSmall.setPosition(xPos - 8 - starsPanelSmall.getWidth() / 2, 216);
+        groupWidth += 190 * rewardForStarsList.size() + rewardForStarsList.get(0).getWidth();
+
+        starsPanelSmall.setPosition(xPos - 8 - starsPanelSmall.getWidth() / 2, 0);
+//        starsPanelSmall.setPosition(xPos - 8 - starsPanelSmall.getWidth() / 2, 216);
+        if (starsCount == 0) starsPanelSmall.setVisible(false);
+        else {
+            starsPanelSmall.setVisible(true);
+        }
         group.addActor(starsPanelSmall);
 //        addChild(starsPanelSmall);
 
         /** scroller - это окно прокрутки, сама прокрутка **/
         Table scrollTable = new Table();
         scrollTable.debug();
-        scrollTable.add(group).width(1200).height(300);
+        scrollTable.add(group).width(groupWidth).height(340);
+//        scrollTable.add(group).width(1200).height(300);
 
         final ScrollPane scroller = new ScrollPane(scrollTable);
 //        final ScrollPane scroller = new ScrollPane(group);
@@ -148,17 +160,17 @@ public class RewardForStarsScreen extends StageGame {
 //        scroller.setSize(1600, 600);
 //        scroller.setPosition(100, 100);
 
-        Table table  = new Table();
+        Table table = new Table();
         table.debug();
 
         table.left().top();
         //table = new Table().debug();
 
-        table.setWidth(600);
-        table.setHeight(300);
+        table.setWidth(scrollTableWidth);
+        table.setHeight(340);
 //        table.setFillParent(true);
         table.add(scroller).fill().expand();
-
+        table.setPosition(0, 300);
         addChild(table);
     }
 

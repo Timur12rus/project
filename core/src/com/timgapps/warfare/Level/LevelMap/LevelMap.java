@@ -133,11 +133,10 @@ public class LevelMap extends StageGame {
             }
         });
 
-        /** создадим окно апргейда команды и передаём информацию о составе команды(manager)**/
-        teamUpgradeScreen = new TeamUpgradeScreen(gameManager);
-        teamUpgradeScreen.setVisible(false);
-        addOverlayChild(teamUpgradeScreen);
-//        addChild(teamUpgradeScreen);
+//        /** создадим окно апргейда команды и передаём информацию о составе команды(manager)**/
+//        teamUpgradeScreen = new TeamUpgradeScreen(gameManager);
+//        teamUpgradeScreen.setVisible(false);
+//        addOverlayChild(teamUpgradeScreen);
 
         upgradeTeamButton = new ImageButton(new TextureRegionDrawable(Warfare.atlas.findRegion("upgradeTeamBtn")),
                 new TextureRegionDrawable(Warfare.atlas.findRegion("upgradeTeamBtn")));
@@ -153,15 +152,15 @@ public class LevelMap extends StageGame {
             }
         });
 
-        teamUpgradeScreen.addListener(new MessageListener() {
-            @Override
-            protected void receivedMessage(int message, Actor actor) {
-                if (message == teamUpgradeScreen.ON_RESUME) {
-//                    Warfare.media.playSound("click.ogg");
-                    resumeLevelMap();
-                }
-            }
-        });
+//        teamUpgradeScreen.addListener(new MessageListener() {
+//            @Override
+//            protected void receivedMessage(int message, Actor actor) {
+//                if (message == teamUpgradeScreen.ON_RESUME) {
+////                    Warfare.media.playSound("click.ogg");
+//                    resumeLevelMap();
+//                }
+//            }
+//        });
 
         // добавим панель с монетами на экран
         coinsPanel = gameManager.getCoinsPanel();
@@ -182,6 +181,21 @@ public class LevelMap extends StageGame {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 call(ON_SHOW_REWARD_FOR_STARS_SCREEN);
+            }
+        });
+
+        /** создадим окно апргейда команды и передаём информацию о составе команды(manager)**/
+        teamUpgradeScreen = new TeamUpgradeScreen(gameManager);
+        teamUpgradeScreen.setVisible(false);
+        addOverlayChild(teamUpgradeScreen);
+
+        teamUpgradeScreen.addListener(new MessageListener() {
+            @Override
+            protected void receivedMessage(int message, Actor actor) {
+                if (message == teamUpgradeScreen.ON_RESUME) {
+//                    Warfare.media.playSound("click.ogg");
+                    resumeLevelMap();
+                }
             }
         });
 
