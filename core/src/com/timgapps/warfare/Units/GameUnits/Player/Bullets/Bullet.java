@@ -51,6 +51,7 @@ public abstract class Bullet extends Actor implements IBody {
         if (!isDamaged) {
             enemyUnit.setHealth(damage);
             isDamaged = true;
+            destroy();
             body.setLinearVelocity(0, 0);
         }
     }
@@ -67,9 +68,9 @@ public abstract class Bullet extends Actor implements IBody {
         if (isDestroyed) {
             body.setActive(false);
         }
-        if (isDamaged) {
-            destroy();
-        }
+//        if (isDamaged) {
+//            destroy();
+//        }
 
         setPosition(body.getPosition().x * Level.WORLD_SCALE, body.getPosition().y * Level.WORLD_SCALE);
     }

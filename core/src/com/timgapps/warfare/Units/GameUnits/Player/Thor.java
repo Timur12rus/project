@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import com.timgapps.warfare.Level.Level;
+import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnit;
 import com.timgapps.warfare.Warfare;
 
 public class Thor extends Gnome {
@@ -53,33 +54,8 @@ public class Thor extends Gnome {
         stateTime = 0;
     }
 
-//    @Override
-//    public void draw(Batch batch, float parentAlpha) {
-//        super.draw(batch, parentAlpha);
-////        if (level.getState() == Level.PLAY) {
-////        stateTime += Gdx.graphics.getDeltaTime();
-////        }
-////        batch.setColor(1, 1, 1, 1);
-//
-////        if (isDraw) {
-//        if (currentState == State.WALKING) {
-//            batch.draw((TextureRegion) walkAnimation.getKeyFrame(stateTime, true), getX() - 118, getY());
-//        }
-//
-//        if (currentState == State.ATTACK) {
-//            batch.draw((TextureRegion) attackAnimation.getKeyFrame(stateTime, false), getX() - 118, getY());
-//        }
-//
-//        if (currentState == State.STAY) {
-//            batch.draw((TextureRegion) stayAnimation.getKeyFrame(stateTime, false), getX() - 118, getY());
-//        }
-//
-//        if (currentState == State.RUN) {
-//            batch.draw((TextureRegion) runAnimation.getKeyFrame(stateTime, true), getX() - 118, getY());
-//        }
-//
-//        if (currentState == State.DIE) {
-//            batch.draw((TextureRegion) dieAnimation.getKeyFrame(stateTime, false), getX() - 118, getY());
-//        }
-//    }
+    @Override
+    public void setTargetEnemy(EnemyUnit enemyUnit) {
+        super.setTargetEnemy(enemyUnit);
+    }
 }

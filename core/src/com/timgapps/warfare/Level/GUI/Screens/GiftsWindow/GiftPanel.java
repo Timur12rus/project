@@ -1,5 +1,6 @@
 package com.timgapps.warfare.Level.GUI.Screens.GiftsWindow;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -31,7 +32,8 @@ class GiftPanel extends Group {
     private Label doneLabel;
     private GiftRewardTable rewardTable;
     private ColorButton claimButton;
-    private Image boxImage;
+    private BoxImage boxImage;
+    //    private Image boxImage;
     private SimpleDateFormat formatForDate;
     private Date date;
 
@@ -62,7 +64,8 @@ class GiftPanel extends Group {
         formatForDate.setTimeZone(TimeZone.getTimeZone("GMT"));
         background = new Image(Warfare.atlas.findRegion("gifts_bg"));
 
-        boxImage = new Image(Warfare.atlas.findRegion("boxImage"));
+//        boxImage = new Image(Warfare.atlas.findRegion("boxImage"));
+        boxImage = new BoxImage();
 
         claimButton = new ColorButton("Claim", ColorButton.YELLOW_BUTTON);
 
@@ -108,12 +111,13 @@ class GiftPanel extends Group {
         addActor(rewardTable);
 
         boxImage.setPosition((background.getWidth() - boxImage.getWidth()) / 2,
-                background.getY());
+                background.getY() + 16);
         addActor(boxImage);
 
         claimButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                boxImage.startAnimation();
                 showAddCoinsAnimation();
                 showAddResoursesAnimation();
             }
@@ -124,20 +128,26 @@ class GiftPanel extends Group {
         Animation openBoxAnimation;     // анимация отркырия ящика
         private boolean isStarted;
         private float stateTime = 0;
+        private TextureRegion textureBox;
 
         public BoxImage() {
+            textureBox = new TextureRegion(Warfare.atlas.findRegion("boxImage0"));
+            setSize(textureBox.getRegionWidth(), textureBox.getRegionHeight());
             Array<TextureRegion> frames = new Array<TextureRegion>();
             for (int i = 0; i < 6; i++)
                 frames.add(new TextureRegion(Warfare.atlas.findRegion("boxImage" + i)));
-            openBoxAnimation = new Animation(0.15f, frames);
+            openBoxAnimation = new Animation(0.2f, frames);
             frames.clear();
         }
 
         @Override
         public void draw(Batch batch, float parentAlpha) {
             super.draw(batch, parentAlpha);
+            stateTime += Gdx.graphics.getDeltaTime();
             if (isStarted) {
                 batch.draw((TextureRegion) openBoxAnimation.getKeyFrame(stateTime, false), getX(), getY());
+            } else {
+                batch.draw(textureBox, getX(), getY());
             }
         }
 

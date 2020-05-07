@@ -105,13 +105,14 @@ public class StarsPanel extends Group {
                 rewardSmallIcon = new Image(Warfare.atlas.findRegion("rockUnitImage"));
                 break;
             case RewardForStarsData.REWARD_ARCHER:
-                rewardSmallIcon = new Image(Warfare.atlas.findRegion("archer1Stay0"));
+                rewardSmallIcon = new Image(Warfare.atlas.findRegion("archerUnitImage"));
                 break;
             case RewardForStarsData.REWARD_GNOME:
-                rewardSmallIcon = new Image(Warfare.atlas.findRegion("gnomeStay0"));
+                rewardSmallIcon = new Image(Warfare.atlas.findRegion("gnomeUnitImage"));
+
                 break;
             case RewardForStarsData.REWARD_BOX:
-                rewardSmallIcon = new Image(Warfare.atlas.findRegion("rockUnitImage"));
+                rewardSmallIcon = new Image(Warfare.atlas.findRegion("boxImage0"));
                 break;
             default:
                 rewardSmallIcon = new Image(Warfare.atlas.findRegion("rockUnitImage"));
@@ -141,9 +142,11 @@ public class StarsPanel extends Group {
         this.starsCount += count;
         if (starsCount >= rewardForStarsDataList.get(indexOfRewardStars).getStarsCount()) {
             indexOfRewardStars++;
-            rewardStarsCount = rewardForStarsDataList.get(indexOfRewardStars).getStarsCount();
-            int typeOfRewardForStars = rewardForStarsDataList.get(indexOfRewardStars).getTypeOfReward();
-            setRewardImage(typeOfRewardForStars);
+            if (indexOfRewardStars <= rewardForStarsDataList.size() - 1) {
+                rewardStarsCount = rewardForStarsDataList.get(indexOfRewardStars).getStarsCount();
+                int typeOfRewardForStars = rewardForStarsDataList.get(indexOfRewardStars).getTypeOfReward();
+                setRewardImage(typeOfRewardForStars);
+            }
         }
         starsCountLabel.setText("" + starsCount + "/" + rewardStarsCount);
     }

@@ -122,6 +122,11 @@ public class Archer1 extends PlayerUnit {
         }
     }
 
+//    @Override
+//    public void attack() {
+//        super.attack();
+//        stay();
+//    }
 
     /**
      * метод для проверки, может ли игровой юнит атаковать врага
@@ -145,11 +150,18 @@ public class Archer1 extends PlayerUnit {
         if (currentState == State.ATTACK && attackAnimation.isAnimationFinished(stateTime)) {
             stateTime = 0;
             currentState = State.STAY;
+
+            /** сбросим флаг, что юнит (стрелок) атакует */
+            resetIsFired();
             stay();
         }
 
         /** если текущее состояние = State.STAY и анмация завершена **/
         if ((currentState == State.STAY) && (stayAnimation.isAnimationFinished(stateTime))) {
+
+            if (isFired) {
+                isFired = false;
+            }
             /** проеверим унчитожен ли ВРАГ-ЦЕЛЬ?
              * если уничтожен, то устанавливаем текущее состояние = State.WALKING
              * если не уничтожен, то устанавливаем текщее состояние = State.ATTACK **/

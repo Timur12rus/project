@@ -70,9 +70,9 @@ public class SavedGame implements Serializable {
         rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_ARCHER, 4));
         rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_BOX, 15));
         rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_GNOME, 30));
-        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_GNOME, 45));
-        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_GNOME, 80));
-        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_GNOME, 100));
+//        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_GNOME, 45));
+//        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_GNOME, 80));
+//        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_GNOME, 100));
     }
 
     /**

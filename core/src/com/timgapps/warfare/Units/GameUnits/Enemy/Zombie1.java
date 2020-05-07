@@ -29,12 +29,7 @@ public class Zombie1 extends Zombie {
 
     public Zombie1(Level level, float x, float y, float health, float damage) {
         super(level, x, y, health, damage);
-//        this.level = level;
-//        this.world = level.getWorld();
-//        bloodSpray = new ParticleEffect();
-//        bloodSpray.load(Gdx.files.internal("effects/bloodSpray.paty"), Gdx.files.internal("effects/")); //file);     //Air2.paty
         createAnimations();     // создадим анимации для различных состояний персонажа
-//        VELOCITY = -0.25f;
         level.addChild(this, x, y);
         stateTime = 0;
         currentState = State.WALKING;

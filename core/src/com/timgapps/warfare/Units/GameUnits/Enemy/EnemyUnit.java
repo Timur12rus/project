@@ -53,8 +53,8 @@ public class EnemyUnit extends GameUnit {
     public EnemyUnit(Level level, float x, float y, float health, float damage) {
         super(level, x, y, health, damage);
 
-        bodyWidth = 48;
-        bodyHeight = 16;
+        bodyWidth = 48;     //  ширина тела
+        bodyHeight = 16;    // высота тела
 
         bodyRectangle.setSize(bodyWidth, bodyHeight);
         if (isDebug) {

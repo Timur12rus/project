@@ -189,7 +189,15 @@ public class GameManager {
         indexOfRewardStars = savedGame.getIndexOfRewardStars();
 
         /** получим кол-во звезд для следующей награды **/
-        int rewardStarsCount = rewardForStarsDataList.get(indexOfRewardStars).getStarsCount();
+        int rewardStarsCount;
+
+        if (indexOfRewardStars < rewardForStarsDataList.size()) {
+            rewardStarsCount = rewardForStarsDataList.get(indexOfRewardStars).getStarsCount();
+        } else {
+            rewardStarsCount = rewardForStarsDataList.get(rewardForStarsDataList.size() - 1).getStarsCount();
+        }
+        System.out.println("REWARDsTARScOUNT= " + rewardStarsCount);
+        System.out.println("indexOfRewardStars = " + indexOfRewardStars);
 
         coinsPanel = new CoinsPanel(coinsCount);
         scorePanel = new ScorePanel(scoreCount);
@@ -475,7 +483,9 @@ public class GameManager {
         savedGame.updateCollectionDataList(collection);
     }
 
-    /** метод для получения объекта savedGame() */
+    /**
+     * метод для получения объекта savedGame()
+     */
     public SavedGame getSavedGame() {
         return savedGame;
     }

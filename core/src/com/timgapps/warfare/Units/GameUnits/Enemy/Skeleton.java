@@ -7,71 +7,47 @@ import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.timgapps.warfare.Level.Level;
-import com.timgapps.warfare.Units.GameUnits.GameUnit;
 import com.timgapps.warfare.Units.GameUnits.Player.PlayerUnit;
 import com.timgapps.warfare.Warfare;
 
-import java.util.Random;
-
-public class Zombie extends EnemyUnit {
-
-//    public enum State {WALKING, ATTACK, STAY, DIE, RUN, HART}
-
-    protected final float VELOCITY = -0.35f;
-    //    public State currentState = State.ATTACK;
-//    protected float stateTime;
-
-    protected World world;
-    protected float x, y;
-    protected PlayerUnit targetPlayer;
-    protected boolean isAttack = false;
-    protected boolean continueWalk = false;
-    protected boolean isDie = false;
-    protected boolean isDamaged = false;
+public class Skeleton extends EnemyUnit {
     private ParticleEffect bloodSpray;
+    protected boolean isAttack = false;         // флаг - атакует ли в данный момент юнит, в состоянии ли атаки
+    protected boolean isDamaged = false;        // флаг - нанесен ли урон юниту
+    protected PlayerUnit targetPlayer;          // юнит игрока - "ЦЕЛЕВОЙ ЮНИТ" или "ЮНИТ-ЦЕЛЬ"
+    protected final float VELOCITY = -0.35f;
 
-
-    protected int stayCount;
-    private final int STAY_COUNT = 2;
-
-    public Zombie(Level level, float x, float y, float health, float damage) {
+    public Skeleton(Level level, float x, float y, float health, float damage) {
         super(level, x, y, health, damage);
-        this.level = level;
-        this.world = level.getWorld();
-        xPosDamageLabel = 16;
+        createAnimations();                   // создадим анимацию для различных состояний юнита
 
-        this.setWidth(Warfare.atlas.findRegion("zombieWalk0").getRegionWidth());
-        this.setHeight(Warfare.atlas.findRegion("zombieWalk0").getRegionHeight());
-
-        bloodSpray = new ParticleEffect();
-        bloodSpray.load(Gdx.files.internal("effects/bloodSpray.paty"), Gdx.files.internal("effects/")); //file);     //Air2.paty
-        createAnimations();     // создадим анимации для различных состояний персонажа
+        xPosDamageLabel = 16;       // позиция надписи "цифры" получаемого урона
         level.addChild(this, x, y);
+
+        // зададим размер для актера
+        this.setSize(Warfare.atlas.findRegion("skeleton1Stay0").getRegionWidth(),
+                Warfare.atlas.findRegion("skeleton1Stay0").getRegionHeight());
+
+        // создадим партикл-эффект для брызг крови
+        bloodSpray = new ParticleEffect();
+        bloodSpray.load(Gdx.files.internal("effects/bloodSpray.paty"), Gdx.files.internal("effects/")); //file);
+
         stateTime = 0;
         currentState = State.WALKING;
-        level.arrayActors.add(this);
-
-        stayCount = STAY_COUNT;
-        deltaX = 72;        // смещение рисоания анимации относительно позиции актёра по оси Х
+        level.arrayActors.add(this);        // добавляем в массив актеров текущего актера
+        deltaX = 102;                        // смещение изображения относительно тела по оси Х
     }
 
     @Override
     public void act(float delta) {
         super.act(delta);
-
-
         /** если юниту нанесен урон: isDamaged = true, обновляем анимацию брызг крови **/
         if (isDamaged) {
             bloodSpray.setPosition(getX() + 30, getY() + 60);
             bloodSpray.update(delta);
         }
-
         /** завершим анимацию брызг крови **/
         if (isDamaged && bloodSpray.isComplete())
             isDamaged = false;
@@ -102,9 +78,8 @@ public class Zombie extends EnemyUnit {
                             isAttackTower = false;
                         }
                     }
-
                 } else {
-                    inflictDamage(targetPlayer, damage);
+                    inflictDamage(targetPlayer, damage);        // метод для нанесения урона ВРАГУ
                     stateTime = 0;
                     currentState = State.STAY;
                 }
@@ -119,11 +94,7 @@ public class Zombie extends EnemyUnit {
 
         /** проверяем юнита в состоянии = State.STAY **/
         if (currentState == State.STAY) {
-//            System.out.println("STAY");
             if (stayAnimation.isAnimationFinished(stateTime)) {
-//                System.out.println("StayAnimFinishED!");
-//                if (isAttack) {
-//                    System.out.println("isAttack = TRUE");
                 if (isAttackStone || isAttack || isAttackTower) {
                     stateTime = 0;
                     currentState = State.ATTACK;
@@ -138,29 +109,6 @@ public class Zombie extends EnemyUnit {
          * установим следующее состояние или STAY или WALKING
          */
         if (currentState == State.WALKING && walkAnimation.isAnimationFinished(stateTime)) {
-//
-            stayCount--;
-//            Random random = new Random();
-            continueWalk = level.getRandom().nextBoolean();
-
-//            if (continueWalk) {
-//                stateTime = 0;
-//                currentState = State.WALKING;
-//            } else {
-//                stateTime = 0;
-//                currentState = State.STAY;
-//            }
-
-            if (stayCount == 0) {
-                if (level.getRandom().nextBoolean()) {
-                    stateTime = 0;
-                    currentState = State.STAY;
-                } else {
-                    stateTime = 0;
-                    currentState = State.WALKING;
-                }
-                stayCount = STAY_COUNT;
-            }
         }
 
         /** если состояние = State.DIE и анимация завершена, то уничтожаем юнита **/
@@ -180,129 +128,69 @@ public class Zombie extends EnemyUnit {
 
         if (currentState == State.WALKING)
             moveLeft(body);
-        /** ограничиваем движение юнита ВЛЕВО, чтобы не ушел за границу экрана **/
-//            if (body.getPosition().x * Level.WORLD_SCALE > 100)
-//                moveLeft(body);
-//            else {
-//                stateTime = 0;
-//                currentState = State.STAY;
-//            }
 
+        /** проверим, если юнит в состоянии STAY или ATTACK, то установим для него скорость = (0;0) **/
         if (currentState == State.STAY || currentState == State.ATTACK) {
             stay();
         }
     }
-
-    @Override
-    public boolean remove() {
-        bloodSpray.dispose();
-//        System.out.println("dispose REMOVE");
-        level.removeEnemyUnitFromArray(this);
-        return super.remove();
-    }
-
-    /**
-     * РАБОЧИЙ КОДА 17.02.2020
-     * <p>
-     * protected void destroy() {
-     * if (!body.isActive()) {
-     * //            world.destroyBody(body);
-     * bloodSpray.dispose();
-     * level.removeEnemyUnitFromArray(this);
-     * this.remove();
-     * <p>
-     * }
-     * }
-     **/
-
-
-    public void moveLeft(Body body) {
-        Vector2 vel = body.getLinearVelocity();
-        vel.x = VELOCITY;
-        body.setLinearVelocity(vel);
-    }
-
-    protected void createAnimations() {
-        Array<TextureRegion> frames = new Array<TextureRegion>();
-        // получим кадры и добавим в анимацию ходьбы персонажа
-        for (int i = 0; i < 4; i++)
-            frames.add(new TextureRegion(Warfare.atlas.findRegion("zombieWalk" + i)));
-        frames.add(new TextureRegion(Warfare.atlas.findRegion("zombieWalk0")));
-
-        walkAnimation = new Animation(0.15f, frames);
-        frames.clear();
-
-        //  получим кадры и добавим в анимацию атаки персонажа
-        for (int i = 0; i < 5; i++)
-            frames.add(new TextureRegion(Warfare.atlas.findRegion("zombieAttack" + i)));
-        attackAnimation = new Animation(0.12f, frames);
-        frames.clear();
-
-        //  получим кадры и добавим в анимацию атаки персонажа
-        for (int i = 0; i < 5; i++)
-            frames.add(new TextureRegion(Warfare.atlas.findRegion("zombieDie" + i)));
-        dieAnimation = new Animation(0.12f, frames);
-        frames.clear();
-
-        for (int i = 0; i < 5; i++)
-            frames.add(new TextureRegion(Warfare.atlas.findRegion("zombieHart" + i)));
-        hartAnimation = new Animation(0.05f, frames);
-        frames.clear();
-
-        //  получим кадры и добавим в анимацию стоянки персонажа
-        for (int j = 0; j < 2; j++) {
-            for (int i = 0; i < 4; i++)
-                frames.add(new TextureRegion(Warfare.atlas.findRegion("zombieStay" + i)));
-            frames.add(new TextureRegion(Warfare.atlas.findRegion("zombieStay3")));
-            frames.add(new TextureRegion(Warfare.atlas.findRegion("zombieStay2")));
-            frames.add(new TextureRegion(Warfare.atlas.findRegion("zombieStay1")));
-            frames.add(new TextureRegion(Warfare.atlas.findRegion("zombieStay0")));
-        }
-        stayAnimation = new Animation(0.2f, frames);
-        frames.clear();
-    }
-
-    @Override
-    public Vector2 getBodyPosition() {
-        return body.getPosition();
-    }
-
-    @Override
-    public void setHealth(float damage) {
-        super.setHealth(damage);
-        isDamaged = true;
-        bloodSpray.start();
-        if (health <= 0) {
-            stateTime = 0;
-            currentState = State.DIE;
-        }
-    }
-
-    @Override
-    public void attack() {
-//        if (currentState != State.ATTACK) {        // проверяем, в состоянии ли "атаки" юнит
-        isAttack = true;
-        stateTime = 0;
-        currentState = State.ATTACK;
-//    }
-
-//        if (!isAttack) {        // проверяем, в состоянии ли "атаки" юнит
-//            currentState = State.STAY;
-//            stateTime = 0;
-//            isAttack = true;
-//        }
-    }
-
-    protected void stay() {
-        body.setLinearVelocity(0, 0);
-    }
-
 
     /**
      * метод для назначения цели - "игрового-юнита цели"
      */
     public void setTargetPlayer(PlayerUnit targetPlayer) {
         this.targetPlayer = targetPlayer;
+    }
+
+    // метод для атаки
+    @Override
+    public void attack() {
+        isAttack = true;
+        stateTime = 0;
+        currentState = State.ATTACK;
+    }
+
+    protected void createAnimations() {
+        Array<TextureRegion> frames = new Array<TextureRegion>();
+        // получим кадры и добавим в анимацию ходьбы персонажа
+        for (int i = 0; i < 4; i++)
+            frames.add(new TextureRegion(Warfare.atlas.findRegion("skeleton1Walk" + i)));
+//        frames.add(new TextureRegion(Warfare.atlas.findRegion("skeleton1Walk0")));
+
+        walkAnimation = new Animation(0.15f, frames);
+        frames.clear();
+
+        //  получим кадры и добавим в анимацию атаки персонажа
+        for (int i = 0; i < 5; i++)
+            frames.add(new TextureRegion(Warfare.atlas.findRegion("skeleton1Attack" + i)));
+        attackAnimation = new Animation(0.12f, frames);
+        frames.clear();
+
+        //  получим кадры и добавим в анимацию атаки персонажа
+        for (int i = 0; i < 5; i++)
+            frames.add(new TextureRegion(Warfare.atlas.findRegion("skeleton1Die" + i)));
+        dieAnimation = new Animation(0.12f, frames);
+        frames.clear();
+
+        //  получим кадры и добавим в анимацию стоянки персонажа
+        for (int j = 0; j < 2; j++) {
+            for (int i = 0; i < 4; i++)
+                frames.add(new TextureRegion(Warfare.atlas.findRegion("skeleton1Stay" + i)));
+//            frames.add(new TextureRegion(Warfare.atlas.findRegion("zombieStay3")));
+//            frames.add(new TextureRegion(Warfare.atlas.findRegion("zombieStay2")));
+//            frames.add(new TextureRegion(Warfare.atlas.findRegion("zombieStay1")));
+//            frames.add(new TextureRegion(Warfare.atlas.findRegion("zombieStay0")));
+        }
+        stayAnimation = new Animation(0.2f, frames);
+        frames.clear();
+    }
+
+    /**
+     * метод сбрасывает "ЦЕЛЬ-ИГРОКА" для текущего юнита
+     */
+    private void resetTarget() {
+        isAttack = false;
+        targetPlayer = null;
     }
 
     public void draw(Batch batch, float parentAlpha) {
@@ -344,10 +232,45 @@ public class Zombie extends EnemyUnit {
     }
 
     /**
-     * метод сбрасывает "ЦЕЛЬ-ИГРОКА" для текущего юнита
+     * метод останавливает "ТЕЛО" юнита, устанавливает ему скорость (0;0)
+     */
+    protected void stay() {
+        body.setLinearVelocity(0, 0);
+    }
+
+    public void moveLeft(Body body) {
+        Vector2 vel = body.getLinearVelocity();
+        vel.x = VELOCITY;
+        body.setLinearVelocity(vel);
+    }
+
+    /**
+     * метод устанавливает кол-во здоровья для данного юнита
      **/
-    private void resetTarget() {
-        isAttack = false;
-        targetPlayer = null;
+    @Override
+    public void setHealth(float damage) {
+        super.setHealth(damage);
+        isDamaged = true;
+        bloodSpray.start();
+        if (health <= 0) {
+            stateTime = 0;
+            currentState = State.DIE;
+        }
+    }
+
+    /**
+     * метод возвращает позицию "ТЕЛА" юнита
+     **/
+    @Override
+    public Vector2 getBodyPosition() {
+        return body.getPosition();
+    }
+
+    @Override
+    public boolean remove() {
+        bloodSpray.dispose();
+//        System.out.println("dispose REMOVE");
+        level.removeEnemyUnitFromArray(this);
+        return super.remove();
     }
 }

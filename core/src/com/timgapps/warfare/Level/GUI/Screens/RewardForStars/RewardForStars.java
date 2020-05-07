@@ -60,7 +60,7 @@ public class RewardForStars extends Group {
                 deltaX = -16;
                 break;
             case RewardForStarsData.REWARD_BOX:
-                rewardImage = new Image(Warfare.atlas.findRegion("gnomeStay0"));
+                rewardImage = new Image(Warfare.atlas.findRegion("boxImage0"));
                 name = "Box";
                 deltaX = -16;
                 break;

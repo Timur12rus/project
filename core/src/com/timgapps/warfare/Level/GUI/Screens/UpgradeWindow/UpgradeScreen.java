@@ -314,7 +314,7 @@ public class UpgradeScreen extends Group {
 
         container.row();
 
-        /** добавим таблицу со строимостью апгрейда **/
+        /** добавим таблицу со стоимостью апгрейда **/
         container.add(costUpgradeTable).colspan(3);
         container.row();
         container.add(upgradeButton).height(upgradeButton.getHeight()).width(upgradeButton.getWidth()).colspan(3).padTop(8);

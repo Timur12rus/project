@@ -25,7 +25,7 @@ public class Arrow extends Bullet {
 //        createBody(x, y);
         level.addChild(this);
 //        level.addChild(this, x, y);
-        body = createBody(x,y);
+        body = createBody(x, y);
         body.setLinearVelocity(VELOCITY, 0);
         this.archer = archer;
     }
@@ -33,14 +33,16 @@ public class Arrow extends Bullet {
     @Override
     public void inflictDamage(EnemyUnit enemyUnit) {
         super.inflictDamage(enemyUnit);
-        archer.resetIsFired();
+
+        /** если текщая анимация атаки завершена, т.е.currentState != State.Attack */
+//        archer.resetIsFired();
     }
 
 
     @Override
     public void act(float delta) {
         super.act(delta);
-        setPosition(body.getPosition().x * Level.WORLD_SCALE, body.getPosition().y * Level.WORLD_SCALE + 32);
+//        setPosition(body.getPosition().x * Level.WORLD_SCALE, body.getPosition().y * Level.WORLD_SCALE + 32);
 
         if (getX() > Warfare.V_WIDTH) {
             isDamaged = true;
@@ -65,7 +67,7 @@ public class Arrow extends Bullet {
 
         body.createFixture(fDef).setUserData(this);
         shape.dispose();
-        body.setTransform((x  + 24) / Level.WORLD_SCALE, y / Level.WORLD_SCALE, 0);
+        body.setTransform((x + 24) / Level.WORLD_SCALE, y / Level.WORLD_SCALE, 0);
         return body;
     }
 

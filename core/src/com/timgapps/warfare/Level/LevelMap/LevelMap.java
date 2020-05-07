@@ -1,6 +1,7 @@
 package com.timgapps.warfare.Level.LevelMap;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -20,6 +21,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -72,6 +74,8 @@ public class LevelMap extends StageGame {
     private TiledMap map;
     private int mapWidth, mapHeight, tilePixelWidth, tilePixelHeight, levelWidth, levelHeight;
     private boolean isFocused = true;
+    private Label teamLabel;
+
 
     public LevelMap(GameManager gameManager, int coinsReward, int scoreReward) {
         this.coinsReward = coinsReward;
@@ -138,12 +142,20 @@ public class LevelMap extends StageGame {
 //        teamUpgradeScreen.setVisible(false);
 //        addOverlayChild(teamUpgradeScreen);
 
-        upgradeTeamButton = new ImageButton(new TextureRegionDrawable(Warfare.atlas.findRegion("upgradeTeamBtn")),
-                new TextureRegionDrawable(Warfare.atlas.findRegion("upgradeTeamBtn")));
+        upgradeTeamButton = new ImageButton(new TextureRegionDrawable(Warfare.atlas.findRegion("teamButton")),
+                new TextureRegionDrawable(Warfare.atlas.findRegion("teamButtonDwn")));
 //        addChild(upgradeTeamButton, 32, 340);
-        upgradeTeamButton.setPosition(32, 340);
+        upgradeTeamButton.setPosition(32, getHeight() / 2);
         addOverlayChild(upgradeTeamButton);
 //        addChild(upgradeTeamButton, 32, 340);
+
+        Label.LabelStyle teamLabelStyle = new Label.LabelStyle();
+        teamLabelStyle.fontColor = Color.WHITE;
+        teamLabelStyle.font = Warfare.font10;
+        teamLabel = new Label("Team", teamLabelStyle);
+        teamLabel.setPosition(upgradeTeamButton.getX() + (upgradeTeamButton.getWidth() - teamLabel.getWidth()) / 2,
+                upgradeTeamButton.getY() - teamLabel.getHeight());
+        addOverlayChild(teamLabel);
 
         upgradeTeamButton.addListener(new ClickListener() {
             @Override
@@ -486,7 +498,8 @@ public class LevelMap extends StageGame {
             selectedLevelId = ((LevelIcon) event.getTarget()).getId();
 
             // отобразим окно с информацией о выбранном уровне
-            showMissionInfo(selectedLevelId);
+            if (levelIcons.get(selectedLevelId - 1).getData().isActiveIcon())
+                showMissionInfo(selectedLevelId);
 
 //            /** установим в GameManager значение наград (монеты и очки за уровень) **/
             gameManager.setCoinsRewardforLevel(missionInfoScreen.getRewardCoinsForLevel());
