@@ -109,11 +109,10 @@ public class EnemyUnit extends GameUnit {
 
     @Override
     public Vector2 getBodyPosition() {
-        return null;
+        return body.getPosition();
     }
 
     public void setTargetPlayer(PlayerUnit targetPlayer) {
-
     }
 
     @Override

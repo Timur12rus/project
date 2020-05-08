@@ -394,6 +394,8 @@ public class Gnome extends PlayerUnit {
         isHaveTarget = true;
 //        System.out.println("IsHAVETARGET = " + isHaveTarget);
         targetEnemy = enemyUnit;
+        System.out.println("setTargetEnemy");
+        System.out.println("enemyUnit = " + targetEnemy.toString());
         isAttackBarricade = false;
         isAttack = true;
         stateTime = 0;

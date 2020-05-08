@@ -20,6 +20,7 @@ import com.timgapps.warfare.Level.LevelScreens.LevelCompletedScreen;
 import com.timgapps.warfare.Tools.WorldContactListener;
 import com.timgapps.warfare.Units.GameUnits.Barricade;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnit;
+import com.timgapps.warfare.Units.GameUnits.Enemy.Goblin1;
 import com.timgapps.warfare.Units.GameUnits.Enemy.Skeleton;
 import com.timgapps.warfare.Units.GameUnits.Enemy.Zombie1;
 import com.timgapps.warfare.Units.GameUnits.Enemy.Zombie3;
@@ -102,8 +103,13 @@ public class Level extends StageGame {
 //        Zombie3 zombie3 = new Zombie3(this, 900, 210, 100, 3);
 //        Zombie3 zombie4 = new Zombie3(this, 1000, 190, 100, 3);
 //        Zombie3 zombie5 = new Zombie3(this, 1100, 220, 100, 3);
-        Skeleton skeleton = new Skeleton(this, 800, 180, 100, 3);
-        Skeleton skeleton1 = new Skeleton(this, 1200, 220, 100, 3);
+//        Skeleton skeleton = new Skeleton(this, 800, 180, 100, 3);
+//        Skeleton skeleton1 = new Skeleton(this, 1200, 220, 100, 3);
+
+
+        Goblin1 goblin1 = new Goblin1(this, 600, 220, 100, 3);
+        Goblin1 goblin2 = new Goblin1(this, 900, 230, 100, 3);
+        Goblin1 goblin3 = new Goblin1(this, 1200, 240, 100, 3);
 
 //        zombie4.debug();
 
@@ -115,8 +121,16 @@ public class Level extends StageGame {
 //        arrayEnemies.add(zombie3);
 //        arrayEnemies.add(zombie4);
 //        arrayEnemies.add(zombie5);
-        arrayEnemies.add(skeleton);
-        arrayEnemies.add(skeleton1);
+
+//        arrayEnemies.add(skeleton);
+//        arrayEnemies.add(skeleton1);
+
+
+        arrayEnemies.add(goblin1);
+        arrayEnemies.add(goblin2);
+        arrayEnemies.add(goblin3);
+
+
 //        arrayEnemies.add(zombie4);
 
 
@@ -177,7 +191,9 @@ public class Level extends StageGame {
         return coinsReward;
     }
 
-    /** метод получает кол-во очков в качестве награды **/
+    /**
+     * метод получает кол-во очков в качестве награды
+     **/
     public int getRewardScoreCount() {
         scoreReward = gameManager.getLevelIcons().get(levelNumber - 1).getData().getScoreCount();
         return scoreReward;
@@ -453,7 +469,6 @@ public class Level extends StageGame {
         gameManager.getSavedGame().setIndexRewardStars(gameManager.getStarsPanel().getIndexOfRewardStars());
 
         gameManager.getStarsPanel().updateCountReward();
-
 
 
         setStarsCountToLevelIcon();

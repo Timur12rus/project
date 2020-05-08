@@ -166,7 +166,7 @@ public class Skeleton extends EnemyUnit {
         attackAnimation = new Animation(0.12f, frames);
         frames.clear();
 
-        //  получим кадры и добавим в анимацию атаки персонажа
+        //  получим кадры и добавим в анимацию гибели персонажа
         for (int i = 0; i < 5; i++)
             frames.add(new TextureRegion(Warfare.atlas.findRegion("skeleton1Die" + i)));
         dieAnimation = new Animation(0.12f, frames);
