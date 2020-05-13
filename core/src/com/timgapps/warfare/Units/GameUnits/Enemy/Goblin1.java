@@ -17,28 +17,30 @@ public class Goblin1 extends EnemyUnit {
     private ParticleEffect bloodSpray;
     protected boolean isAttack = false;         // флаг - атакует ли в данный момент юнит, в состоянии ли атаки
     protected boolean isDamaged = false;        // флаг - нанесен ли урон юниту
-    protected PlayerUnit targetPlayer;          // юнит игрока - "ЦЕЛЕВОЙ ЮНИТ" или "ЮНИТ-ЦЕЛЬ"
+    //    protected PlayerUnit targetPlayer;          // юнит игрока - "ЦЕЛЕВОЙ ЮНИТ" или "ЮНИТ-ЦЕЛЬ"
     protected final float VELOCITY = -0.6f;
-//    private Explosion explosion;
-    private boolean isStartExplosion;
+    private Explosion explosion;
+    private boolean isStartExplosion = false;
+//    private boolean isHaveTargetPlayer;
 
     public Goblin1(Level level, float x, float y, float health, float damage) {
         super(level, x, y, health, damage);
+        // создадим партикл-эффект для брызг крови
+        bloodSpray = new ParticleEffect();
+        bloodSpray.load(Gdx.files.internal("effects/bloodSpray.paty"), Gdx.files.internal("effects/")); //file);
+
         createAnimations();                   // создадим анимацию для различных состояний юнита
 
         xPosDamageLabel = 16;       // позиция надписи "цифры" получаемого урона
         level.addChild(this, x, y);
 
-//        explosion = new Explosion();
-//        level.addChild(explosion);
+        explosion = new Explosion();
+        level.addChild(explosion);
 
         // зададим размер для актера
-        this.setSize(Warfare.atlas.findRegion("skeleton1Stay0").getRegionWidth(),
-                Warfare.atlas.findRegion("skeleton1Stay0").getRegionHeight());
+        this.setSize(Warfare.atlas.findRegion("goblin1Run0").getRegionWidth(),
+                Warfare.atlas.findRegion("goblin1Run0").getRegionHeight());
 
-        // создадим партикл-эффект для брызг крови
-        bloodSpray = new ParticleEffect();
-        bloodSpray.load(Gdx.files.internal("effects/bloodSpray.paty"), Gdx.files.internal("effects/")); //file);
 
         stateTime = 0;
         currentState = State.RUN;
@@ -46,15 +48,48 @@ public class Goblin1 extends EnemyUnit {
         deltaX = 52;                        // смещение изображения относительно тела по оси Х
     }
 
-//    private void startExplosion() {
-//        explosion.setPosition(getX(), getY());
-//        explosion.start();
-//    }
+    private void startExplosion() {
+        explosion.setPosition(getX() - 72, getY() + 16);
+        isStartExplosion = true;
+        explosion.start();
+        isAttack = false;
+
+    }
 
 
     @Override
     public void act(float delta) {
         super.act(delta);
+
+
+        if (targetPlayer != null && isHaveTargetPlayer == true && !isStartExplosion) {
+            isStartExplosion = true;
+            startExplosion();
+//            targetPlayer.setHealth(200);
+            inflictDamage(targetPlayer, 200);
+            setHealth(200);
+        }
+
+//        if (currentState == State.DIE && !isStartExplosion) {
+//            startExplosion();
+//            stateTime = 0;
+//            setHealth(200);
+//            inflictDamage(targetPlayer, 100);
+//        }
+
+        if (currentState == State.RUN)
+            moveLeft(body);
+
+        if (health <= 0 && body.isActive()) {
+            body.setActive(false);
+            stateTime = 0;
+            currentState = State.DIE;
+            if (!isStartExplosion) {
+                startExplosion();
+            }
+
+        }
+
         /** если юниту нанесен урон: isDamaged = true, обновляем анимацию брызг крови **/
         if (isDamaged) {
             bloodSpray.setPosition(getX() + 30, getY() + 60);
@@ -64,38 +99,27 @@ public class Goblin1 extends EnemyUnit {
         if (isDamaged && bloodSpray.isComplete())
             isDamaged = false;
 
-
-        if (health <= 0 && body.isActive()) {
-            currentState = State.DIE;
-            stateTime = 0;
-            body.setActive(false);
-        }
-
-        if (currentState == State.RUN)
-            moveLeft(body);
-
         /** если юнит имеет цель игрока и взрыв не запущен и в состоянии атаки (т.е. произошла коллизия), то запускаем взрыв**/
-        if (isAttack && targetPlayer != null && !isStartExplosion) {
-            isStartExplosion = true;
-//            startExplosion();
-            setHealth(200);
-            inflictDamage(targetPlayer, 50);
-        }
+//        if (isAttack && targetPlayer != null && !isStartExplosion) {
+//            setHealth(200);
+//            inflictDamage(targetPlayer, 50);
+//            isAttack = false;
+//        }
 
         /** если состояние = State.DIE и анимация завершена, то уничтожаем юнита **/
 //        if (currentState == State.DIE && dieAnimation.isAnimationFinished(stateTime) && !isStartExplosion) {
 //            setToDestroy();
 //        }
 
-        if (currentState == State.DIE && dieAnimation.isAnimationFinished(stateTime)) {
-            setToDestroy();
-        }
-
-
-//        if (currentState == State.DIE && dieAnimation.isAnimationFinished(stateTime) && explosion.isEnd()) {
-////            explosion.remove();
+//        if (currentState == State.DIE && dieAnimation.isAnimationFinished(stateTime)) {
 //            setToDestroy();
 //        }
+
+
+        if (currentState == State.DIE && dieAnimation.isAnimationFinished(stateTime) && explosion.isEnd()) {
+            explosion.remove();
+            setToDestroy();
+        }
     }
 
     protected void createAnimations() {
@@ -123,6 +147,10 @@ public class Goblin1 extends EnemyUnit {
         return super.remove();
     }
 
+    protected void stay() {
+        body.setLinearVelocity(0, 0);
+    }
+
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
 
@@ -134,7 +162,6 @@ public class Goblin1 extends EnemyUnit {
 
             if (currentState == State.DIE) {
                 batch.draw((TextureRegion) dieAnimation.getKeyFrame(stateTime, false), getX() - deltaX / 2, getY());
-//                batch.draw((TextureRegion) dieAnimation.getKeyFrame(stateTime, false), getX() - deltaX, getY());
             }
 
             if (isDrawHealthBar)
@@ -155,7 +182,6 @@ public class Goblin1 extends EnemyUnit {
                 isAttackTower = true;
                 // запускаем анимацию взрыва
 //                startExplosion();
-
                 // наносим урон текущему юниту
                 setHealth(100);
                 // наносим урон башне
@@ -169,9 +195,9 @@ public class Goblin1 extends EnemyUnit {
     @Override
     public void attack() {
         if (!isAttack) {
+            System.out.println("ATTACK!!!!!!!");
             isAttack = true;
-            stateTime = 0;
-            currentState = State.DIE;
+            inflictDamage(targetPlayer, 200);
         }
     }
 
@@ -185,13 +211,15 @@ public class Goblin1 extends EnemyUnit {
     /**
      * метод для назначения цели - "игрового-юнита цели"
      */
-    @Override
-    public void setTargetPlayer(PlayerUnit targetPlayer) {
-        System.out.println("setTargetPlayer = " + targetPlayer.toString());
-        this.targetPlayer = targetPlayer;
-    }
-
-
+//    @Override
+//    public void setTargetPlayer(PlayerUnit targetPlayer) {
+//            super.setTargetPlayer(targetPlayer);
+//            if (currentState != State.DIE) {
+//                stateTime = 0;
+//                currentState = State.DIE;
+//                stay();
+//            }
+//        }
     @Override
     public String toString() {
         return "Goblin1";

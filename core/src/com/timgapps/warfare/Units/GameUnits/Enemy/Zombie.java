@@ -65,7 +65,6 @@ public class Zombie extends EnemyUnit {
     public void act(float delta) {
         super.act(delta);
 
-
         /** если юниту нанесен урон: isDamaged = true, обновляем анимацию брызг крови **/
         if (isDamaged) {
             bloodSpray.setPosition(getX() + 30, getY() + 60);
@@ -75,6 +74,10 @@ public class Zombie extends EnemyUnit {
         /** завершим анимацию брызг крови **/
         if (isDamaged && bloodSpray.isComplete())
             isDamaged = false;
+
+        if (currentState == State.STAY || currentState == State.ATTACK) {
+            stay();
+        }
 
         /** проверим юнита в текущем состоянии = State.ATTACK **/
         if (currentState == State.ATTACK) {
@@ -104,6 +107,7 @@ public class Zombie extends EnemyUnit {
                     }
 
                 } else {
+                    // нанесем урон целевому юниту
                     inflictDamage(targetPlayer, damage);
                     stateTime = 0;
                     currentState = State.STAY;
@@ -188,9 +192,6 @@ public class Zombie extends EnemyUnit {
 //                currentState = State.STAY;
 //            }
 
-        if (currentState == State.STAY || currentState == State.ATTACK) {
-            stay();
-        }
     }
 
     @Override

@@ -68,11 +68,18 @@ public class Gnome extends PlayerUnit {
     public void act(float delta) {
         super.act(delta);
 
-        if (!body.isActive()) {
-            world.destroyBody(body);
-            this.remove();
-//            level.removeEnemyUnitFromArray(this);
+        if (health <= 0 && body.isActive()) {
+            System.out.println("HEALTH <= 0 && body.isActive");
+            currentState = State.DIE;
+            stateTime = 0;
+            stay();
+
+            body.setActive(false);
+
+//            body.setActive(false);
         }
+
+        if (body.isActive()) {
 
         /** проверим, атакует ли юнита баррикаду **/
         if (!isAttackBarricade) {
@@ -166,13 +173,25 @@ public class Gnome extends PlayerUnit {
         }
 
 
-        if (setToDestroyBody) {
-            body.setActive(false);
+//        if (setToDestroyBody) {
+//            body.setActive(false);
+//        }
+    }
+
+        if (currentState == State.DIE && dieAnimation.isAnimationFinished(stateTime)) {
+
+            /** МОЖЕТ ПРИГОДИТЬСЯ 17.02.2020
+             //            destroy();
+             **/
+            setToDestroy();
         }
 
-        if (health <= 0) {
-            setToDestroyBody = true;
-        }
+
+
+        System.out.println("currentState = " + currentState);
+//        if (setToDestroyBody) {
+//            body.setActive(false);
+//        }
 
 //        /** обновим позицию текущего игрового объекта **/
 //        setPosition(body.getPosition().x * Level.WORLD_SCALE - 18, body.getPosition().y * Level.WORLD_SCALE);
@@ -348,7 +367,6 @@ public class Gnome extends PlayerUnit {
         for (int i = 0; i < 5; i++)
             frames.add(new TextureRegion(Warfare.atlas.findRegion("gnomeAttack" + i)));
         attackAnimation = new Animation(0.1f, frames);
-//        attackAnimation = new Animation(0.12f, frames);
         frames.clear();
 
         //  получим кадры и добавим в анимацию стоянки персонажа
@@ -370,7 +388,7 @@ public class Gnome extends PlayerUnit {
             frames.add(new TextureRegion(Warfare.atlas.findRegion("gnomeDie" + i)));
         dieAnimation = new Animation(0.1f, frames);
         frames.clear();
-        stateTime = 0;
+//        stateTime = 0;
     }
 
 
@@ -385,23 +403,18 @@ public class Gnome extends PlayerUnit {
         verticalDirectionMovement = Direction.NONE;
     }
 
+
+    // TODO ОБЯЗАТЕЛЬНО НУЖНО ИСПРАВИТЬ!!!!!!!!!!!!!!! 09.05.2020!!!!!!!!!!!
     @Override
     public void setTargetEnemy(EnemyUnit enemyUnit) {
         super.setTargetEnemy(enemyUnit);
         resetTarget();
-
-//        System.out.println("IsHAVETARGET = " + isHaveTarget);
         isHaveTarget = true;
-//        System.out.println("IsHAVETARGET = " + isHaveTarget);
         targetEnemy = enemyUnit;
-        System.out.println("setTargetEnemy");
-        System.out.println("enemyUnit = " + targetEnemy.toString());
         isAttackBarricade = false;
         isAttack = true;
         stateTime = 0;
         currentState = State.ATTACK;
-//        System.out.println("Set Target ENemy");
-//        System.out.println("CurrentState = " + currentState.toString());
     }
 
     /**
@@ -456,14 +469,18 @@ public class Gnome extends PlayerUnit {
 
         if (isDrawHealthBar)
             drawHealthBar(batch, -84, getHeight());
-
     }
 
 
-//    @Override
-//    public void setHealth(float value) {
-//        super.setHealth(value);
-//    }
+    @Override
+    public void setHealth(float value) {
+        super.setHealth(value);
+
+        if (health <= 0) {
+            stateTime = 0;
+            currentState = State.DIE;
+        }
+    }
 
     @Override
     public void attack() {

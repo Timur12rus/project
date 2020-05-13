@@ -45,10 +45,13 @@ public class EnemyUnit extends GameUnit {
     public boolean isDraw() {
         return isDraw;
     }
+    protected boolean isHaveTargetPlayer;
+
     private boolean isDraw = true;
     protected boolean isAttackStone = false;
     protected boolean isAttackTower = false;
     protected Stone stone;
+    protected PlayerUnit targetPlayer;
 
     public EnemyUnit(Level level, float x, float y, float health, float damage) {
         super(level, x, y, health, damage);
@@ -72,7 +75,9 @@ public class EnemyUnit extends GameUnit {
         }
     }
 
-    /** метод для проверки, атакует ли вражеский юнит ОСАДНУЮ БАШНЮ **/
+    /**
+     * метод для проверки, атакует ли вражеский юнит ОСАДНУЮ БАШНЮ
+     **/
     public boolean getIsAttackTower() {
         return isAttackTower;
     }
@@ -113,6 +118,12 @@ public class EnemyUnit extends GameUnit {
     }
 
     public void setTargetPlayer(PlayerUnit targetPlayer) {
+            this.targetPlayer = targetPlayer;
+            isHaveTargetPlayer = true;
+    }
+
+    public PlayerUnit getTargetPlayer() {
+        return targetPlayer;
     }
 
     @Override

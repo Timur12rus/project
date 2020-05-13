@@ -42,7 +42,7 @@ public class Archer1 extends PlayerUnit {
         this.level = level;
         this.world = level.getWorld();
 
-        xPosDamageLabel = - 45;
+        xPosDamageLabel = -45;
 
         this.setWidth(Warfare.atlas.findRegion("archer1Walk0").getRegionWidth());
         this.setHeight(Warfare.atlas.findRegion("archer1Walk0").getRegionHeight());
@@ -74,6 +74,10 @@ public class Archer1 extends PlayerUnit {
 
             /** проверим, может ли игровой юнит атаковать врага **/
             checkAttack((EnemyUnit) targetEnemy);
+        }
+
+        if (currentState == State.DIE || currentState == State.STAY || currentState == State.ATTACK) {
+            stay();
         }
 //        setPosition(body.getPosition().x * Level.WORLD_SCALE - 18, body.getPosition().y * Level.WORLD_SCALE - bodyHeight / 2);
     }
@@ -153,7 +157,7 @@ public class Archer1 extends PlayerUnit {
 
             /** сбросим флаг, что юнит (стрелок) атакует */
             resetIsFired();
-            stay();
+
         }
 
         /** если текущее состояние = State.STAY и анмация завершена **/
@@ -313,12 +317,15 @@ public class Archer1 extends PlayerUnit {
         }
 
         if (currentState == State.DIE) {
-            batch.draw((TextureRegion) dieAnimation.getKeyFrame(stateTime, true), getX() - 174, getY());
+            batch.draw((TextureRegion) dieAnimation.getKeyFrame(stateTime, false), getX() - 174, getY());
         }
 
         if (currentState == State.HART) {
             batch.draw((TextureRegion) hartAnimation.getKeyFrame(stateTime, true), getX() - 174, getY());
         }
+
+        if (isDrawHealthBar)
+            drawHealthBar(batch, -64, getHeight() + 8);
 //        batch.setColor(1, 1, 1, 1);
     }
 
@@ -353,7 +360,6 @@ public class Archer1 extends PlayerUnit {
             frames.add(new TextureRegion(Warfare.atlas.findRegion("archer1Die" + i)));
         dieAnimation = new Animation(0.1f, frames);
         frames.clear();
-        stateTime = 0;
 
         for (int i = 0; i < 5; i++)
             frames.add(new TextureRegion(Warfare.atlas.findRegion("archer1Hart" + i)));

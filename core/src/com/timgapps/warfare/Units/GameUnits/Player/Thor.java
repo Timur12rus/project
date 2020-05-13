@@ -51,7 +51,6 @@ public class Thor extends Gnome {
             frames.add(new TextureRegion(Warfare.atlas.findRegion("thorDie" + i)));
         dieAnimation = new Animation(0.1f, frames);
         frames.clear();
-        stateTime = 0;
     }
 
     @Override

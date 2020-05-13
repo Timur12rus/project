@@ -90,10 +90,21 @@ public class WorldContactListener implements ContactListener {
                 } else return;
             }
             if (enemyUserData instanceof EnemyUnit) {
+//                System.out.println("AAAAAAAAAAAAAAAAAAAAA");
+//                System.out.println("GETTARGETPLAYER = " + ((EnemyUnit) enemyUserData).getTargetPlayer());
                 if (((EnemyUnit) enemyUserData).getCurrentState() != GameUnit.State.ATTACK) {
-                    ((EnemyUnit) enemyUserData).setTargetPlayer((PlayerUnit) userData);
-                    ((EnemyUnit) enemyUserData).attack();
 
+                    if (((EnemyUnit) enemyUserData).getTargetPlayer() == null) {
+                        // назначим вражескому юниту цель-игрока, которого он коснулся
+                        ((EnemyUnit) enemyUserData).setTargetPlayer((PlayerUnit) userData);
+//                        System.out.println("GETTARGETPLAYER = " + ((EnemyUnit) enemyUserData).getTargetPlayer());
+
+                        // установим для вражеского юнита состояние "атака"
+                        ((EnemyUnit) enemyUserData).attack();
+                    }
+
+//                    ((EnemyUnit) enemyUserData).setTargetPlayer((PlayerUnit) userData);
+//                    ((EnemyUnit) enemyUserData).attack();
                 } else return;
             }
         } else {
@@ -101,17 +112,22 @@ public class WorldContactListener implements ContactListener {
             Object enemyUserData = fixA.getUserData();
             if (userData instanceof PlayerUnit) {
                 if (((PlayerUnit) userData).getCurrentState() != GameUnit.State.ATTACK) {
-                    ((PlayerUnit) userData).attack();
                     ((PlayerUnit) userData).setTargetEnemy((EnemyUnit) enemyUserData);
-
+                    ((PlayerUnit) userData).attack();
 
                 } else return;
             }
 //                    Object enemyUserData = fixA.getUserData();
             if (enemyUserData instanceof EnemyUnit) {
+                System.out.println("BBBBBBB");
                 if (((EnemyUnit) enemyUserData).getCurrentState() != GameUnit.State.ATTACK) {
-                    ((EnemyUnit) enemyUserData).attack();
-                    ((EnemyUnit) enemyUserData).setTargetPlayer((PlayerUnit) userData);
+                    System.out.println("GETTARGETPLAYER = " + ((EnemyUnit) enemyUserData).getTargetPlayer());
+                    if (((EnemyUnit) enemyUserData).getTargetPlayer() == null) {
+                        ((EnemyUnit) enemyUserData).setTargetPlayer((PlayerUnit) userData);
+                        System.out.println("GETTARGETPLAYER = " + ((EnemyUnit) enemyUserData).getTargetPlayer());
+                        ((EnemyUnit) enemyUserData).attack();
+                    }
+//                    ((EnemyUnit) enemyUserData).attack();
                 } else return;
             }
         }

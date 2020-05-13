@@ -59,6 +59,7 @@ public abstract class GameUnit extends Actor implements IBody {
     protected Texture backTexture;
     protected boolean isDrawHealthBar = false;
 
+
     public enum State {WALKING, ATTACK, STAY, DIE, RUN, HART}
 
     public State currentState;
@@ -147,7 +148,7 @@ public abstract class GameUnit extends Actor implements IBody {
             if (health > 0) isDrawHealthBar = true;
         }
         health -= value;
-        if (health < 0) {
+        if (health <= 0) {
             health = 0;
             isDrawHealthBar = false;
         }

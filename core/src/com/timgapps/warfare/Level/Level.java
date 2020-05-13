@@ -22,6 +22,7 @@ import com.timgapps.warfare.Units.GameUnits.Barricade;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnit;
 import com.timgapps.warfare.Units.GameUnits.Enemy.Goblin1;
 import com.timgapps.warfare.Units.GameUnits.Enemy.Skeleton;
+import com.timgapps.warfare.Units.GameUnits.Enemy.Skeleton3;
 import com.timgapps.warfare.Units.GameUnits.Enemy.Zombie1;
 import com.timgapps.warfare.Units.GameUnits.Enemy.Zombie3;
 import com.timgapps.warfare.Units.GameUnits.Player.Archer1;
@@ -96,20 +97,23 @@ public class Level extends StageGame {
         /** Добавим вражеских юнитов **/
         random = new Random();
 
-//        Zombie1 zombie = new Zombie1(this, 700, 250, 20, 5);
+//        Zombie1 zombie = new Zombie1(this, 700, 250, 400, 5);
 //        zombie.debug();
-//        Zombie3 zombie1 = new Zombie3(this, 1500, 230, 100, 3);
-//        Zombie3 zombie2 = new Zombie3(this, 1200, 180, 100, 3);
+//        Zombie3 zombie1 = new Zombie3(this, 1500, 230, 400, 10);
+//        Zombie3 zombie2 = new Zombie3(this, 1400, 180, 400, 10);
 //        Zombie3 zombie3 = new Zombie3(this, 900, 210, 100, 3);
 //        Zombie3 zombie4 = new Zombie3(this, 1000, 190, 100, 3);
 //        Zombie3 zombie5 = new Zombie3(this, 1100, 220, 100, 3);
 //        Skeleton skeleton = new Skeleton(this, 800, 180, 100, 3);
 //        Skeleton skeleton1 = new Skeleton(this, 1200, 220, 100, 3);
 
+        Skeleton3 skeleton3 = new Skeleton3(this, 900, 180, 100, 10);
+//        Skeleton skeleton1 = new Skeleton(this, 700, 200, 50, 3);
 
-        Goblin1 goblin1 = new Goblin1(this, 600, 220, 100, 3);
-        Goblin1 goblin2 = new Goblin1(this, 900, 230, 100, 3);
-        Goblin1 goblin3 = new Goblin1(this, 1200, 240, 100, 3);
+
+//        Goblin1 goblin1 = new Goblin1(this, 600, 220, 100, 3);
+//        Goblin1 goblin2 = new Goblin1(this, 900, 230, 100, 3);
+//        Goblin1 goblin3 = new Goblin1(this, 1200, 240, 100, 3);
 
 //        zombie4.debug();
 
@@ -126,9 +130,9 @@ public class Level extends StageGame {
 //        arrayEnemies.add(skeleton1);
 
 
-        arrayEnemies.add(goblin1);
-        arrayEnemies.add(goblin2);
-        arrayEnemies.add(goblin3);
+//        arrayEnemies.add(goblin1);
+//        arrayEnemies.add(goblin2);
+//        arrayEnemies.add(goblin3);
 
 
 //        arrayEnemies.add(zombie4);
@@ -139,6 +143,8 @@ public class Level extends StageGame {
 //        arrayEnemies.add(zombie3);
 //        arrayEnemies.add(zombie4);
 //        arrayEnemies.add(zombie5);
+        arrayEnemies.add(skeleton3);
+//        arrayEnemies.add(skeleton1);
 
 //        addChild(new Archer1(this, 200, 200, 30, 20));
 
@@ -263,7 +269,7 @@ public class Level extends StageGame {
     }
 
     public void addArcher1(int health, int damage) {
-        new Archer1(this, 160, 210, health, damage);
+        new Archer1(this, 600, 210, health, damage);
 
     }
 
@@ -272,8 +278,6 @@ public class Level extends StageGame {
     }
 
     public void compareActorsYPos() {
-
-
         /** Полностью рабочий код, но с ошиблкой Zindex cannot be < 0 **/
 //        if (arrayActors.size() > 1) {
 //            ArrayList<Actor> gameActors = arrayActors;

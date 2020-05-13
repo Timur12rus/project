@@ -11,6 +11,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.timgapps.warfare.Level.Level;
 import com.timgapps.warfare.Units.GameUnits.Barricade;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnit;
+import com.timgapps.warfare.Units.GameUnits.Enemy.Goblin1;
 import com.timgapps.warfare.Units.GameUnits.GameUnit;
 
 public class PlayerUnit extends GameUnit {
@@ -81,6 +82,12 @@ public class PlayerUnit extends GameUnit {
 
 
     public void setTargetEnemy(EnemyUnit enemyUnit) {
+//        if (enemyUnit instanceof Goblin1) {
+////            (Goblin1) enemyUnit.
+////            if (enemyUnit.getHealth() > 0)
+////            setHealth(200);
+//        } else return;
+
 //        resetTarget();
 //        targetEnemy = enemyUnit;
 //        isHaveTarget = true;
@@ -90,6 +97,14 @@ public class PlayerUnit extends GameUnit {
     @Override
     public void act(float delta) {
         super.act(delta);
+        if (currentState == State.DIE && dieAnimation.isAnimationFinished(stateTime)) {
+
+            /** МОЖЕТ ПРИГОДИТЬСЯ 17.02.2020
+             //            destroy();
+             **/
+            setToDestroy();
+        }
+
         /** обновим позицию текущего игрового объекта **/
         setPosition(body.getPosition().x * Level.WORLD_SCALE - bodyWidth / 2,
                 body.getPosition().y * Level.WORLD_SCALE - bodyHeight / 2);
@@ -104,6 +119,10 @@ public class PlayerUnit extends GameUnit {
     public void setHealth(float value) {
         super.setHealth(value);
         addDamageLabel(getX() + xPosDamageLabel, getY() + getHeight() + 8 + yPosDamageLabel, value);
+        if (health <= 0) {
+            stateTime = 0;
+            currentState = State.DIE;
+        }
     }
 
 
