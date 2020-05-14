@@ -195,7 +195,9 @@ public abstract class GameUnit extends Actor implements IBody {
      * @param value - урон, наносимый противнику
      **/
     public void inflictDamage(GameUnit unit, float value) {
-        unit.setHealth(value);
+        if (unit != null) {
+            unit.setHealth(value);
+        }
     }
 
     /**

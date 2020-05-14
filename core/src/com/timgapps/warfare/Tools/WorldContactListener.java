@@ -59,15 +59,10 @@ public class WorldContactListener implements ContactListener {
      **/
     private void checkCollisionTowerToEnemy(Fixture fixA, Fixture fixB) {
         if (fixA.getFilterData().categoryBits == GameUnit.TOWER_BIT) {
-
-//            Object towerData = fixA.getUserData();
             Object enemyUserData = fixB.getUserData();
             ((EnemyUnit) enemyUserData).attackTower();
-
         } else {
-//            Object towerData = fixB.getUserData();
             Object enemyUserData = fixA.getUserData();
-
             ((EnemyUnit) enemyUserData).attackTower();
         }
     }
@@ -80,81 +75,33 @@ public class WorldContactListener implements ContactListener {
         if (fixA.getFilterData().categoryBits == GameUnit.PLAYER_BIT) {
             Object userData = fixA.getUserData();
             Object enemyUserData = fixB.getUserData();
+
             System.out.println("Enemy To Player collision!");
-//            if (((PlayerUnit) userData).getCurrentState() != GameUnit.State.ATTACK) {
-                ((PlayerUnit) userData).setTargetEnemy((EnemyUnit) enemyUserData);
-                ((PlayerUnit) userData).attack();
-//            }
 
-//            if (((EnemyUnit) enemyUserData).getCurrentState() != GameUnit.State.ATTACK) {
-                if (((EnemyUnit) enemyUserData).getTargetPlayer() == null) {
-                    ((EnemyUnit) enemyUserData).setTargetPlayer((PlayerUnit) userData);
-                    ((EnemyUnit) enemyUserData).attack();
-//                }
-//                } else return;
+            // если игрок не имеет "врвга-цель", то зададим для него "врага-цель" и установим флаг "атакует" (isAttack = true)
+            ((PlayerUnit) userData).setTargetEnemy((EnemyUnit) enemyUserData);
+            ((PlayerUnit) userData).attack();
+
+            // если вражеский юнит не имеет "игрока-цель", то зададим для него "игрока-цель" и установим флаг "атакует" (isAttack = true)
+            if (((EnemyUnit) enemyUserData).getTargetPlayer() == null) {
+                ((EnemyUnit) enemyUserData).setTargetPlayer((PlayerUnit) userData);
+                ((EnemyUnit) enemyUserData).attack();
             }
-//            if (enemyUserData instanceof EnemyUnit) {
-////                System.out.println("AAAAAAAAAAAAAAAAAAAAA");
-////                System.out.println("GETTARGETPLAYER = " + ((EnemyUnit) enemyUserData).getTargetPlayer());
-//                if (((EnemyUnit) enemyUserData).getCurrentState() != GameUnit.State.ATTACK) {
-//
-//                    if (((EnemyUnit) enemyUserData).getTargetPlayer() == null) {
-//                        // назначим вражескому юниту цель-игрока, которого он коснулся
-//                        ((EnemyUnit) enemyUserData).setTargetPlayer((PlayerUnit) userData);
-////                        System.out.println("GETTARGETPLAYER = " + ((EnemyUnit) enemyUserData).getTargetPlayer());
-//
-//                        // установим для вражеского юнита состояние "атака"
-//                        ((EnemyUnit) enemyUserData).attack();
-//                    }
-
-//                    ((EnemyUnit) enemyUserData).setTargetPlayer((PlayerUnit) userData);
-//                    ((EnemyUnit) enemyUserData).attack();
-//                } else return;
-//            }
         } else {
             Object userData = fixB.getUserData();
             Object enemyUserData = fixA.getUserData();
+
             System.out.println("Enemy To Player collision!");
 
-//            if (userData instanceof PlayerUnit) {
-//            if (((PlayerUnit) userData).getCurrentState() != GameUnit.State.ATTACK) {
-                ((PlayerUnit) userData).setTargetEnemy((EnemyUnit) enemyUserData);
-                ((PlayerUnit) userData).attack();
-//            }
+            // если игрок не имеет "врвга-цель", то зададим для него "врага-цель" и установим флаг "атакует" (isAttack = true)
+            ((PlayerUnit) userData).setTargetEnemy((EnemyUnit) enemyUserData);
+            ((PlayerUnit) userData).attack();
 
-//            if (((EnemyUnit) enemyUserData).getCurrentState() != GameUnit.State.ATTACK) {
-                if (((EnemyUnit) enemyUserData).getTargetPlayer() == null) {
-                    ((EnemyUnit) enemyUserData).setTargetPlayer((PlayerUnit) userData);
-                    ((EnemyUnit) enemyUserData).attack();
-//                }
-//                } else return;
+            // если вражеский юнит не имеет "игрока-цель", то зададим для него "игрока-цель" и установим флаг "атакует" (isAttack = true)
+            if (((EnemyUnit) enemyUserData).getTargetPlayer() == null) {
+                ((EnemyUnit) enemyUserData).setTargetPlayer((PlayerUnit) userData);
+                ((EnemyUnit) enemyUserData).attack();
             }
-
-
-//            Object userData = fixB.getUserData();
-//            Object enemyUserData = fixA.getUserData();
-//            if (userData instanceof PlayerUnit) {
-//                if (((PlayerUnit) userData).getCurrentState() != GameUnit.State.ATTACK) {
-//                    ((PlayerUnit) userData).setTargetEnemy((EnemyUnit) enemyUserData);
-//                    ((PlayerUnit) userData).attack();
-//
-//                } else return;
-//            }
-////                    Object enemyUserData = fixA.getUserData();
-//            if (enemyUserData instanceof EnemyUnit) {
-////                System.out.println("BBBBBBB");
-////                System.out.println("GETTARGETPLAYER BB = " + ((EnemyUnit) enemyUserData).getTargetPlayer());
-//                if (((EnemyUnit) enemyUserData).getCurrentState() != GameUnit.State.ATTACK) {
-//
-//                    if (((EnemyUnit) enemyUserData).getTargetPlayer() == null) {
-//                        ((EnemyUnit) enemyUserData).setTargetPlayer((PlayerUnit) userData);
-////                        System.out.println("GETTARGETPLAYER = " + ((EnemyUnit) enemyUserData).getTargetPlayer());
-//                        ((EnemyUnit) enemyUserData).attack();
-//                    }
-////                    ((EnemyUnit) enemyUserData).attack();
-//                } else return;
-//            }
-//        }
         }
     }
 
@@ -163,22 +110,11 @@ public class WorldContactListener implements ContactListener {
      **/
     private void checkCollisionPlayerToBarricade(Fixture fixA, Fixture fixB) {
         if (fixA.getFilterData().categoryBits == GameUnit.BARRICADE_BIT) {
-
-//            Object barricadeData = fixA.getUserData();
             Object playerData = fixB.getUserData();
-
-//            if (((PlayerUnit) playerData).getCurrentState() != GameUnit.State.ATTACK) {
             ((PlayerUnit) playerData).attackBarricade();
-//                ((PlayerUnit) playerData).attackBarricade((Barricade) barricadeData);
-//            }
         } else {
             Object playerData = fixA.getUserData();
-//            Object barricadeData = fixB.getUserData();
-
-//            if (((PlayerUnit) playerData).getCurrentState() != GameUnit.State.ATTACK) {
             ((PlayerUnit) playerData).attackBarricade();
-//                ((PlayerUnit) playerData).attackBarricade((Barricade) barricadeData);
-//            }
         }
     }
 

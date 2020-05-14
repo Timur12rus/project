@@ -35,7 +35,7 @@ public class PlayerUnit extends GameUnit {
     protected boolean isAttackBarricade = false;
     protected Barricade barricade;
 
-    protected float bodyWidth = 24;
+    protected float bodyWidth = 48;
     protected float bodyHeight = 24;
 
     protected float deltaX, deltaY;
@@ -60,6 +60,7 @@ public class PlayerUnit extends GameUnit {
 
         PolygonShape shape = new PolygonShape();
         shape.setAsBox((bodyWidth / 2) / Level.WORLD_SCALE, (bodyHeight / 2) / Level.WORLD_SCALE);
+        System.out.println("Body Width = " + bodyWidth / Level.WORLD_SCALE);
 
         FixtureDef fDef = new FixtureDef();
         fDef.shape = shape;
@@ -106,7 +107,8 @@ public class PlayerUnit extends GameUnit {
         }
 
         /** обновим позицию текущего игрового объекта **/
-        setPosition(body.getPosition().x * Level.WORLD_SCALE - bodyWidth / 2,
+        setPosition(body.getPosition().x * Level.WORLD_SCALE,
+//        setPosition(body.getPosition().x * Level.WORLD_SCALE - bodyWidth / 2,
                 body.getPosition().y * Level.WORLD_SCALE - bodyHeight / 2);
     }
 

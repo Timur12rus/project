@@ -29,7 +29,7 @@ public class Zombie extends EnemyUnit {
 
     protected World world;
     protected float x, y;
-    protected PlayerUnit targetPlayer;
+//    protected PlayerUnit targetPlayer;
     protected boolean isAttack = false;
     protected boolean continueWalk = false;
     protected boolean isDie = false;
@@ -111,6 +111,9 @@ public class Zombie extends EnemyUnit {
                     inflictDamage(targetPlayer, damage);
                     stateTime = 0;
                     currentState = State.STAY;
+                    if (targetPlayer.getHealth() <= 0) {
+                        resetTarget();
+                    }
                 }
 
                 if (targetPlayer != null && targetPlayer.getHealth() <= 0) {
@@ -302,9 +305,9 @@ public class Zombie extends EnemyUnit {
     /**
      * метод для назначения цели - "игрового-юнита цели"
      */
-    public void setTargetPlayer(PlayerUnit targetPlayer) {
-        this.targetPlayer = targetPlayer;
-    }
+//    public void setTargetPlayer(PlayerUnit targetPlayer) {
+//        this.targetPlayer = targetPlayer;
+//    }
 
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
@@ -350,5 +353,6 @@ public class Zombie extends EnemyUnit {
     private void resetTarget() {
         isAttack = false;
         targetPlayer = null;
+        isHaveTargetPlayer = false;
     }
 }

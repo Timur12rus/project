@@ -16,7 +16,7 @@ public class Skeleton extends EnemyUnit {
     private ParticleEffect bloodSpray;
     protected boolean isAttack = false;         // флаг - атакует ли в данный момент юнит, в состоянии ли атаки
     protected boolean isDamaged = false;        // флаг - нанесен ли урон юниту
-    protected PlayerUnit targetPlayer;          // юнит игрока - "ЦЕЛЕВОЙ ЮНИТ" или "ЮНИТ-ЦЕЛЬ"
+//    protected PlayerUnit targetPlayer;          // юнит игрока - "ЦЕЛЕВОЙ ЮНИТ" или "ЮНИТ-ЦЕЛЬ"
     protected final float VELOCITY = -0.35f;
 
     public Skeleton(Level level, float x, float y, float health, float damage) {
@@ -43,6 +43,7 @@ public class Skeleton extends EnemyUnit {
     @Override
     public void act(float delta) {
         super.act(delta);
+
         /** если юниту нанесен урон: isDamaged = true, обновляем анимацию брызг крови **/
         if (isDamaged) {
             bloodSpray.setPosition(getX() + 30, getY() + 60);
@@ -52,43 +53,63 @@ public class Skeleton extends EnemyUnit {
         if (isDamaged && bloodSpray.isComplete())
             isDamaged = false;
 
+        String name;
+        if (targetPlayer == null) {
+            name = "NULL";
+        } else
+            name = targetPlayer.toString();
+
+        System.out.println("CurrentState = " + currentState + "/ isAttack = " + isAttack + "/ isAttackTower = "
+                + isAttackTower + "/ isAttackStone = " + isAttackStone + "targetPlayer = " + name);
+
+//        /** если текущее состояние = RUN, юнит бежит влево **/
+//        if (currentState == State.WALKING && !isAttack) {
+//            moveLeft(body);
+//        }
+
         /** проверим юнита в текущем состоянии = State.ATTACK **/
         if (currentState == State.ATTACK) {
             /** если анимация завершилась **/
             if (attackAnimation.isAnimationFinished(stateTime)) {
-                // если юнит атакует "камень"
-                if (isAttackStone) {                                // если юнит атакует камень
-                    stone.setHealth(damage);
-                    /** проверим уровень здоровья у камня **/
-                    if (stone.getHealth() <= 0) {
-                        isAttackStone = false;
-                        stateTime = 0;
-                        currentState = State.WALKING;
-                    } else {
-                        stateTime = 0;
-                        currentState = State.STAY;
-                    }
-                }
-                // если юнит атакует ОСАДНУЮ БАШНЮ
-                if (isAttackTower) {
-                    if (level.getSiegeTower() != null) {
-                        System.out.println("Attack tower!");
-                        level.getSiegeTower().setHealth(damage);
-                        stateTime = 0;
-                        currentState = State.STAY;
-                        if (level.getSiegeTower().getHealth() <= 0) {
-//                            level.getSiegeTower().setToDestroy();
-                            isAttackTower = false;
+
+                // проверяем, если юнит не атакует игрока, то проверяем
+                if (!isAttack) {
+                    // проверяем, если юнит атакует камень:
+                    if (isAttackStone) {
+                        stone.setHealth(damage);
+                        /** проверим уровень здоровья у камня **/
+                        if (stone.getHealth() <= 0) {
+                            isAttackStone = false;
+                            stateTime = 0;
+                            currentState = State.STAY;
+                        } else {
+                            // если камень не уничтожен устанавливаем состояние "STAY"
+                            stateTime = 0;
+                            currentState = State.ATTACK;
                         }
-                    }
+                    } else
+                        // если юнит атакует ОСАДНУЮ БАШНЮ
+                        if (isAttackTower) {
+                            System.out.println("ATTACK TOWER!!!");
+                            if (level.getSiegeTower() != null) {
+                                System.out.println("Attack tower!");
+                                level.getSiegeTower().setHealth(damage);
+                                stateTime = 0;
+                                currentState = State.STAY;
+                                if (level.getSiegeTower().getHealth() <= 0) {
+                                    isAttackTower = false;
+                                }
+                            }
+                        }
                 }
-                // если юнит в состоянии атака, т.е. атакует врага
+                // если атакует игрока, то наносим урон
                 if (isAttack) {
-                    inflictDamage(targetPlayer, damage);        // метод для нанесения урона ВРАГУ
+                    inflictDamage(targetPlayer, damage);    //  метод для нанесения урона врагу
                     stateTime = 0;
                     currentState = State.STAY;
+                    isAttackTower = false;
+                    isAttackStone = false;
                 }
-
                 if (targetPlayer != null && targetPlayer.getHealth() <= 0) {
                     resetTarget();  // сбросим ЦЕЛЬ
                     stateTime = 0;
@@ -96,8 +117,9 @@ public class Skeleton extends EnemyUnit {
                 }
             }
         }
-
-        /** проверяем юнита в состоянии = State.STAY **/
+        /**
+         * проверяем юнита в состоянии = State.STAY
+         **/
         if (currentState == State.STAY) {
             if (stayAnimation.isAnimationFinished(stateTime)) {
                 if (isAttackStone || isAttack || isAttackTower) {
@@ -113,8 +135,6 @@ public class Skeleton extends EnemyUnit {
         /** если текущее состояние = State.WALKING, и анимация завершена,
          * установим следующее состояние или STAY или WALKING
          */
-        if (currentState == State.WALKING && walkAnimation.isAnimationFinished(stateTime)) {
-        }
 
         /** если состояние = State.DIE и анимация завершена, то уничтожаем юнита **/
         if (currentState == State.DIE && dieAnimation.isAnimationFinished(stateTime)) {
@@ -138,21 +158,30 @@ public class Skeleton extends EnemyUnit {
         if (currentState == State.STAY || currentState == State.ATTACK) {
             stay();
         }
+
+        if (targetPlayer != null && targetPlayer.getHealth() <= 0) {
+            resetTarget();
+        }
     }
 
     /**
      * метод для назначения цели - "игрового-юнита цели"
      */
-    public void setTargetPlayer(PlayerUnit targetPlayer) {
-        this.targetPlayer = targetPlayer;
-    }
+//    public void setTargetPlayer(PlayerUnit targetPlayer) {
+//        this.targetPlayer = targetPlayer;
+//    }
 
     // метод для атаки
     @Override
     public void attack() {
-        isAttack = true;
-        stateTime = 0;
-        currentState = State.ATTACK;
+        if (isAttackTower) {
+            isAttackTower = false;
+        }
+        if (!isAttack) {
+            isAttack = true;
+            stateTime = 0;
+            currentState = State.ATTACK;
+        }
     }
 
     protected void createAnimations() {

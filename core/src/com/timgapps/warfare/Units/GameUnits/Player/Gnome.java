@@ -68,6 +68,10 @@ public class Gnome extends PlayerUnit {
     public void act(float delta) {
         super.act(delta);
 
+        if (currentState == State.WALKING && !isAttack) {
+            findTarget();
+        }
+
         if (health <= 0 && body.isActive()) {
             System.out.println("HEALTH <= 0 && body.isActive");
             currentState = State.DIE;
@@ -285,7 +289,12 @@ public class Gnome extends PlayerUnit {
     private boolean checkDistanceToEnemy(EnemyUnit enemyUnit) {
 
         /** расстояние от врага до текущего юнита (путь который должен пройти игровой юнита до врага **/
-        Vector2 distanceToEnemy = (enemyUnit.getBodyPosition().sub(getBodyPosition()));
+//        - 24 / Level.WORLD_SCALE;
+        Vector2 bodyPosition = new Vector2();
+        bodyPosition.set(getBodyPosition().x - 24 / Level.WORLD_SCALE, getBodyPosition().y);
+
+        Vector2 distanceToEnemy = (enemyUnit.getBodyPosition().sub(bodyPosition));
+//        Vector2 distanceToEnemy = (enemyUnit.getBodyPosition().sub(getBodyPosition()));
 
         /** время необходимое для движения до вражеского юнита t = S / V **/
         float time = distanceToEnemy.len() / velocity;
@@ -298,7 +307,8 @@ public class Gnome extends PlayerUnit {
 //        System.out.println("time = " + time);
 //        System.out.println("timeCalculated = " + timeCalculated);
 
-        if (enemyUnit.getBodyPosition().x > getBodyPosition().x) {
+        if (enemyUnit.getBodyPosition().x + 12 / Level.WORLD_SCALE > bodyPosition.x) {
+//        if (enemyUnit.getBodyPosition().x > getBodyPosition().x) {
             if (timeCalculated < time) return true;
             else
                 return false;
