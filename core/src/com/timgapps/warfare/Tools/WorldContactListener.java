@@ -22,9 +22,6 @@ public class WorldContactListener implements ContactListener {
         int cDef = fixA.getFilterData().categoryBits | fixB.getFilterData().categoryBits;
 
         switch (cDef) {
-            case GameUnit.PLAYER_BIT | GameUnit.ENEMY_BIT:
-                checkPlayerToEnemyCollision(fixA, fixB);
-                break;
             case GameUnit.BULLET_BIT | GameUnit.ENEMY_BIT:
                 checkPlayerBulletToEnemy(fixA, fixB);
                 break;
@@ -36,6 +33,9 @@ public class WorldContactListener implements ContactListener {
                 break;
             case GameUnit.TOWER_BIT | GameUnit.ENEMY_BIT:
                 checkCollisionTowerToEnemy(fixA, fixB);
+                break;
+            case GameUnit.PLAYER_BIT | GameUnit.ENEMY_BIT:
+                checkPlayerToEnemyCollision(fixA, fixB);
                 break;
         }
     }
@@ -62,7 +62,6 @@ public class WorldContactListener implements ContactListener {
 
 //            Object towerData = fixA.getUserData();
             Object enemyUserData = fixB.getUserData();
-
             ((EnemyUnit) enemyUserData).attackTower();
 
         } else {
@@ -79,57 +78,83 @@ public class WorldContactListener implements ContactListener {
      **/
     private void checkPlayerToEnemyCollision(Fixture fixA, Fixture fixB) {
         if (fixA.getFilterData().categoryBits == GameUnit.PLAYER_BIT) {
-
             Object userData = fixA.getUserData();
             Object enemyUserData = fixB.getUserData();
-            if (userData instanceof PlayerUnit) {
-                if (((PlayerUnit) userData).getCurrentState() != GameUnit.State.ATTACK) {
-                    ((PlayerUnit) userData).setTargetEnemy((EnemyUnit) enemyUserData);
-                    ((PlayerUnit) userData).attack();
+            System.out.println("Enemy To Player collision!");
+//            if (((PlayerUnit) userData).getCurrentState() != GameUnit.State.ATTACK) {
+                ((PlayerUnit) userData).setTargetEnemy((EnemyUnit) enemyUserData);
+                ((PlayerUnit) userData).attack();
+//            }
 
-                } else return;
+//            if (((EnemyUnit) enemyUserData).getCurrentState() != GameUnit.State.ATTACK) {
+                if (((EnemyUnit) enemyUserData).getTargetPlayer() == null) {
+                    ((EnemyUnit) enemyUserData).setTargetPlayer((PlayerUnit) userData);
+                    ((EnemyUnit) enemyUserData).attack();
+//                }
+//                } else return;
             }
-            if (enemyUserData instanceof EnemyUnit) {
-//                System.out.println("AAAAAAAAAAAAAAAAAAAAA");
-//                System.out.println("GETTARGETPLAYER = " + ((EnemyUnit) enemyUserData).getTargetPlayer());
-                if (((EnemyUnit) enemyUserData).getCurrentState() != GameUnit.State.ATTACK) {
-
-                    if (((EnemyUnit) enemyUserData).getTargetPlayer() == null) {
-                        // назначим вражескому юниту цель-игрока, которого он коснулся
-                        ((EnemyUnit) enemyUserData).setTargetPlayer((PlayerUnit) userData);
-//                        System.out.println("GETTARGETPLAYER = " + ((EnemyUnit) enemyUserData).getTargetPlayer());
-
-                        // установим для вражеского юнита состояние "атака"
-                        ((EnemyUnit) enemyUserData).attack();
-                    }
+//            if (enemyUserData instanceof EnemyUnit) {
+////                System.out.println("AAAAAAAAAAAAAAAAAAAAA");
+////                System.out.println("GETTARGETPLAYER = " + ((EnemyUnit) enemyUserData).getTargetPlayer());
+//                if (((EnemyUnit) enemyUserData).getCurrentState() != GameUnit.State.ATTACK) {
+//
+//                    if (((EnemyUnit) enemyUserData).getTargetPlayer() == null) {
+//                        // назначим вражескому юниту цель-игрока, которого он коснулся
+//                        ((EnemyUnit) enemyUserData).setTargetPlayer((PlayerUnit) userData);
+////                        System.out.println("GETTARGETPLAYER = " + ((EnemyUnit) enemyUserData).getTargetPlayer());
+//
+//                        // установим для вражеского юнита состояние "атака"
+//                        ((EnemyUnit) enemyUserData).attack();
+//                    }
 
 //                    ((EnemyUnit) enemyUserData).setTargetPlayer((PlayerUnit) userData);
 //                    ((EnemyUnit) enemyUserData).attack();
-                } else return;
-            }
+//                } else return;
+//            }
         } else {
             Object userData = fixB.getUserData();
             Object enemyUserData = fixA.getUserData();
-            if (userData instanceof PlayerUnit) {
-                if (((PlayerUnit) userData).getCurrentState() != GameUnit.State.ATTACK) {
-                    ((PlayerUnit) userData).setTargetEnemy((EnemyUnit) enemyUserData);
-                    ((PlayerUnit) userData).attack();
+            System.out.println("Enemy To Player collision!");
 
-                } else return;
+//            if (userData instanceof PlayerUnit) {
+//            if (((PlayerUnit) userData).getCurrentState() != GameUnit.State.ATTACK) {
+                ((PlayerUnit) userData).setTargetEnemy((EnemyUnit) enemyUserData);
+                ((PlayerUnit) userData).attack();
+//            }
+
+//            if (((EnemyUnit) enemyUserData).getCurrentState() != GameUnit.State.ATTACK) {
+                if (((EnemyUnit) enemyUserData).getTargetPlayer() == null) {
+                    ((EnemyUnit) enemyUserData).setTargetPlayer((PlayerUnit) userData);
+                    ((EnemyUnit) enemyUserData).attack();
+//                }
+//                } else return;
             }
-//                    Object enemyUserData = fixA.getUserData();
-            if (enemyUserData instanceof EnemyUnit) {
-                System.out.println("BBBBBBB");
-                if (((EnemyUnit) enemyUserData).getCurrentState() != GameUnit.State.ATTACK) {
-                    System.out.println("GETTARGETPLAYER = " + ((EnemyUnit) enemyUserData).getTargetPlayer());
-                    if (((EnemyUnit) enemyUserData).getTargetPlayer() == null) {
-                        ((EnemyUnit) enemyUserData).setTargetPlayer((PlayerUnit) userData);
-                        System.out.println("GETTARGETPLAYER = " + ((EnemyUnit) enemyUserData).getTargetPlayer());
-                        ((EnemyUnit) enemyUserData).attack();
-                    }
-//                    ((EnemyUnit) enemyUserData).attack();
-                } else return;
-            }
+
+
+//            Object userData = fixB.getUserData();
+//            Object enemyUserData = fixA.getUserData();
+//            if (userData instanceof PlayerUnit) {
+//                if (((PlayerUnit) userData).getCurrentState() != GameUnit.State.ATTACK) {
+//                    ((PlayerUnit) userData).setTargetEnemy((EnemyUnit) enemyUserData);
+//                    ((PlayerUnit) userData).attack();
+//
+//                } else return;
+//            }
+////                    Object enemyUserData = fixA.getUserData();
+//            if (enemyUserData instanceof EnemyUnit) {
+////                System.out.println("BBBBBBB");
+////                System.out.println("GETTARGETPLAYER BB = " + ((EnemyUnit) enemyUserData).getTargetPlayer());
+//                if (((EnemyUnit) enemyUserData).getCurrentState() != GameUnit.State.ATTACK) {
+//
+//                    if (((EnemyUnit) enemyUserData).getTargetPlayer() == null) {
+//                        ((EnemyUnit) enemyUserData).setTargetPlayer((PlayerUnit) userData);
+////                        System.out.println("GETTARGETPLAYER = " + ((EnemyUnit) enemyUserData).getTargetPlayer());
+//                        ((EnemyUnit) enemyUserData).attack();
+//                    }
+////                    ((EnemyUnit) enemyUserData).attack();
+//                } else return;
+//            }
+//        }
         }
     }
 
@@ -178,7 +203,7 @@ public class WorldContactListener implements ContactListener {
     }
 
     /**
-     * Метод для проверки столкновения КАМНЯ ИГРОВОГО ЮНИТА С ВРАЖЕСКИМ ЮНИТОМ
+     * Метод для проверки столкновения КАМНЯ С ВРАЖЕСКИМ ЮНИТОМ
      **/
     private void checkCollisionStoneToEnemy(Fixture fixA, Fixture fixB) {
         if (fixA.getFilterData().categoryBits == GameUnit.STONE_BIT) {

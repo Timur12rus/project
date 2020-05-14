@@ -45,13 +45,15 @@ public class EnemyUnit extends GameUnit {
     public boolean isDraw() {
         return isDraw;
     }
+
     protected boolean isHaveTargetPlayer;
 
     private boolean isDraw = true;
-    protected boolean isAttackStone = false;
-    protected boolean isAttackTower = false;
+    protected boolean isAttackStone = false;    // флаг - атакует ли в данный момент камень, в состоянии ли атаки камня
+    protected boolean isAttackTower = false;    // флаг - атакует ли в данный момент башню, в состоянии ли атаки башни
+    protected boolean isAttack = false;         // флаг - атакует ли в данный момент юнит, в состоянии ли атаки
     protected Stone stone;
-    protected PlayerUnit targetPlayer;
+    protected PlayerUnit targetPlayer;    // юнит игрока - "ЦЕЛЕВОЙ ЮНИТ" или "ЮНИТ-ЦЕЛЬ"
 
     public EnemyUnit(Level level, float x, float y, float health, float damage) {
         super(level, x, y, health, damage);
@@ -66,11 +68,14 @@ public class EnemyUnit extends GameUnit {
     }
 
     public void attackTower() {
-        if (currentState == State.WALKING) {
-            if (!isAttackTower) {
-                isAttackTower = true;
-                stateTime = 0;
-                currentState = State.ATTACK;
+        if (currentState == State.WALKING || currentState == State.RUN || currentState == State.STAY) {
+            // если не атакует игрового юнита, то установим флаг атакует башню = true
+            if (!isAttack) {
+                if (!isAttackTower) {
+                    isAttackTower = true;
+                    stateTime = 0;
+                    currentState = State.ATTACK;
+                }
             }
         }
     }
@@ -118,8 +123,8 @@ public class EnemyUnit extends GameUnit {
     }
 
     public void setTargetPlayer(PlayerUnit targetPlayer) {
-            this.targetPlayer = targetPlayer;
-            isHaveTargetPlayer = true;
+        this.targetPlayer = targetPlayer;
+        isHaveTargetPlayer = true;
     }
 
     public PlayerUnit getTargetPlayer() {

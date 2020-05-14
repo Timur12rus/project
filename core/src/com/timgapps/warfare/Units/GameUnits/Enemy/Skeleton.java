@@ -56,6 +56,7 @@ public class Skeleton extends EnemyUnit {
         if (currentState == State.ATTACK) {
             /** если анимация завершилась **/
             if (attackAnimation.isAnimationFinished(stateTime)) {
+                // если юнит атакует "камень"
                 if (isAttackStone) {                                // если юнит атакует камень
                     stone.setHealth(damage);
                     /** проверим уровень здоровья у камня **/
@@ -67,7 +68,9 @@ public class Skeleton extends EnemyUnit {
                         stateTime = 0;
                         currentState = State.STAY;
                     }
-                } else if (isAttackTower) {              // если юнит атакует ОСАДНУЮ БАШНЮ
+                }
+                // если юнит атакует ОСАДНУЮ БАШНЮ
+                if (isAttackTower) {
                     if (level.getSiegeTower() != null) {
                         System.out.println("Attack tower!");
                         level.getSiegeTower().setHealth(damage);
@@ -78,7 +81,9 @@ public class Skeleton extends EnemyUnit {
                             isAttackTower = false;
                         }
                     }
-                } else {
+                }
+                // если юнит в состоянии атака, т.е. атакует врага
+                if (isAttack) {
                     inflictDamage(targetPlayer, damage);        // метод для нанесения урона ВРАГУ
                     stateTime = 0;
                     currentState = State.STAY;

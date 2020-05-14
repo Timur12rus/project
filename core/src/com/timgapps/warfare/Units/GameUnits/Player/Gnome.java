@@ -188,7 +188,7 @@ public class Gnome extends PlayerUnit {
 
 
 
-        System.out.println("currentState = " + currentState);
+//        System.out.println("currentState = " + currentState);
 //        if (setToDestroyBody) {
 //            body.setActive(false);
 //        }
