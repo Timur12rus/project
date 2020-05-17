@@ -16,7 +16,7 @@ import com.timgapps.warfare.Units.GameUnits.GameUnit;
 
 public class PlayerUnit extends GameUnit {
 
-    Animation walkAnimation;            // анимация для ходьбы
+    protected Animation walkAnimation;            // анимация для ходьбы
     protected Animation attackAnimation;          // анимация для атаки
     protected Animation dieAnimation;             // анимация для уничтожения
     protected Animation stayAnimation;            // анимация для стоит
@@ -83,16 +83,6 @@ public class PlayerUnit extends GameUnit {
 
 
     public void setTargetEnemy(EnemyUnit enemyUnit) {
-//        if (enemyUnit instanceof Goblin1) {
-////            (Goblin1) enemyUnit.
-////            if (enemyUnit.getHealth() > 0)
-////            setHealth(200);
-//        } else return;
-
-//        resetTarget();
-//        targetEnemy = enemyUnit;
-//        isHaveTarget = true;
-//        isAttack = true;
     }
 
     @Override

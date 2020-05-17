@@ -16,7 +16,7 @@ public class Skeleton extends EnemyUnit {
     private ParticleEffect bloodSpray;
     protected boolean isAttack = false;         // флаг - атакует ли в данный момент юнит, в состоянии ли атаки
     protected boolean isDamaged = false;        // флаг - нанесен ли урон юниту
-//    protected PlayerUnit targetPlayer;          // юнит игрока - "ЦЕЛЕВОЙ ЮНИТ" или "ЮНИТ-ЦЕЛЬ"
+    //    protected PlayerUnit targetPlayer;          // юнит игрока - "ЦЕЛЕВОЙ ЮНИТ" или "ЮНИТ-ЦЕЛЬ"
     protected final float VELOCITY = -0.35f;
 
     public Skeleton(Level level, float x, float y, float health, float damage) {
@@ -71,7 +71,6 @@ public class Skeleton extends EnemyUnit {
         if (currentState == State.ATTACK) {
             /** если анимация завершилась **/
             if (attackAnimation.isAnimationFinished(stateTime)) {
-
                 // проверяем, если юнит не атакует игрока, то проверяем
                 if (!isAttack) {
                     // проверяем, если юнит атакует камень:

@@ -83,10 +83,10 @@ public class WorldContactListener implements ContactListener {
             ((PlayerUnit) userData).attack();
 
             // если вражеский юнит не имеет "игрока-цель", то зададим для него "игрока-цель" и установим флаг "атакует" (isAttack = true)
-            if (((EnemyUnit) enemyUserData).getTargetPlayer() == null) {
-                ((EnemyUnit) enemyUserData).setTargetPlayer((PlayerUnit) userData);
-                ((EnemyUnit) enemyUserData).attack();
-            }
+//            if (((EnemyUnit) enemyUserData).getTargetPlayer() == null) {
+            ((EnemyUnit) enemyUserData).setTargetPlayer((PlayerUnit) userData);
+            ((EnemyUnit) enemyUserData).attack();
+//            }
         } else {
             Object userData = fixB.getUserData();
             Object enemyUserData = fixA.getUserData();
@@ -98,10 +98,10 @@ public class WorldContactListener implements ContactListener {
             ((PlayerUnit) userData).attack();
 
             // если вражеский юнит не имеет "игрока-цель", то зададим для него "игрока-цель" и установим флаг "атакует" (isAttack = true)
-            if (((EnemyUnit) enemyUserData).getTargetPlayer() == null) {
-                ((EnemyUnit) enemyUserData).setTargetPlayer((PlayerUnit) userData);
-                ((EnemyUnit) enemyUserData).attack();
-            }
+//            if (((EnemyUnit) enemyUserData).getTargetPlayer() == null) {
+            ((EnemyUnit) enemyUserData).setTargetPlayer((PlayerUnit) userData);
+            ((EnemyUnit) enemyUserData).attack();
+//            }
         }
     }
 

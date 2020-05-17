@@ -54,9 +54,11 @@ public class EnemyUnit extends GameUnit {
     protected boolean isAttack = false;         // флаг - атакует ли в данный момент юнит, в состоянии ли атаки
     protected Stone stone;
     protected PlayerUnit targetPlayer;    // юнит игрока - "ЦЕЛЕВОЙ ЮНИТ" или "ЮНИТ-ЦЕЛЬ"
+//    protected Body body;
 
     public EnemyUnit(Level level, float x, float y, float health, float damage) {
         super(level, x, y, health, damage);
+//        body = createBody(x, y);
 
         bodyWidth = 48;     //  ширина тела
         bodyHeight = 16;    // высота тела

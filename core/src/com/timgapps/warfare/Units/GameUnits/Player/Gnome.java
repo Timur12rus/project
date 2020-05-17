@@ -85,75 +85,75 @@ public class Gnome extends PlayerUnit {
 
         if (body.isActive()) {
 
-        /** проверим, атакует ли юнита баррикаду **/
-        if (!isAttackBarricade) {
-            /** проверим, есть ли "ВРАГ-ЦЕЛЬ" у игрового юнита **/
-            if (!isHaveTarget) {    //если нет "врага-цели", то
+            /** проверим, атакует ли юнита баррикаду **/
+            if (!isAttackBarricade) {
+                /** проверим, есть ли "ВРАГ-ЦЕЛЬ" у игрового юнита **/
+                if (!isHaveTarget) {    //если нет "врага-цели", то
 //        if (!isHaveTarget) {    //если нет "врага-цели", то
-                findTarget();       //найдем "врага-цель"
+                    findTarget();       //найдем "врага-цель"
 ////            verticalDirectionMovement = calculateVerticalDirection();
 //            currentState = State.RUN;
+                }
             }
-        }
 
-        if (isHaveTarget) {
-            Vector2 line = new Vector2();
-            line = targetEnemy.getBodyPosition().sub(getBodyPosition());
+            if (isHaveTarget) {
+                Vector2 line = new Vector2();
+                line = targetEnemy.getBodyPosition().sub(getBodyPosition());
 
-            /** проверим, есть ли направление вертикального движения **/
-            if (!isHaveVerticalDirection) {
-                /** если нет, то вычислим НАПРАВЛЕНИЕ ВЕРТИКАЛЬНОГО ДВИЖЕНИЯ **/
+                /** проверим, есть ли направление вертикального движения **/
+                if (!isHaveVerticalDirection) {
+                    /** если нет, то вычислим НАПРАВЛЕНИЕ ВЕРТИКАЛЬНОГО ДВИЖЕНИЯ **/
 //                if (len(line.x, line.y) * Level.WORLD_SCALE < distanceToVerticalMovement) {
-                /** проверим успеет ли игровой юнит переместиться к ВРАГУ-ЦЕЛИ **/
-                if (checkDistanceToEnemy(targetEnemy))
-                    verticalDirectionMovement = calculateVerticalDirection();
-            }
-        }
-
-
-        if (targetEnemy != null) {
-            if (currentState == State.ATTACK) {
-                stay();
-                if (attackAnimation.isAnimationFinished(stateTime)) {
-                    stateTime = 0;
-                    inflictDamage(targetEnemy, damage);
-                    currentState = State.STAY;
+                    /** проверим успеет ли игровой юнит переместиться к ВРАГУ-ЦЕЛИ **/
+                    if (checkDistanceToEnemy(targetEnemy))
+                        verticalDirectionMovement = calculateVerticalDirection();
                 }
             }
 
-            if (targetEnemy.getHealth() <= 0 || targetEnemy == null) {
-//            currentState = State.RUN;
-                resetTarget();
-//            findTarget();
-//            level.getArrayEnemies().remove()
-            }
-        } else {
-            if (currentState == State.ATTACK) {
-                stay();
-                if (attackAnimation.isAnimationFinished(stateTime) && isAttackBarricade) {
-                    if (barricade != null) {
-                        barricade.setHealth(damage);
-                        if (barricade.getHealth() <= 0) {
-                            isAttackBarricade = false;
+
+            if (targetEnemy != null) {
+                if (currentState == State.ATTACK) {
+                    stay();
+                    if (attackAnimation.isAnimationFinished(stateTime)) {
+                        stateTime = 0;
+                        inflictDamage(targetEnemy, damage);
+                        if (targetEnemy.getHealth() <= 0) {
+                            resetTarget();
                         }
+                        currentState = State.STAY;
                     }
-                    stateTime = 0;
-                    currentState = State.STAY;
+                }
+            } else {
+                if (currentState == State.ATTACK) {
+                    stay();
+                    if (attackAnimation.isAnimationFinished(stateTime) && isAttackBarricade) {
+                        if (barricade != null) {
+                            barricade.setHealth(damage);
+                            if (barricade.getHealth() <= 0) {
+                                isAttackBarricade = false;
+                            }
+                        }
+                        stateTime = 0;
+                        currentState = State.STAY;
+                    }
                 }
             }
-        }
 
-        if (currentState == State.RUN) {
+            // TODO нужно исправить если что
+            if (currentState == State.RUN) {
 //        if (currentState != State.ATTACK) {
-            if (isHaveTarget) {  // если определен "враг-цель", то
-                moveToTarget();     //движемся к цели
-            } else {                  // в противном случае, если "враг-цель" не определен, то двигаемся прямо вправо
-                moveRight(body);    // движемся вправо
+                if (!isAttack) {
+                    if (isHaveTarget) {  // если определен "враг-цель", то
+//            if (isHaveTarget) {  // если определен "враг-цель", то        // 16.05.2020
+                        moveToTarget();     //движемся к цели
+                    }
+                } else {                  // в противном случае, если "враг-цель" не определен, то двигаемся прямо вправо
+                    moveRight(body);    // движемся вправо
+                }
             }
-        }
 
 
-        /** Изменил код 18.02.2020 **/
+            /** Изменил код 18.02.2020 **/
 //        if (currentState == State.ATTACK) {
 //            stay();
 //            if (attackAnimation.isAnimationFinished(stateTime)) {
@@ -164,23 +164,23 @@ public class Gnome extends PlayerUnit {
 //            }
 //        }
 
-        if (currentState == State.STAY && stayAnimation.isAnimationFinished(stateTime)) {
-            if (isAttack || isAttackBarricade)
-                currentState = State.ATTACK;
-            else
-                currentState = State.RUN;
-            stateTime = 0;
-        }
+            if (currentState == State.STAY && stayAnimation.isAnimationFinished(stateTime)) {
+                if (isAttack || isAttackBarricade)
+                    currentState = State.ATTACK;
+                else
+                    currentState = State.RUN;
+                stateTime = 0;
+            }
 
-        if (currentState == State.STAY) {
-            stay();
-        }
+            if (currentState == State.STAY) {
+                stay();
+            }
 
 
 //        if (setToDestroyBody) {
 //            body.setActive(false);
 //        }
-    }
+        }
 
         if (currentState == State.DIE && dieAnimation.isAnimationFinished(stateTime)) {
 
@@ -189,7 +189,6 @@ public class Gnome extends PlayerUnit {
              **/
             setToDestroy();
         }
-
 
 
 //        System.out.println("currentState = " + currentState);
@@ -277,6 +276,8 @@ public class Gnome extends PlayerUnit {
             if (targetEnemy != null) {
                 isHaveTarget = true;        // изменим флаг на true, т.е. есть "враг-цель"
                 //                verticalDirectionMovement = calculateVerticalDirection();
+
+
                 currentState = State.RUN;
             }
 
@@ -417,14 +418,15 @@ public class Gnome extends PlayerUnit {
     // TODO ОБЯЗАТЕЛЬНО НУЖНО ИСПРАВИТЬ!!!!!!!!!!!!!!! 09.05.2020!!!!!!!!!!!
     @Override
     public void setTargetEnemy(EnemyUnit enemyUnit) {
-        super.setTargetEnemy(enemyUnit);
+//        super.setTargetEnemy(enemyUnit);
         resetTarget();
         isHaveTarget = true;
         targetEnemy = enemyUnit;
-        isAttackBarricade = false;
-        isAttack = true;
-        stateTime = 0;
-        currentState = State.ATTACK;
+//        moveToTarget();
+//        isAttackBarricade = false;
+//        isAttack = true;
+//        stateTime = 0;
+//        currentState = State.ATTACK;
     }
 
     /**
@@ -499,6 +501,7 @@ public class Gnome extends PlayerUnit {
             currentState = State.ATTACK;
             stateTime = 0;
             isAttack = true;
+            isAttackBarricade = false;
         }
     }
 

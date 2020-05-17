@@ -26,39 +26,36 @@ public class Zombie extends EnemyUnit {
     protected final float VELOCITY = -0.35f;
     //    public State currentState = State.ATTACK;
 //    protected float stateTime;
-
-    protected World world;
     protected float x, y;
-//    protected PlayerUnit targetPlayer;
     protected boolean isAttack = false;
     protected boolean continueWalk = false;
     protected boolean isDie = false;
     protected boolean isDamaged = false;
     private ParticleEffect bloodSpray;
-
-
     protected int stayCount;
     private final int STAY_COUNT = 2;
 
     public Zombie(Level level, float x, float y, float health, float damage) {
         super(level, x, y, health, damage);
-        this.level = level;
-        this.world = level.getWorld();
-        xPosDamageLabel = 16;
-
-        this.setWidth(Warfare.atlas.findRegion("zombieWalk0").getRegionWidth());
-        this.setHeight(Warfare.atlas.findRegion("zombieWalk0").getRegionHeight());
-
-        bloodSpray = new ParticleEffect();
-        bloodSpray.load(Gdx.files.internal("effects/bloodSpray.paty"), Gdx.files.internal("effects/")); //file);     //Air2.paty
         createAnimations();     // создадим анимации для различных состояний персонажа
+
+        xPosDamageLabel = 16;
         level.addChild(this, x, y);
+
+        // зададим размер для актера
+        this.setSize(Warfare.atlas.findRegion("zombieWalk0").getRegionWidth(),
+                Warfare.atlas.findRegion("zombieWalk0").getRegionHeight());
+
+        // создадим партикл-эффект для брызг крови
+        bloodSpray = new ParticleEffect();
+        bloodSpray.load(Gdx.files.internal("effects/bloodSpray.paty"), Gdx.files.internal("effects/")); //file);
+
         stateTime = 0;
         currentState = State.WALKING;
-        level.arrayActors.add(this);
+        level.arrayActors.add(this);            // добавляем в массив актеров текущего актера
 
         stayCount = STAY_COUNT;
-        deltaX = 72;        // смещение рисоания анимации относительно позиции актёра по оси Х
+        deltaX = 72;                             // смещение рисоания анимации относительно позиции актёра по оси Х
     }
 
     @Override
@@ -75,47 +72,63 @@ public class Zombie extends EnemyUnit {
         if (isDamaged && bloodSpray.isComplete())
             isDamaged = false;
 
-        if (currentState == State.STAY || currentState == State.ATTACK) {
-            stay();
-        }
+        String name;
+        if (targetPlayer == null) {
+            name = "NULL";
+        } else
+            name = targetPlayer.toString();
+
+        System.out.println("CurrentState = " + currentState + "/ isAttack = " + isAttack + "/ isAttackTower = "
+                + isAttackTower + "/ isAttackStone = " + isAttackStone + "targetPlayer = " + name);
+
+//        if (currentState == State.STAY || currentState == State.ATTACK) {
+//            stay();
+//        }
 
         /** проверим юнита в текущем состоянии = State.ATTACK **/
         if (currentState == State.ATTACK) {
             /** если анимация завершилась **/
             if (attackAnimation.isAnimationFinished(stateTime)) {
-                if (isAttackStone) {                                // если юнит атакует камень
-                    stone.setHealth(damage);
-                    /** проверим уровень здоровья у камня **/
-                    if (stone.getHealth() <= 0) {
-                        isAttackStone = false;
-                        stateTime = 0;
-                        currentState = State.WALKING;
-                    } else {
-                        stateTime = 0;
-                        currentState = State.STAY;
-                    }
-                } else if (isAttackTower) {              // если юнит атакует ОСАДНУЮ БАШНЮ
-                    if (level.getSiegeTower() != null) {
-                        System.out.println("Attack tower!");
-                        level.getSiegeTower().setHealth(damage);
-                        stateTime = 0;
-                        currentState = State.STAY;
-                        if (level.getSiegeTower().getHealth() <= 0) {
-//                            level.getSiegeTower().setToDestroy();
-                            isAttackTower = false;
+                // проверяем, если юнит не атакует игрока, то проверяем
+                if (!isAttack) {
+                    // проверяем, если юнит атакует камень:
+                    if (isAttackStone) {                                // если юнит атакует камень
+                        stone.setHealth(damage);
+                        /** проверим уровень здоровья у камня **/
+                        if (stone.getHealth() <= 0) {
+                            isAttackStone = false;
+                            stateTime = 0;
+                            currentState = State.STAY;
+//                        currentState = State.WALKING;
+                        } else {
+                            stateTime = 0;
+                            currentState = State.ATTACK;
+//                        currentState = State.STAY;
                         }
-                    }
+                    } else
+                        // если юнит атакует ОСАДНУЮ БАШНЮ
+                        if (isAttackTower) {
+                            if (level.getSiegeTower() != null) {
+                                System.out.println("Attack tower!");
+                                level.getSiegeTower().setHealth(damage);
+                                stateTime = 0;
+                                currentState = State.STAY;
+                                if (level.getSiegeTower().getHealth() <= 0) {
+                                    isAttackTower = false;
+                                }
+                            }
+                        }
 
-                } else {
+                }
+                // если атакует игрока, то наносим урон
+                if (isAttack) {
                     // нанесем урон целевому юниту
                     inflictDamage(targetPlayer, damage);
                     stateTime = 0;
                     currentState = State.STAY;
-                    if (targetPlayer.getHealth() <= 0) {
-                        resetTarget();
-                    }
+                    isAttackTower = false;
+                    isAttackStone = false;
                 }
-
                 if (targetPlayer != null && targetPlayer.getHealth() <= 0) {
                     resetTarget();  // сбросим ЦЕЛЬ
                     stateTime = 0;
@@ -126,11 +139,7 @@ public class Zombie extends EnemyUnit {
 
         /** проверяем юнита в состоянии = State.STAY **/
         if (currentState == State.STAY) {
-//            System.out.println("STAY");
             if (stayAnimation.isAnimationFinished(stateTime)) {
-//                System.out.println("StayAnimFinishED!");
-//                if (isAttack) {
-//                    System.out.println("isAttack = TRUE");
                 if (isAttackStone || isAttack || isAttackTower) {
                     stateTime = 0;
                     currentState = State.ATTACK;
@@ -141,38 +150,8 @@ public class Zombie extends EnemyUnit {
             }
         }
 
-        /** если текущее состояние = State.WALKING, и анимация завершена,
-         * установим следующее состояние или STAY или WALKING
-         */
-        if (currentState == State.WALKING && walkAnimation.isAnimationFinished(stateTime)) {
-//
-            stayCount--;
-//            Random random = new Random();
-            continueWalk = level.getRandom().nextBoolean();
-
-//            if (continueWalk) {
-//                stateTime = 0;
-//                currentState = State.WALKING;
-//            } else {
-//                stateTime = 0;
-//                currentState = State.STAY;
-//            }
-
-            if (stayCount == 0) {
-                if (level.getRandom().nextBoolean()) {
-                    stateTime = 0;
-                    currentState = State.STAY;
-                } else {
-                    stateTime = 0;
-                    currentState = State.WALKING;
-                }
-                stayCount = STAY_COUNT;
-            }
-        }
-
         /** если состояние = State.DIE и анимация завершена, то уничтожаем юнита **/
         if (currentState == State.DIE && dieAnimation.isAnimationFinished(stateTime)) {
-
             /** МОЖЕТ ПРИГОДИТЬСЯ 17.02.2020
              //            destroy();
              **/
@@ -185,16 +164,50 @@ public class Zombie extends EnemyUnit {
             body.setActive(false);
         }
 
+        /** если текущее состояние = State.WALKING, и анимация завершена,
+         * установим следующее состояние или STAY или WALKING
+         */
+        if (currentState == State.WALKING && walkAnimation.isAnimationFinished(stateTime)) {
+            if (!isAttack) {
+                stayCount--;
+                /** если кол-во остановок юнита равно нулю, то зададим новое кол-во остановок **/
+                if (stayCount == 0) {
+                    if (level.getRandom().nextBoolean()) {
+                        stateTime = 0;
+                        currentState = State.STAY;
+                    } else {
+                        stateTime = 0;
+                        currentState = State.WALKING;
+                    }
+                    stayCount = STAY_COUNT;
+                }
+            } else {
+                // TODO возможн нужн будет изменить, чтобы была пауза между ударами юнита!!!!!
+                if (currentState != State.ATTACK) {
+                    stateTime = 0;
+                    currentState = State.ATTACK;
+                }
+            }
+        }
+
+
+        if (health <= 0 && body.isActive()) {
+            currentState = State.DIE;
+            stateTime = 0;
+            body.setActive(false);
+        }
+
         if (currentState == State.WALKING)
             moveLeft(body);
-        /** ограничиваем движение юнита ВЛЕВО, чтобы не ушел за границу экрана **/
-//            if (body.getPosition().x * Level.WORLD_SCALE > 100)
-//                moveLeft(body);
-//            else {
-//                stateTime = 0;
-//                currentState = State.STAY;
-//            }
 
+        /** проверим, если юнит в состоянии STAY или ATTACK, то установим для него скорость = (0;0) **/
+        if (currentState == State.STAY || currentState == State.ATTACK) {
+            stay();
+        }
+
+        if (targetPlayer != null && targetPlayer.getHealth() <= 0) {
+            resetTarget();
+        }
     }
 
     @Override
@@ -266,6 +279,14 @@ public class Zombie extends EnemyUnit {
         frames.clear();
     }
 
+    /**
+     * метод сбрасывает "ЦЕЛЬ-ИГРОКА" для текущего юнита
+     */
+    private void resetTarget() {
+        isAttack = false;
+        targetPlayer = null;
+    }
+
     @Override
     public Vector2 getBodyPosition() {
         return body.getPosition();
@@ -284,30 +305,24 @@ public class Zombie extends EnemyUnit {
 
     @Override
     public void attack() {
-//        if (currentState != State.ATTACK) {        // проверяем, в состоянии ли "атаки" юнит
-        isAttack = true;
-        stateTime = 0;
-        currentState = State.ATTACK;
-//    }
+//        isAttack = true;
+//        stateTime = 0;
+//        currentState = State.ATTACK;
 
-//        if (!isAttack) {        // проверяем, в состоянии ли "атаки" юнит
-//            currentState = State.STAY;
-//            stateTime = 0;
-//            isAttack = true;
-//        }
+        if (isAttackTower) {
+            isAttackTower = false;
+        }
+        if (!isAttack) {
+            isAttack = true;
+            stateTime = 0;
+            currentState = State.ATTACK;
+        }
+
     }
 
     protected void stay() {
         body.setLinearVelocity(0, 0);
     }
-
-
-    /**
-     * метод для назначения цели - "игрового-юнита цели"
-     */
-//    public void setTargetPlayer(PlayerUnit targetPlayer) {
-//        this.targetPlayer = targetPlayer;
-//    }
 
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
@@ -345,14 +360,5 @@ public class Zombie extends EnemyUnit {
         }
         if (isDamaged)
             bloodSpray.draw(batch);
-    }
-
-    /**
-     * метод сбрасывает "ЦЕЛЬ-ИГРОКА" для текущего юнита
-     **/
-    private void resetTarget() {
-        isAttack = false;
-        targetPlayer = null;
-        isHaveTargetPlayer = false;
     }
 }
