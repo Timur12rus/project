@@ -22,18 +22,7 @@ import java.util.ArrayList;
 import static com.badlogic.gdx.math.Vector2.len;
 
 public class Gnome extends PlayerUnit {
-
-//    protected boolean isAttack = false;   // флаг, указывет на то, в состоянии ли атаки находится юнит
-
-//    private static float VELOCITY = 0.6f;
-    //    public State currentState = State.RUN;
-//    private float stateTime;
-
-    //    private World world;
     private float x, y;
-    private boolean isHaveTarget = false;
-    private EnemyUnit targetEnemy;
-    //    private GameUnit targetEnemy;
     private float minDistance = 0; // расстояние до ближайшего вражеского юнита
     private float distanceToVerticalMovement = 300;     // минимальное расстояние до врага, чтобы изменить направление движения игрока по вертикали
 
@@ -50,7 +39,6 @@ public class Gnome extends PlayerUnit {
     public Gnome(Level level, float x, float y, float health, float damage) {
         super(level, x, y, health, damage);
         this.level = level;
-//        this.world = level.getWorld();
 
         velocity = 0.6f;
         xPosDamageLabel = -50;
@@ -68,51 +56,38 @@ public class Gnome extends PlayerUnit {
     public void act(float delta) {
         super.act(delta);
 
-        if (currentState == State.WALKING && !isAttack) {
+        if (currentState == State.RUN && !isAttack) {
             findTarget();
         }
 
         if (health <= 0 && body.isActive()) {
-            System.out.println("HEALTH <= 0 && body.isActive");
             currentState = State.DIE;
             stateTime = 0;
             stay();
-
             body.setActive(false);
-
-//            body.setActive(false);
         }
 
         if (body.isActive()) {
-
             /** проверим, атакует ли юнита баррикаду **/
             if (!isAttackBarricade) {
                 /** проверим, есть ли "ВРАГ-ЦЕЛЬ" у игрового юнита **/
                 if (!isHaveTarget) {    //если нет "врага-цели", то
-//        if (!isHaveTarget) {    //если нет "врага-цели", то
                     findTarget();       //найдем "врага-цель"
-////            verticalDirectionMovement = calculateVerticalDirection();
-//            currentState = State.RUN;
                 }
             }
-
-            if (isHaveTarget) {
-                Vector2 line = new Vector2();
-                line = targetEnemy.getBodyPosition().sub(getBodyPosition());
-
-                /** проверим, есть ли направление вертикального движения **/
-                if (!isHaveVerticalDirection) {
-                    /** если нет, то вычислим НАПРАВЛЕНИЕ ВЕРТИКАЛЬНОГО ДВИЖЕНИЯ **/
-//                if (len(line.x, line.y) * Level.WORLD_SCALE < distanceToVerticalMovement) {
-                    /** проверим успеет ли игровой юнит переместиться к ВРАГУ-ЦЕЛИ **/
-                    if (checkDistanceToEnemy(targetEnemy))
-                        verticalDirectionMovement = calculateVerticalDirection();
-                }
-            }
-
 
             if (targetEnemy != null) {
-//            if (currentState == State.ATTACK) {     // если юнин атакует врага
+//                if (currentState == State.ATTACK) {     // если текущее состояние ATTACK
+//                    stay();                             // установим скорость тела (0;0)
+//                    if (attackAnimation.isAnimationFinished(stateTime)) {
+//                        if (isAttack) {  // юнит атакует врага
+//                            inflictDamage(targetEnemy, damage);     // наносим урон вражескому юниту
+//                            stateTime = 0;
+//                            currentState = State.STAY;
+//                        }
+//                    }
+//                }
+
                 if (currentState == State.ATTACK && isAttack) {     // если юнин атакует врага
                     stay();
                     if (attackAnimation.isAnimationFinished(stateTime)) {
@@ -136,10 +111,7 @@ public class Gnome extends PlayerUnit {
 
 
                 if (targetEnemy.getHealth() <= 0 || targetEnemy == null) {
-//            currentState = State.RUN;
                     resetTarget();
-//            findTarget();
-//            level.getArrayEnemies().remove()
                 }
             } else {
                 if (currentState == State.ATTACK) {
@@ -166,18 +138,6 @@ public class Gnome extends PlayerUnit {
                 }
             }
 
-
-            /** Изменил код 18.02.2020 **/
-//        if (currentState == State.ATTACK) {
-//            stay();
-//            if (attackAnimation.isAnimationFinished(stateTime)) {
-//                stateTime = 0;
-//                inflictDamage(targetEnemy, damage);
-//                currentState = State.STAY;
-//
-//            }
-//        }
-
             if (currentState == State.STAY && stayAnimation.isAnimationFinished(stateTime)) {
                 if (isAttack || isAttackBarricade)
                     currentState = State.ATTACK;
@@ -189,11 +149,6 @@ public class Gnome extends PlayerUnit {
             if (currentState == State.STAY) {
                 stay();
             }
-
-
-//        if (setToDestroyBody) {
-//            body.setActive(false);
-//        }
         }
 
         if (currentState == State.DIE && dieAnimation.isAnimationFinished(stateTime)) {
@@ -203,15 +158,6 @@ public class Gnome extends PlayerUnit {
              **/
             setToDestroy();
         }
-
-
-//        System.out.println("currentState = " + currentState);
-//        if (setToDestroyBody) {
-//            body.setActive(false);
-//        }
-
-//        /** обновим позицию текущего игрового объекта **/
-//        setPosition(body.getPosition().x * Level.WORLD_SCALE - 18, body.getPosition().y * Level.WORLD_SCALE);
     }
 
     private void stay() {
@@ -222,8 +168,6 @@ public class Gnome extends PlayerUnit {
         float posY = body.getPosition().y;
         float posYTarget = targetEnemy.getBodyPosition().y;
 
-
-//        System.out.println("calculate Vertical Direction");
         if (posY < posYTarget) verticalDirectionMovement = Direction.UP;
         if (posY > posYTarget) verticalDirectionMovement = Direction.DOWN;
         if (posY == posYTarget) verticalDirectionMovement = Direction.NONE;
@@ -249,39 +193,24 @@ public class Gnome extends PlayerUnit {
         try {
             for (int i = 0; i < enemies.size(); i++) {
 
-//                // расстояние от врага до текущего юнита (путь который должен пройти игровой юнита до врага
-//                float distanceToEnemy = (enemies.get(i).getBodyPosition().x - getBodyPosition().x) * Level.WORLD_SCALE;
-//
-//                // расстояние по прямой от вражеского юнита до текущего юнита
-//                Vector2 line = new Vector2(body.getPosition().sub(enemies.get(i).getBodyPosition()));
-
-
                 /** проверим расстояяние до вражеского юнита, можем ли мы двигаться к нему (успеем ли..)
                  * если да, то добавим его в массив вражеских юнитов, которых видит ИГРОВОЙ ЮНИТ
                  * **/
                 if (checkDistanceToEnemy(enemies.get(i))) {
                     targetEnemies.add(enemies.get(i));
                 }
-
-//                // сделаем проверку условия
-//                if (((Math.abs(line.x)) * Level.WORLD_SCALE - 30) * VELOCITY > (Math.abs(line.y)) * Level.WORLD_SCALE * VELOCITY && (distanceToEnemy > 10)) {
-//                    targetEnemies.add(enemies.get(i));
-//                }
             }
 
             /** здесь определим самого ближнего ВРАЖЕСКОГО ЮНИТА к ИГРОВОМУ
              * т.е. найдем по расстоянию между ними, т.е. самое маленькое расстояние
              * **/
             minDistance = (targetEnemies.get(0).getBodyPosition().sub(getBodyPosition())).len();
-//             minDistance = (targetEnemies.get(0).getBodyPosition().x - getBodyPosition().x) * Level.WORLD_SCALE;
             targetEnemy = targetEnemies.get(0);
             for (int i = 1; i < targetEnemies.size(); i++) {
-//             float distanceToEnemy = (targetEnemies.get(i).getBodyPosition().x - getBodyPosition().x) * Level.WORLD_SCALE;
                 float distanceToEnemy = (targetEnemies.get(i).getBodyPosition().sub(getBodyPosition())).len();
                 if (distanceToEnemy < minDistance) {
                     minDistance = distanceToEnemy;
                     targetEnemy = targetEnemies.get(i);
-//                    System.out.println("targetEnemy = " + targetEnemy.toString());
                 }
             }
 
@@ -289,7 +218,7 @@ public class Gnome extends PlayerUnit {
 
             if (targetEnemy != null) {
                 isHaveTarget = true;        // изменим флаг на true, т.е. есть "враг-цель"
-                //                verticalDirectionMovement = calculateVerticalDirection();
+                calculateVerticalDirection();       // вычислим направление вертикального перемещения
                 currentState = State.RUN;
             }
 
@@ -340,19 +269,13 @@ public class Gnome extends PlayerUnit {
         if (verticalDirectionMovement == Direction.DOWN) {
             /** если направления вертикального перемещения DOWN, то проверим условие: **/
             if (posY > posYTarget) {
-//                body.setLinearVelocity(VELOCITY, - VELOCITY);
                 body.setLinearVelocity(velocityDirection.nor().scl(velocity));
-//                body.setLinearVelocity((float) (VELOCITY * Math.cos(velocityDirection.angle())),
-//                        (float) (VELOCITY * Math.sin(velocityDirection.angle())));
             } else {
                 verticalDirectionMovement = Direction.NONE;
             }
             /** если направления вертикального перемещения DOWN, то проверим условие: **/
         } else if (verticalDirectionMovement == Direction.UP) {
             if (posY < posYTarget) {
-//                body.setLinearVelocity(VELOCITY, VELOCITY);
-//                body.setLinearVelocity((float) (VELOCITY * Math.cos(velocityDirection.angle())),
-//                        (float) (VELOCITY * Math.sin(velocityDirection.angle())));
                 body.setLinearVelocity(velocityDirection.nor().scl(velocity));
             } else {
                 verticalDirectionMovement = Direction.NONE;
@@ -418,27 +341,29 @@ public class Gnome extends PlayerUnit {
     /**
      * метод сбрасывает текущую цель
      **/
+    @Override
     public void resetTarget() {
-        targetEnemy = null;
-        isHaveTarget = false;
-        isAttack = false;
+        super.resetTarget();
+//        targetEnemy = null;
+//        isHaveTarget = false;
+//        isAttack = false;
         isHaveVerticalDirection = false;
         verticalDirectionMovement = Direction.NONE;
     }
 
 
-    // TODO ОБЯЗАТЕЛЬНО НУЖНО ИСПРАВИТЬ!!!!!!!!!!!!!!! 09.05.2020!!!!!!!!!!!
-    @Override
-    public void setTargetEnemy(EnemyUnit enemyUnit) {
-        super.setTargetEnemy(enemyUnit);
-        resetTarget();
-        isHaveTarget = true;
-        targetEnemy = enemyUnit;
-        isAttackBarricade = false;
-        isAttack = true;
-        stateTime = 0;
-        currentState = State.ATTACK;
-    }
+//    // TODO ОБЯЗАТЕЛЬНО НУЖНО ИСПРАВИТЬ!!!!!!!!!!!!!!! 09.05.2020!!!!!!!!!!!
+//    @Override
+//    public void setTargetEnemy(EnemyUnit enemyUnit) {
+//        super.setTargetEnemy(enemyUnit);
+//        resetTarget();
+//        isHaveTarget = true;
+//        targetEnemy = enemyUnit;
+//        isAttackBarricade = false;
+//        isAttack = true;
+//        stateTime = 0;
+//        currentState = State.ATTACK;
+//    }
 
     /**
      * метод устанавливает ВРАГА_ЦЕЛЬ (используется при определении столкновения с вражеским юнитом

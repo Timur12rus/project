@@ -39,6 +39,8 @@ public class PlayerUnit extends GameUnit {
     protected float bodyHeight = 24;
 
     protected float deltaX, deltaY;
+    protected EnemyUnit targetEnemy;
+    protected boolean isHaveTarget = false;
 
 
 //    protected TextureRegion lifeIndicator;
@@ -81,8 +83,20 @@ public class PlayerUnit extends GameUnit {
         return null;
     }
 
+    public void resetTarget() {
+        targetEnemy = null;
+        isHaveTarget = false;
+        isAttack = false;
+    }
 
     public void setTargetEnemy(EnemyUnit enemyUnit) {
+        resetTarget();
+        isHaveTarget = true;
+        targetEnemy = enemyUnit;
+        isAttackBarricade = false;
+        isAttack = true;
+        stateTime = 0;
+        currentState = State.ATTACK;
     }
 
     @Override
@@ -128,17 +142,5 @@ public class PlayerUnit extends GameUnit {
             stateTime = 0;
             currentState = State.ATTACK;
         }
-
-//        if (isAttackBarricade && attackAnimation.isAnimationFinished(stateTime)) {
-//            barricade.setHealth(damage);
-//            System.out.println("DAMAGE");
-//            if (barricade.getHealth() <= 0) {
-//                isAttackBarricade = false;
-//                stateTime = 0;
-//                currentState = State.STAY;
-//            }
-//        }
     }
-
-
 }

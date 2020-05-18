@@ -218,20 +218,6 @@ public class Zombie extends EnemyUnit {
         return super.remove();
     }
 
-    /**
-     * РАБОЧИЙ КОДА 17.02.2020
-     * <p>
-     * protected void destroy() {
-     * if (!body.isActive()) {
-     * //            world.destroyBody(body);
-     * bloodSpray.dispose();
-     * level.removeEnemyUnitFromArray(this);
-     * this.remove();
-     * <p>
-     * }
-     * }
-     **/
-
 
     public void moveLeft(Body body) {
         Vector2 vel = body.getLinearVelocity();
