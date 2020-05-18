@@ -22,7 +22,7 @@ import com.timgapps.warfare.Units.GameUnits.Barricade;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnit;
 import com.timgapps.warfare.Units.GameUnits.Enemy.Goblin1;
 import com.timgapps.warfare.Units.GameUnits.Enemy.Skeleton;
-import com.timgapps.warfare.Units.GameUnits.Enemy.Skeleton3;
+//import com.timgapps.warfare.Units.GameUnits.Enemy.Skeleton3;
 import com.timgapps.warfare.Units.GameUnits.Enemy.Zombie;
 import com.timgapps.warfare.Units.GameUnits.Enemy.Zombie1;
 import com.timgapps.warfare.Units.GameUnits.Enemy.Zombie3;

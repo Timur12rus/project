@@ -29,7 +29,7 @@ public class Gnome extends PlayerUnit {
     //    public State currentState = State.RUN;
 //    private float stateTime;
 
-    private World world;
+    //    private World world;
     private float x, y;
     private boolean isHaveTarget = false;
     private EnemyUnit targetEnemy;
@@ -50,7 +50,7 @@ public class Gnome extends PlayerUnit {
     public Gnome(Level level, float x, float y, float health, float damage) {
         super(level, x, y, health, damage);
         this.level = level;
-        this.world = level.getWorld();
+//        this.world = level.getWorld();
 
         velocity = 0.6f;
         xPosDamageLabel = -50;
@@ -112,16 +112,34 @@ public class Gnome extends PlayerUnit {
 
 
             if (targetEnemy != null) {
-                if (currentState == State.ATTACK) {
+//            if (currentState == State.ATTACK) {     // если юнин атакует врага
+                if (currentState == State.ATTACK && isAttack) {     // если юнин атакует врага
                     stay();
                     if (attackAnimation.isAnimationFinished(stateTime)) {
                         stateTime = 0;
                         inflictDamage(targetEnemy, damage);
-                        if (targetEnemy.getHealth() <= 0) {
-                            resetTarget();
-                        }
                         currentState = State.STAY;
                     }
+                } else if (currentState == State.ATTACK && isAttackBarricade) {
+                    stay();
+                    if (attackAnimation.isAnimationFinished(stateTime) && isAttackBarricade) {
+                        if (barricade != null) {
+                            barricade.setHealth(damage);
+                            if (barricade.getHealth() <= 0) {
+                                isAttackBarricade = false;
+                            }
+                        }
+                        stateTime = 0;
+                        currentState = State.STAY;
+                    }
+                }
+
+
+                if (targetEnemy.getHealth() <= 0 || targetEnemy == null) {
+//            currentState = State.RUN;
+                    resetTarget();
+//            findTarget();
+//            level.getArrayEnemies().remove()
                 }
             } else {
                 if (currentState == State.ATTACK) {
@@ -139,14 +157,10 @@ public class Gnome extends PlayerUnit {
                 }
             }
 
-            // TODO нужно исправить если что
             if (currentState == State.RUN) {
 //        if (currentState != State.ATTACK) {
-                if (!isAttack) {
-                    if (isHaveTarget) {  // если определен "враг-цель", то
-//            if (isHaveTarget) {  // если определен "враг-цель", то        // 16.05.2020
-                        moveToTarget();     //движемся к цели
-                    }
+                if (isHaveTarget) {  // если определен "враг-цель", то
+                    moveToTarget();     //движемся к цели
                 } else {                  // в противном случае, если "враг-цель" не определен, то двигаемся прямо вправо
                     moveRight(body);    // движемся вправо
                 }
@@ -276,8 +290,6 @@ public class Gnome extends PlayerUnit {
             if (targetEnemy != null) {
                 isHaveTarget = true;        // изменим флаг на true, т.е. есть "враг-цель"
                 //                verticalDirectionMovement = calculateVerticalDirection();
-
-
                 currentState = State.RUN;
             }
 
@@ -418,15 +430,14 @@ public class Gnome extends PlayerUnit {
     // TODO ОБЯЗАТЕЛЬНО НУЖНО ИСПРАВИТЬ!!!!!!!!!!!!!!! 09.05.2020!!!!!!!!!!!
     @Override
     public void setTargetEnemy(EnemyUnit enemyUnit) {
-//        super.setTargetEnemy(enemyUnit);
+        super.setTargetEnemy(enemyUnit);
         resetTarget();
         isHaveTarget = true;
         targetEnemy = enemyUnit;
-//        moveToTarget();
-//        isAttackBarricade = false;
-//        isAttack = true;
-//        stateTime = 0;
-//        currentState = State.ATTACK;
+        isAttackBarricade = false;
+        isAttack = true;
+        stateTime = 0;
+        currentState = State.ATTACK;
     }
 
     /**
@@ -501,7 +512,6 @@ public class Gnome extends PlayerUnit {
             currentState = State.ATTACK;
             stateTime = 0;
             isAttack = true;
-            isAttackBarricade = false;
         }
     }
 
