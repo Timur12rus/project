@@ -23,7 +23,8 @@ public class Barricade {
     private Level level;
     private Image rockBig, rockMiddle, rockSmall;
     private Body body;
-    private float health = 24;
+    private float health = 100;
+//    private float health = 24;
 
     private Texture healthTexture;
     private Texture backTexture;
