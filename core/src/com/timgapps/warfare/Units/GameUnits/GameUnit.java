@@ -151,11 +151,17 @@ public abstract class GameUnit extends Actor implements IBody {
         if (health <= 0) {
             health = 0;
             isDrawHealthBar = false;
+            if (body.isActive()) {
+                stateTime = 0;
+                currentState = State.DIE;
+                body.setActive(false);
+            }
         }
     }
 
     protected void addDamageLabel(float x, float y, float value) {
-        new DamageLabel(level, x, y, (int) value);
+//        if (health > 0)
+            new DamageLabel(level, x, y, (int) value);
     }
 
     /**
@@ -231,14 +237,15 @@ public abstract class GameUnit extends Actor implements IBody {
     }
 
     public void checkToDestroy() {
+//        if (!body.isActive()) {
         if (!body.isActive() && isDestroyed) {
             world.destroyBody(body);
             this.remove();
         }
 
-        if (isDestroyed) {
-            body.setActive(false);
-        }
+//        if (isDestroyed) {
+//            body.setActive(false);
+//        }
     }
 
     @Override

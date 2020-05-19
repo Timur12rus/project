@@ -59,8 +59,8 @@ public class Skeleton extends EnemyUnit {
         } else
             name = targetPlayer.toString();
 
-        System.out.println("CurrentState = " + currentState + "/ isAttack = " + isAttack + "/ isAttackTower = "
-                + isAttackTower + "/ isAttackStone = " + isAttackStone + "targetPlayer = " + name);
+//        System.out.println("CurrentState = " + currentState + "/ isAttack = " + isAttack + "/ isAttackTower = "
+//                + isAttackTower + "/ isAttackStone = " + isAttackStone + "targetPlayer = " + name);
 
 //        /** если текущее состояние = RUN, юнит бежит влево **/
 //        if (currentState == State.WALKING && !isAttack) {
@@ -144,11 +144,11 @@ public class Skeleton extends EnemyUnit {
             setToDestroy();
         }
 
-        if (health <= 0 && body.isActive()) {
-            currentState = State.DIE;
-            stateTime = 0;
-            body.setActive(false);
-        }
+//        if (health <= 0 && body.isActive()) {
+//            currentState = State.DIE;
+//            stateTime = 0;
+//            body.setActive(false);
+//        }
 
         if (currentState == State.WALKING)
             moveLeft(body);
@@ -285,10 +285,11 @@ public class Skeleton extends EnemyUnit {
         super.setHealth(damage);
         isDamaged = true;
         bloodSpray.start();
-        if (health <= 0) {
-            stateTime = 0;
-            currentState = State.DIE;
-        }
+//        if (health <= 0) {
+//            stateTime = 0;
+//            currentState = State.DIE;
+//            level.removeEnemyUnitFromArray(this);
+//        }
     }
 
     /**
@@ -302,8 +303,6 @@ public class Skeleton extends EnemyUnit {
     @Override
     public boolean remove() {
         bloodSpray.dispose();
-//        System.out.println("dispose REMOVE");
-        level.removeEnemyUnitFromArray(this);
         return super.remove();
     }
 }

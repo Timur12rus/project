@@ -52,9 +52,4 @@ public class Thor extends Gnome {
         dieAnimation = new Animation(0.1f, frames);
         frames.clear();
     }
-
-    @Override
-    public void setTargetEnemy(EnemyUnit enemyUnit) {
-        super.setTargetEnemy(enemyUnit);
-    }
 }

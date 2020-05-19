@@ -64,8 +64,8 @@ public class Skeleton3 extends EnemyUnit {
         } else
             name = targetPlayer.toString();
 
-        System.out.println("CurrentState = " + currentState + "/ isAttack = " + isAttack + "/ isAttackTower = "
-                + isAttackTower + "/ isAttackStone = " + isAttackStone + "targetPlayer = " + name);
+//        System.out.println("CurrentState = " + currentState + "/ isAttack = " + isAttack + "/ isAttackTower = "
+//                + isAttackTower + "/ isAttackStone = " + isAttackStone + "targetPlayer = " + name);
 
         /** если текущее состояние = RUN, юнит бежит влево **/
         if (currentState == State.RUN && !isAttack) {
@@ -163,13 +163,6 @@ public class Skeleton3 extends EnemyUnit {
             resetTarget();
         }
     }
-
-//    /**
-//     * метод для назначения цели - "игрового-юнита цели"
-//     */
-//    public void setTargetPlayer(PlayerUnit targetPlayer) {
-//        this.targetPlayer = targetPlayer;
-//    }
 
     // метод для атаки
     @Override
@@ -289,9 +282,18 @@ public class Skeleton3 extends EnemyUnit {
         super.setHealth(damage);
         isDamaged = true;
         bloodSpray.start();
-        if (health <= 0) {
+        if (health <= 0 && body.isActive()) {
+            body.setActive(false);
+            level.removeEnemyUnitFromArray(this);
             stateTime = 0;
             currentState = State.DIE;
         }
+    }
+
+    @Override
+    public boolean remove() {
+        bloodSpray.dispose();
+        System.out.println("Remove");
+        return super.remove();
     }
 }

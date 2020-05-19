@@ -48,6 +48,7 @@ public class EnemyUnit extends GameUnit {
 
     protected boolean isHaveTargetPlayer;
 
+    protected boolean isRemovedFromEnemiesArray = false;
     private boolean isDraw = true;
     protected boolean isAttackStone = false;    // флаг - атакует ли в данный момент камень, в состоянии ли атаки камня
     protected boolean isAttackTower = false;    // флаг - атакует ли в данный момент башню, в состоянии ли атаки башни
@@ -103,6 +104,9 @@ public class EnemyUnit extends GameUnit {
     @Override
     public void setHealth(float value) {
         super.setHealth(value);
+        if (health <= 0 && !isRemovedFromEnemiesArray) {   // если здоровье меньше или равно 0, то удаляем из массива вражеских юнитов
+            removeFromEnemiesArray();                      // текущий юнит
+        }
         addDamageLabel(getX() + xPosDamageLabel, getY() + getHeight() + 14, value);
     }
 
@@ -152,6 +156,11 @@ public class EnemyUnit extends GameUnit {
         body.setTransform(x / Level.WORLD_SCALE, y / Level.WORLD_SCALE, 0);
 
         return body;
+    }
+
+    protected void removeFromEnemiesArray() {
+        level.removeEnemyUnitFromArray(this);
+        isRemovedFromEnemiesArray = true;
     }
 
     @Override

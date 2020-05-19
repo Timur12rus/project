@@ -78,8 +78,8 @@ public class Zombie extends EnemyUnit {
         } else
             name = targetPlayer.toString();
 
-        System.out.println("CurrentState = " + currentState + "/ isAttack = " + isAttack + "/ isAttackTower = "
-                + isAttackTower + "/ isAttackStone = " + isAttackStone + "targetPlayer = " + name);
+//        System.out.println("CurrentState = " + currentState + "/ isAttack = " + isAttack + "/ isAttackTower = "
+//                + isAttackTower + "/ isAttackStone = " + isAttackStone + "targetPlayer = " + name);
 
 //        if (currentState == State.STAY || currentState == State.ATTACK) {
 //            stay();
@@ -158,11 +158,12 @@ public class Zombie extends EnemyUnit {
             setToDestroy();
         }
 
-        if (health <= 0 && body.isActive()) {
-            currentState = State.DIE;
-            stateTime = 0;
-            body.setActive(false);
-        }
+//        if (health <= 0 && body.isActive()) {
+//            currentState = State.DIE;
+//            stateTime = 0;
+//            body.setActive(false);
+//
+//        }
 
         /** если текущее состояние = State.WALKING, и анимация завершена,
          * установим следующее состояние или STAY или WALKING
@@ -195,6 +196,7 @@ public class Zombie extends EnemyUnit {
             currentState = State.DIE;
             stateTime = 0;
             body.setActive(false);
+//            level.removeEnemyUnitFromArray(this);
         }
 
         if (currentState == State.WALKING)
@@ -214,7 +216,9 @@ public class Zombie extends EnemyUnit {
     public boolean remove() {
         bloodSpray.dispose();
 //        System.out.println("dispose REMOVE");
-        level.removeEnemyUnitFromArray(this);
+//        level.removeEnemyUnitFromArray(this);
+
+//        System.out.println("Remove");
         return super.remove();
     }
 
@@ -283,10 +287,19 @@ public class Zombie extends EnemyUnit {
         super.setHealth(damage);
         isDamaged = true;
         bloodSpray.start();
-        if (health <= 0) {
-            stateTime = 0;
-            currentState = State.DIE;
-        }
+//        if (health <= 0 && body.isActive()) {
+//            currentState = State.DIE;
+//            stateTime = 0;
+//            body.setActive(false);
+//
+//        }
+
+//        if (health <= 0 && body.isActive()) {
+//            body.setActive(false);
+//            level.removeEnemyUnitFromArray(this);
+//            stateTime = 0;
+//            currentState = State.DIE;
+//        }
     }
 
     @Override

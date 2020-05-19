@@ -56,8 +56,13 @@ public class Gnome extends PlayerUnit {
     public void act(float delta) {
         super.act(delta);
 
+
+        System.out.println("Gnome isHaveTarget = " + isHaveTarget + " /Target = " + targetEnemy);
+        System.out.println("isAttack = " + isAttack + " /isAttackBarricade = " + isAttackBarricade);
+
         if (currentState == State.RUN && !isAttack) {
-            findTarget();
+            if (!isHaveTarget)                            // если юнит не имеет цель-врага, то найдем цель-врага
+                findTarget();
         }
 
         if (health <= 0 && body.isActive()) {
@@ -70,73 +75,43 @@ public class Gnome extends PlayerUnit {
         if (body.isActive()) {
             /** проверим, атакует ли юнита баррикаду **/
             if (!isAttackBarricade) {
-                /** проверим, есть ли "ВРАГ-ЦЕЛЬ" у игрового юнита **/
-                if (!isHaveTarget) {    //если нет "врага-цели", то
-                    findTarget();       //найдем "врага-цель"
+                if (currentState == State.RUN) {
+                    if (isHaveTarget) {  // если определен "враг-цель", то
+                        moveToTarget();     //движемся к цели
+                    } else {                  // в противном случае, если "враг-цель" не определен, то двигаемся прямо вправо
+                        moveRight(body);    // движемся вправо
+                    }
                 }
             }
 
-            if (targetEnemy != null) {
-//                if (currentState == State.ATTACK) {     // если текущее состояние ATTACK
-//                    stay();                             // установим скорость тела (0;0)
-//                    if (attackAnimation.isAnimationFinished(stateTime)) {
-//                        if (isAttack) {  // юнит атакует врага
-//                            inflictDamage(targetEnemy, damage);     // наносим урон вражескому юниту
-//                            stateTime = 0;
-//                            currentState = State.STAY;
-//                        }
-//                    }
-//                }
-
-                if (currentState == State.ATTACK && isAttack) {     // если юнин атакует врага
-                    stay();
+//            if (targetEnemy != null) {
+                if (currentState == State.ATTACK) {     // если текущее состояние ATTACK
+                    stay();                             // установим скорость тела (0;0)
                     if (attackAnimation.isAnimationFinished(stateTime)) {
                         stateTime = 0;
-                        inflictDamage(targetEnemy, damage);
-                        currentState = State.STAY;
-                    }
-                } else if (currentState == State.ATTACK && isAttackBarricade) {
-                    stay();
-                    if (attackAnimation.isAnimationFinished(stateTime) && isAttackBarricade) {
-                        if (barricade != null) {
-                            barricade.setHealth(damage);
-                            if (barricade.getHealth() <= 0) {
-                                isAttackBarricade = false;
+                        currentState = State.STAY;                  // установим состояние STAY
+                        if (isAttack) {                             // если юнит атакует врага
+                            if (targetEnemy != null) {
+                                if (targetEnemy.getHealth() > 0)
+                                inflictDamage(targetEnemy, damage);     // наносим урон вражескому юниту
+                                if (targetEnemy.getHealth() <= 0) {
+                                    resetTarget();
+                                    currentState = State.RUN;
+                                }
+                            }
+                        } else if (isAttackBarricade) {              // если юнит атакует баррикаду
+                            if (barricade != null) {
+                                barricade.setHealth(damage);
+                                stateTime = 0;
+                                currentState = State.STAY;
+                                if (barricade.getHealth() <= 0) {
+                                    isAttackBarricade = false;
+                                    currentState = State.RUN;
+                                }
                             }
                         }
-                        stateTime = 0;
-                        currentState = State.STAY;
                     }
                 }
-
-
-                if (targetEnemy.getHealth() <= 0 || targetEnemy == null) {
-                    resetTarget();
-                }
-            } else {
-                if (currentState == State.ATTACK) {
-                    stay();
-                    if (attackAnimation.isAnimationFinished(stateTime) && isAttackBarricade) {
-                        if (barricade != null) {
-                            barricade.setHealth(damage);
-                            if (barricade.getHealth() <= 0) {
-                                isAttackBarricade = false;
-                            }
-                        }
-                        stateTime = 0;
-                        currentState = State.STAY;
-                    }
-                }
-            }
-
-            if (currentState == State.RUN) {
-//        if (currentState != State.ATTACK) {
-                if (isHaveTarget) {  // если определен "враг-цель", то
-                    moveToTarget();     //движемся к цели
-                } else {                  // в противном случае, если "враг-цель" не определен, то двигаемся прямо вправо
-                    moveRight(body);    // движемся вправо
-                }
-            }
 
             if (currentState == State.STAY && stayAnimation.isAnimationFinished(stateTime)) {
                 if (isAttack || isAttackBarricade)
@@ -196,8 +171,12 @@ public class Gnome extends PlayerUnit {
                 /** проверим расстояяние до вражеского юнита, можем ли мы двигаться к нему (успеем ли..)
                  * если да, то добавим его в массив вражеских юнитов, которых видит ИГРОВОЙ ЮНИТ
                  * **/
+
                 if (checkDistanceToEnemy(enemies.get(i))) {
+                    System.out.println("checkDistance to enemy = TRUE");
                     targetEnemies.add(enemies.get(i));
+                } else {
+                    System.out.println("checkDistance to enemy = FALSE");
                 }
             }
 
@@ -223,6 +202,7 @@ public class Gnome extends PlayerUnit {
             }
 
         } catch (Exception e) {
+            System.out.println("ERROR FIND TARGET!!!!!!!!!!");
             currentState = State.RUN;
             verticalDirectionMovement = Direction.NONE;
         }
@@ -240,7 +220,6 @@ public class Gnome extends PlayerUnit {
 
         /** время необходимое для движения до вражеского юнита t = S / V **/
         float time = distanceToEnemy.len() / velocity;
-
 
         /** рассчитанное время для движения до вражеского юнита tp = Sy / Vy**/
         float timeCalculated = (Math.abs((float) (distanceToEnemy.len() * Math.sin(distanceToEnemy.angle()))));
@@ -320,7 +299,7 @@ public class Gnome extends PlayerUnit {
             frames.add(new TextureRegion(Warfare.atlas.findRegion("gnomeStay" + i)));
         for (int i = 4; i < 1; i--)
             frames.add(new TextureRegion(Warfare.atlas.findRegion("gnomeStay" + i)));
-        stayAnimation = new Animation(0.25f, frames);
+        stayAnimation = new Animation(0.2f, frames);
         frames.clear();
 
         //  получим кадры и добавим в анимацию бега персонажа
@@ -350,20 +329,6 @@ public class Gnome extends PlayerUnit {
         isHaveVerticalDirection = false;
         verticalDirectionMovement = Direction.NONE;
     }
-
-
-//    // TODO ОБЯЗАТЕЛЬНО НУЖНО ИСПРАВИТЬ!!!!!!!!!!!!!!! 09.05.2020!!!!!!!!!!!
-//    @Override
-//    public void setTargetEnemy(EnemyUnit enemyUnit) {
-//        super.setTargetEnemy(enemyUnit);
-//        resetTarget();
-//        isHaveTarget = true;
-//        targetEnemy = enemyUnit;
-//        isAttackBarricade = false;
-//        isAttack = true;
-//        stateTime = 0;
-//        currentState = State.ATTACK;
-//    }
 
     /**
      * метод устанавливает ВРАГА_ЦЕЛЬ (используется при определении столкновения с вражеским юнитом
@@ -423,16 +388,14 @@ public class Gnome extends PlayerUnit {
     @Override
     public void setHealth(float value) {
         super.setHealth(value);
-
-        if (health <= 0) {
-            stateTime = 0;
-            currentState = State.DIE;
-        }
+//        if (health <= 0) {
+//            stateTime = 0;
+//            currentState = State.DIE;
+//        }
     }
 
     @Override
     public void attack() {
-        super.attack();
         if (currentState != State.ATTACK) {        // проверяем, в состоянии ли "атаки" юнит
             currentState = State.ATTACK;
             stateTime = 0;
