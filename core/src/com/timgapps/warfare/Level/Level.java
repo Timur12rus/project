@@ -119,8 +119,8 @@ public class Level extends StageGame {
 //        Skeleton skeleton1 = new Skeleton(this, 700, 200, 50, 3);
 
 
-//        Goblin1 goblin1 = new Goblin1(this, 600, 220, 100, 3);
-//        Goblin1 goblin2 = new Goblin1(this, 900, 230, 100, 3);
+        Goblin1 goblin1 = new Goblin1(this, 600, 220, 100, 3);
+        Goblin1 goblin2 = new Goblin1(this, 1200, 230, 100, 3);
 
 //        zombie4.debug();
 
@@ -135,8 +135,8 @@ public class Level extends StageGame {
 //        arrayEnemies.add(zombie5);
 //        arrayEnemies.add(skeleton);
 //        arrayEnemies.add(skeleton1);
-//        arrayEnemies.add(goblin1);
-//        arrayEnemies.add(goblin2);
+        arrayEnemies.add(goblin1);
+        arrayEnemies.add(goblin2);
 
 //        arrayEnemies.add(goblin3);
 

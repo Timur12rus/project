@@ -62,33 +62,33 @@ public class Goblin1 extends EnemyUnit {
         super.act(delta);
 
 
-        if (targetPlayer != null && isHaveTargetPlayer == true && !isStartExplosion) {
-            isStartExplosion = true;
-            startExplosion();
-//            targetPlayer.setHealth(200);
-            inflictDamage(targetPlayer, 200);
-            setHealth(200);
-        }
-
-//        if (currentState == State.DIE && !isStartExplosion) {
+//        if (targetPlayer != null && isHaveTargetPlayer == true && !isStartExplosion) {
+//            isStartExplosion = true;
 //            startExplosion();
-//            stateTime = 0;
+////            targetPlayer.setHealth(200);
+//            inflictDamage(targetPlayer, 200);
+//            setHealth(200);
+//        }
+
+        if (currentState == State.DIE && !isStartExplosion) {
+            startExplosion();
+            stateTime = 0;
 //            setHealth(200);
 //            inflictDamage(targetPlayer, 100);
-//        }
+        }
 
         if (currentState == State.RUN)
             moveLeft(body);
 
-        if (health <= 0 && body.isActive()) {
-            body.setActive(false);
-            stateTime = 0;
-            currentState = State.DIE;
-            if (!isStartExplosion) {
-                startExplosion();
-            }
-
-        }
+//        if (health <= 0 && body.isActive()) {
+//            body.setActive(false);
+//            stateTime = 0;
+//            currentState = State.DIE;
+//
+////            if (!isStartExplosion) {
+////                startExplosion();
+////            }
+//        }
 
         /** если юниту нанесен урон: isDamaged = true, обновляем анимацию брызг крови **/
         if (isDamaged) {
@@ -143,7 +143,6 @@ public class Goblin1 extends EnemyUnit {
     @Override
     public boolean remove() {
         bloodSpray.dispose();
-        level.removeEnemyUnitFromArray(this);
         return super.remove();
     }
 
@@ -180,25 +179,48 @@ public class Goblin1 extends EnemyUnit {
         if (currentState == State.RUN) {
             if (!isAttackTower) {
                 isAttackTower = true;
+                level.getSiegeTower().setHealth(10);
                 // запускаем анимацию взрыва
 //                startExplosion();
                 // наносим урон текущему юниту
-                setHealth(100);
+//                setHealth(200);
                 // наносим урон башне
-                level.getSiegeTower().setHealth(10);
             }
         }
     }
 
+    @Override
+    public void setHealth(float value) {
+        super.setHealth(value);
+
+//        if (!isStartExplosion) {
+//            startExplosion();
+//        }
+
+    }
 
     // метод для атаки
     @Override
     public void attack() {
-        if (!isAttack) {
-            System.out.println("ATTACK!!!!!!!");
-            isAttack = true;
-            inflictDamage(targetPlayer, 200);
-        }
+
+//        if (targetPlayer != null && isHaveTargetPlayer == true && !isStartExplosion) {
+//            if (!isAttack) {
+//                isAttack = true;
+//                inflictDamage(targetPlayer, 200);
+//                setHealth(200);
+//            }
+//            isStartExplosion = true;
+//            startExplosion();
+////            targetPlayer.setHealth(200);
+//            inflictDamage(targetPlayer, 200);
+//            setHealth(200);
+//        }
+
+//        if (!isAttack) {
+//            isAttack = true;
+//            inflictDamage(targetPlayer, 200);
+//            setHealth(200);
+//        }
     }
 
 
