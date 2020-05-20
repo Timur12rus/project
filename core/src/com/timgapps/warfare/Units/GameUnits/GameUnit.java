@@ -49,6 +49,7 @@ public abstract class GameUnit extends Actor implements IBody {
     public static final short BARRICADE_BIT = 16;
     public static final short TOWER_BIT = 32;
     private boolean isDestroyed = false;
+    private boolean isBodyInactive = false;
     protected float stateTime;
     protected Body body;
 
@@ -151,17 +152,21 @@ public abstract class GameUnit extends Actor implements IBody {
         if (health <= 0) {
             health = 0;
             isDrawHealthBar = false;
-            if (body.isActive()) {
+            if (!isBodyInactive) {
                 stateTime = 0;
                 currentState = State.DIE;
-                body.setActive(false);
+                setInactiveBody();
             }
         }
     }
 
+    protected void setInactiveBody() {
+        isBodyInactive = true;
+    }
+
     protected void addDamageLabel(float x, float y, float value) {
 //        if (health > 0)
-            new DamageLabel(level, x, y, (int) value);
+        new DamageLabel(level, x, y, (int) value);
     }
 
     /**
@@ -252,6 +257,9 @@ public abstract class GameUnit extends Actor implements IBody {
     public void act(float delta) {
         super.act(delta);
         checkToDestroy();
+        if (isBodyInactive) {
+            body.setActive(false);
+        }
     }
 
 }

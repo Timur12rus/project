@@ -104,8 +104,10 @@ public class EnemyUnit extends GameUnit {
     @Override
     public void setHealth(float value) {
         super.setHealth(value);
+        System.out.println("SETEDHEALTH()!!!!!!");
         if (health <= 0 && !isRemovedFromEnemiesArray) {   // если здоровье меньше или равно 0, то удаляем из массива вражеских юнитов
             removeFromEnemiesArray();                      // текущий юнит
+            System.out.println("REMOVEDFROMENEMIESARRAY()!!!!!!!!!!!!!!");
         }
         addDamageLabel(getX() + xPosDamageLabel, getY() + getHeight() + 14, value);
     }
@@ -129,8 +131,10 @@ public class EnemyUnit extends GameUnit {
     }
 
     public void setTargetPlayer(PlayerUnit targetPlayer) {
-        this.targetPlayer = targetPlayer;
-        isHaveTargetPlayer = true;
+        if (!isHaveTargetPlayer) {
+            this.targetPlayer = targetPlayer;
+            isHaveTargetPlayer = true;
+        }
     }
 
     public PlayerUnit getTargetPlayer() {

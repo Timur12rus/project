@@ -10,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Array;
 import com.timgapps.warfare.Level.Level;
 import com.timgapps.warfare.Units.GameUnits.Effects.Explosion;
+import com.timgapps.warfare.Units.GameUnits.Player.Bullets.Stone;
 import com.timgapps.warfare.Units.GameUnits.Player.PlayerUnit;
 import com.timgapps.warfare.Warfare;
 
@@ -95,6 +96,15 @@ public class Goblin1 extends EnemyUnit {
             }
         }
 
+        if (!isStartExplosion && isAttackStone) {
+            startExplosion();
+            System.out.println("Stone = " + stone);
+            if (stone != null) {
+                stone.setHealth(100);
+                setHealth(200);
+            }
+        }
+
         if (isAttack || isAttackTower) {
             stay();
         }
@@ -147,7 +157,7 @@ public class Goblin1 extends EnemyUnit {
             startExplosion();
         } else {
             if (!isAttackTower && health <= 0 && !isStartExplosion)
-            startExplosion();
+                startExplosion();
         }
 
 
@@ -213,6 +223,16 @@ public class Goblin1 extends EnemyUnit {
         }
         if (isDamaged)
             bloodSpray.draw(batch);
+    }
+
+    @Override
+    public void setAttackStone(Stone stone) {
+//        super.setAttackStone(stone);
+
+        if (!isAttackStone) {
+            this.stone = stone;
+            isAttackStone = true;
+        }
     }
 
     /**

@@ -155,17 +155,19 @@ public class Archer1 extends PlayerUnit {
             stateTime = 0;
             currentState = State.STAY;
 
-            /** сбросим флаг, что юнит (стрелок) атакует */
-            resetIsFired();
+            isFired = false;
+
+//            /** сбросим флаг, что юнит (стрелок) атакует */
+//            resetIsFired();
 
         }
 
         /** если текущее состояние = State.STAY и анмация завершена **/
         if ((currentState == State.STAY) && (stayAnimation.isAnimationFinished(stateTime))) {
 
-            if (isFired) {
-                isFired = false;
-            }
+//            if (isFired) {
+//                isFired = false;
+//            }
             /** проеверим унчитожен ли ВРАГ-ЦЕЛЬ?
              * если уничтожен, то устанавливаем текущее состояние = State.WALKING
              * если не уничтожен, то устанавливаем текщее состояние = State.ATTACK **/
@@ -178,8 +180,7 @@ public class Archer1 extends PlayerUnit {
             stateTime = 0;
         }
 
-
-        /** если вертикальное перемещение = Direction.NONE и и расстояние до врага <= ATTACK_DISTANCE
+        /** если вертикальное перемещение = Direction.NONE и расстояние до врага <= ATTACK_DISTANCE
          * если текущее состояние = State.WALKING и анимация завершена, установим тек. состояние = State.ATTACK
          * **/
         if ((verticalDirectionMovement == Direction.NONE) && (distance <= ATTACK_DISTANCE)) {
@@ -189,7 +190,6 @@ public class Archer1 extends PlayerUnit {
                 stay();
             }
         }
-
 
         /** если вертикальное перемещение = Direction.NONE и и расстояние до врага <= ATTACK_DISTANCE
          * если текущее состояние = State.STAY и анимация завершена, установим тек. состояние = State.WALKING и двигаем юнита вправо
@@ -216,7 +216,6 @@ public class Archer1 extends PlayerUnit {
 //        isAttack = false;
 
     }
-
 
     public void fire() {
         new Arrow(level, this, body.getPosition().x * Level.WORLD_SCALE, body.getPosition().y * Level.WORLD_SCALE, damage);
