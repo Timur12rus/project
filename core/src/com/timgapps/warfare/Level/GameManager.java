@@ -54,7 +54,8 @@ public class GameManager {
 
     private DataManager manager;
 
-    private long giftTime;      // время до получения подарка
+    private long giftTimeFirst;      // время до получения первого подарка
+    private long giftTimeSecond;      // время до получения второго подарка
     private int indexOfRewardStars;
 
     public GameManager() {
@@ -152,8 +153,10 @@ public class GameManager {
 
             collection.add(new TeamEntity(savedGame.getCollectionDataList().get(2)));
 
-            giftTime = 0;
-            savedGame.setGiftTime(giftTime);
+            giftTimeFirst = 0;
+            giftTimeSecond = 0;
+            savedGame.setGiftTimeFirst(giftTimeFirst);
+            savedGame.setGiftTimeSecond(giftTimeSecond);
 
 //            savedGame.setTeam(team);
         } else {
@@ -203,7 +206,8 @@ public class GameManager {
         scorePanel = new ScorePanel(scoreCount);
         starsPanel = new StarsPanel(starsCount, rewardStarsCount, rewardForStarsDataList, indexOfRewardStars);
 
-        giftTime = savedGame.getGiftTime();
+        giftTimeFirst = savedGame.getGiftTimeFirst();       // получим сохраненное время для получения первого подарка
+        giftTimeSecond = savedGame.getGiftTimeSecond();     // получим сохраненное время для получения второго подарка
 
         for (int i = 0; i < savedGame.getLevelIconDataList().size(); i++) {
             levelIcons.add(new LevelIcon(savedGame.getLevelIconDataList().get(i)));
@@ -232,18 +236,33 @@ public class GameManager {
     }
 
     /**
-     * метод для получения времени до получнеия подарка
+     * метод для получения времени до получнеия первого подарка
      **/
-    public long getGiftTime() {
-        return giftTime;
+    public long getGiftTimeFirst() {
+        return giftTimeFirst;
     }
 
     /**
-     * метод для установки времени до получнеия подарка
+     * метод для получения времени до получнеия первого подарка
      **/
-    public void setGiftTime(long giftTime) {
-        this.giftTime = giftTime;
-        savedGame.setGiftTime(this.giftTime);
+    public long getGiftTimeSecond() {
+        return giftTimeSecond;
+    }
+
+    /**
+     * метод для установки времени до получнеия первого подарка
+     **/
+    public void setGiftTimeFirst(long giftTimeFirst) {
+        this.giftTimeFirst = giftTimeFirst;
+        savedGame.setGiftTimeFirst(this.giftTimeFirst);
+    }
+
+    /**
+     * метод для установки времени до получнеия второго подарка
+     **/
+    public void setGiftTimeSecond(long giftTimeSecond) {
+        this.giftTimeSecond = giftTimeSecond;
+        savedGame.setGiftTimeSecond(this.giftTimeSecond);
     }
 
     /**

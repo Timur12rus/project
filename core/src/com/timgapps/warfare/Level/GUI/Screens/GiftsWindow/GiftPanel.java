@@ -39,8 +39,11 @@ class GiftPanel extends Group {
 
     public static final int RESOURCES_GIFT = 1;
     public static final int BUFFS_GIFT = 2;
-    private final long DELTA_TIME = 300000L;
+    private final long DELTA_TIME_FIRST = 300000L;
+    private final long DELTA_TIME_SECOND = 600000L;
+    private long deltaTime;
     private long giftTime;          // время в мсек до получения подарка
+    private int giftsType;
 
     private boolean isEndCoinsAction = false;
     private CoinsPanel coinsPanel;
@@ -57,6 +60,7 @@ class GiftPanel extends Group {
     public GiftPanel(float x, float y, GameManager gameManager, int giftsType) {
         xPos = x;
         yPos = y;
+        this.giftsType = giftsType;
         this.gameManager = gameManager;
         date = new Date();      // получим текущее время
         coinsPanel = gameManager.getCoinsPanel();
@@ -78,13 +82,17 @@ class GiftPanel extends Group {
 
         // задаём кол-во времени, которое нужно для ожидания подарка ресурсов
         if (giftsType == RESOURCES_GIFT) {
-            giftTime = gameManager.getGiftTime();
+            giftTime = gameManager.getGiftTimeFirst();
+            deltaTime = DELTA_TIME_FIRST;
 //            giftTime = date.getTime() + DELTA_TIME;
         }
 
         // задаём кол-во времени, которое нужно для ожидания подарка баффов
         if (giftsType == BUFFS_GIFT) {
-            giftTime = date.getTime() + DELTA_TIME;
+            giftTime = gameManager.getGiftTimeSecond();
+            deltaTime = DELTA_TIME_SECOND;
+
+//            giftTime = date.getTime() + DELTA_TIME;
         }
 
         // надпись кол-ва оставшегося времени для подарка
@@ -153,6 +161,10 @@ class GiftPanel extends Group {
 
         void startAnimation() {
             isStarted = true;
+        }
+
+        void closeBox() {
+            isStarted = false;
         }
     }
 
@@ -243,8 +255,14 @@ class GiftPanel extends Group {
         claimButton.setVisible(false);
         rewardTable.setVisible(false);
         timeLabel.setVisible(false);
-        giftTime = new Date().getTime() + DELTA_TIME;
-        gameManager.setGiftTime(giftTime);      // сохраним значение текщего времени для получения подарка
+        giftTime = new Date().getTime() + deltaTime;       // вычислим время необходимое для получения подарка, текущ время + DELTA_TIME
+        if (giftsType == RESOURCES_GIFT) {
+            gameManager.setGiftTimeFirst(giftTime);      // сохраним значение текщего времени для получения подарка
+        }
+        if (giftsType == BUFFS_GIFT) {
+            gameManager.setGiftTimeSecond(giftTime);      // сохраним значение текщего времени для получения подарка
+        }
+
 
         Image coinOne = new Image(Warfare.atlas.findRegion("coin_icon"));
         Image coinTwo = new Image(Warfare.atlas.findRegion("coin_icon"));
@@ -272,6 +290,7 @@ class GiftPanel extends Group {
                 rewardTable.setVisible(true);
 //                giftTime = new Date().getTime() + 10000;
                 timeLabel.setVisible(true);
+                boxImage.closeBox();
 
                 // добавим к общему кол-ву монет монеты (награду)
                 coinsPanel.addCoins(120);

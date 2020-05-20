@@ -22,7 +22,8 @@ public class SavedGame implements Serializable {
     private int coinsCount;
     private int scoreCount;
     private int starsCount;
-    private long giftTime;      // время необходимое для получения подарка (время которое нужно подождать)
+    private long giftTimeFirst;      // время необходимое для получения первого подарка (время которое нужно подождать)
+    private long giftTimeSecond;      // время необходимое для получения второго подарка (время которое нужно подождать)
     private int indexOfRewardStars;
     private int rewardStarsCount;   // кол-во звезд для следующей награды за звезды
 
@@ -220,11 +221,19 @@ public class SavedGame implements Serializable {
         }
     }
 
-    public void setGiftTime(long giftTime) {
-        this.giftTime = giftTime;
+    public void setGiftTimeFirst(long giftTimeFirst) {
+        this.giftTimeFirst = giftTimeFirst;
     }
 
-    public long getGiftTime() {
-        return giftTime;
+    public void setGiftTimeSecond(long giftTimeSecond) {
+        this.giftTimeSecond = giftTimeSecond;
+    }
+
+    public long getGiftTimeFirst() {
+        return giftTimeFirst;
+    }
+
+    public long getGiftTimeSecond() {
+        return giftTimeSecond;
     }
 }
