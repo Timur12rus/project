@@ -48,11 +48,29 @@ public class Goblin1 extends EnemyUnit {
         deltaX = 52;                        // смещение изображения относительно тела по оси Х
     }
 
+//    @Override
+//    public void setHealth(float value) {
+//        if (!isDrawHealthBar) {
+//            if (health > 0) isDrawHealthBar = true;
+//        }
+//        health -= value;
+//        if (health <= 0) {
+//            health = 0;
+//            isDrawHealthBar = false;
+//            if (body.isActive()) {
+//                stateTime = 0;
+//                currentState = State.DIE;
+//                body.setActive(false);
+//            }
+//        }
+//    }
+
     private void startExplosion() {
         explosion.setPosition(getX() - 72, getY() + 16);
         isStartExplosion = true;
         explosion.start();
         isAttack = false;
+        isAttackTower = false;
 
     }
 
@@ -61,21 +79,40 @@ public class Goblin1 extends EnemyUnit {
     public void act(float delta) {
         super.act(delta);
 
+        if (!isStartExplosion && isAttack) {
+            startExplosion();
+            if (targetPlayer != null) {
+                inflictDamage(targetPlayer, 100);
+                setHealth(200);
+            }
+        }
+
+        if (!isStartExplosion && isAttackTower) {
+            startExplosion();
+            if (level.getSiegeTower() != null) {
+                level.getSiegeTower().setHealth(100);
+                setHealth(200);
+            }
+        }
+
+        if (isAttack || isAttackTower) {
+            stay();
+        }
 
 //        if (targetPlayer != null && isHaveTargetPlayer == true && !isStartExplosion) {
-//            isStartExplosion = true;
 //            startExplosion();
-////            targetPlayer.setHealth(200);
+//
+//            targetPlayer.setHealth(200);
 //            inflictDamage(targetPlayer, 200);
 //            setHealth(200);
 //        }
 
-        if (currentState == State.DIE && !isStartExplosion) {
-            startExplosion();
-            stateTime = 0;
-//            setHealth(200);
-//            inflictDamage(targetPlayer, 100);
-        }
+//        if (currentState == State.DIE && !isStartExplosion) {
+//            startExplosion();
+//            stateTime = 0;
+////            setHealth(200);
+////            inflictDamage(targetPlayer, 100);
+//        }
 
         if (currentState == State.RUN)
             moveLeft(body);
@@ -85,9 +122,9 @@ public class Goblin1 extends EnemyUnit {
 //            stateTime = 0;
 //            currentState = State.DIE;
 //
-////            if (!isStartExplosion) {
-////                startExplosion();
-////            }
+//            if (!isStartExplosion) {
+//                startExplosion();
+//            }
 //        }
 
         /** если юниту нанесен урон: isDamaged = true, обновляем анимацию брызг крови **/
@@ -106,15 +143,22 @@ public class Goblin1 extends EnemyUnit {
 //            isAttack = false;
 //        }
 
+        if (!isAttack && health <= 0 && !isStartExplosion) {
+            startExplosion();
+        } else {
+            if (!isAttackTower && health <= 0 && !isStartExplosion)
+            startExplosion();
+        }
+
+
         /** если состояние = State.DIE и анимация завершена, то уничтожаем юнита **/
-//        if (currentState == State.DIE && dieAnimation.isAnimationFinished(stateTime) && !isStartExplosion) {
-//            setToDestroy();
-//        }
+        if (currentState == State.DIE && dieAnimation.isAnimationFinished(stateTime) && !isStartExplosion) {
+            setToDestroy();
+        }
 
 //        if (currentState == State.DIE && dieAnimation.isAnimationFinished(stateTime)) {
 //            setToDestroy();
 //        }
-
 
         if (currentState == State.DIE && dieAnimation.isAnimationFinished(stateTime) && explosion.isEnd()) {
             explosion.remove();
@@ -138,7 +182,6 @@ public class Goblin1 extends EnemyUnit {
         dieAnimation = new Animation(0.12f, frames);
         frames.clear();
     }
-
 
     @Override
     public boolean remove() {
@@ -176,32 +219,34 @@ public class Goblin1 extends EnemyUnit {
      * метод для атаки башни
      **/
     public void attackTower() {
-        if (currentState == State.RUN) {
-            if (!isAttackTower) {
-                isAttackTower = true;
-                level.getSiegeTower().setHealth(10);
-                // запускаем анимацию взрыва
-//                startExplosion();
-                // наносим урон текущему юниту
-//                setHealth(200);
-                // наносим урон башне
-            }
+        if (!isAttackTower) {
+            isAttackTower = true;
         }
+//            if (!isStartExplosion) {
+//                startExplosion();
+//                level.getSiegeTower().setHealth(10);
+//                stateTime = 0;
+//                currentState = State.DIE;
+//            }
     }
 
-    @Override
-    public void setHealth(float value) {
-        super.setHealth(value);
-
-//        if (!isStartExplosion) {
-//            startExplosion();
-//        }
-
-    }
+//    @Override
+//    public void setHealth(float value) {
+//        super.setHealth(value);
+////        if (health <= 0) {
+////            if (!isStartExplosion) {
+////                startExplosion();
+////            }
+////        }
+//    }
 
     // метод для атаки
     @Override
     public void attack() {
+
+        if (!isAttack) {
+            isAttack = true;
+        }
 
 //        if (targetPlayer != null && isHaveTargetPlayer == true && !isStartExplosion) {
 //            if (!isAttack) {
@@ -209,9 +254,11 @@ public class Goblin1 extends EnemyUnit {
 //                inflictDamage(targetPlayer, 200);
 //                setHealth(200);
 //            }
-//            isStartExplosion = true;
+//        if (!isStartExplosion) {
 //            startExplosion();
-////            targetPlayer.setHealth(200);
+////            inflictDamage(targetPlayer, 200);
+//        }
+//            targetPlayer.setHealth(200);
 //            inflictDamage(targetPlayer, 200);
 //            setHealth(200);
 //        }

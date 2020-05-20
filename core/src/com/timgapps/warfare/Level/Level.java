@@ -276,7 +276,8 @@ public class Level extends StageGame {
     }
 
     public void addArcher1(int health, int damage) {
-        new Archer1(this, 600, 210, health, damage);
+        new Archer1(this, 140, 210, health, damage);
+//        new Archer1(this, 600, 210, health, damage);
 
     }
 
