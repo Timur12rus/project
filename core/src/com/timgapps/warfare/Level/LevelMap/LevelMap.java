@@ -29,11 +29,13 @@ import com.boontaran.MessageEvent;
 import com.boontaran.MessageListener;
 import com.boontaran.games.StageGame;
 import com.boontaran.games.tiled.TileLayer;
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import com.timgapps.warfare.Level.GUI.Screens.CoinsPanel;
 import com.timgapps.warfare.Level.GUI.Screens.MissionInfoScreen;
 import com.timgapps.warfare.Level.GUI.Screens.GiftsWindow.GiftScreen;
 import com.timgapps.warfare.Level.GUI.Screens.TeamUpgradeScreen;
 import com.timgapps.warfare.Level.GameManager;
+import com.timgapps.warfare.Level.LevelScreens.DarkLayer;
 import com.timgapps.warfare.Warfare;
 
 import java.util.ArrayList;
@@ -75,7 +77,9 @@ public class LevelMap extends StageGame {
     private int mapWidth, mapHeight, tilePixelWidth, tilePixelHeight, levelWidth, levelHeight;
     private boolean isFocused = true;
     private Label teamLabel;
-
+    private DarkLayer darkLayer;
+    private float cameraXpos;
+    private float cameraYpos;
 
     public LevelMap(GameManager gameManager, int coinsReward, int scoreReward) {
         this.coinsReward = coinsReward;
@@ -87,6 +91,11 @@ public class LevelMap extends StageGame {
 
         String directory = "location1";
         loadMap("tiled/" + directory + "/map.tmx");   // метод загружает карту и создает объекты
+
+
+        darkLayer = new DarkLayer(0, 0, getWidth(), getHeight(), new Color(0, 0, 0, 0.7f));
+        darkLayer.setVisible(false);
+        addChild(darkLayer);
 
 //        for (int i = 0; i < levelIcons.size(); i++) {
 ////            levelIcons.add(new LevelIcon(i + 1, true));
@@ -111,12 +120,26 @@ public class LevelMap extends StageGame {
             protected void receivedMessage(int message, Actor actor) {
                 if (message == missionInfoScreen.ON_RESUME) {
 //                    Warfare.media.playSound("click.ogg");
+                    showButtons();
                     resumeLevelMap();
                 } else if (message == missionInfoScreen.ON_START) { //
                     call(ON_LEVEL_SELECTED);
                 }
             }
         });
+
+
+        giftIcon = new GiftIcon(gameManager);
+        giftIcon.setPosition(getWidth() - giftIcon.getWidth() - 32, getHeight() / 2);
+
+        giftIcon.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                showGiftScreen();
+            }
+        });
+
+        addOverlayChild(giftIcon);
 
         /** создадим окно с вознаграждениями **/
         giftScreen = new GiftScreen(this, gameManager);
@@ -224,18 +247,32 @@ public class LevelMap extends StageGame {
 //            gameManager.saveGame();
         }
 
-        giftIcon = new GiftIcon();
-        giftIcon.setPosition(getWidth() - giftIcon.getWidth() - 32, getHeight() / 2);
+        cameraXpos = camera.position.x;
+        cameraYpos = camera.position.y;
 
-        giftIcon.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                showGiftScreen();
-            }
-        });
-
-        addOverlayChild(giftIcon);
 //        addChild(giftIcon);
+    }
+
+    /**
+     * метод для скрытия кнопок на экране
+     **/
+    private void hideButtons() {
+        teamLabel.setVisible(false);
+        starsPanel.setVisible(false);
+        darkLayer.setPosition(cameraXpos - camera.viewportWidth / 2, cameraYpos - camera.viewportHeight / 2);
+
+
+        darkLayer.setVisible(true);
+        giftIcon.setVisible(false);
+        upgradeTeamButton.setVisible(false);
+    }
+
+    private void showButtons() {
+        teamLabel.setVisible(true);
+        starsPanel.setVisible(true);
+        darkLayer.setVisible(false);
+        giftIcon.setVisible(true);
+        upgradeTeamButton.setVisible(true);
     }
 
 
@@ -244,8 +281,8 @@ public class LevelMap extends StageGame {
         if (isFocused) {
             float x = Gdx.input.getDeltaX();
             float y = Gdx.input.getDeltaY();
-            float cameraXpos = camera.position.x;
-            float cameraYpos = camera.position.y;
+            cameraXpos = camera.position.x;
+            cameraYpos = camera.position.y;
 //        System.out.println("camera.ViewportWidth = " + camera.viewportWidth);
 //        System.out.println("xPos = " + xPos);
 //        if (x - (camera.viewportWidth / 2) > 0) {
@@ -266,12 +303,17 @@ public class LevelMap extends StageGame {
                 y = 0;
             }
 
-//            System.out.println("cameraPosition.y + y = " + camera.position.y + y);
-//        System.out.println("cameraPosition.x - x = " + cameraXpos - x);
+            System.out.println("cameraPosition.y = " + camera.position.y);
+            System.out.println("cameraPosition.x = " + camera.position.x);
 //        if (cameraXpos + x )
             camera.translate(-x, y);
+            if (darkLayer != null) {
+                darkLayer.setPosition(camera.position.x - camera.viewportWidth / 2,
+                        camera.position.y - camera.viewportHeight / 2);
+            }
+            System.out.println("cameraPosition.y = " + camera.position.y);
+            System.out.println("cameraPosition.x = " + camera.position.x);
         }
-
         return true;
     }
 
@@ -338,6 +380,7 @@ public class LevelMap extends StageGame {
 
     private void showTeamUpgradeScreen() {
         isFocused = false;
+        hideButtons();
 
         teamUpgradeScreen.updateTeam();
         teamUpgradeScreen.updateCollection();
@@ -345,6 +388,7 @@ public class LevelMap extends StageGame {
     }
 
     private void showGiftScreen() {
+        hideButtons();
         isFocused = false;
         giftScreen.setVisible(true);
     }
@@ -367,6 +411,7 @@ public class LevelMap extends StageGame {
         teamUpgradeScreen.setVisible(false);
         giftScreen.setVisible(false);
         isFocused = true;
+        showButtons();
 //        teamUpgradeScreen.hide();
     }
 
@@ -507,9 +552,18 @@ public class LevelMap extends StageGame {
         }
     };
 
+    private void setGiftPrepared(boolean flag) {
+        giftIcon.setVisibleRoundCirlce(flag);
+    }
+
+    public GiftIcon getGiftIcon() {
+        return giftIcon;
+    }
+
 
     private void showMissionInfo(int selectedLevelId) {
         isFocused = false;
+        hideButtons();
         if (levelIcons.get(selectedLevelId - 1).getData().isActiveIcon()) {     // проверяем, активен ли уровень,
             if (!missionInfoScreen.isVisible()) {                               // если да, показываем окно с информацией об уровне
                 /** передадим данные об уровне в объект экрана информации об уровне

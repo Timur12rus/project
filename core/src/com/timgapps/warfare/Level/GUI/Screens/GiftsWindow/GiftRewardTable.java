@@ -26,31 +26,33 @@ public class GiftRewardTable extends Group {
         rewardLabel.setText("Reward:");
         Table rewardTable = new Table();
 //        Table rewardTable = new Table().debug();
+        Image coinImage = new Image(Warfare.atlas.findRegion("coin_icon"));
 
         /** Label для надписи КОЛИЧЕСТВА МОНЕТ **/
         Label.LabelStyle coinsCountLabelStyle = new Label.LabelStyle();
         coinsCountLabelStyle.fontColor = Color.ORANGE;
         coinsCountLabelStyle.font = Warfare.font20;
 
+        coinsCountLabel = new Label("", coinsCountLabelStyle);
+        coinsCountLabel.setText("" + coinsCount);
+
         Label.LabelStyle resoursesCountLabelStyle = new Label.LabelStyle();
-//        scoreCountLabelStyle.fontColor = Color.CYAN;
         resoursesCountLabelStyle.fontColor = new Color(0x35a1afff);
         resoursesCountLabelStyle.font = Warfare.font20;
 
-        coinsCountLabel = new Label("", coinsCountLabelStyle);
-        coinsCountLabel.setText("" + coinsCount);
 
         resourcesCountLabel = new Label("", resoursesCountLabelStyle);
         resourcesCountLabel.setText("" + resourcesCount);
 
-        Image coinImage = new Image(Warfare.atlas.findRegion("coin_icon"));
         Image resourseImage = new Image(Warfare.atlas.findRegion("score_icon"));
 
         rewardTable.add(resourcesCountLabel);
         rewardTable.add(resourseImage).width(48).height(48).padRight(24);
 
-        rewardTable.add(coinsCountLabel);
-        rewardTable.add(coinImage).width(48).height(48);
+        if (coinsCount > 0) {
+            rewardTable.add(coinsCountLabel);
+            rewardTable.add(coinImage).width(48).height(48);
+        }
 
         rewardTable.setHeight(coinImage.getHeight());
         rewardTable.setWidth(coinImage.getWidth() * 2 + 24 + coinsCountLabel.getWidth() + resourcesCountLabel.getWidth());

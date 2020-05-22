@@ -12,8 +12,8 @@ public class DarkLayer extends Actor {
     public DarkLayer(float x, float y, float width, float height, Color color) {
         createTexture((int)width, (int)height, color);
 
-        setX(x);
-        setY(y);
+//        setX(x);
+//        setY(y);
         setWidth(width);
         setHeight(height);
     }

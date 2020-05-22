@@ -1,5 +1,6 @@
 package com.timgapps.warfare.Level;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -17,14 +18,13 @@ import com.timgapps.warfare.Level.GUI.UnitButton;
 import com.timgapps.warfare.Level.LevelScreens.DarkLayer;
 import com.timgapps.warfare.Level.LevelScreens.GameOverScreen;
 import com.timgapps.warfare.Level.LevelScreens.LevelCompletedScreen;
+import com.timgapps.warfare.Level.LevelScreens.PauseScreen;
 import com.timgapps.warfare.Tools.WorldContactListener;
 import com.timgapps.warfare.Units.GameUnits.Barricade;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnit;
 import com.timgapps.warfare.Units.GameUnits.Enemy.Goblin1;
 import com.timgapps.warfare.Units.GameUnits.Enemy.Skeleton;
-import com.timgapps.warfare.Units.GameUnits.Enemy.Skeleton3;
 import com.timgapps.warfare.Units.GameUnits.Enemy.Zombie;
-import com.timgapps.warfare.Units.GameUnits.Enemy.Zombie1;
 import com.timgapps.warfare.Units.GameUnits.Enemy.Zombie3;
 import com.timgapps.warfare.Units.GameUnits.Player.Archer1;
 import com.timgapps.warfare.Units.GameUnits.Player.Gnome;
@@ -38,9 +38,18 @@ import java.util.Random;
 
 public class Level extends StageGame {
 
+    // добавим несколько констант для хранения состояния игры
+    public static final int PLAY = 1;
+    public static final int LEVEL_FAILED = 2;
+    public static final int LEVEL_COMPLETED = 3;
+    public static final int PAUSED = 4;
+
     public static final int ON_COMPLETED = 1;
     public static final int ON_FAILED = 2;
     public static final int ON_RETRY = 3;
+    public static final int ON_EXIT = 4;
+    public static final int ON_PAUSED = 5;
+
 
     public static final float WORLD_SCALE = 100; // коэффициент масштабирования
     private Box2DDebugRenderer debugRender;
@@ -65,6 +74,7 @@ public class Level extends StageGame {
     private SiegeTower siegeTower;
     private LevelCompletedScreen levelCompletedScreen;
     private GameOverScreen gameOverScreen;
+    private PauseScreen pausedScreen;
 
     private boolean isActiveScreen = true;
 
@@ -72,6 +82,11 @@ public class Level extends StageGame {
     private Table tableUnitButtons;
     private int coinsReward;            // награда - кол-во монет за уровень
     private int scoreReward;            // награда - кол-во очков за уровень
+
+    private int state = 1;
+    private boolean isPausedScreenStart = false;
+    private boolean isPausedScreenHide = true;
+    private boolean isPausedScreenAdded = false;
 
 
     public Level(int levelNumber, final GameManager gameManager) {
@@ -113,14 +128,11 @@ public class Level extends StageGame {
         Skeleton skeleton1 = new Skeleton(this, 1260, 220, 100, 3);
 
 
-
         Zombie zombie6 = new Zombie(this, 1300, 200, 100, 3);
         Zombie zombie7 = new Zombie(this, 1400, 220, 100, 3);
         Zombie3 zombie8 = new Zombie3(this, 1600, 180, 100, 3);
-        Skeleton skeleton2= new Skeleton(this, 1500, 190, 400, 3);
+        Skeleton skeleton2 = new Skeleton(this, 1500, 190, 400, 3);
         Skeleton skeleton3 = new Skeleton(this, 1700, 210, 100, 3);
-
-
 
 
 //        Skeleton skeleton2 = new Skeleton(this, 1100, 220, 100, 3);
@@ -187,6 +199,21 @@ public class Level extends StageGame {
 
 //        siegeTower.setHealth(30);
 
+        pausedScreen = new PauseScreen(this);
+        pausedScreen.addListener(new MessageListener() {
+            @Override
+            protected void receivedMessage(int message, Actor actor) {
+                if (message == pausedScreen.ON_MAP) {   // у нас только одна кнопка,
+//                    savePlayerData();
+                    call(ON_FAILED);                       // при получении сообщений от которой мы передаем сообщение ON_EXIT
+                } else if (message == pausedScreen.ON_CONTINUE) {
+                    resumeLevel();      // возвращаемся к игре, если получено сообщение ON_CONTINUE
+                }
+            }
+        });
+
+//        showPausedScreen();
+
         levelCompletedScreen = new LevelCompletedScreen(this, gameManager.getCoinsRewardForLevel(), gameManager.getScoreRewardForLevel());
         levelCompletedScreen.addListener(new MessageListener() {
             @Override
@@ -213,6 +240,16 @@ public class Level extends StageGame {
             }
         });
 
+    }
+
+    private void resumeLevel() {
+        if (!isPausedScreenHide && isPausedScreenStart) {
+            isPausedScreenHide = true;
+            isPausedScreenStart = false;
+            hidePauseScreen();
+            System.out.println("resumeLevel()");
+            state = PLAY;
+        }
     }
 
     /**
@@ -277,17 +314,19 @@ public class Level extends StageGame {
     protected void update(float delta) {
         super.update(delta);
 
+        if (state == PLAY) {
 //        timeCount += delta;
-        energyCount += delta;
+            energyCount += delta;
 
-        /** Timur **/
-        accumulator += delta;
-        while (accumulator >= STEP) {
-            world.step(STEP, 8, 6);
-            accumulator -= STEP;
+            /** Timur **/
+            accumulator += delta;
+            while (accumulator >= STEP) {
+                world.step(STEP, 8, 6);
+                accumulator -= STEP;
+            }
+
+            compareActorsYPos();
         }
-
-        compareActorsYPos();
     }
 
     public void addGnome(int health, int damage) {
@@ -382,6 +421,17 @@ public class Level extends StageGame {
 //        hud.dispose();
     }
 
+    @Override
+    public boolean keyUp(int keycode) {
+        if (keycode == Input.Keys.ESCAPE || keycode == Input.Keys.BACK) {
+
+            if (pausedScreen != null) {
+                pauseLevel(true);
+            }
+        }
+        return super.keyUp(keycode);
+    }
+
     /**
      * метод разблокирует следующие три уровня
      **/
@@ -467,6 +517,50 @@ public class Level extends StageGame {
         addOverlayChild(tableUnitButtons);
     }
 
+    public void showPausedScreen() {
+        pausedScreen.setPosition(getWidth() / 2 - pausedScreen.getWidth() / 2, getHeight() / 2 - pausedScreen.getHeight() / 2);
+        if (!isPausedScreenAdded) {
+            addOverlayChild(pausedScreen);  // если экран паузы не добавлен
+            isPausedScreenAdded = true;     // то добавляем,и меняем флаг на true
+        } else {
+            pausedScreen.setVisible(true);
+        }
+        darkLayer.setVisible(true);
+    }
+
+    public void hidePauseScreen() {
+        pausedScreen.setVisible(false);
+        darkLayer.setVisible(false);
+    }
+
+    private void pauseLevel() {     // будет вызываться с передачей true
+        pauseLevel(true);
+    }
+
+    private void pauseLevel(boolean withDialog) {
+        if (state != PLAY) return;
+        state = PAUSED;
+
+        if (!isPausedScreenStart && isPausedScreenHide) {
+            isPausedScreenStart = true;
+            if (withDialog) {
+                addOverlayChild(pausedScreen);
+                showPausedScreen();
+            }
+            isPausedScreenHide = false;
+            call(ON_PAUSED);
+        } else return;
+    }
+
+    @Override
+    public void pause() {
+        super.pause();
+        if (state == PLAY) {   // проверяем игровое состояние и вызываем метод pauseLevel(), после чего вызываем метод суперкласса
+            pauseLevel();
+        }
+//        pauseLevel();
+    }
+
     public void gameOver() {
         gameOverScreen.setPosition((getWidth() - gameOverScreen.getWidth()) / 2, getHeight() * 2 / 3);
         addOverlayChild(gameOverScreen);
@@ -541,5 +635,9 @@ public class Level extends StageGame {
 
     public GameManager getGameManager() {
         return gameManager;
+    }
+
+    public int getState() {
+        return state;
     }
 }

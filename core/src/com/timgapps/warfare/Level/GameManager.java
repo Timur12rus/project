@@ -243,7 +243,7 @@ public class GameManager {
     }
 
     /**
-     * метод для получения времени до получнеия первого подарка
+     * метод для получения времени до получнеия второго подарка
      **/
     public long getGiftTimeSecond() {
         return giftTimeSecond;
@@ -374,12 +374,13 @@ public class GameManager {
     /**
      * метод добавляет количество монет к общему количеству монет
      *
-     * @param coins - количество монет, на сколько прибавить
+     * @param count - количество монет, на сколько прибавить
      **/
-    public void addCoinsCount(int coins) {
-        coinsCount += coins;
-        coinsPanel.setCoinsCount(coinsCount);       // обновим количество монет в панели для монет (coinsPanel)
-        // TODO: 29.01.2020 ЗДЕСЬ Нужно сохранять данные о количестве монет в файл
+    public void addCoinsCount(int count) {
+//        coinsCount += coins;
+//        coinsPanel.setCoinsCount(coinsCount);       // обновим количество монет в панели для монет (coinsPanel)
+
+        savedGame.addCoinsCount(count);
 
     }
 

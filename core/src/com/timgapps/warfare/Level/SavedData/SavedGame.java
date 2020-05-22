@@ -178,6 +178,10 @@ public class SavedGame implements Serializable {
         this.coinsCount = coinsCount;
     }
 
+    public void addCoinsCount(int count) {
+        this.coinsCount += count;
+    }
+
     public int getCoinsCount() {
         return coinsCount;
     }

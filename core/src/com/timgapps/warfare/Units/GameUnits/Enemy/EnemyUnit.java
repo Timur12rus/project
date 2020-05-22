@@ -116,7 +116,6 @@ public class EnemyUnit extends GameUnit {
     public void act(float delta) {
         super.act(delta);
 
-
         /** обновим позицию текущего игрового объекта **/
         setPosition(body.getPosition().x * Level.WORLD_SCALE - bodyWidth / 2, body.getPosition().y * Level.WORLD_SCALE - bodyHeight / 2);
 //        setPosition(body.getPosition().x * Level.WORLD_SCALE - 24, body.getPosition().y * Level.WORLD_SCALE - 22);

@@ -222,7 +222,7 @@ public abstract class GameUnit extends Actor implements IBody {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
-        stateTime += Gdx.graphics.getDeltaTime();
+//        stateTime += Gdx.graphics.getDeltaTime();
         if (isDebug) {
             batch.end();
             shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
@@ -256,9 +256,13 @@ public abstract class GameUnit extends Actor implements IBody {
     @Override
     public void act(float delta) {
         super.act(delta);
-        checkToDestroy();
-        if (isBodyInactive) {
-            body.setActive(false);
+
+        if (level.getState() == Level.PLAY) {
+            stateTime += Gdx.graphics.getDeltaTime();
+            checkToDestroy();
+            if (isBodyInactive) {
+                body.setActive(false);
+            }
         }
     }
 

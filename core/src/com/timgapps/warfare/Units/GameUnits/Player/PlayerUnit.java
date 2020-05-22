@@ -102,6 +102,8 @@ public class PlayerUnit extends GameUnit {
     @Override
     public void act(float delta) {
         super.act(delta);
+//        if (level.getState() == Level.PLAY) {
+
         if (currentState == State.DIE && dieAnimation.isAnimationFinished(stateTime)) {
 
             /** МОЖЕТ ПРИГОДИТЬСЯ 17.02.2020
@@ -115,6 +117,7 @@ public class PlayerUnit extends GameUnit {
 //        setPosition(body.getPosition().x * Level.WORLD_SCALE - bodyWidth / 2,
                 body.getPosition().y * Level.WORLD_SCALE - bodyHeight / 2);
     }
+//    }
 
     public static int getEnergyPrice() {
         return energyPrice;
