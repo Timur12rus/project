@@ -61,8 +61,9 @@ public class Gnome extends PlayerUnit {
         System.out.println("isAttack = " + isAttack + " /isAttackBarricade = " + isAttackBarricade);
 
         if (currentState == State.RUN && !isAttack) {
-            if (!isHaveTarget)                            // если юнит не имеет цель-врага, то найдем цель-врага
-                findTarget();
+            findTarget();
+//            if (!isHaveTarget)                            // если юнит не имеет цель-врага, то найдем цель-врага
+//                findTarget();
         }
 
         if (health <= 0 && body.isActive()) {
@@ -85,33 +86,33 @@ public class Gnome extends PlayerUnit {
             }
 
 //            if (targetEnemy != null) {
-                if (currentState == State.ATTACK) {     // если текущее состояние ATTACK
-                    stay();                             // установим скорость тела (0;0)
-                    if (attackAnimation.isAnimationFinished(stateTime)) {
-                        stateTime = 0;
-                        currentState = State.STAY;                  // установим состояние STAY
-                        if (isAttack) {                             // если юнит атакует врага
-                            if (targetEnemy != null) {
-                                if (targetEnemy.getHealth() > 0)
+            if (currentState == State.ATTACK) {     // если текущее состояние ATTACK
+                stay();                             // установим скорость тела (0;0)
+                if (attackAnimation.isAnimationFinished(stateTime)) {
+                    stateTime = 0;
+                    currentState = State.STAY;                  // установим состояние STAY
+                    if (isAttack) {                             // если юнит атакует врага
+                        if (targetEnemy != null) {
+                            if (targetEnemy.getHealth() > 0)
                                 inflictDamage(targetEnemy, damage);     // наносим урон вражескому юниту
-                                if (targetEnemy.getHealth() <= 0) {
-                                    resetTarget();
-                                    currentState = State.RUN;
-                                }
+                            if (targetEnemy.getHealth() <= 0) {
+                                resetTarget();
+                                currentState = State.RUN;
                             }
-                        } else if (isAttackBarricade) {              // если юнит атакует баррикаду
-                            if (barricade != null) {
-                                barricade.setHealth(damage);
-                                stateTime = 0;
-                                currentState = State.STAY;
-                                if (barricade.getHealth() <= 0) {
-                                    isAttackBarricade = false;
-                                    currentState = State.RUN;
-                                }
+                        }
+                    } else if (isAttackBarricade) {              // если юнит атакует баррикаду
+                        if (barricade != null) {
+                            barricade.setHealth(damage);
+                            stateTime = 0;
+                            currentState = State.STAY;
+                            if (barricade.getHealth() <= 0) {
+                                isAttackBarricade = false;
+                                currentState = State.RUN;
                             }
                         }
                     }
                 }
+            }
 
             if (currentState == State.STAY && stayAnimation.isAnimationFinished(stateTime)) {
                 if (isAttack || isAttackBarricade)

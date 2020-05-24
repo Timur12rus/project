@@ -55,8 +55,8 @@ public class LevelMap extends StageGame {
     private int selectedLevelId = 1;
     private ArrayList<LevelIcon> levelIcons;
 
-    private Viewport mViewport;
-    private OrthographicCamera mOrthographicCamera;
+//    private Viewport mViewport;
+//    private OrthographicCamera mOrthographicCamera;
 
     private MissionInfoScreen missionInfoScreen;
     private TeamUpgradeScreen teamUpgradeScreen;
@@ -80,6 +80,7 @@ public class LevelMap extends StageGame {
     private DarkLayer darkLayer;
     private float cameraXpos;
     private float cameraYpos;
+    private DarkLayer greenLayer;
 
     public LevelMap(GameManager gameManager, int coinsReward, int scoreReward) {
         this.coinsReward = coinsReward;
@@ -89,8 +90,13 @@ public class LevelMap extends StageGame {
         this.gameManager = gameManager;
         levelIcons = gameManager.getLevelIcons();
 
+//        new Color(0x35a1afff);
+        greenLayer = new DarkLayer(0, 0, 1536, 1024, new Color(0x8eb353ff));
+        addChild(greenLayer);
+
         String directory = "location1";
         loadMap("tiled/" + directory + "/map.tmx");   // метод загружает карту и создает объекты
+
 
 
         darkLayer = new DarkLayer(0, 0, getWidth(), getHeight(), new Color(0, 0, 0, 0.7f));
@@ -292,7 +298,9 @@ public class LevelMap extends StageGame {
             if (cameraXpos - x < camera.viewportWidth / 2) {
                 x = 0;
             }
-            if (cameraXpos - x > camera.viewportWidth + 320) {
+            if (cameraXpos - x > (1536 - camera.viewportWidth / 2)) {
+//            if (cameraXpos - x > (camera.viewportWidth / 2 + 256)) {
+//            if (cameraXpos - x > camera.viewportWidth + 320) {
                 x = 0;
             }
 
@@ -303,16 +311,16 @@ public class LevelMap extends StageGame {
                 y = 0;
             }
 
-            System.out.println("cameraPosition.y = " + camera.position.y);
-            System.out.println("cameraPosition.x = " + camera.position.x);
+//            System.out.println("cameraPosition.y = " + camera.position.y);
+//            System.out.println("cameraPosition.x = " + camera.position.x);
 //        if (cameraXpos + x )
             camera.translate(-x, y);
             if (darkLayer != null) {
                 darkLayer.setPosition(camera.position.x - camera.viewportWidth / 2,
                         camera.position.y - camera.viewportHeight / 2);
             }
-            System.out.println("cameraPosition.y = " + camera.position.y);
-            System.out.println("cameraPosition.x = " + camera.position.x);
+//            System.out.println("cameraPosition.y = " + camera.position.y);
+//            System.out.println("cameraPosition.x = " + camera.position.x);
         }
         return true;
     }
