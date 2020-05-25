@@ -14,6 +14,7 @@ import com.boontaran.games.StageGame;
 import com.timgapps.warfare.Level.GUI.Finger;
 import com.timgapps.warfare.Level.GUI.HUD;
 import com.timgapps.warfare.Level.GUI.Screens.TeamEntity;
+import com.timgapps.warfare.Level.GUI.Screens.TeamEntityData;
 import com.timgapps.warfare.Level.GUI.StoneButton;
 import com.timgapps.warfare.Level.GUI.UnitButton;
 import com.timgapps.warfare.Level.LevelScreens.DarkLayer;
@@ -80,7 +81,7 @@ public class Level extends StageGame {
     private boolean isActiveScreen = true;
 
     private DarkLayer darkLayer;
-    private Table tableUnitButtons;
+    private TableUnitButton tableUnitButtons;
     private int coinsReward;            // награда - кол-во монет за уровень
     private int scoreReward;            // награда - кол-во очков за уровень
 
@@ -89,13 +90,15 @@ public class Level extends StageGame {
     private boolean isPausedScreenHide = true;
     private boolean isPausedScreenAdded = false;
     private LevelCreator levelCreator;
+    private float unitButtonWidth;
+    private float unitButtonHeight;
+    private Finger finger;
 
 
     public Level(int levelNumber, final GameManager gameManager) {
 
         this.levelNumber = levelNumber;
         this.gameManager = gameManager;
-
 
 //        System.out.println("Level Number " + levelNumber);
         setBackGround("level_bg");
@@ -112,10 +115,8 @@ public class Level extends StageGame {
 
         siegeTower = new SiegeTower(this, 8, 260, gameManager.getTowerHealth(), 2);
 
-
         /** Добавим вражеских юнитов **/
         random = new Random();
-
         levelCreator = new LevelCreator(this, levelNumber);
 
 
@@ -189,9 +190,7 @@ public class Level extends StageGame {
 //        arrayEnemies.add(skeleton3);
 //        arrayEnemies.add(skeleton);
 //        arrayEnemies.add(skeleton1);
-
 //        addChild(new Archer1(this, 200, 200, 30, 20));
-
 
         darkLayer = new DarkLayer(0, 0, getWidth(), getHeight(), new Color(0, 0, 0, 0.7f));
         darkLayer.setVisible(false);
@@ -201,15 +200,45 @@ public class Level extends StageGame {
         hud = new HUD(this);
         hud.setPosition(32, getHeight() - hud.getHeight());
         addOverlayChild(hud);
-        addUnitButtons();
+
+        // создадим таблицу с юнитами
+        team = gameManager.getTeam();
+
+        // создадим таблицу с кнопками юнитов
+        tableUnitButtons = new TableUnitButton(this, team);
+        tableUnitButtons.setWidth(team.size() * unitButtonWidth + 24);
+        tableUnitButtons.setHeight(unitButtonHeight);
+//        tableUnitButtons.setHeight(team.get(0).getHeight());
+
+        tableUnitButtons.setPosition((getWidth() - tableUnitButtons.getWidth()) / 2, 24);
+
+        tableUnitButtons.setStoneButtonPosX(tableUnitButtons.getX());
+
+//        if (stoneButton != null) stoneButton.setUnitButtonTablePosX(tableUnitButtons.getX());
+
+        addOverlayChild(tableUnitButtons);
 
 
-        Finger finger = new Finger(this);
-        finger.setPosition(getWidth() / 2, getHeight() / 2);
-        addChild(finger);
+//        addUnitButtons();
+
+        // добавим указатель "ПАЛЕЦ"
+        if (levelNumber == 1) {
+
+            finger = new Finger(tableUnitButtons.getX() + (unitButtonWidth / 2 - Finger.WIDTH / 2) + 48 + 36,
+                    tableUnitButtons.getY() + unitButtonHeight + 16 + Finger.HEIGHT,
+                    Finger.DOWN);
+            finger.debug();
+            float x = tableUnitButtons.getX() + (unitButtonWidth - Finger.WIDTH) / 2 + 48 + 36;
+//            float x = tableUnitButtons.getX() + (unitButtonWidth - Finger.WIDTH) / 2 + 48 + 36;
+            float y = tableUnitButtons.getY() + unitButtonHeight + 16 + Finger.HEIGHT;
+            finger.setPosition(x, y);
+            addChild(finger);
+            finger.setVisible(false);
+        } else {
+            finger = null;
+        }
 
 //        siegeTower.setHealth(30);
-
         pausedScreen = new PauseScreen(this);
         pausedScreen.addListener(new MessageListener() {
             @Override
@@ -262,7 +291,6 @@ public class Level extends StageGame {
             isPausedScreenHide = true;
             isPausedScreenStart = false;
             hidePauseScreen();
-            System.out.println("resumeLevel()");
             state = PLAY;
         }
     }
@@ -330,6 +358,7 @@ public class Level extends StageGame {
         super.update(delta);
 
         if (state == PLAY) {
+
 //        timeCount += delta;
             energyCount += delta;
 
@@ -342,9 +371,28 @@ public class Level extends StageGame {
 
             compareActorsYPos();
         }
+
+        if (tableUnitButtons.getUnitButton(0).getIsUnitButtonReady()) {
+            finger.show();
+        } else {
+            finger.hide();
+        }
+
+        if (finger != null) {
+            if (state != PLAY) {
+                finger.setVisible(false);
+            }
+        }
+
+//        if (state != PLAY) {
+//            finger.stopPlayAction(true);
+//        } else {
+//            finger.stopPlayAction(false);
+//        }
     }
 
     public void addGnome(int health, int damage) {
+
         new Gnome(this, 160, 210, health, damage);
     }
 
@@ -475,61 +523,67 @@ public class Level extends StageGame {
         return siegeTower;
     }
 
-    /**
-     * метод добавляет таблицу с кнопками юнитов (для их появления)
-     **/
-    public void addUnitButtons() {
-        team = gameManager.getTeam();
-        tableUnitButtons = new Table().debug();
-        float unitButtonWidth = team.get(0).getWidth();
-        float unitButtonHeight = team.get(0).getHeight();
-        StoneButton stoneButton = null;
-//        StoneButton stoneButton = new StoneButton(this, new Image(Warfare.atlas.findRegion("stoneButtonActive")),
-//                new Image(Warfare.atlas.findRegion("stoneButtonInactive")), );
+    class TableUnitButton extends Table {
+        ArrayList<UnitButton> unitButtonArrayList;
+        ArrayList<TeamEntity> team;
+        //        float unitButtonWidth;
+//        float unitButtonHeight;
+        StoneButton stoneButton;
+        Level level;
+        float stoneButtonXpos;
 
+        public TableUnitButton(Level level, ArrayList<TeamEntity> team) {
+            super();
+            this.team = team;
+            this.level = level;
+            unitButtonArrayList = new ArrayList<UnitButton>();
+            unitButtonWidth = team.get(0).getUnitImageButton().getWidth();
+            unitButtonHeight = team.get(0).getUnitImageButton().getHeight();
+            System.out.println("unitButton width = " + unitButtonWidth);
+            System.out.println("unitButton height = " + unitButtonHeight);
+            stoneButton = null;
 
-        for (int i = 0; i < team.size(); i++) {
-//            tableUnitButtons.add(team.get(i).getUnitButton()).padLeft(12).padRight(12);
-            switch (team.get(i).getUnitType()) {
-                case TeamEntity.GNOME:
-//                    tableUnitButtons.add(new UnitButton(this, new Image(Warfare.atlas.findRegion("gnomeActive")),
-//                            new Image(Warfare.atlas.findRegion("gnomeInactive")), TeamEntity.GNOME))
-//                            .width(unitButtonWidth).height(unitButtonHeight).padLeft(12).padRight(12);
+            addUnitButtons();
 
-                    tableUnitButtons.add(new UnitButton(this, new Image(Warfare.atlas.findRegion("gnomeActive")),
-                            new Image(Warfare.atlas.findRegion("gnomeInactive")), team.get(i).getEntityData()))
-                            .width(unitButtonWidth).height(unitButtonHeight).padLeft(12).padRight(12);
-                    break;
-                case TeamEntity.ARCHER:
-                    tableUnitButtons.add(new UnitButton(this, new Image(Warfare.atlas.findRegion("archer1Active")),
-                            new Image(Warfare.atlas.findRegion("archer1Inactive")), team.get(i).getEntityData()))
-                            .width(unitButtonWidth).height(unitButtonHeight).padLeft(12).padRight(12);
-                    break;
-                case TeamEntity.THOR:
-//                     tableUnitButtons.add(new UnitButton(this, new Image(Warfare.atlas.findRegion("thorActive")),
-//                             new Image(Warfare.atlas.findRegion("thorInactive")),UnitButton.TypeOfUnit.ARCHER1)).padLeft(12).padRight(12);
-//                     break;
-                    tableUnitButtons.add(new UnitButton(this, new Image(Warfare.atlas.findRegion("thorActive")),
-                            new Image(Warfare.atlas.findRegion("thorInactive")), team.get(i).getEntityData()))
-                            .width(unitButtonWidth).height(unitButtonHeight).padLeft(12).padRight(12);
-                    break;
-
-                case TeamEntity.STONE:
-                    stoneButton = new StoneButton(this, new Image(Warfare.atlas.findRegion("stoneButtonActive")),
-                            new Image(Warfare.atlas.findRegion("stoneButtonInactive")), team.get(i).getEntityData());
-                    tableUnitButtons.add(stoneButton)
-                            .width(unitButtonWidth).height(unitButtonHeight).padLeft(12).padRight(12);
-                    break;
+            for (int i = 0; i < unitButtonArrayList.size(); i++) {
+                add(unitButtonArrayList.get(i)).width(unitButtonWidth).height(unitButtonHeight).padLeft(12).padRight(12);
             }
+            setWidth((unitButtonWidth + 24) * unitButtonArrayList.size());
+            setHeight(unitButtonHeight);
         }
 
-        tableUnitButtons.setWidth(team.size() * unitButtonWidth + 24);
-        tableUnitButtons.setHeight(team.get(0).getHeight());
+        void setStoneButtonPosX(float posX) {
+            stoneButton.setPosX(posX);
+        }
 
-        tableUnitButtons.setPosition((getWidth() - tableUnitButtons.getWidth()) / 2, 24);
+        UnitButton getUnitButton(int i) {
+            return unitButtonArrayList.get(i);
+        }
 
-        if (stoneButton != null) stoneButton.setUnitButtonTablePosX(tableUnitButtons.getX());
-        addOverlayChild(tableUnitButtons);
+        void addUnitButtons() {
+            for (int i = 0; i < team.size(); i++) {
+                switch (team.get(i).getUnitType()) {
+                    case TeamEntity.GNOME:
+                        unitButtonArrayList.add(new UnitButton(level, new Image(Warfare.atlas.findRegion("gnomeActive")),
+                                new Image(Warfare.atlas.findRegion("gnomeInactive")), team.get(i).getEntityData()));
+                        break;
+                    case TeamEntity.ARCHER:
+                        unitButtonArrayList.add(new UnitButton(level, new Image(Warfare.atlas.findRegion("archer1Active")),
+                                new Image(Warfare.atlas.findRegion("archer1Inactive")), team.get(i).getEntityData()));
+                        break;
+                    case TeamEntity.THOR:
+                        unitButtonArrayList.add(new UnitButton(level, new Image(Warfare.atlas.findRegion("thorActive")),
+                                new Image(Warfare.atlas.findRegion("thorInactive")), team.get(i).getEntityData()));
+                        break;
+
+                    case TeamEntity.STONE:
+                        stoneButton = new StoneButton(level, new Image(Warfare.atlas.findRegion("stoneButtonActive")),
+                                new Image(Warfare.atlas.findRegion("stoneButtonInactive")), team.get(i).getEntityData());
+                        unitButtonArrayList.add(stoneButton);
+                        break;
+                }
+            }
+        }
     }
 
     public void showPausedScreen() {
@@ -541,11 +595,18 @@ public class Level extends StageGame {
             pausedScreen.setVisible(true);
         }
         darkLayer.setVisible(true);
+        tableUnitButtons.setVisible(false); // кнопки юитов делаем невидимыми
+    }
+
+    public void removeFinger() {
+        if (finger != null)
+            finger.remove();
     }
 
     public void hidePauseScreen() {
         pausedScreen.setVisible(false);
         darkLayer.setVisible(false);
+        tableUnitButtons.setVisible(true); // кнопки юитов делаем невидимыми
     }
 
     private void pauseLevel() {     // будет вызываться с передачей true

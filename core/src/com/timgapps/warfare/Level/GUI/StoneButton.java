@@ -24,8 +24,11 @@ public class StoneButton extends UnitButton {
     private int health;
 //    protected int energyPrice;
 
+
+    //     if (stoneButton != null) stoneButton.setUnitButtonTablePosX(tableUnitButtons.getX());
     public StoneButton(final Level level, Image activeImage, Image inactiveImage, TeamEntityData data) {
         super(level, activeImage, inactiveImage, data);
+        this.unitButtonTablePosX = unitButtonTablePosX;
         greenTarget = new Image(Warfare.atlas.findRegion("targetGreen"));
         redTarget = new Image(Warfare.atlas.findRegion("targetRed"));
 //        this.energyPrice = setEnergyPrice(typeOfUnit);
@@ -69,6 +72,10 @@ public class StoneButton extends UnitButton {
                 }
             }
         });
+    }
+
+    public void setPosX(float posX) {
+        unitButtonTablePosX = posX;
     }
 
     private void checkTargetCoordinates(float x, float y) {

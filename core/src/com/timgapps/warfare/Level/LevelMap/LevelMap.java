@@ -30,6 +30,7 @@ import com.boontaran.MessageListener;
 import com.boontaran.games.StageGame;
 import com.boontaran.games.tiled.TileLayer;
 import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
+import com.timgapps.warfare.Level.GUI.Finger;
 import com.timgapps.warfare.Level.GUI.Screens.CoinsPanel;
 import com.timgapps.warfare.Level.GUI.Screens.MissionInfoScreen;
 import com.timgapps.warfare.Level.GUI.Screens.GiftsWindow.GiftScreen;
@@ -81,6 +82,7 @@ public class LevelMap extends StageGame {
     private float cameraXpos;
     private float cameraYpos;
     private DarkLayer greenLayer;
+    private Finger finger;
 
     public LevelMap(GameManager gameManager, int coinsReward, int scoreReward) {
         this.coinsReward = coinsReward;
@@ -103,18 +105,6 @@ public class LevelMap extends StageGame {
         darkLayer.setVisible(false);
         addChild(darkLayer);
 
-//        for (int i = 0; i < levelIcons.size(); i++) {
-////            levelIcons.add(new LevelIcon(i + 1, true));
-//            levelIcons.get(i).addListener(iconListener);
-//        }
-
-
-//        addChild(levelIcons.get(0), 244, 56);
-//        addChild(levelIcons.get(1), 320, 210);
-//        addChild(levelIcons.get(2), 484, 280);
-//        addChild(levelIcons.get(3), 640, 210);
-//        addChild(levelIcons.get(4), 800, 130);
-
         /** создадим окно с описанием уровня **/
         missionInfoScreen = new MissionInfoScreen();
         missionInfoScreen.setVisible(false);
@@ -133,7 +123,6 @@ public class LevelMap extends StageGame {
                 }
             }
         });
-
 
         giftIcon = new GiftIcon(gameManager);
         giftIcon.setPosition(getWidth() - giftIcon.getWidth() - 32, getHeight() / 2);

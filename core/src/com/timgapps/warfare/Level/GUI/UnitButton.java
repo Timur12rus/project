@@ -32,7 +32,7 @@ public class UnitButton extends Group {
     protected int energyPrice;
     protected TeamEntityData data;
     protected int typeOfUnit;
-    protected  int damage;
+    protected int damage;
     protected int health;
 
 //    public enum TypeOfUnit {GNOME, ARCHER1, THOR, STONE}
@@ -91,29 +91,30 @@ public class UnitButton extends Group {
     @Override
     public void act(float delta) {
         super.act(delta);
-        if (!isReadyUnitButton) {
-            if (percentage < height) {                   // проверяем, прошло ли достаточно времени, чтобы родился юнит
-                percentage += interpolation;
-            } else
+        if (level.getState() == Level.PLAY) {
+            if (!isReadyUnitButton) {
+                if (percentage < height) {                   // проверяем, прошло ли достаточно времени, чтобы родился юнит
+                    percentage += interpolation;
+                } else
 //                if (checkEnergyCount(energyPrice)) {  // если времени достаточно для рождения юнита, проверяем хватает ли энергии
-                isReadyUnitButton = true;                             // если энергии хватает, делаем кнопку активной
+                    isReadyUnitButton = true;                             // если энергии хватает, делаем кнопку активной
 //                setActive();                             // если энергии хватает, делаем кнопку активной
 //            }
-        } else
+            } else
 //            (isReadyUnitButton) {                     //
-            if (checkEnergyCount(energyPrice))
-                setActive();
-            else {
-                setInActive();
-            }
+                if (checkEnergyCount(energyPrice))
+                    setActive();
+                else {
+                    setInActive();
+                }
+        }
     }
-
-//}
 
     /**
      * метод выполняет появление юнита на экране, вычитает из текущего кол-ва энергии кол-во энергии необходимое для появления юнита
      **/
     private void addPlayerUnit(int typeOfUnit) {
+        level.removeFinger();
         switch (typeOfUnit) {
             case TeamEntity.GNOME:
                 level.addGnome(health, damage);
@@ -189,5 +190,9 @@ public class UnitButton extends Group {
         if (level.getEnergyCount() >= energyPrice)
             return true;
         else return false;
+    }
+
+    public boolean getIsUnitButtonReady() {
+        return isReadyUnitButton;
     }
 }
