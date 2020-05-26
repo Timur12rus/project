@@ -58,6 +58,12 @@ public class GameManager {
     private long giftTimeSecond;      // время до получения второго подарка
     private int indexOfRewardStars;
 
+    public static final int HELP_UNIT_CREATE = 1;
+    public static final int HELP_STARS_PANEL = 2;
+    public static final int HELP_TEAM_UPGRADE = 3;
+    public static final int HELP_GET_GIFT = 4;
+    private int helpStatus;
+
     public GameManager() {
 
         /** загрузим данные игры **/
@@ -100,6 +106,8 @@ public class GameManager {
         if (savedGame == null) {
 //            System.out.println("SavedGame null ");
             savedGame = new SavedGame();
+
+            savedGame.setHelpStatus(GameManager.HELP_UNIT_CREATE);      // установим статус обучалки - "создание юнита"
 
             /** создаем массив "ДАННЫХ" об уровнях (LevelIconData) **/
             savedGame.createLevelIconDataList();
@@ -229,6 +237,17 @@ public class GameManager {
     }
 
     /**
+     * метод для получения статуса обучения
+     **/
+    public int getHelpStatus() {
+        return savedGame.getHelpStatus();
+    }
+
+    public void setHelpStatus(int status) {
+        savedGame.setHelpStatus(status);
+    }
+
+    /**
      * метод для получения ДАННЫХ о наградах за звезды
      **/
     public ArrayList<RewardForStarsData> getRewardForStarsDataList() {
@@ -256,6 +275,7 @@ public class GameManager {
         this.giftTimeFirst = giftTimeFirst;
         savedGame.setGiftTimeFirst(this.giftTimeFirst);
     }
+
 
     /**
      * метод для установки времени до получнеия второго подарка

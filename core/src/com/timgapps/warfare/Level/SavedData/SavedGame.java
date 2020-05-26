@@ -26,6 +26,7 @@ public class SavedGame implements Serializable {
     private long giftTimeSecond;      // время необходимое для получения второго подарка (время которое нужно подождать)
     private int indexOfRewardStars;
     private int rewardStarsCount;   // кол-во звезд для следующей награды за звезды
+    private int helpStatus;         // статус обучения
 
 
     public SavedGame() {
@@ -58,6 +59,18 @@ public class SavedGame implements Serializable {
         levelIconDataList.add(new LevelIconData(17, 15, 30, LevelIcon.MEDIUM, false));
         levelIconDataList.add(new LevelIconData(18, 15, 30, LevelIcon.MEDIUM, false));
         levelIconDataList.add(new LevelIconData(19, 15, 30, LevelIcon.MEDIUM, false));
+    }
+
+    /**
+     * метод устанавливает статус обучалки
+     **/
+    public void setHelpStatus(int status) {
+        helpStatus = status;
+    }
+
+    /** метод получает статус обучалки **/
+    public int getHelpStatus() {
+        return helpStatus;
     }
 
     /**

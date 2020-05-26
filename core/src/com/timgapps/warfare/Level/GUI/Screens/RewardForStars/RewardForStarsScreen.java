@@ -19,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.boontaran.games.StageGame;
+import com.timgapps.warfare.Level.GUI.Finger;
 import com.timgapps.warfare.Level.GameManager;
 import com.timgapps.warfare.Warfare;
 
@@ -37,6 +38,7 @@ public class RewardForStarsScreen extends StageGame {
     private int starsCount;
     private float xPos;     // позиция Х panelStarsSmall
     private boolean isStartToastAction = false;
+    private Finger finger;
 
     public RewardForStarsScreen(GameManager gameManager) {
         createBackground();
@@ -59,28 +61,12 @@ public class RewardForStarsScreen extends StageGame {
         Label.LabelStyle countStarsLabelStyle = new Label.LabelStyle();
         countStarsLabelStyle.fontColor = Color.FOREST;
         countStarsLabelStyle.font = Warfare.font20;
-
-//        rewardForStarsDataList.get(0).setReceived();
         StarsPanelSmall starsPanelSmall = new StarsPanelSmall();
-
-//        ClickListener clickListener = new ClickListener() {
-//            @Override
-//            public void clicked(InputEvent event, float x, float y) {
-//                super.clicked(event, x, y);
-//            }
-//        };
-
-//        ClickListener rewardForStarsListener = new ClickListener() {
-//            @Override
-//            public void clicked(InputEvent event, float x, float y) {
-//                super.clicked(event, x, y);
-//                showMessage(get);
-//            }
-//        };
 
         float scrollTableWidth = getWidth();
         float groupWidth = 0;
         Group group = new Group();
+
 
         /** создадим картинки и бары **/
         for (int i = 0; i < rewardForStarsDataList.size(); i++) {
@@ -136,6 +122,20 @@ public class RewardForStarsScreen extends StageGame {
 //            addChild(countLabel);
         }
 
+        /** создадим "указатель - палец" **/
+//        finger = new Finger(rewardForStarsList.get(0).getX() + (rewardForStarsList.get(0).getWidth() / 2 - Finger.WIDTH / 2) + 48 + 36,
+//                rewardForStarsList.get(0).getY() + rewardForStarsList.get(0).getHeight() + 16 + Finger.HEIGHT,
+//                Finger.DOWN);
+//        finger.debug();
+//
+//
+//
+//        float x = rewardForStarsList.get(0).getRewardImage().getX() + (rewardForStarsList.get(0).getRewardImage().getWidth() / 2 - Finger.WIDTH / 2) + 48 + 36;
+//        float y = rewardForStarsList.get(0).getRewardImage().getY() + rewardForStarsList.get(0).getRewardImage().getHeight() + 16 + Finger.HEIGHT;
+//        finger.setPosition(x, y);
+//        addChild(finger);
+//        finger.show();
+
         groupWidth += 190 * rewardForStarsList.size() + rewardForStarsList.get(0).getWidth();
 
         starsPanelSmall.setPosition(xPos - 8 - starsPanelSmall.getWidth() / 2, 0);
@@ -150,7 +150,7 @@ public class RewardForStarsScreen extends StageGame {
         /** scroller - это окно прокрутки, сама прокрутка **/
         Table scrollTable = new Table();
         scrollTable.debug();
-        scrollTable.add(group).width(groupWidth).height(340);
+        scrollTable.add(group).width(groupWidth).height(360);
 //        scrollTable.add(group).width(1200).height(300);
 
         final ScrollPane scroller = new ScrollPane(scrollTable);
@@ -167,10 +167,10 @@ public class RewardForStarsScreen extends StageGame {
         //table = new Table().debug();
 
         table.setWidth(scrollTableWidth);
-        table.setHeight(340);
+        table.setHeight(360);
 //        table.setFillParent(true);
         table.add(scroller).fill().expand();
-        table.setPosition(0, 300);
+        table.setPosition(0, 240);
         addChild(table);
     }
 
@@ -198,7 +198,7 @@ public class RewardForStarsScreen extends StageGame {
 
             MoveToAction mta = new MoveToAction();
 
-            mta.setPosition(Warfare.V_WIDTH / 2 - 200, Warfare.V_HEIGHT / 2 + 150);
+            mta.setPosition(Warfare.V_WIDTH / 2 - 200, Warfare.V_HEIGHT / 2 + 260);
             mta.setDuration(0.7f);
 
             AlphaAction alphaActionEnd = new AlphaAction();

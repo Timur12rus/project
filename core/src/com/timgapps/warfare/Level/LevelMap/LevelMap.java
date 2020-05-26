@@ -55,10 +55,6 @@ public class LevelMap extends StageGame {
     private Group container;
     private int selectedLevelId = 1;
     private ArrayList<LevelIcon> levelIcons;
-
-//    private Viewport mViewport;
-//    private OrthographicCamera mOrthographicCamera;
-
     private MissionInfoScreen missionInfoScreen;
     private TeamUpgradeScreen teamUpgradeScreen;
     private GiftScreen giftScreen;
@@ -99,8 +95,6 @@ public class LevelMap extends StageGame {
         String directory = "location1";
         loadMap("tiled/" + directory + "/map.tmx");   // метод загружает карту и создает объекты
 
-
-
         darkLayer = new DarkLayer(0, 0, getWidth(), getHeight(), new Color(0, 0, 0, 0.7f));
         darkLayer.setVisible(false);
         addChild(darkLayer);
@@ -116,7 +110,7 @@ public class LevelMap extends StageGame {
             protected void receivedMessage(int message, Actor actor) {
                 if (message == missionInfoScreen.ON_RESUME) {
 //                    Warfare.media.playSound("click.ogg");
-                    showButtons();
+//                    showButtons();
                     resumeLevelMap();
                 } else if (message == missionInfoScreen.ON_START) { //
                     call(ON_LEVEL_SELECTED);
@@ -155,17 +149,11 @@ public class LevelMap extends StageGame {
             }
         });
 
-//        /** создадим окно апргейда команды и передаём информацию о составе команды(manager)**/
-//        teamUpgradeScreen = new TeamUpgradeScreen(gameManager);
-//        teamUpgradeScreen.setVisible(false);
-//        addOverlayChild(teamUpgradeScreen);
-
         upgradeTeamButton = new ImageButton(new TextureRegionDrawable(Warfare.atlas.findRegion("teamButton")),
                 new TextureRegionDrawable(Warfare.atlas.findRegion("teamButtonDwn")));
 //        addChild(upgradeTeamButton, 32, 340);
         upgradeTeamButton.setPosition(32, getHeight() / 2);
         addOverlayChild(upgradeTeamButton);
-//        addChild(upgradeTeamButton, 32, 340);
 
         Label.LabelStyle teamLabelStyle = new Label.LabelStyle();
         teamLabelStyle.fontColor = Color.WHITE;
@@ -182,16 +170,6 @@ public class LevelMap extends StageGame {
             }
         });
 
-//        teamUpgradeScreen.addListener(new MessageListener() {
-//            @Override
-//            protected void receivedMessage(int message, Actor actor) {
-//                if (message == teamUpgradeScreen.ON_RESUME) {
-////                    Warfare.media.playSound("click.ogg");
-//                    resumeLevelMap();
-//                }
-//            }
-//        });
-
         // добавим панель с монетами на экран
         coinsPanel = gameManager.getCoinsPanel();
         coinsPanel.setPosition(getWidth() - coinsPanel.getWidth() - 32, getHeight() - coinsPanel.getHeight() - 32);
@@ -204,6 +182,7 @@ public class LevelMap extends StageGame {
 
         // Добавим панель с наградой за зведзды
         starsPanel = gameManager.getStarsPanel();
+        starsPanel.setVisible(true);
         starsPanel.setPosition(32, scorePanel.getY() - starsPanel.getHeight());
         addOverlayChild(starsPanel);
 
@@ -213,6 +192,34 @@ public class LevelMap extends StageGame {
                 call(ON_SHOW_REWARD_FOR_STARS_SCREEN);
             }
         });
+
+
+        int helpStatus = gameManager.getHelpStatus();     // получим статус обучалки
+
+//        helpStatus = gameManager.HELP_TEAM_UPGRADE;
+        if (helpStatus == GameManager.HELP_STARS_PANEL) {
+            finger = new Finger(starsPanel.getX() + starsPanel.getWidth() + 84,
+                    starsPanel.getY(),
+                    Finger.LEFT);
+
+            finger.setPosition(starsPanel.getX() + starsPanel.getWidth() + 84,
+                    starsPanel.getY());
+
+            addChild(finger);
+            finger.show();
+        }
+
+        if (helpStatus == GameManager.HELP_TEAM_UPGRADE) {
+            finger = new Finger(upgradeTeamButton.getX() + upgradeTeamButton.getWidth() + 84,
+                    upgradeTeamButton.getY(),
+                    Finger.LEFT);
+
+            finger.setPosition(upgradeTeamButton.getX() + upgradeTeamButton.getWidth() + 84,
+                    upgradeTeamButton.getY());
+
+            addChild(finger);
+            finger.show();
+        }
 
         /** создадим окно апргейда команды и передаём информацию о составе команды(manager)**/
         teamUpgradeScreen = new TeamUpgradeScreen(gameManager);
@@ -228,6 +235,8 @@ public class LevelMap extends StageGame {
                 }
             }
         });
+
+//        gameManager.setHelpStatus(GameManager.HELP_TEAM_UPGRADE);
 
 //        addChild(coinsPanel, getWidth() - coinsPanel.getWidth() - 32, getHeight() - coinsPanel.getHeight() - 32);
 
@@ -255,11 +264,12 @@ public class LevelMap extends StageGame {
         teamLabel.setVisible(false);
         starsPanel.setVisible(false);
         darkLayer.setPosition(cameraXpos - camera.viewportWidth / 2, cameraYpos - camera.viewportHeight / 2);
-
-
-        darkLayer.setVisible(true);
         giftIcon.setVisible(false);
         upgradeTeamButton.setVisible(false);
+        if (finger != null) {
+            finger.setVisible(false);
+        }
+        darkLayer.setVisible(true);
     }
 
     private void showButtons() {
@@ -267,6 +277,9 @@ public class LevelMap extends StageGame {
         starsPanel.setVisible(true);
         darkLayer.setVisible(false);
         giftIcon.setVisible(true);
+        if (finger != null && gameManager.getHelpStatus() != GameManager.HELP_GET_GIFT) {
+            finger.setVisible(true);
+        }
         upgradeTeamButton.setVisible(true);
     }
 
@@ -382,6 +395,14 @@ public class LevelMap extends StageGame {
         teamUpgradeScreen.updateTeam();
         teamUpgradeScreen.updateCollection();
         teamUpgradeScreen.setVisible(true);
+
+        // TODO нужно исправить!!!!!!!!
+        if (gameManager.getHelpStatus() == GameManager.HELP_TEAM_UPGRADE && finger != null) {
+            System.out.println("GIIIIIIIIIIIIIDE!!!!!!!!!!!");
+            gameManager.setHelpStatus(GameManager.HELP_GET_GIFT);
+            finger.hide();
+
+        }
     }
 
     private void showGiftScreen() {

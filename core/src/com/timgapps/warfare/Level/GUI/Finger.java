@@ -32,31 +32,40 @@ public class Finger extends Image {
         this.y = y;
         this.orientation = orientation;
         float angleRotation = 0;
-        switch (orientation) {
-            case DOWN:
-                angleRotation = 180;
-                break;
-            case UP:
-                angleRotation = 0;
-                break;
-            case LEFT:
-                angleRotation = 90;
-                break;
-            case RIGHT:
-                angleRotation = -90;
-                break;
-        }
-        setRotation(angleRotation);
 
         MoveToAction actionOne = new MoveToAction();
         actionOne.setDuration(0.5f);
-        actionOne.setPosition(x, y + 16);
         actionOne.setInterpolation(Interpolation.smooth);
 
         MoveToAction actionTwo = new MoveToAction();
         actionTwo.setDuration(0.5f);
-        actionTwo.setPosition(x, y);
         actionTwo.setInterpolation(Interpolation.smooth);
+
+        switch (orientation) {
+            case DOWN:
+                angleRotation = 180;
+                actionOne.setPosition(x, y + 16);
+                actionTwo.setPosition(x, y);
+                break;
+            case UP:
+                angleRotation = 0;
+                actionOne.setPosition(x, y + 16);
+                actionTwo.setPosition(x, y);
+                break;
+            case LEFT:
+                angleRotation = 90;
+                actionOne.setPosition(x, y);
+                actionTwo.setPosition(x + 16, y);
+                break;
+            case RIGHT:
+                angleRotation = -90;
+                break;
+            default:
+                angleRotation = 0;
+                actionOne.setPosition(x, y);
+                actionTwo.setPosition(x - 16, y);
+        }
+        setRotation(angleRotation);
 
         SequenceAction sequenceAction = new SequenceAction();
         sequenceAction.addAction(actionOne);

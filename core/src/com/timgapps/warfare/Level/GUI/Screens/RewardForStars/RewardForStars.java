@@ -1,4 +1,5 @@
 package com.timgapps.warfare.Level.GUI.Screens.RewardForStars;
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
@@ -7,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.timgapps.warfare.Level.GUI.Finger;
 import com.timgapps.warfare.Level.GUI.Screens.TeamEntity;
 import com.timgapps.warfare.Level.GameManager;
 import com.timgapps.warfare.Level.LevelMap.LevelIcon;
@@ -25,8 +27,9 @@ public class RewardForStars extends Group {
     private RewardForStarsData data;
     private GameManager gameManager;
     private RewardForStarsScreen rewardForStarsScreen;
+    private Finger finger;
 
-    public RewardForStars(final RewardForStarsScreen rewardForStarsScreen, final RewardForStarsData data, GameManager gameManager) {
+    public RewardForStars(final RewardForStarsScreen rewardForStarsScreen, final RewardForStarsData data, final GameManager gameManager) {
         this.rewardForStarsScreen = rewardForStarsScreen;
 
         this.gameManager = gameManager;
@@ -39,9 +42,9 @@ public class RewardForStars extends Group {
         }
         labelStyle.font = Warfare.font20;
 
-
         switch (data.getTypeOfReward()) {
             case RewardForStarsData.REWARD_STONE:
+                typeOfReward = RewardForStarsData.REWARD_STONE;
                 rewardImage = new Image(Warfare.atlas.findRegion("block1_image"));
                 name = "Rock";
 //                starsNum = data.getStarsCount();
@@ -84,6 +87,24 @@ public class RewardForStars extends Group {
         addActor(bgOrange);
 
 
+        if (typeOfReward == RewardForStarsData.REWARD_STONE) {
+            finger = new Finger(rewardImage.getX() + (rewardImage.getWidth() / 2 - Finger.WIDTH / 2) + 108,
+                    rewardImage.getY() + rewardImage.getHeight() + 42 + Finger.HEIGHT,
+                    Finger.DOWN);
+            finger.debug();
+
+            float x = rewardImage.getX() + (rewardImage.getWidth() / 2 - Finger.WIDTH / 2) + 108;
+//        float x = rewardImage.getX() + (rewardImage.getWidth() / 2 - Finger.WIDTH / 2) + 48 + 36;
+            float y = rewardImage.getY() + rewardImage.getHeight() + 42 + Finger.HEIGHT;
+            finger.setPosition(x, y);
+            finger.setVisible(false);
+            addActor(finger);
+
+            if (gameManager.getHelpStatus() == GameManager.HELP_STARS_PANEL) {
+                finger.show();
+            }
+        }
+
         bgYellow.setVisible(false);
         bgOrange.setVisible(false);
         if (data.getIsReceived()) {
@@ -125,6 +146,10 @@ public class RewardForStars extends Group {
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 if (bgYellow.isVisible()) {
                     setReceived();
+                    if (finger != null) {
+                        finger.hide();
+                        gameManager.setHelpStatus(GameManager.HELP_UNIT_CREATE);
+                    }
                 }
                 super.touchUp(event, x, y, pointer, button);
             }
@@ -132,15 +157,23 @@ public class RewardForStars extends Group {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                if ((!data.getIsReceived()) && (data.getIsChecked())) {
+                if ((!data.getIsReceived()) && (data.getIsChecked())) {     // если награда доступна но не получена
                     getRewardForStars();
                 }
 
-                if (!data.getIsChecked()) {
+                if (!data.getIsChecked()) {     // если награда не доступна
                     rewardForStarsScreen.showToast(data.getStarsCount());
                 }
             }
         });
+    }
+
+    public float getImageWidth() {
+        return rewardImage.getWidth();
+    }
+
+    public float getImageHeight() {
+        return rewardImage.getHeight();
     }
 
     public Image getRewardImage() {
@@ -158,6 +191,7 @@ public class RewardForStars extends Group {
                 for (int i = 0; i < gameManager.getCollection().size(); i++) {
                     if (gameManager.getCollection().get(i).getUnitType() == TeamEntity.STONE) {
                         addRewardUnitToTeam(i);
+                        gameManager.setHelpStatus(GameManager.HELP_TEAM_UPGRADE);
                     }
                 }
                 break;
@@ -173,7 +207,7 @@ public class RewardForStars extends Group {
 //         сохраним данные
         data.setReceived();                                  // награда получена
         gameManager.getStarsPanel().updateCountReward();
-//        gameManager.saveGame();
+        gameManager.saveGame();
 
 
 //        /** ---------------------------------------------------------------------------**/

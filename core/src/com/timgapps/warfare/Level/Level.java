@@ -208,32 +208,26 @@ public class Level extends StageGame {
         tableUnitButtons = new TableUnitButton(this, team);
         tableUnitButtons.setWidth(team.size() * unitButtonWidth + 24);
         tableUnitButtons.setHeight(unitButtonHeight);
-//        tableUnitButtons.setHeight(team.get(0).getHeight());
-
         tableUnitButtons.setPosition((getWidth() - tableUnitButtons.getWidth()) / 2, 24);
-
         tableUnitButtons.setStoneButtonPosX(tableUnitButtons.getX());
 
-//        if (stoneButton != null) stoneButton.setUnitButtonTablePosX(tableUnitButtons.getX());
 
         addOverlayChild(tableUnitButtons);
 
-
-//        addUnitButtons();
-
         // добавим указатель "ПАЛЕЦ"
         if (levelNumber == 1) {
-
-            finger = new Finger(tableUnitButtons.getX() + (unitButtonWidth / 2 - Finger.WIDTH / 2) + 48 + 36,
-                    tableUnitButtons.getY() + unitButtonHeight + 16 + Finger.HEIGHT,
-                    Finger.DOWN);
-            finger.debug();
-            float x = tableUnitButtons.getX() + (unitButtonWidth - Finger.WIDTH) / 2 + 48 + 36;
-//            float x = tableUnitButtons.getX() + (unitButtonWidth - Finger.WIDTH) / 2 + 48 + 36;
-            float y = tableUnitButtons.getY() + unitButtonHeight + 16 + Finger.HEIGHT;
-            finger.setPosition(x, y);
-            addChild(finger);
-            finger.setVisible(false);
+            /** если статус обучалки "как создать юнит", то создадим указатель **/
+            if (gameManager.getHelpStatus() == gameManager.HELP_UNIT_CREATE) {
+                finger = new Finger(tableUnitButtons.getX() + (unitButtonWidth / 2 - Finger.WIDTH / 2) + 48 + 36,
+                        tableUnitButtons.getY() + unitButtonHeight + 16 + Finger.HEIGHT,
+                        Finger.DOWN);
+                finger.debug();
+                float x = tableUnitButtons.getX() + (unitButtonWidth - Finger.WIDTH) / 2 + 48 + 36;
+                float y = tableUnitButtons.getY() + unitButtonHeight + 16 + Finger.HEIGHT;
+                finger.setPosition(x, y);
+                addChild(finger);
+                finger.setVisible(false);
+            }
         } else {
             finger = null;
         }
@@ -251,8 +245,6 @@ public class Level extends StageGame {
                 }
             }
         });
-
-//        showPausedScreen();
 
         levelCompletedScreen = new LevelCompletedScreen(this, gameManager.getCoinsRewardForLevel(), gameManager.getScoreRewardForLevel());
         levelCompletedScreen.addListener(new MessageListener() {
@@ -368,19 +360,17 @@ public class Level extends StageGame {
                 world.step(STEP, 8, 6);
                 accumulator -= STEP;
             }
-
             compareActorsYPos();
-        }
-
-        if (tableUnitButtons.getUnitButton(0).getIsUnitButtonReady()) {
-            finger.show();
-        } else {
-            finger.hide();
         }
 
         if (finger != null) {
             if (state != PLAY) {
                 finger.setVisible(false);
+            }
+            if (tableUnitButtons.getUnitButton(0).getIsUnitButtonReady()) {
+                finger.show();
+            } else {
+                finger.hide();
             }
         }
 
@@ -553,7 +543,8 @@ public class Level extends StageGame {
         }
 
         void setStoneButtonPosX(float posX) {
-            stoneButton.setPosX(posX);
+            if (stoneButton != null)
+                stoneButton.setPosX(posX);
         }
 
         UnitButton getUnitButton(int i) {
@@ -680,6 +671,9 @@ public class Level extends StageGame {
         gameManager.saveGame();
 
 
+        if (levelNumber == 1) {
+            gameManager.setHelpStatus(GameManager.HELP_STARS_PANEL);
+        }
         levelCompletedScreen.start(starsCount);   // запускаем экран завершения уровня
 
 
