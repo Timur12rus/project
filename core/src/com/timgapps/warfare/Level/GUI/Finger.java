@@ -3,6 +3,7 @@ package com.timgapps.warfare.Level.GUI;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction;
@@ -80,6 +81,7 @@ public class Finger extends Image {
 
     }
 
+    // метод для отображения "пальца-указателя"
     public void show() {
         if (!isVisible()) setVisible(true);
         if (!isStarted) {
@@ -88,6 +90,7 @@ public class Finger extends Image {
         }
     }
 
+    // метод для скрытия "пальца-указателя"
     public void hide() {
         if (isVisible()) setVisible(false);
     }

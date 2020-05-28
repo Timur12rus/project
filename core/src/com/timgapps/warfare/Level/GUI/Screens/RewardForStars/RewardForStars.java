@@ -1,6 +1,10 @@
 package com.timgapps.warfare.Level.GUI.Screens.RewardForStars;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -28,12 +32,28 @@ public class RewardForStars extends Group {
     private GameManager gameManager;
     private RewardForStarsScreen rewardForStarsScreen;
     private Finger finger;
+    private StarsBar bar;
+    private final int BG_PANEL_WIDTH = 140;
+    private final int barWidth = 184;
+    private final int barHeight = 32;
+    private int deltaCountStars;
+    private int lastRewardCountStars;
+    private int starsCount;
+    private float xPos;     // позиция Х panelStarsSmall
 
-    public RewardForStars(final RewardForStarsScreen rewardForStarsScreen, final RewardForStarsData data, final GameManager gameManager) {
+
+    public RewardForStars(final RewardForStarsScreen rewardForStarsScreen, final RewardForStarsData data, final GameManager gameManager,
+                          int deltaCountStars, int lastRewardCountStars) {
         this.rewardForStarsScreen = rewardForStarsScreen;
+        this.deltaCountStars = deltaCountStars;
+        this.lastRewardCountStars = lastRewardCountStars;
 
         this.gameManager = gameManager;
         this.data = data;
+        // текущее кол-во звезд
+        starsCount = gameManager.getSavedGame().getStarsCount();
+
+
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         if (data.getIsReceived()) {
             labelStyle.fontColor = Color.LIGHT_GRAY;
@@ -123,6 +143,17 @@ public class RewardForStars extends Group {
         addActor(nameLabel);
         addActor(receivedImg);
 
+        // создаем бары под изображениями наград за звезды
+        bar = new StarsBar(getX() + BG_PANEL_WIDTH / 2 - barWidth - 8,
+                getY() - barHeight - 16,
+                data.getIsReceived(),
+                deltaCountStars,        // разница кол-во звезд у игрока и кол-вом звезд за последнюю награду
+                lastRewardCountStars,   // кол-во звёзд за последнюю награду
+                rewardCountStars // кол-во звёзд за награду
+        );
+        addActor(bar);
+
+
         addCaptureListener(new EventListener() { // добавляет слушателя события корневому элементу, отключая его для дочерних элементов
             @Override
             public boolean handle(Event event) {
@@ -168,6 +199,103 @@ public class RewardForStars extends Group {
         });
     }
 
+    public float getxPos() {
+        return xPos;
+    }
+
+    // класс StarsBar - полоса, индикатор кол-во звдезд за награду
+    class StarsBar extends Actor {
+        Texture bgBarTexture, barTexture;
+        Texture bgTexture;
+        float x, y;
+        boolean isReceived;
+        Pixmap progressPixmap;
+        protected final int barWidth = 184;
+        protected final int barHeight = 32;
+
+        /**
+         * starsBar - объект, бар полосы на фоне
+         *
+         * @param deltaCountStars      - кол-во звезд между текущим кол-вом и кол-вом за последнюю награду
+         * @param lastRewardCountStars - кол-во звёзд за последнюю награду
+         * @param rewardStarsCount     - кол-во звёзд для награды
+         **/
+        StarsBar(float x, float y, boolean isReceived, int deltaCountStars, int lastRewardCountStars, int rewardStarsCount) {
+            this.isReceived = isReceived;   // елси награда не получена (достигнута или нет, бар будет ЖЁЛТЫМ, если получена - ОРАНЖЕВЫМ
+            createStarsBar(x, barWidth, barHeight, deltaCountStars, lastRewardCountStars, rewardStarsCount);
+            setSize(bgBarTexture.getWidth(), bgBarTexture.getHeight());
+            this.x = x;
+            this.y = y;
+
+        }
+
+        // метод окрашивает бар в темный цвет, что означает что награда получена
+        void setColorBarIsRecieved() {
+            System.out.println("SET COLOR!!!");
+            progressPixmap.setColor(new Color(0xa29100ff));
+//            progressPixmap.setColor(new Color(0xa29100ff));
+        }
+
+//        Pixmap getPixmap(Texture texture) {
+//            return texture;
+//        }
+
+        @Override
+        public void draw(Batch batch, float parentAlpha) {
+            super.draw(batch, parentAlpha);
+            batch.draw(bgBarTexture, x, y);
+//            batch.setColor(1, 0.6f, 0, 1);
+            if (isReceived)
+                batch.setColor(1, 0.6f, 0, 1);
+            batch.draw(barTexture, x + 1, y + 1);
+            batch.setColor(1, 1, 1, 1);
+        }
+
+
+        private void createStarsBar(float x, int barWidth, int barHeight, int deltaCountStars, int lastRewardCountStars, int rewardStarsCount) {
+//            progressPixmap;
+//            Pixmap progressPixmap;
+            /** проеверим, если награ да получена, то окрасим темно-оранжевым цветом Bar*/
+            if (!isReceived) {  // не получена, bar - желтый
+                int calculatedWidth;
+                if (starsCount < rewardStarsCount) {
+//                health * (healthBarWidth - 2) / fullHealth
+                    if (deltaCountStars >= 0) {
+                        calculatedWidth = deltaCountStars * (barWidth - 2) / (rewardStarsCount - lastRewardCountStars);
+                        if (calculatedWidth <= 0) calculatedWidth = 2;
+                    } else {
+                        calculatedWidth = 2;
+                    }
+                } else {
+                    calculatedWidth = barWidth;
+                }
+
+                if ((starsCount >= lastRewardCountStars) && (starsCount <= rewardStarsCount)) {
+                    xPos = calculatedWidth + x;
+                }
+
+//                System.out.println("calculatedWidth = " + calculatedWidth);
+                progressPixmap = createProceduralPixmap(calculatedWidth - 2, barHeight - 2, new Color(0xf2d900ff));
+            } else {    // получена - темно-оранжевый цвет
+                progressPixmap = createProceduralPixmap(barWidth - 2, barHeight - 2, new Color(0xf2d900ff));
+//                progressPixmap = createProceduralPixmap(barWidth - 2, barHeight - 2, new Color(0xa29100ff));
+            }
+            Pixmap backPixmap = createProceduralPixmap(barWidth, barHeight, new Color(0x464642));
+            barTexture = new Texture(progressPixmap);
+            bgBarTexture = new Texture(backPixmap);
+        }
+
+
+
+        private Pixmap createProceduralPixmap(int width, int height, Color color) {
+            Pixmap pixmap = new Pixmap(width, height, Pixmap.Format.RGBA8888);
+            pixmap.setColor(color);
+            pixmap.fill();
+            return pixmap;
+        }
+    }
+
+
     public float getImageWidth() {
         return rewardImage.getWidth();
     }
@@ -185,13 +313,13 @@ public class RewardForStars extends Group {
      **/
     public void getRewardForStars() {
         nameLabel.setColor(Color.LIGHT_GRAY);
-        int index;
         switch (data.getTypeOfReward()) {
             case RewardForStarsData.REWARD_STONE:                           // если наград "КАМЕНЬ"
                 for (int i = 0; i < gameManager.getCollection().size(); i++) {
                     if (gameManager.getCollection().get(i).getUnitType() == TeamEntity.STONE) {
                         addRewardUnitToTeam(i);
                         gameManager.setHelpStatus(GameManager.HELP_TEAM_UPGRADE);
+                        System.out.println("getHelpStatus = " + gameManager.getHelpStatus());
                     }
                 }
                 break;
@@ -203,6 +331,7 @@ public class RewardForStars extends Group {
                 }
                 break;
         }
+        bar.setColorBarIsRecieved();
 
 //         сохраним данные
         data.setReceived();                                  // награда получена

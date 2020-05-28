@@ -71,8 +71,23 @@ public class RewardForStarsScreen extends StageGame {
         /** создадим картинки и бары **/
         for (int i = 0; i < rewardForStarsDataList.size(); i++) {
 
-            rewardForStarsList.add(new RewardForStars(this, rewardForStarsDataList.get(i), gameManager));
+            /** количество звезд за предыдущую награду, нужно для вычисления разницы отрезка (кол-ва звезд) **/
+            int deltaCountStars;
+            int lastRewardCountStars;
+            if (i > 0) {
+                lastRewardCountStars = rewardForStarsList.get(i - 1).getRewardCountStars(); // кол-во звёзд за прошлую награду
+                deltaCountStars = starsCount - lastRewardCountStars;    // разница между текущим кол-вом звёзд и кол-вом
+                // звёзд за прошлую награду
+            } else {
+                lastRewardCountStars = 0;
+                deltaCountStars = starsCount - lastRewardCountStars;
+
+            }
+
+            rewardForStarsList.add(new RewardForStars(this,
+                    rewardForStarsDataList.get(i), gameManager, deltaCountStars, lastRewardCountStars));
             rewardForStarsList.get(i).setPosition(190 * i + rewardForStarsList.get(i).getWidth(), 144);
+
 //            rewardForStarsList.get(i).setPosition(190 * i + rewardForStarsList.get(i).getWidth(), 360);
 //            groupWidth += 190 + rewardForStarsList.get(i).getWidth();
             group.addActor(rewardForStarsList.get(i));
@@ -89,28 +104,16 @@ public class RewardForStarsScreen extends StageGame {
                 rewardForStarsList.get(i).setChecked(); // установим доступной для получения (подсветим "ЖЕЛТЫМ" цветом)
             }
 
-            /** количество звезд за предыдущую награду, нужно для вычисления разницы отрезка (кол-ва звезд) **/
-            int deltaCountStars;
-            int lastRewardCountStars;
-            if (i > 0) {
-                lastRewardCountStars = rewardForStarsList.get(i - 1).getRewardCountStars(); // кол-во звёзд за прошлую награду
-                deltaCountStars = starsCount - lastRewardCountStars;    // разница между текущим кол-вом звёзд и кол-вом
-                // звёзд за прошлую награду
-            } else {
-                lastRewardCountStars = 0;
-                deltaCountStars = starsCount - lastRewardCountStars;
-
-            }
-
             // создаем бары под изображениями наград за звезды
-            StarsBar bar = new StarsBar(rewardForStarsList.get(i).getX() + BG_PANEL_WIDTH / 2 - barWidth - 8,
-                    rewardForStarsList.get(i).getY() - barHeight - 16,
-                    rewardForStarsDataList.get(i).getIsReceived(),
-                    deltaCountStars,        // разница кол-во звезд у игрока и кол-вом звезд за последнюю награду
-                    lastRewardCountStars,   // кол-во звёзд за последнюю награду
-                    rewardForStarsList.get(i).getRewardCountStars() // кол-во звёзд за награду
-            );
-            group.addActor(bar);
+//            StarsBar bar = new StarsBar(rewardForStarsList.get(i).getX() + BG_PANEL_WIDTH / 2 - barWidth - 8,
+//                    rewardForStarsList.get(i).getY() - barHeight - 16,
+//                    rewardForStarsDataList.get(i).getIsReceived(),
+//                    deltaCountStars,        // разница кол-во звезд у игрока и кол-вом звезд за последнюю награду
+//                    lastRewardCountStars,   // кол-во звёзд за последнюю награду
+//                    rewardForStarsList.get(i).getRewardCountStars() // кол-во звёзд за награду
+//            );
+//            group.addActor(bar);
+
 //            addChild(bar);
 
 
@@ -211,64 +214,71 @@ public class RewardForStarsScreen extends StageGame {
         }
     }
 
-    class StarsBar extends Actor {
-        Texture bgBarTexture, barTexture;
-        float x, y;
-        boolean isReceived;
-
-        /**
-         * starsBar - объект, бар полосы на фоне
-         *
-         * @param deltaCountStars      - кол-во звезд между текущим кол-вом и кол-вом за последнюю награду
-         * @param lastRewardCountStars - кол-во звёзд за последнюю награду
-         * @param rewardStarsCount     - кол-во звёзд для награды
-         **/
-        public StarsBar(float x, float y, boolean isReceived, int deltaCountStars, int lastRewardCountStars, int rewardStarsCount) {
-            this.isReceived = isReceived;   // елси награда не получена (достигнута или нет, бар будет ЖЁЛТЫМ, если получена - ОРАНЖЕВЫМ
-            createStarsBar(x, barWidth, barHeight, deltaCountStars, lastRewardCountStars, rewardStarsCount);
-            setSize(bgBarTexture.getWidth(), bgBarTexture.getHeight());
-            this.x = x;
-            this.y = y;
-        }
-
-        @Override
-        public void draw(Batch batch, float parentAlpha) {
-            super.draw(batch, parentAlpha);
-            batch.draw(bgBarTexture, x, y);
-            batch.draw(barTexture, x + 1, y + 1);
-        }
-
-        private void createStarsBar(float x, int barWidth, int barHeight, int deltaCountStars, int lastRewardCountStars, int rewardStarsCount) {
-            Pixmap progressPixmap;
-            /** проеверим, если награда получена, то окрасим темно-оранжевым цветом Bar*/
-            if (!isReceived) {  // не получена, bar - желтый
-                int calculatedWidth;
-                if (starsCount < rewardStarsCount) {
-//                health * (healthBarWidth - 2) / fullHealth
-                    if (deltaCountStars >= 0) {
-                        calculatedWidth = deltaCountStars * (barWidth - 2) / (rewardStarsCount - lastRewardCountStars);
-                        if (calculatedWidth <= 0) calculatedWidth = 2;
-                    } else {
-                        calculatedWidth = 2;
-                    }
-                } else {
-                    calculatedWidth = barWidth;
-                }
-
-                if ((starsCount >= lastRewardCountStars) && (starsCount <= rewardStarsCount)) {
-                    xPos = calculatedWidth + x;
-                }
-
-//                System.out.println("calculatedWidth = " + calculatedWidth);
-                progressPixmap = createProceduralPixmap(calculatedWidth - 2, barHeight - 2, new Color(0xf2d900ff));
-            } else {    // получена - темно-оранжевый цвет
-                progressPixmap = createProceduralPixmap(barWidth - 2, barHeight - 2, new Color(0xa29100ff));
-            }
-            Pixmap backPixmap = createProceduralPixmap(barWidth, barHeight, new Color(0x464642));
-            barTexture = new Texture(progressPixmap);
-            bgBarTexture = new Texture(backPixmap);
-        }
-    }
+//    class StarsBar extends Actor {
+//        Texture bgBarTexture, barTexture;
+//        float x, y;
+//        boolean isReceived;
+//        Pixmap progressPixmap;
+//
+//        /**
+//         * starsBar - объект, бар полосы на фоне
+//         *
+//         * @param deltaCountStars      - кол-во звезд между текущим кол-вом и кол-вом за последнюю награду
+//         * @param lastRewardCountStars - кол-во звёзд за последнюю награду
+//         * @param rewardStarsCount     - кол-во звёзд для награды
+//         **/
+//        public StarsBar(float x, float y, boolean isReceived, int deltaCountStars, int lastRewardCountStars, int rewardStarsCount) {
+//            this.isReceived = isReceived;   // елси награда не получена (достигнута или нет, бар будет ЖЁЛТЫМ, если получена - ОРАНЖЕВЫМ
+//            createStarsBar(x, barWidth, barHeight, deltaCountStars, lastRewardCountStars, rewardStarsCount);
+//            setSize(bgBarTexture.getWidth(), bgBarTexture.getHeight());
+//            this.x = x;
+//            this.y = y;
+//        }
+//
+//        // метод окрашивает бар в темный цвет, что означает что награда получена
+//        void setColorBarIsRecieved() {
+//            progressPixmap.setColor(new Color(0xa29100ff));
+//        }
+//
+//        @Override
+//        public void draw(Batch batch, float parentAlpha) {
+//            super.draw(batch, parentAlpha);
+//            batch.draw(bgBarTexture, x, y);
+//            batch.draw(barTexture, x + 1, y + 1);
+//        }
+//
+//        private void createStarsBar(float x, int barWidth, int barHeight, int deltaCountStars, int lastRewardCountStars, int rewardStarsCount) {
+////            progressPixmap;
+////            Pixmap progressPixmap;
+//            /** проеверим, если награда получена, то окрасим темно-оранжевым цветом Bar*/
+//            if (!isReceived) {  // не получена, bar - желтый
+//                int calculatedWidth;
+//                if (starsCount < rewardStarsCount) {
+////                health * (healthBarWidth - 2) / fullHealth
+//                    if (deltaCountStars >= 0) {
+//                        calculatedWidth = deltaCountStars * (barWidth - 2) / (rewardStarsCount - lastRewardCountStars);
+//                        if (calculatedWidth <= 0) calculatedWidth = 2;
+//                    } else {
+//                        calculatedWidth = 2;
+//                    }
+//                } else {
+//                    calculatedWidth = barWidth;
+//                }
+//
+//                if ((starsCount >= lastRewardCountStars) && (starsCount <= rewardStarsCount)) {
+//                    xPos = calculatedWidth + x;
+//                }
+//
+////                System.out.println("calculatedWidth = " + calculatedWidth);
+//                progressPixmap = createProceduralPixmap(calculatedWidth - 2, barHeight - 2, new Color(0xf2d900ff));
+//            } else {    // получена - темно-оранжевый цвет
+//                progressPixmap = createProceduralPixmap(barWidth - 2, barHeight - 2, new Color(0xa29100ff));
+//            }
+//            Pixmap backPixmap = createProceduralPixmap(barWidth, barHeight, new Color(0x464642));
+//            barTexture = new Texture(progressPixmap);
+//            bgBarTexture = new Texture(backPixmap);
+//        }
+//    }
 
     private void createBackground() {
         Pixmap bgPixmap = createProceduralPixmap((int) getWidth(), (int) getHeight(), new Color(0x6da86bff));

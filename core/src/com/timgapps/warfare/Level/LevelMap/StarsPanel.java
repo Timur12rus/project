@@ -152,14 +152,12 @@ public class StarsPanel extends Group {
     }
 
 
+    // метод для обновления кол-ва наград за звёзды
     public void updateCountReward() {
         for (int i = 0; i < rewardForStarsDataList.size(); i++) {
             if (starsCount >= rewardForStarsDataList.get(i).getStarsCount()) {
                 rewardForStarsDataList.get(i).setChecked();     // установим флаг - "НАГРАДА ДОСТУПНА" для получения
             }
-//            if ((starsCount >= rewardForStarsDataList.get(i).getStarsCount()) && (!rewardForStarsDataList.get(i).getIsReceived())) {
-//                rewardForStarsList.get(i).setChecked(); // установим доступной для получения (подсветим "ЖЕЛТЫМ" цветом)
-//            }
         }
 
         /** определим кол-во доступных наград **/
@@ -181,6 +179,7 @@ public class StarsPanel extends Group {
         }
     }
 
+    // изображение "красный кружок"
     class RoundCircle extends Group {
         Label label;    // надпись (кол-во доступных наград)
         Image bg;
@@ -199,6 +198,7 @@ public class StarsPanel extends Group {
             addActor(label);
         }
 
+        // метод устанавливает надпись кол-во наград за звёзды доступных в данный момент (на фоне красного куржка)
         public void setCountRewardStars(int count) {
             countRewards = count;
             label.setText("" + countRewards);
@@ -222,9 +222,12 @@ public class StarsPanel extends Group {
         }
 
         private void createBar(int width, int barHeight) {
+            // тёмный бар
             Pixmap barPixmap = createProceduralPixmap(width - 2, barHeight - 2, 1, 191, 137, 0);
-//            Pixmap barPixmap = createProceduralPixmap(width - 2, barHeight - 2, 1, 0, 0);
+
+            // фон бара
             Pixmap backPixmap = createProceduralPixmap(width, barHeight, 0.4f, 0, 0, 0);
+
             Pixmap cursorPixmap = createProceduralPixmap(12, barHeight - 2, 0.5f, 1, 1, 0);
 
             barTexture = new Texture(barPixmap);
