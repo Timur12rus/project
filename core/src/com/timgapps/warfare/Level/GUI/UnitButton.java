@@ -114,7 +114,7 @@ public class UnitButton extends Group {
      * метод выполняет появление юнита на экране, вычитает из текущего кол-ва энергии кол-во энергии необходимое для появления юнита
      **/
     private void addPlayerUnit(int typeOfUnit) {
-        level.removeFinger();
+//        level.removeFinger();
         switch (typeOfUnit) {
             case TeamEntity.GNOME:
                 level.addGnome(health, damage);

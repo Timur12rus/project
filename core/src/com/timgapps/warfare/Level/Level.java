@@ -365,15 +365,16 @@ public class Level extends StageGame {
         }
 
         if (finger != null) {
-            if (state != PLAY) {
-                finger.setVisible(false);
-            }
-            if (tableUnitButtons.getUnitButton(0).getIsUnitButtonReady()) {
+            if (tableUnitButtons.getUnitButton(0).getIsUnitButtonReady() && state == PLAY) {
                 finger.show();
             } else {
                 finger.hide();
             }
+            if (state != PLAY) {
+                finger.setVisible(false);
+            }
         }
+
 
         // если баррикада разрушена и текущее состояние не "пауза" и экран завершения уровня не запущен
         if (barricade.isBarricadeDestroyed() && state != PAUSED && !levelCompletedScreen.isStarted()) {
@@ -585,6 +586,7 @@ public class Level extends StageGame {
                 }
             }
         }
+
     }
 
     // метод для показа экрана паузы
