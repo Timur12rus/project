@@ -19,7 +19,7 @@ public class Arrow extends Bullet {
     private Archer1 archer;
 
     public Arrow(Level level, Archer1 archer, float x, float y, float damage) {
-        super(level, x, y);
+        super(level, x, y, 32);
         this.damage = damage;
         image = new TextureRegion(Warfare.atlas.findRegion("arrow"));
 //        createBody(x, y);

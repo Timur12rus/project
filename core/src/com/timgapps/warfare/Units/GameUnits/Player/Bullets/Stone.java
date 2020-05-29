@@ -45,7 +45,7 @@ public class Stone extends Bullet {
     private static int ENERGY_PRICE = 1;
 
     public Stone(Level level, float x, float y, float damage, float health, float targetY) {
-        super(level, x, y);
+        super(level, x, y, 0);
         this.targetY = targetY;
         this.damage = damage;
         this.health = health;

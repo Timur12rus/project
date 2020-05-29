@@ -301,14 +301,16 @@ public class UpgradeScreen extends Group {
 
         costUpgradeTable.add(line).colspan(6).padTop(24).padBottom(16);
         costUpgradeTable.row();
-        costUpgradeTable.add(foodIcon).width(64).left().padLeft(16);
+        costUpgradeTable.add(foodIcon).width(64).left().padLeft(96);
+//        costUpgradeTable.add(foodIcon).width(64).left().padLeft(16);
         costUpgradeTable.add(foodCostLabel).expandX().left().padLeft(16);
 
         costUpgradeTable.add(ironIcon).width(64).left();
         costUpgradeTable.add(ironCostLabel).expandX().left().padLeft(16);
 
         costUpgradeTable.add(woodIcon).width(64).left();
-        costUpgradeTable.add(woodCostLabel).padLeft(16).padRight(16);
+        costUpgradeTable.add(woodCostLabel).padLeft(16).padRight(96);
+//        costUpgradeTable.add(woodCostLabel).padLeft(16).padRight(16);
         costUpgradeTable.row();
         costUpgradeTable.add(upgradeToLevelLabel).colspan(6).padTop(32);
 

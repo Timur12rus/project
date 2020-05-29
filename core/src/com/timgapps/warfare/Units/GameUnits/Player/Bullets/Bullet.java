@@ -19,9 +19,11 @@ public abstract class Bullet extends Actor implements IBody {
     protected float damage;
     protected boolean isDamaged = false;
     protected boolean isDestroyed = false;
+    protected float deltaY;
 
-    public Bullet(Level level, float x, float y) {
+    public Bullet(Level level, float x, float y, float deltaY) {
         this.level = level;
+        this.deltaY = deltaY;
         world = level.getWorld();
 //        body = createBody(x, y);
     }
@@ -72,7 +74,7 @@ public abstract class Bullet extends Actor implements IBody {
 //            destroy();
 //        }
 
-        setPosition(body.getPosition().x * Level.WORLD_SCALE, body.getPosition().y * Level.WORLD_SCALE);
+        setPosition(body.getPosition().x * Level.WORLD_SCALE, body.getPosition().y * Level.WORLD_SCALE + deltaY);
     }
 
     protected void destroy() {

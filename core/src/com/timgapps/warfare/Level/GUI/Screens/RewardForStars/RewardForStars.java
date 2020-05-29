@@ -237,7 +237,7 @@ public class RewardForStars extends Group {
             super.draw(batch, parentAlpha);
             batch.draw(bgBarTexture, x, y);
             if (isReceived)
-                batch.setColor(1, 0.6f, 0, 1);
+                batch.setColor(1, 0.5f, 0, 0.7f);
             batch.draw(barTexture, x + 1, y + 1);
             batch.setColor(1, 1, 1, 1);
         }

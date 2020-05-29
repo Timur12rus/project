@@ -59,7 +59,8 @@ public class RewardForStarsScreen extends StageGame {
         rewardForStarsList = new ArrayList<RewardForStars>();
 
         Label.LabelStyle countStarsLabelStyle = new Label.LabelStyle();
-        countStarsLabelStyle.fontColor = Color.FOREST;
+        countStarsLabelStyle.fontColor = new Color(0x3c644eff);
+//        countStarsLabelStyle.fontColor = Color.FOREST;
         countStarsLabelStyle.font = Warfare.font20;
         StarsPanelSmall starsPanelSmall = new StarsPanelSmall();
 
