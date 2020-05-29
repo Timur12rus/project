@@ -139,16 +139,18 @@ public class SiegeTower extends Group {
     }
 
     public void checkToDestroy() {
-        if (!body.isActive() && isDestroyed && explosion2.isEnd()) {
+        if (level.getState() != Level.PAUSED) {
+            if (!body.isActive() && isDestroyed && explosion2.isEnd()) {
 //        if (!body.isActive() && isDestroyed && explosion.isEnd()) {
-            level.gameOver();
-            world.destroyBody(body);
-            this.remove();
-            smoke.dispose();
-        }
+                level.gameOver();
+                world.destroyBody(body);
+                this.remove();
+                smoke.dispose();
+            }
 
-        if (isDestroyed) {
-            body.setActive(false);
+            if (isDestroyed) {
+                body.setActive(false);
+            }
         }
     }
 
@@ -210,11 +212,13 @@ public class SiegeTower extends Group {
     @Override
     public void act(float delta) {
         super.act(delta);
-        checkToDestroy();       // проверяем, нужно ли уничтожить актера
-        smoke.update(delta);
+        if (level.getState() != Level.PAUSED) {
+            checkToDestroy();       // проверяем, нужно ли уничтожить актера
+            smoke.update(delta);
 
-        if (explosion1.isEnd()) {
-            explosion2.start();
+            if (explosion1.isEnd()) {
+                explosion2.start();
+            }
         }
 
 //        if (explosion2.isEnd()) {

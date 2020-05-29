@@ -9,7 +9,9 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Rectangle;
 import com.boontaran.games.tiled.TileLayer;
+import com.timgapps.warfare.Units.GameUnits.Enemy.Goblin1;
 import com.timgapps.warfare.Units.GameUnits.Enemy.Zombie;
+import com.timgapps.warfare.Units.GameUnits.Enemy.Zombie1;
 
 import static java.lang.Integer.parseInt;
 
@@ -48,9 +50,11 @@ public class LevelCreator {
         for (MapLayer layer : map.getLayers()) {
             String name = layer.getName();
 
-            if (name.equals("zombie")) {
-                createZombie(layer.getObjects(), name);
-            }
+            createEnemyUnit(layer.getObjects(), name);
+
+//            if (name.equals("zombie")) {
+//                createZombie(layer.getObjects(), name);
+//            }
 //            else {
 //                TileLayer tLayer = new TileLayer(camera, map, name, stage.getBatch());
 //                addChild(tLayer);
@@ -58,7 +62,7 @@ public class LevelCreator {
         }
     }
 
-    private void createZombie(MapObjects objects, String LayerName) {
+    private void createEnemyUnit(MapObjects objects, String LayerName) {
         for (MapObject object : objects) {
             Rectangle rectangle;
             float x = object.getProperties().get("x", Float.class);
@@ -68,7 +72,20 @@ public class LevelCreator {
                 Zombie zombie = new Zombie(level, rectangle.x, rectangle.y + 172, 100, 3);
                 level.addEnemyUnitToEnemyArray(zombie);
             }
+            if (LayerName.equals("zombie1")) {
+                Zombie1 zombie1 = new Zombie1(level, rectangle.x, rectangle.y + 172, 100, 3);
+                level.addEnemyUnitToEnemyArray(zombie1);
+            }
+            if (LayerName.equals("zombie3")) {
+                Zombie1 zombie3 = new Zombie1(level, rectangle.x, rectangle.y + 172, 100, 3);
+                level.addEnemyUnitToEnemyArray(zombie3);
+            }
+            if (LayerName.equals("goblin1")) {
+                Goblin1 goblin1 = new Goblin1(level, rectangle.x, rectangle.y + 172, 100, 3);
+                level.addEnemyUnitToEnemyArray(goblin1);
+            }
         }
     }
 }
+
 

@@ -53,6 +53,7 @@ public class BarricadeExplosion extends Actor {
     @Override
     public void act(float delta) {
         super.act(delta);
+        // если анимация взрыва завершена и баррикада не разрушена, вызываем метод разрушения баррикады
         if (explosionAnimation.isAnimationFinished(stateTime) && (!isDestroyed)) {
             isEndAnimation = true;
             isDestroyed = true;

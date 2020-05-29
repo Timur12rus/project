@@ -25,8 +25,11 @@ public class LevelCompletedScreen extends Group {
     private RewardTable rewardTable;
     private int rewardCoinForLevel, rewardScoreForLevel;
     private int starsCount = 0;
+    private boolean isStarted;   // флаг, запущен ли экран завершения уровня
+    private Level level;
 
     public LevelCompletedScreen(Level level, int rewardCoinForLevel, int rewardScoreForLevel) {
+        this.level = level;
         levelNumber = level.getLevelNumber();
         this.rewardCoinForLevel = rewardCoinForLevel;
         this.rewardScoreForLevel = rewardScoreForLevel;
@@ -98,18 +101,24 @@ public class LevelCompletedScreen extends Group {
     @Override
     public void act(float delta) {
         super.act(delta);
-        if (stars.getIsEndActions() && !rewardTable.isVisible()) {
-            rewardTable.setVisible(true);
-            okButton.setVisible(true);
+        if (level.getState() != Level.PAUSED) {
+            if (stars.getIsEndActions() && !rewardTable.isVisible()) {
+                rewardTable.setVisible(true);
+                okButton.setVisible(true);
+            }
         }
     }
 
-//    public void setStarCount(int starsCount) {
-//        this.starsCount = starsCount;
-//    }
-
+    /**
+     * метод для запуска action'a для звезд
+     **/
     public void start(int starsCount) {
-//        stars.startStarsActions(3);
+        level.setState(Level.LEVEL_COMPLETED);
+        isStarted = true;
         stars.startStarsActions(starsCount);
+    }
+
+    public boolean isStarted() {        // запущено ли действие для звёзд (движение)
+        return isStarted;
     }
 }

@@ -53,7 +53,7 @@ public class Barricade {
 
         createBarricade(typeOfBarricade);
 
-       barricadeExplosion1.setPosition(posX - 20, posY + 140);
+        barricadeExplosion1.setPosition(posX - 20, posY + 140);
         barricadeExplosion3.setPosition(posX - 10, posY + 80);
         barricadeExplosion2.setPosition(posX - 30, posY - 10);
 
@@ -61,7 +61,7 @@ public class Barricade {
         level.addChild(barricadeExplosion3);
         level.addChild(barricadeExplosion2);
 
-                /** создадим HealthBar **/
+        /** создадим HealthBar **/
         healthBarWidth = 108;        // ширина HealthBar
         healthBarHeight = 10;       // высота HealthBar
         fullHealth = health;
@@ -113,7 +113,6 @@ public class Barricade {
                 level.addChild(rockSmall);
                 level.addChild(rockMiddle);
                 level.addChild(rockBig);
-
 
 
                 // тело баррикады
@@ -219,9 +218,17 @@ public class Barricade {
                 }
                 isDestroyed = true;
 
-                level.levelCompleted();
+                /** если баррикада разрушена вызываем метод завершения уровня (победа) **/
+//                level.levelCompleted();
             }
         }
+    }
+
+    /**
+     * метод проверяет разрушен ли баррикада
+     **/
+    public boolean isBarricadeDestroyed() {
+        return isDestroyed;
     }
 
 }

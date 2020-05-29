@@ -349,7 +349,8 @@ public class Level extends StageGame {
     protected void update(float delta) {
         super.update(delta);
 
-        if (state == PLAY) {
+        if (state != PAUSED) {
+//        if (state == PLAY) {
 
 //        timeCount += delta;
             energyCount += delta;
@@ -372,6 +373,11 @@ public class Level extends StageGame {
             } else {
                 finger.hide();
             }
+        }
+
+        // если баррикада разрушена и текущее состояние не "пауза" и экран завершения уровня не запущен
+        if (barricade.isBarricadeDestroyed() && state != PAUSED && !levelCompletedScreen.isStarted()) {
+            levelCompleted();   // запускаем метод завершения уровня
         }
 
 //        if (state != PLAY) {
@@ -479,7 +485,11 @@ public class Level extends StageGame {
         if (keycode == Input.Keys.ESCAPE || keycode == Input.Keys.BACK) {
 
             if (pausedScreen != null) {
-                pauseLevel(true);
+                if (state == PLAY) {
+                    pauseLevel(true);
+                } else {
+                    pauseLevel(false);
+                }
             }
         }
         return super.keyUp(keycode);
@@ -577,6 +587,7 @@ public class Level extends StageGame {
         }
     }
 
+    // метод для показа экрана паузы
     public void showPausedScreen() {
         pausedScreen.setPosition(getWidth() / 2 - pausedScreen.getWidth() / 2, getHeight() / 2 - pausedScreen.getHeight() / 2);
         if (!isPausedScreenAdded) {
@@ -589,15 +600,17 @@ public class Level extends StageGame {
         tableUnitButtons.setVisible(false); // кнопки юитов делаем невидимыми
     }
 
+    // метод для удаления указателя "палец"
     public void removeFinger() {
         if (finger != null)
             finger.remove();
     }
 
+    // скрывает экран паузы
     public void hidePauseScreen() {
         pausedScreen.setVisible(false);
         darkLayer.setVisible(false);
-        tableUnitButtons.setVisible(true); // кнопки юитов делаем невидимыми
+        tableUnitButtons.setVisible(true); // кнопки юитов делаем видимыми
     }
 
     private void pauseLevel() {     // будет вызываться с передачей true
@@ -605,6 +618,7 @@ public class Level extends StageGame {
     }
 
     private void pauseLevel(boolean withDialog) {
+//        if (state == PAUSED ) return;
         if (state != PLAY) return;
         state = PAUSED;
 
@@ -623,12 +637,14 @@ public class Level extends StageGame {
     public void pause() {
         super.pause();
         if (state == PLAY) {   // проверяем игровое состояние и вызываем метод pauseLevel(), после чего вызываем метод суперкласса
-            pauseLevel();
+            pauseLevel(true);
+        } else {
+            pauseLevel(false);
         }
-//        pauseLevel();
     }
 
     public void gameOver() {
+        state = LEVEL_FAILED;
         gameOverScreen.setPosition((getWidth() - gameOverScreen.getWidth()) / 2, getHeight() * 2 / 3);
         addOverlayChild(gameOverScreen);
         darkLayer.setVisible(true);         // затемняем задний план
@@ -636,6 +652,10 @@ public class Level extends StageGame {
         hud.hideEnergyPanel();
     }
 
+
+    /**
+     * метод завершения уровня, вызывается после того, как разрушилась баррикада
+     **/
     public void levelCompleted() {
         levelCompletedScreen.setPosition((getWidth() - levelCompletedScreen.getWidth()) / 2, getHeight() * 2 / 3);
         addOverlayChild(levelCompletedScreen);
@@ -674,9 +694,15 @@ public class Level extends StageGame {
         if (levelNumber == 1) {
             gameManager.setHelpStatus(GameManager.HELP_STARS_PANEL);
         }
-        levelCompletedScreen.start(starsCount);   // запускаем экран завершения уровня
+
+        // после того как разрушилась баррикада, вызываем метод запуска экрана завершения уровня
+        levelCompletedScreen.start(starsCount);   // запускаем экран завершения уровня, запускаем звезды
 
 
+    }
+
+    public void setState(int state) {
+        this.state = state;
     }
 
     /**

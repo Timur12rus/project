@@ -257,7 +257,8 @@ public abstract class GameUnit extends Actor implements IBody {
     public void act(float delta) {
         super.act(delta);
 
-        if (level.getState() == Level.PLAY) {
+        if (level.getState() != Level.PAUSED) {
+//        if (level.getState() == Level.PLAY) {
             stateTime += Gdx.graphics.getDeltaTime();
             checkToDestroy();
             if (isBodyInactive) {
