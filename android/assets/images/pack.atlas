@@ -242,6 +242,13 @@ block1_image
   orig: 56, 64
   offset: 0, 0
   index: -1
+boxIcon
+  rotate: false
+  xy: 1755, 37
+  size: 50, 50
+  orig: 50, 50
+  offset: 0, 0
+  index: -1
 boxImage
   rotate: false
   xy: 1677, 89
@@ -257,13 +264,6 @@ boxImage0
   offset: 0, 0
   index: -1
 button_close
-  rotate: false
-  xy: 1755, 37
-  size: 50, 50
-  orig: 50, 50
-  offset: 0, 0
-  index: -1
-button_close_dwn
   rotate: false
   xy: 1965, 1444
   size: 50, 50
@@ -997,6 +997,13 @@ boxImage5
   orig: 128, 115
   offset: 0, 0
   index: -1
+button_close_dwn
+  rotate: false
+  xy: 1811, 388
+  size: 50, 50
+  orig: 50, 50
+  offset: 0, 0
+  index: -1
 coin_icon
   rotate: false
   xy: 2, 2
@@ -1160,7 +1167,7 @@ score_icon
   index: -1
 smoke
   rotate: false
-  xy: 1943, 360
+  xy: 1863, 392
   size: 42, 42
   orig: 42, 42
   offset: 0, 0
@@ -1174,14 +1181,14 @@ star
   index: -1
 starInactive
   rotate: false
-  xy: 1811, 374
+  xy: 1877, 436
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 star_icon
   rotate: false
-  xy: 1993, 802
+  xy: 1907, 394
   size: 40, 40
   orig: 40, 40
   offset: 0, 0
@@ -1347,16 +1354,9 @@ thorWalk3
   orig: 147, 130
   offset: 0, 0
   index: -1
-upgradeTeamBtn
-  rotate: false
-  xy: 1877, 404
-  size: 96, 96
-  orig: 96, 96
-  offset: 0, 0
-  index: -1
 wood_icon
   rotate: false
-  xy: 1877, 338
+  xy: 1943, 436
   size: 64, 64
   orig: 64, 64
   offset: 0, 0

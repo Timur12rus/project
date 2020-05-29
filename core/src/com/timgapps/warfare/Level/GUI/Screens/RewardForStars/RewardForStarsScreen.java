@@ -68,6 +68,11 @@ public class RewardForStarsScreen extends StageGame {
         Group group = new Group();
 
 
+        int currentIndexSmallPanel = 0;
+
+        int index = 0;  // индекс текущего количества звезд, используется в рассчете поз. х smallStarsPanel
+        int lastCount = 0, rewardCount = 0;     // кол-во звезд за последнюю награду и текущую награду
+        int calculatedWidth = 0;       // вычисленная координата для starsSmallPanel
         /** создадим картинки и бары **/
         for (int i = 0; i < rewardForStarsDataList.size(); i++) {
 
@@ -81,19 +86,14 @@ public class RewardForStarsScreen extends StageGame {
             } else {
                 lastRewardCountStars = 0;
                 deltaCountStars = starsCount - lastRewardCountStars;
-
             }
+
+            System.out.println("deltaCountStars = " + deltaCountStars);
 
             rewardForStarsList.add(new RewardForStars(this,
                     rewardForStarsDataList.get(i), gameManager, deltaCountStars, lastRewardCountStars));
             rewardForStarsList.get(i).setPosition(190 * i + rewardForStarsList.get(i).getWidth(), 144);
-
-//            rewardForStarsList.get(i).setPosition(190 * i + rewardForStarsList.get(i).getWidth(), 360);
-//            groupWidth += 190 + rewardForStarsList.get(i).getWidth();
             group.addActor(rewardForStarsList.get(i));
-//            addChild(rewardForStarsList.get(i));
-
-//            rewardForStarsList.get(i).addListener(rewardForStarsListener);
 
             /** обозначим доступные награды за звезды **/
             if (starsCount > rewardForStarsDataList.get(i).getStarsCount()) {
@@ -104,77 +104,70 @@ public class RewardForStarsScreen extends StageGame {
                 rewardForStarsList.get(i).setChecked(); // установим доступной для получения (подсветим "ЖЕЛТЫМ" цветом)
             }
 
-            // создаем бары под изображениями наград за звезды
-//            StarsBar bar = new StarsBar(rewardForStarsList.get(i).getX() + BG_PANEL_WIDTH / 2 - barWidth - 8,
-//                    rewardForStarsList.get(i).getY() - barHeight - 16,
-//                    rewardForStarsDataList.get(i).getIsReceived(),
-//                    deltaCountStars,        // разница кол-во звезд у игрока и кол-вом звезд за последнюю награду
-//                    lastRewardCountStars,   // кол-во звёзд за последнюю награду
-//                    rewardForStarsList.get(i).getRewardCountStars() // кол-во звёзд за награду
-//            );
-//            group.addActor(bar);
-
-//            addChild(bar);
-
-
             /** добавим цифры - кол-во звёзд необходимое для получения награды **/
             countLabel = new Label("" + rewardForStarsList.get(i).getRewardCountStars(), countStarsLabelStyle);
             countLabel.setPosition(rewardForStarsList.get(i).getX() + BG_PANEL_WIDTH / 2 - countLabel.getWidth(),
                     rewardForStarsList.get(i).getY() - countLabel.getHeight() - 48);
             group.addActor(countLabel);
-//            addChild(countLabel);
+
+
+//            // получим кол-во звезд, для достижения текущей награды
+            int rewardStarsCount = rewardForStarsList.get(i).getRewardCountStars();
+            if ((starsCount >= lastRewardCountStars) && (starsCount <= rewardStarsCount)) {
+                lastCount = lastRewardCountStars;
+                rewardCount = rewardStarsCount;
+                index = i;
+            }
         }
 
-        /** создадим "указатель - палец" **/
-//        finger = new Finger(rewardForStarsList.get(0).getX() + (rewardForStarsList.get(0).getWidth() / 2 - Finger.WIDTH / 2) + 48 + 36,
-//                rewardForStarsList.get(0).getY() + rewardForStarsList.get(0).getHeight() + 16 + Finger.HEIGHT,
-//                Finger.DOWN);
-//        finger.debug();
-//
-//
-//
-//        float x = rewardForStarsList.get(0).getRewardImage().getX() + (rewardForStarsList.get(0).getRewardImage().getWidth() / 2 - Finger.WIDTH / 2) + 48 + 36;
-//        float y = rewardForStarsList.get(0).getRewardImage().getY() + rewardForStarsList.get(0).getRewardImage().getHeight() + 16 + Finger.HEIGHT;
-//        finger.setPosition(x, y);
-//        addChild(finger);
-//        finger.show();
+        // получим кол-во звезд, для достижения текущей награды
+//        int rewardStarsCount = rewardForStarsList.get(i).getRewardCountStars();
+        int deltaCountStars = starsCount - lastCount;
+        if (starsCount < rewardCount) {
+            if (deltaCountStars >= 0) {
+                calculatedWidth = deltaCountStars * (barWidth - 2) / (rewardCount - lastCount);
+                if (calculatedWidth <= 0) calculatedWidth = 2;
+            } else {
+                calculatedWidth = 2;
+            }
+        } else {
+            calculatedWidth = barWidth;
+        }
+
+        System.out.println("Index = " + index);
+        System.out.println("calculatedWidth = " + calculatedWidth);
+        xPos = (index) * (184 + 8) + calculatedWidth;
 
         groupWidth += 190 * rewardForStarsList.size() + rewardForStarsList.get(0).getWidth();
 
-        starsPanelSmall.setPosition(xPos - 8 - starsPanelSmall.getWidth() / 2, 0);
-//        starsPanelSmall.setPosition(xPos - 8 - starsPanelSmall.getWidth() / 2, 216);
+        System.out.println("XPOS = " + xPos);
+        starsPanelSmall.setPosition(xPos - starsPanelSmall.getWidth() / 2, 0);
         if (starsCount == 0) starsPanelSmall.setVisible(false);
         else {
             starsPanelSmall.setVisible(true);
         }
         group.addActor(starsPanelSmall);
-//        addChild(starsPanelSmall);
 
         /** scroller - это окно прокрутки, сама прокрутка **/
         Table scrollTable = new Table();
         scrollTable.debug();
         scrollTable.add(group).width(groupWidth).height(360);
-//        scrollTable.add(group).width(1200).height(300);
-
         final ScrollPane scroller = new ScrollPane(scrollTable);
-//        final ScrollPane scroller = new ScrollPane(group);
-//        scroller.set
         scroller.debug();
-//        scroller.setSize(1600, 600);
-//        scroller.setPosition(100, 100);
 
         Table table = new Table();
         table.debug();
 
         table.left().top();
-        //table = new Table().debug();
-
         table.setWidth(scrollTableWidth);
         table.setHeight(360);
-//        table.setFillParent(true);
         table.add(scroller).fill().expand();
         table.setPosition(0, 240);
         addChild(table);
+    }
+
+    public void updateXposSmallStarsPanel(float xPos) {
+        this.xPos = xPos;
     }
 
     public void showToast(int starsCount) {
@@ -213,72 +206,6 @@ public class RewardForStarsScreen extends StageGame {
             isStartToastAction = true;
         }
     }
-
-//    class StarsBar extends Actor {
-//        Texture bgBarTexture, barTexture;
-//        float x, y;
-//        boolean isReceived;
-//        Pixmap progressPixmap;
-//
-//        /**
-//         * starsBar - объект, бар полосы на фоне
-//         *
-//         * @param deltaCountStars      - кол-во звезд между текущим кол-вом и кол-вом за последнюю награду
-//         * @param lastRewardCountStars - кол-во звёзд за последнюю награду
-//         * @param rewardStarsCount     - кол-во звёзд для награды
-//         **/
-//        public StarsBar(float x, float y, boolean isReceived, int deltaCountStars, int lastRewardCountStars, int rewardStarsCount) {
-//            this.isReceived = isReceived;   // елси награда не получена (достигнута или нет, бар будет ЖЁЛТЫМ, если получена - ОРАНЖЕВЫМ
-//            createStarsBar(x, barWidth, barHeight, deltaCountStars, lastRewardCountStars, rewardStarsCount);
-//            setSize(bgBarTexture.getWidth(), bgBarTexture.getHeight());
-//            this.x = x;
-//            this.y = y;
-//        }
-//
-//        // метод окрашивает бар в темный цвет, что означает что награда получена
-//        void setColorBarIsRecieved() {
-//            progressPixmap.setColor(new Color(0xa29100ff));
-//        }
-//
-//        @Override
-//        public void draw(Batch batch, float parentAlpha) {
-//            super.draw(batch, parentAlpha);
-//            batch.draw(bgBarTexture, x, y);
-//            batch.draw(barTexture, x + 1, y + 1);
-//        }
-//
-//        private void createStarsBar(float x, int barWidth, int barHeight, int deltaCountStars, int lastRewardCountStars, int rewardStarsCount) {
-////            progressPixmap;
-////            Pixmap progressPixmap;
-//            /** проеверим, если награда получена, то окрасим темно-оранжевым цветом Bar*/
-//            if (!isReceived) {  // не получена, bar - желтый
-//                int calculatedWidth;
-//                if (starsCount < rewardStarsCount) {
-////                health * (healthBarWidth - 2) / fullHealth
-//                    if (deltaCountStars >= 0) {
-//                        calculatedWidth = deltaCountStars * (barWidth - 2) / (rewardStarsCount - lastRewardCountStars);
-//                        if (calculatedWidth <= 0) calculatedWidth = 2;
-//                    } else {
-//                        calculatedWidth = 2;
-//                    }
-//                } else {
-//                    calculatedWidth = barWidth;
-//                }
-//
-//                if ((starsCount >= lastRewardCountStars) && (starsCount <= rewardStarsCount)) {
-//                    xPos = calculatedWidth + x;
-//                }
-//
-////                System.out.println("calculatedWidth = " + calculatedWidth);
-//                progressPixmap = createProceduralPixmap(calculatedWidth - 2, barHeight - 2, new Color(0xf2d900ff));
-//            } else {    // получена - темно-оранжевый цвет
-//                progressPixmap = createProceduralPixmap(barWidth - 2, barHeight - 2, new Color(0xa29100ff));
-//            }
-//            Pixmap backPixmap = createProceduralPixmap(barWidth, barHeight, new Color(0x464642));
-//            barTexture = new Texture(progressPixmap);
-//            bgBarTexture = new Texture(backPixmap);
-//        }
-//    }
 
     private void createBackground() {
         Pixmap bgPixmap = createProceduralPixmap((int) getWidth(), (int) getHeight(), new Color(0x6da86bff));

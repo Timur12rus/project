@@ -119,7 +119,6 @@ public class RewardForStars extends Group {
             finger.setPosition(x, y);
             finger.setVisible(false);
             addActor(finger);
-
             if (gameManager.getHelpStatus() == GameManager.HELP_STARS_PANEL) {
                 finger.show();
             }
@@ -152,7 +151,6 @@ public class RewardForStars extends Group {
                 rewardCountStars // кол-во звёзд за награду
         );
         addActor(bar);
-
 
         addCaptureListener(new EventListener() { // добавляет слушателя события корневому элементу, отключая его для дочерних элементов
             @Override
@@ -191,7 +189,6 @@ public class RewardForStars extends Group {
                 if ((!data.getIsReceived()) && (data.getIsChecked())) {     // если награда доступна но не получена
                     getRewardForStars();
                 }
-
                 if (!data.getIsChecked()) {     // если награда не доступна
                     rewardForStarsScreen.showToast(data.getStarsCount());
                 }
@@ -230,21 +227,15 @@ public class RewardForStars extends Group {
         }
 
         // метод окрашивает бар в темный цвет, что означает что награда получена
-        void setColorBarIsRecieved() {
-            System.out.println("SET COLOR!!!");
-            progressPixmap.setColor(new Color(0xa29100ff));
-//            progressPixmap.setColor(new Color(0xa29100ff));
+        void setIsReceived(boolean flag) {
+            isReceived = flag;
         }
 
-//        Pixmap getPixmap(Texture texture) {
-//            return texture;
-//        }
 
         @Override
         public void draw(Batch batch, float parentAlpha) {
             super.draw(batch, parentAlpha);
             batch.draw(bgBarTexture, x, y);
-//            batch.setColor(1, 0.6f, 0, 1);
             if (isReceived)
                 batch.setColor(1, 0.6f, 0, 1);
             batch.draw(barTexture, x + 1, y + 1);
@@ -253,11 +244,10 @@ public class RewardForStars extends Group {
 
 
         private void createStarsBar(float x, int barWidth, int barHeight, int deltaCountStars, int lastRewardCountStars, int rewardStarsCount) {
-//            progressPixmap;
-//            Pixmap progressPixmap;
             /** проеверим, если награ да получена, то окрасим темно-оранжевым цветом Bar*/
             if (!isReceived) {  // не получена, bar - желтый
                 int calculatedWidth;
+                // rewardStarsCount - кол-во здёзд необходимое для получения награды
                 if (starsCount < rewardStarsCount) {
 //                health * (healthBarWidth - 2) / fullHealth
                     if (deltaCountStars >= 0) {
@@ -272,9 +262,8 @@ public class RewardForStars extends Group {
 
                 if ((starsCount >= lastRewardCountStars) && (starsCount <= rewardStarsCount)) {
                     xPos = calculatedWidth + x;
+                    rewardForStarsScreen.updateXposSmallStarsPanel(xPos);
                 }
-
-//                System.out.println("calculatedWidth = " + calculatedWidth);
                 progressPixmap = createProceduralPixmap(calculatedWidth - 2, barHeight - 2, new Color(0xf2d900ff));
             } else {    // получена - темно-оранжевый цвет
                 progressPixmap = createProceduralPixmap(barWidth - 2, barHeight - 2, new Color(0xf2d900ff));
@@ -284,7 +273,6 @@ public class RewardForStars extends Group {
             barTexture = new Texture(progressPixmap);
             bgBarTexture = new Texture(backPixmap);
         }
-
 
 
         private Pixmap createProceduralPixmap(int width, int height, Color color) {
@@ -331,10 +319,11 @@ public class RewardForStars extends Group {
                 }
                 break;
         }
-        bar.setColorBarIsRecieved();
+        bar.setIsReceived(true);
 
 //         сохраним данные
         data.setReceived();                                  // награда получена
+
         gameManager.getStarsPanel().updateCountReward();
         gameManager.saveGame();
 
