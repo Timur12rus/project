@@ -44,8 +44,8 @@ class GiftPanel extends Group {
     private final long DELTA_TIME_FIRST = 300000L;
     private final long DELTA_TIME_SECOND = 600000L;
 
-//    private final long DELTA_TIME_FIRST = 10000L;
-//    private final long DELTA_TIME_SECOND = 5000L;
+//    private final long DELTA_TIME_FIRST = 5000L;
+//    private final long DELTA_TIME_SECOND = 3000L;
     private final int COINS_COUNT_REWARD = 55;
 
     private long deltaTime;
@@ -219,21 +219,26 @@ class GiftPanel extends Group {
         Image resTwo = null;
         if (giftsType == RESOURCES_GIFT) {
             resTwo = getImageResourse(secondResource);
+
         }
 
         // сохраним соятояние игры с новыми значениями ресурсов
         gameManager.saveGame();
 
         // установим позицию для добавляемых монет, к которым будут применены action'ы
-        float x = rewardTable.getX() + rewardTable.getWidth() - 96;
+        float x = rewardTable.getX() + rewardTable.getWidth();
+//        float x = rewardTable.getX() + rewardTable.getWidth() - 96;
         float y = getY() + getHeight() / 2;
         resOne.setPosition(x, y);
 
-        addActor(resOne);
+        this.getParent().addActor(resOne);
+//        addActor(resOne);
 //        addActor(resTwo);
         if (giftsType == RESOURCES_GIFT) {
-            resTwo.setPosition(x, y);
-            addActor(resTwo);
+            resOne.setPosition(x + 160, y);
+            resTwo.setPosition(x + 160, y);
+//            addActor(resTwo);
+            this.getParent().addActor(resTwo);
         }
 
         float endXPos = -300;
@@ -263,18 +268,26 @@ class GiftPanel extends Group {
             }
         };
 
+        float deltaXOne = 0;
+        float deltaXTwo = 0;
+        if (giftsType == RESOURCES_GIFT) {
+            deltaXOne = 210;
+            deltaXTwo = 48;
+        }
         // action для первого ресурса
         SequenceAction moveActionResOne = new SequenceAction(Actions.fadeIn(0),
-                Actions.moveTo(getWidth() / 2 + 32, getHeight() / 2 + 88, 0.8f, new Interpolation.SwingOut(1)),
-                Actions.moveTo(endXPos, endYPos, 0.8f),
+                Actions.moveTo(getWidth() / 2 + 120 + deltaXOne, getHeight() / 2 + 88, 0.8f, new Interpolation.SwingOut(1)),
+                Actions.moveTo(endXPos + deltaXOne + deltaXTwo, endYPos, 0.8f),
                 Actions.fadeOut(0),
                 checkEndOfAction
         );
 
+
         // action для вторго ресурса
         SequenceAction moveActionResTwo = new SequenceAction(Actions.fadeIn(0),
-                Actions.moveTo(getWidth() / 2 - 64, getHeight() / 2 + 32, 0.8f, new Interpolation.SwingOut(1)),
-                Actions.moveTo(endXPos, endYPos, 0.8f),
+                Actions.moveTo(getWidth() / 2 + 48 + deltaXOne, getHeight() / 2 + 32, 0.8f, new Interpolation.SwingOut(1)),
+//                Actions.moveTo(getWidth() / 2 - 64, getHeight() / 2 + 32, 0.8f, new Interpolation.SwingOut(1)),
+                Actions.moveTo(endXPos + deltaXOne + deltaXTwo, endYPos, 0.8f),
                 Actions.fadeOut(0)
 //                ,checkEndOfAction
         );
