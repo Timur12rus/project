@@ -10,6 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.AlphaAction;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -39,6 +41,7 @@ public class RewardForStarsScreen extends StageGame {
     private float xPos;     // позиция Х panelStarsSmall
     private boolean isStartToastAction = false;
     private Finger finger;
+//    private Hilite hilite;      // подсветка на фоне награды за звёзды
 
     public RewardForStarsScreen(GameManager gameManager) {
         createBackground();
@@ -74,6 +77,14 @@ public class RewardForStarsScreen extends StageGame {
         int index = 0;  // индекс текущего количества звезд, используется в рассчете поз. х smallStarsPanel
         int lastCount = 0, rewardCount = 0;     // кол-во звезд за последнюю награду и текущую награду
         int calculatedWidth = 0;       // вычисленная координата для starsSmallPanel
+
+//        /** создадим подсветку следующей награды за звезды **/
+//        hilite = new Hilite(stage);
+////        addChild(hilite);
+//        hilite.setPosition(50, 200);
+//        hilite.setHilite();
+
+
         /** создадим картинки и бары **/
         for (int i = 0; i < rewardForStarsDataList.size(); i++) {
 
@@ -89,12 +100,14 @@ public class RewardForStarsScreen extends StageGame {
                 deltaCountStars = starsCount - lastRewardCountStars;
             }
 
-            System.out.println("deltaCountStars = " + deltaCountStars);
+//            System.out.println("deltaCountStars = " + deltaCountStars);
 
             rewardForStarsList.add(new RewardForStars(this,
                     rewardForStarsDataList.get(i), gameManager, deltaCountStars, lastRewardCountStars));
+
             rewardForStarsList.get(i).setPosition(190 * i + rewardForStarsList.get(i).getWidth(), 144);
-            group.addActor(rewardForStarsList.get(i));
+
+            group.addActor(rewardForStarsList.get(i));      // добавляем RewardForStars в корневую группу
 
             /** обозначим доступные награды за звезды **/
             if (starsCount > rewardForStarsDataList.get(i).getStarsCount()) {
@@ -121,6 +134,15 @@ public class RewardForStarsScreen extends StageGame {
             }
         }
 
+        rewardForStarsList.get(index).setHilite();
+
+
+//        hilite.setPosition(rewardForStarsList.get(index).getX(), rewardForStarsList.get(index).getY()); // установим позицию подсветки текущей награды
+//        hilite.setHilite();     // делаем видимой подсветку
+        System.out.println("INDEX = " + index);
+        System.out.println("xPOs = " + rewardForStarsList.get(index).getX());
+//        System.out.println("hilitePosX = " + hilite.getX());
+
         // получим кол-во звезд, для достижения текущей награды
 //        int rewardStarsCount = rewardForStarsList.get(i).getRewardCountStars();
         int deltaCountStars = starsCount - lastCount;
@@ -136,12 +158,12 @@ public class RewardForStarsScreen extends StageGame {
         }
 
         System.out.println("Index = " + index);
-        System.out.println("calculatedWidth = " + calculatedWidth);
+//        System.out.println("calculatedWidth = " + calculatedWidth);
         xPos = (index) * (184 + 8) + calculatedWidth;
 
         groupWidth += 190 * rewardForStarsList.size() + rewardForStarsList.get(0).getWidth();
 
-        System.out.println("XPOS = " + xPos);
+//        System.out.println("XPOS = " + xPos);
         starsPanelSmall.setPosition(xPos - starsPanelSmall.getWidth() / 2, 0);
         if (starsCount == 0) starsPanelSmall.setVisible(false);
         else {

@@ -67,7 +67,7 @@ class GiftPanel extends Group {
     // панель с горизонтальной таблицей GiftRewardTable и кнопкой "ПОЛУЧИТЬ"
     public GiftPanel(GiftIcon giftIcon, float x, float y, GameManager gameManager, int giftsType) {
         this.giftIcon = giftIcon;
-        System.out.println("GIFT ICON = " + giftIcon);
+//        System.out.println("GIFT ICON = " + giftIcon);
         xPos = x;
         yPos = y;
         this.giftsType = giftsType;

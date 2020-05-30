@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -40,7 +41,14 @@ public class RewardForStars extends Group {
     private int lastRewardCountStars;
     private int starsCount;
     private float xPos;     // позиция Х panelStarsSmall
+    private Hilite hilite;
 
+
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+        hilite.act(delta);
+    }
 
     public RewardForStars(final RewardForStarsScreen rewardForStarsScreen, final RewardForStarsData data, final GameManager gameManager,
                           int deltaCountStars, int lastRewardCountStars) {
@@ -136,7 +144,12 @@ public class RewardForStars extends Group {
 
         nameLabel = new Label("" + name, labelStyle);
         nameLabel.setPosition((bg.getWidth() - nameLabel.getWidth()) / 2, 0);
-        System.out.println("nameLabelWidth = " + nameLabel.getWidth());
+//        System.out.println("nameLabelWidth = " + nameLabel.getWidth());
+
+
+        hilite = new Hilite(this);
+//        hilite.setPosition(100, 120);
+//        hilite.debug();
 
         addActor(rewardImage);                      // добавим изображение
         addActor(nameLabel);
@@ -198,6 +211,57 @@ public class RewardForStars extends Group {
 
     public float getxPos() {
         return xPos;
+    }
+
+    public void setHilite() {
+        hilite.setHilite();
+    }
+
+    // подсветка для значка награды
+    class Hilite extends Actor {
+        Image image;
+        boolean isHilited = false;
+        boolean alphaUp = false;
+
+        public Hilite(Group group) {
+            image = new Image(Warfare.atlas.findRegion("hiliteImage"));
+            image.setVisible(false);
+            setSize(image.getWidth(), image.getHeight());
+            group.addActor(image);
+
+        }
+
+        void setHilite() {
+            image.setVisible(true);
+            isHilited = true;
+        }
+
+        @Override
+        public void act(float delta) {
+            super.act(delta);
+            System.out.println("act()");
+            if (isHilited) {
+                System.out.println("XPOS = " + getX());
+                float alpha = image.getColor().a;
+                System.out.println("alphaUP = " + alphaUp);
+                if (alphaUp) {
+                    alpha += delta;
+                    System.out.println("Alpha = " + alpha);
+                    if (alpha >= 1) {
+                        alpha = 1;
+                        alphaUp = false;
+                    }
+                } else {
+                    alpha -= delta;
+                    System.out.println("Alpha = " + alpha);
+                    if (alpha < 0) {
+                        alpha = 0;
+                        alphaUp = true;
+                    }
+                }
+                image.setColor(1, 1, 1, alpha);
+            }
+        }
     }
 
     // класс StarsBar - полоса, индикатор кол-во звдезд за награду
