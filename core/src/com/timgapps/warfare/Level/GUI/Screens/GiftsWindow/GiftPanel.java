@@ -41,12 +41,13 @@ class GiftPanel extends Group {
     public static final int RESOURCES_GIFT = 1;
     public static final int RESOURCE_AND_COINS_GIFT = 2;
     public static final int BUFFS_GIFT = 3;
-    private final long DELTA_TIME_FIRST = 300000L;
-    private final long DELTA_TIME_SECOND = 600000L;
+//    private final long DELTA_TIME_FIRST = 300000L;
+//    private final long DELTA_TIME_SECOND = 600000L;
 
-//    private final long DELTA_TIME_FIRST = 5000L;
-//    private final long DELTA_TIME_SECOND = 3000L;
+    private final long DELTA_TIME_FIRST = 5000L;
+    private final long DELTA_TIME_SECOND = 3000L;
     private final int COINS_COUNT_REWARD = 55;
+
 
     private long deltaTime;
     private long giftTime;          // время в мсек до получения подарка

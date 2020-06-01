@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.timgapps.warfare.Level.GUI.Finger;
 import com.timgapps.warfare.Level.GUI.Screens.RewardForStars.RewardForStarsData;
 import com.timgapps.warfare.Warfare;
 
@@ -31,6 +32,7 @@ public class StarsPanel extends Group {
     private int indexOfRewardStars;
     private int countRewardIsChecked;       // кол-во доступных наград
     private RoundCircle roundCircle;
+    private Finger finger;
 
 
     /**
@@ -78,6 +80,15 @@ public class StarsPanel extends Group {
         addActor(starsCountLabel);
         addActor(textLabel);
 
+        finger = new Finger(rewardIcon.getX() + rewardIcon.getWidth() + 64,
+                rewardIcon.getY() + (rewardIcon.getHeight() - 44) / 2 - 24,
+                Finger.LEFT);
+
+        finger.setPosition(rewardIcon.getX() + rewardIcon.getWidth() + 64,
+                rewardIcon.getY() + (rewardIcon.getHeight() - 44) / 2 - 24);
+
+
+
         /** определим кол-во доступных наград **/
         for (int i = 0; i < rewardForStarsDataList.size(); i++) {
             if (rewardForStarsDataList.get(i).getIsChecked() && !rewardForStarsDataList.get(i).getIsReceived()) {
@@ -96,6 +107,15 @@ public class StarsPanel extends Group {
         } else {
             roundCircle.setVisible(false);
         }
+    }
+
+    public void showFinger() {
+        addActor(finger);
+        finger.show();
+    }
+
+    public void hideFinger() {
+        finger.hide();
     }
 
     private void setRewardImage(int typeOfRewardForStars) {

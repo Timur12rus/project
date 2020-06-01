@@ -228,7 +228,6 @@ public class RewardForStars extends Group {
             image.setVisible(false);
             setSize(image.getWidth(), image.getHeight());
             group.addActor(image);
-
         }
 
         void setHilite() {

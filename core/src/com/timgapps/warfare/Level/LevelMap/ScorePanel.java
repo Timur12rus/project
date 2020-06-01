@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.timgapps.warfare.Level.GUI.Finger;
 import com.timgapps.warfare.Warfare;
 
 public class ScorePanel extends Group {
@@ -52,6 +53,8 @@ public class ScorePanel extends Group {
         addActor(table);
     }
 
+
+
     public void addScore(int score) {
         scoreCount += score;
         scoreValueLabel.setText("" + scoreCount);
@@ -73,7 +76,7 @@ public class ScorePanel extends Group {
             bg = new Image(Warfare.atlas.findRegion("score_icon"));
 
             playerLevelLabel.setPosition((bg.getWidth() - playerLevelLabel.getWidth()) / 2,
-                                     (bg.getHeight() - playerLevelLabel.getHeight()) / 2);
+                    (bg.getHeight() - playerLevelLabel.getHeight()) / 2);
 
             setSize(bg.getWidth(), bg.getHeight());
             addActor(bg);
