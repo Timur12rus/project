@@ -221,8 +221,8 @@ public class LevelMap extends StageGame {
         checkHelpStatus(gameManager.getHelpStatus());
 
 
-//            finger.setPosition(upgradeTeamButton.getX() + upgradeTeamButton.getWidth() + 84,
-//                    upgradeTeamButton.getY());
+            finger.setPosition(upgradeTeamButton.getX() + upgradeTeamButton.getWidth() + 84,
+                    upgradeTeamButton.getY());
 //
 //            addOverlayChild(finger);
 ////            addChild(finger);
