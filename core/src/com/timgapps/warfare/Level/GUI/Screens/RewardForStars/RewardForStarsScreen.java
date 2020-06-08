@@ -40,7 +40,6 @@ public class RewardForStarsScreen extends StageGame {
     private int starsCount;
     private float xPos;     // позиция Х panelStarsSmall
     private boolean isStartToastAction = false;
-    private Finger finger;
 //    private Hilite hilite;      // подсветка на фоне награды за звёзды
 
     public RewardForStarsScreen(GameManager gameManager) {

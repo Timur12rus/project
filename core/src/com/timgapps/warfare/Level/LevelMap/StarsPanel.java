@@ -34,7 +34,6 @@ public class StarsPanel extends Group {
     private RoundCircle roundCircle;
     private Finger finger;
 
-
     /**
      * панель с кол-вом звезд (Например: 4/11)
      **/
@@ -82,11 +81,10 @@ public class StarsPanel extends Group {
 
         finger = new Finger(rewardIcon.getX() + rewardIcon.getWidth() + 64,
                 rewardIcon.getY() + (rewardIcon.getHeight() - 44) / 2 - 24,
-                Finger.LEFT);
+                Finger.LEFT, Warfare.atlas.findRegion("fingerUpLeft"));
 
         finger.setPosition(rewardIcon.getX() + rewardIcon.getWidth() + 64,
                 rewardIcon.getY() + (rewardIcon.getHeight() - 44) / 2 - 24);
-
 
 
         /** определим кол-во доступных наград **/

@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
@@ -118,7 +119,7 @@ public class RewardForStars extends Group {
         if (typeOfReward == RewardForStarsData.REWARD_STONE) {
             finger = new Finger(rewardImage.getX() + (rewardImage.getWidth() / 2 - Finger.WIDTH / 2) + 108,
                     rewardImage.getY() + rewardImage.getHeight() + 42 + Finger.HEIGHT,
-                    Finger.DOWN);
+                    Finger.DOWN, new TextureRegion(Warfare.atlas.findRegion("fingerUpLeft")));
             finger.debug();
 
             float x = rewardImage.getX() + (rewardImage.getWidth() / 2 - Finger.WIDTH / 2) + 108;

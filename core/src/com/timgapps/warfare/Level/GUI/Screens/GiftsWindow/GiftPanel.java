@@ -302,6 +302,10 @@ class GiftPanel extends Group {
     }
 
     private void showAddGiftsAnimation() {
+        if (gameManager.getHelpStatus() == GameManager.HELP_GET_GIFT) {
+            gameManager.setHelpStatus(GameManager.NONE);
+            giftIcon.hideFinger();
+        }
         claimButton.setVisible(false);
         rewardTable.setVisible(false);
         timeLabel.setVisible(false);

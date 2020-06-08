@@ -2,6 +2,7 @@ package com.timgapps.warfare.Level;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
@@ -220,7 +221,7 @@ public class Level extends StageGame {
             if (gameManager.getHelpStatus() == gameManager.HELP_UNIT_CREATE) {
                 finger = new Finger(tableUnitButtons.getX() + (unitButtonWidth / 2 - Finger.WIDTH / 2) + 48 + 36,
                         tableUnitButtons.getY() + unitButtonHeight + 16 + Finger.HEIGHT,
-                        Finger.DOWN);
+                        Finger.DOWN,  new TextureRegion(Warfare.atlas.findRegion("fingerUpRight")));
                 finger.debug();
                 float x = tableUnitButtons.getX() + (unitButtonWidth - Finger.WIDTH) / 2 + 48 + 36;
                 float y = tableUnitButtons.getY() + unitButtonHeight + 16 + Finger.HEIGHT;

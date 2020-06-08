@@ -2,7 +2,6 @@ package com.timgapps.warfare.Level.LevelMap;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.maps.MapLayer;
@@ -20,16 +19,12 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.viewport.Viewport;
-import com.boontaran.MessageEvent;
 import com.boontaran.MessageListener;
 import com.boontaran.games.StageGame;
 import com.boontaran.games.tiled.TileLayer;
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
+import com.timgapps.warfare.Game;
 import com.timgapps.warfare.Level.GUI.Finger;
 import com.timgapps.warfare.Level.GUI.Screens.CoinsPanel;
 import com.timgapps.warfare.Level.GUI.Screens.MissionInfoScreen;
@@ -60,7 +55,8 @@ public class LevelMap extends StageGame {
     private GiftScreen giftScreen;
     private Group parent;
     public static BitmapFont font40;
-    private ImageButton upgradeTeamButton;      // кнопка для вызова окна апгрейда юнитов
+    private TeamUpgradeIcon teamUpgradeIcon;      // кнопка для вызова окна апгрейда юнитов
+    //    private ImageButton upgradeTeamButton;      // кнопка для вызова окна апгрейда юнитов
     private GiftIcon giftIcon;
     private GameManager gameManager;
     private CoinsPanel coinsPanel;              // панель с монетами
@@ -150,23 +146,25 @@ public class LevelMap extends StageGame {
         });
 
 
-        upgradeTeamButton = new ImageButton(new TextureRegionDrawable(Warfare.atlas.findRegion("teamButton")),
-                new TextureRegionDrawable(Warfare.atlas.findRegion("teamButtonDwn")));
+//        upgradeTeamButton = new ImageButton(new TextureRegionDrawable(Warfare.atlas.findRegion("teamButton")),
+//                new TextureRegionDrawable(Warfare.atlas.findRegion("teamButtonDwn")));
+
 //        addChild(upgradeTeamButton, 32, 340);
-        upgradeTeamButton.setPosition(32, getHeight() / 2);
-        addOverlayChild(upgradeTeamButton);
+        teamUpgradeIcon = new TeamUpgradeIcon();
+        teamUpgradeIcon.setPosition(32, getHeight() / 2);
+        addOverlayChild(teamUpgradeIcon);
 
         Label.LabelStyle teamLabelStyle = new Label.LabelStyle();
         teamLabelStyle.fontColor = Color.WHITE;
         teamLabelStyle.font = Warfare.font10;
         teamLabel = new Label("Team", teamLabelStyle);
-        teamLabel.setPosition(upgradeTeamButton.getX() + (upgradeTeamButton.getWidth() - teamLabel.getWidth()) / 2,
-                upgradeTeamButton.getY() - teamLabel.getHeight());
+        teamLabel.setPosition(teamUpgradeIcon.getX() + (teamUpgradeIcon.getWidth() - teamLabel.getWidth()) / 2,
+                teamUpgradeIcon.getY() - teamLabel.getHeight());
         addOverlayChild(teamLabel);
 
 //        gameManager.setHelpStatus(gameManager.HELP_TEAM_UPGRADE);
 
-        upgradeTeamButton.addListener(new ClickListener() {
+        teamUpgradeIcon.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 showTeamUpgradeScreen();
@@ -197,36 +195,23 @@ public class LevelMap extends StageGame {
         });
 
 
+//        gameManager.setHelpStatus(GameManager.HELP_TEAM_UPGRADE);
+
         int helpStatus = gameManager.getHelpStatus();     // получим статус обучалки
+        checkHelpStatus(helpStatus);
 
-//        helpStatus = gameManager.HELP_TEAM_UPGRADE;
-        if (helpStatus == GameManager.HELP_STARS_PANEL) {
-            starsPanel.showFinger();
-//            finger = new Finger(starsPanel.getX() + starsPanel.getWidth() + 84,
-//                    starsPanel.getY(),
-//                    Finger.LEFT);
+//        if (helpStatus == GameManager.HELP_STARS_PANEL) {
+//            starsPanel.showFinger();
+//            gameManager.setHelpStatus(GameManager.HELP_TEAM_UPGRADE);
+//        }
 //
-//            finger.setPosition(starsPanel.getX() + starsPanel.getWidth() + 84,
-//                    starsPanel.getY());
-//
-//            addChild(finger);
-//            finger.show();
-        }
-
 //        if (helpStatus == GameManager.HELP_TEAM_UPGRADE) {
-        finger = new Finger(upgradeTeamButton.getX() + upgradeTeamButton.getWidth() + 84,
-                upgradeTeamButton.getY(),
-                Finger.LEFT);
-        addOverlayChild(finger);
-        checkHelpStatus(gameManager.getHelpStatus());
-
-
-            finger.setPosition(upgradeTeamButton.getX() + upgradeTeamButton.getWidth() + 84,
-                    upgradeTeamButton.getY());
+//            teamUpgradeIcon.showFinger();
+//            gameManager.setHelpStatus(GameManager.HELP_GET_GIFT);
+//        }
 //
-//            addOverlayChild(finger);
-////            addChild(finger);
-//            finger.show();
+//        if (helpStatus == GameManager.HELP_GET_GIFT) {
+//            giftIcon.showFinger();
 //        }
 
         /** создадим окно апргейда команды и передаём информацию о составе команды(manager)**/
@@ -244,9 +229,6 @@ public class LevelMap extends StageGame {
             }
         });
 
-//        gameManager.setHelpStatus(GameManager.HELP_TEAM_UPGRADE);
-
-//        addChild(coinsPanel, getWidth() - coinsPanel.getWidth() - 32, getHeight() - coinsPanel.getHeight() - 32);
 
         // запустим анимацию  получения монет к общему кол-ву монет
         if (coinsReward > 0) {
@@ -273,10 +255,10 @@ public class LevelMap extends StageGame {
         starsPanel.setVisible(false);
         darkLayer.setPosition(cameraXpos - camera.viewportWidth / 2, cameraYpos - camera.viewportHeight / 2);
         giftIcon.setVisible(false);
-        upgradeTeamButton.setVisible(false);
-        if (finger != null) {
-            finger.setVisible(false);
-        }
+        teamUpgradeIcon.setVisible(false);
+//        if (finger != null) {
+//            finger.setVisible(false);
+//        }
         darkLayer.setVisible(true);
     }
 
@@ -285,10 +267,10 @@ public class LevelMap extends StageGame {
         starsPanel.setVisible(true);
         darkLayer.setVisible(false);
         giftIcon.setVisible(true);
-        if (finger != null && gameManager.getHelpStatus() != GameManager.HELP_GET_GIFT) {
-            finger.setVisible(true);
-        }
-        upgradeTeamButton.setVisible(true);
+//        if (finger != null && gameManager.getHelpStatus() != GameManager.HELP_GET_GIFT) {
+//            finger.setVisible(true);
+//        }
+        teamUpgradeIcon.setVisible(true);
     }
 
 
@@ -404,11 +386,13 @@ public class LevelMap extends StageGame {
         teamUpgradeScreen.updateCollection();
         teamUpgradeScreen.setVisible(true);
 
+        teamUpgradeIcon.hideFinger();
+
         // TODO нужно исправить!!!!!!!!
-        if (gameManager.getHelpStatus() == GameManager.HELP_TEAM_UPGRADE && finger != null) {
+        if (gameManager.getHelpStatus() == GameManager.HELP_TEAM_UPGRADE) {
             System.out.println("GIIIIIIIIIIIIIDE!!!!!!!!!!!");
             gameManager.setHelpStatus(GameManager.HELP_GET_GIFT);
-            starsPanel.hideFinger();
+            teamUpgradeIcon.hideFinger();
         }
     }
 
@@ -444,21 +428,19 @@ public class LevelMap extends StageGame {
     // TODO showAddCoinAnimation() !~!!!!!!!!!!!!!!
 
     private void checkHelpStatus(int helpStatus) {
-        if (finger != null) {
-            if (helpStatus == gameManager.HELP_GET_GIFT) {
-                System.out.println("Hekp Gift");
-                finger.setPosition(200, 200);
-//                finger.setPosition(giftIcon.getX() - finger.getWidth() - 16, giftIcon.getY());
-                System.out.println("finX = " + finger.getX()) ;
-                finger.setRotation(90);
-                finger.show();
-            }
-//            if (helpStatus == gameManager.HELP_TEAM_UPGRADE) {
-//                System.out.println("TEAMUP");
-//                finger.setPosition(upgradeTeamButton.getX() + upgradeTeamButton.getWidth() + 84,
-//                        upgradeTeamButton.getY());
-//                finger.show();
-//            }
+        if (helpStatus == GameManager.HELP_STARS_PANEL) {
+            starsPanel.showFinger();
+            gameManager.setHelpStatus(GameManager.HELP_TEAM_UPGRADE);
+            starsPanel.hideFinger();
+        }
+
+        if (helpStatus == GameManager.HELP_TEAM_UPGRADE) {
+            teamUpgradeIcon.showFinger();
+            gameManager.setHelpStatus(GameManager.HELP_GET_GIFT);
+        }
+
+        if (helpStatus == GameManager.HELP_GET_GIFT) {
+            giftIcon.showFinger();
         }
     }
 

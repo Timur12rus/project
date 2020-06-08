@@ -181,7 +181,7 @@ arrow
   index: -1
 backImage
   rotate: false
-  xy: 1941, 21
+  xy: 1941, 11
   size: 92, 80
   orig: 92, 80
   offset: 0, 0
@@ -375,9 +375,16 @@ explosion5
   orig: 160, 140
   offset: 0, 0
   index: -1
-finger
+fingerUpLeft
   rotate: false
   xy: 1870, 771
+  size: 72, 84
+  orig: 72, 84
+  offset: 0, 0
+  index: -1
+fingerUpRight
+  rotate: false
+  xy: 1956, 167
   size: 72, 84
   orig: 72, 84
   offset: 0, 0
@@ -636,7 +643,7 @@ levelIcon
   index: -1
 levelIcon_active
   rotate: false
-  xy: 1956, 179
+  xy: 1956, 93
   size: 74, 72
   orig: 74, 72
   offset: 0, 0
@@ -646,13 +653,6 @@ levelIcon_active_down
   xy: 688, 2
   size: 98, 96
   orig: 98, 96
-  offset: 0, 0
-  index: -1
-levelIcon_inactive
-  rotate: false
-  xy: 1956, 105
-  size: 74, 72
-  orig: 74, 72
   offset: 0, 0
   index: -1
 level_bg
@@ -964,7 +964,7 @@ barricadeExplosion8
   index: -1
 block1
   rotate: false
-  xy: 722, 450
+  xy: 820, 52
   size: 42, 42
   orig: 42, 42
   offset: 0, 0
@@ -1006,7 +1006,7 @@ boxImage5
   index: -1
 button_close_dwn
   rotate: false
-  xy: 767, 502
+  xy: 1993, 706
   size: 50, 50
   orig: 50, 50
   offset: 0, 0
@@ -1048,28 +1048,28 @@ energy_icon
   index: -1
 fire5
   rotate: false
-  xy: 1993, 766
+  xy: 1993, 758
   size: 48, 58
   orig: 48, 58
   offset: 0, 0
   index: -1
 fire6
   rotate: false
-  xy: 1993, 706
+  xy: 1979, 580
   size: 48, 58
   orig: 48, 58
   offset: 0, 0
   index: -1
 fire7
   rotate: false
-  xy: 1963, 646
+  xy: 1979, 520
   size: 48, 58
   orig: 48, 58
   offset: 0, 0
   index: -1
 fire8
   rotate: false
-  xy: 717, 494
+  xy: 1979, 460
   size: 48, 58
   orig: 48, 58
   offset: 0, 0
@@ -1158,6 +1158,13 @@ isReceived
   orig: 48, 48
   offset: 0, 0
   index: -1
+levelIcon_inactive
+  rotate: false
+  xy: 1968, 950
+  size: 74, 72
+  orig: 74, 72
+  offset: 0, 0
+  index: -1
 rockUnitImage
   rotate: false
   xy: 449, 762
@@ -1167,28 +1174,28 @@ rockUnitImage
   index: -1
 score_icon
   rotate: false
-  xy: 819, 504
+  xy: 1979, 410
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: -1
 smoke
   rotate: false
-  xy: 722, 406
+  xy: 864, 52
   size: 42, 42
   orig: 42, 42
   offset: 0, 0
   index: -1
 star
   rotate: false
-  xy: 1968, 958
+  xy: 1968, 884
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 starInactive
   rotate: false
-  xy: 1968, 892
+  xy: 1968, 818
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
@@ -1363,7 +1370,7 @@ thorWalk3
   index: -1
 wood_icon
   rotate: false
-  xy: 1968, 826
+  xy: 1963, 640
   size: 64, 64
   orig: 64, 64
   offset: 0, 0

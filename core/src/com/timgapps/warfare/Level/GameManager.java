@@ -62,6 +62,7 @@ public class GameManager {
     public static final int HELP_STARS_PANEL = 2;
     public static final int HELP_TEAM_UPGRADE = 3;
     public static final int HELP_GET_GIFT = 4;
+    public static final int NONE = 5;
     private int helpStatus;
 
     public GameManager() {

@@ -26,8 +26,8 @@ public class Finger extends Image {
     private RepeatAction repeatAction;
     private boolean isStarted = false;
 
-    public Finger(float x, float y, int orientation) {
-        super(Warfare.atlas.findRegion("finger"));
+    public Finger(float x, float y, int orientation, TextureRegion textureRegion) {
+        super(textureRegion);
 
         this.x = x;
         this.y = y;
@@ -60,6 +60,8 @@ public class Finger extends Image {
                 break;
             case RIGHT:
                 angleRotation = -90;
+                actionOne.setPosition(x, y);
+                actionTwo.setPosition(x + 16, y);
                 break;
             default:
                 angleRotation = 0;

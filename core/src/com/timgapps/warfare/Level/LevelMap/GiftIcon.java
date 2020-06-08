@@ -1,6 +1,7 @@
 package com.timgapps.warfare.Level.LevelMap;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -9,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.timgapps.warfare.Game;
+import com.timgapps.warfare.Level.GUI.Finger;
 import com.timgapps.warfare.Level.GameManager;
 import com.timgapps.warfare.Warfare;
 
@@ -18,6 +20,7 @@ public class GiftIcon extends Group {
     private GameManager gameManager;
     private Long firstGiftTime;
     private Long secondGiftTime;
+    private Finger finger;
 
     public GiftIcon(GameManager gameManager) {
         this.gameManager = gameManager;
@@ -42,6 +45,13 @@ public class GiftIcon extends Group {
         addActor(rewardIconDown);
         addActor(roundCircle);
 
+        finger = new Finger(rewardIcon.getX() - 120 + 16,
+                rewardIcon.getY() + 80,
+                Finger.RIGHT, new TextureRegion(Warfare.atlas.findRegion("fingerUpRight")));
+
+        finger.setPosition(rewardIcon.getX() - 120 + 16,
+                rewardIcon.getY() + 80);
+
         addCaptureListener(new EventListener() { // добавляет слушателя события корневому элементу, отключая его для дочерних элементов
             @Override
             public boolean handle(Event event) {
@@ -64,6 +74,15 @@ public class GiftIcon extends Group {
                 super.touchUp(event, x, y, pointer, button);
             }
         });
+    }
+
+    public void showFinger() {
+        addActor(finger);
+        finger.show();
+    }
+
+    public void hideFinger() {
+        finger.hide();
     }
 
     public void setGiftTimeFirst(long giftTimeFirst) {
