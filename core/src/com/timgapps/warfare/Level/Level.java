@@ -15,7 +15,6 @@ import com.boontaran.games.StageGame;
 import com.timgapps.warfare.Level.GUI.Finger;
 import com.timgapps.warfare.Level.GUI.HUD;
 import com.timgapps.warfare.Level.GUI.Screens.TeamEntity;
-import com.timgapps.warfare.Level.GUI.Screens.TeamEntityData;
 import com.timgapps.warfare.Level.GUI.StoneButton;
 import com.timgapps.warfare.Level.GUI.UnitButton;
 import com.timgapps.warfare.Level.LevelScreens.DarkLayer;
@@ -25,12 +24,9 @@ import com.timgapps.warfare.Level.LevelScreens.PauseScreen;
 import com.timgapps.warfare.Tools.WorldContactListener;
 import com.timgapps.warfare.Units.GameUnits.Barricade;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnit;
-import com.timgapps.warfare.Units.GameUnits.Enemy.Goblin1;
-import com.timgapps.warfare.Units.GameUnits.Enemy.Skeleton;
-import com.timgapps.warfare.Units.GameUnits.Enemy.Zombie;
-import com.timgapps.warfare.Units.GameUnits.Enemy.Zombie3;
 import com.timgapps.warfare.Units.GameUnits.Player.Archer1;
 import com.timgapps.warfare.Units.GameUnits.Player.Gnome;
+import com.timgapps.warfare.Units.GameUnits.Player.Knight;
 import com.timgapps.warfare.Units.GameUnits.Player.SiegeTower;
 import com.timgapps.warfare.Units.GameUnits.Player.Thor;
 import com.timgapps.warfare.Utils.Setting;
@@ -221,7 +217,7 @@ public class Level extends StageGame {
             if (gameManager.getHelpStatus() == gameManager.HELP_UNIT_CREATE) {
                 finger = new Finger(tableUnitButtons.getX() + (unitButtonWidth / 2 - Finger.WIDTH / 2) + 48 + 36,
                         tableUnitButtons.getY() + unitButtonHeight + 16 + Finger.HEIGHT,
-                        Finger.DOWN,  new TextureRegion(Warfare.atlas.findRegion("fingerUpRight")));
+                        Finger.DOWN, new TextureRegion(Warfare.atlas.findRegion("fingerUpRight")));
                 finger.debug();
                 float x = tableUnitButtons.getX() + (unitButtonWidth - Finger.WIDTH) / 2 + 48 + 36;
                 float y = tableUnitButtons.getY() + unitButtonHeight + 16 + Finger.HEIGHT;
@@ -405,6 +401,10 @@ public class Level extends StageGame {
         new Thor(this, 160, 210, health, damage);
     }
 
+    public void addKnight(int health, int damage) {
+        new Knight(this, 160, 210, health, damage);
+    }
+
     public void compareActorsYPos() {
         /** Полностью рабочий код, но с ошиблкой Zindex cannot be < 0 **/
 //        if (arrayActors.size() > 1) {
@@ -545,6 +545,7 @@ public class Level extends StageGame {
             System.out.println("unitButton height = " + unitButtonHeight);
             stoneButton = null;
 
+            // добавим кнопки с юнитами в соответствии с имеющимися юнитами в команде
             addUnitButtons();
 
             for (int i = 0; i < unitButtonArrayList.size(); i++) {
@@ -563,6 +564,7 @@ public class Level extends StageGame {
             return unitButtonArrayList.get(i);
         }
 
+        // метод добавляет кнопки юнитов в соответствии с командой
         void addUnitButtons() {
             for (int i = 0; i < team.size(); i++) {
                 switch (team.get(i).getUnitType()) {
@@ -577,6 +579,11 @@ public class Level extends StageGame {
                     case TeamEntity.THOR:
                         unitButtonArrayList.add(new UnitButton(level, new Image(Warfare.atlas.findRegion("thorActive")),
                                 new Image(Warfare.atlas.findRegion("thorInactive")), team.get(i).getEntityData()));
+                        break;
+
+                    case TeamEntity.KNIGHT:
+                        unitButtonArrayList.add(new UnitButton(level, new Image(Warfare.atlas.findRegion("knightActive")),
+                                new Image(Warfare.atlas.findRegion("knightInactive")), team.get(i).getEntityData()));
                         break;
 
                     case TeamEntity.STONE:

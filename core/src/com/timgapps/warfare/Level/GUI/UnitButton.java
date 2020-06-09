@@ -13,6 +13,7 @@ import com.timgapps.warfare.Level.Level;
 import com.timgapps.warfare.Units.GameUnits.Player.Archer1;
 import com.timgapps.warfare.Units.GameUnits.Player.Bullets.Stone;
 import com.timgapps.warfare.Units.GameUnits.Player.Gnome;
+import com.timgapps.warfare.Units.GameUnits.Player.Knight;
 import com.timgapps.warfare.Units.GameUnits.Player.Thor;
 import com.timgapps.warfare.Warfare;
 
@@ -128,6 +129,10 @@ public class UnitButton extends Group {
                 level.addThor(health, damage);
                 level.setEnergyCount(Thor.getEnergyPrice());    // установим количество энергии, вычтем стоимость энергии для появления юнита
                 break;
+            case TeamEntity.KNIGHT:
+                level.addKnight(health, damage);
+                level.setEnergyCount(Knight.getEnergyPrice());  // установим количество энергии, вычтем стоимость энергии для появления юнита
+                break;
         }
     }
 
@@ -158,6 +163,9 @@ public class UnitButton extends Group {
                 appearanceTime = Archer1.getAppearanceTime();
                 break;
             case TeamEntity.THOR:
+                appearanceTime = Thor.getAppearanceTime();
+                break;
+            case TeamEntity.KNIGHT:
                 appearanceTime = Thor.getAppearanceTime();
                 break;
             case TeamEntity.STONE:

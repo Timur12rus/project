@@ -68,7 +68,9 @@ public class SavedGame implements Serializable {
         helpStatus = status;
     }
 
-    /** метод получает статус обучалки **/
+    /**
+     * метод получает статус обучалки
+     **/
     public int getHelpStatus() {
         return helpStatus;
     }
@@ -123,8 +125,8 @@ public class SavedGame implements Serializable {
 
         teamDataList.add(new TeamEntityData(TeamEntityData.THOR));
         teamDataList.get(0).setDefaultData(TeamEntityData.THOR);
-//        teamDataList.add(new TeamEntityData(TeamEntityData.STONE));
-//        teamDataList.get(1).setDefaultData(TeamEntityData.STONE);
+        teamDataList.add(new TeamEntityData(TeamEntityData.KNIGHT));
+        teamDataList.get(1).setDefaultData(TeamEntityData.KNIGHT);
 //        teamDataList.add(new TeamEntityData(TeamEntityData.ARCHER));
 //        teamDataList.get(2).setDefaultData(TeamEntityData.ARCHER);
 //        teamDataList.add(new TeamEntityData(TeamEntityData.STONE));

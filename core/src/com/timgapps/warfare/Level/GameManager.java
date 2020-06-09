@@ -142,7 +142,7 @@ public class GameManager {
             /** установим значения по умолчанию  для данных TeamEntity **/
 //            savedGame.getTeamDataList().get(0).setDefaultData();
             team.add(new TeamEntity(savedGame.getTeamDataList().get(0)));
-//            team.add(new TeamEntity(savedGame.getTeamDataList().get(1)));
+            team.add(new TeamEntity(savedGame.getTeamDataList().get(1)));
 //            team.add(new TeamEntity(savedGame.getTeamDataList().get(2)));
 
 
@@ -162,6 +162,7 @@ public class GameManager {
 
             collection.add(new TeamEntity(savedGame.getCollectionDataList().get(2)));
             collection.add(new TeamEntity(savedGame.getCollectionDataList().get(3)));
+//            collection.add(new TeamEntity(savedGame.getCollectionDataList().get(4)));
 
             giftTimeFirst = 0;
             giftTimeSecond = 0;
