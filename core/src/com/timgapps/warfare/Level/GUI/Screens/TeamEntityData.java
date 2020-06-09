@@ -13,6 +13,7 @@ public class TeamEntityData implements Serializable {
     public static final int ARCHER = 2;
     public static final int THOR = 3;
     public static final int STONE = 4;
+    public static final int KNIGHT = 5;
 
     private int unitType;
     private int DAMAGE;
@@ -50,7 +51,12 @@ public class TeamEntityData implements Serializable {
                 DAMAGE = 12;
                 HEALTH = 20;
                 unitLevel = 1;
-//                unitType = THOR;
+                break;
+
+            case KNIGHT:
+                DAMAGE = 15;
+                HEALTH = 20;
+                unitLevel = 1;
                 break;
 
             case STONE:
@@ -78,12 +84,16 @@ public class TeamEntityData implements Serializable {
         isUnlock = true;
     }
 
-    /** метод для получения кол-ва здвёзд, необходимых для разблокировки юнита */
+    /**
+     * метод для получения кол-ва здвёзд, необходимых для разблокировки юнита
+     */
     public int getStarsCount() {
         return starsCount;
     }
 
-    /** метод возвращает значение, что юнит и его картинка разблокированы ли (false - заблокирована)*/
+    /**
+     * метод возвращает значение, что юнит и его картинка разблокированы ли (false - заблокирована)
+     */
     public boolean isUnlock() {
         return isUnlock;
     }

@@ -18,6 +18,7 @@ public class TeamEntity extends Group {
     public static final int ARCHER = 2;
     public static final int THOR = 3;
     public static final int STONE = 4;
+    public static final int KNIGHT = 5;
 
     private UnitImageButton unitButton;
     //    private ImageButton unitButton;
@@ -93,6 +94,20 @@ public class TeamEntity extends Group {
                         data.isUnlock());
 
                 NAME = "Thor";
+                SPEED = 8;
+                addHealthValue = 2;
+                addDamageValue = 2;
+                timePrepare = 18;
+                energyCost = 25;
+                break;
+
+            case KNIGHT:
+                unitButton = new UnitImageButton(new Image(Warfare.atlas.findRegion("knightActive")),
+                        new Image(Warfare.atlas.findRegion("knightInactive")),
+                        new Image(Warfare.atlas.findRegion("knightLock")),
+                        data.isUnlock());           // заблокирован ли юнит
+
+                NAME = "Knight";
                 SPEED = 8;
                 addHealthValue = 2;
                 addDamageValue = 2;
@@ -205,6 +220,7 @@ public class TeamEntity extends Group {
 //                }
             });
         }
+
         public void unlock() {
             isUnlock = true;
             lockImage.setVisible(false);

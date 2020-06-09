@@ -143,6 +143,8 @@ public class SavedGame implements Serializable {
         collectionDataList.get(1).setDefaultData(TeamEntityData.ARCHER);
         collectionDataList.add(new TeamEntityData(TeamEntityData.GNOME));
         collectionDataList.get(2).setDefaultData(TeamEntityData.GNOME);
+        collectionDataList.add(new TeamEntityData(TeamEntityData.KNIGHT));
+        collectionDataList.get(3).setDefaultData(TeamEntityData.KNIGHT);
     }
 
     public ArrayList<TeamEntityData> getCollectionDataList() {

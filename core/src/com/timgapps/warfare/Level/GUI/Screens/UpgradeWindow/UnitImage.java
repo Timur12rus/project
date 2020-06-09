@@ -50,6 +50,9 @@ public class UnitImage extends Group {
             case TeamEntity.THOR:
                 textureRegionName = "thorUnitImage";
                 break;
+            case TeamEntity.KNIGHT:
+                textureRegionName = "knightUnitImage";
+                break;
             case TeamEntity.STONE:
                 textureRegionName = "rockUnitImage";
                 break;

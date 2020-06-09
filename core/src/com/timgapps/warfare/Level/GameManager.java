@@ -161,6 +161,7 @@ public class GameManager {
 //            collection.add(new TeamEntity(savedGame.getCollectionDataList().get(1)));
 
             collection.add(new TeamEntity(savedGame.getCollectionDataList().get(2)));
+            collection.add(new TeamEntity(savedGame.getCollectionDataList().get(3)));
 
             giftTimeFirst = 0;
             giftTimeSecond = 0;
