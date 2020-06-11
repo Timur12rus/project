@@ -29,7 +29,7 @@ public class Knight extends Gnome {
         }
 
         if (currentState == State.ATTACK) {
-            batch.draw((TextureRegion) attackAnimation.getKeyFrame(stateTime, false), getX() - 142, getY() - 24);
+            batch.draw((TextureRegion) attackAnimation.getKeyFrame(stateTime, false), getX() - 142, getY() - 22);
         }
 
         if (currentState == State.STAY) {

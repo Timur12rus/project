@@ -433,26 +433,30 @@ public class Level extends StageGame {
 //            }
 //        }
 
-        if (arrayActors.size() > 1) {
-            Array<Actor> gameActors = stage.getActors();
+        if (arrayActors.size() > 1) {                           // если актеров на сцене > 1
+            Array<Actor> gameActors = stage.getActors();        // получим массив всех актеров на сцене
 //            ArrayList<Actor> gameActors = arrayActors;
-            boolean sorted = false;
-            int tempZIndex;
-            Actor tempActor;
-            while (!sorted) {
+            boolean sorted = false;         // флаг обозначает отсортирован ли
+            int tempZIndex;                 // переменная "буфер", в ней сохраним ZIndex актера, у которого будем менять ZIndex
+            Actor tempActor;                // актер "буфер", в него сохраянем актера при смене ZIndex
+            while (!sorted) {               // пока не будеет отсортирован массив актеров
                 sorted = true;
                 for (int i = 0; i < gameActors.size - 1; i++) {
                     if (gameActors.get(i).getZIndex() < gameActors.get(i + 1).getZIndex()) {
+                        /** меняем местами ZIndex актеров, если их коориднаты не соответствуют ZIndex'ам **/
                         if (gameActors.get(i).getY() < gameActors.get(i + 1).getY()) {
-                            tempZIndex = gameActors.get(i).getZIndex();
-                            gameActors.get(i).setZIndex(gameActors.get(i + 1).getZIndex());
-                            gameActors.get(i + 1).setZIndex(tempZIndex);
+//                        if (gameActors.get(i).getY() < gameActors.get(i + 1).getY()) {
+                            if ((gameActors.get(i + 1).getY() - gameActors.get(i).getY()) >= 8) {
+                                tempZIndex = gameActors.get(i).getZIndex();
+                                gameActors.get(i).setZIndex(gameActors.get(i + 1).getZIndex());
+                                gameActors.get(i + 1).setZIndex(tempZIndex);
 
-                            tempActor = gameActors.get(i);
+                                tempActor = gameActors.get(i);
 
-                            gameActors.set(i, gameActors.get(i + 1));
-                            gameActors.set(i + 1, tempActor);
-                            sorted = false;
+                                gameActors.set(i, gameActors.get(i + 1));
+                                gameActors.set(i + 1, tempActor);
+                                sorted = false;
+                            }
                         }
                     }
                 }

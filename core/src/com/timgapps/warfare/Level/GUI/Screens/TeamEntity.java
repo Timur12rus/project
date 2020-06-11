@@ -106,7 +106,6 @@ public class TeamEntity extends Group {
                         new Image(Warfare.atlas.findRegion("knightInactive")),
                         new Image(Warfare.atlas.findRegion("knightLock")),
                         data.isUnlock());           // заблокирован ли юнит
-
                 NAME = "Knight";
                 SPEED = 8;
                 addHealthValue = 2;
@@ -130,7 +129,6 @@ public class TeamEntity extends Group {
                 addDamageValue = 2;
                 timePrepare = 10;
                 energyCost = 6;
-
                 break;
 
             case NONE:
@@ -213,7 +211,6 @@ public class TeamEntity extends Group {
                     }
                     super.touchUp(event, x, y, pointer, button);
                 }
-
 //                @Override
 //                public void clicked(InputEvent event, float x, float y) {
 //                    super.clicked(event, x, y);

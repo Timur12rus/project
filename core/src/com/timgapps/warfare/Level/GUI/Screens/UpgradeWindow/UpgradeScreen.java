@@ -355,17 +355,10 @@ public class UpgradeScreen extends Group {
         toastLabel.setVisible(false);
         toastLabel.setPosition(Warfare.V_WIDTH / 2 - toastLabel.getWidth() - 200, Warfare.V_HEIGHT / 2);
         addActor(toastLabel);
-
-
-//        unitNameLabel.setPosition(background.getX() + background.getWidth() - unitNameLabel.getWidth(),
-//                background.getY() + background.getHeight() - unitNameLabel.getHeight());
-
         unitNameLabel.setPosition(container.getX() + container.getWidth() - unitNameLabel.getWidth(),
                 background.getY() + background.getHeight() - unitNameLabel.getHeight());
 
         addActor(unitNameLabel);
-
-
     }
 
     public void showUpgradeScreen(boolean showSelectButton, TeamEntity teamEntity) {

@@ -57,6 +57,7 @@ public class TeamEntityData implements Serializable {
                 DAMAGE = 15;
                 HEALTH = 20;
                 unitLevel = 1;
+                starsCount = 50;
                 break;
 
             case STONE:
