@@ -75,8 +75,11 @@ public class SavedGame implements Serializable {
         return helpStatus;
     }
 
+
+    // TODO сделать данные о количестве звезд для достижения награды в rewardStarsData
     /**
      * метод для создания списка с ДАННЫМИ наград за звезды
+     * в этом методе и задаются награды за звёзды
      **/
     public void createRewardForStarsDataList() {
         starsCount = 0;             // кол-во звезд у игрока
@@ -86,6 +89,10 @@ public class SavedGame implements Serializable {
         rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_ARCHER, 4));
         rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_BOX, 15));
         rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_GNOME, 30));
+        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_BOX, 45));
+        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_KNIGHT, 75));
+        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_KNIGHT, 50));
+        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_KNIGHT, 50));
 //        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_GNOME, 45));
 //        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_GNOME, 80));
 //        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_GNOME, 100));

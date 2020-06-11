@@ -57,8 +57,8 @@ public class RewardForStarsScreen extends StageGame {
         backButton.setPosition(64, 64);
         addOverlayChild(backButton);
 
-        rewardForStarsDataList = gameManager.getRewardForStarsDataList();
-        rewardForStarsList = new ArrayList<RewardForStars>();
+        rewardForStarsDataList = gameManager.getRewardForStarsDataList();  // список данных наград
+        rewardForStarsList = new ArrayList<RewardForStars>();               // список наград
 
         Label.LabelStyle countStarsLabelStyle = new Label.LabelStyle();
         countStarsLabelStyle.fontColor = new Color(0x3c644eff);

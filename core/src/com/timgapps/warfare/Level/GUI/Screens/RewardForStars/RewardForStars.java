@@ -96,6 +96,11 @@ public class RewardForStars extends Group {
                 name = "Box";
                 deltaX = -16;
                 break;
+            case RewardForStarsData.REWARD_KNIGHT:
+                rewardImage = new Image(Warfare.atlas.findRegion("knightUnitImage"));
+                name = "Knight";
+                deltaX = -16;
+                break;
         }
 
         starsNum = data.getStarsCount();        // кол-во звезд, необходимое для получения награды

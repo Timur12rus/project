@@ -10,6 +10,7 @@ public class RewardForStarsData implements Serializable {
     public static final int REWARD_ARCHER = 2;
     public static final int REWARD_GNOME = 3;
     public static final int REWARD_BOX = 4;
+    public static final int REWARD_KNIGHT = 5;
 
     private int typeOfReward;
     private int starsCount;     // кол-во звезд необходимое для получения награды

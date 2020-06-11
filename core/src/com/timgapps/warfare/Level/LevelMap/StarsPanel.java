@@ -132,6 +132,9 @@ public class StarsPanel extends Group {
             case RewardForStarsData.REWARD_BOX:
                 rewardSmallIcon = new Image(Warfare.atlas.findRegion("boxImage0"));
                 break;
+            case RewardForStarsData.REWARD_KNIGHT:
+                rewardSmallIcon = new Image(Warfare.atlas.findRegion("knightUnitImage"));
+                break;
             default:
                 rewardSmallIcon = new Image(Warfare.atlas.findRegion("rockUnitImage"));
         }
