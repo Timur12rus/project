@@ -42,6 +42,10 @@ public class CoinsPanel extends Group {
         addActor(table);
     }
 
+    public Table getTable() {
+        return table;
+    }
+
     public void addCoins(int coins) {
         coinsCount += coins;
         coinsValueLabel.setText("" + coinsCount);

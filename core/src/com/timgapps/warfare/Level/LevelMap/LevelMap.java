@@ -115,7 +115,8 @@ public class LevelMap extends StageGame {
         });
 
         giftIcon = new GiftIcon(gameManager);
-        giftIcon.setPosition(getWidth() - giftIcon.getWidth() - 32, getHeight() / 2);
+        giftIcon.setPosition(getWidth() - giftIcon.getWidth() - 32, getHeight() / 3);
+//        giftIcon.setPosition(getWidth() - giftIcon.getWidth() - 32, getHeight() / 2);
 
         giftIcon.addListener(new ClickListener() {
             @Override
@@ -151,7 +152,8 @@ public class LevelMap extends StageGame {
 
 //        addChild(upgradeTeamButton, 32, 340);
         teamUpgradeIcon = new TeamUpgradeIcon();
-        teamUpgradeIcon.setPosition(32, getHeight() / 2);
+        teamUpgradeIcon.setPosition(32, getHeight() / 3);
+//        teamUpgradeIcon.setPosition(32, getHeight() / 2);
         addOverlayChild(teamUpgradeIcon);
 
         Label.LabelStyle teamLabelStyle = new Label.LabelStyle();

@@ -22,6 +22,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.boontaran.games.StageGame;
 import com.timgapps.warfare.Level.GUI.Finger;
+import com.timgapps.warfare.Level.GUI.Screens.CoinsPanel;
 import com.timgapps.warfare.Level.GameManager;
 import com.timgapps.warfare.Warfare;
 
@@ -40,18 +41,28 @@ public class RewardForStarsScreen extends StageGame {
     private int starsCount;
     private float xPos;     // позиция Х panelStarsSmall
     private boolean isStartToastAction = false;
-//    private Hilite hilite;      // подсветка на фоне награды за звёзды
+    //    private Hilite hilite;      // подсветка на фоне награды за звёзды
+    private Group group;
+    private Table scrollTable;
+    private GameManager gameManager;
+    private CoinsPanel coinsPanel;
 
     public RewardForStarsScreen(GameManager gameManager) {
         createBackground();
+        this.gameManager = gameManager;
+//        coinsPanel = gameManager.getCoinsPanel();
+//        coinsPanel.setVisible(false);
+//        addChild(coinsPanel);
 
         /** получим текущее кол-во звезд **/
 //        starsCount = 7;
 //        starsCount = gameManager.getStarsPanel().getStarsCount();
         starsCount = gameManager.getSavedGame().getStarsCount();
+//        starsCount = 100;
         System.out.println("starsCount = " + starsCount);
-//        starsCount = 14;
+        starsCount = 15;
 //        starsCount = 3;
+//        starsCount = 30;
 
         backButton = new BackButton();
         backButton.setPosition(64, 64);
@@ -68,7 +79,8 @@ public class RewardForStarsScreen extends StageGame {
 
         float scrollTableWidth = getWidth();
         float groupWidth = 0;
-        Group group = new Group();
+        group = new Group();
+//        Group group = new Group();
 
 
         int currentIndexSmallPanel = 0;
@@ -171,7 +183,8 @@ public class RewardForStarsScreen extends StageGame {
         group.addActor(starsPanelSmall);
 
         /** scroller - это окно прокрутки, сама прокрутка **/
-        Table scrollTable = new Table();
+        scrollTable = new Table();
+//        Table scrollTable = new Table();
         scrollTable.debug();
         scrollTable.add(group).width(groupWidth).height(360);
         final ScrollPane scroller = new ScrollPane(scrollTable);
@@ -186,6 +199,10 @@ public class RewardForStarsScreen extends StageGame {
         table.add(scroller).fill().expand();
         table.setPosition(0, 240);
         addChild(table);
+    }
+
+    public GameManager getGameManager() {
+        return gameManager;
     }
 
     public void updateXposSmallStarsPanel(float xPos) {
@@ -325,5 +342,22 @@ public class RewardForStarsScreen extends StageGame {
 
 
         }
+    }
+
+    public float getScrollTableX() {
+        return scrollTable.getX();
+    }
+
+    public float getScrollTableY() {
+        return scrollTable.getY();
+    }
+
+
+    @Override
+    protected void update(float delta) {
+        System.out.println("GroupX = " + group.getX());
+        System.out.println("ScrollTableX = " + scrollTable.getX());
+        System.out.println("ScrollTableY = " + scrollTable.getY());
+        super.update(delta);
     }
 }
