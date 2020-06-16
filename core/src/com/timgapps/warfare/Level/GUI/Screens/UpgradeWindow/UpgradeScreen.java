@@ -118,6 +118,7 @@ public class UpgradeScreen extends Group {
 
     private BlockTable blockTable;
     private Table costUpgradeTable;
+    private Label maxLevelReached;  // надпись "максимальный уровнень достигнут"
 
 
     public UpgradeScreen(GameManager gameManager, TeamUpgradeScreen teamUpgradeScreen) {
@@ -187,8 +188,8 @@ public class UpgradeScreen extends Group {
                     applyActionsToToast();
                 checkRecourcesAndCoinsCount();
             }
-
         });
+
 
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.fontColor = Color.DARK_GRAY;
@@ -217,6 +218,9 @@ public class UpgradeScreen extends Group {
         damageAddValueLabel = new Label(" + " + addDamageValue, greenLabelStyle);  // текст на сколько прибавится урон
 
         upgradeCostLabel = new Label(upgradeCostText, labelStyle);          // текст "СТОИМОСТЬ УЛУЧШЕНИЯ"
+
+        maxLevelReached = new Label("The unit has reached maximum level", labelStyle);
+        maxLevelReached.setVisible(true);
 
         toastLabel = new Label("", redLabelStyle);          // текст "СТОИМОСТЬ УЛУЧШЕНИЯ"
 
@@ -359,10 +363,24 @@ public class UpgradeScreen extends Group {
                 background.getY() + background.getHeight() - unitNameLabel.getHeight());
 
         addActor(unitNameLabel);
+
+        maxLevelReached.setPosition(background.getX() + (background.getWidth() - maxLevelReached.getWidth()) / 2, 272);
+        maxLevelReached.setVisible(false);
+        addActor(maxLevelReached);
     }
 
     public void showUpgradeScreen(boolean showSelectButton, TeamEntity teamEntity) {
         this.teamEntity = teamEntity;
+
+
+        // если уровень текущего юнита максимальный, не показываем таблицу о стоимости апгрейда
+        if (teamEntity.getUnitLevel() >= teamEntity.getMaxUnitLevel()) {
+            upgradeButton.setVisible(false);
+            costUpgradeTable.setVisible(false);
+            maxLevelReached.setVisible(true);
+        }
+
+
         // обновим количество ресурсов в таблице
         resourcesTable.updateResources(gameManager.getFoodCount(), gameManager.getIronCount(), gameManager.getWoodCount());
 
@@ -468,14 +486,17 @@ public class UpgradeScreen extends Group {
         if (isUnlock == false) {
             costUpgradeTable.setVisible(false);
             upgradeButton.setVisible(false);
+            maxLevelReached.setVisible(false);
 
             int counsStars = teamEntity.getEntityData().getStarsCount();        // получим кол-во звезд, необходимы для разблокировки юнита
 
             blockTable.setLabelStarsCount(counsStars);
             blockTable.setVisible(true);
         } else {
-            costUpgradeTable.setVisible(true);
-            upgradeButton.setVisible(true);
+            if (teamEntity.getUnitLevel() < teamEntity.getMaxUnitLevel()) {
+                costUpgradeTable.setVisible(true);
+                upgradeButton.setVisible(true);
+            }
             blockTable.setVisible(false);
             teamEntity.getUnitImage().getUnitLevelIcon().setVisible(true);
         }
@@ -610,6 +631,13 @@ public class UpgradeScreen extends Group {
         teamEntity.addHEALTH(addHealthValue);
         teamEntity.addDAMAGE(addDamageValue);
 
+        if (teamEntity.getUnitLevel() >= teamEntity.getMaxUnitLevel()) {
+            upgradeToLevelLabel.setVisible(false);
+            costUpgradeTable.setVisible(false);
+            upgradeButton.setVisible(false);
+            maxLevelReached.setVisible(true);
+        }
+
         /** обновим данные юнита и сохраним его данные **/
         teamEntity.updateTeamEntityData();
 
@@ -686,11 +714,10 @@ public class UpgradeScreen extends Group {
             resourcesTable.setIsAction(false);
 
             /** сделаем видимыми надпись "УЛУЧШИТЬ ДО УРОВНЯ" и кнопку апгрейда **/
-            upgradeToLevelLabel.setVisible(true);
-            upgradeButton.setVisible(true);
-
-            System.out.println("UnitImage.satrtAction");
-            System.out.println("getIaEndAction" + resourcesTable.getIsEndAction());
+            if (teamEntity.getUnitLevel() < teamEntity.getMaxUnitLevel()) {
+                upgradeToLevelLabel.setVisible(true);
+                upgradeButton.setVisible(true);
+            }
             unitImage.startAction();
         }
     }

@@ -37,6 +37,7 @@ public class TeamEntity extends Group {
     private UnitImage unitImage;
     private int unitIndex;          // индекс юнита
     private TeamEntityData data;
+    private final int MAX_UNIT_LEVEL = 3;
 
     @Override
     public String toString() {
@@ -151,6 +152,10 @@ public class TeamEntity extends Group {
 //        unitLevelIcon = new UnitLevelIcon(unitLevel);
 //        unitLevelIcon.setPosition(unitImage.getWidth(), unitImage.getHeight() - 20);
 //        addActor(unitLevelIcon);
+    }
+
+    public int getMaxUnitLevel() {
+        return MAX_UNIT_LEVEL;
     }
 
     public class UnitImageButton extends Group {
