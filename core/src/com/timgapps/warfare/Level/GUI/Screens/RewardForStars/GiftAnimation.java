@@ -38,11 +38,7 @@ public class GiftAnimation {
 
     public GiftAnimation(RewardForStarsScreen rewardForStarsScreen, float x, float y, int typeOfAnimation) {
         this.typeOfAnimation = typeOfAnimation;
-//    public GiftAnimation(RewardForStarsScreen rewardForStarsScreen, float x, float y) {
         this.rewardForStarsScreen = rewardForStarsScreen;
-//        screenWidth = rewardForStarsScreen.getWidth();
-//        screenHeight = rewardForStarsScreen.getHeight();
-
         gameManager = rewardForStarsScreen.getGameManager();
 
         this.x = x;
@@ -62,27 +58,6 @@ public class GiftAnimation {
             rewardForStarsScreen.addChild(coinTwo);
             rewardForStarsScreen.addChild(coinThree);
         }
-
-//        if (typeOfAnimation == RESOURSES_GIFT) {
-//            Image resOne =
-//            Image resTwo
-//            Image resThr
-//        }
-
-//        group.addActor(coinOne);
-//        group.addActor(coinTwo);
-//        group.addActor(coinThree);
-
-
-//        rewardForStarsScreen.addChild(coinOne);
-//        rewardForStarsScreen.addChild(coinTwo);
-//        rewardForStarsScreen.addChild(coinThree);
-
-//        float endXPos = coinsPanel.getX() + coinsPanel.getWidth() / 2 - xPos + 48;
-//        float endYPos = coinsPanel.getY() - yPos;
-
-//        endXPos = rewardForStarsScreen.getWidth() - 48;
-//        endYPos = rewardForStarsScreen.getHeight() - 48;
 
         if (typeOfAnimation == COIN_GIFT) {
             endXPos = rewardForStarsScreen.getWidth() - 100;

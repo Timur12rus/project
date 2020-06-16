@@ -60,7 +60,7 @@ public class RewardForStarsScreen extends StageGame {
         starsCount = gameManager.getSavedGame().getStarsCount();
 //        starsCount = 100;
         System.out.println("starsCount = " + starsCount);
-        starsCount = 15;
+//        starsCount = 15;
 //        starsCount = 3;
 //        starsCount = 30;
 

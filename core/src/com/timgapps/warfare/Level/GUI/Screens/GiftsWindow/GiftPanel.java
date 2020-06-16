@@ -17,9 +17,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.timgapps.warfare.Level.GUI.Screens.CoinsPanel;
+import com.timgapps.warfare.Level.GUI.Screens.RewardForStars.IconAnimation;
 import com.timgapps.warfare.Level.GUI.Screens.UpgradeWindow.ColorButton;
 import com.timgapps.warfare.Level.GameManager;
 import com.timgapps.warfare.Level.LevelMap.GiftIcon;
+import com.timgapps.warfare.Level.LevelMap.LevelMap;
 import com.timgapps.warfare.Warfare;
 
 import java.text.SimpleDateFormat;
@@ -63,11 +65,15 @@ class GiftPanel extends Group {
 
     private GameManager gameManager;
     private GiftIcon giftIcon;
+    private IconAnimation iconAnimation;
+    private LevelMap levelMap;
+    private ResoursesGiftAnimation resoursesGiftAnimation;
 
 
     // панель с горизонтальной таблицей GiftRewardTable и кнопкой "ПОЛУЧИТЬ"
-    public GiftPanel(GiftIcon giftIcon, float x, float y, GameManager gameManager, int giftsType) {
-        this.giftIcon = giftIcon;
+    public GiftPanel(LevelMap levelMap, float x, float y, GameManager gameManager, int giftsType) {
+        this.giftIcon = levelMap.getGiftIcon();
+        this.levelMap = levelMap;
 //        System.out.println("GIFT ICON = " + giftIcon);
         xPos = x;
         yPos = y;
@@ -139,6 +145,9 @@ class GiftPanel extends Group {
                 background.getY() + 16);
         addActor(boxImage);
 
+        iconAnimation = new IconAnimation(levelMap,
+                "teamButton", 32, levelMap.getHeight() / 3);
+
         claimButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -209,95 +218,91 @@ class GiftPanel extends Group {
 
 
     private void showAddResoursesAnimation() {
-        final Random random = new Random();
 
-        // получим тип ресурса первого и второго
-        int firstResourse = random.nextInt(3) + 1;
-        int secondResource = random.nextInt(3) + 1;
-
-        Image resOne = getImageResourse(firstResourse);
-
-        Image resTwo = null;
+        int resoursesCount = 1;
         if (giftsType == RESOURCES_GIFT) {
-            resTwo = getImageResourse(secondResource);
-
+            resoursesCount = 2;
         }
+        resoursesGiftAnimation = new ResoursesGiftAnimation(levelMap, this, 56, yPos + 56, resoursesCount);
+        resoursesGiftAnimation.start();
 
-        // сохраним соятояние игры с новыми значениями ресурсов
-        gameManager.saveGame();
-
-        // установим позицию для добавляемых монет, к которым будут применены action'ы
-        float x = rewardTable.getX() + rewardTable.getWidth();
-//        float x = rewardTable.getX() + rewardTable.getWidth() - 96;
-        float y = getY() + getHeight() / 2;
-        resOne.setPosition(x, y);
-
-        this.getParent().addActor(resOne);
-//        addActor(resOne);
-//        addActor(resTwo);
-        if (giftsType == RESOURCES_GIFT) {
-            resOne.setPosition(x + 160, y);
-            resTwo.setPosition(x + 160, y);
-//            addActor(resTwo);
-            this.getParent().addActor(resTwo);
-        }
-
-        float endXPos = -300;
-        float endYPos = y + 16;
-
-        if (giftsType == RESOURCES_GIFT) {
-            endXPos = -600;
-        }
-
-        // action проверки завершения действия
-        Action checkEndOfAction = new Action() {
-            @Override
-            public boolean act(float delta) {
-//                isEndCoinsAction = true;
-                rewardTable.setVisible(true);
-//                giftTime = new Date().getTime() + 10000;
-                timeLabel.setVisible(true);
-                boxImage.closeBox();
-//                isEndCoinsAction = true;
+//        final Random random = new Random();
+//
+//        // получим тип ресурса первого и второго
+//        int firstResourse = random.nextInt(3) + 1;
+//        int secondResource = random.nextInt(3) + 1;
+//
+//        Image resOne = getImageResourse(firstResourse);
+//
+//        Image resTwo = null;
+//        if (giftsType == RESOURCES_GIFT) {
+//            resTwo = getImageResourse(secondResource);
+//        }
+//
+//        // сохраним соятояние игры с новыми значениями ресурсов
+//        gameManager.saveGame();
+//
+//        // установим позицию для добавляемых монет, к которым будут применены action'ы
+//        float x = rewardTable.getX() + rewardTable.getWidth();
+//        float y = getY() + getHeight() / 2;
+//        resOne.setPosition(x, y);
+//
+//        levelMap.addChild(resOne);
+//        if (giftsType == RESOURCES_GIFT) {
+//            resOne.setPosition(x + 160, y);
+//            resTwo.setPosition(x + 160, y);
+//            levelMap.addChild(resTwo);
+////            this.getParent().addActor(resTwo);
+//        }
+//
+//        float endXPos = -300;
+//        float endYPos = levelMap.getHeight() / 3;
+//
+//        if (giftsType == RESOURCES_GIFT) {
+//            endXPos = -600;
+//        }
+//
+//        // action проверки завершения действия
+//        Action checkEndOfAction = new Action() {
+//            @Override
+//            public boolean act(float delta) {
+//                iconAnimation.start();
 //                rewardTable.setVisible(true);
-////                giftTime = new Date().getTime() + 10000;
 //                timeLabel.setVisible(true);
-
-                // добавим к общему кол-ву монет монеты (награду)
-//                coinsPanel.addCoins(120);
-                return true;
-            }
-        };
-
-        float deltaXOne = 0;
-        float deltaXTwo = 0;
-        if (giftsType == RESOURCES_GIFT) {
-            deltaXOne = 210;
-            deltaXTwo = 48;
-        }
-        // action для первого ресурса
-        SequenceAction moveActionResOne = new SequenceAction(Actions.fadeIn(0),
-                Actions.moveTo(getWidth() / 2 + 120 + deltaXOne, getHeight() / 2 + 88, 0.8f, new Interpolation.SwingOut(1)),
-                Actions.moveTo(endXPos + deltaXOne + deltaXTwo, endYPos, 0.8f),
-                Actions.fadeOut(0),
-                checkEndOfAction
-        );
-
-
-        // action для вторго ресурса
-        SequenceAction moveActionResTwo = new SequenceAction(Actions.fadeIn(0),
-                Actions.moveTo(getWidth() / 2 + 48 + deltaXOne, getHeight() / 2 + 32, 0.8f, new Interpolation.SwingOut(1)),
-//                Actions.moveTo(getWidth() / 2 - 64, getHeight() / 2 + 32, 0.8f, new Interpolation.SwingOut(1)),
-                Actions.moveTo(endXPos + deltaXOne + deltaXTwo, endYPos, 0.8f),
-                Actions.fadeOut(0)
-//                ,checkEndOfAction
-        );
-
-        resOne.addAction(moveActionResOne);
-//        resTwo.addAction(moveActionResTwo);
-        if (giftsType == RESOURCES_GIFT) {
-            resTwo.addAction(moveActionResTwo);
-        }
+//                boxImage.closeBox();
+//                return true;
+//            }
+//        };
+//
+//        float deltaXOne = 0;
+//        float deltaXTwo = 0;
+//        if (giftsType == RESOURCES_GIFT) {
+//            deltaXOne = 210;
+//            deltaXTwo = 48;
+//        }
+//        // action для первого ресурса
+//        SequenceAction moveActionResOne = new SequenceAction(Actions.fadeIn(0),
+//                Actions.moveTo(getWidth() / 2 + 120 + deltaXOne, getHeight() / 2 + 88, 0.8f, new Interpolation.SwingOut(1)),
+//                Actions.moveTo(endXPos + deltaXOne + deltaXTwo, endYPos, 0.8f),
+//                Actions.fadeOut(0),
+//                checkEndOfAction
+//        );
+//
+//
+//        // action для вторго ресурса
+//        SequenceAction moveActionResTwo = new SequenceAction(Actions.fadeIn(0),
+//                Actions.moveTo(getWidth() / 2 + 48 + deltaXOne, getHeight() / 2 + 32, 0.8f, new Interpolation.SwingOut(1)),
+////                Actions.moveTo(getWidth() / 2 - 64, getHeight() / 2 + 32, 0.8f, new Interpolation.SwingOut(1)),
+//                Actions.moveTo(endXPos + deltaXOne + deltaXTwo, endYPos, 0.8f),
+//                Actions.fadeOut(0)
+////                ,checkEndOfAction
+//        );
+//
+//        resOne.addAction(moveActionResOne);
+////        resTwo.addAction(moveActionResTwo);
+//        if (giftsType == RESOURCES_GIFT) {
+//            resTwo.addAction(moveActionResTwo);
+//        }
 
     }
 
@@ -412,6 +417,15 @@ class GiftPanel extends Group {
 
     @Override
     public void act(float delta) {
+
+        if (resoursesGiftAnimation != null) {
+            if (resoursesGiftAnimation.isEndAnimation()) {
+                rewardTable.setVisible(true);
+                timeLabel.setVisible(true);
+                boxImage.closeBox();
+                resoursesGiftAnimation.setIsEndAnimation(false);
+            }
+        }
 
         if (!claimButton.isVisible()) {
 

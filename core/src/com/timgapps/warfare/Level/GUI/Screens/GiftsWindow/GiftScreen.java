@@ -82,10 +82,10 @@ public class GiftScreen extends Group {
             float giftPanelY = background.getY() + 64;
 
             // первая панель подарков (левая)
-            giftPanel = new GiftPanel(levelMap.getGiftIcon(), giftPanelX, giftPanelY, gameManager, GiftPanel.RESOURCE_AND_COINS_GIFT);
+            giftPanel = new GiftPanel(levelMap, giftPanelX, giftPanelY, gameManager, GiftPanel.RESOURCE_AND_COINS_GIFT);
 
             // вторая панель подарков (правая)
-            buffPanel = new GiftPanel(levelMap.getGiftIcon(), giftPanelX + 190 + 64, giftPanelY, gameManager, GiftPanel.RESOURCES_GIFT);
+            buffPanel = new GiftPanel(levelMap, giftPanelX + 190 + 64, giftPanelY, gameManager, GiftPanel.RESOURCES_GIFT);
 
             add(giftPanel).padLeft(32).padRight(32);
             add(buffPanel).padLeft(32).padRight(32);

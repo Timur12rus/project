@@ -619,4 +619,7 @@ public class LevelMap extends StageGame {
         return selectedLevelId;
     }
 
+    public GameManager getGameManager() {
+        return gameManager;
+    }
 }
