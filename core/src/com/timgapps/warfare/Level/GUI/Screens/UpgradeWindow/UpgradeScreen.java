@@ -417,6 +417,7 @@ public class UpgradeScreen extends Group {
      **/
     public void hideUpgradeScreen() {
         imageContainer.removeActor(unitImage);
+        maxLevelReached.setVisible(false);
         setVisible(false);
     }
 

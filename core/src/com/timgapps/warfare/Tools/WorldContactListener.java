@@ -42,6 +42,17 @@ public class WorldContactListener implements ContactListener {
 
     @Override
     public void endContact(Contact contact) {
+
+        Fixture fixA = contact.getFixtureA();
+        Fixture fixB = contact.getFixtureB();
+
+        int cDef = fixA.getFilterData().categoryBits | fixB.getFilterData().categoryBits;
+
+        switch (cDef) {
+            case GameUnit.PLAYER_BIT | GameUnit.ENEMY_BIT:
+                checkPlayerToEnemyCollision(fixA, fixB);
+                break;
+        }
     }
 
     @Override
@@ -160,5 +171,28 @@ public class WorldContactListener implements ContactListener {
         }
     }
 
+    private void endCollisionPlayerToEnemy(Fixture fixA, Fixture fixB) {
+        if (fixA.getFilterData().categoryBits == GameUnit.PLAYER_BIT) {
 
+            Object userData = fixA.getUserData();
+            Object enemyUserData = fixB.getUserData();
+
+            System.out.println("Enemy To Player endCollision!");
+
+//            ((PlayerUnit) userData).setTargetEnemy((EnemyUnit) enemyUserData);
+            ((PlayerUnit) userData).resetTarget();
+
+        } else {
+            Object userData = fixB.getUserData();
+            Object enemyUserData = fixA.getUserData();
+
+            System.out.println("Enemy To Player endCollision!");
+//
+//            // если игрок не имеет "врвга-цель", то зададим для него "врага-цель" и установим флаг "атакует" (isAttack = true)
+//            ((PlayerUnit) userData).setTargetEnemy((EnemyUnit) enemyUserData);
+//            ((PlayerUnit) userData).attack();
+
+            ((PlayerUnit) userData).resetTarget();
+        }
+    }
 }
