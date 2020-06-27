@@ -66,6 +66,7 @@ public class Goblin1 extends EnemyUnit {
 //        }
 //    }
 
+
     private void startExplosion() {
         explosion.setPosition(getX() - 72, getY() + 16);
         isStartExplosion = true;

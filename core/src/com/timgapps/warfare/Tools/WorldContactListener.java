@@ -50,7 +50,9 @@ public class WorldContactListener implements ContactListener {
 
         switch (cDef) {
             case GameUnit.PLAYER_BIT | GameUnit.ENEMY_BIT:
-                checkPlayerToEnemyCollision(fixA, fixB);
+//                endCollisionPlayerToEnemy(fixA, fixB);
+//                checkPlayerToEnemyCollision(fixA, fixB);
+//                checkPlayerToEnemyCollision(fixA, fixB);
                 break;
         }
     }
