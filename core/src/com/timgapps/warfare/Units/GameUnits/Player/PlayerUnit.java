@@ -72,6 +72,8 @@ public class PlayerUnit extends GameUnit {
         body.createFixture(fDef).setUserData(this);
         shape.dispose();
         body.setTransform(x / Level.WORLD_SCALE, y / Level.WORLD_SCALE, 0);
+
+        System.out.println("Body = " + body.toString());
         return body;
     }
 
@@ -80,7 +82,7 @@ public class PlayerUnit extends GameUnit {
 
     @Override
     public Vector2 getBodyPosition() {
-        return null;
+        return body.getPosition();
     }
 
     public void resetTarget() {
