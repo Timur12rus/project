@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.timgapps.warfare.Level.Level;
@@ -13,6 +14,8 @@ import com.timgapps.warfare.Units.GameUnits.Player.Bullets.Arrow;
 import com.timgapps.warfare.Warfare;
 
 import java.util.ArrayList;
+
+import javafx.geometry.VerticalDirection;
 
 public class Archer1 extends PlayerUnit {
 
@@ -24,19 +27,20 @@ public class Archer1 extends PlayerUnit {
     private Direction verticalDirectionMovement = Direction.NONE;
     private final float ATTACK_DISTANCE = 300;
     private final float MIN_ATTACK_DISTANCE = 24;
-    //    private final float VELOCITY = 0.6f;
+    private final float VELOCITY = 0.4f;
     private static float APPEARANCE_TIME = 1;
     //    private static float APPEARANCE_TIME = 30;
     protected static int ENERGY_PRICE = 1;
     //    protected static int ENERGY_PRICE = 20;
     private float minDistance = 0; // расстояние до ближайшего вражеского юнита
     private boolean isReachedEnemyYPos;
-
     private boolean isFired = false;
+    private Vector2 velocity;
 
     public Archer1(Level level, float x, float y, float health, float damage) {
         super(level, x, y, health, damage);
-        velocity = 0.4f;
+//        velocity = 0.4f;
+        velocity = new Vector2();
         energyPrice = 20;
         this.level = level;
         this.world = level.getWorld();
@@ -61,17 +65,30 @@ public class Archer1 extends PlayerUnit {
             body.setActive(false);
         }
 
-
         if (body.isActive()) {
             if (currentState == State.WALKING) {
                 if (isHaveTarget) {  // если определен "враг-цель", то
                     moveToTarget();     //движемся к цели
                 } else {                  // в противном случае, если "враг-цель" не определен, то двигаемся прямо вправо
-                    moveRight();    // движемся вправо
+                    if (checkCanMoveRight()) {   //если можем двигаться вправо
+                        moveRight();             // движемся вправо
+                    }
                 }
+                if (verticalDirectionMovement == Direction.NONE && !checkCanMoveRight()) {
+                    stateTime = 0;
+                    currentState = State.STAY;
+                    velocity.set(0, 0);
+                }
+//                Vector2 velocityDirection = body.getLinearVelocity();
+//                if (!checkCanMoveRight() && velocityDirection.x != 0) {
+//                if (!checkCanMoveRight() && velocity.x != 0) {
+////                    velocityDirection.x = 0;
+////                    body.setLinearVelocity(0, velocityDirection.y);
+//                    velocity.set(0, velocity.y);
+//                }
+                body.setLinearVelocity(velocity);
             }
 
-//            if (targetEnemy != null)
 //            /** проверим, может ли игровой юнит атаковать врага **/
             if (isReachedEnemyYPos && targetEnemy != null) { // если юнит достиг вертикальной координаты вражеского "юнита-цели"
                 checkAttack((EnemyUnit) targetEnemy);
@@ -85,31 +102,20 @@ public class Archer1 extends PlayerUnit {
             findTarget();
         }
 
-
-        ///////////////!!!!!!!!!!!! TODO здесь нужно сделать проверку, нужно ли атаковать вражеского юнита
-//        if (verticalDirectionMovement == Direction.NONE && currentState == State.WALKING)
-//            checkAttack((EnemyUnit) targetEnemy);
-        // TODO нужно ввести еще одну переменную-флаг, чтобы опрелелять, достиг ли вертикальной координаты вражеского юнита,
         // если да, то движемся вправо, если нет, продолжаем
         if (!isReachedEnemyYPos && targetEnemy != null)   // если игрвой юнит не достиг вертикальной координаты Ypos у вражеского юнита
             checkVerticalMovement();
-
-//        if (!isHaveVerticalDirection) checkAttack((EnemyUnit) targetEnemy);
-
         if (currentState == State.DIE || currentState == State.STAY || currentState == State.ATTACK) {
             stay();
         }
-//        setPosition(body.getPosition().x * Level.WORLD_SCALE - 18, body.getPosition().y * Level.WORLD_SCALE - bodyHeight / 2);
     }
 
     /**
      * Метод для поиска цели-врага
      **/
     private void findTarget() {
-//        System.out.println("findTarget");
         /** массив вражеских юнитов **/
         ArrayList<EnemyUnit> enemies = level.getArrayEnemies();
-
         /** массив вражеских юнитов - "потенциальных целей" **/
         ArrayList<EnemyUnit> targetEnemies = new ArrayList<EnemyUnit>();
 
@@ -121,7 +127,7 @@ public class Archer1 extends PlayerUnit {
                  * если да, то добавим его в массив вражеских юнитов, которых видит ИГРОВОЙ ЮНИТ
                  * **/
                 if (checkDistanceToEnemy(enemies.get(i))) {
-                    System.out.println("checkDistance to enemy = TRUE");
+//                    System.out.println("checkDistance to enemy = TRUE");
                     targetEnemies.add(enemies.get(i));  // добавим вражеский юнита в массив потенциальных "целевых юнитов"
                 } else {
                     System.out.println("checkDistance to enemy = FALSE");
@@ -131,27 +137,37 @@ public class Archer1 extends PlayerUnit {
              * т.е. найдем по расстоянию между ними, т.е. самое маленькое расстояние
              * **/
             minDistance = (targetEnemies.get(0).getBodyPosition().sub(getBodyPosition())).len();
-            targetEnemy = targetEnemies.get(0);
+            GameUnit newTargetEnemy = targetEnemies.get(0);
             for (int i = 1; i < targetEnemies.size(); i++) {
                 float distanceToEnemy = (targetEnemies.get(i).getBodyPosition().sub(getBodyPosition())).len();
                 if (distanceToEnemy < minDistance) {
                     minDistance = distanceToEnemy;
-                    targetEnemy = targetEnemies.get(i);
+                    newTargetEnemy = targetEnemies.get(i);
                 }
             }
             minDistance = 0;
             if (targetEnemy != null) {
-                isHaveTarget = true;        // изменим флаг на true, т.е. есть "враг-цель"
+                // если текущий "враг-цель" находится дальше чем новый найденный, то новый "враг-цель"  - это новый найденный
+                if (!targetEnemy.equals(newTargetEnemy)) {
+                    isHaveTarget = true;        // изменим флаг на true, т.е. есть "враг-цель"
+                    calculateVerticalDirection();       // вычислим направление вертикального перемещения
+                    currentState = State.WALKING;
+                }
+//                isHaveTarget = true;        // изменим флаг на true, т.е. есть "враг-цель"
+                // TODO возможно здесь нужно будет изменить и связать с расстоянием до баррикады
+
+//                calculateVerticalDirection();       // вычислим направление вертикального перемещения
+//                currentState = State.WALKING;
+            } else {
+                targetEnemy = newTargetEnemy;
+                isHaveTarget = true;
                 calculateVerticalDirection();       // вычислим направление вертикального перемещения
                 currentState = State.WALKING;
             }
         } catch (Exception e) {
-            System.out.println(e.toString());
             currentState = State.WALKING;
             verticalDirectionMovement = Direction.NONE;
         }
-
-        System.out.println("VeticalDirection = " + verticalDirectionMovement.toString());
     }
 
     /**
@@ -166,17 +182,27 @@ public class Archer1 extends PlayerUnit {
         Vector2 distanceToEnemy = (enemyPos.sub(bodyPosition));  // расстояние между юнитом и вражеский юнитом
 
         /** время необходимое для движения до вражеского юнита tф = S / V **/
-        float time = distanceToEnemy.len() / velocity;
+        float time = distanceToEnemy.len() / VELOCITY;
 
         /** рассчитанное время для движения до вражеского юнита tp = Sy / Vy**/
         float y1 = enemyUnit.getBodyPosition().y;
         float y2 = bodyPosition.y;
 
-        float timeCalculated = (float) Math.abs((y1 - y2) / (velocity * Math.sin(distanceToEnemy.angle())));
+        float timeCalculated = (float) Math.abs((y1 - y2) / (VELOCITY * Math.sin(MathUtils.degreesToRadians * distanceToEnemy.angle())));
+//        System.out.println("____________________________________________________________________");
+//        System.out.println("distanceToEnemy.angle() = " + distanceToEnemy.angle());
+//        System.out.println("VELOCITY * Math.sin(MathUtils.degreesToRadians * distanceToEnemy.angle())) = " + VELOCITY * Math.sin(MathUtils.degreesToRadians * distanceToEnemy.angle()));
+//        System.out.println("TimeCalculated = " + timeCalculated);
+//        System.out.println("Time = " + time);
+//        System.out.println("bodyPosition.x = " + bodyPosition.x);
+//        System.out.println("bodyPosition.y = " + bodyPosition.y);
+//        System.out.println("EnemyBodyPosition.x = " + enemyPos.x);
+//        System.out.println("EnemyBodyPosition.y = " + enemyPos.y);
+//        System.out.println("--------------------------------------------------------------------");
         if (timeCalculated <= time)
             return true;        // игровой юнит успевает достигнуть варжеского = true
         else
-            return false;                              // игровой юнит не успевает достигнуть вражеского = false
+            return false;       // игровой юнит не успевает достигнуть вражеского = false
     }
 
     /**
@@ -187,38 +213,75 @@ public class Archer1 extends PlayerUnit {
         float posYTarget = targetEnemy.getBodyPosition().y;
         Vector2 enemyPos = targetEnemy.getBodyPosition();
         enemyPos.x -= (36 / Level.WORLD_SCALE);
-        Vector2 velocityDirection = targetEnemy.getBodyPosition().sub(body.getPosition());          // вектор направления движения игрового юнита
+        Vector2 velocityDirection = targetEnemy.getBodyPosition().sub(body.getPosition());      // вектор направления движения игрового юнита
+//        Vector2 velocityDirection = targetEnemy.getBodyPosition().sub(body.getPosition());      // вектор направления движения игрового юнита
 
         // опрледелим направление вертикального перемещения
         if (verticalDirectionMovement == Direction.DOWN) {
+            System.out.println("verticalDirection = " + verticalDirectionMovement);
             /** если направление вертикального перемещения DOWN, то проверим условие: **/
             if (posY > posYTarget) {
                 if (velocityDirection.x > ATTACK_DISTANCE / Level.WORLD_SCALE)  // если расстояние по оси х до вражеского юнита больше ATACK_DISTANCE
                     velocityDirection.x -= ATTACK_DISTANCE / Level.WORLD_SCALE;
                 else
                     velocityDirection.x = 0;
-                body.setLinearVelocity(velocityDirection.nor().scl(velocity));
+//                body.setLinearVelocity(velocityDirection.nor().scl(VELOCITY));
+                if (checkCanMoveRight()) {
+                    velocity = velocityDirection.nor().scl(VELOCITY);
+                } else {
+                    velocity.set(0, -VELOCITY);
+                }
+//                body.setLinearVelocity(velocityDirection.nor().scl(VELOCITY));
+                System.out.println("velocity.y = " + body.getLinearVelocity().y);
+//                }
             } else {
                 isReachedEnemyYPos = true;
                 verticalDirectionMovement = Direction.NONE;
             }
+
             /** если направления вертикального перемещения DOWN, то проверим условие: **/
         } else if (verticalDirectionMovement == Direction.UP) {
+            System.out.println("verticalDirection = " + verticalDirectionMovement);
             if (posY < posYTarget) {
                 if (velocityDirection.x > ATTACK_DISTANCE / Level.WORLD_SCALE)  // если расстояние по оси х до вражеского юнита больше ATACK_DISTANCE
                     velocityDirection.x -= ATTACK_DISTANCE / Level.WORLD_SCALE;
                 else
                     velocityDirection.x = 0;
-                body.setLinearVelocity(velocityDirection.nor().scl(velocity));
+//                velocity = velocityDirection.nor().scl(VELOCITY);
+                if (checkCanMoveRight()) {
+                    velocity = velocityDirection.nor().scl(VELOCITY);
+                } else {
+                    velocity.set(0, VELOCITY);
+                }
+//                body.setLinearVelocity(velocityDirection.nor().scl(velocity));
+                System.out.println("velocity.y = " + body.getLinearVelocity().y);
             } else {
                 isReachedEnemyYPos = true;
                 verticalDirectionMovement = Direction.NONE;
             }
         }
         if (verticalDirectionMovement == Direction.NONE) {
+            System.out.println("verticalDirection = " + verticalDirectionMovement);
 //        else if (verticalDirectionMovement == Direction.NONE) {
-            body.setLinearVelocity(velocity, 0);
+            if (checkCanMoveRight()) {
+                velocity.set(VELOCITY, 0);
+//                body.setLinearVelocity(velocity, 0);
+            } else {
+                if (currentState != State.STAY) {
+                    stateTime = 0;
+                    currentState = State.STAY;
+                }
+            }
         }
+    }
+
+    /**
+     * метод определяет достиг ли юнит баррикады, и может ли двигаться вперед
+     **/
+    public boolean checkCanMoveRight() {
+        if (barricade.getX() - getX() <= 200) {      // если расстояние м/у игровым юнитом и баррикадой меншье или равно 200
+            return false;
+        } else return true;
     }
 
     /**
@@ -263,10 +326,9 @@ public class Archer1 extends PlayerUnit {
 
         /** если текущее состояние = State.STAY и анмация завершена **/
         if ((currentState == State.STAY) && (stayAnimation.isAnimationFinished(stateTime))) {
-
-            if (isFired) {
-                isFired = false;
-            }
+//            if (isFired) {
+//                isFired = false;
+//            }
             /** проеверим унчитожен ли ВРАГ-ЦЕЛЬ?
              * если уничтожен, то устанавливаем текущее состояние = State.WALKING
              * если не уничтожен, то устанавливаем текщее состояние = State.ATTACK **/
@@ -304,8 +366,6 @@ public class Archer1 extends PlayerUnit {
                 stateTime = 0;
                 moveRight();
             }
-//            System.out.println("moveRight");
-//            moveRight();
         }
     }
 
@@ -315,7 +375,6 @@ public class Archer1 extends PlayerUnit {
         isHaveTarget = false;
         isReachedEnemyYPos = false;
         isAttack = false;
-
     }
 
     public void fire() {
@@ -323,26 +382,35 @@ public class Archer1 extends PlayerUnit {
     }
 
     private void moveRight() {
+        velocity.set(VELOCITY, 0);
+//        body.setLinearVelocity(velocity, 0);
 
-        // TODO: 20.02.2020  Нужно будети исправить, чтобы юнит мог отбиваться в этот момент от врагов, если они подойдут близко !!!!!
-//        System.out.println("barricadeX = " + barricade.getX());
-//        System.out.println("archerX = " + getX());
-        if (barricade.getX() - getX() > 200) {      // если расстояние м/у игровым юнитом и баррикадой больше 200
-            body.setLinearVelocity(velocity, 0);        // движемся вперед
-        } else {
-            if (isHaveTarget) {         // если юнит имеет "врага-цель"
-                Vector2 velocity = body.getLinearVelocity();
-                velocity.x = 0;
-                body.setLinearVelocity(velocity);       // то скорость имеет только вертикальную составляющую
-            } else {
-                if (currentState == State.WALKING && walkAnimation.isAnimationFinished(stateTime)) {
-                    stay();
-                    stateTime = 0;
-                    currentState = State.STAY;
-                }
-            }
-        }
+//        if (barricade.getX() - getX() <= 200) {
+//            if (currentState != State.STAY)
+//                stateTime = 0;
+//            currentState = State.STAY;
+//        } else {
+//            body.setLinearVelocity(velocity, 0);
+//        }
+
+
+//        if (barricade.getX() - getX() > 200) {      // если расстояние м/у игровым юнитом и баррикадой больше 200
+//            body.setLinearVelocity(velocity, 0);        // движемся вперед
+//        } else {
+////            if (isHaveTarget) {         // если юнит имеет "врага-цель"
+////                Vector2 velocity = body.getLinearVelocity();
+////                velocity.x = 0;
+////                body.setLinearVelocity(velocity);       // то скорость имеет только вертикальную составляющую
+////            }
+////            else {
+//            if (currentState == State.WALKING && walkAnimation.isAnimationFinished(stateTime)) {
+//                stay();
+//                stateTime = 0;
+//                currentState = State.STAY;
+//            }
+//        }
     }
+//    }
 
     /**
      * Метод для преверки вертикального перемещения, нужно ли еще перемещаться вверх или вниз
@@ -360,23 +428,20 @@ public class Archer1 extends PlayerUnit {
                 isHaveVerticalDirection = false;
                 stay();
             }
-//            else if (verticalDirectionMovement == Direction.NONE)
-
         }
     }
 
-    private void moveUp() {
-        body.setLinearVelocity(0, velocity);
-    }
-
-    private void moveDown() {
-        body.setLinearVelocity(0, -velocity);
-    }
+//    private void moveUp() {
+//        body.setLinearVelocity(0, velocity);
+//    }
+//
+//    private void moveDown() {
+//        body.setLinearVelocity(0, -velocity);
+//    }
 
     private void stay() {
         body.setLinearVelocity(0, 0);
     }
-
 
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
