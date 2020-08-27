@@ -1,4 +1,4 @@
-package com.timgapps.warfare.Units.GameUnits.Player;
+package com.timgapps.warfare.Units.GameUnits.Player.units;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;

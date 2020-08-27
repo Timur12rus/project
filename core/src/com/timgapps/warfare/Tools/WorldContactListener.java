@@ -5,13 +5,11 @@ import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
-import com.timgapps.warfare.Units.GameUnits.Barricade;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnit;
 import com.timgapps.warfare.Units.GameUnits.GameUnit;
 import com.timgapps.warfare.Units.GameUnits.Player.Bullets.Bullet;
 import com.timgapps.warfare.Units.GameUnits.Player.Bullets.Stone;
-import com.timgapps.warfare.Units.GameUnits.Player.PlayerUnit;
-import com.timgapps.warfare.Units.GameUnits.Player.SiegeTower;
+import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnit;
 
 public class WorldContactListener implements ContactListener {
     @Override

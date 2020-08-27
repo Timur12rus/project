@@ -1,6 +1,5 @@
 package com.timgapps.warfare.Units.GameUnits.Enemy;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -10,12 +9,10 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.timgapps.warfare.Game;
 import com.timgapps.warfare.Level.Level;
 import com.timgapps.warfare.Units.GameUnits.GameUnit;
 import com.timgapps.warfare.Units.GameUnits.Player.Bullets.Stone;
-import com.timgapps.warfare.Units.GameUnits.Player.PlayerUnit;
-import com.timgapps.warfare.Units.GameUnits.Player.SiegeTower;
+import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnit;
 
 public class EnemyUnit extends GameUnit {
 

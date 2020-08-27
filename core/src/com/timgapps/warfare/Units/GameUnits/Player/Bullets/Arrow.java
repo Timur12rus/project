@@ -9,7 +9,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.timgapps.warfare.Level.Level;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnit;
 import com.timgapps.warfare.Units.GameUnits.GameUnit;
-import com.timgapps.warfare.Units.GameUnits.Player.Archer1;
+import com.timgapps.warfare.Units.GameUnits.Player.units.Archer1;
 import com.timgapps.warfare.Warfare;
 
 public class Arrow extends Bullet {
@@ -54,7 +54,7 @@ public class Arrow extends Bullet {
     public Body createBody(float x, float y) {
         BodyDef def = new BodyDef();
         def.type = BodyDef.BodyType.DynamicBody;
-        body = world.createBody(def);
+        Body body = world.createBody(def);
 
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(2 / Level.WORLD_SCALE, 2 / Level.WORLD_SCALE);

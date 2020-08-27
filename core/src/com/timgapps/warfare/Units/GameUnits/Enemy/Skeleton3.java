@@ -9,7 +9,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Array;
 import com.timgapps.warfare.Level.Level;
-import com.timgapps.warfare.Units.GameUnits.Player.PlayerUnit;
 import com.timgapps.warfare.Warfare;
 
 public class Skeleton3 extends EnemyUnit {

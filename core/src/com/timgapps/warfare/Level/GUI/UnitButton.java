@@ -10,11 +10,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.timgapps.warfare.Level.GUI.Screens.TeamEntity;
 import com.timgapps.warfare.Level.GUI.Screens.TeamEntityData;
 import com.timgapps.warfare.Level.Level;
-import com.timgapps.warfare.Units.GameUnits.Player.Archer1;
+import com.timgapps.warfare.Units.GameUnits.Player.units.Archer1;
 import com.timgapps.warfare.Units.GameUnits.Player.Bullets.Stone;
-import com.timgapps.warfare.Units.GameUnits.Player.Gnome;
-import com.timgapps.warfare.Units.GameUnits.Player.Knight;
-import com.timgapps.warfare.Units.GameUnits.Player.Thor;
+import com.timgapps.warfare.Units.GameUnits.Player.units.Gnome;
+import com.timgapps.warfare.Units.GameUnits.Player.units.Knight;
+import com.timgapps.warfare.Units.GameUnits.Player.units.Thor;
 import com.timgapps.warfare.Warfare;
 
 /**

@@ -180,7 +180,6 @@ public class StarsPanel extends Group {
                 rewardForStarsDataList.get(i).setChecked();     // установим флаг - "НАГРАДА ДОСТУПНА" для получения
             }
         }
-
         /** определим кол-во доступных наград **/
         countRewardIsChecked = 0;
 

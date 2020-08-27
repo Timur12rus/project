@@ -1,25 +1,16 @@
-package com.timgapps.warfare.Units.GameUnits.Player;
+package com.timgapps.warfare.Units.GameUnits.Player.units;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.timgapps.warfare.Level.Level;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnit;
-import com.timgapps.warfare.Units.GameUnits.GameUnit;
 import com.timgapps.warfare.Warfare;
 
-import java.awt.Label;
 import java.util.ArrayList;
-
-import static com.badlogic.gdx.math.Vector2.len;
 
 public class Gnome extends PlayerUnit {
     private float x, y;

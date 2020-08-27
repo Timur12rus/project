@@ -1,6 +1,5 @@
-package com.timgapps.warfare.Units.GameUnits.Player;
+package com.timgapps.warfare.Units.GameUnits.Player.units;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -15,11 +14,7 @@ import com.timgapps.warfare.Warfare;
 
 import java.util.ArrayList;
 
-import javafx.geometry.VerticalDirection;
-
 public class Archer1 extends PlayerUnit {
-
-    //    private float stateTime;
     private boolean isAttack = false;   // флаг, указывет на то, в состоянии ли атаки находится юнит
     private boolean isHaveTarget = false;
     private GameUnit targetEnemy;
@@ -79,19 +74,18 @@ public class Archer1 extends PlayerUnit {
                     currentState = State.STAY;
                     velocity.set(0, 0);
                 }
-//                Vector2 velocityDirection = body.getLinearVelocity();
-//                if (!checkCanMoveRight() && velocityDirection.x != 0) {
-//                if (!checkCanMoveRight() && velocity.x != 0) {
-////                    velocityDirection.x = 0;
-////                    body.setLinearVelocity(0, velocityDirection.y);
-//                    velocity.set(0, velocity.y);
-//                }
                 body.setLinearVelocity(velocity);
             }
-
-//            /** проверим, может ли игровой юнит атаковать врага **/
+            // проверим, может ли игровой юнит атаковать врага **/
             if (isReachedEnemyYPos && targetEnemy != null) { // если юнит достиг вертикальной координаты вражеского "юнита-цели"
                 checkAttack((EnemyUnit) targetEnemy);
+            }
+            // TODO если юнит достиг верт-ой координаты и уперся в баррикаду, что делать тогда, нужно стоять и ждать, пока враг не подойдет
+            System.out.println("CurrentState = " + currentState);
+            System.out.println("targetEnemy = " + targetEnemy);
+            if (currentState == State.STAY && stayAnimation.isAnimationFinished(stateTime) && barricade.isBarricadeDestroyed()) {
+                stateTime = 0;
+                currentState = State.WALKING;
             }
         }
 
@@ -101,7 +95,6 @@ public class Archer1 extends PlayerUnit {
         if (currentState == State.WALKING && !isAttack || currentState == State.STAY && !isAttack) {
             findTarget();
         }
-
         // если да, то движемся вправо, если нет, продолжаем
         if (!isReachedEnemyYPos && targetEnemy != null)   // если игрвой юнит не достиг вертикальной координаты Ypos у вражеского юнита
             checkVerticalMovement();
@@ -165,7 +158,7 @@ public class Archer1 extends PlayerUnit {
                 currentState = State.WALKING;
             }
         } catch (Exception e) {
-            currentState = State.WALKING;
+//            currentState = State.WALKING;
             verticalDirectionMovement = Direction.NONE;
         }
     }
@@ -189,16 +182,6 @@ public class Archer1 extends PlayerUnit {
         float y2 = bodyPosition.y;
 
         float timeCalculated = (float) Math.abs((y1 - y2) / (VELOCITY * Math.sin(MathUtils.degreesToRadians * distanceToEnemy.angle())));
-//        System.out.println("____________________________________________________________________");
-//        System.out.println("distanceToEnemy.angle() = " + distanceToEnemy.angle());
-//        System.out.println("VELOCITY * Math.sin(MathUtils.degreesToRadians * distanceToEnemy.angle())) = " + VELOCITY * Math.sin(MathUtils.degreesToRadians * distanceToEnemy.angle()));
-//        System.out.println("TimeCalculated = " + timeCalculated);
-//        System.out.println("Time = " + time);
-//        System.out.println("bodyPosition.x = " + bodyPosition.x);
-//        System.out.println("bodyPosition.y = " + bodyPosition.y);
-//        System.out.println("EnemyBodyPosition.x = " + enemyPos.x);
-//        System.out.println("EnemyBodyPosition.y = " + enemyPos.y);
-//        System.out.println("--------------------------------------------------------------------");
         if (timeCalculated <= time)
             return true;        // игровой юнит успевает достигнуть варжеского = true
         else
@@ -304,6 +287,7 @@ public class Archer1 extends PlayerUnit {
     private void checkAttack(EnemyUnit targetEnemy) {
         float distance = (targetEnemy.getBodyPosition().x - body.getPosition().x) * Level.WORLD_SCALE;
         if (distance <= ATTACK_DISTANCE) {
+            System.out.println("Distance = " + distance);
             isAttack = true;
         } else moveRight();
 
@@ -319,24 +303,26 @@ public class Archer1 extends PlayerUnit {
 
         /** если юнит завершил атаку, то текущее состояние устанавливаем = State.STAY **/
         if (currentState == State.ATTACK && attackAnimation.isAnimationFinished(stateTime)) {
+            isFired = false;
             stateTime = 0;
             currentState = State.STAY;
-            isFired = false;
         }
 
         /** если текущее состояние = State.STAY и анмация завершена **/
         if ((currentState == State.STAY) && (stayAnimation.isAnimationFinished(stateTime))) {
-//            if (isFired) {
-//                isFired = false;
-//            }
             /** проеверим унчитожен ли ВРАГ-ЦЕЛЬ?
              * если уничтожен, то устанавливаем текущее состояние = State.WALKING
              * если не уничтожен, то устанавливаем текщее состояние = State.ATTACK **/
             if (targetEnemy.getHealth() <= 0) {
+                isAttack = false;
                 resetTarget();
                 currentState = State.WALKING;
             } else {
-                currentState = State.ATTACK;
+                if (distance <= ATTACK_DISTANCE && isAttack) {
+                    currentState = State.ATTACK;
+                } else {
+                    currentState = State.STAY;
+                }
             }
             stateTime = 0;
         }
@@ -352,6 +338,15 @@ public class Archer1 extends PlayerUnit {
             }
         }
 
+        if ((verticalDirectionMovement == Direction.NONE) && (distance <= ATTACK_DISTANCE)) {
+            if ((currentState == State.STAY) && (stayAnimation.isAnimationFinished(stateTime))) {
+                stateTime = 0;
+                currentState = State.ATTACK;
+                stay();
+            }
+        }
+
+
         /** если вертикальное перемещение = Direction.NONE и и расстояние до врага <= ATTACK_DISTANCE
          * если текущее состояние = State.STAY и анимация завершена, установим тек. состояние = State.WALKING и двигаем юнита вправо
          * **/
@@ -361,11 +356,6 @@ public class Archer1 extends PlayerUnit {
                 stateTime = 0;
                 currentState = State.WALKING;
             }
-
-            if (currentState == State.WALKING && walkAnimation.isAnimationFinished(stateTime)) {
-                stateTime = 0;
-                moveRight();
-            }
         }
     }
 
@@ -374,7 +364,6 @@ public class Archer1 extends PlayerUnit {
         targetEnemy = null;
         isHaveTarget = false;
         isReachedEnemyYPos = false;
-        isAttack = false;
     }
 
     public void fire() {
@@ -383,34 +372,7 @@ public class Archer1 extends PlayerUnit {
 
     private void moveRight() {
         velocity.set(VELOCITY, 0);
-//        body.setLinearVelocity(velocity, 0);
-
-//        if (barricade.getX() - getX() <= 200) {
-//            if (currentState != State.STAY)
-//                stateTime = 0;
-//            currentState = State.STAY;
-//        } else {
-//            body.setLinearVelocity(velocity, 0);
-//        }
-
-
-//        if (barricade.getX() - getX() > 200) {      // если расстояние м/у игровым юнитом и баррикадой больше 200
-//            body.setLinearVelocity(velocity, 0);        // движемся вперед
-//        } else {
-////            if (isHaveTarget) {         // если юнит имеет "врага-цель"
-////                Vector2 velocity = body.getLinearVelocity();
-////                velocity.x = 0;
-////                body.setLinearVelocity(velocity);       // то скорость имеет только вертикальную составляющую
-////            }
-////            else {
-//            if (currentState == State.WALKING && walkAnimation.isAnimationFinished(stateTime)) {
-//                stay();
-//                stateTime = 0;
-//                currentState = State.STAY;
-//            }
-//        }
     }
-//    }
 
     /**
      * Метод для преверки вертикального перемещения, нужно ли еще перемещаться вверх или вниз

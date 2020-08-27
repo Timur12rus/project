@@ -11,15 +11,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.timgapps.warfare.Level.Level;
-import com.timgapps.warfare.Units.GameUnits.Enemy.Zombie;
-import com.timgapps.warfare.Units.GameUnits.Enemy.Zombie1;
 import com.timgapps.warfare.Units.GameUnits.Interfaces.IBody;
-import com.timgapps.warfare.Units.GameUnits.Player.Gnome;
-import com.timgapps.warfare.Warfare;
 
 public abstract class GameUnit extends Actor implements IBody {
 

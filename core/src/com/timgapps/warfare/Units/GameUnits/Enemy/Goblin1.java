@@ -11,7 +11,6 @@ import com.badlogic.gdx.utils.Array;
 import com.timgapps.warfare.Level.Level;
 import com.timgapps.warfare.Units.GameUnits.Effects.Explosion;
 import com.timgapps.warfare.Units.GameUnits.Player.Bullets.Stone;
-import com.timgapps.warfare.Units.GameUnits.Player.PlayerUnit;
 import com.timgapps.warfare.Warfare;
 
 public class Goblin1 extends EnemyUnit {

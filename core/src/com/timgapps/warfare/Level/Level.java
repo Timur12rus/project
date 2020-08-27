@@ -24,11 +24,11 @@ import com.timgapps.warfare.Level.LevelScreens.PauseScreen;
 import com.timgapps.warfare.Tools.WorldContactListener;
 import com.timgapps.warfare.Units.GameUnits.Barricade;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnit;
-import com.timgapps.warfare.Units.GameUnits.Player.Archer1;
-import com.timgapps.warfare.Units.GameUnits.Player.Gnome;
-import com.timgapps.warfare.Units.GameUnits.Player.Knight;
+import com.timgapps.warfare.Units.GameUnits.Player.units.Archer1;
+import com.timgapps.warfare.Units.GameUnits.Player.units.Gnome;
+import com.timgapps.warfare.Units.GameUnits.Player.units.Knight;
 import com.timgapps.warfare.Units.GameUnits.Player.SiegeTower;
-import com.timgapps.warfare.Units.GameUnits.Player.Thor;
+import com.timgapps.warfare.Units.GameUnits.Player.units.Thor;
 import com.timgapps.warfare.Utils.Setting;
 import com.timgapps.warfare.Warfare;
 
