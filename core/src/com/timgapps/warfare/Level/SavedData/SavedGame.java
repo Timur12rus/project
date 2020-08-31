@@ -82,6 +82,7 @@ public class SavedGame implements Serializable {
      * в этом методе и задаются награды за звёзды
      **/
     public void createRewardForStarsDataList() {
+//        starsCount = 35;             // кол-во звезд у игрока для теста
         starsCount = 0;             // кол-во звезд у игрока
         indexOfRewardStars = 0;     // индекс следующей награды за звёзды
         rewardForStarsDataList = new ArrayList<RewardForStarsData>();
@@ -91,7 +92,7 @@ public class SavedGame implements Serializable {
         rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_GNOME, 30));
         rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_BOX, 45));
         rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_KNIGHT, 75));
-        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_KNIGHT, 50));
+        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_KNIGHT, 110));
         rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_KNIGHT, 50));
 //        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_GNOME, 45));
 //        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_GNOME, 80));
@@ -119,7 +120,6 @@ public class SavedGame implements Serializable {
         return rewardForStarsDataList;
     }
 
-
     public ArrayList<LevelIconData> getLevelIconDataList() {
         return levelIconDataList;
     }
@@ -132,8 +132,8 @@ public class SavedGame implements Serializable {
 
         teamDataList.add(new TeamEntityData(TeamEntityData.THOR));
         teamDataList.get(0).setDefaultData(TeamEntityData.THOR);
-        teamDataList.add(new TeamEntityData(TeamEntityData.KNIGHT));
-        teamDataList.get(1).setDefaultData(TeamEntityData.KNIGHT);
+//        teamDataList.add(new TeamEntityData(TeamEntityData.KNIGHT));
+//        teamDataList.get(1).setDefaultData(TeamEntityData.KNIGHT);
 //        teamDataList.add(new TeamEntityData(TeamEntityData.ARCHER));
 //        teamDataList.get(2).setDefaultData(TeamEntityData.ARCHER);
 //        teamDataList.add(new TeamEntityData(TeamEntityData.STONE));

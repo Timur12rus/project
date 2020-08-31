@@ -36,32 +36,25 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Level extends StageGame {
-
     // добавим несколько констант для хранения состояния игры
     public static final int PLAY = 1;
     public static final int LEVEL_FAILED = 2;
     public static final int LEVEL_COMPLETED = 3;
     public static final int PAUSED = 4;
-
     public static final int ON_COMPLETED = 1;
     public static final int ON_FAILED = 2;
     public static final int ON_RETRY = 3;
     public static final int ON_EXIT = 4;
     public static final int ON_PAUSED = 5;
-
-
     public static final float WORLD_SCALE = 100; // коэффициент масштабирования
     private Box2DDebugRenderer debugRender;
-
     private World world;
     private float accumulator;
     public static final float STEP = 1 / 60f;
     private ArrayList<EnemyUnit> arrayEnemies;
     public ArrayList<Actor> arrayActors;
-
     private float timeCount = 0;
     private HUD hud;
-
     private float energyCount = 0;
     private int coinsCount;         // кол-во монет у игрока
     private int levelNumber;
@@ -74,14 +67,11 @@ public class Level extends StageGame {
     private LevelCompletedScreen levelCompletedScreen;
     private GameOverScreen gameOverScreen;
     private PauseScreen pausedScreen;
-
     private boolean isActiveScreen = true;
-
     private DarkLayer darkLayer;
     private TableUnitButton tableUnitButtons;
     private int coinsReward;            // награда - кол-во монет за уровень
     private int scoreReward;            // награда - кол-во очков за уровень
-
     private int state = 1;
     private boolean isPausedScreenStart = false;
     private boolean isPausedScreenHide = true;
@@ -90,7 +80,6 @@ public class Level extends StageGame {
     private float unitButtonWidth;
     private float unitButtonHeight;
     private Finger finger;
-
 
     public Level(int levelNumber, final GameManager gameManager) {
 
@@ -104,13 +93,9 @@ public class Level extends StageGame {
         world = new World(new Vector2(0, 0), true);
         world.setContactListener(new WorldContactListener()); // присваиваем слушатель ContactListener, который регистрирует событие столкновения в игровом мире
         debugRender = new Box2DDebugRenderer(); // объект debugRendered будем использовать для отладки игрового мира, он позволяет выделить границы полигона
-
-
         /** создадим баррикаду **/
         barricade = new Barricade(this, Barricade.ROCKS);
-
         siegeTower = new SiegeTower(this, 8, 260, gameManager.getTowerHealth(), 2);
-
         /** Добавим вражеских юнитов **/
         random = new Random();
         levelCreator = new LevelCreator(this, levelNumber);
@@ -123,19 +108,15 @@ public class Level extends StageGame {
         hud = new HUD(this);
         hud.setPosition(32, getHeight() - hud.getHeight());
         addOverlayChild(hud);
-
         // создадим таблицу с юнитами
         team = gameManager.getTeam();
-
         // создадим таблицу с кнопками юнитов
         tableUnitButtons = new TableUnitButton(this, team);
         tableUnitButtons.setWidth(team.size() * unitButtonWidth + 24);
         tableUnitButtons.setHeight(unitButtonHeight);
         tableUnitButtons.setPosition((getWidth() - tableUnitButtons.getWidth()) / 2, 24);
         tableUnitButtons.setStoneButtonPosX(tableUnitButtons.getX());
-
         addOverlayChild(tableUnitButtons);
-
         // добавим указатель "ПАЛЕЦ"
         if (levelNumber == 1) {
             /** если статус обучалки "как создать юнит", то создадим указатель **/
@@ -153,7 +134,6 @@ public class Level extends StageGame {
         } else {
             finger = null;
         }
-
 //        siegeTower.setHealth(30);
         pausedScreen = new PauseScreen(this);
         pausedScreen.addListener(new MessageListener() {
@@ -178,7 +158,6 @@ public class Level extends StageGame {
                 }
             }
         });
-
         gameOverScreen = new GameOverScreen(this);
         gameOverScreen.addListener(new MessageListener() {
             @Override
@@ -193,7 +172,6 @@ public class Level extends StageGame {
                 }
             }
         });
-
     }
 
     public void addEnemyUnitToEnemyArray(EnemyUnit enemyUnit) {
@@ -208,7 +186,6 @@ public class Level extends StageGame {
             state = PLAY;
         }
     }
-
     /**
      * метод получает кол-во монет в качестве награды
      **/
@@ -236,9 +213,7 @@ public class Level extends StageGame {
         gameManager.getLevelIcons().get(levelNumber - 1).updateStarsCount();
 
 //        gameManager.getLevelIcons().get(levelNumber - 1).updateStarsCount(calculateStarsCount());
-
     }
-
 
     public ArrayList<EnemyUnit> getArrayEnemies() {
         return arrayEnemies;
@@ -285,7 +260,6 @@ public class Level extends StageGame {
             }
             compareActorsYPos();
         }
-
         if (finger != null) {
             if (tableUnitButtons.getUnitButton(0).getIsUnitButtonReady() && state == PLAY) {
                 finger.show();
@@ -296,13 +270,10 @@ public class Level extends StageGame {
                 finger.setVisible(false);
             }
         }
-
-
         // если баррикада разрушена и текущее состояние не "пауза" и экран завершения уровня не запущен
         if (barricade.isBarricadeDestroyed() && state != PAUSED && !levelCompletedScreen.isStarted()) {
             levelCompleted();   // запускаем метод завершения уровня
         }
-
 //        if (state != PLAY) {
 //            finger.stopPlayAction(true);
 //        } else {
@@ -332,35 +303,8 @@ public class Level extends StageGame {
 
     public void compareActorsYPos() {
         /** Полностью рабочий код, но с ошиблкой Zindex cannot be < 0 **/
-//        if (arrayActors.size() > 1) {
-//            ArrayList<Actor> gameActors = arrayActors;
-////            ArrayList<Actor> gameActors = arrayActors;
-//            boolean sorted = false;
-//            int tempZIndex;
-//            Actor tempActor;
-//            while (!sorted) {
-//                sorted = true;
-//                for (int i = 0; i < gameActors.size() - 1; i++) {
-//                    if (gameActors.get(i).getZIndex() < gameActors.get(i + 1).getZIndex()) {
-//                        if (gameActors.get(i).getY() < gameActors.get(i + 1).getY()) {
-//                            tempZIndex = gameActors.get(i).getZIndex();
-//                            gameActors.get(i).setZIndex(gameActors.get(i + 1).getZIndex());
-//                            gameActors.get(i + 1).setZIndex(tempZIndex);
-//
-//                            tempActor = gameActors.get(i);
-//
-//                            gameActors.set(i, gameActors.get(i + 1));
-//                            gameActors.set(i + 1, tempActor);
-//                            sorted = false;
-//                        }
-//                    }
-//                }
-//            }
-//        }
-
         if (arrayActors.size() > 1) {                           // если актеров на сцене > 1
             Array<Actor> gameActors = stage.getActors();        // получим массив всех актеров на сцене
-//            ArrayList<Actor> gameActors = arrayActors;
             boolean sorted = false;         // флаг обозначает отсортирован ли
             int tempZIndex;                 // переменная "буфер", в ней сохраним ZIndex актера, у которого будем менять ZIndex
             Actor tempActor;                // актер "буфер", в него сохраянем актера при смене ZIndex
@@ -375,9 +319,7 @@ public class Level extends StageGame {
                                 tempZIndex = gameActors.get(i).getZIndex();
                                 gameActors.get(i).setZIndex(gameActors.get(i + 1).getZIndex());
                                 gameActors.get(i + 1).setZIndex(tempZIndex);
-
                                 tempActor = gameActors.get(i);
-
                                 gameActors.set(i, gameActors.get(i + 1));
                                 gameActors.set(i + 1, tempActor);
                                 sorted = false;
@@ -438,7 +380,6 @@ public class Level extends StageGame {
             gameManager.getLevelIcons().get(i).checkIsActive();
         }
     }
-
 
     /**
      * метод для получения БАРРИКАДЫ
@@ -523,7 +464,6 @@ public class Level extends StageGame {
                 }
             }
         }
-
     }
 
     // метод для показа экрана паузы
@@ -590,7 +530,6 @@ public class Level extends StageGame {
         tableUnitButtons.setVisible(false); // кнопки юитов делаем невидимыми
         hud.hideEnergyPanel();
     }
-
 
     /**
      * метод завершения уровня, вызывается после того, как разрушилась баррикада

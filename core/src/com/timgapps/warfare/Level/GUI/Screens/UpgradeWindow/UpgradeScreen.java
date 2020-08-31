@@ -26,96 +26,64 @@ import com.timgapps.warfare.Warfare;
 import java.util.ArrayList;
 
 public class UpgradeScreen extends Group {
-
     public static final int ON_RESUME = 1;
     private Image background;
     //    private Image imageContainer;
     private ImageButton closeButton;
     private Table infoTable;        // таблица содержит данные о характеристиках юнита
-
     private Table container;
-
     private Label healthLabel;      // текст "ЗДОРОВЬЕ"
     private Label damageLabel;      // текст "УРОН"
     private Label speedLabel;       // текст "СКОРОСТЬ"
     private Label timePrepearLabel;       // текст "ВРЕМЯ ПОЯВЛЕНИЯ"
     private Label upgradeCostLabel;       // текст "СТОИМОСТЬ АПРГРЕЙДА"
-
     private Label healthValueLabel;      // текст количество "здоровья"
     private Label damageValueLabel;      // текст количество "урона"
     private Label speedValueLabel;       // текст количество "скорость"
     private Label timePrepearValueLabel;       // текст значение "время появления"
-
     private Label healthAddValueLabel;      // текст на сколько прибавится "здоровье"
     private Label damageAddValueLabel;      // текст на сколько прибавится "здоровье"
-
     private Label foodCostLabel, ironCostLabel, woodCostLabel, upgradeToLevelLabel;
-
     private int foodCostValue, ironCostValue, woodCostValue;        // значение количества ресурсов, необходимое для апргрейда
-
     private Label toastLabel;
-
     private int healthValue;
     private int damageValue;
     private int speedValue;
     private int timePrepearValue;
-
     private int addHealthValue, addDamageValue;
-
     private String healthText = "Health";
     private String damageText = "Damage";
     private String speedText = "Speed";
     private String timePrepearText = "Time prepear";
     private String upgradeCostText = "Upgrade cost";
     private String upgradeToLevelText = "Upgrade to Level ";
-
     private float containerX, containerY;
     private float paddingLeft = 48;
-
     private Image foodIcon, ironIcon, woodIcon;
-
     private UpgradeButton upgradeButton;
     private ArrayList<TeamEntity> team;
-
     private Group imageContainer;           // контейнер - Group для ханения изображения юнита со значком уровня и энергии
     private UnitImage unitImage;            // изображение юнита
-
     private int unitLevel;
     private int newUnitLevel;
-
     private int coinsCount;
-
     private int upgradeCost;
-
     private final int COST_UPGRADE = 50;
-
 //    private Actor imageContainer;
-
     private GameManager gameManager;
-
     private String noResources = "Not enought resources!";
     private String noCoins = "Not enought coins!";
-
     private boolean isStartToastAction = false;
-
     private boolean canBeUpgrade;
     private TeamEntity teamEntity;
-
     private ResourcesTable resourcesTable;
-
     private UnitLevelIcon unitLevelIcon;
-
     private TextureRegionDrawable textureRegionDrawableBg;
-
     private ColorButton selectUnitButton;  // кнопка "ВЫБРАТЬ" для игрового юнита,
     // если игровой юнит не состоит в коменде, а нах-ся в коллекции
-
-
     private TeamUpgradeScreen teamUpgradeScreen;
-
     private Label unitNameLabel;
     private String unitName;
-
     private BlockTable blockTable;
     private Table costUpgradeTable;
     private Label maxLevelReached;  // надпись "максимальный уровнень достигнут"
@@ -230,7 +198,6 @@ public class UpgradeScreen extends Group {
         damageLabel.setAlignment(Align.right);
         speedLabel.setAlignment(Align.right);
         timePrepearLabel.setAlignment(Align.right);
-
         healthValueLabel.setAlignment(Align.left);
         damageValueLabel.setAlignment(Align.left);
         speedValueLabel.setAlignment(Align.left);
@@ -262,23 +229,15 @@ public class UpgradeScreen extends Group {
         container.setWidth(550);
         container.left().top();
         container.add(infoTable).left();
-
         infoTable.add(healthLabel).width(200).padRight(8);
         infoTable.add(new Image(Warfare.atlas.findRegion("heart_icon"))).width(56).height(56);
         infoTable.add(healthValueLabel).width(48).padLeft(8);
         infoTable.add(healthAddValueLabel);
-
-
-//        infoTable.add(healthValueLabel).fillX().padLeft(8);
-//        infoTable.add(healthAddValueLabel);
-
-
         infoTable.row();
         infoTable.add(damageLabel).width(200).padRight(8);
         infoTable.add(new Image(Warfare.atlas.findRegion("damage_icon"))).width(56).height(56);
         infoTable.add(damageValueLabel).fillX().padLeft(8);
         infoTable.add(damageAddValueLabel);
-
         infoTable.row();
         infoTable.add(speedLabel).width(200).padRight(8);
         infoTable.add(new Image(Warfare.atlas.findRegion("speed_icon"))).width(56).height(56);
@@ -355,15 +314,12 @@ public class UpgradeScreen extends Group {
                 container.getY() - (resourcesTable.getHeight() - container.getHeight()));
         addActor(resourcesTable);
         setVisible(false);
-
         toastLabel.setVisible(false);
         toastLabel.setPosition(Warfare.V_WIDTH / 2 - toastLabel.getWidth() - 200, Warfare.V_HEIGHT / 2);
         addActor(toastLabel);
         unitNameLabel.setPosition(container.getX() + container.getWidth() - unitNameLabel.getWidth(),
                 background.getY() + background.getHeight() - unitNameLabel.getHeight());
-
         addActor(unitNameLabel);
-
         maxLevelReached.setPosition(background.getX() + (background.getWidth() - maxLevelReached.getWidth()) / 2, 272);
         maxLevelReached.setVisible(false);
         addActor(maxLevelReached);
@@ -371,16 +327,12 @@ public class UpgradeScreen extends Group {
 
     public void showUpgradeScreen(boolean showSelectButton, TeamEntity teamEntity) {
         this.teamEntity = teamEntity;
-
-
         // если уровень текущего юнита максимальный, не показываем таблицу о стоимости апгрейда
         if (teamEntity.getUnitLevel() >= teamEntity.getMaxUnitLevel()) {
             upgradeButton.setVisible(false);
             costUpgradeTable.setVisible(false);
             maxLevelReached.setVisible(true);
         }
-
-
         // обновим количество ресурсов в таблице
         resourcesTable.updateResources(gameManager.getFoodCount(), gameManager.getIronCount(), gameManager.getWoodCount());
 
@@ -389,9 +341,7 @@ public class UpgradeScreen extends Group {
         setVisible(true);
         /** добавим объект - изображение юнита со значком уровня юнита**/
         imageContainer.addActor(unitImage);
-
         boolean isUnlock = teamEntity.getEntityData().isUnlock();
-
         /** если юнит разблокирован, то делаем значок уровня юнита видимым **/
         if (isUnlock == true) {
             teamEntity.getUnitImage().getUnitLevelIcon().setVisible(true);
@@ -409,7 +359,6 @@ public class UpgradeScreen extends Group {
             unitImage.getSelectButton().setVisible(false);
         }
         showBlockTable(isUnlock);
-
     }
 
     /**
@@ -432,46 +381,31 @@ public class UpgradeScreen extends Group {
         damageValue = teamEntity.getDAMAGE();
         speedValue = teamEntity.getSPEED();
         timePrepearValue = teamEntity.getTimePrepare();
-
         unitNameLabel.setText(teamEntity.getName());
         unitNameLabel.setPosition(container.getX() + (container.getWidth() - unitNameLabel.getWidth()) / 2,
                 background.getY() + background.getHeight() - unitNameLabel.getHeight() - 32);
-
 
         /** получим объект unitImage - изображение со значками (уровень юнита и стоимость энергии) **/
         unitImage = teamEntity.getUnitImage();
         unitImage.setLevelValue(teamEntity.getUnitLevel());
 
-//        unitImage.addAction(flicker);
-
-//        unitImage.addAction(Actions.repeat(6, flicker));
-//        unitImage.addAction(Actions.repeat(6, flicker));
-
-
         /** получим кнопку "ВЫБРАТЬ ЮНИТА", если юнит не состоит в игровой команде, а находится в коллекции**/
         selectUnitButton = unitImage.getSelectButton();
-
         selectUnitButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
 //                fire(new MessageEvent(ON_RESUME));
 //                if (toastLabel.isVisible()) toastLabel.setVisible(false);
-
 //                showReplaceUnit(teamEntity);
                 showReplace();
-
                 /** скрываем экран апгрейда **/
                 hideUpgradeScreen();
-
             }
         });
-
         newUnitLevel = teamEntity.getUnitLevel() + 1;
-
         upgradeToLevelLabel.setText(upgradeToLevelText + newUnitLevel);
         upgradeCost = teamEntity.getUnitLevel() * COST_UPGRADE;
         checkRecourcesAndCoinsCount();
-
         /** обновим значения всех текстовых значений в информации об апргейде с помощью метода **/
         updateLabelsText();
     }
@@ -480,17 +414,13 @@ public class UpgradeScreen extends Group {
      * метод показывет надпись : "соберите n-ое кол-во звёзд для разблокировки
      **/
     public void showBlockTable(boolean isUnlock) {
-
         teamEntity.getUnitImage().getUnitLevelIcon().setVisible(false);
-
         /** проверим, если юнит не разблокирован, то отобразим таблицу с информацией о необходимом кол-ве звёзд (blockTale) **/
         if (isUnlock == false) {
             costUpgradeTable.setVisible(false);
             upgradeButton.setVisible(false);
             maxLevelReached.setVisible(false);
-
             int counsStars = teamEntity.getEntityData().getStarsCount();        // получим кол-во звезд, необходимы для разблокировки юнита
-
             blockTable.setLabelStarsCount(counsStars);
             blockTable.setVisible(true);
         } else {
@@ -501,9 +431,7 @@ public class UpgradeScreen extends Group {
             blockTable.setVisible(false);
             teamEntity.getUnitImage().getUnitLevelIcon().setVisible(true);
         }
-
     }
-
 
     /**
      * убираем коллекцию с экрана и отображаем выбранного для замены юнита
@@ -550,23 +478,6 @@ public class UpgradeScreen extends Group {
         timePrepearValueLabel.setText("" + timePrepearValue);
         healthAddValueLabel.setText(" + " + addHealthValue);
         damageAddValueLabel.setText(" + " + addDamageValue);
-
-//        ScaleToAction sa = new ScaleToAction();
-//        sa.setScale(3);
-//        sa.setDuration(3);
-//
-//        healthAddValueLabel.addAction(sa);
-//
-//        System.out.println("scale");
-
-//        Color color = new Color(Color.WHITE);
-//        ColorAction ca = new ColorAction();
-//        ca.setColor(color);
-//        ca.setDuration(2f);
-//        ca.setEndColor(Color.RED);
-//        healthAddValueLabel.addAction(ca);
-
-
     }
 
     /**
@@ -579,14 +490,12 @@ public class UpgradeScreen extends Group {
         int starsCount;
 
         public BlockTable() {
-
             Label label1;
             Label.LabelStyle labelStyle = new Label.LabelStyle();
             labelStyle.fontColor = Color.DARK_GRAY;
             labelStyle.font = Warfare.font20;
             label = new Label("" + "collect " + starsCount, labelStyle);
             label1 = new Label(" for unlock unit", labelStyle);
-
             star = new Image(Warfare.atlas.findRegion("star_active"));
             blockIcon = new Image(Warfare.atlas.findRegion("lockIcon"));
             add(blockIcon).width(blockIcon.getWidth()).padRight(12);
@@ -619,14 +528,6 @@ public class UpgradeScreen extends Group {
 
         /** применим действия к значкам ресурсов (движение и мерцание картинки юнита) **/
         resourcesTable.startActions();
-//        if (resourcesTable.getIsEndAction()) {
-//            unitImage.startAction();
-//            resourcesTable.setIsAction(false);
-//        }
-
-
-//        System.out.println("unitImage.getX()" + unitImage.getX());
-
         /** обновим параметры юнита, которого прокачиваем **/
         teamEntity.setUnitLevel(newUnitLevel);
         teamEntity.addHEALTH(addHealthValue);
@@ -691,16 +592,12 @@ public class UpgradeScreen extends Group {
             AlphaAction alphaActionStart = new AlphaAction();
             alphaActionStart.setAlpha(1);
             alphaActionStart.setDuration(0.02f);
-
             MoveToAction mta = new MoveToAction();
-
             mta.setPosition(Warfare.V_WIDTH / 2 - 200, Warfare.V_HEIGHT / 2 + 100);
             mta.setDuration(0.7f);
-
             AlphaAction alphaActionEnd = new AlphaAction();
             alphaActionEnd.setAlpha(0);
             alphaActionEnd.setDuration(1f);
-
             SequenceAction sa = new SequenceAction(alphaActionStart, mta, alphaActionEnd, checkEndOfAction);
             toastLabel.addAction(sa);
         }

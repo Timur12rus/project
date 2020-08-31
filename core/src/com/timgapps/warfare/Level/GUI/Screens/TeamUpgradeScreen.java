@@ -29,68 +29,50 @@ import javafx.scene.control.Tab;
 public class TeamUpgradeScreen extends Group {
     public static final int ON_RESUME = 1;
     public Label screenTitle; // отображаем текст заголовка
-
     private UpgradeScreen upgradeScreen;
-
     private Image background;
     private ImageButton closeButton;
-
     private ArrayList<TeamEntity> team;                 // массив юнитов из КОМАНДЫ
     private ArrayList<TeamEntity> unitCollection;       // массив юнитов из КОЛЛЕКЦИИ
     private TeamEntity replaceUnit;                     // заменяющий юнит из коллекциии, заменяет юнита в команде при процессе замены
-
     private float teamTableWidth;
     private float teamTableHeight;
-
     private float paddingLeft = 48;
     private float paddingTop = 24;
-
     private Label replaceUnitLabel;
     private String replaceUnitText;
-
     private Image replacedUnitImage;
-
     private boolean isReplaceActive = false; // переменная - флаг, нужна для того, чтобы изменить поведение листнера,
-    // при замене юнита из коллекции в команду
-
+                                            // при замене юнита из коллекции в команду
     private Table teamTable;            // таблица с комендой юнитов
     private Table tableCollection;      // таблица-контейнер, в него добавляется scroll с коллекцией юнитов
     private CollectionTable collectionTable;
-
     private Label teamLabel;
     private String teamText;
     private GameManager gameManager;
     private boolean toRaplaceUnitFromCollectionToTeam = false;
     private TeamEntity clickedTeamEntity;
 
-
     /**
      * передаем в конструктор список team, который содержит в себе КОМАНДУ ЮНИТОВ
      **/
     public TeamUpgradeScreen(GameManager gameManager) {
-
         this.gameManager = gameManager;
-
         // через manager получим массив юнитов каманды
         team = gameManager.getTeam();
         teamText = "TEAM";
-
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.fontColor = Color.DARK_GRAY;
         labelStyle.font = Warfare.font40;
-
         Label.LabelStyle greenLabelStyle = new Label.LabelStyle();
         greenLabelStyle.fontColor = Color.FOREST;
         greenLabelStyle.font = Warfare.font20;
-
         replaceUnitText = "Select unit to replace";
         replaceUnitLabel = new Label(replaceUnitText, greenLabelStyle);
-
         /** Создадим фон для окна, где будет отображаться команда**/
         background = new Image(Warfare.atlas.findRegion("teamScreen"));
         background.setX((Warfare.V_WIDTH - background.getWidth()) / 2); // устанавливаем позицию заголовка
         background.setY(Warfare.V_HEIGHT / 2 - background.getHeight() / 2);
-
 
         /** upgradeScreen - экран апгрейда юнита
          * - характеристики юнита
@@ -111,7 +93,6 @@ public class TeamUpgradeScreen extends Group {
         closeButton.setX(background.getX() + background.getWidth() - closeButton.getWidth() - 28);
         closeButton.setY(background.getY() + background.getHeight() - closeButton.getHeight() - 12);
         addActor(closeButton);
-
         closeButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -142,16 +123,13 @@ public class TeamUpgradeScreen extends Group {
         for (int i = 0; i < unitCollection.size(); i++) {
             addClickListener(unitCollection.get(i));
         }
-
         collectionTable.debug();
         final Table scrollTable = new Table();
-
         scrollTable.left().top();
         scrollTable.add(collectionTable).width(collectionTable.getWidth()).height(collectionTable.getHeight());
 
         /** scroller - это окно прокрутки, сама прокрутка **/
         final ScrollPane scroller = new ScrollPane(scrollTable);
-
 
         /** таблица - "ОКНО", в котором будет размещен scroller**/
         tableCollection = new Table();
@@ -166,7 +144,6 @@ public class TeamUpgradeScreen extends Group {
         tableCollection.setPosition(teamTable.getX(), background.getY() + 30);
         addActor(tableCollection);
         addActor(upgradeScreen);
-
         replaceUnitLabel.setPosition(background.getX() + background.getWidth() / 2 - replaceUnitLabel.getWidth() / 2,
                 background.getY() + background.getHeight() / 2 - replaceUnitLabel.getHeight());
 
@@ -197,7 +174,6 @@ public class TeamUpgradeScreen extends Group {
 //        for (int i = 0; i < gameManager.getSavedGame().getCollectionDataList().size(); i++) {
 //            unitCollection.add(new TeamEntity(gameManager.getSavedGame().getCollectionDataList().get(i)));
 //        }
-
         //TODO исправить!!!
         updateCollectionTable();
     }
@@ -226,12 +202,10 @@ public class TeamUpgradeScreen extends Group {
      * метод для скрытия заменяемого юнита
      **/
     public void hideReplaceUnit() {
-
         System.out.println("Hide replace unit");
         tableCollection.setVisible(true);
         replaceUnitLabel.setVisible(false);
         replacedUnitImage.setVisible(false);
-
         System.out.println("replacedUNitImage.isVisible() = " + replacedUnitImage.isVisible());
         isReplaceActive = false;
     }
@@ -250,14 +224,10 @@ public class TeamUpgradeScreen extends Group {
             if (teamEntity.getEntityData().isUnlock()) {      // если юнит находится в "КОЛЛЕКЦИИ", и разблокирован
                 showSelectButton = true;                     // то покажем кнопку "ВЫБРАТЬ"
             }
-//            else {
-//                //TODO нужно сделать надпись типа "соберите *10 для разблокировки
-//            }
+            //TODO нужно сделать надпись типа "соберите *10 для разблокировки
         }
         upgradeScreen.showUpgradeScreen(showSelectButton, teamEntity);
-//        upgradeScreen.showUpgradeScreen(teamEntity);
     }
-
 
     /**
      * слушатель для кнопок-юнитов в команде и юнитов в коллекции
@@ -274,7 +244,6 @@ public class TeamUpgradeScreen extends Group {
                 else {
                     toRaplaceUnitFromCollectionToTeam = true;
                     clickedTeamEntity = teamEntity;
-//                    replaceUnitFromCollectionToTeam(teamEntity);
                 }
             }
         });
@@ -295,28 +264,21 @@ public class TeamUpgradeScreen extends Group {
         for (int i = 0; i < unitCollection.size(); i++) {
             System.out.println("unitCollection [" + i + "] = " + unitCollection.get(i));
         }
-
         if (team.contains(teamEntity)) {
             int index = team.indexOf(teamEntity);
             int indexReplacedUnitInCollection = unitCollection.indexOf(replaceUnit);
             team.set(index, replaceUnit);
-
             System.out.println("team Table contains replaceUnit = " + team.contains(replaceUnit));
             System.out.println("replaceUnit index in collection table = " + unitCollection.indexOf(replaceUnit));
-
             unitCollection.set(indexReplacedUnitInCollection, teamEntity);
-
             System.out.println("unitCollection contains teamEntity = " + unitCollection.contains(teamEntity));
             System.out.println("unitCollection teamEntity = " + unitCollection.indexOf(teamEntity));
-
             /** обновим команду(team) и коллекцию (collection) и сохраним игру **/
             gameManager.updateTeam(team);
             gameManager.updateCollection(unitCollection);
-
             // сохраним состояние игры
             gameManager.saveGame();
         }
-
         System.out.println("After ");
         for (int i = 0; i < team.size(); i++) {
             System.out.println("team [" + i + "] = " + team.get(i));
@@ -325,10 +287,8 @@ public class TeamUpgradeScreen extends Group {
             System.out.println("unitCollection [" + i + "] = " + unitCollection.get(i));
         }
         isReplaceActive = false;
-
 //                // TODO проверить 22.03.2020
         replaceUnit = null;
-
         /** обновим данные таблицы команды и перестроим её **/
         updateTeamTable();
         /** обновим данные таблицы коллекции и перестроим её **/
@@ -342,17 +302,11 @@ public class TeamUpgradeScreen extends Group {
      * метод для обновления таблицы команды юнитов
      **/
     private void updateTeamTable() {
-//        teamTable.clearChildren();
         System.out.println("UpdateTeamTable()!!!!!!!!!!!!!!!!!!!!!!!!!!");
         Array<Cell> cells = teamTable.getCells();
         for (int i = 0; i < team.size(); i++) {
-//            Cell<TeamEntity> cell = teamTable.getCell(team.get(i));
-//            cells.get(i).clearActor();
-//            cells.get(i).setActor(team.get(i));
             System.out.println("team[" + i + "] = " + team.get(i).toString());
             teamTable.getCells().get(i).setActor(team.get(i)).width(team.get(i).width).height(team.get(i).height);
-            System.out.println("teamTable.getCells().get(i) = " + teamTable.getCells().get(i));
-//            if (i >)
         }
     }
 
@@ -363,23 +317,10 @@ public class TeamUpgradeScreen extends Group {
         Array<Cell> cells = collectionTable.getCells();
         System.out.println("UpdateCollectionTable()!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         for (int i = 0; i < unitCollection.size(); i++) {
-//          Cell<TeamEntity> cell = collectionTable.getCell(unitCollection.get(i));
-
-//            cells.get(i).clearActor();
             System.out.println("collection[" + i + "] = " + unitCollection.get(i).toString());
             cells.get(i).setActor(unitCollection.get(i));
-//            System.out.println(unitCollection.get(i).toString());
-//            collectionTable.getCell(unitCollection.get(i));
         }
     }
-
-//    public void updateTeam() {
-//        gameManager.updateTeam();
-//    }
-//
-//    public void updateCollectionTeam() {
-//        gameManager.updateCollection();
-//    }
 
     @Override
     public void act(float delta) {

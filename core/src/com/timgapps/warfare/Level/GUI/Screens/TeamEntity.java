@@ -12,14 +12,12 @@ import com.timgapps.warfare.Warfare;
 
 
 public class TeamEntity extends Group {
-
     public static final int NONE = 0;
     public static final int GNOME = 1;
     public static final int ARCHER = 2;
     public static final int THOR = 3;
     public static final int STONE = 4;
     public static final int KNIGHT = 5;
-
     private UnitImageButton unitButton;
     //    private ImageButton unitButton;
     private int unitType;
@@ -32,7 +30,6 @@ public class TeamEntity extends Group {
     private int addDamageValue;
     private int timePrepare;
     private int energyCost;
-
     public float width, height;
     private UnitImage unitImage;
     private int unitIndex;          // индекс юнита
@@ -72,12 +69,10 @@ public class TeamEntity extends Group {
             case ARCHER:
 //                unitButton = new ImageButton(new TextureRegionDrawable(Warfare.atlas.findRegion("archer1Active")),
 //                        new TextureRegionDrawable(Warfare.atlas.findRegion("archer1Inactive")));
-
                 unitButton = new UnitImageButton(new Image(Warfare.atlas.findRegion("archer1Active")),
                         new Image(Warfare.atlas.findRegion("archer1Inactive")),
                         new Image(Warfare.atlas.findRegion("archer1Lock")),
                         data.isUnlock());
-
                 NAME = "Archer";
                 SPEED = 4;
                 addHealthValue = 2;
@@ -85,7 +80,6 @@ public class TeamEntity extends Group {
                 timePrepare = 25;
                 energyCost = 20;
                 break;
-
             case THOR:
 //                unitButton = new ImageButton(new TextureRegionDrawable(Warfare.atlas.findRegion("thorActive")),
 //                        new TextureRegionDrawable(Warfare.atlas.findRegion("thorInactive")));

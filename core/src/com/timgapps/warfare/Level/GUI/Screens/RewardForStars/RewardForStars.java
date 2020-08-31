@@ -63,8 +63,6 @@ public class RewardForStars extends Group {
         this.data = data;
         // текущее кол-во звезд
         starsCount = gameManager.getSavedGame().getStarsCount();
-
-
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         if (data.getIsReceived()) {
             labelStyle.fontColor = Color.LIGHT_GRAY;

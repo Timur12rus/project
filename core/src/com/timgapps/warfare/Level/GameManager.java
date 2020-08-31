@@ -142,7 +142,7 @@ public class GameManager {
             /** установим значения по умолчанию  для данных TeamEntity **/
 //            savedGame.getTeamDataList().get(0).setDefaultData();
             team.add(new TeamEntity(savedGame.getTeamDataList().get(0)));
-            team.add(new TeamEntity(savedGame.getTeamDataList().get(1)));
+//            team.add(new TeamEntity(savedGame.getTeamDataList().get(1)));
 //            team.add(new TeamEntity(savedGame.getTeamDataList().get(2)));
 
 

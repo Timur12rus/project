@@ -61,7 +61,7 @@ public class Knight extends Gnome {
         //  получим кадры и добавим в анимацию атаки персонажа
         for (int i = 0; i < 8; i++)
             frames.add(new TextureRegion(Warfare.atlas.findRegion("knightAttack" + i)));
-        attackAnimation = new Animation(0.1f, frames);
+        attackAnimation = new Animation(0.06f, frames);
 //        attackAnimation = new Animation(0.12f, frames);
         frames.clear();
 

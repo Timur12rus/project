@@ -175,9 +175,12 @@ public class LevelMap extends StageGame {
 
         // добавим панель с монетами на экран
         coinsPanel = gameManager.getCoinsPanel();
-        if (!coinsPanel.isVisible()) {
-            coinsPanel.setVisible(true);
-        }
+        coinsPanel.addAction(Actions.fadeIn(0.1f));
+//        if (coinsPanel.isVisible()) {
+//            coinsPanel.setVisible(true);
+//        }
+
+        coinsPanel.setVisible(true);
         coinsPanel.setPosition(getWidth() - coinsPanel.getWidth() - 32, getHeight() - coinsPanel.getHeight() - 32);
         addOverlayChild(coinsPanel);
 

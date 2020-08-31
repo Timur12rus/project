@@ -81,10 +81,7 @@ public class RewardForStarsScreen extends StageGame {
         float groupWidth = 0;
         group = new Group();
 //        Group group = new Group();
-
-
         int currentIndexSmallPanel = 0;
-
         int index = 0;  // индекс текущего количества звезд, используется в рассчете поз. х smallStarsPanel
         int lastCount = 0, rewardCount = 0;     // кол-во звезд за последнюю награду и текущую награду
         int calculatedWidth = 0;       // вычисленная координата для starsSmallPanel
@@ -98,7 +95,6 @@ public class RewardForStarsScreen extends StageGame {
 
         /** создадим картинки и бары **/
         for (int i = 0; i < rewardForStarsDataList.size(); i++) {
-
             /** количество звезд за предыдущую награду, нужно для вычисления разницы отрезка (кол-ва звезд) **/
             int deltaCountStars;
             int lastRewardCountStars;
@@ -110,33 +106,24 @@ public class RewardForStarsScreen extends StageGame {
                 lastRewardCountStars = 0;
                 deltaCountStars = starsCount - lastRewardCountStars;
             }
-
-//            System.out.println("deltaCountStars = " + deltaCountStars);
-
             rewardForStarsList.add(new RewardForStars(this,
                     rewardForStarsDataList.get(i), gameManager, deltaCountStars, lastRewardCountStars));
 
             rewardForStarsList.get(i).setPosition(190 * i + rewardForStarsList.get(i).getWidth(), 144);
-
             group.addActor(rewardForStarsList.get(i));      // добавляем RewardForStars в корневую группу
-
             /** обозначим доступные награды за звезды **/
             if (starsCount > rewardForStarsDataList.get(i).getStarsCount()) {
                 rewardForStarsDataList.get(i).setChecked();
             }
-
             if ((starsCount >= rewardForStarsDataList.get(i).getStarsCount()) && (!rewardForStarsDataList.get(i).getIsReceived())) {
                 rewardForStarsList.get(i).setChecked(); // установим доступной для получения (подсветим "ЖЕЛТЫМ" цветом)
             }
-
             /** добавим цифры - кол-во звёзд необходимое для получения награды **/
             countLabel = new Label("" + rewardForStarsList.get(i).getRewardCountStars(), countStarsLabelStyle);
             countLabel.setPosition(rewardForStarsList.get(i).getX() + BG_PANEL_WIDTH / 2 - countLabel.getWidth(),
                     rewardForStarsList.get(i).getY() - countLabel.getHeight() - 48);
             group.addActor(countLabel);
-
-
-//            // получим кол-во звезд, для достижения текущей награды
+            // получим кол-во звезд, для достижения текущей награды
             int rewardStarsCount = rewardForStarsList.get(i).getRewardCountStars();
             if ((starsCount >= lastRewardCountStars) && (starsCount <= rewardStarsCount)) {
                 lastCount = lastRewardCountStars;
@@ -144,10 +131,7 @@ public class RewardForStarsScreen extends StageGame {
                 index = i;
             }
         }
-
         rewardForStarsList.get(index).setHilite();
-
-
 //        hilite.setPosition(rewardForStarsList.get(index).getX(), rewardForStarsList.get(index).getY()); // установим позицию подсветки текущей награды
 //        hilite.setHilite();     // делаем видимой подсветку
         System.out.println("INDEX = " + index);
@@ -181,7 +165,6 @@ public class RewardForStarsScreen extends StageGame {
             starsPanelSmall.setVisible(true);
         }
         group.addActor(starsPanelSmall);
-
         /** scroller - это окно прокрутки, сама прокрутка **/
         scrollTable = new Table();
 //        Table scrollTable = new Table();
@@ -189,10 +172,8 @@ public class RewardForStarsScreen extends StageGame {
         scrollTable.add(group).width(groupWidth).height(360);
         final ScrollPane scroller = new ScrollPane(scrollTable);
         scroller.debug();
-
         Table table = new Table();
         table.debug();
-
         table.left().top();
         table.setWidth(scrollTableWidth);
         table.setHeight(360);
@@ -330,17 +311,12 @@ public class RewardForStarsScreen extends StageGame {
 
             bg = new Image(Warfare.atlas.findRegion("star_panel_small"));
             star = new Image(Warfare.atlas.findRegion("star_icon"));
-
             star.setPosition(4, 4);
             starsCountLabel.setPosition(16 + star.getWidth() + 4, 0);
-
             setSize(bg.getWidth(), bg.getHeight());
-
             addActor(bg);
             addActor(star);
             addActor(starsCountLabel);
-
-
         }
     }
 
