@@ -262,9 +262,15 @@ public class Archer1 extends PlayerUnit {
      * метод определяет достиг ли юнит баррикады, и может ли двигаться вперед
      **/
     public boolean checkCanMoveRight() {
-        if (barricade.getX() - getX() <= 200) {      // если расстояние м/у игровым юнитом и баррикадой меншье или равно 200
-            return false;
-        } else return true;
+        boolean canMoveRight = false;
+        if (barricade.isBarricadeDestroyed()) {
+            canMoveRight = true;
+        } else {
+            if ((barricade.getX() - getX() > 200)) {      // если расстояние м/у игровым юнитом и баррикадой меншье или равно 200
+                canMoveRight = true;
+            }
+        }
+        return canMoveRight;
     }
 
     /**

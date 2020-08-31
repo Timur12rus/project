@@ -15,7 +15,6 @@ import com.timgapps.warfare.Units.GameUnits.Player.Bullets.Stone;
 import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnit;
 
 public class EnemyUnit extends GameUnit {
-
     //    protected Rectangle rectangle;
     private ShapeRenderer shapeRenderer;
 //    public enum State {WALKING, ATTACK, STAY, DIE, RUN, HART}
@@ -93,8 +92,6 @@ public class EnemyUnit extends GameUnit {
             isAttackStone = true;
             currentState = State.ATTACK;
             this.stone = stone;
-//            System.out.println("isAttackStone = " + isAttackStone);
-//        stone.setHealth(damage);
         }
     }
 
@@ -115,7 +112,6 @@ public class EnemyUnit extends GameUnit {
 
         /** обновим позицию текущего игрового объекта **/
         setPosition(body.getPosition().x * Level.WORLD_SCALE - bodyWidth / 2, body.getPosition().y * Level.WORLD_SCALE - bodyHeight / 2);
-//        setPosition(body.getPosition().x * Level.WORLD_SCALE - 24, body.getPosition().y * Level.WORLD_SCALE - 22);
 
         /** Обновим позицию прямоугльника "тела", который служит для определения столкновений с камнем **/
         bodyRectangle.setPosition(getX(), getY());

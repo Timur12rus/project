@@ -108,87 +108,13 @@ public class Level extends StageGame {
 
         /** создадим баррикаду **/
         barricade = new Barricade(this, Barricade.ROCKS);
-//        addChild(barricade);
 
         siegeTower = new SiegeTower(this, 8, 260, gameManager.getTowerHealth(), 2);
 
         /** Добавим вражеских юнитов **/
         random = new Random();
         levelCreator = new LevelCreator(this, levelNumber);
-
-
-//        Zombie1 zombie = new Zombie1(this, 700, 250, 400, 5);
-//        zombie.debug();
-
-//        Zombie zombie1 = new Zombie(this, 600, 230, 400, 10);
-
-//        Zombie zombie2 = new Zombie(this, 600, 180, 400, 10);
-
-//
-//        Zombie zombie3 = new Zombie(this, 900, 210, 100, 3);
-//        Zombie zombie4 = new Zombie(this, 1000, 190, 100, 3);
-//        Zombie3 zombie5 = new Zombie3(this, 1100, 220, 100, 3);
-//        Skeleton skeleton = new Skeleton(this, 800, 180, 400, 3);
-//        Skeleton skeleton1 = new Skeleton(this, 1260, 220, 100, 3);
-
-//
-//        Zombie zombie6 = new Zombie(this, 1300, 200, 100, 3);
-//        Zombie zombie7 = new Zombie(this, 1400, 220, 100, 3);
-//        Zombie3 zombie8 = new Zombie3(this, 1600, 180, 100, 3);
-//        Skeleton skeleton2 = new Skeleton(this, 1500, 190, 400, 3);
-//        Skeleton skeleton3 = new Skeleton(this, 1700, 210, 100, 3);
-
-
-//        Skeleton skeleton2 = new Skeleton(this, 1100, 220, 100, 3);
-
-
-//        Skeleton skeleton1 = new Skeleton(this, 1200, 220, 100, 3);
-//        Skeleton3 skeleton3 = new Skeleton3(this, 900, 180, 100, 10);
-//        Skeleton skeleton1 = new Skeleton(this, 700, 200, 50, 3);
-
-
-//        Goblin1 goblin1 = new Goblin1(this, 1600, 220, 100, 3);
-//        Goblin1 goblin2 = new Goblin1(this, 1400, 230, 100, 3);
-
-//        zombie4.debug();
-
         accumulator = 0;
-
-////        arrayEnemies.add(zombie);
-//        arrayEnemies.add(zombie1);
-//        arrayEnemies.add(zombie2);
-
-//        arrayEnemies.add(zombie3);
-//        arrayEnemies.add(zombie4);
-//        arrayEnemies.add(zombie5);
-//        arrayEnemies.add(skeleton);
-//        arrayEnemies.add(skeleton1);
-//
-//        arrayEnemies.add(zombie6);
-//        arrayEnemies.add(zombie7);
-//        arrayEnemies.add(zombie8);
-//        arrayEnemies.add(skeleton2);
-//        arrayEnemies.add(skeleton3);
-//
-//        arrayEnemies.add(goblin1);
-//        arrayEnemies.add(goblin2);
-
-//        arrayEnemies.add(goblin3);
-
-
-//        arrayEnemies.add(zombie4);
-
-
-//        arrayEnemies.add(zombie1);
-//        arrayEnemies.add(zombie2);
-//        arrayEnemies.add(zombie3);
-//        arrayEnemies.add(zombie4);
-//        arrayEnemies.add(zombie5);
-//        arrayEnemies.add(skeleton3);
-//        arrayEnemies.add(skeleton);
-//        arrayEnemies.add(skeleton1);
-//        addChild(new Archer1(this, 200, 200, 30, 20));
-
         darkLayer = new DarkLayer(0, 0, getWidth(), getHeight(), new Color(0, 0, 0, 0.7f));
         darkLayer.setVisible(false);
         addOverlayChild(darkLayer);
@@ -207,7 +133,6 @@ public class Level extends StageGame {
         tableUnitButtons.setHeight(unitButtonHeight);
         tableUnitButtons.setPosition((getWidth() - tableUnitButtons.getWidth()) / 2, 24);
         tableUnitButtons.setStoneButtonPosX(tableUnitButtons.getX());
-
 
         addOverlayChild(tableUnitButtons);
 
