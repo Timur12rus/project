@@ -24,14 +24,13 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.boontaran.MessageListener;
 import com.boontaran.games.StageGame;
 import com.boontaran.games.tiled.TileLayer;
-import com.timgapps.warfare.Game;
 import com.timgapps.warfare.Level.GUI.Finger;
 import com.timgapps.warfare.Level.GUI.Screens.CoinsPanel;
 import com.timgapps.warfare.Level.GUI.Screens.MissionInfoScreen;
 import com.timgapps.warfare.Level.GUI.Screens.GiftsWindow.GiftScreen;
 import com.timgapps.warfare.Level.GUI.Screens.TeamUpgradeScreen;
 import com.timgapps.warfare.Level.GameManager;
-import com.timgapps.warfare.Level.LevelScreens.DarkLayer;
+import com.timgapps.warfare.Level.LevelScreens.ColorRectangle;
 import com.timgapps.warfare.Warfare;
 
 import java.util.ArrayList;
@@ -70,10 +69,10 @@ public class LevelMap extends StageGame {
     private int mapWidth, mapHeight, tilePixelWidth, tilePixelHeight, levelWidth, levelHeight;
     private boolean isFocused = true;
     private Label teamLabel;
-    private DarkLayer darkLayer;
+    private ColorRectangle fadeRectangle;
     private float cameraXpos;
     private float cameraYpos;
-    private DarkLayer greenLayer;
+    private ColorRectangle greenRectangle;
     private Finger finger;
 
     public LevelMap(GameManager gameManager, int coinsReward, int scoreReward) {
@@ -85,15 +84,15 @@ public class LevelMap extends StageGame {
         levelIcons = gameManager.getLevelIcons();
 
 //        new Color(0x35a1afff);
-        greenLayer = new DarkLayer(0, 0, 1536, 1024, new Color(0x8eb353ff));
-        addChild(greenLayer);
+        greenRectangle = new ColorRectangle(0, 0, 1536, 1024, new Color(0x8eb353ff));
+        addChild(greenRectangle);
 
         String directory = "location1";
         loadMap("tiled/" + directory + "/map.tmx");   // метод загружает карту и создает объекты
 
-        darkLayer = new DarkLayer(0, 0, getWidth(), getHeight(), new Color(0, 0, 0, 0.7f));
-        darkLayer.setVisible(false);
-        addChild(darkLayer);
+        fadeRectangle = new ColorRectangle(0, 0, getWidth(), getHeight(), new Color(0, 0, 0, 0.7f));
+        fadeRectangle.setVisible(false);
+        addChild(fadeRectangle);
 
         /** создадим окно с описанием уровня **/
         missionInfoScreen = new MissionInfoScreen();
@@ -261,19 +260,19 @@ public class LevelMap extends StageGame {
     private void hideButtons() {
         teamLabel.setVisible(false);
         starsPanel.setVisible(false);
-        darkLayer.setPosition(cameraXpos - camera.viewportWidth / 2, cameraYpos - camera.viewportHeight / 2);
+        fadeRectangle.setPosition(cameraXpos - camera.viewportWidth / 2, cameraYpos - camera.viewportHeight / 2);
         giftIcon.setVisible(false);
         teamUpgradeIcon.setVisible(false);
 //        if (finger != null) {
 //            finger.setVisible(false);
 //        }
-        darkLayer.setVisible(true);
+        fadeRectangle.setVisible(true);
     }
 
     private void showButtons() {
         teamLabel.setVisible(true);
         starsPanel.setVisible(true);
-        darkLayer.setVisible(false);
+        fadeRectangle.setVisible(false);
         giftIcon.setVisible(true);
 //        if (finger != null && gameManager.getHelpStatus() != GameManager.HELP_GET_GIFT) {
 //            finger.setVisible(true);
@@ -315,8 +314,8 @@ public class LevelMap extends StageGame {
 //            System.out.println("cameraPosition.x = " + camera.position.x);
 //        if (cameraXpos + x )
             camera.translate(-x, y);
-            if (darkLayer != null) {
-                darkLayer.setPosition(camera.position.x - camera.viewportWidth / 2,
+            if (fadeRectangle != null) {
+                fadeRectangle.setPosition(camera.position.x - camera.viewportWidth / 2,
                         camera.position.y - camera.viewportHeight / 2);
             }
 //            System.out.println("cameraPosition.y = " + camera.position.y);

@@ -6,14 +6,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
-public class DarkLayer extends Actor {
+public class ColorRectangle extends Actor {
     private Texture texture;
 
-    public DarkLayer(float x, float y, float width, float height, Color color) {
+    public ColorRectangle(float x, float y, float width, float height, Color color) {
         createTexture((int)width, (int)height, color);
-
-//        setX(x);
-//        setY(y);
         setWidth(width);
         setHeight(height);
     }

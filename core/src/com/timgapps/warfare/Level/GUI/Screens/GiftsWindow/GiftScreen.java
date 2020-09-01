@@ -3,14 +3,13 @@ package com.timgapps.warfare.Level.GUI.Screens.GiftsWindow;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.boontaran.MessageEvent;
+import com.timgapps.warfare.Level.GUI.Screens.win_creator.ConstructedWindow;
 import com.timgapps.warfare.Level.GameManager;
 import com.timgapps.warfare.Level.LevelMap.LevelMap;
 import com.timgapps.warfare.Warfare;
@@ -19,7 +18,7 @@ public class GiftScreen extends Group {
     public static final int ON_SHOW_ANIMATIONS = 1;
     public static final int ON_RESUME = 2;
 
-    private Image background;
+    private ConstructedWindow constructedWindow;
     private ImageButton closeButton;
     private Label rewardTitle; // отображаем текст заголовка
     private GameManager gameManager;
@@ -32,26 +31,20 @@ public class GiftScreen extends Group {
     public GiftScreen(LevelMap levelMap, GameManager gameManager) {
         this.levelMap = levelMap;
         this.gameManager = gameManager;
-        background = new Image(Warfare.atlas.findRegion("teamScreen"));
-        background.setX((Warfare.V_WIDTH - background.getWidth()) / 2); // устанавливаем позицию заголовка
-        background.setY(((Warfare.V_HEIGHT / 2 - background.getHeight() / 2)));
-
-        addActor(background);
-        closeButton = new ImageButton(new TextureRegionDrawable(Warfare.atlas.findRegion("button_close")),
-                new TextureRegionDrawable(Warfare.atlas.findRegion("button_close_dwn")));
-        closeButton.setX(background.getX() + background.getWidth() - closeButton.getWidth() - 28);
-        closeButton.setY(background.getY() + background.getHeight() - closeButton.getHeight() - 12);
-        addActor(closeButton);
-
+        constructedWindow = new ConstructedWindow(700, 550, "Gifts");
+        constructedWindow.setX((Warfare.V_WIDTH - constructedWindow.getWidth()) / 2);       // устанавливаем позицию заголовка
+        constructedWindow.setY(Warfare.V_HEIGHT / 2 - constructedWindow.getHeight() / 2);
+        addActor(constructedWindow);
         initializeLabels();
 
         // таблица с панелями подарков (GiftPanel's)
         giftsTable = new GiftsTable();
         giftsTable.debug();
-        giftsTable.setPosition(background.getX() + (background.getWidth() - giftsTable.getWidth()) / 2,
-                background.getY() + 64);
+        giftsTable.setPosition(constructedWindow.getX() + (constructedWindow.getWidth() - giftsTable.getWidth()) / 2,
+                constructedWindow.getY() + 64);
         addActor(giftsTable);
 
+        closeButton = constructedWindow.getCloseButton();
         closeButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -67,8 +60,8 @@ public class GiftScreen extends Group {
         rewardTitleLabelStyle.font = Warfare.font40;
         rewardTitle = new Label("Daily gifts", rewardTitleLabelStyle);
         rewardTitle.setAlignment(Align.center);
-        rewardTitle.setPosition(background.getX() + background.getWidth() / 2 - rewardTitle.getWidth() / 2,
-                background.getY() + background.getHeight() - rewardTitle.getHeight() - 8);
+        rewardTitle.setPosition(constructedWindow.getX() + constructedWindow.getWidth() / 2 - rewardTitle.getWidth() / 2,
+                constructedWindow.getY() + constructedWindow.getHeight() - rewardTitle.getHeight() - 8);
         addActor(rewardTitle);
     }
 
@@ -78,8 +71,8 @@ public class GiftScreen extends Group {
     class GiftsTable extends Table {
         public GiftsTable() {
 
-            float giftPanelX = background.getX() + (background.getWidth() - 190 * 2 + 64) / 2;
-            float giftPanelY = background.getY() + 64;
+            float giftPanelX = constructedWindow.getX() + (constructedWindow.getWidth() - 190 * 2 + 64) / 2;
+            float giftPanelY = constructedWindow.getY() + 64;
 
             // первая панель подарков (левая)
             giftPanel = new GiftPanel(levelMap, giftPanelX, giftPanelY, gameManager, GiftPanel.RESOURCE_AND_COINS_GIFT);

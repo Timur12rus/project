@@ -20,6 +20,7 @@ import com.badlogic.gdx.utils.Align;
 import com.timgapps.warfare.Level.GUI.Screens.ResourcesView.ResourcesTable;
 import com.timgapps.warfare.Level.GUI.Screens.TeamEntity;
 import com.timgapps.warfare.Level.GUI.Screens.TeamUpgradeScreen;
+import com.timgapps.warfare.Level.GUI.Screens.win_creator.ConstructedWindow;
 import com.timgapps.warfare.Level.GameManager;
 import com.timgapps.warfare.Warfare;
 
@@ -27,8 +28,7 @@ import java.util.ArrayList;
 
 public class UpgradeScreen extends Group {
     public static final int ON_RESUME = 1;
-    private Image background;
-    //    private Image imageContainer;
+    private ConstructedWindow constructedWindow;
     private ImageButton closeButton;
     private Table infoTable;        // таблица содержит данные о характеристиках юнита
     private Table container;
@@ -69,7 +69,7 @@ public class UpgradeScreen extends Group {
     private int coinsCount;
     private int upgradeCost;
     private final int COST_UPGRADE = 50;
-//    private Actor imageContainer;
+    //    private Actor imageContainer;
     private GameManager gameManager;
     private String noResources = "Not enought resources!";
     private String noCoins = "Not enought coins!";
@@ -111,20 +111,13 @@ public class UpgradeScreen extends Group {
         ironCostValue = 2;
         woodCostValue = 1;
 
-        background = new Image(Warfare.atlas.findRegion("upgradeScreen"));
-        background.setX((Warfare.V_WIDTH - background.getWidth()) / 2); // устанавливаем позицию заголовка
-        background.setY(Warfare.V_HEIGHT / 2 - background.getHeight() / 2);
-
-        addActor(background);
-
-        closeButton = new ImageButton(new TextureRegionDrawable(Warfare.atlas.findRegion("button_close")),
-                new TextureRegionDrawable(Warfare.atlas.findRegion("button_close_dwn")));
-
-        closeButton.setX(background.getX() + background.getWidth() - closeButton.getWidth() - 28);
-        closeButton.setY(background.getY() + background.getHeight() - closeButton.getHeight() - 8);
-        addActor(closeButton);
+        constructedWindow = new ConstructedWindow(840, 612, "Upgrade");
+        constructedWindow.setX((Warfare.V_WIDTH - constructedWindow.getWidth()) / 2); // устанавливаем позицию заголовка
+        constructedWindow.setY(Warfare.V_HEIGHT / 2 - constructedWindow.getHeight() / 2);
+        addActor(constructedWindow);
 
         /** слушатель для КНОПКИ ЗАКРЫТИЯ ОКНА **/
+        closeButton = constructedWindow.getCloseButton();
         closeButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -135,14 +128,6 @@ public class UpgradeScreen extends Group {
         });
 
         imageContainer = new Group();
-
-//        /** Таблицы в режиме DEBUG **/
-//        container = new Table().debug();        // таблица "КОНТЕЙНЕР"
-////        infoTable = new Table().debug();       // таблица с характеристиками юнита
-//
-////        container = new Table();        // таблица "КОНТЕЙНЕР"
-//        infoTable = new Table();       // таблица с характеристиками юнита
-
         upgradeButton = new UpgradeButton();
         upgradeButton.addListener(new ClickListener() {
             @Override
@@ -284,8 +269,8 @@ public class UpgradeScreen extends Group {
         container.row();
         container.add(upgradeButton).height(upgradeButton.getHeight()).width(upgradeButton.getWidth()).colspan(3).padTop(8);
 
-        container.setPosition(background.getX() + paddingLeft, background.getY());
-        container.setPosition(background.getX() + paddingLeft, background.getY() - 16);
+        container.setPosition(constructedWindow.getX() + paddingLeft, constructedWindow.getY());
+        container.setPosition(constructedWindow.getX() + paddingLeft, constructedWindow.getY() - 16);
         addActor(container);
 
         blockTable.setPosition(500, 260);
@@ -318,9 +303,9 @@ public class UpgradeScreen extends Group {
         toastLabel.setPosition(Warfare.V_WIDTH / 2 - toastLabel.getWidth() - 200, Warfare.V_HEIGHT / 2);
         addActor(toastLabel);
         unitNameLabel.setPosition(container.getX() + container.getWidth() - unitNameLabel.getWidth(),
-                background.getY() + background.getHeight() - unitNameLabel.getHeight());
+                constructedWindow.getY() + constructedWindow.getHeight() - unitNameLabel.getHeight());
         addActor(unitNameLabel);
-        maxLevelReached.setPosition(background.getX() + (background.getWidth() - maxLevelReached.getWidth()) / 2, 272);
+        maxLevelReached.setPosition(constructedWindow.getX() + (constructedWindow.getWidth() - maxLevelReached.getWidth()) / 2, 272);
         maxLevelReached.setVisible(false);
         addActor(maxLevelReached);
     }
@@ -383,7 +368,7 @@ public class UpgradeScreen extends Group {
         timePrepearValue = teamEntity.getTimePrepare();
         unitNameLabel.setText(teamEntity.getName());
         unitNameLabel.setPosition(container.getX() + (container.getWidth() - unitNameLabel.getWidth()) / 2,
-                background.getY() + background.getHeight() - unitNameLabel.getHeight() - 32);
+                constructedWindow.getY() + constructedWindow.getHeight() - unitNameLabel.getHeight() - 32);
 
         /** получим объект unitImage - изображение со значками (уровень юнита и стоимость энергии) **/
         unitImage = teamEntity.getUnitImage();

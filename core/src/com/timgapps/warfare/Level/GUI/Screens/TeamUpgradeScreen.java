@@ -16,12 +16,11 @@ import com.boontaran.MessageEvent;
 import com.timgapps.warfare.Level.GUI.Screens.UpgradeWindow.CollectionTable;
 import com.timgapps.warfare.Level.GUI.Screens.UpgradeWindow.TeamTable;
 import com.timgapps.warfare.Level.GUI.Screens.UpgradeWindow.UpgradeScreen;
+import com.timgapps.warfare.Level.GUI.Screens.win_creator.ConstructedWindow;
 import com.timgapps.warfare.Level.GameManager;
 import com.timgapps.warfare.Warfare;
 
 import java.util.ArrayList;
-
-import javafx.scene.control.Tab;
 
 /**
  * Класс ЭКРАНА АПГРЕЙДА ИГРОВОЙ КОМАНДЫ
@@ -30,7 +29,7 @@ public class TeamUpgradeScreen extends Group {
     public static final int ON_RESUME = 1;
     public Label screenTitle; // отображаем текст заголовка
     private UpgradeScreen upgradeScreen;
-    private Image background;
+    private ConstructedWindow constructedWindow;
     private ImageButton closeButton;
     private ArrayList<TeamEntity> team;                 // массив юнитов из КОМАНДЫ
     private ArrayList<TeamEntity> unitCollection;       // массив юнитов из КОЛЛЕКЦИИ
@@ -70,29 +69,24 @@ public class TeamUpgradeScreen extends Group {
         replaceUnitText = "Select unit to replace";
         replaceUnitLabel = new Label(replaceUnitText, greenLabelStyle);
         /** Создадим фон для окна, где будет отображаться команда**/
-        background = new Image(Warfare.atlas.findRegion("teamScreen"));
-        background.setX((Warfare.V_WIDTH - background.getWidth()) / 2); // устанавливаем позицию заголовка
-        background.setY(Warfare.V_HEIGHT / 2 - background.getHeight() / 2);
+        constructedWindow = new ConstructedWindow(700, 550, "team");
+//        background = new Image(Warfare.atlas.findRegion("teamScreen"));
+        constructedWindow.setX((Warfare.V_WIDTH - constructedWindow.getWidth()) / 2); // устанавливаем позицию заголовка
+        constructedWindow.setY(Warfare.V_HEIGHT / 2 - constructedWindow.getHeight() / 2);
 
         /** upgradeScreen - экран апгрейда юнита
          * - характеристики юнита
          * - таблица с количество ресурсов и т.д.
          */
         upgradeScreen = new UpgradeScreen(gameManager, this);
-        addActor(background);
+        addActor(constructedWindow);
 
         teamLabel = new Label(teamText, labelStyle);
-        teamLabel.setPosition(background.getX() + (background.getWidth() - teamLabel.getWidth()) / 2,
-                background.getY() + background.getHeight() - teamLabel.getHeight() - 6);
+        teamLabel.setPosition(constructedWindow.getX() + (constructedWindow.getWidth() - teamLabel.getWidth()) / 2,
+                constructedWindow.getY() + constructedWindow.getHeight() - teamLabel.getHeight() - 6);
         addActor(teamLabel);
 
-        /** рабочий код 14.01.2020 **/
-        closeButton = new ImageButton(new TextureRegionDrawable(Warfare.atlas.findRegion("button_close")),
-                new TextureRegionDrawable(Warfare.atlas.findRegion("button_close_dwn")));
-
-        closeButton.setX(background.getX() + background.getWidth() - closeButton.getWidth() - 28);
-        closeButton.setY(background.getY() + background.getHeight() - closeButton.getHeight() - 12);
-        addActor(closeButton);
+        closeButton = constructedWindow.getCloseButton();
         closeButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -104,8 +98,8 @@ public class TeamUpgradeScreen extends Group {
         /** добавим таблицу с КОМАНДОЙ ЮНИТОВ ***/
         teamTable = new TeamTable(team);
         teamTable.debug();
-        teamTable.setPosition(background.getX() + paddingLeft,
-                background.getY() + background.getHeight() - 60 - paddingTop - teamTable.getHeight());
+        teamTable.setPosition(constructedWindow.getX() + paddingLeft,
+                constructedWindow.getY() + constructedWindow.getHeight() - 60 - paddingTop - teamTable.getHeight());
         addActor(teamTable);
 
         /** создадим массив КОЛЛЕЦКИИ ЮНИТОВ **/
@@ -141,11 +135,11 @@ public class TeamUpgradeScreen extends Group {
         tableCollection.setHeight(270);
         tableCollection.add(scroller).fill().expand();
 
-        tableCollection.setPosition(teamTable.getX(), background.getY() + 30);
+        tableCollection.setPosition(teamTable.getX(), constructedWindow.getY() + 30);
         addActor(tableCollection);
         addActor(upgradeScreen);
-        replaceUnitLabel.setPosition(background.getX() + background.getWidth() / 2 - replaceUnitLabel.getWidth() / 2,
-                background.getY() + background.getHeight() / 2 - replaceUnitLabel.getHeight());
+        replaceUnitLabel.setPosition(constructedWindow.getX() + constructedWindow.getWidth() / 2 - replaceUnitLabel.getWidth() / 2,
+                constructedWindow.getY() + constructedWindow.getHeight() / 2 - replaceUnitLabel.getHeight());
 
         replaceUnitLabel.setVisible(false);
         addActor(replaceUnitLabel);

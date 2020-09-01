@@ -17,7 +17,7 @@ import com.timgapps.warfare.Level.GUI.HUD;
 import com.timgapps.warfare.Level.GUI.Screens.TeamEntity;
 import com.timgapps.warfare.Level.GUI.StoneButton;
 import com.timgapps.warfare.Level.GUI.UnitButton;
-import com.timgapps.warfare.Level.LevelScreens.DarkLayer;
+import com.timgapps.warfare.Level.LevelScreens.ColorRectangle;
 import com.timgapps.warfare.Level.LevelScreens.GameOverScreen;
 import com.timgapps.warfare.Level.LevelScreens.LevelCompletedScreen;
 import com.timgapps.warfare.Level.LevelScreens.PauseScreen;
@@ -68,7 +68,7 @@ public class Level extends StageGame {
     private GameOverScreen gameOverScreen;
     private PauseScreen pausedScreen;
     private boolean isActiveScreen = true;
-    private DarkLayer darkLayer;
+    private ColorRectangle colorRectangle;
     private TableUnitButton tableUnitButtons;
     private int coinsReward;            // награда - кол-во монет за уровень
     private int scoreReward;            // награда - кол-во очков за уровень
@@ -100,9 +100,9 @@ public class Level extends StageGame {
         random = new Random();
         levelCreator = new LevelCreator(this, levelNumber);
         accumulator = 0;
-        darkLayer = new DarkLayer(0, 0, getWidth(), getHeight(), new Color(0, 0, 0, 0.7f));
-        darkLayer.setVisible(false);
-        addOverlayChild(darkLayer);
+        colorRectangle = new ColorRectangle(0, 0, getWidth(), getHeight(), new Color(0, 0, 0, 0.7f));
+        colorRectangle.setVisible(false);
+        addOverlayChild(colorRectangle);
 
         coinsCount = gameManager.getCoinsCount();
         hud = new HUD(this);
@@ -475,7 +475,7 @@ public class Level extends StageGame {
         } else {
             pausedScreen.setVisible(true);
         }
-        darkLayer.setVisible(true);
+        colorRectangle.setVisible(true);
         tableUnitButtons.setVisible(false); // кнопки юитов делаем невидимыми
     }
 
@@ -488,7 +488,7 @@ public class Level extends StageGame {
     // скрывает экран паузы
     public void hidePauseScreen() {
         pausedScreen.setVisible(false);
-        darkLayer.setVisible(false);
+        colorRectangle.setVisible(false);
         tableUnitButtons.setVisible(true); // кнопки юитов делаем видимыми
     }
 
@@ -526,7 +526,7 @@ public class Level extends StageGame {
         state = LEVEL_FAILED;
         gameOverScreen.setPosition((getWidth() - gameOverScreen.getWidth()) / 2, getHeight() * 2 / 3);
         addOverlayChild(gameOverScreen);
-        darkLayer.setVisible(true);         // затемняем задний план
+        colorRectangle.setVisible(true);         // затемняем задний план
         tableUnitButtons.setVisible(false); // кнопки юитов делаем невидимыми
         hud.hideEnergyPanel();
     }
@@ -539,7 +539,7 @@ public class Level extends StageGame {
         addOverlayChild(levelCompletedScreen);
 
         isActiveScreen = false;
-        darkLayer.setVisible(true);     // затемняем задний план
+        colorRectangle.setVisible(true);     // затемняем задний план
         tableUnitButtons.setVisible(false);      // кнопки юитов делаем невидимыми
 //        tableUnitButtons.remove();      // кнопки юитов делаем невидимыми
         hud.hideEnergyPanel();
