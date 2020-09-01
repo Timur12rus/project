@@ -16,7 +16,7 @@ import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.boontaran.games.StageGame;
-import com.timgapps.warfare.Level.GUI.Screens.RewardForStars.RewardForStarsScreen;
+import com.timgapps.warfare.Level.GUI.Screens.reward_for_stars.RewardForStarsScreen;
 import com.timgapps.warfare.Level.GameManager;
 import com.timgapps.warfare.Level.Level;
 import com.timgapps.warfare.Level.LevelMap.LevelMap;

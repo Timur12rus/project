@@ -7,7 +7,7 @@ import com.timgapps.warfare.Level.GUI.Screens.CoinsPanel;
 import com.timgapps.warfare.Level.GUI.Screens.TeamEntity;
 import com.timgapps.warfare.Level.GUI.Screens.TeamEntityData;
 import com.timgapps.warfare.Level.LevelMap.LevelIcon;
-import com.timgapps.warfare.Level.GUI.Screens.RewardForStars.RewardForStarsData;
+import com.timgapps.warfare.Level.GUI.Screens.reward_for_stars.RewardForStarsData;
 import com.timgapps.warfare.Level.LevelMap.ScorePanel;
 import com.timgapps.warfare.Level.LevelMap.StarsPanel;
 import com.timgapps.warfare.Level.SavedData.SavedGame;

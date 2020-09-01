@@ -1,4 +1,4 @@
-package com.timgapps.warfare.Level.GUI.Screens.UpgradeWindow;
+package com.timgapps.warfare.Level.GUI.Screens.upgrade_window;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -17,7 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
-import com.timgapps.warfare.Level.GUI.Screens.ResourcesView.ResourcesTable;
+import com.timgapps.warfare.Level.GUI.Screens.resources_view.ResourcesTable;
 import com.timgapps.warfare.Level.GUI.Screens.TeamEntity;
 import com.timgapps.warfare.Level.GUI.Screens.TeamUpgradeScreen;
 import com.timgapps.warfare.Level.GUI.Screens.win_creator.ConstructedWindow;

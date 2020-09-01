@@ -1,15 +1,11 @@
-package com.timgapps.warfare.Level.GUI.Screens.RewardForStars;
+package com.timgapps.warfare.Level.GUI.Screens.reward_for_stars;
 
-import com.badlogic.gdx.graphics.g2d.CpuSpriteBatch;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.boontaran.games.StageGame;
-import com.sun.org.apache.regexp.internal.RE;
 import com.timgapps.warfare.Level.GUI.Screens.CoinsPanel;
 import com.timgapps.warfare.Level.GameManager;
 import com.timgapps.warfare.Warfare;
@@ -18,7 +14,7 @@ import java.util.Random;
 
 public class GiftAnimation {
     private float x, y;
-    private RewardForStarsScreen rewardForStarsScreen;
+    private com.timgapps.warfare.Level.GUI.Screens.reward_for_stars.RewardForStarsScreen rewardForStarsScreen;
     private boolean isEndCoinsAction = false;
     private float screenWidth;
     private float screenHeight;

@@ -1,4 +1,4 @@
-package com.timgapps.warfare.Level.GUI.Screens.ResourcesView;
+package com.timgapps.warfare.Level.GUI.Screens.resources_view;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;

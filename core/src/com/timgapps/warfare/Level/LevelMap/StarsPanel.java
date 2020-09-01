@@ -11,7 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.timgapps.warfare.Level.GUI.Finger;
-import com.timgapps.warfare.Level.GUI.Screens.RewardForStars.RewardForStarsData;
+import com.timgapps.warfare.Level.GUI.Screens.reward_for_stars.RewardForStarsData;
 import com.timgapps.warfare.Warfare;
 
 import java.util.ArrayList;

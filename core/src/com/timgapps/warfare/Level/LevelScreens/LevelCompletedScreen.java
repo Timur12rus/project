@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.boontaran.MessageEvent;
-import com.timgapps.warfare.Level.GUI.Screens.UpgradeWindow.ColorButton;
+import com.timgapps.warfare.Level.GUI.Screens.upgrade_window.ColorButton;
 import com.timgapps.warfare.Level.Level;
 import com.timgapps.warfare.Warfare;
 

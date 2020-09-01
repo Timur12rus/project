@@ -1,4 +1,4 @@
-package com.timgapps.warfare.Level.GUI.Screens.GiftsWindow;
+package com.timgapps.warfare.Level.GUI.Screens.gifts_window;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Group;

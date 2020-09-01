@@ -1,4 +1,4 @@
-package com.timgapps.warfare.Level.GUI.Screens.UpgradeWindow;
+package com.timgapps.warfare.Level.GUI.Screens.upgrade_window;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;

@@ -7,15 +7,13 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
-import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.boontaran.MessageEvent;
-import com.timgapps.warfare.Level.GUI.Screens.UpgradeWindow.ColorButton;
+import com.timgapps.warfare.Level.GUI.Screens.upgrade_window.ColorButton;
 import com.timgapps.warfare.Level.Level;
 import com.timgapps.warfare.Warfare;
 

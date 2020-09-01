@@ -1,4 +1,4 @@
-package com.timgapps.warfare.Level.GUI.Screens.GiftsWindow;
+package com.timgapps.warfare.Level.GUI.Screens.gifts_window;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -17,8 +17,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.timgapps.warfare.Level.GUI.Screens.CoinsPanel;
-import com.timgapps.warfare.Level.GUI.Screens.RewardForStars.IconAnimation;
-import com.timgapps.warfare.Level.GUI.Screens.UpgradeWindow.ColorButton;
+import com.timgapps.warfare.Level.GUI.Screens.reward_for_stars.IconAnimation;
+import com.timgapps.warfare.Level.GUI.Screens.upgrade_window.ColorButton;
 import com.timgapps.warfare.Level.GameManager;
 import com.timgapps.warfare.Level.LevelMap.GiftIcon;
 import com.timgapps.warfare.Level.LevelMap.LevelMap;
@@ -26,14 +26,13 @@ import com.timgapps.warfare.Warfare;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Random;
 import java.util.TimeZone;
 
 class GiftPanel extends Group {
     private Image background;
     private Label timeLabel;
     private Label doneLabel;
-    private GiftRewardTable rewardTable;
+    private com.timgapps.warfare.Level.GUI.Screens.gifts_window.GiftRewardTable rewardTable;
     private ColorButton claimButton;
     private BoxImage boxImage;
     //    private Image boxImage;
@@ -67,7 +66,7 @@ class GiftPanel extends Group {
     private GiftIcon giftIcon;
     private IconAnimation iconAnimation;
     private LevelMap levelMap;
-    private ResoursesGiftAnimation resoursesGiftAnimation;
+    private com.timgapps.warfare.Level.GUI.Screens.gifts_window.ResoursesGiftAnimation resoursesGiftAnimation;
 
 
     // панель с горизонтальной таблицей GiftRewardTable и кнопкой "ПОЛУЧИТЬ"
@@ -123,7 +122,7 @@ class GiftPanel extends Group {
 
         /** таблица с вознаграждениями (две панели) **/
         if (giftsType == RESOURCES_GIFT) {
-            rewardTable = new GiftRewardTable(0, 2);
+            rewardTable = new com.timgapps.warfare.Level.GUI.Screens.gifts_window.GiftRewardTable(0, 2);
         }
         if (giftsType == RESOURCE_AND_COINS_GIFT) {
             rewardTable = new GiftRewardTable(55, 1);

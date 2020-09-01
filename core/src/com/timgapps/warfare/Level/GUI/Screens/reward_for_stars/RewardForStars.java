@@ -1,4 +1,4 @@
-package com.timgapps.warfare.Level.GUI.Screens.RewardForStars;
+package com.timgapps.warfare.Level.GUI.Screens.reward_for_stars;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -10,14 +10,12 @@ import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.timgapps.warfare.Level.GUI.Finger;
 import com.timgapps.warfare.Level.GUI.Screens.TeamEntity;
 import com.timgapps.warfare.Level.GameManager;
-import com.timgapps.warfare.Level.LevelMap.LevelIcon;
 import com.timgapps.warfare.Warfare;
 
 public class RewardForStars extends Group {
@@ -30,9 +28,9 @@ public class RewardForStars extends Group {
     private int rewardCountStars; // кол-во звёзд для плучения текущей награды
     private int starsNum;
     private float deltaX;       // количество пикселей по Х, на сколько нужно сдвинуть изображение
-    private RewardForStarsData data;
+    private com.timgapps.warfare.Level.GUI.Screens.reward_for_stars.RewardForStarsData data;
     private GameManager gameManager;
-    private RewardForStarsScreen rewardForStarsScreen;
+    private com.timgapps.warfare.Level.GUI.Screens.reward_for_stars.RewardForStarsScreen rewardForStarsScreen;
     private Finger finger;
     private StarsBar bar;
     private final int BG_PANEL_WIDTH = 140;
@@ -53,7 +51,7 @@ public class RewardForStars extends Group {
 //        System.out.println("yPos = " + getY());
     }
 
-    public RewardForStars(final RewardForStarsScreen rewardForStarsScreen, final RewardForStarsData data, final GameManager gameManager,
+    public RewardForStars(final RewardForStarsScreen rewardForStarsScreen, final com.timgapps.warfare.Level.GUI.Screens.reward_for_stars.RewardForStarsData data, final GameManager gameManager,
                           int deltaCountStars, int lastRewardCountStars) {
         this.rewardForStarsScreen = rewardForStarsScreen;
         this.deltaCountStars = deltaCountStars;
@@ -72,26 +70,26 @@ public class RewardForStars extends Group {
         labelStyle.font = Warfare.font20;
 
         switch (data.getTypeOfReward()) {
-            case RewardForStarsData.REWARD_STONE:
-                typeOfReward = RewardForStarsData.REWARD_STONE;
+            case com.timgapps.warfare.Level.GUI.Screens.reward_for_stars.RewardForStarsData.REWARD_STONE:
+                typeOfReward = com.timgapps.warfare.Level.GUI.Screens.reward_for_stars.RewardForStarsData.REWARD_STONE;
                 rewardImage = new Image(Warfare.atlas.findRegion("block1_image"));
                 name = "Rock";
 //                starsNum = data.getStarsCount();
                 deltaX = 0;
                 break;
-            case RewardForStarsData.REWARD_ARCHER:
+            case com.timgapps.warfare.Level.GUI.Screens.reward_for_stars.RewardForStarsData.REWARD_ARCHER:
                 rewardImage = new Image(Warfare.atlas.findRegion("archer1Stay0"));
                 name = "Archer";
 //                starsNum = 4;
                 deltaX = 42;
                 break;
-            case RewardForStarsData.REWARD_GNOME:
+            case com.timgapps.warfare.Level.GUI.Screens.reward_for_stars.RewardForStarsData.REWARD_GNOME:
                 rewardImage = new Image(Warfare.atlas.findRegion("gnomeStay0"));
                 name = "Gnome";
 //                starsNum = 15;
                 deltaX = -16;
                 break;
-            case RewardForStarsData.REWARD_BOX:
+            case com.timgapps.warfare.Level.GUI.Screens.reward_for_stars.RewardForStarsData.REWARD_BOX:
                 if (!data.getIsReceived()) {
                     rewardImage = new Image(Warfare.atlas.findRegion("boxImage0"));
                 } else {
@@ -101,7 +99,7 @@ public class RewardForStars extends Group {
                 name = "Box";
                 deltaX = -16;
                 break;
-            case RewardForStarsData.REWARD_KNIGHT:
+            case com.timgapps.warfare.Level.GUI.Screens.reward_for_stars.RewardForStarsData.REWARD_KNIGHT:
                 rewardImage = new Image(Warfare.atlas.findRegion("knightUnitImage"));
                 name = "Knight";
                 deltaX = -16;
@@ -126,7 +124,7 @@ public class RewardForStars extends Group {
         addActor(bgOrange);
 
 
-        if (typeOfReward == RewardForStarsData.REWARD_STONE) {
+        if (typeOfReward == com.timgapps.warfare.Level.GUI.Screens.reward_for_stars.RewardForStarsData.REWARD_STONE) {
             finger = new Finger(rewardImage.getX() + (rewardImage.getWidth() / 2 - Finger.WIDTH / 2) + 108,
                     rewardImage.getY() + rewardImage.getHeight() + 42 + Finger.HEIGHT,
                     Finger.DOWN, new TextureRegion(Warfare.atlas.findRegion("fingerUpLeft")));
@@ -394,7 +392,7 @@ public class RewardForStars extends Group {
     public void getRewardForStars() {
         nameLabel.setColor(Color.LIGHT_GRAY);
         switch (data.getTypeOfReward()) {
-            case RewardForStarsData.REWARD_STONE:                           // если награда "КАМЕНЬ"
+            case com.timgapps.warfare.Level.GUI.Screens.reward_for_stars.RewardForStarsData.REWARD_STONE:                           // если награда "КАМЕНЬ"
                 for (int i = 0; i < gameManager.getCollection().size(); i++) {
                     if (gameManager.getCollection().get(i).getUnitType() == TeamEntity.STONE) {
                         addRewardUnitToTeam(i);
@@ -403,7 +401,7 @@ public class RewardForStars extends Group {
                     }
                 }
                 break;
-            case RewardForStarsData.REWARD_ARCHER:
+            case com.timgapps.warfare.Level.GUI.Screens.reward_for_stars.RewardForStarsData.REWARD_ARCHER:
                 for (int i = 0; i < gameManager.getCollection().size(); i++) {
                     if (gameManager.getCollection().get(i).getUnitType() == TeamEntity.ARCHER) {
                         addRewardUnitToTeam(i);
@@ -413,11 +411,11 @@ public class RewardForStars extends Group {
             case RewardForStarsData.REWARD_BOX:
                 rewardImage.setDrawable(new Image(Warfare.atlas.findRegion("boxImage4")).getDrawable());
                 gameManager.addCoinsCount(100);
-                GiftAnimation coinsAnimation = new GiftAnimation(rewardForStarsScreen,
+                com.timgapps.warfare.Level.GUI.Screens.reward_for_stars.GiftAnimation coinsAnimation = new com.timgapps.warfare.Level.GUI.Screens.reward_for_stars.GiftAnimation(rewardForStarsScreen,
                         getX() + rewardForStarsScreen.getScrollTableX(),
-                        getY() + 240, GiftAnimation.COIN_GIFT);
+                        getY() + 240, com.timgapps.warfare.Level.GUI.Screens.reward_for_stars.GiftAnimation.COIN_GIFT);
 //                        getY() + rewardForStarsScreen.getScrollTableY());
-                GiftAnimation resoursesAnimation = new GiftAnimation(rewardForStarsScreen,
+                com.timgapps.warfare.Level.GUI.Screens.reward_for_stars.GiftAnimation resoursesAnimation = new com.timgapps.warfare.Level.GUI.Screens.reward_for_stars.GiftAnimation(rewardForStarsScreen,
                         getX() + rewardForStarsScreen.getScrollTableX(),
                         getY() + 240, GiftAnimation.RESOURSES_GIFT);
 

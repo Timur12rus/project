@@ -1,7 +1,6 @@
-package com.timgapps.warfare.Level.GUI.Screens.UpgradeWindow;
+package com.timgapps.warfare.Level.GUI.Screens.upgrade_window;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.timgapps.warfare.Level.GUI.Screens.TeamEntity;

@@ -1,4 +1,4 @@
-package com.timgapps.warfare.Level.GUI.Screens.GiftsWindow;
+package com.timgapps.warfare.Level.GUI.Screens.gifts_window;
 
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Action;
@@ -8,9 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.timgapps.warfare.Level.GUI.Screens.RewardForStars.IconAnimation;
 import com.timgapps.warfare.Level.GameManager;
-import com.timgapps.warfare.Level.Level;
 import com.timgapps.warfare.Level.LevelMap.LevelMap;
 import com.timgapps.warfare.Warfare;
 

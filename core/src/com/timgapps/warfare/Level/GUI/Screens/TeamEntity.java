@@ -5,9 +5,8 @@ import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.timgapps.warfare.Level.GUI.Screens.UpgradeWindow.UnitImage;
+import com.timgapps.warfare.Level.GUI.Screens.upgrade_window.UnitImage;
 import com.timgapps.warfare.Warfare;
 
 

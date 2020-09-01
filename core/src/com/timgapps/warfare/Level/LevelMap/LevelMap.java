@@ -27,7 +27,7 @@ import com.boontaran.games.tiled.TileLayer;
 import com.timgapps.warfare.Level.GUI.Finger;
 import com.timgapps.warfare.Level.GUI.Screens.CoinsPanel;
 import com.timgapps.warfare.Level.GUI.Screens.MissionInfoScreen;
-import com.timgapps.warfare.Level.GUI.Screens.GiftsWindow.GiftScreen;
+import com.timgapps.warfare.Level.GUI.Screens.gifts_window.GiftScreen;
 import com.timgapps.warfare.Level.GUI.Screens.TeamUpgradeScreen;
 import com.timgapps.warfare.Level.GameManager;
 import com.timgapps.warfare.Level.LevelScreens.ColorRectangle;

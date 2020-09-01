@@ -4,7 +4,7 @@ import com.timgapps.warfare.Level.GUI.Screens.TeamEntity;
 import com.timgapps.warfare.Level.GUI.Screens.TeamEntityData;
 import com.timgapps.warfare.Level.LevelMap.LevelIcon;
 import com.timgapps.warfare.Level.LevelMap.LevelIconData;
-import com.timgapps.warfare.Level.GUI.Screens.RewardForStars.RewardForStarsData;
+import com.timgapps.warfare.Level.GUI.Screens.reward_for_stars.RewardForStarsData;
 
 import java.io.Serializable;
 import java.util.ArrayList;
