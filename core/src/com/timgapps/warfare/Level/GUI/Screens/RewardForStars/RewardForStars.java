@@ -15,9 +15,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.timgapps.warfare.Level.GUI.Finger;
+import com.timgapps.warfare.Level.GUI.Screens.CoinsPanel;
 import com.timgapps.warfare.Level.GUI.Screens.TeamEntity;
 import com.timgapps.warfare.Level.GameManager;
 import com.timgapps.warfare.Level.LevelMap.LevelIcon;
+import com.timgapps.warfare.Level.LevelMap.actions.CoinsAction;
 import com.timgapps.warfare.Warfare;
 
 public class RewardForStars extends Group {
@@ -43,14 +45,16 @@ public class RewardForStars extends Group {
     private int starsCount;
     private float xPos;     // позиция Х panelStarsSmall
     private Hilite hilite;
-
+    private CoinsAction coinsAction;
 
     @Override
     public void act(float delta) {
         super.act(delta);
         hilite.act(delta);
-//        System.out.println("xPos = " + getX());
-//        System.out.println("yPos = " + getY());
+        if (coinsAction != null && coinsAction.isEndCoinsAction()) {
+            coinsAction.setEndCoinsAction();
+            rewardForStarsScreen.getCoinsPanel().startAddCoinsAction();
+        }
     }
 
     public RewardForStars(final RewardForStarsScreen rewardForStarsScreen, final RewardForStarsData data, final GameManager gameManager,
@@ -220,9 +224,12 @@ public class RewardForStars extends Group {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                if ((!data.getIsReceived()) && (data.getIsChecked())) {     // если награда доступна но не получена
-                    getRewardForStars();
-                }
+
+                getRewardForStars();
+                // TODO нужно вернуть
+//                if ((!data.getIsReceived()) && (data.getIsChecked())) {     // если награда доступна но не получена
+//                    getRewardForStars();
+//                }
                 if (!data.getIsChecked()) {     // если награда не доступна
                     rewardForStarsScreen.showToast(data.getStarsCount());
                 }
@@ -413,15 +420,22 @@ public class RewardForStars extends Group {
             case RewardForStarsData.REWARD_BOX:
                 rewardImage.setDrawable(new Image(Warfare.atlas.findRegion("boxImage4")).getDrawable());
                 gameManager.addCoinsCount(100);
-                GiftAnimation coinsAnimation = new GiftAnimation(rewardForStarsScreen,
-                        getX() + rewardForStarsScreen.getScrollTableX(),
-                        getY() + 240, GiftAnimation.COIN_GIFT);
-//                        getY() + rewardForStarsScreen.getScrollTableY());
+                coinsAction = new CoinsAction();
+                coinsAction.setStartPosition(getX() + rewardForStarsScreen.getScrollTableX(),
+                        getY() + 240);
+                coinsAction.setEndPosition(rewardForStarsScreen.getCoinsPanel().getX(), rewardForStarsScreen.getCoinsPanel().getY());
+                coinsAction.start();
+                rewardForStarsScreen.addChild(coinsAction);
+
+//                GiftAnimation coinsAnimation = new GiftAnimation(rewardForStarsScreen,
+//                        getX() + rewardForStarsScreen.getScrollTableX(),
+//                        getY() + 240, GiftAnimation.COIN_GIFT);
+////                        getY() + rewardForStarsScreen.getScrollTableY());
                 GiftAnimation resoursesAnimation = new GiftAnimation(rewardForStarsScreen,
                         getX() + rewardForStarsScreen.getScrollTableX(),
                         getY() + 240, GiftAnimation.RESOURSES_GIFT);
 
-                coinsAnimation.start();
+//                coinsAnimation.start();
                 resoursesAnimation.start();
                 break;
         }

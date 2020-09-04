@@ -12,18 +12,17 @@ import com.boontaran.MessageEvent;
 import com.timgapps.warfare.Level.GUI.Screens.win_creator.ConstructedWindow;
 import com.timgapps.warfare.Level.GameManager;
 import com.timgapps.warfare.Level.LevelMap.LevelMap;
+import com.timgapps.warfare.Level.LevelMap.actions.StartCoinsAction;
 import com.timgapps.warfare.Warfare;
 
 public class GiftScreen extends Group {
     public static final int ON_SHOW_ANIMATIONS = 1;
     public static final int ON_RESUME = 2;
-
     private ConstructedWindow constructedWindow;
     private ImageButton closeButton;
     private Label rewardTitle; // отображаем текст заголовка
     private GameManager gameManager;
     private GiftPanel giftPanel, buffPanel;
-
     private GiftsTable giftsTable;
     private LevelMap levelMap;
 
@@ -43,7 +42,6 @@ public class GiftScreen extends Group {
         giftsTable.setPosition(constructedWindow.getX() + (constructedWindow.getWidth() - giftsTable.getWidth()) / 2,
                 constructedWindow.getY() + 64);
         addActor(giftsTable);
-
         closeButton = constructedWindow.getCloseButton();
         closeButton.addListener(new ClickListener() {
             @Override
@@ -70,19 +68,14 @@ public class GiftScreen extends Group {
      **/
     class GiftsTable extends Table {
         public GiftsTable() {
-
             float giftPanelX = constructedWindow.getX() + (constructedWindow.getWidth() - 190 * 2 + 64) / 2;
             float giftPanelY = constructedWindow.getY() + 64;
-
             // первая панель подарков (левая)
             giftPanel = new GiftPanel(levelMap, giftPanelX, giftPanelY, gameManager, GiftPanel.RESOURCE_AND_COINS_GIFT);
-
             // вторая панель подарков (правая)
             buffPanel = new GiftPanel(levelMap, giftPanelX + 190 + 64, giftPanelY, gameManager, GiftPanel.RESOURCES_GIFT);
-
             add(giftPanel).padLeft(32).padRight(32);
             add(buffPanel).padLeft(32).padRight(32);
-
             setWidth(giftPanel.getWidth() * 2 + 64 * 2);
             setHeight(giftPanel.getHeight());
         }

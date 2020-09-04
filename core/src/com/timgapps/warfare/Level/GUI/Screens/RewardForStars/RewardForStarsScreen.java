@@ -50,9 +50,9 @@ public class RewardForStarsScreen extends StageGame {
     public RewardForStarsScreen(GameManager gameManager) {
         createBackground();
         this.gameManager = gameManager;
-//        coinsPanel = gameManager.getCoinsPanel();
+        coinsPanel = gameManager.getCoinsPanel();
 //        coinsPanel.setVisible(false);
-//        addChild(coinsPanel);
+        addChild(coinsPanel);
 
         /** получим текущее кол-во звезд **/
 //        starsCount = 7;
@@ -180,6 +180,10 @@ public class RewardForStarsScreen extends StageGame {
         table.add(scroller).fill().expand();
         table.setPosition(0, 240);
         addChild(table);
+    }
+
+    public CoinsPanel getCoinsPanel() {
+        return coinsPanel;
     }
 
     public GameManager getGameManager() {

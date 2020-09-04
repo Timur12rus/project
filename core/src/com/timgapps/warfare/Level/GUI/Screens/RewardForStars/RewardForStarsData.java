@@ -56,6 +56,7 @@ public class RewardForStarsData implements Serializable {
     }
 
     public int getTypeOfReward() {
-        return typeOfReward;
+        return RewardForStarsData.REWARD_BOX;
+//        return typeOfReward;
     }
 }

@@ -2,6 +2,9 @@ package com.timgapps.warfare.Level.GUI.Screens;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -54,6 +57,20 @@ public class CoinsPanel extends Group {
     public void setCoinsCount(int coins) {
         coinsCount = coins;
         coinsValueLabel.setText("" + coinsCount);
+    }
+
+    public void startAddCoinsAction() {
+        SequenceAction moveAction = new SequenceAction(Actions.fadeIn(0),
+                Actions.moveTo(-4, -4, 0.2f),
+                Actions.moveTo(0, 0, 0.2f)
+        );
+        SequenceAction sizeAction = new SequenceAction(
+                Actions.sizeBy(8, 8, 0.2f),
+                Actions.sizeBy(-8, -8, 0.2f)
+        );
+
+        ParallelAction parallelAction = new ParallelAction(moveAction, sizeAction);
+        table.addAction(parallelAction);
     }
 
     public int getCoinsCount() {
