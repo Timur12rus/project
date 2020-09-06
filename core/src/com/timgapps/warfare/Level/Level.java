@@ -82,7 +82,6 @@ public class Level extends StageGame {
     private Finger finger;
 
     public Level(int levelNumber, final GameManager gameManager) {
-
         this.levelNumber = levelNumber;
         this.gameManager = gameManager;
 
@@ -186,6 +185,7 @@ public class Level extends StageGame {
             state = PLAY;
         }
     }
+
     /**
      * метод получает кол-во монет в качестве награды
      **/
@@ -411,10 +411,7 @@ public class Level extends StageGame {
             unitButtonArrayList = new ArrayList<UnitButton>();
             unitButtonWidth = team.get(0).getUnitImageButton().getWidth();
             unitButtonHeight = team.get(0).getUnitImageButton().getHeight();
-            System.out.println("unitButton width = " + unitButtonWidth);
-            System.out.println("unitButton height = " + unitButtonHeight);
             stoneButton = null;
-
             // добавим кнопки с юнитами в соответствии с имеющимися юнитами в команде
             addUnitButtons();
 

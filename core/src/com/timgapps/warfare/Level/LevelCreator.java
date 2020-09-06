@@ -10,6 +10,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Rectangle;
 import com.boontaran.games.tiled.TileLayer;
 import com.timgapps.warfare.Units.GameUnits.Enemy.Goblin1;
+import com.timgapps.warfare.Units.GameUnits.Enemy.Skeleton;
 import com.timgapps.warfare.Units.GameUnits.Enemy.Zombie;
 import com.timgapps.warfare.Units.GameUnits.Enemy.Zombie1;
 
@@ -70,6 +71,7 @@ public class LevelCreator {
             rectangle = new Rectangle(x, y, 32, 32);
             if (LayerName.equals("zombie")) {
                 Zombie zombie = new Zombie(level, rectangle.x, rectangle.y + 172, 100, 3);
+//                Skeleton skeleton = new Skeleton(level, rectangle.x + 60, rectangle.y + 172, 100, 5);
                 level.addEnemyUnitToEnemyArray(zombie);
             }
             if (LayerName.equals("zombie1")) {

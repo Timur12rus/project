@@ -223,7 +223,7 @@ class GiftPanel extends Group {
             boxImage.closeBox();
             // добавим к общему кол-ву монет монеты (награду)
             coinsPanel.addCoins(COINS_COUNT_REWARD);
-            coinsPanel.startAddCoinsAction();
+//            coinsPanel.startAddCoinsAction();
             startCoinsAction.setEndCoinsAction();
         }
         if (startResourcesAction != null && startResourcesAction.isEndResourcesAction() && giftsType == RESOURCES_GIFT) {

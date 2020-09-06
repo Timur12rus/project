@@ -153,12 +153,8 @@ public class Warfare extends Game {
     }
 
     private void showMap(int coinsReward, int scoreReward) {
-//        levMap = new LevMap("location1");
-//        setScreen(levMap);
-
         levelMap = new LevelMap(gameManager, coinsReward, scoreReward);
         setScreen(levelMap);
-
         levelMap.setCallback(new StageGame.Callback() {
             @Override
             public void call(int code) {
@@ -173,8 +169,10 @@ public class Warfare extends Game {
                     hideLevelMap();
                     showLevel(levelId);
                 } else if (code == LevelMap.ON_SHOW_REWARD_FOR_STARS_SCREEN) {
-//                    hideLevelMap();
+//                    levelMap = null;
                     showRewardForStarsScreen();
+                    hideLevelMap();
+
                 }
             }
         });
@@ -183,7 +181,6 @@ public class Warfare extends Game {
     private void showRewardForStarsScreen() {
         rewardForStarsScreen = new RewardForStarsScreen(gameManager);
         setScreen(rewardForStarsScreen);
-
         rewardForStarsScreen.setCallback(new StageGame.Callback() {
             @Override
             public void call(int code) {
@@ -196,25 +193,8 @@ public class Warfare extends Game {
     }
 
     private void showExit() {
-        System.out.println("EXIT");
+//        System.out.println("EXIT");
     }
-
-//    private void showRewardForStarsScreen() {
-//        RewardForStarsScreen rewardForStarsScreen = new RewardForStarsScreen(gameManager);
-//        hideLevelMap();
-//        setScreen(rewardForStarsScreen);
-//
-//        rewardForStarsScreen.setCallback(new StageGame.Callback() {
-//            @Override
-//            public void call(int code) {
-//                if (code == rewardForStarsScreen.ON_BACK) {
-//                    hideRewardForStarsScreen();
-//                    showExit();
-//                }
-//            }
-//        });
-//    }
-
 
     private void showLevel(int id) { // метод показа игрового уровня, передаем идентификатор уровня
 
@@ -280,7 +260,7 @@ public class Warfare extends Game {
 
     public void hideLevelMap() {
         levelMap.dispose();
-        levelMap = null;
+//        levelMap = null;
     }
 
     private void showLevel() {

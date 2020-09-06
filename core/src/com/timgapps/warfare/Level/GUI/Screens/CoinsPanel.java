@@ -21,17 +21,13 @@ public class CoinsPanel extends Group {
 
     public CoinsPanel(int coinsCount) {
         this.coinsCount = coinsCount;
-
         /** Изображение ЗНАЧОК МОНЕТА **/
         coinIcon = new Image(Warfare.atlas.findRegion("coin_icon"));
         background = new TextureRegionDrawable(Warfare.atlas.findRegion("coinsPanel"));
-
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.fontColor = Color.YELLOW;
         labelStyle.font = Warfare.font20;
         coinsValueLabel = new Label("" + coinsCount, labelStyle);
-
-//        table = new Table();
         table = new Table().debug();
         table.align(Align.right);
         table.setWidth(background.getRegion().getRegionWidth());
@@ -39,7 +35,6 @@ public class CoinsPanel extends Group {
         table.setBackground(background);
         table.add(coinsValueLabel).expand().right();
         table.add(coinIcon).width(coinIcon.getWidth());
-
         setWidth(table.getWidth());
         setHeight(table.getHeight());
         addActor(table);

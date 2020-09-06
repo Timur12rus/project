@@ -77,6 +77,7 @@ public class SavedGame implements Serializable {
 
 
     // TODO сделать данные о количестве звезд для достижения награды в rewardStarsData
+
     /**
      * метод для создания списка с ДАННЫМИ наград за звезды
      * в этом методе и задаются награды за звёзды
@@ -86,14 +87,14 @@ public class SavedGame implements Serializable {
         starsCount = 0;             // кол-во звезд у игрока
         indexOfRewardStars = 0;     // индекс следующей награды за звёзды
         rewardForStarsDataList = new ArrayList<RewardForStarsData>();
-        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_STONE, 1));
-        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_ARCHER, 4));
-        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_BOX, 15));
-        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_GNOME, 30));
-        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_BOX, 45));
-        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_KNIGHT, 75));
-        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_KNIGHT, 110));
-        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_KNIGHT, 50));
+        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_STONE, 1, "block1_image"));
+        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_ARCHER, 4, "archer1Stay0"));
+        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_BOX, 15, "boxImage0"));
+        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_GNOME, 30, "gnomeStay0"));
+        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_BOX, 45, "boxImage0"));
+        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_KNIGHT, 75, "knightUnitImage"));
+        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_KNIGHT, 110, "knightUnitImage"));
+        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_KNIGHT, 50, "knightUnitImage"));
 //        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_GNOME, 45));
 //        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_GNOME, 80));
 //        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_GNOME, 100));

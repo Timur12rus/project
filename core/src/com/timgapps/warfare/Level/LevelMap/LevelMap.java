@@ -14,7 +14,6 @@ import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -24,7 +23,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.boontaran.MessageListener;
 import com.boontaran.games.StageGame;
 import com.boontaran.games.tiled.TileLayer;
-import com.timgapps.warfare.Level.GUI.Finger;
 import com.timgapps.warfare.Level.GUI.Screens.CoinsPanel;
 import com.timgapps.warfare.Level.GUI.Screens.MissionInfoScreen;
 import com.timgapps.warfare.Level.GUI.Screens.GiftsWindow.GiftScreen;
@@ -69,7 +67,7 @@ public class LevelMap extends StageGame implements StartCoinsAction, StartResour
     private int mapWidth, mapHeight, tilePixelWidth, tilePixelHeight, levelWidth, levelHeight;
     private boolean isFocused = true;
     private Label teamLabel;
-    private ColorRectangle fadeRectangle;
+    private ColorRectangle fade;
     private float cameraXpos;
     private float cameraYpos;
     private ColorRectangle greenRectangle;
@@ -92,17 +90,19 @@ public class LevelMap extends StageGame implements StartCoinsAction, StartResour
         String directory = "location1";
         loadMap("tiled/" + directory + "/map.tmx");   // метод загружает карту и создает объекты
 
-        fadeRectangle = new ColorRectangle(0, 0, getWidth(), getHeight(), new Color(0, 0, 0, 0.7f));
-        fadeRectangle.setVisible(false);
-        fadeRectangle.addListener(new ClickListener() {
-
+        fade = new ColorRectangle(0, 0, getWidth(), getHeight(), new Color(0, 0, 0, 0.7f));
+        fade.setVisible(false);
+        fade.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
+                if (teamUpgradeScreen.isUpgradeScreenVisible()) {
+                    teamUpgradeScreen.setUpgradeScreenVisible(false);
+                }
                 resumeLevelMap();
             }
         });
-        addChild(fadeRectangle);
+        addChild(fade);
 
         /** создадим окно с описанием уровня **/
         missionInfoScreen = new MissionInfoScreen();
@@ -184,6 +184,7 @@ public class LevelMap extends StageGame implements StartCoinsAction, StartResour
 
         // добавим панель с монетами на экран
         coinsPanel = gameManager.getCoinsPanel();
+        coinsPanel.setCoinsCount(gameManager.getCoinsCount());
         coinsPanel.addAction(Actions.fadeIn(0.1f));
 //        if (coinsPanel.isVisible()) {
 //            coinsPanel.setVisible(true);
@@ -207,6 +208,7 @@ public class LevelMap extends StageGame implements StartCoinsAction, StartResour
         starsPanel.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                coinsPanel.remove();
                 call(ON_SHOW_REWARD_FOR_STARS_SCREEN);
             }
         });
@@ -270,19 +272,19 @@ public class LevelMap extends StageGame implements StartCoinsAction, StartResour
     private void hideButtons() {
         teamLabel.setVisible(false);
         starsPanel.setVisible(false);
-        fadeRectangle.setPosition(cameraXpos - camera.viewportWidth / 2, cameraYpos - camera.viewportHeight / 2);
+        fade.setPosition(cameraXpos - camera.viewportWidth / 2, cameraYpos - camera.viewportHeight / 2);
         giftIcon.setVisible(false);
         teamUpgradeIcon.setVisible(false);
 //        if (finger != null) {
 //            finger.setVisible(false);
 //        }
-        fadeRectangle.setVisible(true);
+        fade.setVisible(true);
     }
 
     private void showButtons() {
         teamLabel.setVisible(true);
         starsPanel.setVisible(true);
-        fadeRectangle.setVisible(false);
+        fade.setVisible(false);
         giftIcon.setVisible(true);
 //        if (finger != null && gameManager.getHelpStatus() != GameManager.HELP_GET_GIFT) {
 //            finger.setVisible(true);
@@ -324,8 +326,8 @@ public class LevelMap extends StageGame implements StartCoinsAction, StartResour
 //            System.out.println("cameraPosition.x = " + camera.position.x);
 //        if (cameraXpos + x )
             camera.translate(-x, y);
-            if (fadeRectangle != null) {
-                fadeRectangle.setPosition(camera.position.x - camera.viewportWidth / 2,
+            if (fade != null) {
+                fade.setPosition(camera.position.x - camera.viewportWidth / 2,
                         camera.position.y - camera.viewportHeight / 2);
             }
 //            System.out.println("cameraPosition.y = " + camera.position.y);

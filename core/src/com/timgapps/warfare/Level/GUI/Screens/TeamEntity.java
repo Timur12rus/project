@@ -34,7 +34,8 @@ public class TeamEntity extends Group {
     private UnitImage unitImage;
     private int unitIndex;          // индекс юнита
     private TeamEntityData data;
-    private final int MAX_UNIT_LEVEL = 3;
+    private final int MAX_UNIT_LEVEL = 10;
+//    private final int MAX_UNIT_LEVEL = 3;
 
     @Override
     public String toString() {

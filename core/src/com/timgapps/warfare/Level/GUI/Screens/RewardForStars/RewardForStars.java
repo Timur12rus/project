@@ -5,12 +5,16 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -52,8 +56,10 @@ public class RewardForStars extends Group {
         super.act(delta);
         hilite.act(delta);
         if (coinsAction != null && coinsAction.isEndCoinsAction()) {
+            int currentCoinsCount = rewardForStarsScreen.getCoinsPanel().getCoinsCount();
+            rewardForStarsScreen.getCoinsPanel().setCoinsCount(currentCoinsCount + 100);
             coinsAction.setEndCoinsAction();
-            rewardForStarsScreen.getCoinsPanel().startAddCoinsAction();
+//            rewardForStarsScreen.getCoinsPanel().startAddCoinsAction();
         }
     }
 
@@ -62,7 +68,6 @@ public class RewardForStars extends Group {
         this.rewardForStarsScreen = rewardForStarsScreen;
         this.deltaCountStars = deltaCountStars;
         this.lastRewardCountStars = lastRewardCountStars;
-
         this.gameManager = gameManager;
         this.data = data;
         // текущее кол-во звезд
@@ -78,64 +83,56 @@ public class RewardForStars extends Group {
         switch (data.getTypeOfReward()) {
             case RewardForStarsData.REWARD_STONE:
                 typeOfReward = RewardForStarsData.REWARD_STONE;
-                rewardImage = new Image(Warfare.atlas.findRegion("block1_image"));
+                rewardImage = new Image(Warfare.atlas.findRegion(data.getImageString()));
                 name = "Rock";
 //                starsNum = data.getStarsCount();
                 deltaX = 0;
                 break;
             case RewardForStarsData.REWARD_ARCHER:
-                rewardImage = new Image(Warfare.atlas.findRegion("archer1Stay0"));
+                rewardImage = new Image(Warfare.atlas.findRegion(data.getImageString()));
                 name = "Archer";
 //                starsNum = 4;
                 deltaX = 42;
                 break;
             case RewardForStarsData.REWARD_GNOME:
-                rewardImage = new Image(Warfare.atlas.findRegion("gnomeStay0"));
+                rewardImage = new Image(Warfare.atlas.findRegion(data.getImageString()));
                 name = "Gnome";
 //                starsNum = 15;
                 deltaX = -16;
                 break;
             case RewardForStarsData.REWARD_BOX:
                 if (!data.getIsReceived()) {
-                    rewardImage = new Image(Warfare.atlas.findRegion("boxImage0"));
+                    rewardImage = new Image(Warfare.atlas.findRegion(data.getImageString()));
                 } else {
                     rewardImage = new Image(Warfare.atlas.findRegion("boxImage4"));
                 }
-
                 name = "Box";
                 deltaX = -16;
                 break;
             case RewardForStarsData.REWARD_KNIGHT:
-                rewardImage = new Image(Warfare.atlas.findRegion("knightUnitImage"));
+                rewardImage = new Image(Warfare.atlas.findRegion(data.getImageString()));
                 name = "Knight";
                 deltaX = -16;
                 break;
         }
-
         starsNum = data.getStarsCount();        // кол-во звезд, необходимое для получения награды
         rewardCountStars = starsNum;
-
         bg = new Image(Warfare.atlas.findRegion("coinsPanel"));
         bgYellow = new Image(Warfare.atlas.findRegion("yellow_coinsPanel"));
         bgOrange = new Image(Warfare.atlas.findRegion("orange_coinsPanel"));
         receivedImg = new Image(Warfare.atlas.findRegion("isReceived"));
-
         receivedImg.setPosition(bg.getWidth() - receivedImg.getWidth() / 2, bg.getHeight() - receivedImg.getHeight() / 2);
-
         rewardImage.debug();
-
         setSize(bg.getWidth(), bg.getHeight());  // зададим размер группы
         addActor(bg);                             // добавим фон для группы (прямоугольник)
         addActor(bgYellow);                             // добавим фон для группы (Жедлтый прямоугольник)
         addActor(bgOrange);
-
 
         if (typeOfReward == RewardForStarsData.REWARD_STONE) {
             finger = new Finger(rewardImage.getX() + (rewardImage.getWidth() / 2 - Finger.WIDTH / 2) + 108,
                     rewardImage.getY() + rewardImage.getHeight() + 42 + Finger.HEIGHT,
                     Finger.DOWN, new TextureRegion(Warfare.atlas.findRegion("fingerUpLeft")));
             finger.debug();
-
             float x = rewardImage.getX() + (rewardImage.getWidth() / 2 - Finger.WIDTH / 2) + 108;
 //        float x = rewardImage.getX() + (rewardImage.getWidth() / 2 - Finger.WIDTH / 2) + 48 + 36;
             float y = rewardImage.getY() + rewardImage.getHeight() + 42 + Finger.HEIGHT;
@@ -146,7 +143,6 @@ public class RewardForStars extends Group {
                 finger.show();
             }
         }
-
         bgYellow.setVisible(false);
         bgOrange.setVisible(false);
         if (data.getIsReceived()) {
@@ -154,22 +150,16 @@ public class RewardForStars extends Group {
         } else {
             receivedImg.setVisible(false);
         }
-
         rewardImage.setPosition((bg.getWidth() - rewardImage.getWidth()) / 2 - deltaX, 36);
-
         nameLabel = new Label("" + name, labelStyle);
         nameLabel.setPosition((bg.getWidth() - nameLabel.getWidth()) / 2, 0);
 //        System.out.println("nameLabelWidth = " + nameLabel.getWidth());
-
-
         hilite = new Hilite(this);
 //        hilite.setPosition(100, 120);
 //        hilite.debug();
-
         addActor(rewardImage);                      // добавим изображение
         addActor(nameLabel);
         addActor(receivedImg);
-
         // создаем бары под изображениями наград за звезды
         bar = new StarsBar(getX() + BG_PANEL_WIDTH / 2 - barWidth - 8,
                 getY() - barHeight - 16,
@@ -179,7 +169,6 @@ public class RewardForStars extends Group {
                 rewardCountStars // кол-во звёзд за награду
         );
         addActor(bar);
-
         addCaptureListener(new EventListener() { // добавляет слушателя события корневому элементу, отключая его для дочерних элементов
             @Override
             public boolean handle(Event event) {
@@ -187,11 +176,9 @@ public class RewardForStars extends Group {
                 return true;
             }
         });
-
 //        final RewardForStarsScreen finalRewardForStarsScreen = rewardForStarsScreen;
         addListener(new ClickListener() { // создаем слушателя события нажатия кнопки
             // переопределяем метод TouchDown(), который называется прикасание
-
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 if (bgYellow.isVisible())
@@ -224,12 +211,11 @@ public class RewardForStars extends Group {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-
-                getRewardForStars();
-                // TODO нужно вернуть
-//                if ((!data.getIsReceived()) && (data.getIsChecked())) {     // если награда доступна но не получена
-//                    getRewardForStars();
-//                }
+//                getRewardForStars();
+//                //  TODO при тестрировании закомментировать нижнюю строку, а верхнюю раскоментировать
+                if ((!data.getIsReceived()) && (data.getIsChecked())) {     // если награда доступна но не получена
+                    getRewardForStars();
+                }
                 if (!data.getIsChecked()) {     // если награда не доступна
                     rewardForStarsScreen.showToast(data.getStarsCount());
                 }
@@ -243,10 +229,6 @@ public class RewardForStars extends Group {
                 }
             }
         });
-    }
-
-    public float getxPos() {
-        return xPos;
     }
 
     public void setHilite() {
@@ -322,14 +304,12 @@ public class RewardForStars extends Group {
             setSize(bgBarTexture.getWidth(), bgBarTexture.getHeight());
             this.x = x;
             this.y = y;
-
         }
 
         // метод окрашивает бар в темный цвет, что означает что награда получена
         void setIsReceived(boolean flag) {
             isReceived = flag;
         }
-
 
         @Override
         public void draw(Batch batch, float parentAlpha) {
@@ -340,7 +320,6 @@ public class RewardForStars extends Group {
             batch.draw(barTexture, x + 1, y + 1);
             batch.setColor(1, 1, 1, 1);
         }
-
 
         private void createStarsBar(float x, int barWidth, int barHeight, int deltaCountStars, int lastRewardCountStars, int rewardStarsCount) {
             /** проеверим, если награ да получена, то окрасим темно-оранжевым цветом Bar*/
@@ -405,8 +384,9 @@ public class RewardForStars extends Group {
                 for (int i = 0; i < gameManager.getCollection().size(); i++) {
                     if (gameManager.getCollection().get(i).getUnitType() == TeamEntity.STONE) {
                         addRewardUnitToTeam(i);
+                        Image actorImage = new Image(Warfare.atlas.findRegion(data.getImageString()));
+                        rewardForStarsScreen.startAddAction(actorImage, getX() + rewardForStarsScreen.getScrollTableX(), getY() + 240, deltaX);
                         gameManager.setHelpStatus(GameManager.HELP_TEAM_UPGRADE);
-                        System.out.println("getHelpStatus = " + gameManager.getHelpStatus());
                     }
                 }
                 break;
@@ -414,23 +394,22 @@ public class RewardForStars extends Group {
                 for (int i = 0; i < gameManager.getCollection().size(); i++) {
                     if (gameManager.getCollection().get(i).getUnitType() == TeamEntity.ARCHER) {
                         addRewardUnitToTeam(i);
+                        Image actorImage = new Image(Warfare.atlas.findRegion(data.getImageString()));
+//                        setStartPosition(getX() + rewardForStarsScreen.getScrollTableX(),
+//                                getY() + 240);
+                        rewardForStarsScreen.startAddAction(actorImage, getX() + rewardForStarsScreen.getScrollTableX(), getY() + 240, deltaX);
                     }
                 }
                 break;
             case RewardForStarsData.REWARD_BOX:
                 rewardImage.setDrawable(new Image(Warfare.atlas.findRegion("boxImage4")).getDrawable());
-                gameManager.addCoinsCount(100);
+                gameManager.setCoinsCount(gameManager.getCoinsCount() + 100);
                 coinsAction = new CoinsAction();
                 coinsAction.setStartPosition(getX() + rewardForStarsScreen.getScrollTableX(),
                         getY() + 240);
                 coinsAction.setEndPosition(rewardForStarsScreen.getCoinsPanel().getX(), rewardForStarsScreen.getCoinsPanel().getY());
                 coinsAction.start();
                 rewardForStarsScreen.addChild(coinsAction);
-
-//                GiftAnimation coinsAnimation = new GiftAnimation(rewardForStarsScreen,
-//                        getX() + rewardForStarsScreen.getScrollTableX(),
-//                        getY() + 240, GiftAnimation.COIN_GIFT);
-////                        getY() + rewardForStarsScreen.getScrollTableY());
                 GiftAnimation resoursesAnimation = new GiftAnimation(rewardForStarsScreen,
                         getX() + rewardForStarsScreen.getScrollTableX(),
                         getY() + 240, GiftAnimation.RESOURSES_GIFT);
@@ -438,41 +417,21 @@ public class RewardForStars extends Group {
 //                coinsAnimation.start();
                 resoursesAnimation.start();
                 break;
+            case RewardForStarsData.REWARD_GNOME:
+                for (int i = 0; i < gameManager.getCollection().size(); i++) {
+                    if (gameManager.getCollection().get(i).getUnitType() == TeamEntity.GNOME) {
+                        addRewardUnitToTeam(i);
+                        Image actorImage = new Image(Warfare.atlas.findRegion(data.getImageString()));
+                        rewardForStarsScreen.startAddAction(actorImage, getX() + rewardForStarsScreen.getScrollTableX(), getY() + 240, deltaX);
+                    }
+                }
+                break;
         }
         bar.setIsReceived(true);
-
 //         сохраним данные
         data.setReceived();                                  // награда получена
-
         gameManager.getStarsPanel().updateCountReward();
         gameManager.saveGame();
-
-
-//        /** ---------------------------------------------------------------------------**/
-////        if (data.getTypeOfReward() == RewardForStarsData.REWARD_STONE) {
-////            for (int i = 0; i < gameManager.getCollection().size(); i++) {
-////                if (gameManager.getCollection().get(i).getUnitType() == TeamEntity.ARCHER) {
-////                    index = i;
-////                    addRewardUnitToTeam(i);
-////                }
-////            }
-//        gameManager.getCollection().get(0).getEntityData().setUnlock();     // снимаем блокировку юнита
-//        gameManager.getCollection().get(0).getUnitImageButton().unlock();
-//
-//        if (gameManager.getTeam().size() < 5)
-//            // добавим полученный юнит в команду
-//            gameManager.getTeam().add(gameManager.getCollection().get(0));  // добавляем в команду полученный юнит из коллекции
-//        gameManager.getSavedGame().getTeamDataList().add(gameManager.getSavedGame().getCollectionDataList().get(0));
-//        // удалим юнит из коллекции
-//        gameManager.getCollection().remove(0);
-//        gameManager.getSavedGame().getCollectionDataList().remove(0);
-//
-//        System.out.println("gameManager.getCollection().get(0) = " + gameManager.getCollection().get(0).toString());
-//        System.out.println("gameManager.getCollectionDataList().get(0) = " + gameManager.getSavedGame().getCollectionDataList().get(0).toString());
-//        /** -------------------------------------------------------------------------------------------------------------------**/
-
-//        data.setReceived();
-//        gameManager.saveGame();
     }
 
     /**
@@ -492,10 +451,8 @@ public class RewardForStars extends Group {
             gameManager.getCollection().remove(i);
             gameManager.getSavedGame().getCollectionDataList().remove(i);
         }
-
-        System.out.println("gameManager.getCollection().get(0) = " + gameManager.getCollection().get(0).toString());
-        System.out.println("gameManager.getCollectionDataList().get(0) = " + gameManager.getSavedGame().getCollectionDataList().get(0));
-
+//        System.out.println("gameManager.getCollection().get(0) = " + gameManager.getCollection().get(0).toString());
+//        System.out.println("gameManager.getCollectionDataList().get(0) = " + gameManager.getSavedGame().getCollectionDataList().get(0));
     }
 
     /**
@@ -519,6 +476,7 @@ public class RewardForStars extends Group {
         receivedImg.setVisible(true);
 
     }
+
 
     public int getRewardCountStars() {
         return rewardCountStars;

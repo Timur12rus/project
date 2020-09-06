@@ -15,10 +15,8 @@ import com.timgapps.warfare.Units.GameUnits.Player.Bullets.Stone;
 import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnit;
 
 public class EnemyUnit extends GameUnit {
-    //    protected Rectangle rectangle;
     private ShapeRenderer shapeRenderer;
-//    public enum State {WALKING, ATTACK, STAY, DIE, RUN, HART}
-
+    //    public enum State {WALKING, ATTACK, STAY, DIE, RUN, HART}
     protected Animation walkAnimation;            // анимация для ходьбы
     protected Animation attackAnimation;          // анимация для атаки
     protected Animation dieAnimation;             // анимация для уничтожения
@@ -98,10 +96,8 @@ public class EnemyUnit extends GameUnit {
     @Override
     public void setHealth(float value) {
         super.setHealth(value);
-        System.out.println("SETEDHEALTH()!!!!!!");
         if (health <= 0 && !isRemovedFromEnemiesArray) {   // если здоровье меньше или равно 0, то удаляем из массива вражеских юнитов
             removeFromEnemiesArray();                      // текущий юнит
-            System.out.println("REMOVEDFROMENEMIESARRAY()!!!!!!!!!!!!!!");
         }
         addDamageLabel(getX() + xPosDamageLabel, getY() + getHeight() + 14, value);
     }
@@ -138,15 +134,12 @@ public class EnemyUnit extends GameUnit {
         BodyDef def = new BodyDef();
         def.type = BodyDef.BodyType.DynamicBody;
         Body body = world.createBody(def);
-
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(24 / Level.WORLD_SCALE, 8 / Level.WORLD_SCALE);
-
         FixtureDef fDef = new FixtureDef();
         fDef.shape = shape;
         fDef.filter.categoryBits = GameUnit.ENEMY_BIT;
         fDef.filter.maskBits = GameUnit.PLAYER_BIT | GameUnit.BULLET_BIT | GameUnit.STONE_BIT | TOWER_BIT;
-
         body.createFixture(fDef).setUserData(this);
         shape.dispose();
         body.setTransform(x / Level.WORLD_SCALE, y / Level.WORLD_SCALE, 0);

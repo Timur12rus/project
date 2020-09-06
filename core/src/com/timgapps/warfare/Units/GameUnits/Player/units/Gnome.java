@@ -31,7 +31,7 @@ public class Gnome extends PlayerUnit {
         super(level, x, y, health, damage);
         this.level = level;
 
-        velocity = 0.6f;
+        velocity = 0.7f;
         xPosDamageLabel = -50;
 
         this.setWidth(Warfare.atlas.findRegion("gnomeWalk0").getRegionWidth());
@@ -275,7 +275,7 @@ public class Gnome extends PlayerUnit {
         //  получим кадры и добавим в анимацию бега персонажа
         for (int i = 0; i < 4; i++)
             frames.add(new TextureRegion(Warfare.atlas.findRegion("gnomeRun" + i)));
-        runAnimation = new Animation(0.15f, frames);
+        runAnimation = new Animation(0.12f, frames);
         frames.clear();
 
         //  получим кадры и добавим в анимацию уничтожения персонажа
