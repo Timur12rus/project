@@ -3,13 +3,17 @@ package com.timgapps.warfare.Level.GUI.Screens.reward_for_stars;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.AlphaAction;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
+import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -45,9 +49,9 @@ public class RewardForStarsScreen extends StageGame {
     public RewardForStarsScreen(GameManager gameManager) {
         createBackground();
         this.gameManager = gameManager;
-//        coinsPanel = gameManager.getCoinsPanel();
-//        coinsPanel.setVisible(false);
-//        addChild(coinsPanel);
+        coinsPanel = gameManager.getCoinsPanel();
+        coinsPanel.setVisible(true);
+        addChild(coinsPanel);
 
         /** получим текущее кол-во звезд **/
 //        starsCount = 7;
@@ -62,16 +66,13 @@ public class RewardForStarsScreen extends StageGame {
         backButton = new BackButton();
         backButton.setPosition(64, 64);
         addOverlayChild(backButton);
-
         rewardForStarsDataList = gameManager.getRewardForStarsDataList();  // список данных наград
         rewardForStarsList = new ArrayList<RewardForStars>();               // список наград
-
         Label.LabelStyle countStarsLabelStyle = new Label.LabelStyle();
         countStarsLabelStyle.fontColor = new Color(0x3c644eff);
 //        countStarsLabelStyle.fontColor = Color.FOREST;
         countStarsLabelStyle.font = Warfare.font20;
         StarsPanelSmall starsPanelSmall = new StarsPanelSmall();
-
         float scrollTableWidth = getWidth();
         float groupWidth = 0;
         group = new Group();
@@ -80,13 +81,6 @@ public class RewardForStarsScreen extends StageGame {
         int index = 0;  // индекс текущего количества звезд, используется в рассчете поз. х smallStarsPanel
         int lastCount = 0, rewardCount = 0;     // кол-во звезд за последнюю награду и текущую награду
         int calculatedWidth = 0;       // вычисленная координата для starsSmallPanel
-
-//        /** создадим подсветку следующей награды за звезды **/
-//        hilite = new Hilite(stage);
-////        addChild(hilite);
-//        hilite.setPosition(50, 200);
-//        hilite.setHilite();
-
 
         /** создадим картинки и бары **/
         for (int i = 0; i < rewardForStarsDataList.size(); i++) {
@@ -127,12 +121,6 @@ public class RewardForStarsScreen extends StageGame {
             }
         }
         rewardForStarsList.get(index).setHilite();
-//        hilite.setPosition(rewardForStarsList.get(index).getX(), rewardForStarsList.get(index).getY()); // установим позицию подсветки текущей награды
-//        hilite.setHilite();     // делаем видимой подсветку
-        System.out.println("INDEX = " + index);
-        System.out.println("xPOs = " + rewardForStarsList.get(index).getX());
-//        System.out.println("hilitePosX = " + hilite.getX());
-
         // получим кол-во звезд, для достижения текущей награды
 //        int rewardStarsCount = rewardForStarsList.get(i).getRewardCountStars();
         int deltaCountStars = starsCount - lastCount;
@@ -147,13 +135,8 @@ public class RewardForStarsScreen extends StageGame {
             calculatedWidth = barWidth;
         }
 
-        System.out.println("Index = " + index);
-//        System.out.println("calculatedWidth = " + calculatedWidth);
         xPos = (index) * (184 + 8) + calculatedWidth;
-
         groupWidth += 190 * rewardForStarsList.size() + rewardForStarsList.get(0).getWidth();
-
-//        System.out.println("XPOS = " + xPos);
         starsPanelSmall.setPosition(xPos - starsPanelSmall.getWidth() / 2, 0);
         if (starsCount == 0) starsPanelSmall.setVisible(false);
         else {
@@ -177,6 +160,10 @@ public class RewardForStarsScreen extends StageGame {
         addChild(table);
     }
 
+    public CoinsPanel getCoinsPanel() {
+        return coinsPanel;
+    }
+
     public GameManager getGameManager() {
         return gameManager;
     }
@@ -194,7 +181,6 @@ public class RewardForStarsScreen extends StageGame {
             Label toastLabel = new Label("Collect " + starsCount + " stars for reward", labelStyle);
             toastLabel.setPosition(Warfare.V_WIDTH / 2 - 200, Warfare.V_HEIGHT / 2);
             addChild(toastLabel);
-
             Action checkEndOfAction = new Action() {
                 @Override
                 public boolean act(float delta) {
@@ -202,20 +188,15 @@ public class RewardForStarsScreen extends StageGame {
                     return true;
                 }
             };
-
             AlphaAction alphaActionStart = new AlphaAction();
             alphaActionStart.setAlpha(1);
             alphaActionStart.setDuration(0.02f);
-
             MoveToAction mta = new MoveToAction();
-
             mta.setPosition(Warfare.V_WIDTH / 2 - 200, Warfare.V_HEIGHT / 2 + 260);
             mta.setDuration(0.7f);
-
             AlphaAction alphaActionEnd = new AlphaAction();
             alphaActionEnd.setAlpha(0);
             alphaActionEnd.setDuration(1f);
-
             SequenceAction sa = new SequenceAction(alphaActionStart, mta, alphaActionEnd, checkEndOfAction);
             toastLabel.addAction(sa);
             isStartToastAction = true;
@@ -246,23 +227,18 @@ public class RewardForStarsScreen extends StageGame {
             back = new Image(Warfare.atlas.findRegion("backImage"));
             backDown = new Image(Warfare.atlas.findRegion("backImage_dwn"));
             backDown.setVisible(false);
-//            setSize(backDown);
-
             Label.LabelStyle labelStyle = new Label.LabelStyle();
             labelStyle.fontColor = Color.WHITE;
             labelStyle.font = Warfare.font20;
             backLabel = new Label("Back", labelStyle);
-
             back.setPosition((bg.getWidth() - back.getWidth()) / 2 - 4, bg.getHeight() / 2);
             backDown.setPosition(back.getX() - (backDown.getWidth() - back.getWidth()) / 2,
                     back.getY() - (backDown.getHeight() - back.getHeight()) / 2);
             backLabel.setPosition((bg.getWidth() - backLabel.getWidth()) / 2, 0);
-
             addActor(bg);
             addActor(back);
             addActor(backDown);
             addActor(backLabel);
-
             addCaptureListener(new EventListener() { // добавляет слушателя события корневому элементу, отключая его для дочерних элементов
                 @Override
                 public boolean handle(Event event) {
@@ -303,7 +279,6 @@ public class RewardForStarsScreen extends StageGame {
             labelStyle.fontColor = Color.WHITE;
             labelStyle.font = Warfare.font20;
             starsCountLabel = new Label("" + starsCount, labelStyle);
-
             bg = new Image(Warfare.atlas.findRegion("star_panel_small"));
             star = new Image(Warfare.atlas.findRegion("star_icon"));
             star.setPosition(4, 4);
@@ -323,12 +298,53 @@ public class RewardForStarsScreen extends StageGame {
         return scrollTable.getY();
     }
 
-
     @Override
     protected void update(float delta) {
-        System.out.println("GroupX = " + group.getX());
-        System.out.println("ScrollTableX = " + scrollTable.getX());
-        System.out.println("ScrollTableY = " + scrollTable.getY());
         super.update(delta);
+    }
+
+    public void startAddAction(Actor actor, float x, float y, float deltaX) {
+        actor.setPosition(x, y);
+        addChild(actor);
+        final Image upgradeIconImage = new Image(Warfare.atlas.findRegion("teamButton"));
+        upgradeIconImage.addAction(Actions.fadeOut(0));
+        upgradeIconImage.setPosition(32, getHeight() / 3);
+        addChild(upgradeIconImage);
+
+        final SequenceAction upgradeIconAction = new SequenceAction(Actions.fadeIn(0),
+                Actions.sizeBy(8, 8, 0.2f),
+                Actions.sizeBy(-8, -8, 0.2f),
+                Actions.fadeOut(0)
+        );
+
+        Action checkEndOfAction = new Action() {
+            @Override
+            public boolean act(float delta) {
+                upgradeIconImage.addAction(upgradeIconAction);
+                return true;
+            }
+        };
+
+        float xPos;
+        if (x - 32 < 260) {
+            xPos = 260;
+        } else {
+            xPos = x;
+        }
+        ParallelAction pa = new ParallelAction(
+                Actions.moveTo(32 - deltaX, getHeight() / 3, 1, Interpolation.pow3In),
+//                Actions.moveTo(32 - deltaX, getHeight() / 3, 1, Interpolation.pow2Out),
+//                Actions.moveTo(32 - deltaX, getHeight() / 3, 1, new Interpolation.SwingOut(1)),
+                Actions.sizeTo(actor.getWidth() * 0.7f, actor.getHeight() * 0.7f, 1));
+        SequenceAction sma = new SequenceAction(
+                Actions.moveTo(xPos, y - 80, 0.5f, Interpolation.pow2Out),
+//                Actions.moveTo(xPos, y - 80, 0.5f, Interpolation.smooth),
+//                Actions.moveTo(xPos, y - 80, 0.5f, new Interpolation.SwingOut(1)),
+                pa,
+                Actions.fadeOut(0),
+                checkEndOfAction
+        );
+//        actor.addAction(sma);
+        actor.addAction(sma);
     }
 }

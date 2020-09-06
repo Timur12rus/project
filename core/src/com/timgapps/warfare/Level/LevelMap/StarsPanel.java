@@ -26,7 +26,6 @@ public class StarsPanel extends Group {
     private Image background;
     private Image rewardIcon;
     private StarsBar starsBar;
-
     private Texture barTexture, backTexture;
     private ArrayList<RewardForStarsData> rewardForStarsDataList;
     private int indexOfRewardStars;

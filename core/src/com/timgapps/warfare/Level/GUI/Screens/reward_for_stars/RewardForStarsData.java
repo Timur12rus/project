@@ -16,15 +16,16 @@ public class RewardForStarsData implements Serializable {
     private int starsCount;     // кол-во звезд необходимое для получения награды
     private boolean isChecked;  // флаг, если true - значит награда доступна
     private boolean isReceived;  // флаг, если true - значит награда получена
+    private String imageString;
 
     /**
      * объект "ДАННЫЕ" для объекта "Награда за звезды"
      **/
-    public RewardForStarsData(int typeOfReward, int starsCount) {
+    public RewardForStarsData(int typeOfReward, int starsCount, String imageString) {
         this.typeOfReward = typeOfReward;
         this.starsCount = starsCount;
+        this.imageString = imageString;
         switch (typeOfReward) {
-
         }
     }
 
@@ -56,6 +57,11 @@ public class RewardForStarsData implements Serializable {
     }
 
     public int getTypeOfReward() {
+//        return RewardForStarsData.REWARD_BOX;
         return typeOfReward;
+    }
+
+    public String getImageString() {
+        return imageString;
     }
 }

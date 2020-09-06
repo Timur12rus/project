@@ -22,7 +22,7 @@ public class Archer1 extends PlayerUnit {
     private Direction verticalDirectionMovement = Direction.NONE;
     private final float ATTACK_DISTANCE = 300;
     private final float MIN_ATTACK_DISTANCE = 24;
-    private final float VELOCITY = 0.4f;
+    private final float VELOCITY = 0.5f;
     private static float APPEARANCE_TIME = 1;
     //    private static float APPEARANCE_TIME = 30;
     protected static int ENERGY_PRICE = 1;

@@ -62,9 +62,8 @@ public class UpgradeScreen extends Group {
     private Image foodIcon, ironIcon, woodIcon;
     private UpgradeButton upgradeButton;
     private ArrayList<TeamEntity> team;
-    private Group imageContainer;           // контейнер - Group для ханения изображения юнита со значком уровня и энергии
+    private Group imageContainer;           // контейнер - Group для хранения изображения юнита со значком уровня и энергии
     private UnitImage unitImage;            // изображение юнита
-    private int unitLevel;
     private int newUnitLevel;
     private int coinsCount;
     private int upgradeCost;
@@ -88,20 +87,15 @@ public class UpgradeScreen extends Group {
     private Table costUpgradeTable;
     private Label maxLevelReached;  // надпись "максимальный уровнень достигнут"
 
-
     public UpgradeScreen(GameManager gameManager, TeamUpgradeScreen teamUpgradeScreen) {
 
         this.teamUpgradeScreen = teamUpgradeScreen;
-
         this.gameManager = gameManager;
         this.team = gameManager.getTeam();              // команда - массив типа TeamEntity
         coinsCount = gameManager.getCoinsCount();
         blockTable = new BlockTable();
 
         /** зададим значения характеристик юнита**/
-//        containerX = x;
-//        containerY = y;
-
 
         foodIcon = new Image(Warfare.atlas.findRegion("food_icon"));
         ironIcon = new Image(Warfare.atlas.findRegion("iron_icon"));
@@ -123,6 +117,7 @@ public class UpgradeScreen extends Group {
             public void clicked(InputEvent event, float x, float y) {
 //                fire(new MessageEvent(ON_RESUME));
                 if (toastLabel.isVisible()) toastLabel.setVisible(false);
+                unitImage.clearActions();
                 hideUpgradeScreen();
             }
         });
@@ -143,19 +138,15 @@ public class UpgradeScreen extends Group {
             }
         });
 
-
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.fontColor = Color.DARK_GRAY;
         labelStyle.font = Warfare.font20;
-
         Label.LabelStyle greenLabelStyle = new Label.LabelStyle();
         greenLabelStyle.fontColor = Color.FOREST;
         greenLabelStyle.font = Warfare.font20;
-
         Label.LabelStyle redLabelStyle = new Label.LabelStyle();
         redLabelStyle.fontColor = Color.RED;
         redLabelStyle.font = Warfare.font20;
-
 
         healthLabel = new Label(healthText, labelStyle);        // текст "ЗДОРОВЬЕ"
         damageLabel = new Label(damageText, labelStyle);        // текст "УРОН"
@@ -166,19 +157,13 @@ public class UpgradeScreen extends Group {
         damageValueLabel = new Label("" + damageValue, labelStyle);        // текст значения урон
         speedValueLabel = new Label("" + speedValue, labelStyle);          // текст значения скорость
         timePrepearValueLabel = new Label("" + timePrepearValue, labelStyle);          // текст значения скорость
-
         healthAddValueLabel = new Label(" + " + addHealthValue, greenLabelStyle);  // текст на сколько прибавится здоровья
         damageAddValueLabel = new Label(" + " + addDamageValue, greenLabelStyle);  // текст на сколько прибавится урон
-
         upgradeCostLabel = new Label(upgradeCostText, labelStyle);          // текст "СТОИМОСТЬ УЛУЧШЕНИЯ"
-
         maxLevelReached = new Label("The unit has reached maximum level", labelStyle);
         maxLevelReached.setVisible(true);
-
         toastLabel = new Label("", redLabelStyle);          // текст "СТОИМОСТЬ УЛУЧШЕНИЯ"
-
         unitNameLabel = new Label("", labelStyle);
-
         healthLabel.setAlignment(Align.right);
         damageLabel.setAlignment(Align.right);
         speedLabel.setAlignment(Align.right);
@@ -187,7 +172,6 @@ public class UpgradeScreen extends Group {
         damageValueLabel.setAlignment(Align.left);
         speedValueLabel.setAlignment(Align.left);
         timePrepearValueLabel.setAlignment(Align.left);
-
         upgradeCostLabel.setAlignment(Align.center);
 
         foodCostLabel = new Label("" + foodCostValue, labelStyle);
@@ -278,17 +262,6 @@ public class UpgradeScreen extends Group {
         addActor(blockTable);
 
         boolean isUnlock = false;
-//        /** проверим, если юнит не разблокирован, то отобразим таблицу с информацией о необходимом кол-ве звёзд (blockTale) **/
-//        if (isUnlock == false) {
-//            costUpgradeTable.setVisible(false);
-//            upgradeButton.setVisible(false);
-//            blockTable.setVisible(true);
-//        } else {
-//            costUpgradeTable.setVisible(true);
-//            upgradeButton.setVisible(true);
-//            blockTable.setVisible(false);
-//        }
-
 
         /** Добавляем панель (таблицу) с реурсами(ПИЩА, ЖЕЛЕЗО, ДЕРЕВО) **/
         resourcesTable = new ResourcesTable(gameManager.getFoodCount(),
@@ -591,7 +564,6 @@ public class UpgradeScreen extends Group {
     @Override
     public void act(float delta) {
         super.act(delta);
-
         /** проверим, завершилось ли действие перемещения значков на изображение юнита, при апгрейде **/
         if (resourcesTable.getIsEndAction() == true) {
             resourcesTable.setIsAction(false);
@@ -601,6 +573,7 @@ public class UpgradeScreen extends Group {
                 upgradeToLevelLabel.setVisible(true);
                 upgradeButton.setVisible(true);
             }
+//            unitImage.clearActions();
             unitImage.startAction();
         }
     }

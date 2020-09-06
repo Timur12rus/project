@@ -32,36 +32,24 @@ public class GiftRewardTable extends Group {
         Label.LabelStyle coinsCountLabelStyle = new Label.LabelStyle();
         coinsCountLabelStyle.fontColor = Color.ORANGE;
         coinsCountLabelStyle.font = Warfare.font20;
-
         coinsCountLabel = new Label("", coinsCountLabelStyle);
         coinsCountLabel.setText("" + coinsCount);
-
         Label.LabelStyle resoursesCountLabelStyle = new Label.LabelStyle();
         resoursesCountLabelStyle.fontColor = new Color(0xa06846ff);
-//        resoursesCountLabelStyle.fontColor = new Color(0x70472fff);
-//        resoursesCountLabelStyle.fontColor = new Color(0x35a1afff);
         resoursesCountLabelStyle.font = Warfare.font20;
-
-
         resourcesCountLabel = new Label("", resoursesCountLabelStyle);
         resourcesCountLabel.setText("" + resourcesCount);
-
         Image resourseImage = new Image(Warfare.atlas.findRegion("boxIcon"));
-
         rewardTable.add(resourcesCountLabel);
         rewardTable.add(resourseImage).width(48).height(48).padRight(24).padLeft(4);
-
         if (coinsCount > 0) {
             rewardTable.add(coinsCountLabel);
             rewardTable.add(coinImage).width(48).height(48).padLeft(2);
         }
-
         rewardTable.setHeight(coinImage.getHeight());
         rewardTable.setWidth(coinImage.getWidth() * 2 + 24 + coinsCountLabel.getWidth() + resourcesCountLabel.getWidth());
-
         setHeight(coinImage.getHeight());
         setWidth(coinImage.getWidth() * 2 + 24 + coinsCountLabel.getWidth() + resourcesCountLabel.getWidth());
-
         rewardLabel.setPosition(0, 0);
         rewardTable.setPosition(0, -rewardTable.getHeight() - 24);
 

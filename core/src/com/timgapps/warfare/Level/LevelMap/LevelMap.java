@@ -14,7 +14,6 @@ import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -24,12 +23,15 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.boontaran.MessageListener;
 import com.boontaran.games.StageGame;
 import com.boontaran.games.tiled.TileLayer;
-import com.timgapps.warfare.Level.GUI.Finger;
 import com.timgapps.warfare.Level.GUI.Screens.CoinsPanel;
 import com.timgapps.warfare.Level.GUI.Screens.MissionInfoScreen;
 import com.timgapps.warfare.Level.GUI.Screens.gifts_window.GiftScreen;
 import com.timgapps.warfare.Level.GUI.Screens.TeamUpgradeScreen;
 import com.timgapps.warfare.Level.GameManager;
+import com.timgapps.warfare.Level.LevelMap.actions.CoinsAction;
+import com.timgapps.warfare.Level.LevelMap.actions.ResourcesAction;
+import com.timgapps.warfare.Level.LevelMap.actions.StartCoinsAction;
+import com.timgapps.warfare.Level.LevelMap.actions.StartResourcesAction;
 import com.timgapps.warfare.Level.LevelScreens.ColorRectangle;
 import com.timgapps.warfare.Warfare;
 
@@ -37,22 +39,18 @@ import java.util.ArrayList;
 
 import static java.lang.Integer.parseInt;
 
-public class LevelMap extends StageGame {
+public class LevelMap extends StageGame implements StartCoinsAction, StartResourcesAction {
     // создаем несколько констант для создания callBack сообщений, которые будут передаваться в зависимости от нажатия кнопок
     public static final int ON_BACK = 1;
     public static final int ON_LEVEL_SELECTED = 2;
     public static final int ON_SHOW_ANIMATION = 3;
-
     public static final int ON_SHOW_REWARD_FOR_STARS_SCREEN = 4;
     public static final int ON_SHARE = 4;
-
-    private Group container;
     private int selectedLevelId = 1;
     private ArrayList<LevelIcon> levelIcons;
     private MissionInfoScreen missionInfoScreen;
     private TeamUpgradeScreen teamUpgradeScreen;
     private GiftScreen giftScreen;
-    private Group parent;
     public static BitmapFont font40;
     private TeamUpgradeIcon teamUpgradeIcon;      // кнопка для вызова окна апгрейда юнитов
     //    private ImageButton upgradeTeamButton;      // кнопка для вызова окна апгрейда юнитов
@@ -69,15 +67,17 @@ public class LevelMap extends StageGame {
     private int mapWidth, mapHeight, tilePixelWidth, tilePixelHeight, levelWidth, levelHeight;
     private boolean isFocused = true;
     private Label teamLabel;
-    private ColorRectangle fadeRectangle;
+    private ColorRectangle fade;
     private float cameraXpos;
     private float cameraYpos;
     private ColorRectangle greenRectangle;
-    private Finger finger;
+    private CoinsAction coinsAction;
+    private ResourcesAction resourcesAction;
 
     public LevelMap(GameManager gameManager, int coinsReward, int scoreReward) {
         this.coinsReward = coinsReward;
         this.scoreReward = scoreReward;
+//        coinsAction.setCoinsPosition(getWidth() / 2, getHeight() / 2);
 
 //        setBackGround("map");
         this.gameManager = gameManager;
@@ -90,9 +90,19 @@ public class LevelMap extends StageGame {
         String directory = "location1";
         loadMap("tiled/" + directory + "/map.tmx");   // метод загружает карту и создает объекты
 
-        fadeRectangle = new ColorRectangle(0, 0, getWidth(), getHeight(), new Color(0, 0, 0, 0.7f));
-        fadeRectangle.setVisible(false);
-        addChild(fadeRectangle);
+        fade = new ColorRectangle(0, 0, getWidth(), getHeight(), new Color(0, 0, 0, 0.7f));
+        fade.setVisible(false);
+        fade.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                if (teamUpgradeScreen.isUpgradeScreenVisible()) {
+                    teamUpgradeScreen.setUpgradeScreenVisible(false);
+                }
+                resumeLevelMap();
+            }
+        });
+        addChild(fade);
 
         /** создадим окно с описанием уровня **/
         missionInfoScreen = new MissionInfoScreen();
@@ -174,6 +184,7 @@ public class LevelMap extends StageGame {
 
         // добавим панель с монетами на экран
         coinsPanel = gameManager.getCoinsPanel();
+        coinsPanel.setCoinsCount(gameManager.getCoinsCount());
         coinsPanel.addAction(Actions.fadeIn(0.1f));
 //        if (coinsPanel.isVisible()) {
 //            coinsPanel.setVisible(true);
@@ -197,6 +208,7 @@ public class LevelMap extends StageGame {
         starsPanel.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                coinsPanel.remove();
                 call(ON_SHOW_REWARD_FOR_STARS_SCREEN);
             }
         });
@@ -260,19 +272,19 @@ public class LevelMap extends StageGame {
     private void hideButtons() {
         teamLabel.setVisible(false);
         starsPanel.setVisible(false);
-        fadeRectangle.setPosition(cameraXpos - camera.viewportWidth / 2, cameraYpos - camera.viewportHeight / 2);
+        fade.setPosition(cameraXpos - camera.viewportWidth / 2, cameraYpos - camera.viewportHeight / 2);
         giftIcon.setVisible(false);
         teamUpgradeIcon.setVisible(false);
 //        if (finger != null) {
 //            finger.setVisible(false);
 //        }
-        fadeRectangle.setVisible(true);
+        fade.setVisible(true);
     }
 
     private void showButtons() {
         teamLabel.setVisible(true);
         starsPanel.setVisible(true);
-        fadeRectangle.setVisible(false);
+        fade.setVisible(false);
         giftIcon.setVisible(true);
 //        if (finger != null && gameManager.getHelpStatus() != GameManager.HELP_GET_GIFT) {
 //            finger.setVisible(true);
@@ -314,8 +326,8 @@ public class LevelMap extends StageGame {
 //            System.out.println("cameraPosition.x = " + camera.position.x);
 //        if (cameraXpos + x )
             camera.translate(-x, y);
-            if (fadeRectangle != null) {
-                fadeRectangle.setPosition(camera.position.x - camera.viewportWidth / 2,
+            if (fade != null) {
+                fade.setPosition(camera.position.x - camera.viewportWidth / 2,
                         camera.position.y - camera.viewportHeight / 2);
             }
 //            System.out.println("cameraPosition.y = " + camera.position.y);
@@ -627,4 +639,58 @@ public class LevelMap extends StageGame {
     public GameManager getGameManager() {
         return gameManager;
     }
+
+    public TeamUpgradeIcon getTeamUpgradeIcon() {
+        return teamUpgradeIcon;
+    }
+
+    @Override
+    public void startCoinsAction() {
+        coinsAction = new CoinsAction();
+        coinsAction.setStartPosition(Warfare.V_WIDTH / 2 - 160, Warfare.V_HEIGHT / 2);
+        coinsAction.setEndPosition(coinsPanel.getX(), coinsPanel.getY());
+        coinsAction.start();
+        addOverlayChild(coinsAction);
+    }
+
+    @Override
+    public void startResourcesAction(int resourcesCount) {
+        resourcesAction = new ResourcesAction(gameManager, resourcesCount);
+        if (resourcesCount == 1) {
+            resourcesAction.setStartPosition(Warfare.V_WIDTH / 2 - 160, Warfare.V_HEIGHT / 2);
+        } else if (resourcesCount == 2) {
+            resourcesAction.setStartPosition(Warfare.V_WIDTH / 2 + 80, Warfare.V_HEIGHT / 2);
+        }
+        resourcesAction.setEndPosition(teamUpgradeIcon.getX(), teamUpgradeIcon.getY());
+        resourcesAction.start();
+        addOverlayChild(resourcesAction);
+    }
+
+    @Override
+    public boolean isEndResourcesAction() {
+        if (resourcesAction != null) {
+            return resourcesAction.isEndResourcesAction();
+        }
+        return false;
+    }
+
+    @Override
+    public void setEndResourcesAction() {
+        resourcesAction.setEndResourcesAction();
+    }
+
+    @Override
+    public boolean isEndCoinsAction() {
+        if (coinsAction != null) {
+            return coinsAction.isEndCoinsAction();
+        }
+        return false;
+    }
+
+    @Override
+    public void setEndCoinsAction() {
+        coinsAction.setEndCoinsAction();
+    }
 }
+
+

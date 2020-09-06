@@ -42,7 +42,7 @@ public class TeamUpgradeScreen extends Group {
     private String replaceUnitText;
     private Image replacedUnitImage;
     private boolean isReplaceActive = false; // переменная - флаг, нужна для того, чтобы изменить поведение листнера,
-                                            // при замене юнита из коллекции в команду
+    // при замене юнита из коллекции в команду
     private Table teamTable;            // таблица с комендой юнитов
     private Table tableCollection;      // таблица-контейнер, в него добавляется scroll с коллекцией юнитов
     private CollectionTable collectionTable;
@@ -323,5 +323,13 @@ public class TeamUpgradeScreen extends Group {
             replaceUnitFromCollectionToTeam(clickedTeamEntity);
             toRaplaceUnitFromCollectionToTeam = false;
         }
+    }
+
+    public boolean isUpgradeScreenVisible() {
+        return upgradeScreen.isVisible();
+    }
+
+    public void setUpgradeScreenVisible(boolean visible) {
+        upgradeScreen.setVisible(visible);
     }
 }

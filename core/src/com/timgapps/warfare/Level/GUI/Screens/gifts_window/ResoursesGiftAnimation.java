@@ -32,10 +32,7 @@ public class ResoursesGiftAnimation {
         this.y = y;
         this.resoursesCount = resoursesCount;
         this.group = group;
-
         gameManager = levelMap.getGameManager();
-
-
         endXPos = -386;
 //        endXPos = -320;
         if (resoursesCount == 2)
