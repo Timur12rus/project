@@ -65,16 +65,18 @@ public class Thor extends Gnome {
         frames.clear();
 
         //  получим кадры и добавим в анимацию стоянки персонажа
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < 3; i++)
             frames.add(new TextureRegion(Warfare.atlas.findRegion("thorStay" + i)));
 //        for (int i = 4; i < 1; i--)
 //            frames.add(new TextureRegion(Warfare.atlas.findRegion("gnomeStay" + i)));
-        stayAnimation = new Animation(0.25f, frames);
+        stayAnimation = new Animation(0.18f, frames);
+//        stayAnimation = new Animation(0.25f, frames);
         frames.clear();
 
         //  получим кадры и добавим в анимацию бега персонажа
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < 3; i++)
             frames.add(new TextureRegion(Warfare.atlas.findRegion("thorRun" + i)));
+        frames.add(new TextureRegion(Warfare.atlas.findRegion("thorRun1")));
         runAnimation = new Animation(0.12f, frames);
         frames.clear();
 

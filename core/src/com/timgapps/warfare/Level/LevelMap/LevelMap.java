@@ -53,7 +53,7 @@ public class LevelMap extends StageGame implements StartCoinsAction, StartResour
     private MissionInfoScreen missionInfoScreen;
     private TeamUpgradeScreen teamUpgradeScreen;
     private GiftScreen giftScreen;
-    public static BitmapFont font40;
+//    public static BitmapFont font40;
     private TeamUpgradeIcon teamUpgradeIcon;      // кнопка для вызова окна апгрейда юнитов
     //    private ImageButton upgradeTeamButton;      // кнопка для вызова окна апгрейда юнитов
     private GiftIcon giftIcon;
@@ -75,7 +75,6 @@ public class LevelMap extends StageGame implements StartCoinsAction, StartResour
     private ColorRectangle greenRectangle;
     private CoinsAction coinsAction;
     private ResourcesAction resourcesAction;
-    private TiledMapRenderer renderer;
     private final int W_RECT = 10;
     private final int H_RECT = 8;
 

@@ -265,17 +265,21 @@ public class Gnome extends PlayerUnit {
         frames.clear();
 
         //  получим кадры и добавим в анимацию стоянки персонажа
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < 3; i++)
             frames.add(new TextureRegion(Warfare.atlas.findRegion("gnomeStay" + i)));
-        for (int i = 4; i < 1; i--)
-            frames.add(new TextureRegion(Warfare.atlas.findRegion("gnomeStay" + i)));
+        frames.add(new TextureRegion(Warfare.atlas.findRegion("gnomeStay1")));
+        frames.add(new TextureRegion(Warfare.atlas.findRegion("gnomeStay0")));
+//        for (int i = 3; i < 1; i--)
+//            frames.add(new TextureRegion(Warfare.atlas.findRegion("gnomeStay" + i)));
+//            frames.add(new TextureRegion(Warfare.atlas.findRegion("gnomeStay")));
         stayAnimation = new Animation(0.2f, frames);
         frames.clear();
 
         //  получим кадры и добавим в анимацию бега персонажа
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < 3; i++)
             frames.add(new TextureRegion(Warfare.atlas.findRegion("gnomeRun" + i)));
-        runAnimation = new Animation(0.12f, frames);
+        frames.add(new TextureRegion(Warfare.atlas.findRegion("gnomeRun1")));
+        runAnimation = new Animation(0.14f, frames);
         frames.clear();
 
         //  получим кадры и добавим в анимацию уничтожения персонажа

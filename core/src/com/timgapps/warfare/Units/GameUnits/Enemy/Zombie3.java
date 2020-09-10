@@ -10,7 +10,7 @@ import com.timgapps.warfare.Warfare;
 public class Zombie3 extends Zombie {
 
     //    public enum State {WALKING, ATTACK, STAY, DIE, RUN, HART}
-    protected final float VELOCITY = -0.25f;
+    protected final float VELOCITY = -0.45f;
     private final int STAY_COUNT = 0;
     private int walkAnimationIsFinishedCount = 0;
 
@@ -37,9 +37,10 @@ public class Zombie3 extends Zombie {
     @Override
     protected void createAnimations() {
         Array<TextureRegion> frames = new Array<TextureRegion>();
-        for (int i = 0; i < 4; i++)
-            frames.add(new TextureRegion(Warfare.atlas.findRegion("zombie3Walk" + i)));
-        walkAnimation = new Animation(0.18f, frames);
+        for (int i = 0; i < 3; i++)
+            frames.add(new TextureRegion(Warfare.atlas.findRegion("zombie3Run" + i)));
+        frames.add(new TextureRegion(Warfare.atlas.findRegion("zombie3Run1")));
+        walkAnimation = new Animation(0.14f, frames);
         frames.clear();
 
         //  получим кадры и добавим в анимацию атаки персонажа
@@ -55,11 +56,12 @@ public class Zombie3 extends Zombie {
         frames.clear();
 
         //  получим кадры и добавим в анимацию стоянки персонажа
-        for (int j = 0; j < 2; j++) {
-            for (int i = 3; i > 0; i--)
-                frames.add(new TextureRegion(Warfare.atlas.findRegion("zombie3Stay" + i)));
-        }
-        stayAnimation = new Animation(0.35f, frames);
+//        for (int j = 0; j < 2; j++) {
+        for (int i = 0; i < 3; i++)
+            frames.add(new TextureRegion(Warfare.atlas.findRegion("zombie3Stay" + i)));
+//        frames.add(new TextureRegion(Warfare.atlas.findRegion("zombie3Stay1")));
+//        }
+        stayAnimation = new Animation(0.2f, frames);
         frames.clear();
     }
 }

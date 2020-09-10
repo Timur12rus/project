@@ -20,7 +20,7 @@ public class Skeleton3 extends EnemyUnit {
 //    protected final float RUN_VELOCITY = -0.0f;
 
     protected final float VELOCITY = -0.3f;
-    protected final float RUN_VELOCITY = -0.6f;
+    protected final float RUN_VELOCITY = -0.8f;
 
     public Skeleton3(Level level, float x, float y, float health, float damage) {
         super(level, x, y, health, damage);
@@ -210,6 +210,7 @@ public class Skeleton3 extends EnemyUnit {
             /** МОЖЕТ ПРИГОДИТЬСЯ 17.02.2020
              //            destroy();
              **/
+            bloodSpray.dispose();
             setToDestroy();
         }
 
@@ -263,8 +264,9 @@ public class Skeleton3 extends EnemyUnit {
         walkAnimation = new Animation(0.16f, frames);
         frames.clear();
 
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < 3; i++)
             frames.add(new TextureRegion(Warfare.atlas.findRegion("skeleton3Run" + i)));
+        frames.add(new TextureRegion(Warfare.atlas.findRegion("skeleton3Run1")));
         runAnimation = new Animation(0.14f, frames);
         frames.clear();
 
@@ -281,10 +283,10 @@ public class Skeleton3 extends EnemyUnit {
         frames.clear();
 
         //  получим кадры и добавим в анимацию стоянки персонажа
-        for (int j = 0; j < 2; j++) {
-            for (int i = 0; i < 4; i++)
-                frames.add(new TextureRegion(Warfare.atlas.findRegion("skeleton3Stay" + i)));
-        }
+//        for (int j = 0; j < 2; j++) {
+        for (int i = 0; i < 4; i++)
+            frames.add(new TextureRegion(Warfare.atlas.findRegion("skeleton3Stay" + i)));
+//        }
         stayAnimation = new Animation(0.1f, frames);
         frames.clear();
     }
@@ -360,7 +362,7 @@ public class Skeleton3 extends EnemyUnit {
 
     @Override
     public boolean remove() {
-        bloodSpray.dispose();
+//        bloodSpray.dispose();
         System.out.println("Remove");
         return super.remove();
     }

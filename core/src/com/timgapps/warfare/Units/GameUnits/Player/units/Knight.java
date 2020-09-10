@@ -53,6 +53,8 @@ public class Knight extends Gnome {
         // получим кадры и добавим в анимацию ходьбы персонажа
         for (int i = 0; i < 4; i++)
             frames.add(new TextureRegion(Warfare.atlas.findRegion("knightWalk" + i)));
+            frames.add(new TextureRegion(Warfare.atlas.findRegion("knightWalk2")));
+            frames.add(new TextureRegion(Warfare.atlas.findRegion("knightWalk1")));
 //        for (int i = 4; i < 0; i--)
 //            frames.add(new TextureRegion(Warfare.atlas.findRegion("gnomeWalk" + i)));
         walkAnimation = new Animation(0.1f, frames);
@@ -61,7 +63,8 @@ public class Knight extends Gnome {
         //  получим кадры и добавим в анимацию атаки персонажа
         for (int i = 0; i < 8; i++)
             frames.add(new TextureRegion(Warfare.atlas.findRegion("knightAttack" + i)));
-        attackAnimation = new Animation(0.06f, frames);
+        attackAnimation = new Animation(0.1f, frames);
+//        attackAnimation = new Animation(0.06f, frames);
 //        attackAnimation = new Animation(0.12f, frames);
         frames.clear();
 
@@ -74,8 +77,10 @@ public class Knight extends Gnome {
         frames.clear();
 
         //  получим кадры и добавим в анимацию бега персонажа
-        for (int i = 0; i < 7; i++)
+        for (int i = 0; i < 4; i++)
             frames.add(new TextureRegion(Warfare.atlas.findRegion("knightWalk" + i)));
+        frames.add(new TextureRegion(Warfare.atlas.findRegion("knightWalk2")));
+        frames.add(new TextureRegion(Warfare.atlas.findRegion("knightWalk1")));
         runAnimation = new Animation(0.15f, frames);
         frames.clear();
 

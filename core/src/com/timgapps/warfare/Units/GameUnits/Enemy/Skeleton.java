@@ -21,18 +21,14 @@ public class Skeleton extends EnemyUnit {
     public Skeleton(Level level, float x, float y, float health, float damage) {
         super(level, x, y, health, damage);
         createAnimations();                   // создадим анимацию для различных состояний юнита
-
         xPosDamageLabel = 16;       // позиция надписи "цифры" получаемого урона
         level.addChild(this, x, y);
-
         // зададим размер для актера
         this.setSize(Warfare.atlas.findRegion("skeleton1Stay0").getRegionWidth(),
                 Warfare.atlas.findRegion("skeleton1Stay0").getRegionHeight());
-
         // создадим партикл-эффект для брызг крови
         bloodSpray = new ParticleEffect();
         bloodSpray.load(Gdx.files.internal("effects/bloodSpray.paty"), Gdx.files.internal("effects/")); //file);
-
         stateTime = 0;
         currentState = State.WALKING;
         level.arrayActors.add(this);        // добавляем в массив актеров текущего актера
@@ -75,61 +71,61 @@ public class Skeleton extends EnemyUnit {
 
         /** проверим юнита в текущем состоянии = State.ATTACK **/
         if (currentState == State.ATTACK) {
-                /** если анимация завершилась **/
-                if (attackAnimation.isAnimationFinished(stateTime)) {
-                    // проверим, если юнит атакует игрока, то наносим урон
-                    if (isAttack) {
-                        // нанесем урон целевому юниту
-                        inflictDamage(targetPlayer, damage);
-                        if (targetPlayer != null && targetPlayer.getHealth() <= 0) {
-                            resetTarget();  // сбросим ЦЕЛЬ
-                            stateTime = 0;
-                            currentState = State.WALKING;
-                        }
+            /** если анимация завершилась **/
+            if (attackAnimation.isAnimationFinished(stateTime)) {
+                // проверим, если юнит атакует игрока, то наносим урон
+                if (isAttack) {
+                    // нанесем урон целевому юниту
+                    inflictDamage(targetPlayer, damage);
+                    if (targetPlayer != null && targetPlayer.getHealth() <= 0) {
+                        resetTarget();  // сбросим ЦЕЛЬ
+                        stateTime = 0;
+                        currentState = State.WALKING;
+                    }
 //                    stateTime = 0;
 //                    currentState = State.STAY;
 //                    isAttackTower = false;
 //                    isAttackStone = false;
-                    } else {
-                        // проверяем, если юнит не атакует игрока, то проверяем
+                } else {
+                    // проверяем, если юнит не атакует игрока, то проверяем
 //                if (!isAttack) {
 //                    stateTime = 0;
 //                    currentState = State.STAY;
-                        // проверяем, если юнит атакует камень:
-                        if (isAttackStone) {                                // если юнит атакует камень
-                            stone.setHealth(damage);
-                            /** проверим уровень здоровья у камня **/
-                            if (stone.getHealth() <= 0) {
-                                isAttackStone = false;
-                            }
-                        } else if (isAttackTower) {
+                    // проверяем, если юнит атакует камень:
+                    if (isAttackStone) {                                // если юнит атакует камень
+                        stone.setHealth(damage);
+                        /** проверим уровень здоровья у камня **/
+                        if (stone.getHealth() <= 0) {
+                            isAttackStone = false;
+                        }
+                    } else if (isAttackTower) {
 //                    } else
-                            // если юнит атакует ОСАДНУЮ БАШНЮ
+                        // если юнит атакует ОСАДНУЮ БАШНЮ
 //                    if (isAttackTower) {
-                            if (level.getSiegeTower() != null) {
-                                level.getSiegeTower().setHealth(damage);
-                                if (level.getSiegeTower().getHealth() <= 0) {
-                                    isAttackTower = false;
-                                }
+                        if (level.getSiegeTower() != null) {
+                            level.getSiegeTower().setHealth(damage);
+                            if (level.getSiegeTower().getHealth() <= 0) {
+                                isAttackTower = false;
                             }
                         }
                     }
+                }
 //                if (targetPlayer != null && targetPlayer.getHealth() <= 0) {
 //                    resetTarget();  // сбросим ЦЕЛЬ
 //                    stateTime = 0;
 //                    currentState = State.WALKING;
 //                }
-                    stateTime = 0;
+                stateTime = 0;
 //                currentState = State.WALKING;
-                    currentState = State.STAY;
-                }
+                currentState = State.STAY;
+            }
 //            stateTime = 0;
 //            currentState = State.WALKING;
 //            currentState = State.STAY;
-            }
+        }
 
 
-            /** если анимация завершилась **/
+        /** если анимация завершилась **/
 //            if (attackAnimation.isAnimationFinished(stateTime)) {
 //                // проверяем, если юнит не атакует игрока, то проверяем
 //                if (!isAttack) {
@@ -188,6 +184,7 @@ public class Skeleton extends EnemyUnit {
             /** МОЖЕТ ПРИГОДИТЬСЯ 17.02.2020
              //            destroy();
              **/
+            bloodSpray.dispose();
             setToDestroy();
         }
 
@@ -233,10 +230,9 @@ public class Skeleton extends EnemyUnit {
     protected void createAnimations() {
         Array<TextureRegion> frames = new Array<TextureRegion>();
         // получим кадры и добавим в анимацию ходьбы персонажа
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < 3; i++)
             frames.add(new TextureRegion(Warfare.atlas.findRegion("skeleton1Walk" + i)));
-//        frames.add(new TextureRegion(Warfare.atlas.findRegion("skeleton1Walk0")));
-
+        frames.add(new TextureRegion(Warfare.atlas.findRegion("skeleton1Walk1")));
         walkAnimation = new Animation(0.15f, frames);
         frames.clear();
 
@@ -253,14 +249,10 @@ public class Skeleton extends EnemyUnit {
         frames.clear();
 
         //  получим кадры и добавим в анимацию стоянки персонажа
-        for (int j = 0; j < 2; j++) {
+//        for (int j = 0; j < 2; j++) {
             for (int i = 0; i < 4; i++)
                 frames.add(new TextureRegion(Warfare.atlas.findRegion("skeleton1Stay" + i)));
-//            frames.add(new TextureRegion(Warfare.atlas.findRegion("zombieStay3")));
-//            frames.add(new TextureRegion(Warfare.atlas.findRegion("zombieStay2")));
-//            frames.add(new TextureRegion(Warfare.atlas.findRegion("zombieStay1")));
-//            frames.add(new TextureRegion(Warfare.atlas.findRegion("zombieStay0")));
-        }
+//        }
         stayAnimation = new Animation(0.2f, frames);
         frames.clear();
     }
@@ -349,7 +341,7 @@ public class Skeleton extends EnemyUnit {
 
     @Override
     public boolean remove() {
-        bloodSpray.dispose();
+//        bloodSpray.dispose();
         return super.remove();
     }
 }

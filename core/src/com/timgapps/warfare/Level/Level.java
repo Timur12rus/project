@@ -282,7 +282,6 @@ public class Level extends StageGame {
     }
 
     public void addGnome(int health, int damage) {
-
         new Gnome(this, 160, 210, health, damage);
     }
 
@@ -294,6 +293,8 @@ public class Level extends StageGame {
     }
 
     public void addThor(int health, int damage) {
+//        new Knight(this, 160, 210, health, damage);
+//        new Gnome(this, 160, 210, health, damage);
         new Thor(this, 160, 210, health, damage);
     }
 
