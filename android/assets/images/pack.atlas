@@ -193,6 +193,20 @@ backImage_dwn
   orig: 92, 80
   offset: 0, 0
   index: -1
+blackRectangle
+  rotate: false
+  xy: 1195, 16
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+grayRectangle
+  rotate: false
+  xy: 1195, 16
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
 block1
   rotate: false
   xy: 1980, 838
@@ -902,7 +916,7 @@ starInactive
   index: -1
 star_active
   rotate: false
-  xy: 1195, 16
+  xy: 124, 5
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
@@ -916,7 +930,7 @@ star_icon
   index: -1
 star_inactive
   rotate: false
-  xy: 124, 5
+  xy: 2011, 576
   size: 32, 32
   orig: 32, 32
   offset: 0, 0

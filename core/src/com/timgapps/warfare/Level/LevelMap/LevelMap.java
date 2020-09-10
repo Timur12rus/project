@@ -9,6 +9,8 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Rectangle;
@@ -73,12 +75,13 @@ public class LevelMap extends StageGame implements StartCoinsAction, StartResour
     private ColorRectangle greenRectangle;
     private CoinsAction coinsAction;
     private ResourcesAction resourcesAction;
+    private TiledMapRenderer renderer;
+    private final int W_RECT = 10;
+    private final int H_RECT = 8;
 
     public LevelMap(GameManager gameManager, int coinsReward, int scoreReward) {
         this.coinsReward = coinsReward;
         this.scoreReward = scoreReward;
-//        coinsAction.setCoinsPosition(getWidth() / 2, getHeight() / 2);
-
 //        setBackGround("map");
         this.gameManager = gameManager;
         levelIcons = gameManager.getLevelIcons();
@@ -125,8 +128,6 @@ public class LevelMap extends StageGame implements StartCoinsAction, StartResour
 
         giftIcon = new GiftIcon(gameManager);
         giftIcon.setPosition(getWidth() - giftIcon.getWidth() - 32, getHeight() / 3);
-//        giftIcon.setPosition(getWidth() - giftIcon.getWidth() - 32, getHeight() / 2);
-
         giftIcon.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -135,7 +136,6 @@ public class LevelMap extends StageGame implements StartCoinsAction, StartResour
         });
 
         addOverlayChild(giftIcon);
-
         /** создадим окно с вознаграждениями **/
         giftScreen = new GiftScreen(this, gameManager);
         giftScreen.setVisible(false);
@@ -155,11 +155,6 @@ public class LevelMap extends StageGame implements StartCoinsAction, StartResour
             }
         });
 
-
-//        upgradeTeamButton = new ImageButton(new TextureRegionDrawable(Warfare.atlas.findRegion("teamButton")),
-//                new TextureRegionDrawable(Warfare.atlas.findRegion("teamButtonDwn")));
-
-//        addChild(upgradeTeamButton, 32, 340);
         teamUpgradeIcon = new TeamUpgradeIcon();
         teamUpgradeIcon.setPosition(32, getHeight() / 3);
 //        teamUpgradeIcon.setPosition(32, getHeight() / 2);
@@ -172,9 +167,7 @@ public class LevelMap extends StageGame implements StartCoinsAction, StartResour
         teamLabel.setPosition(teamUpgradeIcon.getX() + (teamUpgradeIcon.getWidth() - teamLabel.getWidth()) / 2,
                 teamUpgradeIcon.getY() - teamLabel.getHeight());
         addOverlayChild(teamLabel);
-
 //        gameManager.setHelpStatus(gameManager.HELP_TEAM_UPGRADE);
-
         teamUpgradeIcon.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -204,7 +197,6 @@ public class LevelMap extends StageGame implements StartCoinsAction, StartResour
         starsPanel.setVisible(true);
         starsPanel.setPosition(32, scorePanel.getY() - starsPanel.getHeight());
         addOverlayChild(starsPanel);
-
         starsPanel.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -213,25 +205,10 @@ public class LevelMap extends StageGame implements StartCoinsAction, StartResour
             }
         });
 
-
 //        gameManager.setHelpStatus(GameManager.HELP_TEAM_UPGRADE);
 
         int helpStatus = gameManager.getHelpStatus();     // получим статус обучалки
         checkHelpStatus(helpStatus);
-
-//        if (helpStatus == GameManager.HELP_STARS_PANEL) {
-//            starsPanel.showFinger();
-//            gameManager.setHelpStatus(GameManager.HELP_TEAM_UPGRADE);
-//        }
-//
-//        if (helpStatus == GameManager.HELP_TEAM_UPGRADE) {
-//            teamUpgradeIcon.showFinger();
-//            gameManager.setHelpStatus(GameManager.HELP_GET_GIFT);
-//        }
-//
-//        if (helpStatus == GameManager.HELP_GET_GIFT) {
-//            giftIcon.showFinger();
-//        }
 
         /** создадим окно апргейда команды и передаём информацию о составе команды(manager)**/
         teamUpgradeScreen = new TeamUpgradeScreen(gameManager);
@@ -248,7 +225,6 @@ public class LevelMap extends StageGame implements StartCoinsAction, StartResour
             }
         });
 
-
         // запустим анимацию  получения монет к общему кол-ву монет
         if (coinsReward > 0) {
             showAddCoinsAnimation();
@@ -259,11 +235,13 @@ public class LevelMap extends StageGame implements StartCoinsAction, StartResour
 //            gameManager.setScoreCount(scorePanel.getScoreCount());
 //            gameManager.saveGame();
         }
-
         cameraXpos = camera.position.x;
         cameraYpos = camera.position.y;
+    }
 
-//        addChild(giftIcon);
+    // метод создает туман войны
+    private void createFog() {
+
     }
 
     /**
@@ -300,12 +278,6 @@ public class LevelMap extends StageGame implements StartCoinsAction, StartResour
             float y = Gdx.input.getDeltaY();
             cameraXpos = camera.position.x;
             cameraYpos = camera.position.y;
-//        System.out.println("camera.ViewportWidth = " + camera.viewportWidth);
-//        System.out.println("xPos = " + xPos);
-//        if (x - (camera.viewportWidth / 2) > 0) {
-//            camera.translate(-x, y);
-//        }
-
             if (cameraXpos - x < camera.viewportWidth / 2) {
                 x = 0;
             }
@@ -321,45 +293,18 @@ public class LevelMap extends StageGame implements StartCoinsAction, StartResour
             if (cameraYpos + y > camera.viewportHeight / 2 + 300) {
                 y = 0;
             }
-
-//            System.out.println("cameraPosition.y = " + camera.position.y);
-//            System.out.println("cameraPosition.x = " + camera.position.x);
-//        if (cameraXpos + x )
             camera.translate(-x, y);
             if (fade != null) {
                 fade.setPosition(camera.position.x - camera.viewportWidth / 2,
                         camera.position.y - camera.viewportHeight / 2);
             }
-//            System.out.println("cameraPosition.y = " + camera.position.y);
-//            System.out.println("cameraPosition.x = " + camera.position.x);
         }
         return true;
     }
 
-    private void createLevelIcons(MapObjects objects, String LayerName) {
-        for (MapObject object : objects) {
-            Rectangle rectangle;
-            float x = object.getProperties().get("x", Float.class);
-            float y = object.getProperties().get("y", Float.class);
-            rectangle = new Rectangle(x, y, 32, 32);
-            if (LayerName.equals("locations")) {
-                int i = parseInt(object.getName()) - 1;
-                if (i < levelIcons.size() - 1) {
-                    levelIcons.get(i).addListener(iconListener);
-                    addChild(levelIcons.get(i), rectangle.x - 16, rectangle.y - 32);
-                }
-
-//                    for (int i = 0; i < levelIcons.size(); i++) {
-////            levelIcons.add(new LevelIcon(i + 1, true));
-//                        levelIcons.get(i).addListener(iconListener);
-////                new Troll(this, rectangle.x, rectangle.y);
-////                new LevelIcon(parseInt(object.getName()), 25, 75, LevelIcon.EASY, true);
-//                        addChild(new LevelIcon(parseInt(object.getName()),
-//                                25, 75, LevelIcon.EASY, true), rectangle.x - 32, rectangle.y);
-//
-//                    }
-            }
-        }
+    @Override
+    public void render(float delta) {
+        super.render(delta);
     }
 
     private void loadMap(String tmxFile) {
@@ -367,30 +312,136 @@ public class LevelMap extends StageGame implements StartCoinsAction, StartResour
         params.generateMipMaps = true;
         params.textureMinFilter = Texture.TextureFilter.MipMapLinearNearest;
         params.textureMagFilter = Texture.TextureFilter.Linear;
-
         // загружаем карту
         map = new TmxMapLoader().load(tmxFile, params);
-
         MapProperties prop = map.getProperties();
         mapWidth = prop.get("width", Integer.class);  // получаем и рассчитываем размеры объектов
         mapHeight = prop.get("height", Integer.class);
-
         tilePixelWidth = prop.get("tilewidth", Integer.class);
         tilePixelHeight = prop.get("tileheight", Integer.class);
         levelWidth = mapWidth * tilePixelWidth;
         levelHeight = mapHeight * tilePixelHeight;
 
-        // сканируем все слои и получаем объекты
+        String layerName = new String();
+        MapLayer mapLayer = new MapLayer();
         for (MapLayer layer : map.getLayers()) {
-            String name = layer.getName();
-
-            if (name.equals("locations")) {
-                createLevelIcons(layer.getObjects(), name);
+            layerName = layer.getName();
+            if (layerName.equals("locations")) {
+                mapLayer = layer;
+                createLevelIcons(layer.getObjects(), layerName);
+                clearFog();
+                showLevelIcons(mapLayer.getObjects());
             } else {
-                TileLayer tLayer = new TileLayer(camera, map, name, stage.getBatch());
+                TileLayer tLayer = new TileLayer(camera, map, layerName, stage.getBatch());
                 addChild(tLayer);
             }
         }
+        levelIcons.get(0).setVisible(true);
+//        showLevelIcons(mapLayer.getObjects(), layerName);
+    }
+
+    // метод создает значки с уровней
+    private void createLevelIcons(MapObjects objects, String LayerName) {
+        for (MapObject object : objects) {
+            Rectangle rectangle;
+            float x = object.getProperties().get("x", Float.class);
+            float y = object.getProperties().get("y", Float.class);
+            rectangle = new Rectangle(x, y, 32, 32);
+            // добавим значки на карту
+            if (LayerName.equals("locations")) {
+                int i = parseInt(object.getName()) - 1;
+                if (i < levelIcons.size()) {
+                    levelIcons.get(i).addListener(iconListener);
+                    levelIcons.get(i).setRectX((int) x / 32);
+                    levelIcons.get(i).setRectY((int) y / 32);
+                    levelIcons.get(i).toFront();
+                    addChild(levelIcons.get(i), rectangle.x - 16, rectangle.y - 16);
+                }
+            }
+        }
+    }
+
+    // метод создает значки уровней
+    private void showLevelIcons(MapObjects objects) {
+        for (MapObject object : objects) {
+            float x = object.getProperties().get("x", Float.class);
+            float y = object.getProperties().get("y", Float.class);
+//            int fogRectX = (int) x / 32;
+//            int fogRectY = 31 - (int) y / 32;
+
+            TiledMapTileLayer fogTileLayer = (TiledMapTileLayer) map.getLayers().get("fog");
+            for (LevelIcon levelIcon : levelIcons) {
+                levelIcon.toFront();
+                TiledMapTileLayer.Cell fogCell = fogTileLayer.getCell(levelIcon.getRectX(), levelIcon.getRectY());
+                TiledMapTileLayer.Cell fogUnderCell = fogTileLayer.getCell(levelIcon.getRectX(), levelIcon.getRectY() - 2);
+                TiledMapTileLayer.Cell fogAboveCell = fogTileLayer.getCell(levelIcon.getRectX(), levelIcon.getRectY() + 1);
+                levelIcon.setVisible(true);
+                if (fogCell.getTile() != null) {
+                    levelIcon.setVisible(false);
+                }
+                if (fogUnderCell.getTile() != null) {
+                    levelIcon.setVisible(false);
+                }
+            }
+        }
+        levelIcons.get(0).setVisible(true);
+    }
+
+
+    private void clearFog() {
+        for (LevelIcon levelIcon : levelIcons) {
+            if (levelIcon.equals(levelIcons.get(0))) {
+                int xLevelIcon = (int) levelIcon.getX() / 32;
+                int yLevelIcon = (int) levelIcon.getY() / 32;
+                xLevelIcon = xLevelIcon - W_RECT / 2 + 1;
+                yLevelIcon = yLevelIcon - H_RECT / 2 + 1;
+                for (int deltaY = 0; deltaY < H_RECT; deltaY++) {
+                    for (int deltaX = 0; deltaX < W_RECT; deltaX++) {
+                        if (((deltaY == 0 || (deltaY == (H_RECT - 1))) && (deltaX == 0 || (deltaX == (W_RECT - 1))))) {
+                            continue;
+                        }
+                        clearFogTile(xLevelIcon + deltaX, yLevelIcon + deltaY);
+                    }
+                }
+            }
+//            levelIcons.get(0).setFinished();
+
+            if (levelIcon.isFinished()) {
+                int xLevelIcon = (int) levelIcon.getX() / 32;
+                int yLevelIcon = (int) levelIcon.getY() / 32;
+                int width = W_RECT + 8;
+                int height = H_RECT + 5;
+                xLevelIcon = xLevelIcon - width / 2 + 2;
+                yLevelIcon = yLevelIcon - height / 2 + 1;
+                for (int deltaY = 0; deltaY < height; deltaY++) {
+                    for (int deltaX = 0; deltaX < width; deltaX++) {
+//                        System.out.println("deltaX = " + deltaX);
+//                        System.out.println("deltaY = " + deltaY);
+                        int y = yLevelIcon + deltaY;
+//                        System.out.println("levelIconY = " + y);
+//                        clearFogTile(xLevelIcon + deltaX, yLevelIcon + deltaY);
+                        if (((deltaY == 0 || (deltaY == (height - 1))) && (deltaX == 0 || (deltaX == (width - 1))))) {
+                            continue;
+                        }
+                        clearFogTile(xLevelIcon + deltaX, yLevelIcon + deltaY);
+                    }
+                }
+            }
+        }
+    }
+
+    private void clearFogTile(int x, int y) {
+        TiledMapTileLayer layer = (TiledMapTileLayer) map.getLayers().get("fog");
+        layer.setOpacity(0.6f);
+        if (layer.getCell(x, y) != null) {
+            layer.getCell(x, y).getTile();
+            layer.getCell(x, y).setTile(null);
+        }
+    }
+
+    public TiledMapTileLayer.Cell getCell(int x, int y) {
+        TiledMapTileLayer layer = (TiledMapTileLayer) map.getLayers().get("roads");
+        return layer.getCell(x, y);
     }
 
     public void setCoinsReward(int coinsCount) {
@@ -400,16 +451,13 @@ public class LevelMap extends StageGame implements StartCoinsAction, StartResour
     private void showTeamUpgradeScreen() {
         isFocused = false;
         hideButtons();
-
         teamUpgradeScreen.updateTeam();
         teamUpgradeScreen.updateCollection();
         teamUpgradeScreen.setVisible(true);
-
         teamUpgradeIcon.hideFinger();
 
         // TODO нужно исправить!!!!!!!!
         if (gameManager.getHelpStatus() == GameManager.HELP_TEAM_UPGRADE) {
-            System.out.println("GIIIIIIIIIIIIIDE!!!!!!!!!!!");
             gameManager.setHelpStatus(GameManager.HELP_GET_GIFT);
             teamUpgradeIcon.hideFinger();
         }
@@ -444,7 +492,7 @@ public class LevelMap extends StageGame implements StartCoinsAction, StartResour
 //        teamUpgradeScreen.hide();
     }
 
-    // TODO showAddCoinAnimation() !~!!!!!!!!!!!!!!
+// TODO showAddCoinAnimation() !~!!!!!!!!!!!!!!
 
     private void checkHelpStatus(int helpStatus) {
         if (helpStatus == GameManager.HELP_STARS_PANEL) {
@@ -462,7 +510,6 @@ public class LevelMap extends StageGame implements StartCoinsAction, StartResour
             giftIcon.showFinger();
         }
     }
-
 
     private void showAddCoinsAnimation() {
         Image coinOne = new Image(Warfare.atlas.findRegion("coin_icon"));
@@ -582,7 +629,7 @@ public class LevelMap extends StageGame implements StartCoinsAction, StartResour
      * слушатель, назначаем его значкам уровней на нашей карте уровней
      **/
     private ClickListener iconListener = new ClickListener() {
-        // при клике мы будем сохранять в переменную полученный id нажатого уровня
+// при клике мы будем сохранять в переменную полученный id нажатого уровня
 
         @Override
         public void clicked(InputEvent event, float x, float y) {
@@ -690,6 +737,12 @@ public class LevelMap extends StageGame implements StartCoinsAction, StartResour
     @Override
     public void setEndCoinsAction() {
         coinsAction.setEndCoinsAction();
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        map.dispose();
     }
 }
 

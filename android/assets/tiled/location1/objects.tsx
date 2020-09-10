@@ -133,4 +133,7 @@
  <tile id="44" terrain="9,,,">
   <image width="32" height="32" source="Forest/Villager-House-Front_04.png"/>
  </tile>
+ <tile id="45" terrain=",,,10">
+  <image width="32" height="32" source="BlackRectangle/black_rectangle.png"/>
+ </tile>
 </tileset>

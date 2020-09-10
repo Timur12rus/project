@@ -40,25 +40,25 @@ public class SavedGame implements Serializable {
      */
     public void createLevelIconDataList() {
         levelIconDataList = new ArrayList<LevelIconData>();
-        levelIconDataList.add(new LevelIconData(1, 15, 10, LevelIcon.EASY, true));
-        levelIconDataList.add(new LevelIconData(2, 20, 30, LevelIcon.EASY, false));
-        levelIconDataList.add(new LevelIconData(3, 10, 20, LevelIcon.EASY, false));
-        levelIconDataList.add(new LevelIconData(4, 25, 30, LevelIcon.MEDIUM, false));
-        levelIconDataList.add(new LevelIconData(5, 15, 10, LevelIcon.MEDIUM, false));
-        levelIconDataList.add(new LevelIconData(6, 10, 20, LevelIcon.EASY, false));
-        levelIconDataList.add(new LevelIconData(7, 15, 30, LevelIcon.MEDIUM, false));
-        levelIconDataList.add(new LevelIconData(8, 15, 30, LevelIcon.MEDIUM, false));
-        levelIconDataList.add(new LevelIconData(9, 15, 30, LevelIcon.MEDIUM, false));
-        levelIconDataList.add(new LevelIconData(10, 15, 30, LevelIcon.MEDIUM, false));
-        levelIconDataList.add(new LevelIconData(11, 15, 30, LevelIcon.MEDIUM, false));
-        levelIconDataList.add(new LevelIconData(12, 15, 30, LevelIcon.MEDIUM, false));
-        levelIconDataList.add(new LevelIconData(13, 15, 30, LevelIcon.MEDIUM, false));
-        levelIconDataList.add(new LevelIconData(14, 15, 30, LevelIcon.MEDIUM, false));
-        levelIconDataList.add(new LevelIconData(15, 15, 30, LevelIcon.MEDIUM, false));
-        levelIconDataList.add(new LevelIconData(16, 15, 30, LevelIcon.MEDIUM, false));
-        levelIconDataList.add(new LevelIconData(17, 15, 30, LevelIcon.MEDIUM, false));
-        levelIconDataList.add(new LevelIconData(18, 15, 30, LevelIcon.MEDIUM, false));
-        levelIconDataList.add(new LevelIconData(19, 15, 30, LevelIcon.MEDIUM, false));
+        levelIconDataList.add(new LevelIconData(1, 15, 10, LevelIcon.EASY, true, false));
+        levelIconDataList.add(new LevelIconData(2, 20, 30, LevelIcon.EASY, true, false));
+        levelIconDataList.add(new LevelIconData(3, 10, 20, LevelIcon.EASY, true, false));
+        levelIconDataList.add(new LevelIconData(4, 25, 30, LevelIcon.MEDIUM, true, false));
+        levelIconDataList.add(new LevelIconData(5, 15, 10, LevelIcon.MEDIUM, true, false));
+        levelIconDataList.add(new LevelIconData(6, 10, 20, LevelIcon.EASY, true, false));
+        levelIconDataList.add(new LevelIconData(7, 15, 30, LevelIcon.MEDIUM, true, false));
+        levelIconDataList.add(new LevelIconData(8, 15, 30, LevelIcon.MEDIUM, true, false));
+        levelIconDataList.add(new LevelIconData(9, 15, 30, LevelIcon.MEDIUM, true, false));
+        levelIconDataList.add(new LevelIconData(10, 15, 30, LevelIcon.MEDIUM, true, false));
+        levelIconDataList.add(new LevelIconData(11, 15, 30, LevelIcon.MEDIUM, true, false));
+        levelIconDataList.add(new LevelIconData(12, 15, 30, LevelIcon.MEDIUM, true, false));
+        levelIconDataList.add(new LevelIconData(13, 15, 30, LevelIcon.MEDIUM, true, false));
+        levelIconDataList.add(new LevelIconData(14, 15, 30, LevelIcon.MEDIUM, true, false));
+        levelIconDataList.add(new LevelIconData(15, 15, 30, LevelIcon.MEDIUM, true, false));
+        levelIconDataList.add(new LevelIconData(16, 15, 30, LevelIcon.MEDIUM, true, false));
+        levelIconDataList.add(new LevelIconData(17, 15, 30, LevelIcon.MEDIUM, true, false));
+        levelIconDataList.add(new LevelIconData(18, 15, 30, LevelIcon.MEDIUM, true, false));
+//        levelIconDataList.add(new LevelIconData(19, 15, 30, LevelIcon.MEDIUM, true, false));
     }
 
     /**

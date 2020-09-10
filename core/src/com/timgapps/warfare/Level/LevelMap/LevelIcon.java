@@ -1,16 +1,13 @@
 package com.timgapps.warfare.Level.LevelMap;
 
 
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.timgapps.warfare.Warfare;
 
 import java.util.ArrayList;
@@ -21,6 +18,7 @@ public class LevelIcon extends Group {
     private Image inactiveLevelIcon, levelIcon, levelIconDown;
 
     private boolean isActive;
+    private boolean isFinished;
     private int id;
 
     private int levelOfDifficulty;
@@ -34,6 +32,7 @@ public class LevelIcon extends Group {
     public static final String EASY = "Easy";
     public static final String MEDIUM = "Medium";
     public static final String HARD = "Hard";
+    private int rectX, rectY;
 
 
     public LevelIcon(LevelIconData data) {
@@ -107,6 +106,22 @@ public class LevelIcon extends Group {
 
     }
 
+    public void setRectX(int x) {
+        rectX = x;
+    }
+
+    public void setRectY(int y) {
+        rectY = y;
+    }
+
+    public int getRectX() {
+        return rectX;
+    }
+
+    public int getRectY() {
+        return rectY;
+    }
+
     /**
      * метод для обновления кол-ва звезд за уровень (из трех)
      **/
@@ -160,7 +175,8 @@ public class LevelIcon extends Group {
             for (int i = 0; i < starsCount; i++) {
                 activeStars.get(i).setVisible(true);
             }
-        } else {
+        }
+        else {
             isActive = false;
             inactiveLevelIcon.setVisible(true);
             activeStars.get(0).setVisible(false);
@@ -170,6 +186,24 @@ public class LevelIcon extends Group {
             inactiveStars.get(1).setVisible(false);
             inactiveStars.get(2).setVisible(false);
         }
+    }
+
+    public void setActive() {
+        this.isActive = true;
+        data.setActive();
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setFinished() {
+        data.setFinished();
+        isFinished = true;
+    }
+
+    public boolean isFinished() {
+        return data.isFinished();
     }
 
     /**

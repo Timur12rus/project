@@ -197,27 +197,27 @@ public class Warfare extends Game {
     }
 
     private void showLevel(int id) { // метод показа игрового уровня, передаем идентификатор уровня
-
-        switch (id) {   // создаем уровень на основе идентификатора
-            case 1:
-                level = new Level(1, gameManager);
-                break;
-            case 2:
-                level = new Level(2, gameManager);
-                break;
-            case 3:
-                level = new Level(3, gameManager);
-                break;
-            case 4:
-                level = new Level(4, gameManager);
-                break;
-            case 5:
-                level = new Level(5, gameManager);
-                break;
-            default:
-                level = new Level(1, gameManager);
-                break;
-        }
+        level = new Level(id, gameManager);
+//        switch (id) {   // создаем уровень на основе идентификатора
+//            case 1:
+//                level = new Level(1, gameManager);
+//                break;
+//            case 2:
+//                level = new Level(2, gameManager);
+//                break;
+//            case 3:
+//                level = new Level(3, gameManager);
+//                break;
+//            case 4:
+//                level = new Level(4, gameManager);
+//                break;
+//            case 5:
+//                level = new Level(5, gameManager);
+//                break;
+//            default:
+//                level = new Level(1, gameManager);
+//                break;
+//        }
 
         setScreen(level);
 

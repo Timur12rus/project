@@ -557,11 +557,10 @@ public class Level extends StageGame {
         gameManager.getSavedGame().setIndexRewardStars(gameManager.getStarsPanel().getIndexOfRewardStars());
 
         gameManager.getStarsPanel().updateCountReward();
-
-
         setStarsCountToLevelIcon();
-
-        unlockNextLevels();
+        gameManager.getLevelIcons().get(levelNumber - 1).setFinished();
+//        gameManager.getLevelIcons().get(levelNumber).setActive();
+//        unlockNextLevels();
 
         gameManager.saveGame();
 

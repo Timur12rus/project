@@ -6,7 +6,8 @@ import java.io.Serializable;
 
 import static com.timgapps.warfare.Level.LevelMap.LevelIcon.EASY;
 
-/** класс данных о характеристиках уровня:
+/**
+ * класс данных о характеристиках уровня:
  * coinsCount - кол-во монет за уровень
  * scoreCount - кол-во очков за уровень
  * id - номер уровня
@@ -15,21 +16,22 @@ import static com.timgapps.warfare.Level.LevelMap.LevelIcon.EASY;
 public class LevelIconData implements Serializable {
     private int id, coinsCount, scoreCount;
     private String levelOfDifficulty;
-    private  boolean isActive;
+    private boolean isActive;
+    private boolean isFinished;
     private int starsCount = 0;
 
-    public LevelIconData(int id, int coinsCount, int scoreCount, String levelOfDifficulty, boolean isActive) {
+    public LevelIconData(int id, int coinsCount, int scoreCount, String levelOfDifficulty, boolean isActive, boolean isFinished) {
         this.id = id;
         this.coinsCount = coinsCount;
         this.scoreCount = scoreCount;
         this.levelOfDifficulty = levelOfDifficulty;
         this.isActive = isActive;
-
+        this.isFinished = isFinished;
     }
 
     public void setStarsCount(int count) {
         if (count > starsCount)
-        starsCount = count;
+            starsCount = count;
 //        System.out.println("setStarsCount = " + count);
     }
 
@@ -44,6 +46,14 @@ public class LevelIconData implements Serializable {
 
     public void setActive() {
         isActive = true;
+    }
+
+    public void setFinished() {
+        this.isFinished = true;
+    }
+
+    public boolean isFinished() {
+        return isFinished;
     }
 
     public boolean isActiveIcon() {
