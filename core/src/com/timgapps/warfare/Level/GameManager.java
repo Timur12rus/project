@@ -4,8 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.boontaran.DataManager;
 import com.timgapps.warfare.Level.GUI.Screens.CoinsPanel;
-import com.timgapps.warfare.Level.GUI.Screens.TeamEntity;
-import com.timgapps.warfare.Level.GUI.Screens.TeamEntityData;
+import com.timgapps.warfare.Level.GUI.Screens.TeamUnit;
+import com.timgapps.warfare.Level.GUI.Screens.PlayerUnitData;
 import com.timgapps.warfare.Level.LevelMap.LevelIcon;
 import com.timgapps.warfare.Level.GUI.Screens.reward_for_stars.RewardForStarsData;
 import com.timgapps.warfare.Level.LevelMap.ScorePanel;
@@ -25,13 +25,14 @@ import java.util.ArrayList;
  * @team - текущий состав команды
  */
 public class GameManager {
-    private ArrayList<TeamEntity> team;     // команда, массив объектов TeamEntity()
-    private ArrayList<TeamEntityData> teamDataList;     // команда, массив объектов TeamEntity()
-    private ArrayList<TeamEntityData> collectionDataList;     // команда, массив объектов TeamEntity()
-    private ArrayList<TeamEntity> collection;     // коллекция, массив объектов TeamEntity()
+    private ArrayList<TeamUnit> team;     // команда, массив объектов TeamEntity()
+    //    private Map<UnitType, TeamUnit> team;      // команда, мап <тип юнита, модель юнита>
+    //    private ArrayList<TeamUnit> team;     // команда, массив объектов TeamEntity()
+    private ArrayList<PlayerUnitData> teamDataList;     // команда, массив объектов TeamEntity()
+    private ArrayList<PlayerUnitData> collectionDataList;     // команда, массив объектов TeamEntity()
+    private ArrayList<TeamUnit> collection;     // коллекция, массив объектов TeamEntity()
     private ArrayList<RewardForStarsData> rewardForStarsDataList;     // коллекция, массив объектов TeamEntity()
     private int currentLevelId;
-
     private int coinsCount;
     private int scoreCount;
     private int starsCount;
@@ -81,27 +82,10 @@ public class GameManager {
         //TODO сделать сохранение и загрузку данных об уровнях в  массив <LevelIconData> в объекте сохранения игры savedGame()
 //        public LevelIcon(int id, int coinsCount, int scoreCount, String levelOfDifficulty, boolean isActive) {
 //        levelIcons.add(new LevelIcon(1, 15, 10, LevelIcon.EASY, true));
-//        levelIcons.add(new LevelIcon(2, 20, 30, LevelIcon.EASY, false));
-//        levelIcons.add(new LevelIcon(3, 10, 20, LevelIcon.EASY, false));
-//        levelIcons.add(new LevelIcon(4, 25, 30, LevelIcon.MEDIUM, false));
-//        levelIcons.add(new LevelIcon(5, 15, 10, LevelIcon.MEDIUM, false));
-//        levelIcons.add(new LevelIcon(6, 10, 20, LevelIcon.EASY, false));
-//        levelIcons.add(new LevelIcon(7, 15, 30, LevelIcon.MEDIUM, false));
-//        levelIcons.add(new LevelIcon(8, 15, 30, LevelIcon.MEDIUM, false));
-//        levelIcons.add(new LevelIcon(9, 15, 30, LevelIcon.MEDIUM, false));
-//        levelIcons.add(new LevelIcon(10, 15, 30, LevelIcon.MEDIUM, false));
-//        levelIcons.add(new LevelIcon(11, 15, 30, LevelIcon.MEDIUM, false));
-//        levelIcons.add(new LevelIcon(12, 15, 30, LevelIcon.MEDIUM, false));
-//        levelIcons.add(new LevelIcon(13, 15, 30, LevelIcon.MEDIUM, false));
-//        levelIcons.add(new LevelIcon(14, 15, 30, LevelIcon.MEDIUM, false));
-//        levelIcons.add(new LevelIcon(15, 15, 30, LevelIcon.MEDIUM, false));
-//        levelIcons.add(new LevelIcon(16, 15, 30, LevelIcon.MEDIUM, false));
-//        levelIcons.add(new LevelIcon(17, 15, 30, LevelIcon.MEDIUM, false));
-//        levelIcons.add(new LevelIcon(18, 15, 30, LevelIcon.MEDIUM, false));
-//        levelIcons.add(new LevelIcon(19, 15, 30, LevelIcon.MEDIUM, false));
 
-        team = new ArrayList<TeamEntity>();
-        collection = new ArrayList<TeamEntity>();
+        team = new ArrayList<TeamUnit>();
+//        team = new HashMap<UnitType, TeamUnit>();
+        collection = new ArrayList<TeamUnit>();
 
         // если сохранения нет(запускает игру впервый раз), null, то создадим объект для схранниения игры и создадим объект "КОМАНДА" team
         if (savedGame == null) {
@@ -141,14 +125,14 @@ public class GameManager {
 
             /** установим значения по умолчанию  для данных TeamEntity **/
 //            savedGame.getTeamDataList().get(0).setDefaultData();
-            team.add(new TeamEntity(savedGame.getTeamDataList().get(0)));
+            team.add(new TeamUnit(savedGame.getTeamDataList().get(0)));
 //            team.add(new TeamEntity(savedGame.getTeamDataList().get(1)));
 //            team.add(new TeamEntity(savedGame.getTeamDataList().get(2)));
 
 
             /** создадим КОЛЛЕКЦИЮ - массив юнитов в коллекции  **/
-            collection.add(new TeamEntity(savedGame.getCollectionDataList().get(0)));
-            collection.add(new TeamEntity(savedGame.getCollectionDataList().get(1)));
+            collection.add(new TeamUnit(savedGame.getCollectionDataList().get(0)));
+            collection.add(new TeamUnit(savedGame.getCollectionDataList().get(1)));
 
 //            collection.add(new TeamEntity(savedGame.getCollectionDataList().get(1)));
 //            collection.add(new TeamEntity(savedGame.getCollectionDataList().get(1)));
@@ -160,8 +144,8 @@ public class GameManager {
 //            collection.add(new TeamEntity(savedGame.getCollectionDataList().get(1)));
 //            collection.add(new TeamEntity(savedGame.getCollectionDataList().get(1)));
 
-            collection.add(new TeamEntity(savedGame.getCollectionDataList().get(2)));
-            collection.add(new TeamEntity(savedGame.getCollectionDataList().get(3)));
+            collection.add(new TeamUnit(savedGame.getCollectionDataList().get(2)));
+            collection.add(new TeamUnit(savedGame.getCollectionDataList().get(3)));
 //            collection.add(new TeamEntity(savedGame.getCollectionDataList().get(4)));
 
             giftTimeFirst = 0;
@@ -177,11 +161,11 @@ public class GameManager {
             collectionDataList = savedGame.getCollectionDataList();
 
             for (int i = 0; i < teamDataList.size(); i++) {
-                team.add(new TeamEntity(savedGame.getTeamDataList().get(i)));
+                team.add(new TeamUnit(savedGame.getTeamDataList().get(i)));
 
             }
             for (int i = 0; i < collectionDataList.size(); i++) {
-                collection.add(new TeamEntity(savedGame.getCollectionDataList().get(i)));
+                collection.add(new TeamUnit(savedGame.getCollectionDataList().get(i)));
             }
 //            collection.add(new TeamEntity(savedGame.getCollectionDataList().get(0)));
 //            collection.add(new TeamEntity(savedGame.getCollectionDataList().get(1)));
@@ -497,21 +481,31 @@ public class GameManager {
     /**
      * метод для получения команды игрока
      **/
-    public ArrayList<TeamEntity> getTeam() {
+    public ArrayList<TeamUnit> getTeam() {
         return team;
+    }
+
+    // метод получает UnitData юнита из команды
+    public PlayerUnitData getUnitData(String id) {
+        for (TeamUnit teamUnit : team) {
+            if (id.equals(teamUnit.getUnitData().getUnitId())) {
+            }
+            return teamUnit.getUnitData();
+        }
+        return null;
     }
 
     /**
      * метод для получения коллекции юнитов игрока
      **/
-    public ArrayList<TeamEntity> getCollection() {
+    public ArrayList<TeamUnit> getCollection() {
         return collection;
     }
 
     /**
      * метод для обновления команды юнитов
      **/
-    public void updateTeam(ArrayList<TeamEntity> team) {
+    public void updateTeam(ArrayList<TeamUnit> team) {
         this.team = team;
 //        savedGame.setTeam(team);
         savedGame.updateTeamDataList(team);
@@ -521,7 +515,7 @@ public class GameManager {
     /**
      * метод для обновления коллекции юнитов
      **/
-    public void updateCollection(ArrayList<TeamEntity> collection) {
+    public void updateCollection(ArrayList<TeamUnit> collection) {
         this.collection = collection;
         savedGame.updateCollectionDataList(collection);
     }

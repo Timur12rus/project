@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import com.timgapps.warfare.Level.Level;
+import com.timgapps.warfare.Units.GameUnits.GameUnitView;
 import com.timgapps.warfare.Warfare;
 
 public class Thor extends Gnome {
@@ -22,23 +23,23 @@ public class Thor extends Gnome {
 //        batch.setColor(1, 1, 1, 1);
 
 //        if (isDraw) {
-        if (currentState == State.WALKING) {
+        if (currentState == GameUnitView.State.WALKING) {
             batch.draw((TextureRegion) walkAnimation.getKeyFrame(stateTime, true), getX() - 124, getY() - 8);
         }
 
-        if (currentState == State.ATTACK) {
+        if (currentState == GameUnitView.State.ATTACK) {
             batch.draw((TextureRegion) attackAnimation.getKeyFrame(stateTime, false), getX() - 124, getY() - 8);
         }
 
-        if (currentState == State.STAY) {
+        if (currentState == GameUnitView.State.STAY) {
             batch.draw((TextureRegion) stayAnimation.getKeyFrame(stateTime, false), getX() - 124, getY() - 8);
         }
 
-        if (currentState == State.RUN) {
+        if (currentState == GameUnitView.State.RUN) {
             batch.draw((TextureRegion) runAnimation.getKeyFrame(stateTime, true), getX() - 124, getY() - 8);
         }
 
-        if (currentState == State.DIE) {
+        if (currentState == GameUnitView.State.DIE) {
             batch.draw((TextureRegion) dieAnimation.getKeyFrame(stateTime, false), getX() - 124, getY() - 8);
         }
 

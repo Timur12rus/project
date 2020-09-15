@@ -18,7 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.timgapps.warfare.Level.GUI.Screens.resources_view.ResourcesTable;
-import com.timgapps.warfare.Level.GUI.Screens.TeamEntity;
+import com.timgapps.warfare.Level.GUI.Screens.TeamUnit;
 import com.timgapps.warfare.Level.GUI.Screens.TeamUpgradeScreen;
 import com.timgapps.warfare.Level.GUI.Screens.win_creator.ConstructedWindow;
 import com.timgapps.warfare.Level.GameManager;
@@ -61,7 +61,7 @@ public class UpgradeScreen extends Group {
     private float paddingLeft = 48;
     private Image foodIcon, ironIcon, woodIcon;
     private UpgradeButton upgradeButton;
-    private ArrayList<TeamEntity> team;
+    private ArrayList<TeamUnit> team;
     private Group imageContainer;           // контейнер - Group для хранения изображения юнита со значком уровня и энергии
     private UnitImage unitImage;            // изображение юнита
     private int newUnitLevel;
@@ -74,7 +74,7 @@ public class UpgradeScreen extends Group {
     private String noCoins = "Not enought coins!";
     private boolean isStartToastAction = false;
     private boolean canBeUpgrade;
-    private TeamEntity teamEntity;
+    private TeamUnit teamUnit;
     private ResourcesTable resourcesTable;
     private UnitLevelIcon unitLevelIcon;
     private TextureRegionDrawable textureRegionDrawableBg;
@@ -131,7 +131,7 @@ public class UpgradeScreen extends Group {
 
                 /** проверяем, может ли быть сделан апгрейд, если да - делаем апгрейд, если нет проверяем чего не хватает и выводим сообщение **/
                 if (canBeUpgrade)
-                    upgradeTeamEntity(teamEntity);
+                    upgradeTeamEntity(teamUnit);
                 else
                     applyActionsToToast();
                 checkRecourcesAndCoinsCount();
@@ -283,10 +283,10 @@ public class UpgradeScreen extends Group {
         addActor(maxLevelReached);
     }
 
-    public void showUpgradeScreen(boolean showSelectButton, TeamEntity teamEntity) {
-        this.teamEntity = teamEntity;
+    public void showUpgradeScreen(boolean showSelectButton, TeamUnit teamUnit) {
+        this.teamUnit = teamUnit;
         // если уровень текущего юнита максимальный, не показываем таблицу о стоимости апгрейда
-        if (teamEntity.getUnitLevel() >= teamEntity.getMaxUnitLevel()) {
+        if (teamUnit.getUnitLevel() >= teamUnit.getMaxUnitLevel()) {
             upgradeButton.setVisible(false);
             costUpgradeTable.setVisible(false);
             maxLevelReached.setVisible(true);
@@ -299,10 +299,10 @@ public class UpgradeScreen extends Group {
         setVisible(true);
         /** добавим объект - изображение юнита со значком уровня юнита**/
         imageContainer.addActor(unitImage);
-        boolean isUnlock = teamEntity.getEntityData().isUnlock();
+        boolean isUnlock = teamUnit.getUnitData().isUnlock();
         /** если юнит разблокирован, то делаем значок уровня юнита видимым **/
         if (isUnlock == true) {
-            teamEntity.getUnitImage().getUnitLevelIcon().setVisible(true);
+            teamUnit.getUnitImage().getUnitLevelIcon().setVisible(true);
             healthAddValueLabel.setVisible(true);
             damageAddValueLabel.setVisible(true);
         } else {
@@ -331,21 +331,21 @@ public class UpgradeScreen extends Group {
     /**
      * метод устанавливает значения параметров для улучшения юнита и его изображение
      **/
-    public void setUnitUpgradeData(TeamEntity teamEntity) {
-        this.teamEntity = teamEntity;
-        addHealthValue = teamEntity.getAddHealthValue();
-        addDamageValue = teamEntity.getAddDamageValue();
-        healthValue = teamEntity.getHEALTH();
-        damageValue = teamEntity.getDAMAGE();
-        speedValue = teamEntity.getSPEED();
-        timePrepearValue = teamEntity.getTimePrepare();
-        unitNameLabel.setText(teamEntity.getName());
+    public void setUnitUpgradeData(TeamUnit teamUnit) {
+        this.teamUnit = teamUnit;
+        addHealthValue = teamUnit.getAddHealthValue();
+        addDamageValue = teamUnit.getAddDamageValue();
+        healthValue = teamUnit.getHEALTH();
+        damageValue = teamUnit.getDAMAGE();
+        speedValue = teamUnit.getSPEED();
+        timePrepearValue = teamUnit.getTimePrepare();
+        unitNameLabel.setText(teamUnit.getName());
         unitNameLabel.setPosition(container.getX() + (container.getWidth() - unitNameLabel.getWidth()) / 2,
                 constructedWindow.getY() + constructedWindow.getHeight() - unitNameLabel.getHeight() - 32);
 
         /** получим объект unitImage - изображение со значками (уровень юнита и стоимость энергии) **/
-        unitImage = teamEntity.getUnitImage();
-        unitImage.setLevelValue(teamEntity.getUnitLevel());
+        unitImage = teamUnit.getUnitImage();
+        unitImage.setLevelValue(teamUnit.getUnitLevel());
 
         /** получим кнопку "ВЫБРАТЬ ЮНИТА", если юнит не состоит в игровой команде, а находится в коллекции**/
         selectUnitButton = unitImage.getSelectButton();
@@ -360,9 +360,9 @@ public class UpgradeScreen extends Group {
                 hideUpgradeScreen();
             }
         });
-        newUnitLevel = teamEntity.getUnitLevel() + 1;
+        newUnitLevel = teamUnit.getUnitLevel() + 1;
         upgradeToLevelLabel.setText(upgradeToLevelText + newUnitLevel);
-        upgradeCost = teamEntity.getUnitLevel() * COST_UPGRADE;
+        upgradeCost = teamUnit.getUnitLevel() * COST_UPGRADE;
         checkRecourcesAndCoinsCount();
         /** обновим значения всех текстовых значений в информации об апргейде с помощью метода **/
         updateLabelsText();
@@ -372,22 +372,22 @@ public class UpgradeScreen extends Group {
      * метод показывет надпись : "соберите n-ое кол-во звёзд для разблокировки
      **/
     public void showBlockTable(boolean isUnlock) {
-        teamEntity.getUnitImage().getUnitLevelIcon().setVisible(false);
+        teamUnit.getUnitImage().getUnitLevelIcon().setVisible(false);
         /** проверим, если юнит не разблокирован, то отобразим таблицу с информацией о необходимом кол-ве звёзд (blockTale) **/
         if (isUnlock == false) {
             costUpgradeTable.setVisible(false);
             upgradeButton.setVisible(false);
             maxLevelReached.setVisible(false);
-            int counsStars = teamEntity.getEntityData().getStarsCount();        // получим кол-во звезд, необходимы для разблокировки юнита
+            int counsStars = teamUnit.getUnitData().getStarsCount();        // получим кол-во звезд, необходимы для разблокировки юнита
             blockTable.setLabelStarsCount(counsStars);
             blockTable.setVisible(true);
         } else {
-            if (teamEntity.getUnitLevel() < teamEntity.getMaxUnitLevel()) {
+            if (teamUnit.getUnitLevel() < teamUnit.getMaxUnitLevel()) {
                 costUpgradeTable.setVisible(true);
                 upgradeButton.setVisible(true);
             }
             blockTable.setVisible(false);
-            teamEntity.getUnitImage().getUnitLevelIcon().setVisible(true);
+            teamUnit.getUnitImage().getUnitLevelIcon().setVisible(true);
         }
     }
 
@@ -395,11 +395,11 @@ public class UpgradeScreen extends Group {
      * убираем коллекцию с экрана и отображаем выбранного для замены юнита
      **/
     private void showReplace() {
-        teamUpgradeScreen.showReplaceUnit(teamEntity);
+        teamUpgradeScreen.showReplaceUnit(teamUnit);
     }
 
-    private void showReplaceUnit(TeamEntity teamEntity) {
-        teamUpgradeScreen.showReplaceUnit(teamEntity);
+    private void showReplaceUnit(TeamUnit teamUnit) {
+        teamUpgradeScreen.showReplaceUnit(teamUnit);
     }
 
     /**
@@ -476,7 +476,7 @@ public class UpgradeScreen extends Group {
      * после нажатия кнопки upgrade
      **/
 
-    private void upgradeTeamEntity(TeamEntity teamEntity) {
+    private void upgradeTeamEntity(TeamUnit teamUnit) {
 
         /** сделаем невидимыми надпись "УЛУЧШИТЬ ДО УРОВНЯ" и кнопку апгрейда,
          * до тех пор пока не закончится действие перемещения значков ресурсов
@@ -487,11 +487,11 @@ public class UpgradeScreen extends Group {
         /** применим действия к значкам ресурсов (движение и мерцание картинки юнита) **/
         resourcesTable.startActions();
         /** обновим параметры юнита, которого прокачиваем **/
-        teamEntity.setUnitLevel(newUnitLevel);
-        teamEntity.addHEALTH(addHealthValue);
-        teamEntity.addDAMAGE(addDamageValue);
+        teamUnit.setUnitLevel(newUnitLevel);
+        teamUnit.addHEALTH(addHealthValue);
+        teamUnit.addDAMAGE(addDamageValue);
 
-        if (teamEntity.getUnitLevel() >= teamEntity.getMaxUnitLevel()) {
+        if (teamUnit.getUnitLevel() >= teamUnit.getMaxUnitLevel()) {
             upgradeToLevelLabel.setVisible(false);
             costUpgradeTable.setVisible(false);
             upgradeButton.setVisible(false);
@@ -499,7 +499,7 @@ public class UpgradeScreen extends Group {
         }
 
         /** обновим данные юнита и сохраним его данные **/
-        teamEntity.updateTeamEntityData();
+        teamUnit.updateTeamEntityData();
 
         /** обновим количество монет и установим новое кол-во монет в панели монет **/
         coinsCount -= upgradeCost;
@@ -521,7 +521,7 @@ public class UpgradeScreen extends Group {
         /**
          * метод устанавливает значения параметров для улучшения юнита и его изображение
          **/
-        setUnitUpgradeData(teamEntity);
+        setUnitUpgradeData(teamUnit);
 
 //        /** обновим значение текста следующего уровня апгрейда **/
 //        upgradeToLevelLabel.setText(upgradeToLevelText + newUnitLevel);
@@ -569,7 +569,7 @@ public class UpgradeScreen extends Group {
             resourcesTable.setIsAction(false);
 
             /** сделаем видимыми надпись "УЛУЧШИТЬ ДО УРОВНЯ" и кнопку апгрейда **/
-            if (teamEntity.getUnitLevel() < teamEntity.getMaxUnitLevel()) {
+            if (teamUnit.getUnitLevel() < teamUnit.getMaxUnitLevel()) {
                 upgradeToLevelLabel.setVisible(true);
                 upgradeButton.setVisible(true);
             }

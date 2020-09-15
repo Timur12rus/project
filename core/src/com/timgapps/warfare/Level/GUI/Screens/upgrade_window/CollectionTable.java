@@ -2,7 +2,7 @@ package com.timgapps.warfare.Level.GUI.Screens.upgrade_window;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.timgapps.warfare.Level.GUI.Screens.TeamEntity;
+import com.timgapps.warfare.Level.GUI.Screens.TeamUnit;
 
 import java.util.ArrayList;
 
@@ -11,11 +11,11 @@ import java.util.ArrayList;
  * **/
 public class CollectionTable extends Table {
     private Image unitImage;
-    private ArrayList<TeamEntity> unitCollectiion;
+    private ArrayList<TeamUnit> unitCollectiion;
 
     private float width, height;
 
-    public CollectionTable(ArrayList<TeamEntity> unitCollection) {
+    public CollectionTable(ArrayList<TeamUnit> unitCollection) {
         this.unitCollectiion = unitCollection;
 //        for (int j = 0; j < unitCollection.size(); j++) {
 
@@ -38,7 +38,7 @@ public class CollectionTable extends Table {
         this.clearChildren();
     }
 
-    public void updateCellTable(ArrayList<TeamEntity> unitCollection) {
+    public void updateCellTable(ArrayList<TeamUnit> unitCollection) {
         for (int i = 0; i < unitCollection.size(); i++) {
             unitCollection.get(i);
             add(unitCollection.get(i)).width(unitCollection.get(i).getWidth()).height(unitCollection.get(i).getHeight()).left().padLeft(12).padRight(12);

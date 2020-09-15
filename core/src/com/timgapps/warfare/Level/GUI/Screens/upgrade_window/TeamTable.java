@@ -3,7 +3,7 @@ package com.timgapps.warfare.Level.GUI.Screens.upgrade_window;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.timgapps.warfare.Level.GUI.Screens.TeamEntity;
+import com.timgapps.warfare.Level.GUI.Screens.TeamUnit;
 import com.timgapps.warfare.Warfare;
 
 import java.util.ArrayList;
@@ -13,14 +13,14 @@ import java.util.ArrayList;
  * Таблица с "ЮНИТАМИ В КОМАНДЕ", используется в классе TeamUpgradeScreen
  */
 public class TeamTable extends Table {
-    private ArrayList<TeamEntity> unitTeam; // массив юнитов "КОМАНДА"
+    private ArrayList<TeamUnit> unitTeam; // массив юнитов "КОМАНДА"
     private float width, height;
     private int numOfUnits = 5;
     private Label collectionLabel;
     private String collectionText;
 
     /** таблица с командой юнитов **/
-    public TeamTable(ArrayList<TeamEntity> unitTeam) {
+    public TeamTable(ArrayList<TeamUnit> unitTeam) {
         this.unitTeam = unitTeam;
 
         this.left().top();

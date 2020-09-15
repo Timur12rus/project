@@ -7,14 +7,15 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.timgapps.warfare.Level.GUI.Screens.TeamEntity;
-import com.timgapps.warfare.Level.GUI.Screens.TeamEntityData;
+import com.timgapps.warfare.Level.GUI.Screens.TeamUnit;
+import com.timgapps.warfare.Level.GUI.Screens.PlayerUnitData;
 import com.timgapps.warfare.Level.Level;
-import com.timgapps.warfare.Units.GameUnits.Player.units.Archer1;
+//import com.timgapps.warfare.Units.GameUnits.Player.units.Archer1;
 import com.timgapps.warfare.Units.GameUnits.Player.Bullets.Stone;
 import com.timgapps.warfare.Units.GameUnits.Player.units.Gnome;
 import com.timgapps.warfare.Units.GameUnits.Player.units.Knight;
 import com.timgapps.warfare.Units.GameUnits.Player.units.Thor;
+import com.timgapps.warfare.Units.GameUnits.unitTypes.PlayerUnits;
 import com.timgapps.warfare.Warfare;
 
 /**
@@ -31,8 +32,9 @@ public class UnitButton extends Group {
     protected float appearanceTime;
     protected float percentage = 0;
     protected int energyPrice;
-    protected TeamEntityData data;
-    protected int typeOfUnit;
+    protected PlayerUnitData data;
+    protected PlayerUnits unitType;
+    //    protected int typeOfUnit;
     protected int damage;
     protected int health;
 
@@ -41,13 +43,13 @@ public class UnitButton extends Group {
     /**
      * класс UnitButton - кнопки юнитов для их поялвнеия
      **/
-    public UnitButton(final Level level, Image activeImage, Image inactiveImage, TeamEntityData data) {
+    public UnitButton(final Level level, Image activeImage, Image inactiveImage, PlayerUnitData data) {
         this.data = data;
-        damage = data.getDAMAGE();
-        health = data.getHEALTH();
-        typeOfUnit = data.getUnitType();
-        this.appearanceTime = setAppearanceTime(typeOfUnit);    // время необходимое для рождения юнита
-        this.energyPrice = setEnergyPrice(typeOfUnit);          // количество энергии, необходимое для рождения юнита
+        damage = data.getDamage();
+        health = data.getHealth();
+        unitType = data.getUnitId();
+        this.appearanceTime = setAppearanceTime(unitType);    // время необходимое для рождения юнита
+        this.energyPrice = setEnergyPrice(data.getEnergyPrice());          // количество энергии, необходимое для рождения юнита
         this.activeImage = activeImage;
         this.inactiveImage = inactiveImage;
         this.level = level;
@@ -62,7 +64,7 @@ public class UnitButton extends Group {
         height = darkLayer.getRegionHeight();
         interpolation = (height / appearanceTime) / 60;
 
-        if (typeOfUnit != TeamEntity.STONE) {
+        if (unitType != PlayerUnits.Stone) {
             this.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
@@ -71,7 +73,7 @@ public class UnitButton extends Group {
                         isReadyUnitButton = false;
                         setInActive();
 //                    level.addGnome();
-                        addPlayerUnit(typeOfUnit);
+                        addPlayerUnit(unitType);
                     }
                 }
             });
@@ -114,22 +116,22 @@ public class UnitButton extends Group {
     /**
      * метод выполняет появление юнита на экране, вычитает из текущего кол-ва энергии кол-во энергии необходимое для появления юнита
      **/
-    private void addPlayerUnit(int typeOfUnit) {
+    private void addPlayerUnit(PlayerUnits unitType) {
 //        level.removeFinger();
-        switch (typeOfUnit) {
-            case TeamEntity.GNOME:
+        switch (unitType) {
+            case Gnome:
                 level.addGnome(health, damage);
                 level.setEnergyCount(Gnome.getEnergyPrice());    // установим количество энергии, вычтем стоимость энергии для появления юнита
                 break;
-            case TeamEntity.ARCHER:
+            case Archer:
                 level.addArcher1(health, damage);
-                level.setEnergyCount(Archer1.getEnergyPrice());    // установим количество энергии, вычтем стоимость энергии для появления юнита
+//                level.setEnergyCount(Archer1.getEnergyPrice());    // установим количество энергии, вычтем стоимость энергии для появления юнита
                 break;
-            case TeamEntity.THOR:
+            case Thor:
                 level.addThor(health, damage);
                 level.setEnergyCount(Thor.getEnergyPrice());    // установим количество энергии, вычтем стоимость энергии для появления юнита
                 break;
-            case TeamEntity.KNIGHT:
+            case Knight:
                 level.addKnight(health, damage);
                 level.setEnergyCount(Knight.getEnergyPrice());  // установим количество энергии, вычтем стоимость энергии для появления юнита
                 break;
@@ -153,22 +155,22 @@ public class UnitButton extends Group {
         return isReadyUnitButton;
     }
 
-    private float setAppearanceTime(int typeOfUnit) {
+    private float setAppearanceTime(PlayerUnits unitType) {
         float appearanceTime = 0;
-        switch (typeOfUnit) {
-            case TeamEntity.GNOME:
+        switch (unitType) {
+            case Gnome:
                 appearanceTime = Gnome.getAppearanceTime();
                 break;
-            case TeamEntity.ARCHER:
-                appearanceTime = Archer1.getAppearanceTime();
+            case Archer:
+//                appearanceTime = Archer1.getAppearanceTime();
                 break;
-            case TeamEntity.THOR:
+            case Thor:
                 appearanceTime = Thor.getAppearanceTime();
                 break;
-            case TeamEntity.KNIGHT:
+            case Knight:
                 appearanceTime = Thor.getAppearanceTime();
                 break;
-            case TeamEntity.STONE:
+            case Stone:
                 appearanceTime = Stone.getAppearanceTime();
         }
 
@@ -178,16 +180,16 @@ public class UnitButton extends Group {
     protected int setEnergyPrice(int typeOfUnit) {
         int energyPrice = 0;
         switch (typeOfUnit) {
-            case TeamEntity.GNOME:
+            case TeamUnit.GNOME:
                 energyPrice = Gnome.getEnergyPrice();
                 break;
-            case TeamEntity.ARCHER:
-                energyPrice = Archer1.getEnergyPrice();
+            case TeamUnit.ARCHER:
+//                energyPrice = Archer1.getEnergyPrice();
                 break;
-            case TeamEntity.THOR:
+            case TeamUnit.THOR:
                 energyPrice = Thor.getEnergyPrice();
                 break;
-            case TeamEntity.STONE:
+            case TeamUnit.STONE:
                 energyPrice = Stone.getEnergyPrice();
         }
 

@@ -9,12 +9,11 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Rectangle;
 import com.boontaran.games.tiled.TileLayer;
-import com.timgapps.warfare.Units.GameUnits.Enemy.Goblin1;
-import com.timgapps.warfare.Units.GameUnits.Enemy.Skeleton;
-import com.timgapps.warfare.Units.GameUnits.Enemy.Skeleton3;
-import com.timgapps.warfare.Units.GameUnits.Enemy.Zombie;
-import com.timgapps.warfare.Units.GameUnits.Enemy.Zombie1;
-import com.timgapps.warfare.Units.GameUnits.Enemy.Zombie3;
+//import com.timgapps.warfare.Units.GameUnits.Enemy.Skeleton;
+//import com.timgapps.warfare.Units.GameUnits.Enemy.Skeleton3;
+//import com.timgapps.warfare.Units.GameUnits.Enemy.Zombie;
+//import com.timgapps.warfare.Units.GameUnits.Enemy.Zombie1;
+//import com.timgapps.warfare.Units.GameUnits.Enemy.Zombie3;
 
 import static java.lang.Integer.parseInt;
 
@@ -66,37 +65,38 @@ public class LevelCreator {
     }
 
     private void createEnemyUnit(MapObjects objects, String LayerName) {
-        for (MapObject object : objects) {
-            Rectangle rectangle;
-            float x = object.getProperties().get("x", Float.class);
-            float y = object.getProperties().get("y", Float.class);
-            rectangle = new Rectangle(x, y, 32, 32);
-            if (LayerName.equals("zombie")) {
-                Zombie zombie = new Zombie(level, rectangle.x, rectangle.y + 172, 100, 3);
-//                Skeleton skeleton = new Skeleton(level, rectangle.x + 60, rectangle.y + 172, 100, 5);
-                level.addEnemyUnitToEnemyArray(zombie);
-            }
-            if (LayerName.equals("zombie1")) {
-                Zombie1 zombie1 = new Zombie1(level, rectangle.x, rectangle.y + 172, 100, 3);
-                level.addEnemyUnitToEnemyArray(zombie1);
-            }
-            if (LayerName.equals("zombie3")) {
-                Zombie3 zombie3 = new Zombie3(level, rectangle.x, rectangle.y + 172, 100, 3);
-                level.addEnemyUnitToEnemyArray(zombie3);
-            }
-            if (LayerName.equals("goblin1")) {
-                Goblin1 goblin1 = new Goblin1(level, rectangle.x, rectangle.y + 172, 100, 3);
-                level.addEnemyUnitToEnemyArray(goblin1);
-            }
-            if (LayerName.equals("skeleton1")) {
-                Skeleton skeleton = new Skeleton(level, rectangle.x, rectangle.y + 172, 100, 3);
-                level.addEnemyUnitToEnemyArray(skeleton);
-            }
-            if (LayerName.equals("skeleton3")) {
-                Skeleton3 skeleton3 = new Skeleton3(level, rectangle.x, rectangle.y + 172, 100, 3);
-                level.addEnemyUnitToEnemyArray(skeleton3);
-            }
-        }
+
+//        for (MapObject object : objects) {
+//            Rectangle rectangle;
+//            float x = object.getProperties().get("x", Float.class);
+//            float y = object.getProperties().get("y", Float.class);
+//            rectangle = new Rectangle(x, y, 32, 32);
+//            if (LayerName.equals("zombie")) {
+//                Zombie zombie = new Zombie(level, rectangle.x, rectangle.y + 172, 100, 3);
+////                Skeleton skeleton = new Skeleton(level, rectangle.x + 60, rectangle.y + 172, 100, 5);
+//                level.addEnemyUnitToEnemyArray(zombie);
+//            }
+//            if (LayerName.equals("zombie1")) {
+//                Zombie1 zombie1 = new Zombie1(level, rectangle.x, rectangle.y + 172, 100, 3);
+//                level.addEnemyUnitToEnemyArray(zombie1);
+//            }
+//            if (LayerName.equals("zombie3")) {
+//                Zombie3 zombie3 = new Zombie3(level, rectangle.x, rectangle.y + 172, 100, 3);
+//                level.addEnemyUnitToEnemyArray(zombie3);
+//            }
+////            if (LayerName.equals("goblin1")) {
+////                Goblin1 goblin1 = new Goblin1(level, rectangle.x, rectangle.y + 172, 100, 3);
+////                level.addEnemyUnitToEnemyArray(goblin1);
+////            }
+////            if (LayerName.equals("skeleton1")) {
+////                Skeleton skeleton = new Skeleton(level, rectangle.x, rectangle.y + 172, 100, 3);
+////                level.addEnemyUnitToEnemyArray(skeleton);
+////            }
+////            if (LayerName.equals("skeleton3")) {
+////                Skeleton3 skeleton3 = new Skeleton3(level, rectangle.x, rectangle.y + 172, 100, 3);
+////                level.addEnemyUnitToEnemyArray(skeleton3);
+////            }
+//        }
     }
 }
 

@@ -8,7 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.timgapps.warfare.Level.GUI.Screens.TeamEntity;
+import com.timgapps.warfare.Level.GUI.Screens.TeamUnit;
+import com.timgapps.warfare.Units.GameUnits.unitTypes.PlayerUnits;
 import com.timgapps.warfare.Warfare;
 
 
@@ -30,26 +31,26 @@ public class UnitImage extends Group {
     /**
      * Конструктор
      *
-     * @param unitType   - тип юнита
+     * @param unitId     - тип юнита
      * @param unitLevel  - текущий уровень юнита
      * @param energyCost - кол-во энергии, необходимое для появления юнита
      */
-    public UnitImage(int unitType, int unitLevel, int energyCost) {
+    public UnitImage(PlayerUnits unitId, int unitLevel, int energyCost) {
         this.unitLevel = unitLevel;
-        switch (unitType) {
-            case TeamEntity.GNOME:
+        switch (unitId) {
+            case Gnome:
                 textureRegionName = "gnomeUnitImage";
                 break;
-            case TeamEntity.ARCHER:
+            case Archer:
                 textureRegionName = "archerUnitImage";
                 break;
-            case TeamEntity.THOR:
+            case Thor:
                 textureRegionName = "thorUnitImage";
                 break;
-            case TeamEntity.KNIGHT:
+            case Knight:
                 textureRegionName = "knightUnitImage";
                 break;
-            case TeamEntity.STONE:
+            case Stone:
                 textureRegionName = "rockUnitImage";
                 break;
         }

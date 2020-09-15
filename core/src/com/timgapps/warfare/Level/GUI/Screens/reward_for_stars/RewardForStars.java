@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
@@ -15,15 +14,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.timgapps.warfare.Level.GUI.Finger;
-import com.timgapps.warfare.Level.GUI.Screens.CoinsPanel;
-import com.timgapps.warfare.Level.GUI.Screens.TeamEntity;
+import com.timgapps.warfare.Level.GUI.Screens.TeamUnit;
 import com.timgapps.warfare.Level.GameManager;
-import com.timgapps.warfare.Level.LevelMap.LevelIcon;
-import com.timgapps.warfare.Level.LevelMap.StarsPanel;
 import com.timgapps.warfare.Level.LevelMap.actions.CoinsAction;
+import com.timgapps.warfare.Units.GameUnits.unitTypes.PlayerUnits;
 import com.timgapps.warfare.Warfare;
-
-import sun.security.krb5.internal.PAForUserEnc;
 
 public class RewardForStars extends Group {
     private Image rewardImage;
@@ -379,7 +374,7 @@ public class RewardForStars extends Group {
         switch (data.getTypeOfReward()) {
             case com.timgapps.warfare.Level.GUI.Screens.reward_for_stars.RewardForStarsData.REWARD_STONE:                           // если награда "КАМЕНЬ"
                 for (int i = 0; i < gameManager.getCollection().size(); i++) {
-                    if (gameManager.getCollection().get(i).getUnitType() == TeamEntity.STONE) {
+                    if (gameManager.getCollection().get(i).getUnitId() == PlayerUnits.Stone) {
                         addRewardUnitToTeam(i);
                         Image actorImage = new Image(Warfare.atlas.findRegion(data.getImageString()));
                         rewardForStarsScreen.startAddAction(actorImage, getX() + rewardForStarsScreen.getScrollTableX(), getY() + 240, deltaX);
@@ -389,7 +384,7 @@ public class RewardForStars extends Group {
                 break;
             case com.timgapps.warfare.Level.GUI.Screens.reward_for_stars.RewardForStarsData.REWARD_ARCHER:
                 for (int i = 0; i < gameManager.getCollection().size(); i++) {
-                    if (gameManager.getCollection().get(i).getUnitType() == TeamEntity.ARCHER) {
+                    if (gameManager.getCollection().get(i).getUnitId() == PlayerUnits.Archer) {
                         addRewardUnitToTeam(i);
                         Image actorImage = new Image(Warfare.atlas.findRegion(data.getImageString()));
 //                        setStartPosition(getX() + rewardForStarsScreen.getScrollTableX(),
@@ -422,7 +417,7 @@ public class RewardForStars extends Group {
                 break;
             case RewardForStarsData.REWARD_GNOME:
                 for (int i = 0; i < gameManager.getCollection().size(); i++) {
-                    if (gameManager.getCollection().get(i).getUnitType() == TeamEntity.GNOME) {
+                    if (gameManager.getCollection().get(i).getUnitId() == PlayerUnits.Gnome) {
                         addRewardUnitToTeam(i);
                         Image actorImage = new Image(Warfare.atlas.findRegion(data.getImageString()));
                         rewardForStarsScreen.startAddAction(actorImage, getX() + rewardForStarsScreen.getScrollTableX(), getY() + 240, deltaX);
@@ -442,7 +437,7 @@ public class RewardForStars extends Group {
      **/
     private void addRewardUnitToTeam(int i) {
 //        unlockRewardForStars(i);                                               // разблокируем награду
-        gameManager.getCollection().get(i).getEntityData().setUnlock();     // снимаем блокировку юнита
+        gameManager.getCollection().get(i).getUnitData().setUnlock();     // снимаем блокировку юнита
         gameManager.getCollection().get(i).getUnitImageButton().unlock();
 
         if (gameManager.getTeam().size() < 5) {
@@ -462,7 +457,7 @@ public class RewardForStars extends Group {
      * метод разблокирует юнита и делает его доступным в коллекции
      **/
     private void unlockRewardForStars(int index) {
-        gameManager.getCollection().get(index).getEntityData().setUnlock();     // снимаем блокировку юнита
+        gameManager.getCollection().get(index).getUnitData().setUnlock();     // снимаем блокировку юнита
         gameManager.getCollection().get(index).getUnitImageButton().unlock();
     }
 

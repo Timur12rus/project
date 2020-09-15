@@ -11,6 +11,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.timgapps.warfare.Level.Level;
 import com.timgapps.warfare.Units.GameUnits.GameUnit;
+import com.timgapps.warfare.Units.GameUnits.GameUnitView;
 import com.timgapps.warfare.Units.GameUnits.Player.Bullets.Stone;
 import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnit;
 
@@ -65,13 +66,13 @@ public class EnemyUnit extends GameUnit {
     }
 
     public void attackTower() {
-        if (currentState == State.WALKING || currentState == State.RUN || currentState == State.STAY) {
+        if (currentState == GameUnitView.State.WALKING || currentState == GameUnitView.State.RUN || currentState == GameUnitView.State.STAY) {
             // если не атакует игрового юнита, то установим флаг атакует башню = true
             if (!isAttack) {
                 if (!isAttackTower) {
                     isAttackTower = true;
                     stateTime = 0;
-                    currentState = State.ATTACK;
+                    currentState = GameUnitView.State.ATTACK;
                 }
             }
         }
@@ -88,14 +89,14 @@ public class EnemyUnit extends GameUnit {
     public void setAttackStone(Stone stone) {
         if (!isAttackStone) {
             isAttackStone = true;
-            currentState = State.ATTACK;
+            currentState = GameUnitView.State.ATTACK;
             this.stone = stone;
         }
     }
 
     @Override
-    public void setHealth(float value) {
-        super.setHealth(value);
+    public void subHealth(float value) {
+        super.subHealth(value);
         if (health <= 0 && !isRemovedFromEnemiesArray) {   // если здоровье меньше или равно 0, то удаляем из массива вражеских юнитов
             removeFromEnemiesArray();                      // текущий юнит
         }
@@ -129,7 +130,6 @@ public class EnemyUnit extends GameUnit {
         return targetPlayer;
     }
 
-    @Override
     public Body createBody(float x, float y) {
         BodyDef def = new BodyDef();
         def.type = BodyDef.BodyType.DynamicBody;
@@ -138,8 +138,8 @@ public class EnemyUnit extends GameUnit {
         shape.setAsBox(24 / Level.WORLD_SCALE, 8 / Level.WORLD_SCALE);
         FixtureDef fDef = new FixtureDef();
         fDef.shape = shape;
-        fDef.filter.categoryBits = GameUnit.ENEMY_BIT;
-        fDef.filter.maskBits = GameUnit.PLAYER_BIT | GameUnit.BULLET_BIT | GameUnit.STONE_BIT | TOWER_BIT;
+        fDef.filter.categoryBits = ENEMY_BIT;
+        fDef.filter.maskBits = PLAYER_BIT | BULLET_BIT | STONE_BIT | TOWER_BIT;
         body.createFixture(fDef).setUserData(this);
         shape.dispose();
         body.setTransform(x / Level.WORLD_SCALE, y / Level.WORLD_SCALE, 0);

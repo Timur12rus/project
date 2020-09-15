@@ -31,9 +31,9 @@ public class TeamUpgradeScreen extends Group {
     private UpgradeScreen upgradeScreen;
     private ConstructedWindow constructedWindow;
     private ImageButton closeButton;
-    private ArrayList<TeamEntity> team;                 // массив юнитов из КОМАНДЫ
-    private ArrayList<TeamEntity> unitCollection;       // массив юнитов из КОЛЛЕКЦИИ
-    private TeamEntity replaceUnit;                     // заменяющий юнит из коллекциии, заменяет юнита в команде при процессе замены
+    private ArrayList<TeamUnit> team;                 // массив юнитов из КОМАНДЫ
+    private ArrayList<TeamUnit> unitCollection;       // массив юнитов из КОЛЛЕКЦИИ
+    private TeamUnit replaceUnit;                     // заменяющий юнит из коллекциии, заменяет юнита в команде при процессе замены
     private float teamTableWidth;
     private float teamTableHeight;
     private float paddingLeft = 48;
@@ -50,7 +50,7 @@ public class TeamUpgradeScreen extends Group {
     private String teamText;
     private GameManager gameManager;
     private boolean toRaplaceUnitFromCollectionToTeam = false;
-    private TeamEntity clickedTeamEntity;
+    private TeamUnit clickedTeamUnit;
 
     /**
      * передаем в конструктор список team, который содержит в себе КОМАНДУ ЮНИТОВ
@@ -175,14 +175,14 @@ public class TeamUpgradeScreen extends Group {
     /**
      * метод показывает заменяющего юнита (нового), которого игрок хочет добавить в команду
      **/
-    public void showReplaceUnit(TeamEntity teamEntity) {
+    public void showReplaceUnit(TeamUnit teamUnit) {
 
         /** делаем таблицу с командой юнитов невидимой, скрываем её **/
         tableCollection.setVisible(false);
-        replaceUnit = teamEntity;   // юнит из коллекции, который заменит юнита в команде
+        replaceUnit = teamUnit;   // юнит из коллекции, который заменит юнита в команде
 
         /** назначаем изображение выбранного для замены юнита **/
-        replacedUnitImage.setDrawable((teamEntity.getUnitImage().getImage()).getDrawable());
+        replacedUnitImage.setDrawable((teamUnit.getUnitImage().getImage()).getDrawable());
 
         /** делаем видимыми надпись "ВЫБЕРИТЕ ЮНИТ ДЛЯ ЗАМЕНЫ" и изображение заменяющего юнита **/
         replaceUnitLabel.setVisible(true);
@@ -211,33 +211,33 @@ public class TeamUpgradeScreen extends Group {
     /**
      * метод показывает запускает экран UpgradeScreen
      **/
-    private void showUpgradeScreen(TeamEntity teamEntity) {             // selectButton - false или true, показать кнопку
-        upgradeScreen.setUnitUpgradeData(teamEntity);
+    private void showUpgradeScreen(TeamUnit teamUnit) {             // selectButton - false или true, показать кнопку
+        upgradeScreen.setUnitUpgradeData(teamUnit);
         boolean showSelectButton = false;       // показывать ли кнопеу "ВЫБРАТЬ" в окне информации о юните
-        if (unitCollection.contains(teamEntity)) {
-            if (teamEntity.getEntityData().isUnlock()) {      // если юнит находится в "КОЛЛЕКЦИИ", и разблокирован
+        if (unitCollection.contains(teamUnit)) {
+            if (teamUnit.getUnitData().isUnlock()) {      // если юнит находится в "КОЛЛЕКЦИИ", и разблокирован
                 showSelectButton = true;                     // то покажем кнопку "ВЫБРАТЬ"
             }
             //TODO нужно сделать надпись типа "соберите *10 для разблокировки
         }
-        upgradeScreen.showUpgradeScreen(showSelectButton, teamEntity);
+        upgradeScreen.showUpgradeScreen(showSelectButton, teamUnit);
     }
 
     /**
      * слушатель для кнопок-юнитов в команде и юнитов в коллекции
      **/
-    private void addClickListener(final TeamEntity teamEntity) {
-        teamEntity.addListener(new ClickListener() {
+    private void addClickListener(final TeamUnit teamUnit) {
+        teamUnit.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
                 /** если флаг isReplaceActive - false, то вызываем окно апгрейда, если true - заменяем юнит в команде на юнит из коллекции **/
                 if (!isReplaceActive)
-                    showUpgradeScreen(teamEntity);
+                    showUpgradeScreen(teamUnit);
                 else {
                     toRaplaceUnitFromCollectionToTeam = true;
-                    clickedTeamEntity = teamEntity;
+                    clickedTeamUnit = teamUnit;
                 }
             }
         });
@@ -247,9 +247,9 @@ public class TeamUpgradeScreen extends Group {
      * метод для замены выбранного юнита из коллекции на юнита в команде
      * т.е. меняем юнита из команды на юнита из коллекции
      *
-     * @param teamEntity - юнит, который находится в команде, которого будем менять на юнита из коллекциии
+     * @param teamUnit - юнит, который находится в команде, которого будем менять на юнита из коллекциии
      **/
-    private void replaceUnitFromCollectionToTeam(TeamEntity teamEntity) {
+    private void replaceUnitFromCollectionToTeam(TeamUnit teamUnit) {
         System.out.println("replace unit");
         System.out.println("Before ");
         for (int i = 0; i < team.size(); i++) {
@@ -258,15 +258,15 @@ public class TeamUpgradeScreen extends Group {
         for (int i = 0; i < unitCollection.size(); i++) {
             System.out.println("unitCollection [" + i + "] = " + unitCollection.get(i));
         }
-        if (team.contains(teamEntity)) {
-            int index = team.indexOf(teamEntity);
+        if (team.contains(teamUnit)) {
+            int index = team.indexOf(teamUnit);
             int indexReplacedUnitInCollection = unitCollection.indexOf(replaceUnit);
             team.set(index, replaceUnit);
             System.out.println("team Table contains replaceUnit = " + team.contains(replaceUnit));
             System.out.println("replaceUnit index in collection table = " + unitCollection.indexOf(replaceUnit));
-            unitCollection.set(indexReplacedUnitInCollection, teamEntity);
-            System.out.println("unitCollection contains teamEntity = " + unitCollection.contains(teamEntity));
-            System.out.println("unitCollection teamEntity = " + unitCollection.indexOf(teamEntity));
+            unitCollection.set(indexReplacedUnitInCollection, teamUnit);
+            System.out.println("unitCollection contains teamEntity = " + unitCollection.contains(teamUnit));
+            System.out.println("unitCollection teamEntity = " + unitCollection.indexOf(teamUnit));
             /** обновим команду(team) и коллекцию (collection) и сохраним игру **/
             gameManager.updateTeam(team);
             gameManager.updateCollection(unitCollection);
@@ -320,7 +320,7 @@ public class TeamUpgradeScreen extends Group {
     public void act(float delta) {
         super.act(delta);
         if (toRaplaceUnitFromCollectionToTeam) {
-            replaceUnitFromCollectionToTeam(clickedTeamEntity);
+            replaceUnitFromCollectionToTeam(clickedTeamUnit);
             toRaplaceUnitFromCollectionToTeam = false;
         }
     }

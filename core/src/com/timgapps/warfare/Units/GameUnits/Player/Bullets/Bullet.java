@@ -1,14 +1,10 @@
 package com.timgapps.warfare.Units.GameUnits.Player.Bullets;
 
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.timgapps.warfare.Level.Level;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnit;
-import com.timgapps.warfare.Units.GameUnits.GameUnit;
 import com.timgapps.warfare.Units.GameUnits.Interfaces.IBody;
 
 public abstract class Bullet extends Actor implements IBody {
@@ -51,7 +47,7 @@ public abstract class Bullet extends Actor implements IBody {
 
     public void inflictDamage(EnemyUnit enemyUnit) {
         if (!isDamaged) {
-            enemyUnit.setHealth(damage);
+            enemyUnit.subHealth(damage);
             isDamaged = true;
             destroy();
             body.setLinearVelocity(0, 0);

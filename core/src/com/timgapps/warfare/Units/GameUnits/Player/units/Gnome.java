@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Array;
 import com.timgapps.warfare.Level.Level;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnit;
+import com.timgapps.warfare.Units.GameUnits.GameUnitView;
 import com.timgapps.warfare.Warfare;
 
 import java.util.ArrayList;
@@ -16,13 +17,8 @@ public class Gnome extends PlayerUnit {
     private float x, y;
     private float minDistance = 0; // расстояние до ближайшего вражеского юнита
     private float distanceToVerticalMovement = 300;     // минимальное расстояние до врага, чтобы изменить направление движения игрока по вертикали
-
     private boolean isHaveVerticalDirection = false;
-
     private Direction verticalDirectionMovement = Direction.NONE;
-//    private static float APPEARANCE_TIME = 10;
-//    protected static int ENERGY_PRICE = 15;
-
     private static float APPEARANCE_TIME = 1;
     protected static int ENERGY_PRICE = 1;
 
@@ -30,96 +26,95 @@ public class Gnome extends PlayerUnit {
     public Gnome(Level level, float x, float y, float health, float damage) {
         super(level, x, y, health, damage);
         this.level = level;
-
         velocity = 0.7f;
         xPosDamageLabel = -50;
-
         this.setWidth(Warfare.atlas.findRegion("gnomeWalk0").getRegionWidth());
         this.setHeight(Warfare.atlas.findRegion("gnomeWalk0").getRegionHeight());
         this.debug();
         createAnimations();                  // создадим анимации для различных состояний персонажа
-        currentState = State.RUN;            // установим текущее состояние юнита = State.RUN
+        currentState = GameUnitView.State.RUN;            // установим текущее состояние юнита = State.RUN
         level.addChild(this, x, y);
         level.arrayActors.add(this);        // добавим юнита к массиву игровых актеров
     }
 
     @Override
     public void act(float delta) {
-        super.act(delta);
-        if (health <= 0 && body.isActive()) {
-            currentState = State.DIE;
-            stateTime = 0;
-            stay();
-            body.setActive(false);
-        }
-
-        if (currentState == State.RUN && !isAttack) {
-            findTarget();
-//            if (!isHaveTarget)                            // если юнит не имеет цель-врага, то найдем цель-врага
-//                findTarget();
-        }
-
-        if (body.isActive()) {
-            /** проверим, атакует ли юнит баррикаду **/
-            if (!isAttackBarricade) {
-                if (currentState == State.RUN) {
-                    if (isHaveTarget) {  // если определен "враг-цель", то
-                        moveToTarget();     //движемся к цели
-                    } else {                  // в противном случае, если "враг-цель" не определен, то двигаемся прямо вправо
-                        moveRight(body);    // движемся вправо
-                    }
-                }
-            }
-
-//            if (targetEnemy != null) {
-            if (currentState == State.ATTACK) {     // если текущее состояние ATTACK
-                stay();                             // установим скорость тела (0;0)
-                if (attackAnimation.isAnimationFinished(stateTime)) {
-                    stateTime = 0;
-                    currentState = State.STAY;                  // установим состояние STAY
-                    if (isAttack) {                             // если юнит атакует врага
-                        if (targetEnemy != null) {
-                            if (targetEnemy.getHealth() > 0)
-                                inflictDamage(targetEnemy, damage);     // наносим урон вражескому юниту
-                            if (targetEnemy.getHealth() <= 0) {
-                                resetTarget();
-                                currentState = State.RUN;
-                            }
-                        }
-                    } else if (isAttackBarricade) {              // если юнит атакует баррикаду
-                        if (barricade != null) {
-                            barricade.setHealth(damage);
-                            stateTime = 0;
-                            currentState = State.STAY;
-                            if (barricade.getHealth() <= 0) {
-                                isAttackBarricade = false;
-                                currentState = State.RUN;
-                            }
-                        }
-                    }
-                }
-            }
-
-            if (currentState == State.STAY && stayAnimation.isAnimationFinished(stateTime)) {
-                if (isAttack || isAttackBarricade)
-                    currentState = State.ATTACK;
-                else
-                    currentState = State.RUN;
-                stateTime = 0;
-            }
-
-            if (currentState == State.STAY) {
-                stay();
-            }
-        }
-
-        if (currentState == State.DIE && dieAnimation.isAnimationFinished(stateTime)) {
-
-            /** МОЖЕТ ПРИГОДИТЬСЯ 17.02.2020
-             //            destroy();
-             **/
-            setToDestroy();
-        }
+//
+//        super.act(delta);
+//        if (health <= 0 && body.isActive()) {
+//            currentState = State.DIE;
+//            stateTime = 0;
+//            stay();
+//            body.setActive(false);
+//        }
+//
+//        if (currentState == State.RUN && !isAttack) {
+//            findTarget();
+////            if (!isHaveTarget)                            // если юнит не имеет цель-врага, то найдем цель-врага
+////                findTarget();
+//        }
+//
+//        if (body.isActive()) {
+//            /** проверим, атакует ли юнит баррикаду **/
+//            if (!isAttackBarricade) {
+//                if (currentState == State.RUN) {
+//                    if (isHaveTarget) {  // если определен "враг-цель", то
+//                        moveToTarget();     //движемся к цели
+//                    } else {                  // в противном случае, если "враг-цель" не определен, то двигаемся прямо вправо
+//                        moveRight(body);    // движемся вправо
+//                    }
+//                }
+//            }
+//
+////            if (targetEnemy != null) {
+//            if (currentState == State.ATTACK) {     // если текущее состояние ATTACK
+//                stay();                             // установим скорость тела (0;0)
+//                if (attackAnimation.isAnimationFinished(stateTime)) {
+//                    stateTime = 0;
+//                    currentState = State.STAY;                  // установим состояние STAY
+//                    if (isAttack) {                             // если юнит атакует врага
+//                        if (targetEnemy != null) {
+//                            if (targetEnemy.getHealth() > 0)
+//                                inflictDamage(targetEnemy, damage);     // наносим урон вражескому юниту
+//                            if (targetEnemy.getHealth() <= 0) {
+//                                resetTarget();
+//                                currentState = State.RUN;
+//                            }
+//                        }
+//                    } else if (isAttackBarricade) {              // если юнит атакует баррикаду
+//                        if (barricade != null) {
+//                            barricade.setHealth(damage);
+//                            stateTime = 0;
+//                            currentState = State.STAY;
+//                            if (barricade.getHealth() <= 0) {
+//                                isAttackBarricade = false;
+//                                currentState = State.RUN;
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//
+//            if (currentState == State.STAY && stayAnimation.isAnimationFinished(stateTime)) {
+//                if (isAttack || isAttackBarricade)
+//                    currentState = State.ATTACK;
+//                else
+//                    currentState = State.RUN;
+//                stateTime = 0;
+//            }
+//
+//            if (currentState == State.STAY) {
+//                stay();
+//            }
+//        }
+//
+//        if (currentState == State.DIE && dieAnimation.isAnimationFinished(stateTime)) {
+//
+//            /** МОЖЕТ ПРИГОДИТЬСЯ 17.02.2020
+//             //            destroy();
+//             **/
+//            setToDestroy();
+//        }
     }
 
     private void stay() {
@@ -129,24 +124,19 @@ public class Gnome extends PlayerUnit {
     private Direction calculateVerticalDirection() {
         float posY = body.getPosition().y;
         float posYTarget = targetEnemy.getBodyPosition().y;
-
         if (posY < posYTarget) verticalDirectionMovement = Direction.UP;
         if (posY > posYTarget) verticalDirectionMovement = Direction.DOWN;
         if (posY == posYTarget) verticalDirectionMovement = Direction.NONE;
-
         isHaveVerticalDirection = true;
         return verticalDirectionMovement;
     }
-
 
     /**
      * метод для поиска "ПРОИТВНИКА-ЦЕЛИ"
      **/
     private void findTarget() {
-
         /** массив вражеских юнитов **/
         ArrayList<EnemyUnit> enemies = level.getArrayEnemies();
-
         /** массив вражеских юнитов - "потенциальных целей" **/
         ArrayList<EnemyUnit> targetEnemies = new ArrayList<EnemyUnit>();
 
@@ -179,11 +169,11 @@ public class Gnome extends PlayerUnit {
             if (targetEnemy != null) {
                 isHaveTarget = true;        // изменим флаг на true, т.е. есть "враг-цель"
                 calculateVerticalDirection();       // вычислим направление вертикального перемещения
-                currentState = State.RUN;
+                currentState = GameUnitView.State.RUN;
             }
         } catch (Exception e) {
             System.out.println("ERROR FIND TARGET!!!!!!!!!!");
-            currentState = State.RUN;
+            currentState = GameUnitView.State.RUN;
             verticalDirectionMovement = Direction.NONE;
         }
     }
@@ -244,7 +234,6 @@ public class Gnome extends PlayerUnit {
         body.setLinearVelocity(vel);
     }
 
-
     /**
      * метод для создания анимации юнита
      **/
@@ -297,9 +286,6 @@ public class Gnome extends PlayerUnit {
     @Override
     public void resetTarget() {
         super.resetTarget();
-//        targetEnemy = null;
-//        isHaveTarget = false;
-//        isAttack = false;
         isHaveVerticalDirection = false;
         verticalDirectionMovement = Direction.NONE;
     }
@@ -307,7 +293,6 @@ public class Gnome extends PlayerUnit {
     /**
      * метод устанавливает ВРАГА_ЦЕЛЬ (используется при определении столкновения с вражеским юнитом
      **/
-
 
     public static int getEnergyPrice() {
         return ENERGY_PRICE;
@@ -328,59 +313,31 @@ public class Gnome extends PlayerUnit {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
-//        if (level.getState() == Level.PLAY) {
-//        stateTime += Gdx.graphics.getDeltaTime();
-//        }
-//        batch.setColor(1, 1, 1, 1);
-
-//        if (isDraw) {
-        if (currentState == State.WALKING) {
+        if (currentState == GameUnitView.State.WALKING) {
             batch.draw((TextureRegion) walkAnimation.getKeyFrame(stateTime, true), getX() - 124, getY());
         }
-
-        if (currentState == State.ATTACK) {
+        if (currentState == GameUnitView.State.ATTACK) {
             batch.draw((TextureRegion) attackAnimation.getKeyFrame(stateTime, false), getX() - 124, getY());
         }
-
-        if (currentState == State.STAY) {
+        if (currentState == GameUnitView.State.STAY) {
             batch.draw((TextureRegion) stayAnimation.getKeyFrame(stateTime, false), getX() - 124, getY());
         }
-
-        if (currentState == State.RUN) {
+        if (currentState == GameUnitView.State.RUN) {
             batch.draw((TextureRegion) runAnimation.getKeyFrame(stateTime, true), getX() - 124, getY());
         }
-
-        if (currentState == State.DIE) {
+        if (currentState == GameUnitView.State.DIE) {
             batch.draw((TextureRegion) dieAnimation.getKeyFrame(stateTime, false), getX() - 124, getY());
         }
-
         if (isDrawHealthBar)
             drawHealthBar(batch, -84, getHeight());
     }
 
-
-    @Override
-    public void setHealth(float value) {
-        super.setHealth(value);
-//        if (health <= 0) {
-//            stateTime = 0;
-//            currentState = State.DIE;
-//        }
-    }
-
     @Override
     public void attack() {
-        if (currentState != State.ATTACK) {        // проверяем, в состоянии ли "атаки" юнит
-            currentState = State.ATTACK;
+        if (currentState != GameUnitView.State.ATTACK) {        // проверяем, в состоянии ли "атаки" юнит
+            currentState = GameUnitView.State.ATTACK;
             stateTime = 0;
             isAttack = true;
         }
     }
-
-    @Override
-    public State getCurrentState() {
-        return currentState;
-    }
-
-
 }

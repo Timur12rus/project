@@ -14,7 +14,7 @@ import com.boontaran.MessageListener;
 import com.boontaran.games.StageGame;
 import com.timgapps.warfare.Level.GUI.Finger;
 import com.timgapps.warfare.Level.GUI.HUD;
-import com.timgapps.warfare.Level.GUI.Screens.TeamEntity;
+import com.timgapps.warfare.Level.GUI.Screens.TeamUnit;
 import com.timgapps.warfare.Level.GUI.StoneButton;
 import com.timgapps.warfare.Level.GUI.UnitButton;
 import com.timgapps.warfare.Level.LevelScreens.ColorRectangle;
@@ -23,12 +23,13 @@ import com.timgapps.warfare.Level.LevelScreens.LevelCompletedScreen;
 import com.timgapps.warfare.Level.LevelScreens.PauseScreen;
 import com.timgapps.warfare.Tools.WorldContactListener;
 import com.timgapps.warfare.Units.GameUnits.Barricade;
+
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnit;
-import com.timgapps.warfare.Units.GameUnits.Player.units.Archer1;
 import com.timgapps.warfare.Units.GameUnits.Player.units.Gnome;
 import com.timgapps.warfare.Units.GameUnits.Player.units.Knight;
 import com.timgapps.warfare.Units.GameUnits.Player.SiegeTower;
 import com.timgapps.warfare.Units.GameUnits.Player.units.Thor;
+import com.timgapps.warfare.Units.GameUnits.Player.units.UnitCreator;
 import com.timgapps.warfare.Utils.Setting;
 import com.timgapps.warfare.Warfare;
 
@@ -60,7 +61,7 @@ public class Level extends StageGame {
     private int levelNumber;
     private GameManager gameManager;
     Random random;
-    private ArrayList<TeamEntity> team;
+    private ArrayList<TeamUnit> team;
     private Barricade barricade;
     private Image rockBig, rockMiddle, rockSmall;
     private SiegeTower siegeTower;
@@ -80,6 +81,8 @@ public class Level extends StageGame {
     private float unitButtonWidth;
     private float unitButtonHeight;
     private Finger finger;
+
+    private UnitCreator unitCreator;
 
     public Level(int levelNumber, final GameManager gameManager) {
         this.levelNumber = levelNumber;
@@ -102,6 +105,9 @@ public class Level extends StageGame {
         colorRectangle = new ColorRectangle(0, 0, getWidth(), getHeight(), new Color(0, 0, 0, 0.7f));
         colorRectangle.setVisible(false);
         addOverlayChild(colorRectangle);
+
+        unitCreator = new UnitCreator(this);
+        unitCreator.createUnit("Thor", new Vector2(200, 200));
 
         coinsCount = gameManager.getCoinsCount();
         hud = new HUD(this);
@@ -286,7 +292,7 @@ public class Level extends StageGame {
     }
 
     public void addArcher1(int health, int damage) {
-        new Archer1(this, 140, 210, health, 50);
+//        new Archer1(this, 140, 210, health, 50);
 //        new Archer1(this, 140, 210, health, damage);
 //        new Archer1(this, 600, 210, health, damage);
 
@@ -398,14 +404,14 @@ public class Level extends StageGame {
 
     class TableUnitButton extends Table {
         ArrayList<UnitButton> unitButtonArrayList;
-        ArrayList<TeamEntity> team;
+        ArrayList<TeamUnit> team;
         //        float unitButtonWidth;
 //        float unitButtonHeight;
         StoneButton stoneButton;
         Level level;
         float stoneButtonXpos;
 
-        public TableUnitButton(Level level, ArrayList<TeamEntity> team) {
+        public TableUnitButton(Level level, ArrayList<TeamUnit> team) {
             super();
             this.team = team;
             this.level = level;
@@ -435,28 +441,28 @@ public class Level extends StageGame {
         // метод добавляет кнопки юнитов в соответствии с командой
         void addUnitButtons() {
             for (int i = 0; i < team.size(); i++) {
-                switch (team.get(i).getUnitType()) {
-                    case TeamEntity.GNOME:
+                switch (team.get(i).getUnitId()) {
+                    case Gnome:
                         unitButtonArrayList.add(new UnitButton(level, new Image(Warfare.atlas.findRegion("gnomeActive")),
-                                new Image(Warfare.atlas.findRegion("gnomeInactive")), team.get(i).getEntityData()));
+                                new Image(Warfare.atlas.findRegion("gnomeInactive")), team.get(i).getUnitData()));
                         break;
-                    case TeamEntity.ARCHER:
+                    case Archer:
                         unitButtonArrayList.add(new UnitButton(level, new Image(Warfare.atlas.findRegion("archer1Active")),
-                                new Image(Warfare.atlas.findRegion("archer1Inactive")), team.get(i).getEntityData()));
+                                new Image(Warfare.atlas.findRegion("archer1Inactive")), team.get(i).getUnitData()));
                         break;
-                    case TeamEntity.THOR:
+                    case Thor:
                         unitButtonArrayList.add(new UnitButton(level, new Image(Warfare.atlas.findRegion("thorActive")),
-                                new Image(Warfare.atlas.findRegion("thorInactive")), team.get(i).getEntityData()));
+                                new Image(Warfare.atlas.findRegion("thorInactive")), team.get(i).getUnitData()));
                         break;
 
-                    case TeamEntity.KNIGHT:
+                    case Knight:
                         unitButtonArrayList.add(new UnitButton(level, new Image(Warfare.atlas.findRegion("knightActive")),
-                                new Image(Warfare.atlas.findRegion("knightInactive")), team.get(i).getEntityData()));
+                                new Image(Warfare.atlas.findRegion("knightInactive")), team.get(i).getUnitData()));
                         break;
 
-                    case TeamEntity.STONE:
+                    case Stone:
                         stoneButton = new StoneButton(level, new Image(Warfare.atlas.findRegion("stoneButtonActive")),
-                                new Image(Warfare.atlas.findRegion("stoneButtonInactive")), team.get(i).getEntityData());
+                                new Image(Warfare.atlas.findRegion("stoneButtonInactive")), team.get(i).getUnitData());
                         unitButtonArrayList.add(stoneButton);
                         break;
                 }

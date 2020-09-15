@@ -13,10 +13,12 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.timgapps.warfare.Level.Level;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnit;
-import com.timgapps.warfare.Units.GameUnits.GameUnit;
 import com.timgapps.warfare.Warfare;
 
 import java.util.ArrayList;
+
+import static com.timgapps.warfare.Units.GameUnits.GameUnitModel.ENEMY_BIT;
+import static com.timgapps.warfare.Units.GameUnits.GameUnitModel.STONE_BIT;
 
 
 public class Stone extends Bullet {
@@ -128,7 +130,7 @@ public class Stone extends Bullet {
         for (int i = 0; i < arrayEnemies.size(); i++) {
 
             if (Intersector.overlaps(stoneRectangle, arrayEnemies.get(i).getRectangle())) {
-                arrayEnemies.get(i).setHealth(damage);
+                arrayEnemies.get(i).subHealth(damage);
                 isDamaged = true;
                 isDestroyed = true;
                 body.setActive(false);
@@ -173,8 +175,8 @@ public class Stone extends Bullet {
         shape.setAsBox(20 / Level.WORLD_SCALE, 6 / Level.WORLD_SCALE);
 
         fDef.shape = shape;
-        fDef.filter.categoryBits = GameUnit.STONE_BIT;
-        fDef.filter.maskBits = GameUnit.ENEMY_BIT;
+        fDef.filter.categoryBits = STONE_BIT;
+        fDef.filter.maskBits = ENEMY_BIT;
         fDef.density = 10f;
 
         body.createFixture(fDef).setUserData(this);

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
@@ -14,18 +15,20 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.timgapps.warfare.Level.Level;
 import com.timgapps.warfare.Units.GameUnits.Interfaces.IBody;
 
-public abstract class GameUnit extends Actor implements IBody {
-
+public abstract class GameUnit extends Actor {
+    protected Animation walkAnimation;            // анимация для ходьбы
+    protected Animation attackAnimation;          // анимация для атаки
+    protected Animation dieAnimation;             // анимация для уничтожения
+    protected Animation stayAnimation;            // анимация для стоит
+    protected Animation runAnimation;            // анимация для бежит
     protected Rectangle bodyRectangle;
-    protected Vector2 bodyRectanglePosition;
-
+    protected Vector2 bodyPosition;
     protected World world;
     protected float health;
     protected float damage;
     protected Level level;
     protected boolean setToDestroyBody = false;
     protected boolean isDraw;        //  переменная указывает рисовать данного актера или нет
-
     protected float velocity;
 //    protected Vector2 velocity;
 
@@ -34,7 +37,6 @@ public abstract class GameUnit extends Actor implements IBody {
      * переменная отвечает за то, отрисовывать ли прямоугольник для определения коллизий с камнем
      **/
     protected boolean isDebug = true;
-
     public static final short PLAYER_BIT = 1;
     public static final short ENEMY_BIT = 2;
     public static final short BULLET_BIT = 4;
@@ -45,23 +47,16 @@ public abstract class GameUnit extends Actor implements IBody {
     private boolean isBodyInactive = false;
     protected float stateTime;
     protected Body body;
-
     protected int healthBarWidth;
     protected int healthBarHeight;
-
     protected Texture healthTexture;
     protected Texture backTexture;
     protected boolean isDrawHealthBar = false;
+//    public enum State {WALKING, ATTACK, STAY, DIE, RUN, HART}
 
-
-    public enum State {WALKING, ATTACK, STAY, DIE, RUN, HART}
-
-    public State currentState;
-
+    public GameUnitView.State currentState;
     protected float xPosDamageLabel, yPosDamageLabel;   // смещение по Х и У надписи значения получаемого урона при получении урона
-
     protected float fullHealth;
-
 
     /**
      * конструктор
@@ -71,14 +66,10 @@ public abstract class GameUnit extends Actor implements IBody {
         this.health = health;
         this.damage = damage;
         this.world = level.getWorld();
-
-        body = createBody(x, y);
         isDraw = true;              // isDraw = true - значит отрисовывается актёр (его "рамка")
-        currentState = State.STAY;
-
+        currentState = GameUnitView.State.STAY;
         bodyRectangle = new Rectangle();
-        bodyRectanglePosition = new Vector2(x, y);          // позиция прямоугольника "тела"
-
+        bodyPosition = new Vector2(x, y);          // позиция прямоугольника "тела"
         if (isDebug) {                                      // проверим, если true отрисовываем прямоугольник "тело"
             shapeRenderer = new ShapeRenderer();
         }
@@ -89,7 +80,6 @@ public abstract class GameUnit extends Actor implements IBody {
         fullHealth = health;
         createHealthBar(healthBarWidth, healthBarHeight);
     }
-
 
     /**
      * метод для сздания HealthBar
@@ -137,7 +127,7 @@ public abstract class GameUnit extends Actor implements IBody {
      *
      * @param value - урон
      **/
-    public void setHealth(float value) {
+    public void subHealth(float value) {
         if (!isDrawHealthBar) {
             if (health > 0) isDrawHealthBar = true;
         }
@@ -147,7 +137,7 @@ public abstract class GameUnit extends Actor implements IBody {
             isDrawHealthBar = false;
             if (!isBodyInactive) {
                 stateTime = 0;
-                currentState = State.DIE;
+                currentState = GameUnitView.State.DIE;
                 setInactiveBody();
             }
         }
@@ -180,14 +170,14 @@ public abstract class GameUnit extends Actor implements IBody {
     /**
      * Метод для получения текущего состояния
      **/
-    public State getCurrentState() {
+    public GameUnitView.State getCurrentState() {
         return currentState;
     }
 
     /**
      * Метод для установки текущего состояния
      **/
-    public void setCurrentState(State currentState) {
+    public void setCurrentState(GameUnitView.State currentState) {
         this.currentState = currentState;
     }
 
@@ -200,7 +190,7 @@ public abstract class GameUnit extends Actor implements IBody {
      **/
     public void inflictDamage(GameUnit unit, float value) {
         if (unit != null) {
-            unit.setHealth(value);
+            unit.subHealth(value);
         }
     }
 

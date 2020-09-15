@@ -17,8 +17,11 @@ import com.timgapps.warfare.Level.Level;
 import com.timgapps.warfare.Units.GameUnits.DamageLabel;
 import com.timgapps.warfare.Units.GameUnits.Effects.Explosion;
 import com.timgapps.warfare.Units.GameUnits.Effects.Fire;
-import com.timgapps.warfare.Units.GameUnits.GameUnit;
+import com.timgapps.warfare.Units.GameUnits.GameUnitView;
 import com.timgapps.warfare.Warfare;
+
+import static com.timgapps.warfare.Units.GameUnits.GameUnitModel.ENEMY_BIT;
+import static com.timgapps.warfare.Units.GameUnits.GameUnitModel.TOWER_BIT;
 
 public class SiegeTower extends Group {
     private Image tower, frontWheel, backWheel;
@@ -200,8 +203,8 @@ public class SiegeTower extends Group {
 
         FixtureDef fDef = new FixtureDef();
         fDef.shape = shape;
-        fDef.filter.categoryBits = GameUnit.TOWER_BIT;
-        fDef.filter.maskBits = GameUnit.ENEMY_BIT;
+        fDef.filter.categoryBits = TOWER_BIT;
+        fDef.filter.maskBits = ENEMY_BIT;
 
         body.createFixture(fDef).setUserData(this);
         shape.dispose();

@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
-public class HealthBar extends Actor {
+public class BarricadeHealthBar extends Actor {
 
     private Texture healthTexture;
     private Texture backTexture;
@@ -18,7 +18,7 @@ public class HealthBar extends Actor {
 
     private boolean isDrawHealthBar = false;
 
-    public HealthBar(int healthBarWidth, int healthBarHeight, float health) {
+    public BarricadeHealthBar(int healthBarWidth, int healthBarHeight, float health) {
         this.health = health;
         fullHealth = health;
         createHealthBar(healthBarWidth, healthBarHeight);

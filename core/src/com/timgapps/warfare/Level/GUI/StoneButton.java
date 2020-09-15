@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.timgapps.warfare.Level.GUI.Screens.TeamEntityData;
+import com.timgapps.warfare.Level.GUI.Screens.PlayerUnitData;
 import com.timgapps.warfare.Level.Level;
 import com.timgapps.warfare.Units.GameUnits.Player.Bullets.Stone;
 import com.timgapps.warfare.Warfare;
@@ -26,7 +26,7 @@ public class StoneButton extends UnitButton {
 
 
     //     if (stoneButton != null) stoneButton.setUnitButtonTablePosX(tableUnitButtons.getX());
-    public StoneButton(final Level level, Image activeImage, Image inactiveImage, TeamEntityData data) {
+    public StoneButton(final Level level, Image activeImage, Image inactiveImage, PlayerUnitData data) {
         super(level, activeImage, inactiveImage, data);
         this.unitButtonTablePosX = unitButtonTablePosX;
         greenTarget = new Image(Warfare.atlas.findRegion("targetGreen"));
@@ -34,8 +34,8 @@ public class StoneButton extends UnitButton {
 //        this.energyPrice = setEnergyPrice(typeOfUnit);
 //        posX = x;
 //        posY = y;
-        damage = data.getDAMAGE();
-        health = data.getHEALTH();
+        damage = data.getDamage();
+        health = data.getHealth();
         addActor(greenTarget);
         addActor(redTarget);
         inactiveTargetImages();

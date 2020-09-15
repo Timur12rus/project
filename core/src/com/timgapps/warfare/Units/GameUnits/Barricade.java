@@ -1,19 +1,18 @@
 package com.timgapps.warfare.Units.GameUnits;
 
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.timgapps.warfare.Level.Level;
 import com.timgapps.warfare.Units.GameUnits.Effects.BarricadeExplosion;
-import com.timgapps.warfare.Units.GameUnits.Effects.Fire;
-import com.timgapps.warfare.Units.GameUnits.Player.HealthBar;
+import com.timgapps.warfare.Units.GameUnits.Player.BarricadeHealthBar;
 import com.timgapps.warfare.Warfare;
+
+import static com.timgapps.warfare.Units.GameUnits.GameUnitModel.BARRICADE_BIT;
+import static com.timgapps.warfare.Units.GameUnits.GameUnitModel.PLAYER_BIT;
 
 public class Barricade {
     //public class Barricade extends Group {
@@ -32,7 +31,7 @@ public class Barricade {
     private int healthBarWidth;
     private int healthBarHeight;
     private boolean isDrawHealthBar = false;
-    private HealthBar healthBar;
+    private BarricadeHealthBar barricadeHealthBar;
 
     private BarricadeExplosion barricadeExplosion1;
     private BarricadeExplosion barricadeExplosion2;
@@ -76,8 +75,8 @@ public class Barricade {
      * @param
      **/
     private void createHealthBar(int healthBarWidth, int healthBarHeight, float health) {
-        healthBar = new HealthBar(healthBarWidth, healthBarHeight, health);
-        level.addChild(healthBar, getX(), rockSmall.getY() + rockSmall.getHeight() + 16);
+        barricadeHealthBar = new BarricadeHealthBar(healthBarWidth, healthBarHeight, health);
+        level.addChild(barricadeHealthBar, getX(), rockSmall.getY() + rockSmall.getHeight() + 16);
     }
 
     /**
@@ -146,7 +145,7 @@ public class Barricade {
         if (health <= 0) {
             health = 0;
             setToDestroy();
-            healthBar.remove();
+            barricadeHealthBar.remove();
 //            body.setActive(false);
             barricadeExplosion1.start();
         }
@@ -155,10 +154,10 @@ public class Barricade {
         addDamageLabel(rockSmall.getX() + rockSmall.getWidth() / 2, rockSmall.getY() + rockSmall.getHeight() + 16, damage);
 
         /** установим количество здоровья у БАРРИКАДЫ **/
-        healthBar.setHealth(health);
+        barricadeHealthBar.setHealth(health);
 
         /** установим флаг isDrawHealthBar = true, чтобы отрисовать HealthBar **/
-        healthBar.setIsDrawHealthBar(true);
+        barricadeHealthBar.setIsDrawHealthBar(true);
     }
 
     public void setToDestroy() {
@@ -181,8 +180,8 @@ public class Barricade {
         FixtureDef fDef = new FixtureDef();
         fDef.shape = shape;
         fDef.density = 10;
-        fDef.filter.categoryBits = GameUnit.BARRICADE_BIT;
-        fDef.filter.maskBits = GameUnit.PLAYER_BIT;
+        fDef.filter.categoryBits = BARRICADE_BIT;
+        fDef.filter.maskBits = PLAYER_BIT;
 
         body.createFixture(fDef).setUserData(this);
         shape.dispose();

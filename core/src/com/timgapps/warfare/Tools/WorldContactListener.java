@@ -6,10 +6,17 @@ import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnit;
-import com.timgapps.warfare.Units.GameUnits.GameUnit;
+import com.timgapps.warfare.Units.GameUnits.GameUnitView;
 import com.timgapps.warfare.Units.GameUnits.Player.Bullets.Bullet;
 import com.timgapps.warfare.Units.GameUnits.Player.Bullets.Stone;
 import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnit;
+
+import static com.timgapps.warfare.Units.GameUnits.GameUnitModel.BARRICADE_BIT;
+import static com.timgapps.warfare.Units.GameUnits.GameUnitModel.BULLET_BIT;
+import static com.timgapps.warfare.Units.GameUnits.GameUnitModel.ENEMY_BIT;
+import static com.timgapps.warfare.Units.GameUnits.GameUnitModel.PLAYER_BIT;
+import static com.timgapps.warfare.Units.GameUnits.GameUnitModel.STONE_BIT;
+import static com.timgapps.warfare.Units.GameUnits.GameUnitModel.TOWER_BIT;
 
 public class WorldContactListener implements ContactListener {
     @Override
@@ -20,19 +27,19 @@ public class WorldContactListener implements ContactListener {
         int cDef = fixA.getFilterData().categoryBits | fixB.getFilterData().categoryBits;
 
         switch (cDef) {
-            case GameUnit.BULLET_BIT | GameUnit.ENEMY_BIT:
+            case BULLET_BIT | ENEMY_BIT:
                 checkPlayerBulletToEnemy(fixA, fixB);
                 break;
-            case GameUnit.STONE_BIT | GameUnit.ENEMY_BIT:
+            case STONE_BIT | ENEMY_BIT:
                 checkCollisionStoneToEnemy(fixA, fixB);
                 break;
-            case GameUnit.PLAYER_BIT | GameUnit.BARRICADE_BIT:
+            case PLAYER_BIT | BARRICADE_BIT:
                 checkCollisionPlayerToBarricade(fixA, fixB);
                 break;
-            case GameUnit.TOWER_BIT | GameUnit.ENEMY_BIT:
+            case TOWER_BIT | ENEMY_BIT:
                 checkCollisionTowerToEnemy(fixA, fixB);
                 break;
-            case GameUnit.PLAYER_BIT | GameUnit.ENEMY_BIT:
+            case PLAYER_BIT | ENEMY_BIT:
                 checkPlayerToEnemyCollision(fixA, fixB);
                 break;
         }
@@ -47,7 +54,7 @@ public class WorldContactListener implements ContactListener {
         int cDef = fixA.getFilterData().categoryBits | fixB.getFilterData().categoryBits;
 
         switch (cDef) {
-            case GameUnit.PLAYER_BIT | GameUnit.ENEMY_BIT:
+            case PLAYER_BIT | ENEMY_BIT:
 //                endCollisionPlayerToEnemy(fixA, fixB);
 //                checkPlayerToEnemyCollision(fixA, fixB);
 //                checkPlayerToEnemyCollision(fixA, fixB);
@@ -69,7 +76,7 @@ public class WorldContactListener implements ContactListener {
      * Метод для проверки столкновения БАШНИ С ВРАЖЕСКИМ ЮНИТОМ
      **/
     private void checkCollisionTowerToEnemy(Fixture fixA, Fixture fixB) {
-        if (fixA.getFilterData().categoryBits == GameUnit.TOWER_BIT) {
+        if (fixA.getFilterData().categoryBits == TOWER_BIT) {
             Object enemyUserData = fixB.getUserData();
             ((EnemyUnit) enemyUserData).attackTower();
         } else {
@@ -83,7 +90,7 @@ public class WorldContactListener implements ContactListener {
      * Метод для проверки столкновения ИГРОВОГО ЮНИТА С ВРАЖЕСКИМ ЮНИТОМ
      **/
     private void checkPlayerToEnemyCollision(Fixture fixA, Fixture fixB) {
-        if (fixA.getFilterData().categoryBits == GameUnit.PLAYER_BIT) {
+        if (fixA.getFilterData().categoryBits == PLAYER_BIT) {
             Object userData = fixA.getUserData();
             Object enemyUserData = fixB.getUserData();
 
@@ -120,7 +127,7 @@ public class WorldContactListener implements ContactListener {
      * Метод для проверки столкновения ИГРОВОГО ЮНИТА С БАРРИКАДОЙ
      **/
     private void checkCollisionPlayerToBarricade(Fixture fixA, Fixture fixB) {
-        if (fixA.getFilterData().categoryBits == GameUnit.BARRICADE_BIT) {
+        if (fixA.getFilterData().categoryBits == BARRICADE_BIT) {
             Object playerData = fixB.getUserData();
             ((PlayerUnit) playerData).attackBarricade();
         } else {
@@ -133,7 +140,7 @@ public class WorldContactListener implements ContactListener {
      * Метод для проверки столкновения СНАРЯДА ИГРОВОГО ЮНИТА С ВРАЖЕСКИМ ЮНИТОМ
      **/
     private void checkPlayerBulletToEnemy(Fixture fixA, Fixture fixB) {
-        if (fixA.getFilterData().categoryBits == GameUnit.BULLET_BIT) {
+        if (fixA.getFilterData().categoryBits == BULLET_BIT) {
             Object bulletData = fixA.getUserData();
             Object enemyUserData = fixB.getUserData();
             if (bulletData instanceof Bullet) {
@@ -153,26 +160,26 @@ public class WorldContactListener implements ContactListener {
      * Метод для проверки столкновения КАМНЯ С ВРАЖЕСКИМ ЮНИТОМ
      **/
     private void checkCollisionStoneToEnemy(Fixture fixA, Fixture fixB) {
-        if (fixA.getFilterData().categoryBits == GameUnit.STONE_BIT) {
+        if (fixA.getFilterData().categoryBits == STONE_BIT) {
 
             Object stoneData = fixA.getUserData();
             Object enemyUserData = fixB.getUserData();
 
-            if (((EnemyUnit) enemyUserData).getCurrentState() != GameUnit.State.ATTACK) {
+            if (((EnemyUnit) enemyUserData).getCurrentState() != GameUnitView.State.ATTACK) {
                 ((EnemyUnit) enemyUserData).setAttackStone((Stone) stoneData);
             }
         } else {
             Object stoneData = fixB.getUserData();
             Object enemyUserData = fixA.getUserData();
 
-            if (((EnemyUnit) enemyUserData).getCurrentState() != GameUnit.State.ATTACK) {
+            if (((EnemyUnit) enemyUserData).getCurrentState() != GameUnitView.State.ATTACK) {
                 ((EnemyUnit) enemyUserData).setAttackStone((Stone) stoneData);
             }
         }
     }
 
     private void endCollisionPlayerToEnemy(Fixture fixA, Fixture fixB) {
-        if (fixA.getFilterData().categoryBits == GameUnit.PLAYER_BIT) {
+        if (fixA.getFilterData().categoryBits == PLAYER_BIT) {
 
             Object userData = fixA.getUserData();
             Object enemyUserData = fixB.getUserData();
