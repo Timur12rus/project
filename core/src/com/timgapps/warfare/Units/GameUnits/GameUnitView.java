@@ -26,16 +26,8 @@ public class GameUnitView extends Actor {
     protected HealthBar healthBar;
     protected float stateTime;
 
-    @Override
-    public void act(float delta) {
-        super.act(delta);
-        controller.update();
-        if (level.getState() != Level.PAUSED) {
-            stateTime += Gdx.graphics.getDeltaTime();
-        }
-        setPosition(model.getBody().getPosition().x * Level.WORLD_SCALE, model.getBody().getPosition().y * Level.WORLD_SCALE);
-//        setPosition(model.getPosition().x, model.getPosition().y);
-        System.out.println("bodyX = " + model.getPosition());
+    public enum State {
+        WALKING, ATTACK, STAY, DIE, RUN, HART
     }
 
     public GameUnitView(Level level, GameUnitModel model, GameUnitController controller) {
@@ -47,9 +39,17 @@ public class GameUnitView extends Actor {
         healthBar = new HealthBar(54, 10, model.getHealth());
     }
 
-    public enum State {
-        WALKING, ATTACK, STAY, DIE, RUN, HART
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+        controller.update();
+        if (level.getState() != Level.PAUSED) {
+            stateTime += Gdx.graphics.getDeltaTime();
+        }
+        setPosition(model.getBody().getPosition().x * Level.WORLD_SCALE, model.getBody().getPosition().y * Level.WORLD_SCALE);
     }
 
-
+    public float getHealth() {
+        return model.getHealth();
+    }
 }

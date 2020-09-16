@@ -177,5 +177,4 @@ public class PlayerUnitData extends UnitData implements Serializable {
     public float getBarDeltaY() {
         return barDeltaY;
     }
-
 }

@@ -1,4 +1,4 @@
-package com.timgapps.warfare.Units.GameUnits.Player.units;
+package com.timgapps.warfare.Units.GameUnits.Enemy;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -9,18 +9,15 @@ import com.timgapps.warfare.Level.Level;
 import com.timgapps.warfare.Units.GameUnits.GameUnitView;
 import com.timgapps.warfare.Warfare;
 
-public class PlayerUnitView extends GameUnitView {
-    private PlayerUnitModel model;
-    private PlayerUnitController controller;
-    private Level level;
-    private Vector2 position;
+public class EnemyUnitView extends GameUnitView {
+    private EnemyUnitController controller;
+    private EnemyUnitModel model;
     private float deltaX, deltaY;       // значение в px на сколько нужно сдвигать изобажение юнита относительно его тела, при отрисовке
-    private float getHealthBarDeltaX;
     private float healthBarDeltaX;
     private float healthBarDeltaY;
     private State currentState;
 
-    public PlayerUnitView(Level level, PlayerUnitModel model, PlayerUnitController controller) {
+    public EnemyUnitView(Level level, EnemyUnitModel model, EnemyUnitController controller) {
         super(level, model, controller);
         this.model = model;
         this.controller = controller;
@@ -30,6 +27,19 @@ public class PlayerUnitView extends GameUnitView {
         healthBarDeltaY = model.getUnitData().getBarDeltaY();
         createAnimations();
         currentState = State.STAY;
+    }
+
+    public String getName() {
+        return model.getName();
+    }
+
+    // метод возвращает позицию тела юнита в пикселях
+    public Vector2 getPosition() {
+        return model.getPosition();
+    }
+
+    public Vector2 getBodySize() {
+        return model.getBodySize();
     }
 
     @Override
@@ -55,8 +65,9 @@ public class PlayerUnitView extends GameUnitView {
         }
     }
 
+
     private void createAnimations() {
-        String name = model.getPlayerUnitData().getUnitId().toString().toLowerCase();
+        String name = model.getUnitData().getUnitId().toString().toLowerCase();
         System.out.println("Name = " + name);
         Array<TextureRegion> frames = new Array<TextureRegion>();
         for (int i = 0; i < 3; i++)
@@ -82,3 +93,4 @@ public class PlayerUnitView extends GameUnitView {
         frames.clear();
     }
 }
+

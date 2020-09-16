@@ -136,7 +136,8 @@ public class Gnome extends PlayerUnit {
      **/
     private void findTarget() {
         /** массив вражеских юнитов **/
-        ArrayList<EnemyUnit> enemies = level.getArrayEnemies();
+        ArrayList<EnemyUnit> enemies = null;
+//        ArrayList<EnemyUnit> enemies = level.getArrayEnemies();
         /** массив вражеских юнитов - "потенциальных целей" **/
         ArrayList<EnemyUnit> targetEnemies = new ArrayList<EnemyUnit>();
 

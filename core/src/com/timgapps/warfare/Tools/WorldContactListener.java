@@ -10,6 +10,7 @@ import com.timgapps.warfare.Units.GameUnits.GameUnitView;
 import com.timgapps.warfare.Units.GameUnits.Player.Bullets.Bullet;
 import com.timgapps.warfare.Units.GameUnits.Player.Bullets.Stone;
 import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnit;
+import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnitController;
 
 import static com.timgapps.warfare.Units.GameUnits.GameUnitModel.BARRICADE_BIT;
 import static com.timgapps.warfare.Units.GameUnits.GameUnitModel.BULLET_BIT;
@@ -112,6 +113,10 @@ public class WorldContactListener implements ContactListener {
             System.out.println("Enemy To Player collision!");
 
             // если игрок не имеет "врвга-цель", то зададим для него "врага-цель" и установим флаг "атакует" (isAttack = true)
+
+            ((PlayerUnitController) userData).setIsTouchedEnemy(true);
+            ((PlayerUnitController) userData).setTargetEnemy(enemyUserData);
+
             ((PlayerUnit) userData).setTargetEnemy((EnemyUnit) enemyUserData);
             ((PlayerUnit) userData).attack();
 

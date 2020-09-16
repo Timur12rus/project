@@ -126,19 +126,20 @@ public class Stone extends Bullet {
     }
 
     private void checkCollisionEnemyUnit() {
-        ArrayList<EnemyUnit> arrayEnemies = level.getArrayEnemies();
-        for (int i = 0; i < arrayEnemies.size(); i++) {
-
-            if (Intersector.overlaps(stoneRectangle, arrayEnemies.get(i).getRectangle())) {
-                arrayEnemies.get(i).subHealth(damage);
-                isDamaged = true;
-                isDestroyed = true;
-                body.setActive(false);
-            } else {
-                moveIsEnd = true;
-            }
-
-        }
+//
+//        ArrayList<EnemyUnit> arrayEnemies = level.getArrayEnemies();
+//        for (int i = 0; i < arrayEnemies.size(); i++) {
+//
+//            if (Intersector.overlaps(stoneRectangle, arrayEnemies.get(i).getRectangle())) {
+//                arrayEnemies.get(i).subHealth(damage);
+//                isDamaged = true;
+//                isDestroyed = true;
+//                body.setActive(false);
+//            } else {
+//                moveIsEnd = true;
+//            }
+//
+//        }
     }
 
     public float getHealth() {

@@ -2,12 +2,15 @@ package com.timgapps.warfare.Units.GameUnits.Player.units;
 
 import com.badlogic.gdx.math.Vector2;
 import com.timgapps.warfare.Level.Level;
+import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitController;
+import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitData;
+import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitModel;
+import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitView;
 import com.timgapps.warfare.Units.GameUnits.GameUnitController;
 import com.timgapps.warfare.Units.GameUnits.GameUnitModel;
 import com.timgapps.warfare.Units.GameUnits.GameUnitView;
 import com.timgapps.warfare.Units.GameUnits.unitTypes.EnemyUnits;
 import com.timgapps.warfare.Units.GameUnits.unitTypes.PlayerUnits;
-
 
 // класс для создания игровых юнитов (юнита игрока или вражеского юнита)
 public class UnitCreator {
@@ -25,34 +28,42 @@ public class UnitCreator {
         this.level = level;
     }
 
-    public void createUnit(String unitId, Vector2 position) {
+    public void createUnit(String unitName, Vector2 position) {
         this.position = position;
         // определим вражеский юнит или юнит игрока
         for (PlayerUnits playerUnit : PlayerUnits.values()) {
-            if (unitId.equals(playerUnit.name())) {
+            if (unitName.equals(playerUnit.name())) {
                 typeOfUnit = PLAYER_UNIT;
                 break;
             }
         }
         for (EnemyUnits enemyUnit : EnemyUnits.values()) {
-            if (unitId.equals(enemyUnit.name())) {
+            if (unitName.equals(enemyUnit.name())) {
                 typeOfUnit = ENEMEY_UNIT;
                 break;
             }
         }
         switch (typeOfUnit) {
             case PLAYER_UNIT:
-                PlayerUnitModel model = new PlayerUnitModel(level.getWorld(), position, level.getGameManager().getUnitData(unitId));
-                PlayerUnitController controller = new PlayerUnitController(model);
-                PlayerUnitView view = new PlayerUnitView(level, model, controller);
-                create(model, view, controller);
+                PlayerUnitModel playerUnitModel = new PlayerUnitModel(level.getWorld(), position, level.getGameManager().getUnitData(unitName));
+                PlayerUnitController controller = new PlayerUnitController(level, playerUnitModel);
+                PlayerUnitView view = new PlayerUnitView(level, playerUnitModel, controller);
+                create(playerUnitModel, view, controller);
                 break;
             case ENEMEY_UNIT:
                 // TODO нужно сделать для вражеских юнитов
-//                UnitModel model = new UnitModel(level.getWorld(), position, level.getGameManager().getUnitData(unitId));
-//                UnitController controller = new UnitController(model);
-//                UnitView view = new UnitView(level, model, controller);
-//                create(model, view, controller);
+                EnemyUnits unitId = EnemyUnits.None;
+                for (EnemyUnits enemyUnit : EnemyUnits.values()) {
+                    if (unitName.equals(enemyUnit.name())) {
+                        System.out.println("unitName = " + unitName + " unitId = " + enemyUnit.name());
+                        unitId = enemyUnit;
+                    }
+                }
+                EnemyUnitModel enemyUnitModel = new EnemyUnitModel(level.getWorld(), position, new EnemyUnitData(unitId));
+                EnemyUnitController enemyUnitController = new EnemyUnitController(enemyUnitModel);
+                EnemyUnitView enemyUnitView = new EnemyUnitView(level, enemyUnitModel, enemyUnitController);
+                create(enemyUnitModel, enemyUnitView, enemyUnitController);
+                level.addEnemyUnitToEnemyArray(enemyUnitView);
                 break;
         }
     }

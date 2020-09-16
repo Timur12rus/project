@@ -6,5 +6,6 @@ public enum EnemyUnits {
     Zombie3,
     Skeleton1,
     Skeleton2,
-    Goblin1
+    Goblin1,
+    None
 }

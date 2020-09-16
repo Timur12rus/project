@@ -4,13 +4,12 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.timgapps.warfare.Level.Level;
-import com.timgapps.warfare.Units.GameUnits.Interfaces.IBody;
-
-public class GameUnitModel {
+// абстрактный класс, модель игрового юнита
+public abstract class GameUnitModel {
     protected Vector2 position;
     protected World world;
     protected Body body;
-    private float health;
+    protected float health;
     protected float fullHealth;
     protected float speed;
     protected boolean isDraw;
@@ -27,8 +26,10 @@ public class GameUnitModel {
     public GameUnitModel(World world, Vector2 position) {
         this.world = world;
         this.position = position;
-        this.body = createBody(position);
+//        body = createBody(world);
     }
+
+    protected abstract Body createBody(World world);
 
     // возвращает координаты тела в пикселях
     public Vector2 getPosition() {
@@ -58,10 +59,6 @@ public class GameUnitModel {
     // возвращает значение скорости юнита
     public float getSpeed() {
         return speed;
-    }
-
-    public Body createBody(Vector2 position) {
-        return body;
     }
 
     public Body getBody() {

@@ -1,4 +1,4 @@
-package com.timgapps.warfare.Units.GameUnits.Player.units;
+package com.timgapps.warfare.Units.GameUnits.Enemy;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -6,36 +6,45 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.timgapps.warfare.Level.GUI.Screens.PlayerUnitData;
 import com.timgapps.warfare.Level.Level;
 import com.timgapps.warfare.Units.GameUnits.GameUnitModel;
 import com.timgapps.warfare.Units.GameUnits.UnitData;
 
-public class PlayerUnitModel extends GameUnitModel {
-//    private float speed;
-    private String name;
+public class EnemyUnitModel extends GameUnitModel {
     private float damage;
-    private PlayerUnitData playerUnitData;      // данные юнита (тип, урон, здоровье
+    //    private float health;
+//    private float speed;
     protected float bodyWidth = 48;
     protected float bodyHeight = 24;
-    private int energyPrice;
+    private EnemyUnitData enemyUnitData;
+    private String name;
 
-    public PlayerUnitModel(World world, Vector2 position, PlayerUnitData playerUnitData) {
+    public EnemyUnitModel(World world, Vector2 position, EnemyUnitData enemyUnitData) {
         super(world, position);
-        this.playerUnitData = playerUnitData;
-        speed = playerUnitData.getSpeed();
-        name = playerUnitData.getName();
-        damage = playerUnitData.getDamage();
-        health = playerUnitData.getHealth();
-        energyPrice = playerUnitData.getEnergyPrice();
+        this.enemyUnitData = enemyUnitData;
+        damage = enemyUnitData.getDamage();
+        health = enemyUnitData.getHealth();
+        speed = enemyUnitData.getSpeed();
+        name = enemyUnitData.getName();
         body = createBody(world);
     }
 
-    public PlayerUnitData getPlayerUnitData() {
-        return playerUnitData;
+    public float getHealth() {
+        return health;
     }
 
-    // возвращает значение урона, который наносит юнит
+    public Vector2 getBodySize() {
+        return new Vector2(bodyWidth, bodyHeight);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public EnemyUnitData getUnitData() {
+        return enemyUnitData;
+    }
+
     public float getDamage() {
         return damage;
     }
@@ -49,19 +58,11 @@ public class PlayerUnitModel extends GameUnitModel {
         shape.setAsBox((bodyWidth / 2) / Level.WORLD_SCALE, (bodyHeight / 2) / Level.WORLD_SCALE);
         FixtureDef fDef = new FixtureDef();
         fDef.shape = shape;
-        fDef.filter.categoryBits = PLAYER_BIT;
-        fDef.filter.maskBits = ENEMY_BIT | BARRICADE_BIT;
+        fDef.filter.categoryBits = ENEMY_BIT;
+        fDef.filter.maskBits = PLAYER_BIT;
         body.createFixture(fDef).setUserData(this);
         shape.dispose();
         body.setTransform(position.x / Level.WORLD_SCALE, position.y / Level.WORLD_SCALE, 0);
         return body;
-    }
-
-    public Vector2 getBodySize() {
-        return new Vector2(bodyWidth, bodyHeight);
-    }
-
-    public UnitData getUnitData() {
-        return playerUnitData;
     }
 }

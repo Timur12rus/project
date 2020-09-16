@@ -488,7 +488,7 @@ public class GameManager {
     // метод получает UnitData юнита из команды
     public PlayerUnitData getUnitData(String id) {
         for (TeamUnit teamUnit : team) {
-            if (id.equals(teamUnit.getUnitData().getUnitId())) {
+            if (id.equals(teamUnit.getUnitData().getUnitId().name())) {
             }
             return teamUnit.getUnitData();
         }
