@@ -4,8 +4,7 @@ import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
 import com.timgapps.warfare.Level.Level;
 import com.timgapps.warfare.Units.GameUnits.Barricade;
-import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitController;
-import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitView;
+import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitModel;
 import com.timgapps.warfare.Units.GameUnits.GameUnitController;
 
 import java.util.ArrayList;
@@ -18,7 +17,7 @@ public class PlayerUnitController extends GameUnitController {
     private boolean isAttackEnemy;
     private boolean isAttackBarricade;
     private Vector2 velocity;
-    private EnemyUnitView targetEnemy;
+    private EnemyUnitModel targetEnemy;
     private boolean isHaveTargetEnemy;
     private Barricade barricade;
 
@@ -27,7 +26,6 @@ public class PlayerUnitController extends GameUnitController {
         this.model = model;
         this.level = level;
         barricade = level.getBarricade();
-        body.getFixtureList().get(0).setUserData(this);
     }
 
     // метод обновления логики игрового юнита
@@ -35,9 +33,10 @@ public class PlayerUnitController extends GameUnitController {
     public void update() {
         super.update();
         targetEnemy = findEnemyUnit();
-        if (isTouchedEnemy) {
+        if (model.isTouchedEnemy()) {
+//        if (isTouchedEnemy) {
             attackEnemy();
-        } else if (isHaveTargetEnemy) {
+        } else if (model.isHaveTargetEnemy()) {
             System.out.println("Target Enemy = " + targetEnemy.getName());
             if (isTouchedEnemy) {
                 attackEnemy();
@@ -62,6 +61,7 @@ public class PlayerUnitController extends GameUnitController {
 
     // метод для атаки вражеского юнита
     public void attackEnemy() {
+        model.getBody().setLinearVelocity(0, 0);
         System.out.println("attackEnemy");
     }
 
@@ -71,14 +71,14 @@ public class PlayerUnitController extends GameUnitController {
     }
 
     // метод для поиска вражеского юнита (юнит которого будем атаковать)
-    public EnemyUnitView findEnemyUnit() {
+    public EnemyUnitModel findEnemyUnit() {
         /** массив вражеских юнитов **/
-        ArrayList<EnemyUnitView> enemies = level.getArrayEnemies();
+        ArrayList<EnemyUnitModel> enemies = level.getArrayEnemies();
         /** массив вражеских юнитов - "потенциальных целей" **/
-        ArrayList<EnemyUnitView> targetEnemies = new ArrayList<EnemyUnitView>();
+        ArrayList<EnemyUnitModel> targetEnemies = new ArrayList<EnemyUnitModel>();
         /** выполним поиск ВРАЖЕСКОГО ЮНИТА-ЦЕЛЬ **/
 //        for (int i = 0; i < enemies.size(); i++) {
-        for (EnemyUnitView enemy : enemies) {
+        for (EnemyUnitModel enemy : enemies) {
             /** проверим расстояяние до вражеского юнита, можем ли мы двигаться к нему (успеем ли..)
              * если да, то добавим его в массив вражеских юнитов, которых видит ИГРОВОЙ ЮНИТ
              * **/
@@ -100,14 +100,14 @@ public class PlayerUnitController extends GameUnitController {
          * **/
         float minDistance;
         Vector2 playerPosition = model.getPosition();                   // позиция игрового юнита
-        EnemyUnitView target = null;
+        EnemyUnitModel target = null;
         if (targetEnemies.size() > 0) {
             Vector2 enemyPosition = targetEnemies.get(0).getPosition();     // позиция первого вражеского юнита
             Vector2 distance = enemyPosition.sub(playerPosition);           // вектор расстояния между игровым и вражеским юнитом
             minDistance = distance.len();                                   // длина вектора расстояния между вражеским и игровым юнитом
             target = targetEnemies.get(0);                             // вражеский юнит - "цель", к которому будет двигаться игровой юнит
             // найдем самого близкого вражеского юнита к игровому
-            for (EnemyUnitView enemyUnitView : targetEnemies) {
+            for (EnemyUnitModel enemyUnitView : targetEnemies) {
                 float distanceToEnemy = enemyUnitView.getPosition().sub(playerPosition).len();
                 if (distanceToEnemy < minDistance) {
                     minDistance = distanceToEnemy;
@@ -117,12 +117,15 @@ public class PlayerUnitController extends GameUnitController {
         }
         if (target != null) {
             if (target.getHealth() > 0) {
-                isHaveTargetEnemy = true;
+//                isHaveTargetEnemy = true;
+                model.setIsHaveTargetEnemy(true);
             } else {
-                isHaveTargetEnemy = false;
+//                isHaveTargetEnemy = false;
+                model.setIsHaveTargetEnemy(false);
             }
         } else {
-            isHaveTargetEnemy = false;
+//            isHaveTargetEnemy = false;
+            model.setIsHaveTargetEnemy(false);
         }
         return target;
     }
@@ -139,7 +142,7 @@ public class PlayerUnitController extends GameUnitController {
         return isHaveTargetEnemy;
     }
 
-    public void setTargetEnemy(EnemyUnitController targetEnemy) {
+    public void setTargetEnemy(EnemyUnitModel targetEnemy) {
 //    public void setTargetEnemy(EnemyUnitView targetEnemy) {
         if (!this.targetEnemy.equals(targetEnemy))
             this.targetEnemy = targetEnemy;

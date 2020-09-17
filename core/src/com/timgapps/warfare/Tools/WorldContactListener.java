@@ -6,11 +6,13 @@ import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnit;
+import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitModel;
 import com.timgapps.warfare.Units.GameUnits.GameUnitView;
 import com.timgapps.warfare.Units.GameUnits.Player.Bullets.Bullet;
 import com.timgapps.warfare.Units.GameUnits.Player.Bullets.Stone;
 import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnit;
 import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnitController;
+import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnitModel;
 
 import static com.timgapps.warfare.Units.GameUnits.GameUnitModel.BARRICADE_BIT;
 import static com.timgapps.warfare.Units.GameUnits.GameUnitModel.BULLET_BIT;
@@ -98,14 +100,16 @@ public class WorldContactListener implements ContactListener {
             System.out.println("Enemy To Player collision!");
 
             // если игрок не имеет "врвга-цель", то зададим для него "врага-цель" и установим флаг "атакует" (isAttack = true)
-            ((PlayerUnit) userData).setTargetEnemy((EnemyUnit) enemyUserData);
-            ((PlayerUnit) userData).attack();
+
+            ((PlayerUnitModel) userData).setIsTouchedEnemy(true);
+            ((PlayerUnitModel) userData).setTargetEnemy((EnemyUnitModel) enemyUserData);
+
+//            ((PlayerUnit) userData).setTargetEnemy((EnemyUnit) enemyUserData);
+//            ((PlayerUnit) userData).attack();
 
             // если вражеский юнит не имеет "игрока-цель", то зададим для него "игрока-цель" и установим флаг "атакует" (isAttack = true)
-//            if (((EnemyUnit) enemyUserData).getTargetPlayer() == null) {
-            ((EnemyUnit) enemyUserData).setTargetPlayer((PlayerUnit) userData);
-            ((EnemyUnit) enemyUserData).attack();
-//            }
+//            ((EnemyUnit) enemyUserData).setTargetPlayer((PlayerUnit) userData);
+//            ((EnemyUnit) enemyUserData).attack();
         } else {
             Object userData = fixB.getUserData();
             Object enemyUserData = fixA.getUserData();
@@ -114,17 +118,15 @@ public class WorldContactListener implements ContactListener {
 
             // если игрок не имеет "врвга-цель", то зададим для него "врага-цель" и установим флаг "атакует" (isAttack = true)
 
-            ((PlayerUnitController) userData).setIsTouchedEnemy(true);
-            ((PlayerUnitController) userData).setTargetEnemy(enemyUserData);
+            ((PlayerUnitModel) userData).setIsTouchedEnemy(true);
+            ((PlayerUnitModel) userData).setTargetEnemy((EnemyUnitModel) enemyUserData);
 
-            ((PlayerUnit) userData).setTargetEnemy((EnemyUnit) enemyUserData);
-            ((PlayerUnit) userData).attack();
+//            ((PlayerUnit) userData).setTargetEnemy((EnemyUnit) enemyUserData);
+//            ((PlayerUnit) userData).attack();
 
             // если вражеский юнит не имеет "игрока-цель", то зададим для него "игрока-цель" и установим флаг "атакует" (isAttack = true)
-//            if (((EnemyUnit) enemyUserData).getTargetPlayer() == null) {
-            ((EnemyUnit) enemyUserData).setTargetPlayer((PlayerUnit) userData);
-            ((EnemyUnit) enemyUserData).attack();
-//            }
+//            ((EnemyUnit) enemyUserData).setTargetPlayer((PlayerUnit) userData);
+//            ((EnemyUnit) enemyUserData).attack();
         }
     }
 

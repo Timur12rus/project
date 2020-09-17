@@ -8,6 +8,5 @@ public class EnemyUnitController extends GameUnitController {
 
     public EnemyUnitController(EnemyUnitModel model) {
         super(model);
-        body.getFixtureList().get(0).setUserData(this);
     }
 }

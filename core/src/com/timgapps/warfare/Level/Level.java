@@ -24,6 +24,7 @@ import com.timgapps.warfare.Level.LevelScreens.PauseScreen;
 import com.timgapps.warfare.Tools.WorldContactListener;
 import com.timgapps.warfare.Units.GameUnits.Barricade;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnit;
+import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitModel;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitView;
 import com.timgapps.warfare.Units.GameUnits.Player.units.Gnome;
 import com.timgapps.warfare.Units.GameUnits.Player.units.Knight;
@@ -32,6 +33,7 @@ import com.timgapps.warfare.Units.GameUnits.Player.units.Thor;
 import com.timgapps.warfare.Units.GameUnits.Player.units.UnitCreator;
 import com.timgapps.warfare.Utils.Setting;
 import com.timgapps.warfare.Warfare;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -51,7 +53,7 @@ public class Level extends StageGame {
     private World world;
     private float accumulator;
     public static final float STEP = 1 / 60f;
-    private ArrayList<EnemyUnitView> arrayEnemies;
+    private ArrayList<EnemyUnitModel> arrayEnemies;
     public ArrayList<Actor> arrayActors;
     private float timeCount = 0;
     private HUD hud;
@@ -88,7 +90,7 @@ public class Level extends StageGame {
 
 //        System.out.println("Level Number " + levelNumber);
         setBackGround("level_bg");
-        arrayEnemies = new ArrayList<EnemyUnitView>();
+        arrayEnemies = new ArrayList<EnemyUnitModel>();
         arrayActors = new ArrayList<Actor>();
         world = new World(new Vector2(0, 0), true);
         world.setContactListener(new WorldContactListener()); // присваиваем слушатель ContactListener, который регистрирует событие столкновения в игровом мире
@@ -179,7 +181,7 @@ public class Level extends StageGame {
         });
     }
 
-    public void addEnemyUnitToEnemyArray(EnemyUnitView enemyUnit) {
+    public void addEnemyUnitToEnemyArray(EnemyUnitModel enemyUnit) {
         arrayEnemies.add(enemyUnit);
     }
 
@@ -221,7 +223,7 @@ public class Level extends StageGame {
 //        gameManager.getLevelIcons().get(levelNumber - 1).updateStarsCount(calculateStarsCount());
     }
 
-    public ArrayList<EnemyUnitView> getArrayEnemies() {
+    public ArrayList<EnemyUnitModel> getArrayEnemies() {
         return arrayEnemies;
     }
 

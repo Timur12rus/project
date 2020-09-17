@@ -8,17 +8,24 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.timgapps.warfare.Level.GUI.Screens.PlayerUnitData;
 import com.timgapps.warfare.Level.Level;
+import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitModel;
 import com.timgapps.warfare.Units.GameUnits.GameUnitModel;
 import com.timgapps.warfare.Units.GameUnits.UnitData;
 
 public class PlayerUnitModel extends GameUnitModel {
-//    private float speed;
+    //    private float speed;
     private String name;
     private float damage;
     private PlayerUnitData playerUnitData;      // данные юнита (тип, урон, здоровье
     protected float bodyWidth = 48;
     protected float bodyHeight = 24;
     private int energyPrice;
+    private boolean isTouchedBarricade;
+    private boolean isAttackEnemy;
+    private boolean isAttackBarricade;
+    private boolean isTouchedEnemy;
+    private boolean isHaveTargetEnemy;
+    private EnemyUnitModel targetEnemy;
 
     public PlayerUnitModel(World world, Vector2 position, PlayerUnitData playerUnitData) {
         super(world, position);
@@ -55,6 +62,35 @@ public class PlayerUnitModel extends GameUnitModel {
         shape.dispose();
         body.setTransform(position.x / Level.WORLD_SCALE, position.y / Level.WORLD_SCALE, 0);
         return body;
+    }
+
+    public void  setIsHaveTargetEnemy(boolean isHaveTargetEnemy) {
+        this.isHaveTargetEnemy = isHaveTargetEnemy;
+    }
+
+    public boolean isHaveTargetEnemy() {
+        return isHaveTargetEnemy;
+    }
+
+    // метод задает юнита врага-цель
+    public void setTargetEnemy(EnemyUnitModel targetEnemy) {
+        if (this.targetEnemy != null) {
+            if (!this.targetEnemy.equals(targetEnemy))
+                this.targetEnemy = targetEnemy;
+        } else {
+            this.targetEnemy = targetEnemy;
+        }
+    }
+
+    // проверяет коснулся ли юнит врага
+    public boolean isTouchedEnemy() {
+        return isTouchedEnemy;
+    }
+
+    // устанавливает коснулся ли юнит врага
+    public void setIsTouchedEnemy(boolean isTouchedEnemy) {
+        System.out.println("isTouchedEnemy = " + isTouchedEnemy);
+        this.isTouchedEnemy = isTouchedEnemy;
     }
 
     public Vector2 getBodySize() {
