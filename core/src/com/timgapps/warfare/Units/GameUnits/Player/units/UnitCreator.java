@@ -49,6 +49,7 @@ public class UnitCreator {
                 PlayerUnitController controller = new PlayerUnitController(level, playerUnitModel);
                 PlayerUnitView view = new PlayerUnitView(level, playerUnitModel, controller);
                 create(playerUnitModel, view, controller);
+                level.addUnitModel(playerUnitModel);
                 break;
             case ENEMEY_UNIT:
                 // TODO нужно сделать для вражеских юнитов
@@ -64,6 +65,7 @@ public class UnitCreator {
                 EnemyUnitView enemyUnitView = new EnemyUnitView(level, enemyUnitModel, enemyUnitController);
                 create(enemyUnitModel, enemyUnitView, enemyUnitController);
                 level.addEnemyUnitToEnemyArray(enemyUnitModel);
+                level.addUnitModel(enemyUnitModel);
 //                level.addEnemyUnitToEnemyArray(enemyUnitView);
                 break;
         }

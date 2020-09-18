@@ -1,14 +1,15 @@
 package com.timgapps.warfare.Units.GameUnits;
 
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
-import com.timgapps.warfare.Level.Level;
+
 // абстрактный класс, модель игрового юнита
 public abstract class GameUnitModel {
     protected Vector2 position;
     protected World world;
-    protected Body body;
+    protected Rectangle body;
     protected float health;
     protected float fullHealth;
     protected float speed;
@@ -22,30 +23,29 @@ public abstract class GameUnitModel {
     public static final short BARRICADE_BIT = 16;
     public static final short TOWER_BIT = 32;
     protected UnitData unitData;
+    protected float bodyWidth;
+    protected float bodyHeight;
+    private Vector2 velocity;
 
     public GameUnitModel(World world, Vector2 position) {
         this.world = world;
         this.position = position;
-//        body = createBody(world);
+        this.velocity = new Vector2(0, 0);
     }
 
-    protected abstract Body createBody(World world);
+    // создает прямоугольник (тело - для обнаружения столкновений)
+    protected abstract Rectangle createBody();
 
-    // возвращает координаты тела в пикселях
+    // возвращает координаты тела в пикселях (центра прямоугольника)
     public Vector2 getPosition() {
-        Vector2 position = body.getPosition();
-        position.x = body.getPosition().x * Level.WORLD_SCALE;
-        position.y = body.getPosition().y * Level.WORLD_SCALE;
-        return new Vector2(body.getPosition().x * Level.WORLD_SCALE, body.getPosition().y * Level.WORLD_SCALE);
+        return position;
     }
 
-    // метод задает позицию тела юнита
-    public void setPosition(Vector2 position) {
-        this.position.x = position.x;
-        this.position.y = position.y;
-        body.getPosition().x = position.x / Level.WORLD_SCALE;
-        body.getPosition().y = position.y / Level.WORLD_SCALE;
-    }
+//    // метод задает позицию тела юнита
+//    public void setPosition(Vector2 position) {
+//        this.position.x = position.x;
+//        this.position.y = position.y;
+//    }
 
     // возвращает кол-во здоровья у юнита
     public float getHealth() {
@@ -61,7 +61,35 @@ public abstract class GameUnitModel {
         return speed;
     }
 
-    public Body getBody() {
+    public Rectangle getBody() {
         return body;
+    }
+
+    // обновляет позицию тела в соответствии с позицией модели
+    public void updateBodyPosition() {
+        System.out.println("Position.x = " + position.x);
+        System.out.println("Position.y = " + position.y);
+        position.add(velocity);
+        body.setPosition(position.x, position.y);
+    }
+
+    public void setVelocity(Vector2 vel) {
+        velocity.set(vel);
+    }
+
+    public float getBodyWidth() {
+        return bodyWidth;
+    }
+
+    public float getBodyHeight() {
+        return bodyHeight;
+    }
+
+    public float getX() {
+        return position.x;
+    }
+
+    public float getY() {
+        return position.y;
     }
 }

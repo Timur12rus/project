@@ -6,7 +6,7 @@ import com.timgapps.warfare.Units.GameUnits.unitTypes.PlayerUnits;
 
 import java.io.Serializable;
 
-public class PlayerUnitData extends UnitData implements Serializable {
+public class PlayerUnitData extends UnitData {
     private PlayerUnits unitId;
     private int damage;
     private int health;
@@ -55,13 +55,15 @@ public class PlayerUnitData extends UnitData implements Serializable {
                 damage = 12;
                 health = 20;
                 energyPrice = 15;
-                deltaX = -124;
+                deltaX = -100;
+//                deltaX = -124;
                 deltaY = -8;
                 barDeltaX = -84;        // смещение healthBar по оси х
                 barDeltaY = 0;
                 unitLevel = 1;
                 speed = 0.8f;
                 name = "Thor";
+                System.out.println("HAHAHAHAHAHAH");
                 break;
             case Knight:
                 damage = 15;

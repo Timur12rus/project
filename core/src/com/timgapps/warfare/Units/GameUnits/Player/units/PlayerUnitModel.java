@@ -1,5 +1,6 @@
 package com.timgapps.warfare.Units.GameUnits.Player.units;
 
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -17,8 +18,6 @@ public class PlayerUnitModel extends GameUnitModel {
     private String name;
     private float damage;
     private PlayerUnitData playerUnitData;      // данные юнита (тип, урон, здоровье
-    protected float bodyWidth = 48;
-    protected float bodyHeight = 24;
     private int energyPrice;
     private boolean isTouchedBarricade;
     private boolean isAttackEnemy;
@@ -35,7 +34,9 @@ public class PlayerUnitModel extends GameUnitModel {
         damage = playerUnitData.getDamage();
         health = playerUnitData.getHealth();
         energyPrice = playerUnitData.getEnergyPrice();
-        body = createBody(world);
+        bodyWidth = 48;
+        bodyHeight = 24;
+        body = createBody();
     }
 
     public PlayerUnitData getPlayerUnitData() {
@@ -47,24 +48,8 @@ public class PlayerUnitModel extends GameUnitModel {
         return damage;
     }
 
-    @Override
-    protected Body createBody(World world) {
-        BodyDef def = new BodyDef();
-        def.type = BodyDef.BodyType.DynamicBody;
-        Body body = world.createBody(def);
-        PolygonShape shape = new PolygonShape();
-        shape.setAsBox((bodyWidth / 2) / Level.WORLD_SCALE, (bodyHeight / 2) / Level.WORLD_SCALE);
-        FixtureDef fDef = new FixtureDef();
-        fDef.shape = shape;
-        fDef.filter.categoryBits = PLAYER_BIT;
-        fDef.filter.maskBits = ENEMY_BIT | BARRICADE_BIT;
-        body.createFixture(fDef).setUserData(this);
-        shape.dispose();
-        body.setTransform(position.x / Level.WORLD_SCALE, position.y / Level.WORLD_SCALE, 0);
-        return body;
-    }
 
-    public void  setIsHaveTargetEnemy(boolean isHaveTargetEnemy) {
+    public void setIsHaveTargetEnemy(boolean isHaveTargetEnemy) {
         this.isHaveTargetEnemy = isHaveTargetEnemy;
     }
 
@@ -97,7 +82,13 @@ public class PlayerUnitModel extends GameUnitModel {
         return new Vector2(bodyWidth, bodyHeight);
     }
 
-    public UnitData getUnitData() {
+    @Override
+    protected Rectangle createBody() {
+        Rectangle body = new Rectangle(position.x, position.y, bodyWidth, bodyHeight);
+        return body;
+    }
+
+    public PlayerUnitData getUnitData() {
         return playerUnitData;
     }
 }

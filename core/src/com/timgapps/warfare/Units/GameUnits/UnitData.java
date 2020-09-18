@@ -1,6 +1,8 @@
 package com.timgapps.warfare.Units.GameUnits;
 
-public class UnitData {
+import java.io.Serializable;
+
+public class UnitData implements Serializable {
     protected float deltaX, deltaY;           // смещение изображения юнита относительно тела по оси х и у
     protected float barDeltaX, barDeltaY;    // смещение healthBar по оси х
 

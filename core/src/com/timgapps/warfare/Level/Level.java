@@ -3,6 +3,7 @@ package com.timgapps.warfare.Level;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
@@ -26,6 +27,8 @@ import com.timgapps.warfare.Units.GameUnits.Barricade;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnit;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitModel;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitView;
+import com.timgapps.warfare.Units.GameUnits.GameUnitModel;
+import com.timgapps.warfare.Units.GameUnits.GameUnitView;
 import com.timgapps.warfare.Units.GameUnits.Player.units.Gnome;
 import com.timgapps.warfare.Units.GameUnits.Player.units.Knight;
 import com.timgapps.warfare.Units.GameUnits.Player.SiegeTower;
@@ -50,11 +53,13 @@ public class Level extends StageGame {
     public static final int ON_PAUSED = 5;
     public static final float WORLD_SCALE = 100; // коэффициент масштабирования
     private Box2DDebugRenderer debugRender;
+    private ShapeRenderer shapeRenderer;
     private World world;
     private float accumulator;
     public static final float STEP = 1 / 60f;
     private ArrayList<EnemyUnitModel> arrayEnemies;
     public ArrayList<Actor> arrayActors;
+    public ArrayList<GameUnitModel> arrayModels;
     private float timeCount = 0;
     private HUD hud;
     private float energyCount = 0;
@@ -88,9 +93,12 @@ public class Level extends StageGame {
         this.levelNumber = levelNumber;
         this.gameManager = gameManager;
 
+        shapeRenderer = new ShapeRenderer();
+
 //        System.out.println("Level Number " + levelNumber);
         setBackGround("level_bg");
         arrayEnemies = new ArrayList<EnemyUnitModel>();
+        arrayModels = new ArrayList<GameUnitModel>();
         arrayActors = new ArrayList<Actor>();
         world = new World(new Vector2(0, 0), true);
         world.setContactListener(new WorldContactListener()); // присваиваем слушатель ContactListener, который регистрирует событие столкновения в игровом мире
@@ -247,6 +255,14 @@ public class Level extends StageGame {
         super.render(delta);
         if (Setting.DEBUG_WORLD) {
             debugRender.render(world, camera.combined.cpy().scl(WORLD_SCALE));
+//            stage.getBatch().end();
+//            shapeRenderer.begin();
+//            shapeRenderer.setColor(Color.RED);
+//            for (GameUnitModel unitModel : arrayModels) {
+//                shapeRenderer.rect(unitModel.getBody().getX(), unitModel.getBody().getY(), unitModel.getBody().getWidth(), unitModel.getBody().getHeight());
+//            }
+//            shapeRenderer.end();
+//            stage.getBatch().begin();
         }
     }
 
@@ -603,6 +619,18 @@ public class Level extends StageGame {
         }
 //        System.out.println("starsCount = " + starsCount);
         return starsCount;
+    }
+
+    public void addUnitModel(GameUnitModel model) {
+        arrayModels.add(model);
+    }
+
+    public void removeUnitModelFromArray(GameUnitModel unitModel) {
+        for (GameUnitModel model : arrayModels) {
+            if (model.equals(unitModel)) {
+                arrayModels.remove(model);
+            }
+        }
     }
 
     public int getLevelNumber() {

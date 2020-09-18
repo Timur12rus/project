@@ -489,8 +489,8 @@ public class GameManager {
     public PlayerUnitData getUnitData(String id) {
         for (TeamUnit teamUnit : team) {
             if (id.equals(teamUnit.getUnitData().getUnitId().name())) {
+                return teamUnit.getUnitData();
             }
-            return teamUnit.getUnitData();
         }
         return null;
     }

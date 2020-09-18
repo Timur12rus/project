@@ -27,6 +27,8 @@ public class EnemyUnitView extends GameUnitView {
         healthBarDeltaY = model.getUnitData().getBarDeltaY();
         createAnimations();
         currentState = State.STAY;
+        setSize(Warfare.atlas.findRegion(model.getUnitData().getName().toLowerCase() + "Stay1").getRegionWidth(),
+                Warfare.atlas.findRegion(model.getUnitData().getName().toLowerCase() + "Stay1").getRegionHeight());
     }
 
     public String getName() {
@@ -34,9 +36,9 @@ public class EnemyUnitView extends GameUnitView {
     }
 
     // метод возвращает позицию тела юнита в пикселях
-    public Vector2 getPosition() {
-        return model.getPosition();
-    }
+//    public Vector2 getPosition() {
+//        return model.getPosition();
+//    }
 
     public Vector2 getBodySize() {
         return model.getBodySize();

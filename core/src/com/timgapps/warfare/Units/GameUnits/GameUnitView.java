@@ -1,6 +1,7 @@
 package com.timgapps.warfare.Units.GameUnits;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -10,6 +11,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.timgapps.warfare.Level.Level;
 import com.timgapps.warfare.Units.GameUnits.Player.units.HealthBar;
+import com.timgapps.warfare.Utils.Setting;
 
 public class GameUnitView extends Actor {
     protected Animation walkAnimation;            // анимация для ходьбы
@@ -37,6 +39,10 @@ public class GameUnitView extends Actor {
 
         /** создадим HealthBar **/
         healthBar = new HealthBar(54, 10, model.getHealth());
+
+        // для отладки
+        shapeRenderer = new ShapeRenderer();
+        setDebug(true);
     }
 
     @Override
@@ -46,10 +52,28 @@ public class GameUnitView extends Actor {
         if (level.getState() != Level.PAUSED) {
             stateTime += Gdx.graphics.getDeltaTime();
         }
-        setPosition(model.getBody().getPosition().x * Level.WORLD_SCALE, model.getBody().getPosition().y * Level.WORLD_SCALE);
+        setPosition(model.getPosition().x, model.getPosition().y);      // обновляем позицию view по координатам позиции модели
     }
 
     public float getHealth() {
         return model.getHealth();
+    }
+
+    public GameUnitModel getModel() {
+        return model;
+    }
+
+    @Override
+    public void draw(Batch batch, float parentAlpha) {
+        super.draw(batch, parentAlpha);
+        batch.end();
+        if (Setting.DEBUG_GAME) {
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+            shapeRenderer.setColor(Color.RED);
+            shapeRenderer.rect(getX(), getY(), model.getBodyWidth(), model.getBodyHeight());
+            shapeRenderer.end();
+        }
+        System.out.println("model.getBodyWidth()" + this.toString() + " = " + model.getBodyWidth());
+        batch.begin();
     }
 }
