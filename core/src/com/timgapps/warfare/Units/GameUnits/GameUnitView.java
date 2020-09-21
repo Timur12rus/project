@@ -27,6 +27,7 @@ public class GameUnitView extends Actor {
     protected boolean isDrawHealthBar;
     protected HealthBar healthBar;
     protected float stateTime;
+    protected State currentState;
 
     public enum State {
         WALKING, ATTACK, STAY, DIE, RUN, HART
@@ -36,6 +37,7 @@ public class GameUnitView extends Actor {
         this.level = level;
         this.model = model;
         this.controller = controller;
+        currentState = model.getCurrentState();
 
         /** создадим HealthBar **/
         healthBar = new HealthBar(54, 10, model.getHealth());
@@ -48,9 +50,8 @@ public class GameUnitView extends Actor {
     @Override
     public void act(float delta) {
         super.act(delta);
-        controller.update();
         if (level.getState() != Level.PAUSED) {
-            stateTime += Gdx.graphics.getDeltaTime();
+            controller.update();
         }
         setPosition(model.getPosition().x, model.getPosition().y);      // обновляем позицию view по координатам позиции модели
     }
@@ -66,6 +67,9 @@ public class GameUnitView extends Actor {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
+        if (level.getState() != Level.PAUSED) {
+            stateTime += Gdx.graphics.getDeltaTime();
+        }
         batch.end();
         if (Setting.DEBUG_GAME) {
             shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
@@ -73,7 +77,11 @@ public class GameUnitView extends Actor {
             shapeRenderer.rect(getX(), getY(), model.getBodyWidth(), model.getBodyHeight());
             shapeRenderer.end();
         }
-        System.out.println("model.getBodyWidth()" + this.toString() + " = " + model.getBodyWidth());
+//        System.out.println("model.getBodyWidth()" + this.toString() + " = " + model.getBodyWidth());
         batch.begin();
+    }
+
+    public void resetStateTime() {
+        stateTime = 0;
     }
 }

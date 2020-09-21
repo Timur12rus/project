@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import com.timgapps.warfare.Level.GUI.Screens.PlayerUnitData;
 import com.timgapps.warfare.Level.Level;
 import com.timgapps.warfare.Units.GameUnits.GameUnitView;
 import com.timgapps.warfare.Utils.Setting;
@@ -21,7 +20,6 @@ public class PlayerUnitView extends GameUnitView {
     private float getHealthBarDeltaX;
     private float healthBarDeltaX;
     private float healthBarDeltaY;
-    private State currentState;
 
     public PlayerUnitView(Level level, PlayerUnitModel model, PlayerUnitController controller) {
         super(level, model, controller);
@@ -32,7 +30,6 @@ public class PlayerUnitView extends GameUnitView {
         healthBarDeltaX = model.getUnitData().getBarDeltaX();
         healthBarDeltaY = model.getUnitData().getBarDeltaY();
         createAnimations();
-        currentState = State.STAY;
         setSize(Warfare.atlas.findRegion(model.getPlayerUnitData().getName().toLowerCase() + "Stay1").getRegionWidth(),
                 Warfare.atlas.findRegion(model.getPlayerUnitData().getName().toLowerCase() + "Stay1").getRegionHeight());
     }
@@ -47,7 +44,6 @@ public class PlayerUnitView extends GameUnitView {
             batch.draw((TextureRegion) attackAnimation.getKeyFrame(stateTime, false), getX() + deltaX, getY() + deltaY);
         }
         if (currentState == State.STAY) {
-//            batch.draw((TextureRegion) stayAnimation.getKeyFrame(stateTime, false), getX(), getY() + deltaY);
             batch.draw((TextureRegion) stayAnimation.getKeyFrame(stateTime, false), getX() + deltaX, getY() + deltaY);
         }
         if (currentState == State.RUN) {
@@ -63,14 +59,9 @@ public class PlayerUnitView extends GameUnitView {
         if (Setting.DEBUG_GAME) {
             shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
             shapeRenderer.setColor(Color.RED);
-//            float x = model.getPosition().x + model.getBodySize().x;
-//            float y = model.getPosition().y + model.getBodySize().y / 2;
-
             float x = getX() + model.getBodySize().x;
             float y = getY() + model.getBodySize().y / 2;
             Vector2 v1 = new Vector2(x, y);
-//            v1.set(model.getPosition());
-//            v1.add(model.getBodySize().x, model.getBodySize().y / 2);
             Vector2 vectorUp = new Vector2(v1);
             Vector2 vectorDown = new Vector2(v1);
             vectorUp.add(480, 2000);
@@ -79,6 +70,49 @@ public class PlayerUnitView extends GameUnitView {
             shapeRenderer.end();
         }
         batch.begin();
+    }
+
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+        currentState = model.getCurrentState();
+        // если юнит в состоянии атакует цель(isAttack = true), но в д
+        if (model.isMoveToTarget() == true) {
+            if (currentState != State.RUN) {
+                currentState = State.RUN;
+                resetStateTime();
+            }
+        } else if (model.isAttack()) {
+            if (model.isStay() == false) {
+                if (currentState != State.ATTACK) {
+                    System.out.println("CurrentState = " + currentState);
+                    currentState = State.ATTACK;
+                    System.out.println("SetCurrentState = " + currentState);
+                    resetStateTime();
+                } else {
+                    if (attackAnimation.isAnimationFinished(stateTime)) {
+                        currentState = State.STAY;
+                        model.setIsStay(true);
+                        System.out.println("SetCurrentState = " + currentState);
+                        resetStateTime();
+                    }
+                }
+            } else {
+                if (stayAnimation.isAnimationFinished(stateTime)) {
+                    model.setIsStay(false);
+                }
+            }
+        }
+//        else if (model.isStay()) {
+//            if (stayAnimation.isAnimationFinished(stateTime)) {
+//                model.setIsStay(false);
+//                resetStateTime();
+//            }
+//        }
+        else {
+            model.setIsMove(true);
+        }
+        model.setCurrentState(currentState);
     }
 
     private void createAnimations() {

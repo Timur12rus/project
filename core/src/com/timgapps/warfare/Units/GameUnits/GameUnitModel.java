@@ -26,11 +26,15 @@ public abstract class GameUnitModel {
     protected float bodyWidth;
     protected float bodyHeight;
     private Vector2 velocity;
+    protected GameUnitView.State currentState;
+    private boolean isEndAttack, isEndStay;
+    private boolean isAttack, isStay, isMove;
 
     public GameUnitModel(World world, Vector2 position) {
         this.world = world;
         this.position = position;
         this.velocity = new Vector2(0, 0);
+        currentState = GameUnitView.State.STAY;
     }
 
     // создает прямоугольник (тело - для обнаружения столкновений)
@@ -40,12 +44,6 @@ public abstract class GameUnitModel {
     public Vector2 getPosition() {
         return position;
     }
-
-//    // метод задает позицию тела юнита
-//    public void setPosition(Vector2 position) {
-//        this.position.x = position.x;
-//        this.position.y = position.y;
-//    }
 
     // возвращает кол-во здоровья у юнита
     public float getHealth() {
@@ -67,8 +65,8 @@ public abstract class GameUnitModel {
 
     // обновляет позицию тела в соответствии с позицией модели
     public void updateBodyPosition() {
-        System.out.println("Position.x = " + position.x);
-        System.out.println("Position.y = " + position.y);
+//        System.out.println("Position.x = " + position.x);
+//        System.out.println("Position.y = " + position.y);
         position.add(velocity);
         body.setPosition(position.x, position.y);
     }
@@ -91,5 +89,41 @@ public abstract class GameUnitModel {
 
     public float getY() {
         return position.y;
+    }
+
+    public void isEndAttack(boolean isEndAttack) {
+        this.isEndAttack = isEndAttack;
+    }
+
+    public boolean isAttack() {
+        return isAttack;
+    }
+
+    public void setIsAttack(boolean isAttack) {
+        this.isAttack = isAttack;
+    }
+
+    public boolean isStay() {
+        return isStay;
+    }
+
+    public void setIsStay(boolean isStay) {
+        this.isStay = isStay;
+    }
+
+    public void setIsMove(boolean isMove) {
+        this.isMove = isMove;
+    }
+
+    public boolean isMove() {
+        return isMove;
+    }
+
+    public GameUnitView.State getCurrentState() {
+        return currentState;
+    }
+
+    public void setCurrentState(GameUnitView.State currentState) {
+        this.currentState = currentState;
     }
 }

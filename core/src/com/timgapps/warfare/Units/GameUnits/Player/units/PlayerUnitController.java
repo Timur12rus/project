@@ -7,6 +7,7 @@ import com.timgapps.warfare.Level.Level;
 import com.timgapps.warfare.Units.GameUnits.Barricade;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitModel;
 import com.timgapps.warfare.Units.GameUnits.GameUnitController;
+import com.timgapps.warfare.Units.GameUnits.GameUnitView;
 
 import java.util.ArrayList;
 
@@ -22,7 +23,6 @@ public class PlayerUnitController extends GameUnitController {
     private boolean isHaveTargetEnemy;
     private Barricade barricade;
 
-
     public PlayerUnitController(Level level, PlayerUnitModel model) {
         super(model);
         this.model = model;
@@ -34,12 +34,12 @@ public class PlayerUnitController extends GameUnitController {
     @Override
     public void update() {
         super.update();
+        System.out.println("ControllerUpdate");
         EnemyUnitModel newTargetEnemy = findEnemyUnit();
 //        targetEnemy = findEnemyUnit();
         if (targetEnemy == null) {
             targetEnemy = newTargetEnemy;
         } else {
-//        System.out.println("Else");
             if (!targetEnemy.equals(newTargetEnemy) && (newTargetEnemy != null)) {      // если новая цель не соответствет старой, то меняем цель на новую
                 // сравним расстояние от игрового юнита до вражеского
                 Vector2 v1 = new Vector2(model.getX(), model.getY());
@@ -52,13 +52,13 @@ public class PlayerUnitController extends GameUnitController {
             }
         }
 
-        if (targetEnemy != null) {
-//            System.out.println("TargetEnemy = " + targetEnemy.toString());
-        }
+//        if (targetEnemy != null) {
+////            System.out.println("TargetEnemy = " + targetEnemy.toString());
+//        }
 
         if (targetEnemy != null) {
             model.setIsTouchedEnemy(checkCollision(body, targetEnemy.getBody()));
-            System.out.println("Collision = " + checkCollision(body, targetEnemy.getBody()) + " /bodyA = " + body.toString() + "/ bodyB = " + targetEnemy.getBody().toString());
+//            System.out.println("Collision = " + checkCollision(body, targetEnemy.getBody()) + " /bodyA = " + body.toString() + "/ bodyB = " + targetEnemy.getBody().toString());
         }
 
         if (model.isTouchedEnemy()) {
@@ -75,26 +75,27 @@ public class PlayerUnitController extends GameUnitController {
                 attackBarricade();
             }
         } else {
-            moveRight();
+            move();
         }
-
     }
 
     // метод для движения вправо
-    public void moveRight() {
-        System.out.println("moveRight");
-        Vector2 position = new Vector2(model.getBody().getX(), model.getBody().getY());
-        Vector2 velocity = new Vector2(model.getSpeed(), 0);
+    public void move() {
+        System.out.println("move");
         model.getPosition().add(model.getSpeed(), 0);
-
     }
 
     // метод для атаки вражеского юнита
     public void attackEnemy() {
-//        model.getBody().setLinearVelocity(0, 0);
-        Vector2 velocity = new Vector2(0, 0);
-        model.setVelocity(velocity);
-        System.out.println("attackEnemy");
+        if (model.isAttack()) {
+            Vector2 velocity = new Vector2(0, 0);
+            model.setVelocity(velocity);
+        } else {
+            System.out.println("attackEnemy");
+            model.setIsAttack(true);
+            model.setIsMoveToTarget(false);
+            model.setIsMove(false);
+        }
     }
 
     // метод для атаки баррикады
@@ -127,14 +128,14 @@ public class PlayerUnitController extends GameUnitController {
             float x = enemy.getPosition().x;
             float y = enemy.getPosition().y;
 
-            System.out.println("EnemyX = " + x);
-            System.out.println("EnemyY = " + y);
+//            System.out.println("EnemyX = " + x);
+//            System.out.println("EnemyY = " + y);
             enemyPosition.set(x, y);
             Vector2 playerPosition = new Vector2();
             float x2 = model.getPosition().x + model.getBodySize().x;
             float y2 = model.getPosition().y + model.getBodySize().y / 2;
-            System.out.println("PlayerX = " + x2);
-            System.out.println("PlayerY = " + y2);
+//            System.out.println("PlayerX = " + x2);
+//            System.out.println("PlayerY = " + y2);
             playerPosition.set(x2, y2);
             float x3 = x2 + 480;
             float y3 = y2 + 2000;
@@ -187,11 +188,15 @@ public class PlayerUnitController extends GameUnitController {
 
     // метод для движения к вражескому юниту
     public void moveToTarget() {
-        System.out.println("moveToTarget");
         velocity = new Vector2(targetEnemy.getX(), targetEnemy.getY()).sub(new Vector2(model.getX(), model.getY())).nor().scl(model.getSpeed());
-//        velocity = new Vector2(targetEnemy.getX(), targetEnemy.getY()).sub(new Vector2(model.getX(), model.getY())).scl(model.getSpeed());
         model.setVelocity(velocity);
-//        model.getPosition().add(velocity);
+        if (!model.isMoveToTarget()) {
+            System.out.println("moveToTarget");
+            model.setIsMoveToTarget(true);
+            model.setIsAttack(false);
+            model.setIsMove(false);
+            model.setIsStay(false);
+        }
     }
 
     public boolean isHaveTargetEnemy() {
@@ -211,7 +216,7 @@ public class PlayerUnitController extends GameUnitController {
 
     // устанавливает коснулся ли юнит врага
     public void setIsTouchedEnemy(boolean isTouchedEnemy) {
-        System.out.println("isTouchedEnemy = " + isTouchedEnemy);
+//        System.out.println("isTouchedEnemy = " + isTouchedEnemy);
         this.isTouchedEnemy = isTouchedEnemy;
     }
 }

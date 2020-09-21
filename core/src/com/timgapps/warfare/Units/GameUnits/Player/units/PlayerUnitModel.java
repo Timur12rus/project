@@ -24,7 +24,9 @@ public class PlayerUnitModel extends GameUnitModel {
     private boolean isAttackBarricade;
     private boolean isTouchedEnemy;
     private boolean isHaveTargetEnemy;
+    private boolean isMoveToTarget;
     private EnemyUnitModel targetEnemy;
+
 
     public PlayerUnitModel(World world, Vector2 position, PlayerUnitData playerUnitData) {
         super(world, position);
@@ -37,6 +39,14 @@ public class PlayerUnitModel extends GameUnitModel {
         bodyWidth = 48;
         bodyHeight = 24;
         body = createBody();
+    }
+
+    public void setIsMoveToTarget(boolean isMoveToTarget) {
+        this.isMoveToTarget = isMoveToTarget;
+    }
+
+    public boolean isMoveToTarget() {
+        return isMoveToTarget;
     }
 
     public PlayerUnitData getPlayerUnitData() {
@@ -74,7 +84,7 @@ public class PlayerUnitModel extends GameUnitModel {
 
     // устанавливает коснулся ли юнит врага
     public void setIsTouchedEnemy(boolean isTouchedEnemy) {
-        System.out.println("isTouchedEnemy = " + isTouchedEnemy);
+//        System.out.println("isTouchedEnemy = " + isTouchedEnemy);
         this.isTouchedEnemy = isTouchedEnemy;
     }
 
