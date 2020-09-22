@@ -51,7 +51,7 @@ public class GameUnitView extends Actor {
     public void act(float delta) {
         super.act(delta);
         if (level.getState() != Level.PAUSED) {
-            controller.update();
+            controller.update(delta);
         }
         setPosition(model.getPosition().x, model.getPosition().y);      // обновляем позицию view по координатам позиции модели
     }
@@ -77,7 +77,6 @@ public class GameUnitView extends Actor {
             shapeRenderer.rect(getX(), getY(), model.getBodyWidth(), model.getBodyHeight());
             shapeRenderer.end();
         }
-//        System.out.println("model.getBodyWidth()" + this.toString() + " = " + model.getBodyWidth());
         batch.begin();
     }
 

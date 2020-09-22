@@ -116,6 +116,7 @@ public class Level extends StageGame {
 
         unitCreator = new UnitCreator(this);
         unitCreator.createUnit("Zombie1", new Vector2(600, 270));
+        unitCreator.createUnit("Zombie1", new Vector2(400, 200));
         unitCreator.createUnit("Thor", new Vector2(200, 200));
 
 
@@ -235,7 +236,11 @@ public class Level extends StageGame {
         return arrayEnemies;
     }
 
-    public void removeEnemyUnitFromArray(EnemyUnit unit) {
+//    public void removeEnemyUnitFromArray(EnemyUnit unit) {
+//        arrayEnemies.remove(unit);
+//    }
+
+    public void removeEnemyUnitFromArray(EnemyUnitModel unit) {
         arrayEnemies.remove(unit);
     }
 

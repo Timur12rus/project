@@ -143,12 +143,11 @@ public class EnemyUnit extends GameUnit {
         body.createFixture(fDef).setUserData(this);
         shape.dispose();
         body.setTransform(x / Level.WORLD_SCALE, y / Level.WORLD_SCALE, 0);
-
         return body;
     }
 
     protected void removeFromEnemiesArray() {
-        level.removeEnemyUnitFromArray(this);
+//        level.removeEnemyUnitFromArray(this);
         isRemovedFromEnemiesArray = true;
     }
 

@@ -1,5 +1,6 @@
 package com.timgapps.warfare.Units.GameUnits.Player.units;
 
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -27,9 +28,8 @@ public class PlayerUnitModel extends GameUnitModel {
     private boolean isMoveToTarget;
     private EnemyUnitModel targetEnemy;
 
-
-    public PlayerUnitModel(World world, Vector2 position, PlayerUnitData playerUnitData) {
-        super(world, position);
+    public PlayerUnitModel(Level level, Vector2 position, PlayerUnitData playerUnitData) {
+        super(level, position);
         this.playerUnitData = playerUnitData;
         speed = playerUnitData.getSpeed();
         name = playerUnitData.getName();
@@ -101,4 +101,5 @@ public class PlayerUnitModel extends GameUnitModel {
     public PlayerUnitData getUnitData() {
         return playerUnitData;
     }
+
 }

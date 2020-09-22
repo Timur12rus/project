@@ -11,7 +11,7 @@ import com.badlogic.gdx.utils.Array;
 import com.timgapps.warfare.Level.Level;
 import com.timgapps.warfare.Units.GameUnits.GameUnitView;
 import com.timgapps.warfare.Warfare;
-//
+
 //public class Zombie extends EnemyUnit {
 //
 ////    public enum State {WALKING, ATTACK, STAY, DIE, RUN, HART}

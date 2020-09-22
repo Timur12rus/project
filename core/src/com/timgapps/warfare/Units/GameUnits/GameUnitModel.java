@@ -1,9 +1,11 @@
 package com.timgapps.warfare.Units.GameUnits;
 
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
+import com.timgapps.warfare.Level.Level;
 
 // абстрактный класс, модель игрового юнита
 public abstract class GameUnitModel {
@@ -29,12 +31,25 @@ public abstract class GameUnitModel {
     protected GameUnitView.State currentState;
     private boolean isEndAttack, isEndStay;
     private boolean isAttack, isStay, isMove;
+    protected Level level;
+    protected boolean isDamaged;
+    protected boolean isBodyActive;
 
-    public GameUnitModel(World world, Vector2 position) {
-        this.world = world;
+    public GameUnitModel(Level level, Vector2 position) {
+        this.level = level;
         this.position = position;
         this.velocity = new Vector2(0, 0);
         currentState = GameUnitView.State.STAY;
+        isBodyActive = true;
+    }
+
+    // возвращает активно ли тело
+    public boolean isBodyActive() {
+        return isBodyActive;
+    }
+
+    public void setBodyIsActive(boolean isBodyActive) {
+        this.isBodyActive = isBodyActive;
     }
 
     // создает прямоугольник (тело - для обнаружения столкновений)
@@ -125,5 +140,21 @@ public abstract class GameUnitModel {
 
     public void setCurrentState(GameUnitView.State currentState) {
         this.currentState = currentState;
+    }
+
+    // метод для получения урона от противника, уменьшает кол-во здоровья на значение "damage"
+    public void inflictDamage(float damage) {
+        health -= damage;
+        if (health <= 0) {
+            isBodyActive = false;
+        }
+    }
+
+    public void setIsDamaged(boolean isDamaged) {
+        this.isDamaged = isDamaged;
+    }
+
+    public boolean isDamaged() {
+        return isDamaged;
     }
 }

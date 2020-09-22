@@ -85,15 +85,13 @@ public class PlayerUnitView extends GameUnitView {
         } else if (model.isAttack()) {
             if (model.isStay() == false) {
                 if (currentState != State.ATTACK) {
-                    System.out.println("CurrentState = " + currentState);
                     currentState = State.ATTACK;
-                    System.out.println("SetCurrentState = " + currentState);
                     resetStateTime();
                 } else {
                     if (attackAnimation.isAnimationFinished(stateTime)) {
+                        controller.hit();
                         currentState = State.STAY;
                         model.setIsStay(true);
-                        System.out.println("SetCurrentState = " + currentState);
                         resetStateTime();
                     }
                 }
@@ -102,14 +100,11 @@ public class PlayerUnitView extends GameUnitView {
                     model.setIsStay(false);
                 }
             }
-        }
-//        else if (model.isStay()) {
-//            if (stayAnimation.isAnimationFinished(stateTime)) {
-//                model.setIsStay(false);
-//                resetStateTime();
-//            }
-//        }
-        else {
+        } else {
+            if (currentState != State.RUN) {
+                currentState = State.RUN;
+                resetStateTime();
+            }
             model.setIsMove(true);
         }
         model.setCurrentState(currentState);

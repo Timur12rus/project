@@ -1,7 +1,9 @@
 package com.timgapps.warfare.Units.GameUnits.Enemy;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
@@ -16,6 +18,7 @@ public class EnemyUnitView extends GameUnitView {
     private float healthBarDeltaX;
     private float healthBarDeltaY;
     private State currentState;
+//    private ParticleEffect bloodSpray;      // эффект брызги
 
     public EnemyUnitView(Level level, EnemyUnitModel model, EnemyUnitController controller) {
         super(level, model, controller);
@@ -29,6 +32,8 @@ public class EnemyUnitView extends GameUnitView {
         currentState = State.STAY;
         setSize(Warfare.atlas.findRegion(model.getUnitData().getName().toLowerCase() + "Stay1").getRegionWidth(),
                 Warfare.atlas.findRegion(model.getUnitData().getName().toLowerCase() + "Stay1").getRegionHeight());
+//        bloodSpray = new ParticleEffect();
+//        bloodSpray.load(Gdx.files.internal("effects/bloodSpray.paty"), Gdx.files.internal("effects/")); //file);
     }
 
     public String getName() {
@@ -47,6 +52,7 @@ public class EnemyUnitView extends GameUnitView {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
+
         if (currentState == State.WALKING) {
             batch.draw((TextureRegion) walkAnimation.getKeyFrame(stateTime, true), getX() + deltaX, getY() + deltaY);
         }
@@ -62,9 +68,17 @@ public class EnemyUnitView extends GameUnitView {
         if (currentState == State.DIE) {
             batch.draw((TextureRegion) dieAnimation.getKeyFrame(stateTime, false), getX() + deltaX, getY() + deltaY);
         }
+
+        if (model.isDamaged()) {
+//            System.out.println("Draw Blood Spray");
+            model.getBloodSpray().draw(batch);
+        }
+
         if (isDrawHealthBar) {
             healthBar.drawHealthBar(batch, healthBarDeltaX, getHeight() + healthBarDeltaY, model.getHealth());
         }
+
+
     }
 
 

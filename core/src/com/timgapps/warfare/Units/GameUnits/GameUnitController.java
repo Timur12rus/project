@@ -14,11 +14,16 @@ public class GameUnitController {
         body = model.getBody();
     }
 
-    public void update() {
+    public void update(float delta) {
         model.updateBodyPosition();     // обновляем позицию тела по координатам модели
     }
 
     public void setVelocity(Vector2 velocity) {
         model.setVelocity(velocity);
+    }
+
+    // метод для нанесения урона вражескому юниту
+    public void hit() {
+
     }
 }

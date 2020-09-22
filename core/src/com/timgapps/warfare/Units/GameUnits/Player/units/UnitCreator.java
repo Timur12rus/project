@@ -14,7 +14,7 @@ import com.timgapps.warfare.Units.GameUnits.unitTypes.PlayerUnits;
 
 // класс для создания игровых юнитов (юнита игрока или вражеского юнита)
 public class UnitCreator {
-    private GameUnitModel model;
+    protected GameUnitModel model;
     private GameUnitController controller;
     private GameUnitView view;
     private Vector2 position;
@@ -45,7 +45,7 @@ public class UnitCreator {
         }
         switch (typeOfUnit) {
             case PLAYER_UNIT:
-                PlayerUnitModel playerUnitModel = new PlayerUnitModel(level.getWorld(), position, level.getGameManager().getUnitData(unitName));
+                PlayerUnitModel playerUnitModel = new PlayerUnitModel(level, position, level.getGameManager().getUnitData(unitName));
                 PlayerUnitController controller = new PlayerUnitController(level, playerUnitModel);
                 PlayerUnitView view = new PlayerUnitView(level, playerUnitModel, controller);
                 create(playerUnitModel, view, controller);
@@ -60,7 +60,7 @@ public class UnitCreator {
                         unitId = enemyUnit;
                     }
                 }
-                EnemyUnitModel enemyUnitModel = new EnemyUnitModel(level.getWorld(), position, new EnemyUnitData(unitId));
+                EnemyUnitModel enemyUnitModel = new EnemyUnitModel(level, position, new EnemyUnitData(unitId));
                 EnemyUnitController enemyUnitController = new EnemyUnitController(enemyUnitModel);
                 EnemyUnitView enemyUnitView = new EnemyUnitView(level, enemyUnitModel, enemyUnitController);
                 create(enemyUnitModel, enemyUnitView, enemyUnitController);
