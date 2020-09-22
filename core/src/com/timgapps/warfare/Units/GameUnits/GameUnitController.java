@@ -24,6 +24,6 @@ public class GameUnitController {
 
     // метод для нанесения урона вражескому юниту
     public void hit() {
-
     }
+
 }

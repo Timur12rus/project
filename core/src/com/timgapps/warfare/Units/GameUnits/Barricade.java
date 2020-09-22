@@ -1,30 +1,28 @@
 package com.timgapps.warfare.Units.GameUnits;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.timgapps.warfare.Level.Level;
 import com.timgapps.warfare.Units.GameUnits.Effects.BarricadeExplosion;
 import com.timgapps.warfare.Units.GameUnits.Player.BarricadeHealthBar;
+import com.timgapps.warfare.Utils.Setting;
 import com.timgapps.warfare.Warfare;
 
-import static com.timgapps.warfare.Units.GameUnits.GameUnitModel.BARRICADE_BIT;
-import static com.timgapps.warfare.Units.GameUnits.GameUnitModel.PLAYER_BIT;
-
-public class Barricade {
-    //public class Barricade extends Group {
+//public class Barricade {
+public class Barricade extends Group {
     public static final int ROCKS = 1;
     public static final int TREES = 2;
     private int typeOfBarricade;
     private Level level;
     private Image rockBig, rockMiddle, rockSmall;
-    private Body body;
+    //    private Body body;
     private float health = 100;
-//    private float health = 24;
-
+    private Rectangle body;
     private Texture healthTexture;
     private Texture backTexture;
     private float fullHealth;
@@ -32,20 +30,34 @@ public class Barricade {
     private int healthBarHeight;
     private boolean isDrawHealthBar = false;
     private BarricadeHealthBar barricadeHealthBar;
-
     private BarricadeExplosion barricadeExplosion1;
     private BarricadeExplosion barricadeExplosion2;
     private BarricadeExplosion barricadeExplosion3;
     private boolean isDestroyed = false;
-
     private int numOfExplosions = 0;
     private float posX, posY;
-    private float width;
+    private float bodyWidth, bodyHeight;
+    private ShapeRenderer shapeRenderer;
+
+    @Override
+    public void draw(Batch batch, float parentAlpha) {
+        super.draw(batch, parentAlpha);
+        batch.end();
+        if (Setting.DEBUG_GAME) {
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+            shapeRenderer.setColor(Color.RED);
+            shapeRenderer.rect(posX, posY, bodyWidth, bodyHeight);
+            shapeRenderer.end();
+        }
+        batch.begin();
+    }
 
     public Barricade(Level level, int typeOfBarricade) {
         this.level = level;
         this.typeOfBarricade = typeOfBarricade;
-
+        bodyWidth = 32;
+        bodyHeight = 200;
+        shapeRenderer = new ShapeRenderer();
         barricadeExplosion1 = new BarricadeExplosion(this);
         barricadeExplosion2 = new BarricadeExplosion(this);
         barricadeExplosion3 = new BarricadeExplosion(this);
@@ -56,16 +68,16 @@ public class Barricade {
         barricadeExplosion3.setPosition(posX - 10, posY + 80);
         barricadeExplosion2.setPosition(posX - 30, posY - 10);
 
-        level.addChild(barricadeExplosion1);
-        level.addChild(barricadeExplosion3);
-        level.addChild(barricadeExplosion2);
+        addActor(barricadeExplosion1);
+        addActor(barricadeExplosion3);
+        addActor(barricadeExplosion2);
 
         /** создадим HealthBar **/
         healthBarWidth = 108;        // ширина HealthBar
         healthBarHeight = 10;       // высота HealthBar
         fullHealth = health;
         createHealthBar(healthBarWidth, healthBarHeight, health);
-
+        level.addChild(this);
 //        barricadeExplosion1.start();
     }
 
@@ -76,7 +88,8 @@ public class Barricade {
      **/
     private void createHealthBar(int healthBarWidth, int healthBarHeight, float health) {
         barricadeHealthBar = new BarricadeHealthBar(healthBarWidth, healthBarHeight, health);
-        level.addChild(barricadeHealthBar, getX(), rockSmall.getY() + rockSmall.getHeight() + 16);
+        addActor(barricadeHealthBar);
+        barricadeHealthBar.setPosition(getX(), rockSmall.getY() + rockSmall.getHeight() + 16);
     }
 
     /**
@@ -88,35 +101,23 @@ public class Barricade {
                 rockBig = new Image(Warfare.atlas.findRegion("rock_big"));
                 rockMiddle = new Image(Warfare.atlas.findRegion("rock_middle"));
                 rockSmall = new Image(Warfare.atlas.findRegion("rock_small"));
-
-//                rockSmall.setPosition(1100, 300);
-//                rockMiddle.setPosition(1120, 240);
-//                rockBig.setPosition(1090, 150);
-
-                // ширина баррикады
-                width = rockBig.getWidth();
-
+                bodyWidth = rockBig.getWidth();
                 // координата X
-                posX = level.getWidth() - width - 100;
+                posX = level.getWidth() - bodyWidth - 100;
                 posY = 150;
-
                 rockSmall.setPosition(posX + 10, posY + 150);
                 rockMiddle.setPosition(posX + 30, posY + 90);
                 rockBig.setPosition(posX, posY);
-
                 level.arrayActors.add(rockSmall);
                 level.arrayActors.add(rockMiddle);
                 level.arrayActors.add(rockBig);
-
 
                 level.addChild(rockSmall);
                 level.addChild(rockMiddle);
                 level.addChild(rockBig);
 
-
                 // тело баррикады
-                body = createBody(posX + width / 2, posY);
-//                body = createBody(rockBig.getX() + rockBig.getWidth() / 2, rockBig.getY());
+                body = createBody();
                 break;
         }
     }
@@ -141,12 +142,10 @@ public class Barricade {
 
     public void setHealth(float damage) {
         health -= damage;
-
         if (health <= 0) {
             health = 0;
             setToDestroy();
             barricadeHealthBar.remove();
-//            body.setActive(false);
             barricadeExplosion1.start();
         }
 
@@ -162,30 +161,19 @@ public class Barricade {
 
     public void setToDestroy() {
 //        isDestroyed = true;
-        body.setActive(false);
+//        body.setActive(false);
     }
 
     public float getHealth() {
         return health;
     }
 
-    public Body createBody(float x, float y) {
-        BodyDef def = new BodyDef();
-        def.type = BodyDef.BodyType.StaticBody;
-        Body body = level.getWorld().createBody(def);
+    private Rectangle createBody() {
+        Rectangle body = new Rectangle(posX, posY, bodyWidth, bodyHeight);
+        return body;
+    }
 
-        PolygonShape shape = new PolygonShape();
-        shape.setAsBox(24 / Level.WORLD_SCALE, 100 / Level.WORLD_SCALE);
-
-        FixtureDef fDef = new FixtureDef();
-        fDef.shape = shape;
-        fDef.density = 10;
-        fDef.filter.categoryBits = BARRICADE_BIT;
-        fDef.filter.maskBits = PLAYER_BIT;
-
-        body.createFixture(fDef).setUserData(this);
-        shape.dispose();
-        body.setTransform(x / Level.WORLD_SCALE, (y + 100) / Level.WORLD_SCALE, 0);
+    public Rectangle getBody() {
         return body;
     }
 

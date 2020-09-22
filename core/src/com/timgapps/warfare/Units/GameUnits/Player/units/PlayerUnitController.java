@@ -7,8 +7,6 @@ import com.timgapps.warfare.Level.Level;
 import com.timgapps.warfare.Units.GameUnits.Barricade;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitModel;
 import com.timgapps.warfare.Units.GameUnits.GameUnitController;
-import com.timgapps.warfare.Units.GameUnits.GameUnitModel;
-import com.timgapps.warfare.Units.GameUnits.GameUnitView;
 
 import java.util.ArrayList;
 
@@ -53,11 +51,7 @@ public class PlayerUnitController extends GameUnitController {
                     targetEnemy = newTargetEnemy;
             }
         }
-        System.out.println("TargetEnemy = " + targetEnemy + " //// newTargetEnemy = " + null);
-
-//        if (targetEnemy != null) {
-////            System.out.println("TargetEnemy = " + targetEnemy.toString());
-//        }
+//        System.out.println("TargetEnemy = " + targetEnemy + " //// newTargetEnemy = " + null);
 
         if (targetEnemy != null) {
             if (targetEnemy.isBodyActive()) {
@@ -82,6 +76,7 @@ public class PlayerUnitController extends GameUnitController {
             }
         } else if (barricade.getHealth() > 0) {
             System.out.println("barricadeHealth = " + barricade.getHealth());
+            isTouchedBarricade = checkCollision(body, barricade.getBody());
             if (isTouchedBarricade) {
                 attackBarricade();
             } else {
@@ -98,6 +93,7 @@ public class PlayerUnitController extends GameUnitController {
         model.setIsMove(true);
         model.setIsAttack(false);
         model.setIsStay(false);
+        model.setIsAttackBarricade(false);
         model.getPosition().add(model.getSpeed(), 0);
     }
 
@@ -111,11 +107,15 @@ public class PlayerUnitController extends GameUnitController {
             model.setIsAttack(true);
             model.setIsMoveToTarget(false);
             model.setIsMove(false);
+            model.setIsAttackBarricade(false);
         }
     }
 
     // метод для атаки баррикады
     public void attackBarricade() {
+        model.setIsAttackBarricade(true);
+        model.setIsMove(false);
+        model.setIsAttack(false);
         System.out.println("Attack Barricade!");
     }
 
@@ -133,8 +133,14 @@ public class PlayerUnitController extends GameUnitController {
     public void hit() {
         super.hit();
         if (targetEnemy != null) {
-            targetEnemy.inflictDamage(model.getDamage());
+            targetEnemy.subHealth(model.getDamage());
             System.out.println("TargetEnemy health = " + targetEnemy.getHealth());
+        }
+    }
+
+    public void hitBarricade() {
+        if (barricade.getHealth() > 0) {
+            barricade.setHealth(model.getDamage());
         }
     }
 

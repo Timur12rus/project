@@ -34,6 +34,7 @@ public abstract class GameUnitModel {
     protected Level level;
     protected boolean isDamaged;
     protected boolean isBodyActive;
+    protected float xPosDamageLabel, yPosDamagelabel;
 
     public GameUnitModel(Level level, Vector2 position) {
         this.level = level;
@@ -143,7 +144,7 @@ public abstract class GameUnitModel {
     }
 
     // метод для получения урона от противника, уменьшает кол-во здоровья на значение "damage"
-    public void inflictDamage(float damage) {
+    public void subHealth(float damage) {
         health -= damage;
         if (health <= 0) {
             isBodyActive = false;

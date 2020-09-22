@@ -4,9 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.JsonValue;
 import com.timgapps.warfare.Level.Level;
+import com.timgapps.warfare.Units.GameUnits.DamageLabel;
 import com.timgapps.warfare.Units.GameUnits.GameUnitModel;
 
 public class EnemyUnitModel extends GameUnitModel {
@@ -27,7 +26,6 @@ public class EnemyUnitModel extends GameUnitModel {
         bodyWidth = 48;
         bodyHeight = 24;
         body = createBody();
-
         bloodSpray = new ParticleEffect();
         bloodSpray.load(Gdx.files.internal("effects/bloodSpray.paty"), Gdx.files.internal("effects/")); //file);
     }
@@ -47,14 +45,19 @@ public class EnemyUnitModel extends GameUnitModel {
     }
 
     @Override
-    public void inflictDamage(float damage) {
-        super.inflictDamage(damage);
+    public void subHealth(float damage) {
+        super.subHealth(damage);
         isDamaged = true;
         bloodSpray.start();
+        addDamageLabel(getX() + xPosDamageLabel, getY() + yPosDamagelabel, damage);
         if (health <= 0 && !isRemovedFromEnemiesArray) {   // если здоровье меньше или равно 0, то удаляем из массива вражеских юнитов
             isRemovedFromEnemiesArray = true;
             level.removeEnemyUnitFromArray(this);                      // текущий юнит
         }
+    }
+
+    protected void addDamageLabel(float x, float y, float value) {
+        new DamageLabel(level, x, y, (int) value);
     }
 
     public String getName() {

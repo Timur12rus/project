@@ -11,8 +11,6 @@ public class EnemyUnitController extends GameUnitController {
     public EnemyUnitController(EnemyUnitModel model) {
         super(model);
         this.model = model;
-//        bloodSpray = new ParticleEffect();
-//        bloodSpray.load(Gdx.files.internal("effects/bloodSpray.paty"), Gdx.files.internal("effects/")); //file);
     }
 
     @Override
@@ -26,8 +24,6 @@ public class EnemyUnitController extends GameUnitController {
             model.setIsDamaged(false);
         }
         if (model.getHealth() <= 0) {
-            
         }
     }
-
 }

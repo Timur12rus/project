@@ -124,6 +124,8 @@ public class PlayerUnit extends GameUnit {
     }
 
 
+
+
     /**
      * метод для атаки баррикады!
      **/

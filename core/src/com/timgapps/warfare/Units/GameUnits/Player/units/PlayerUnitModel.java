@@ -63,6 +63,14 @@ public class PlayerUnitModel extends GameUnitModel {
         this.isHaveTargetEnemy = isHaveTargetEnemy;
     }
 
+    public void setIsAttackBarricade(boolean isAttackBarricade) {
+        this.isAttackBarricade = isAttackBarricade;
+    }
+
+    public boolean isAttackBarricade() {
+        return isAttackBarricade;
+    }
+
     public boolean isHaveTargetEnemy() {
         return isHaveTargetEnemy;
     }

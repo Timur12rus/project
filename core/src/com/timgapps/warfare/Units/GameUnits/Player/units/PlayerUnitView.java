@@ -82,14 +82,18 @@ public class PlayerUnitView extends GameUnitView {
                 currentState = State.RUN;
                 resetStateTime();
             }
-        } else if (model.isAttack()) {
+        } else if (model.isAttack() || model.isAttackBarricade()) {
             if (model.isStay() == false) {
                 if (currentState != State.ATTACK) {
                     currentState = State.ATTACK;
                     resetStateTime();
                 } else {
                     if (attackAnimation.isAnimationFinished(stateTime)) {
-                        controller.hit();
+                        if (model.isAttack()) {
+                            controller.hit();
+                        } else if (model.isAttackBarricade()) {
+                            controller.hitBarricade();
+                        }
                         currentState = State.STAY;
                         model.setIsStay(true);
                         resetStateTime();
