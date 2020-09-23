@@ -9,7 +9,8 @@ public class GameUnitController {
     protected GameUnitModel model;
     protected Level level;
 
-    public GameUnitController(GameUnitModel model) {
+    public GameUnitController(Level level, GameUnitModel model) {
+        this.level = level;
         this.model = model;
         body = model.getBody();
     }
@@ -24,6 +25,10 @@ public class GameUnitController {
 
     // метод для нанесения урона вражескому юниту
     public void hit() {
+    }
+
+    public void removeUnitFromLevel(GameUnitModel model) {
+        level.getArrayModels().remove(model);
     }
 
 }

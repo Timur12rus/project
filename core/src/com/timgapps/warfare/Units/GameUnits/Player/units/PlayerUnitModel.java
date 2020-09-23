@@ -39,6 +39,7 @@ public class PlayerUnitModel extends GameUnitModel {
         bodyWidth = 48;
         bodyHeight = 24;
         body = createBody();
+        unitBit = PLAYER_BIT;
     }
 
     public void setIsMoveToTarget(boolean isMoveToTarget) {

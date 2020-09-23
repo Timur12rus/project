@@ -23,10 +23,11 @@ public class PlayerUnitController extends GameUnitController {
     private Barricade barricade;
 
     public PlayerUnitController(Level level, PlayerUnitModel model) {
-        super(model);
+        super(level, model);
         this.model = model;
         this.level = level;
         barricade = level.getBarricade();
+
     }
 
     // метод обновления логики игрового юнита
@@ -34,7 +35,6 @@ public class PlayerUnitController extends GameUnitController {
         super.update(delta);
         System.out.println("isTouchedEnemy" + model.isTouchedEnemy());
         EnemyUnitModel newTargetEnemy = findEnemyUnit();
-//        targetEnemy = findEnemyUnit();
         if (targetEnemy == null) {
             if (newTargetEnemy != null) {
                 targetEnemy = newTargetEnemy;

@@ -61,7 +61,7 @@ public class UnitCreator {
                     }
                 }
                 EnemyUnitModel enemyUnitModel = new EnemyUnitModel(level, position, new EnemyUnitData(unitId));
-                EnemyUnitController enemyUnitController = new EnemyUnitController(enemyUnitModel);
+                EnemyUnitController enemyUnitController = new EnemyUnitController(level, enemyUnitModel);
                 EnemyUnitView enemyUnitView = new EnemyUnitView(level, enemyUnitModel, enemyUnitController);
                 create(enemyUnitModel, enemyUnitView, enemyUnitController);
                 level.addEnemyUnitToEnemyArray(enemyUnitModel);

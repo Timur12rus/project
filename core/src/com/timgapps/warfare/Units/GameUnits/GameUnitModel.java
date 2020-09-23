@@ -16,7 +16,6 @@ public abstract class GameUnitModel {
     protected float fullHealth;
     protected float speed;
     protected boolean isDraw;
-    private boolean isDestroyed = false;
     private boolean isBodyInactive = false;
     public static final short PLAYER_BIT = 1;
     public static final short ENEMY_BIT = 2;
@@ -30,11 +29,12 @@ public abstract class GameUnitModel {
     private Vector2 velocity;
     protected GameUnitView.State currentState;
     private boolean isEndAttack, isEndStay;
-    private boolean isAttack, isStay, isMove;
+    private boolean isAttack, isStay, isMove, isDestroyed;
     protected Level level;
     protected boolean isDamaged;
     protected boolean isBodyActive;
     protected float xPosDamageLabel, yPosDamagelabel;
+    protected short unitBit;
 
     public GameUnitModel(Level level, Vector2 position) {
         this.level = level;
@@ -42,6 +42,10 @@ public abstract class GameUnitModel {
         this.velocity = new Vector2(0, 0);
         currentState = GameUnitView.State.STAY;
         isBodyActive = true;
+    }
+
+    public short getUnitBit() {
+        return unitBit;
     }
 
     // возвращает активно ли тело
@@ -87,6 +91,11 @@ public abstract class GameUnitModel {
         body.setPosition(position.x, position.y);
     }
 
+//    protected void addDamageLabel(float x, float y, float value) {
+//        new DamageLabel(level, x, y, (int) value);
+//    }
+
+
     public void setVelocity(Vector2 vel) {
         velocity.set(vel);
     }
@@ -131,6 +140,14 @@ public abstract class GameUnitModel {
         this.isMove = isMove;
     }
 
+    public void setIsDestroyed(boolean isDestroyed) {
+        this.isDestroyed = isDestroyed;
+    }
+
+    public boolean isDestroyed() {
+        return isDestroyed;
+    }
+
     public boolean isMove() {
         return isMove;
     }
@@ -146,6 +163,7 @@ public abstract class GameUnitModel {
     // метод для получения урона от противника, уменьшает кол-во здоровья на значение "damage"
     public void subHealth(float damage) {
         health -= damage;
+//        addDamageLabel(getX() + xPosDamageLabel, getY() + yPosDamagelabel, damage);
         if (health <= 0) {
             isBodyActive = false;
         }

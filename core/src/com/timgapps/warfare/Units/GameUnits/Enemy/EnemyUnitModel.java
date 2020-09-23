@@ -15,6 +15,8 @@ public class EnemyUnitModel extends GameUnitModel {
     //    private boolean isDamaged;
     private boolean isRemovedFromEnemiesArray;
     private ParticleEffect bloodSpray;
+    private boolean isMove;
+    private boolean isTouchedPlayer;
 
     public EnemyUnitModel(Level level, Vector2 position, EnemyUnitData enemyUnitData) {
         super(level, position);
@@ -28,6 +30,9 @@ public class EnemyUnitModel extends GameUnitModel {
         body = createBody();
         bloodSpray = new ParticleEffect();
         bloodSpray.load(Gdx.files.internal("effects/bloodSpray.paty"), Gdx.files.internal("effects/")); //file);
+        isMove = true;
+        isTouchedPlayer = false;
+        unitBit = ENEMY_BIT;
     }
 
     @Override
@@ -82,5 +87,17 @@ public class EnemyUnitModel extends GameUnitModel {
 
     public ParticleEffect getBloodSpray() {
         return bloodSpray;
+    }
+
+    public boolean isTouchedPlayer() {
+        return isTouchedPlayer;
+    }
+
+    public void setIsTouchedPlayer(boolean isTouchedPlayer) {
+        this.isTouchedPlayer = isTouchedPlayer;
+    }
+
+    public void disposeBloodSpray() {
+        bloodSpray.dispose();
     }
 }

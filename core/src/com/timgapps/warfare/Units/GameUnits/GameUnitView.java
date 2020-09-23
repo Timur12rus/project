@@ -21,7 +21,7 @@ public class GameUnitView extends Actor {
     protected Animation runAnimation;            // анимация для бежит
     protected ShapeRenderer shapeRenderer;
     protected boolean isDebug = true;
-    private Level level;
+    protected Level level;
     private GameUnitModel model;
     private GameUnitController controller;
     protected boolean isDrawHealthBar;

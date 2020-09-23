@@ -638,6 +638,10 @@ public class Level extends StageGame {
         }
     }
 
+    public ArrayList<GameUnitModel> getArrayModels() {
+        return arrayModels;
+    }
+
     public int getLevelNumber() {
         return levelNumber;
     }
