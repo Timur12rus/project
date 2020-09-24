@@ -33,7 +33,7 @@ public class PlayerUnitController extends GameUnitController {
     // метод обновления логики игрового юнита
     public void update(float delta) {
         super.update(delta);
-        System.out.println("isTouchedEnemy" + model.isTouchedEnemy());
+//        System.out.println("isTouchedEnemy" + model.isTouchedEnemy());
         EnemyUnitModel newTargetEnemy = findEnemyUnit();
         if (targetEnemy == null) {
             if (newTargetEnemy != null) {
@@ -51,39 +51,46 @@ public class PlayerUnitController extends GameUnitController {
                     targetEnemy = newTargetEnemy;
             }
         }
-//        System.out.println("TargetEnemy = " + targetEnemy + " //// newTargetEnemy = " + null);
 
-        if (targetEnemy != null) {
-            if (targetEnemy.isBodyActive()) {
-                model.setIsTouchedEnemy(checkCollision(body, targetEnemy.getBody()));               // проверим столкновение тел юнитов
-            } else {
-                model.setIsTouchedEnemy(false);
-                model.setTargetEnemy(null);
-                targetEnemy = null;
-                model.setIsHaveTargetEnemy(false);
-                model.setIsAttack(false);
-            }
+//        if (model.getHealth() <= 0) {
+//            if (!model.isDestroyed()) {
+//                model.setIsDestroyed(true);
+//                model.setBodyIsActive(false);
+//            }
+//        }
+        if (!model.isDestroyed()) {
+            if (targetEnemy != null) {
+                if (targetEnemy.isBodyActive()) {
+                    model.setIsTouchedEnemy(checkCollision(body, targetEnemy.getBody()));               // проверим столкновение тел юнитов
+                } else {
+                    model.setIsTouchedEnemy(false);
+                    model.setTargetEnemy(null);
+                    targetEnemy = null;
+                    model.setIsHaveTargetEnemy(false);
+                    model.setIsAttack(false);
+                }
 //            System.out.println("Collision = " + checkCollision(body, targetEnemy.getBody()) + " /bodyA = " + body.toString() + "/ bodyB = " + targetEnemy.getBody().toString());
-        }
-        if (model.isTouchedEnemy()) {
-            attackEnemy();
-        } else if (model.isHaveTargetEnemy()) {
-            System.out.println("Target Enemy = " + targetEnemy.getName());
+            }
             if (model.isTouchedEnemy()) {
                 attackEnemy();
-            } else {
-                moveToTarget();
-            }
-        } else if (barricade.getHealth() > 0) {
-            System.out.println("barricadeHealth = " + barricade.getHealth());
-            isTouchedBarricade = checkCollision(body, barricade.getBody());
-            if (isTouchedBarricade) {
-                attackBarricade();
+            } else if (model.isHaveTargetEnemy()) {
+                System.out.println("Target Enemy = " + targetEnemy.getName());
+                if (model.isTouchedEnemy()) {
+                    attackEnemy();
+                } else {
+                    moveToTarget();
+                }
+            } else if (barricade.getHealth() > 0) {
+                System.out.println("barricadeHealth = " + barricade.getHealth());
+                isTouchedBarricade = checkCollision(body, barricade.getBody());
+                if (isTouchedBarricade) {
+                    attackBarricade();
+                } else {
+                    move();
+                }
             } else {
                 move();
             }
-        } else {
-            move();
         }
     }
 
@@ -158,7 +165,7 @@ public class PlayerUnitController extends GameUnitController {
                  * если да, то добавим его в массив вражеских юнитов, которых видит ИГРОВОЙ ЮНИТ
                  * **/
                 Vector2 enemyPosition = new Vector2();
-                float x = enemy.getPosition().x;
+                float x = enemy.getPosition().x + 24;
                 float y = enemy.getPosition().y;
 
 //            System.out.println("EnemyX = " + x);

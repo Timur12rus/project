@@ -76,40 +76,56 @@ public class PlayerUnitView extends GameUnitView {
     public void act(float delta) {
         super.act(delta);
         currentState = model.getCurrentState();
-        // если юнит в состоянии атакует цель(isAttack = true), но в д
-        if (model.isMoveToTarget() == true) {
-            if (currentState != State.RUN) {
-                currentState = State.RUN;
+        if (model.isDestroyed()) {
+            if (currentState != State.DIE) {
+                currentState = State.DIE;
                 resetStateTime();
-            }
-        } else if (model.isAttack() || model.isAttackBarricade()) {
-            if (model.isStay() == false) {
-                if (currentState != State.ATTACK) {
-                    currentState = State.ATTACK;
-                    resetStateTime();
-                } else {
-                    if (attackAnimation.isAnimationFinished(stateTime)) {
-                        if (model.isAttack()) {
-                            controller.hit();
-                        } else if (model.isAttackBarricade()) {
-                            controller.hitBarricade();
-                        }
-                        currentState = State.STAY;
-                        model.setIsStay(true);
-                        resetStateTime();
-                    }
-                }
             } else {
-                if (stayAnimation.isAnimationFinished(stateTime)) {
-                    model.setIsStay(false);
+                if (dieAnimation.isAnimationFinished(stateTime)) {
+//                    level.removeEnemyUnitFromArray(model);
+                    this.remove();
+                    System.out.println("removePlayerUnit!");
+//                    model.disposeBloodSpray();
+
+//                    addAction(fadeOutAction);
                 }
             }
         } else {
-            if (currentState != State.RUN) {
-                currentState = State.RUN;
-                resetStateTime();
+            // если юнит в состоянии атакует цель(isAttack = true), но в д
+            if (model.isMoveToTarget() == true) {
+                if (currentState != State.RUN) {
+                    currentState = State.RUN;
+                    resetStateTime();
+                }
+            } else if (model.isAttack() || model.isAttackBarricade()) {
+                if (model.isStay() == false) {
+                    if (currentState != State.ATTACK) {
+                        currentState = State.ATTACK;
+                        resetStateTime();
+                    } else {
+                        if (attackAnimation.isAnimationFinished(stateTime)) {
+                            if (model.isAttack()) {
+                                controller.hit();
+                            } else if (model.isAttackBarricade()) {
+                                controller.hitBarricade();
+                            }
+                            currentState = State.STAY;
+                            model.setIsStay(true);
+                            resetStateTime();
+                        }
+                    }
+                } else {
+                    if (stayAnimation.isAnimationFinished(stateTime)) {
+                        model.setIsStay(false);
+                    }
+                }
+            } else {
+                if (currentState != State.RUN) {
+                    currentState = State.RUN;
+                    resetStateTime();
+                }
+                model.setIsMove(true);
             }
-            model.setIsMove(true);
         }
         model.setCurrentState(currentState);
     }
@@ -127,6 +143,11 @@ public class PlayerUnitView extends GameUnitView {
         for (int i = 0; i < 4; i++)
             frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Attack" + i)));
         attackAnimation = new Animation(0.1f, frames);
+        frames.clear();
+
+        for (int i = 0; i < 4; i++)
+            frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Die" + i)));
+        dieAnimation = new Animation(0.1f, frames);
         frames.clear();
 
         for (int i = 0; i < 3; i++)

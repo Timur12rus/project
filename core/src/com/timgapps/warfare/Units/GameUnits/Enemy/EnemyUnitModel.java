@@ -17,6 +17,8 @@ public class EnemyUnitModel extends GameUnitModel {
     private ParticleEffect bloodSpray;
     private boolean isMove;
     private boolean isTouchedPlayer;
+    private boolean isTouchedTower;
+    private boolean isAttackTower;
 
     public EnemyUnitModel(Level level, Vector2 position, EnemyUnitData enemyUnitData) {
         super(level, position);
@@ -32,6 +34,8 @@ public class EnemyUnitModel extends GameUnitModel {
         bloodSpray.load(Gdx.files.internal("effects/bloodSpray.paty"), Gdx.files.internal("effects/")); //file);
         isMove = true;
         isTouchedPlayer = false;
+        isTouchedTower = false;
+        isAttackTower = false;
         unitBit = ENEMY_BIT;
     }
 
@@ -54,16 +58,16 @@ public class EnemyUnitModel extends GameUnitModel {
         super.subHealth(damage);
         isDamaged = true;
         bloodSpray.start();
-        addDamageLabel(getX() + xPosDamageLabel, getY() + yPosDamagelabel, damage);
+//        addDamageLabel(getX() + xPosDamageLabel, getY() + yPosDamagelabel, damage);
         if (health <= 0 && !isRemovedFromEnemiesArray) {   // если здоровье меньше или равно 0, то удаляем из массива вражеских юнитов
             isRemovedFromEnemiesArray = true;
             level.removeEnemyUnitFromArray(this);                      // текущий юнит
         }
     }
 
-    protected void addDamageLabel(float x, float y, float value) {
-        new DamageLabel(level, x, y, (int) value);
-    }
+//    protected void addDamageLabel(float x, float y, float value) {
+//        new DamageLabel(level, x, y, (int) value);
+//    }
 
     public String getName() {
         return name;
@@ -95,6 +99,22 @@ public class EnemyUnitModel extends GameUnitModel {
 
     public void setIsTouchedPlayer(boolean isTouchedPlayer) {
         this.isTouchedPlayer = isTouchedPlayer;
+    }
+
+    public void setIsTouchedTower(boolean isTouchedTower) {
+        this.isTouchedTower = isTouchedTower;
+    }
+
+    public boolean isTouchedTower() {
+        return isTouchedTower;
+    }
+
+    public void setIsAttackTower(boolean iaAttackTower) {
+        this.isAttackTower = isTouchedTower;
+    }
+
+    public boolean isAttackTower() {
+        return isAttackTower;
     }
 
     public void disposeBloodSpray() {

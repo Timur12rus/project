@@ -22,38 +22,32 @@ public class EnemyUnitController extends GameUnitController {
     @Override
     public void update(float delta) {
         super.update(delta);
-
-        if (model.getHealth() <= 0) {
-            if (!model.isDestroyed()) {
-                model.setIsDestroyed(true);
-                model.setBodyIsActive(false);
-                System.out.println("DESTROY!");
-            }
-        } else {
-            // проверяем коллизию
-            for (GameUnitModel gameUnitModel : level.getArrayModels()) {
-                if (gameUnitModel.getHealth() > 0) {
-                    if (gameUnitModel.getUnitBit() == GameUnitModel.PLAYER_BIT) {
-                        if (checkCollision(body, gameUnitModel.getBody())) {
-                            model.setIsTouchedPlayer(true);
-                            if (targetPlayer == null) {
-                                targetPlayer = (PlayerUnitModel) gameUnitModel;
-                            }
-                        } else {
-                            model.setIsTouchedPlayer(false);
-                            if (targetPlayer != null) {
-                                targetPlayer = null;
-                            }
-                        }
-                    }
-                }
-            }
-
+//        if (model.getHealth() <= 0) {
+//            if (!model.isDestroyed()) {
+//                model.setIsDestroyed(true);
+//                model.setBodyIsActive(false);
+//            }
+//        } else {
+        if (!model.isDestroyed()) {
+            checkCollisions();
             if (model.isTouchedPlayer()) {
-                attackPlayer();
-            } else move();
+                if (targetPlayer != null) {
+                    attackPlayer();
+                } else {
+                    model.setIsTouchedPlayer(false);
+                    model.setIsAttack(false);
+                }
+            } else if (level.getSiegeTower().getHealth() > 0) {
+                model.setIsTouchedTower(checkCollision(body, level.getSiegeTower().getBody()));
+                if (model.isTouchedTower()) {
+                    attackTower();
+                } else {
+                    move();
+                }
+            } else {
+                move();
+            }
         }
-
         if (model.isDamaged()) {
             model.getBloodSpray().setPosition(model.getX(), model.getY());
             model.getBloodSpray().update(delta);
@@ -61,7 +55,30 @@ public class EnemyUnitController extends GameUnitController {
         if (model.isDamaged() && model.getBloodSpray().isComplete()) {
             model.setIsDamaged(false);
         }
-        if (model.getHealth() <= 0) {
+
+    }
+
+    public void attackTower() {
+        model.setIsAttackTower(true);
+        model.setIsMove(false);
+        model.setIsAttack(false);
+        System.out.println("Attack Barricade!");
+    }
+
+    public void checkCollisions() {
+//        model.setIsTouchedPlayer(checkCollision(body, ((PlayerUnitModel) gameUnitModel).getBody()));
+        if (!model.isTouchedPlayer()) {               // проверяем коллизию
+            for (PlayerUnitModel playerUnit : level.getArrayPlayers()) {
+                if (playerUnit.isBodyActive()) {     // если тело активно
+                    model.setIsTouchedPlayer(checkCollision(body, playerUnit.getBody()));
+                    if (model.isTouchedPlayer()) {
+                        targetPlayer = playerUnit;
+                        break;
+                    } else {
+                        model.setIsTouchedPlayer(false);
+                    }
+                }
+            }
         }
     }
 
@@ -74,7 +91,6 @@ public class EnemyUnitController extends GameUnitController {
         }
     }
 
-
     public void attackPlayer() {
         if (model.isAttack()) {
             Vector2 velocity = new Vector2(0, 0);
@@ -83,6 +99,7 @@ public class EnemyUnitController extends GameUnitController {
             System.out.println("attackPlayer");
             model.setIsAttack(true);
             model.setIsMove(false);
+            model.setIsStay(false);
         }
     }
 
@@ -96,5 +113,18 @@ public class EnemyUnitController extends GameUnitController {
     public void hit() {
         super.hit();
         System.out.println("Hit");
+        if (targetPlayer != null) {
+            targetPlayer.subHealth(model.getDamage());
+            System.out.println("Player health = " + targetPlayer.getHealth());
+            if (targetPlayer.getHealth() <= 0) {
+                targetPlayer = null;
+            }
+        }
+    }
+
+    public void hitTower() {
+        if (level.getSiegeTower().getHealth() > 0) {
+            level.getSiegeTower().setHealth(model.getDamage());
+        }
     }
 }

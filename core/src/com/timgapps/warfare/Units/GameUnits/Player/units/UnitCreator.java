@@ -49,6 +49,7 @@ public class UnitCreator {
                 PlayerUnitController controller = new PlayerUnitController(level, playerUnitModel);
                 PlayerUnitView view = new PlayerUnitView(level, playerUnitModel, controller);
                 create(playerUnitModel, view, controller);
+                level.addPlayerUnitToPlayerArray(playerUnitModel);
                 level.addUnitModel(playerUnitModel);
                 break;
             case ENEMEY_UNIT:

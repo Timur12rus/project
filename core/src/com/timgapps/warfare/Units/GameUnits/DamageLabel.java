@@ -14,17 +14,12 @@ public class DamageLabel extends Actor {
     public DamageLabel(Level level, float x, float y, int damage) {
         this.x = x;
         this.y = y;
-
-
         Label.LabelStyle greenLabelStyle = new Label.LabelStyle();
         greenLabelStyle.fontColor = Color.RED;
         greenLabelStyle.font = Warfare.font20;
 
         Label damageLabel = new Label("" + damage, greenLabelStyle);
         damageLabel.setPosition(x, y);
-
-//        System.out.println("damageLabelx = " + damageLabel.getX() + "\n + damageLabely = " + damageLabel.getY());
-
         SequenceAction ma = new SequenceAction(Actions.moveBy(0, 30, 0.2f),
                 Actions.fadeOut(0.3f));
         damageLabel.addAction(ma);

@@ -1,11 +1,8 @@
 package com.timgapps.warfare.Units.GameUnits.Enemy;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -57,8 +54,10 @@ public class EnemyUnitView extends GameUnitView {
         if (model.isDestroyed()) {
             if (currentState != State.DIE) {
                 currentState = State.DIE;
+                System.out.println("!DIE");
                 resetStateTime();
             } else {
+                System.out.println("Else");
                 if (dieAnimation.isAnimationFinished(stateTime)) {
                     level.removeEnemyUnitFromArray(model);
                     model.disposeBloodSpray();
@@ -72,7 +71,7 @@ public class EnemyUnitView extends GameUnitView {
                     currentState = State.WALKING;
                     resetStateTime();
                 }
-            } else if (model.isAttack()) {
+            } else if (model.isAttack() || model.isAttackTower()) {
                 if (!model.isStay()) {
                     if (currentState != State.ATTACK) {
                         currentState = State.ATTACK;
@@ -81,6 +80,8 @@ public class EnemyUnitView extends GameUnitView {
                         if (attackAnimation.isAnimationFinished(stateTime)) {
                             if (model.isAttack()) {
                                 controller.hit();
+                            } else if (model.isAttackTower()) {
+                                controller.hitTower();
                             }
                             currentState = State.STAY;
                             model.setIsStay(true);

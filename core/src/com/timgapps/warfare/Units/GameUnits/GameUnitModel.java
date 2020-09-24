@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.timgapps.warfare.Level.Level;
+import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnitModel;
 
 // абстрактный класс, модель игрового юнита
 public abstract class GameUnitModel {
@@ -35,13 +36,19 @@ public abstract class GameUnitModel {
     protected boolean isBodyActive;
     protected float xPosDamageLabel, yPosDamagelabel;
     protected short unitBit;
+    protected PlayerUnitModel targetPlayer;
 
     public GameUnitModel(Level level, Vector2 position) {
+        System.out.println("GameUnitModel = " + this.toString());
         this.level = level;
         this.position = position;
         this.velocity = new Vector2(0, 0);
         currentState = GameUnitView.State.STAY;
         isBodyActive = true;
+    }
+
+    protected void addDamageLabel(float x, float y, float value) {
+        new DamageLabel(level, x, y, (int) value);
     }
 
     public short getUnitBit() {
@@ -85,8 +92,6 @@ public abstract class GameUnitModel {
 
     // обновляет позицию тела в соответствии с позицией модели
     public void updateBodyPosition() {
-//        System.out.println("Position.x = " + position.x);
-//        System.out.println("Position.y = " + position.y);
         position.add(velocity);
         body.setPosition(position.x, position.y);
     }
@@ -163,9 +168,10 @@ public abstract class GameUnitModel {
     // метод для получения урона от противника, уменьшает кол-во здоровья на значение "damage"
     public void subHealth(float damage) {
         health -= damage;
-//        addDamageLabel(getX() + xPosDamageLabel, getY() + yPosDamagelabel, damage);
+        addDamageLabel(getX() + xPosDamageLabel, getY() + yPosDamagelabel, damage);
         if (health <= 0) {
             isBodyActive = false;
+            isDestroyed = true;
         }
     }
 

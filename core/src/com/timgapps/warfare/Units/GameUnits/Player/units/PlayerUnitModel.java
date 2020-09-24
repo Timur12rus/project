@@ -27,6 +27,7 @@ public class PlayerUnitModel extends GameUnitModel {
     private boolean isHaveTargetEnemy;
     private boolean isMoveToTarget;
     private EnemyUnitModel targetEnemy;
+    private boolean isRemovedFromPlayersArray;
 
     public PlayerUnitModel(Level level, Vector2 position, PlayerUnitData playerUnitData) {
         super(level, position);
@@ -83,6 +84,15 @@ public class PlayerUnitModel extends GameUnitModel {
                 this.targetEnemy = targetEnemy;
         } else {
             this.targetEnemy = targetEnemy;
+        }
+    }
+
+    @Override
+    public void subHealth(float damage) {
+        super.subHealth(damage);
+        if (health <= 0 && !isRemovedFromPlayersArray) {
+            isRemovedFromPlayersArray = true;
+            level.removePlayerUnitFromArray(this);
         }
     }
 

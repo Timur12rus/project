@@ -1,10 +1,14 @@
 package com.timgapps.warfare.Units.GameUnits.Player;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
@@ -18,6 +22,7 @@ import com.timgapps.warfare.Units.GameUnits.DamageLabel;
 import com.timgapps.warfare.Units.GameUnits.Effects.Explosion;
 import com.timgapps.warfare.Units.GameUnits.Effects.Fire;
 import com.timgapps.warfare.Units.GameUnits.GameUnitView;
+import com.timgapps.warfare.Utils.Setting;
 import com.timgapps.warfare.Warfare;
 
 import static com.timgapps.warfare.Units.GameUnits.GameUnitModel.ENEMY_BIT;
@@ -29,7 +34,7 @@ public class SiegeTower extends Group {
     private Level level;
     private float health;
 
-    private Body body;
+    private Rectangle body;
 
     private boolean isDestroyed = false;
 
@@ -44,15 +49,18 @@ public class SiegeTower extends Group {
     private ParticleEffect smoke;
     private Explosion explosion1;
     private Explosion explosion2;
+    private Vector2 position;
+    private final float WIDTH = 48;
+    private final float HEIGHT = 200;
+    private ShapeRenderer shapeRenderer;
 
 
     public SiegeTower(Level level, float x, float y, float health, float damage) {
         this.level = level;
-        world = level.getWorld();
+        position = new Vector2();
         tower = new Image(Warfare.atlas.findRegion("tower"));
         frontWheel = new Image(Warfare.atlas.findRegion("wheel"));
         backWheel = new Image(Warfare.atlas.findRegion("wheel"));
-
         this.health = health;
 
         frontWheel.setOrigin(Align.center);
@@ -64,7 +72,8 @@ public class SiegeTower extends Group {
         addActor(frontWheel);
         addActor(backWheel);
 
-        body = createBody(x + tower.getWidth(), (y));
+        position.set(x + tower.getWidth() - WIDTH, y);
+        body = createBody();
 
         smoke = new ParticleEffect();
         smoke.load(Gdx.files.internal("effects/smoke.paty"), Gdx.files.internal("effects/")); //file);     /
@@ -100,6 +109,16 @@ public class SiegeTower extends Group {
 //        fire.startFire();
 
         level.addChild(this, x, y);
+        shapeRenderer = new ShapeRenderer();
+    }
+
+    public Rectangle getBody() {
+        return body;
+    }
+
+    private Rectangle createBody() {
+        Rectangle body = new Rectangle(position.x, position.y, WIDTH, HEIGHT);
+        return body;
     }
 
     protected void addDamageLabel(float x, float y, float value) {
@@ -138,21 +157,21 @@ public class SiegeTower extends Group {
 
     public void setToDestroy() {
         isDestroyed = true;
-        body.setActive(false);
     }
 
     public void checkToDestroy() {
-        if (level.getState() != Level.PAUSED) {
-            if (!body.isActive() && isDestroyed && explosion2.isEnd()) {
-//        if (!body.isActive() && isDestroyed && explosion.isEnd()) {
-                level.gameOver();
-                world.destroyBody(body);
+//        if (level.getState() != Level.PAUSED) {
+//            if (!body.isActive() && isDestroyed && explosion2.isEnd()) {
+////        if (!body.isActive() && isDestroyed && explosion.isEnd()) {
+//                level.gameOver();
+//                world.destroyBody(body);
+//                this.remove();
+//                smoke.dispose();
+//            }
+        if (isDestroyed) {
+            if (explosion2.isEnd()) {
                 this.remove();
-                smoke.dispose();
-            }
-
-            if (isDestroyed) {
-                body.setActive(false);
+                level.gameOver();
             }
         }
     }
@@ -237,6 +256,15 @@ public class SiegeTower extends Group {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
+
+        batch.end();
+        if (Setting.DEBUG_GAME) {
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+            shapeRenderer.setColor(Color.RED);
+            shapeRenderer.rect(position.x, position.y, WIDTH, HEIGHT);
+            shapeRenderer.end();
+        }
+        batch.begin();
 
         if (fire.IsStarted())
             smoke.draw(batch);

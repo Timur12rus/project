@@ -32,6 +32,7 @@ import com.timgapps.warfare.Units.GameUnits.GameUnitView;
 import com.timgapps.warfare.Units.GameUnits.Player.units.Gnome;
 import com.timgapps.warfare.Units.GameUnits.Player.units.Knight;
 import com.timgapps.warfare.Units.GameUnits.Player.SiegeTower;
+import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnitModel;
 import com.timgapps.warfare.Units.GameUnits.Player.units.Thor;
 import com.timgapps.warfare.Units.GameUnits.Player.units.UnitCreator;
 import com.timgapps.warfare.Utils.Setting;
@@ -58,6 +59,7 @@ public class Level extends StageGame {
     private float accumulator;
     public static final float STEP = 1 / 60f;
     private ArrayList<EnemyUnitModel> arrayEnemies;
+    private ArrayList<PlayerUnitModel> arrayPlayers;
     public ArrayList<Actor> arrayActors;
     public ArrayList<GameUnitModel> arrayModels;
     private float timeCount = 0;
@@ -98,6 +100,7 @@ public class Level extends StageGame {
 //        System.out.println("Level Number " + levelNumber);
         setBackGround("level_bg");
         arrayEnemies = new ArrayList<EnemyUnitModel>();
+        arrayPlayers = new ArrayList<PlayerUnitModel>();
         arrayModels = new ArrayList<GameUnitModel>();
         arrayActors = new ArrayList<Actor>();
         world = new World(new Vector2(0, 0), true);
@@ -117,6 +120,7 @@ public class Level extends StageGame {
         unitCreator = new UnitCreator(this);
         unitCreator.createUnit("Zombie1", new Vector2(600, 270));
         unitCreator.createUnit("Zombie1", new Vector2(400, 200));
+        unitCreator.createUnit("Zombie1", new Vector2(300, 250));
         unitCreator.createUnit("Thor", new Vector2(200, 200));
 
 
@@ -194,6 +198,10 @@ public class Level extends StageGame {
         arrayEnemies.add(enemyUnit);
     }
 
+    public void addPlayerUnitToPlayerArray(PlayerUnitModel playerUnitModel) {
+        arrayPlayers.add(playerUnitModel);
+    }
+
     private void resumeLevel() {
         if (!isPausedScreenHide && isPausedScreenStart) {
             isPausedScreenHide = true;
@@ -236,12 +244,20 @@ public class Level extends StageGame {
         return arrayEnemies;
     }
 
+    public ArrayList<PlayerUnitModel> getArrayPlayers() {
+        return arrayPlayers;
+    }
+
 //    public void removeEnemyUnitFromArray(EnemyUnit unit) {
 //        arrayEnemies.remove(unit);
 //    }
 
     public void removeEnemyUnitFromArray(EnemyUnitModel unit) {
         arrayEnemies.remove(unit);
+    }
+
+    public void removePlayerUnitFromArray(PlayerUnitModel unit) {
+        arrayPlayers.remove(unit);
     }
 
     private void setBackGround(String region) {
