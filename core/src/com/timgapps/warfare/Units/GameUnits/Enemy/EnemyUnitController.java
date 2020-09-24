@@ -22,12 +22,6 @@ public class EnemyUnitController extends GameUnitController {
     @Override
     public void update(float delta) {
         super.update(delta);
-//        if (model.getHealth() <= 0) {
-//            if (!model.isDestroyed()) {
-//                model.setIsDestroyed(true);
-//                model.setBodyIsActive(false);
-//            }
-//        } else {
         if (!model.isDestroyed()) {
             checkCollisions();
             if (model.isTouchedPlayer()) {
@@ -55,14 +49,13 @@ public class EnemyUnitController extends GameUnitController {
         if (model.isDamaged() && model.getBloodSpray().isComplete()) {
             model.setIsDamaged(false);
         }
-
     }
 
     public void attackTower() {
         model.setIsAttackTower(true);
         model.setIsMove(false);
         model.setIsAttack(false);
-        System.out.println("Attack Barricade!");
+        System.out.println("Attack tower!");
     }
 
     public void checkCollisions() {
@@ -106,7 +99,9 @@ public class EnemyUnitController extends GameUnitController {
     public void move() {
         System.out.println("Move");
         model.setIsMove(true);
-        model.getPosition().add(model.getSpeed(), 0);
+        if (!model.isStay()) {
+            model.getPosition().add(model.getSpeed(), 0);
+        }
     }
 
     @Override

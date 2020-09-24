@@ -12,6 +12,8 @@ import com.timgapps.warfare.Level.Level;
 import com.timgapps.warfare.Units.GameUnits.GameUnitView;
 import com.timgapps.warfare.Warfare;
 
+import java.util.Random;
+
 public class EnemyUnitView extends GameUnitView {
     private EnemyUnitController controller;
     private EnemyUnitModel model;
@@ -67,10 +69,37 @@ public class EnemyUnitView extends GameUnitView {
             }
         } else {
             if (model.isMove()) {
-                if (currentState != State.WALKING) {
-                    currentState = State.WALKING;
+                if (!model.isStay()) {
+                    if (currentState != State.WALKING) {
+                        currentState = State.WALKING;
+                        resetStateTime();
+                    } else {
+                        if (walkAnimation.isAnimationFinished(stateTime)) {
+                            Random random = new Random();
+                            if (random.nextBoolean()) {
+                                currentState = State.STAY;
+                                model.setIsStay(true);
+                                resetStateTime();
+                            } else {
+                                currentState = State.WALKING;
+                                model.setIsStay(false);
+                                resetStateTime();
+                            }
+                        }
+                    }
+                } else if (currentState != State.STAY) {
+                    currentState = State.STAY;
                     resetStateTime();
+                } else {
+                    if (stayAnimation.isAnimationFinished(stateTime)) {
+                        model.setIsStay(false);
+                    }
                 }
+//                else {
+//                    if (stayAnimation.isAnimationFinished(stateTime)) {
+//                        model.setIsStay(false);
+//                    }
+//                }
             } else if (model.isAttack() || model.isAttackTower()) {
                 if (!model.isStay()) {
                     if (currentState != State.ATTACK) {
@@ -88,9 +117,28 @@ public class EnemyUnitView extends GameUnitView {
                             resetStateTime();
                         }
                     }
+                } else if (currentState != State.STAY) {
+                    currentState = State.STAY;
+                    resetStateTime();
                 } else {
                     if (stayAnimation.isAnimationFinished(stateTime)) {
                         model.setIsStay(false);
+                    }
+                }
+//                else {
+//                    if (stayAnimation.isAnimationFinished(stateTime)) {
+//                        model.setIsStay(false);
+//                    }
+//                }
+
+            } else if (model.isStay()) {
+                if (currentState != State.STAY) {
+                    currentState = State.STAY;
+                    resetStateTime();
+                } else {
+                    if (stayAnimation.isAnimationFinished(stateTime)) {
+                        model.setIsStay(false);
+                        resetStateTime();
                     }
                 }
             } else {
