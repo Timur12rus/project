@@ -2,10 +2,10 @@ package com.timgapps.warfare.Units.GameUnits.Player.units;
 
 import com.badlogic.gdx.math.Vector2;
 import com.timgapps.warfare.Level.Level;
-import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitController;
+import com.timgapps.warfare.Units.GameUnits.Enemy.zombie.EnemyUnitController;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitData;
-import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitModel;
-import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitView;
+import com.timgapps.warfare.Units.GameUnits.Enemy.zombie.EnemyUnitModel;
+import com.timgapps.warfare.Units.GameUnits.Enemy.zombie.EnemyUnitView;
 import com.timgapps.warfare.Units.GameUnits.GameUnitController;
 import com.timgapps.warfare.Units.GameUnits.GameUnitModel;
 import com.timgapps.warfare.Units.GameUnits.GameUnitView;

@@ -1,19 +1,20 @@
-package com.timgapps.warfare.Units.GameUnits.Enemy;
+package com.timgapps.warfare.Units.GameUnits.Enemy.skeleton;
+
 
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.timgapps.warfare.Level.Level;
+import com.timgapps.warfare.Units.GameUnits.Enemy.zombie.EnemyUnitModel;
 import com.timgapps.warfare.Units.GameUnits.GameUnitController;
-import com.timgapps.warfare.Units.GameUnits.GameUnitModel;
 import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnitModel;
 
-public class EnemyUnitController extends GameUnitController {
+public class SkeletonController extends GameUnitController {
     //    private ParticleEffect bloodSpray;      // эффект брызги
     private EnemyUnitModel model;
     private PlayerUnitModel targetPlayer;
 
-    public EnemyUnitController(Level level, EnemyUnitModel model) {
+    public SkeletonController(Level level, EnemyUnitModel model) {
         super(level, model);
         this.model = model;
         this.level = level;

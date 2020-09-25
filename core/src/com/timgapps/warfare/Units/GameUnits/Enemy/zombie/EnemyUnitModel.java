@@ -1,11 +1,11 @@
-package com.timgapps.warfare.Units.GameUnits.Enemy;
+package com.timgapps.warfare.Units.GameUnits.Enemy.zombie;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.timgapps.warfare.Level.Level;
-import com.timgapps.warfare.Units.GameUnits.DamageLabel;
+import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitData;
 import com.timgapps.warfare.Units.GameUnits.GameUnitModel;
 
 public class EnemyUnitModel extends GameUnitModel {

@@ -1,18 +1,11 @@
 package com.timgapps.warfare.Units.GameUnits.Player.units;
 
-import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.World;
 import com.timgapps.warfare.Level.GUI.Screens.PlayerUnitData;
 import com.timgapps.warfare.Level.Level;
-import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitModel;
+import com.timgapps.warfare.Units.GameUnits.Enemy.zombie.EnemyUnitModel;
 import com.timgapps.warfare.Units.GameUnits.GameUnitModel;
-import com.timgapps.warfare.Units.GameUnits.UnitData;
 
 public class PlayerUnitModel extends GameUnitModel {
     //    private float speed;

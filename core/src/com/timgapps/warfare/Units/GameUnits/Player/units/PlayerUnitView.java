@@ -6,6 +6,9 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.utils.Array;
 import com.timgapps.warfare.Level.Level;
 import com.timgapps.warfare.Units.GameUnits.GameUnitView;
@@ -20,6 +23,8 @@ public class PlayerUnitView extends GameUnitView {
     private float getHealthBarDeltaX;
     private float healthBarDeltaX;
     private float healthBarDeltaY;
+    private boolean isAddAction;
+    private SequenceAction fadeOutAction;
 
     public PlayerUnitView(Level level, PlayerUnitModel model, PlayerUnitController controller) {
         super(level, model, controller);
@@ -32,11 +37,24 @@ public class PlayerUnitView extends GameUnitView {
         createAnimations();
         setSize(Warfare.atlas.findRegion(model.getPlayerUnitData().getName().toLowerCase() + "Stay1").getRegionWidth(),
                 Warfare.atlas.findRegion(model.getPlayerUnitData().getName().toLowerCase() + "Stay1").getRegionHeight());
+        Action checkEndOfAction = new Action() {
+            @Override
+            public boolean act(float delta) {
+                remove();
+                return true;
+            }
+        };
+
+        fadeOutAction = new SequenceAction(Actions.delay(1.5f), Actions.fadeOut(1f),
+                checkEndOfAction
+        );
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
+        Color color = getColor();
+        batch.setColor(color.r, color.g, color.b, color.a * parentAlpha);
         if (currentState == State.WALKING) {
             batch.draw((TextureRegion) walkAnimation.getKeyFrame(stateTime, true), getX() + deltaX, getY() + deltaY);
         }
@@ -82,12 +100,11 @@ public class PlayerUnitView extends GameUnitView {
                 resetStateTime();
             } else {
                 if (dieAnimation.isAnimationFinished(stateTime)) {
-//                    level.removeEnemyUnitFromArray(model);
-                    this.remove();
-                    System.out.println("removePlayerUnit!");
-//                    model.disposeBloodSpray();
-
-//                    addAction(fadeOutAction);
+                    if (!isAddAction) {
+                        this.addAction(fadeOutAction);
+                        System.out.println("Add action");
+                        isAddAction = true;
+                    }
                 }
             }
         } else {

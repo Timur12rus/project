@@ -1,5 +1,6 @@
-package com.timgapps.warfare.Units.GameUnits.Enemy;
+package com.timgapps.warfare.Units.GameUnits.Enemy.zombie;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -15,13 +16,14 @@ import com.timgapps.warfare.Warfare;
 import java.util.Random;
 
 public class EnemyUnitView extends GameUnitView {
-    private EnemyUnitController controller;
+    private com.timgapps.warfare.Units.GameUnits.Enemy.zombie.EnemyUnitController controller;
     private EnemyUnitModel model;
     private float deltaX, deltaY;       // значение в px на сколько нужно сдвигать изобажение юнита относительно его тела, при отрисовке
     private float healthBarDeltaX;
     private float healthBarDeltaY;
     private State currentState;
-    SequenceAction fadeOutAction;
+    private SequenceAction fadeOutAction;
+    private boolean isAddAction;
 
     public EnemyUnitView(Level level, EnemyUnitModel model, EnemyUnitController controller) {
         super(level, model, controller);
@@ -39,12 +41,12 @@ public class EnemyUnitView extends GameUnitView {
         Action checkEndOfAction = new Action() {
             @Override
             public boolean act(float delta) {
-//                remove();
+                remove();
                 return true;
             }
         };
 
-        fadeOutAction = new SequenceAction(Actions.fadeOut(1.5f),
+        fadeOutAction = new SequenceAction(Actions.delay(1.5f), Actions.fadeOut(1f),
                 checkEndOfAction
         );
     }
@@ -63,8 +65,11 @@ public class EnemyUnitView extends GameUnitView {
                 if (dieAnimation.isAnimationFinished(stateTime)) {
                     level.removeEnemyUnitFromArray(model);
                     model.disposeBloodSpray();
-                    this.remove();
-//                    addAction(fadeOutAction);
+//                    this.remove();
+                    if (!isAddAction) {
+                        this.addAction(fadeOutAction);
+                        isAddAction = true;
+                    }
                 }
             }
         } else {
@@ -95,11 +100,6 @@ public class EnemyUnitView extends GameUnitView {
                         model.setIsStay(false);
                     }
                 }
-//                else {
-//                    if (stayAnimation.isAnimationFinished(stateTime)) {
-//                        model.setIsStay(false);
-//                    }
-//                }
             } else if (model.isAttack() || model.isAttackTower()) {
                 if (!model.isStay()) {
                     if (currentState != State.ATTACK) {
@@ -125,12 +125,6 @@ public class EnemyUnitView extends GameUnitView {
                         model.setIsStay(false);
                     }
                 }
-//                else {
-//                    if (stayAnimation.isAnimationFinished(stateTime)) {
-//                        model.setIsStay(false);
-//                    }
-//                }
-
             } else if (model.isStay()) {
                 if (currentState != State.STAY) {
                     currentState = State.STAY;
@@ -163,7 +157,8 @@ public class EnemyUnitView extends GameUnitView {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
-
+        Color color = getColor();
+        batch.setColor(color.r, color.g, color.b, color.a * parentAlpha);
         if (currentState == State.WALKING) {
             batch.draw((TextureRegion) walkAnimation.getKeyFrame(stateTime, true), getX() + deltaX, getY() + deltaY);
         }
@@ -188,8 +183,6 @@ public class EnemyUnitView extends GameUnitView {
         if (isDrawHealthBar) {
             healthBar.drawHealthBar(batch, healthBarDeltaX, getHeight() + healthBarDeltaY, model.getHealth());
         }
-
-
     }
 
 
