@@ -135,10 +135,10 @@ public class PlayerUnitController extends GameUnitController {
         }
     }
 
-    @Override
+//    @Override
     // наносим урон вражескому юниту
     public void hit() {
-        super.hit();
+//        super.hit();
         if (targetEnemy != null) {
             targetEnemy.subHealth(model.getDamage());
             System.out.println("TargetEnemy health = " + targetEnemy.getHealth());

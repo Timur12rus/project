@@ -2,10 +2,10 @@ package com.timgapps.warfare.Units.GameUnits.Player.units;
 
 import com.badlogic.gdx.math.Vector2;
 import com.timgapps.warfare.Level.Level;
-import com.timgapps.warfare.Units.GameUnits.Enemy.zombie.EnemyUnitController;
+import com.timgapps.warfare.Units.GameUnits.Enemy.skeleton.SkeletonWarriorController;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitData;
+import com.timgapps.warfare.Units.GameUnits.Enemy.skeleton.SkeletonView;
 import com.timgapps.warfare.Units.GameUnits.Enemy.zombie.EnemyUnitModel;
-import com.timgapps.warfare.Units.GameUnits.Enemy.zombie.EnemyUnitView;
 import com.timgapps.warfare.Units.GameUnits.GameUnitController;
 import com.timgapps.warfare.Units.GameUnits.GameUnitModel;
 import com.timgapps.warfare.Units.GameUnits.GameUnitView;
@@ -15,7 +15,7 @@ import com.timgapps.warfare.Units.GameUnits.unitTypes.PlayerUnits;
 // класс для создания игровых юнитов (юнита игрока или вражеского юнита)
 public class UnitCreator {
     protected GameUnitModel model;
-    private GameUnitController controller;
+    //    private EnemyController controller;
     private GameUnitView view;
     private Vector2 position;
     private Level level;
@@ -48,7 +48,7 @@ public class UnitCreator {
                 PlayerUnitModel playerUnitModel = new PlayerUnitModel(level, position, level.getGameManager().getUnitData(unitName));
                 PlayerUnitController controller = new PlayerUnitController(level, playerUnitModel);
                 PlayerUnitView view = new PlayerUnitView(level, playerUnitModel, controller);
-                create(playerUnitModel, view, controller);
+                createPlayerUnit(playerUnitModel, view);
                 level.addPlayerUnitToPlayerArray(playerUnitModel);
                 level.addUnitModel(playerUnitModel);
                 break;
@@ -62,9 +62,11 @@ public class UnitCreator {
                     }
                 }
                 EnemyUnitModel enemyUnitModel = new EnemyUnitModel(level, position, new EnemyUnitData(unitId));
-                EnemyUnitController enemyUnitController = new EnemyUnitController(level, enemyUnitModel);
-                EnemyUnitView enemyUnitView = new EnemyUnitView(level, enemyUnitModel, enemyUnitController);
-                create(enemyUnitModel, enemyUnitView, enemyUnitController);
+                SkeletonWarriorController skeletonWarriorController = new SkeletonWarriorController(level, enemyUnitModel);
+//                EnemyUnitController enemyUnitController = new EnemyUnitController(level, enemyUnitModel);
+                SkeletonView skeletonView = new SkeletonView(level, enemyUnitModel, skeletonWarriorController);
+//                EnemyUnitView enemyUnitView = new EnemyUnitView(level, enemyUnitModel, (SkeletWarriorController) enemyUnitController);
+                createEnemyUnit(enemyUnitModel, skeletonView);
                 level.addEnemyUnitToEnemyArray(enemyUnitModel);
                 level.addUnitModel(enemyUnitModel);
 //                level.addEnemyUnitToEnemyArray(enemyUnitView);
@@ -72,9 +74,18 @@ public class UnitCreator {
         }
     }
 
-    public void create(GameUnitModel model, GameUnitView view, GameUnitController controller) {
+    public void createEnemyUnit(GameUnitModel model, GameUnitView view) {
+//    public void create(GameUnitModel model, GameUnitView view, GameUnitController controller) {
         this.model = model;
-        this.controller = controller;
+//        this.controller = controller;
+        this.view = view;
+        level.addChild(view, position.x, position.y);
+    }
+
+    //    public void create(GameUnitModel model, GameUnitView view, UnitController controller) {
+    public void createPlayerUnit(GameUnitModel model, GameUnitView view) {
+        this.model = model;
+//        this.controller = controller;
         this.view = view;
         level.addChild(view, position.x, position.y);
     }

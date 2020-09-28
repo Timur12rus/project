@@ -10,13 +10,14 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.utils.Array;
 import com.timgapps.warfare.Level.Level;
+import com.timgapps.warfare.Units.GameUnits.Enemy.skeleton.SkeletonWarriorController;
 import com.timgapps.warfare.Units.GameUnits.GameUnitView;
 import com.timgapps.warfare.Warfare;
 
 import java.util.Random;
 
 public class EnemyUnitView extends GameUnitView {
-    private com.timgapps.warfare.Units.GameUnits.Enemy.zombie.EnemyUnitController controller;
+    protected SkeletonWarriorController controller;
     private EnemyUnitModel model;
     private float deltaX, deltaY;       // значение в px на сколько нужно сдвигать изобажение юнита относительно его тела, при отрисовке
     private float healthBarDeltaX;
@@ -25,7 +26,7 @@ public class EnemyUnitView extends GameUnitView {
     private SequenceAction fadeOutAction;
     private boolean isAddAction;
 
-    public EnemyUnitView(Level level, EnemyUnitModel model, EnemyUnitController controller) {
+    public EnemyUnitView(Level level, EnemyUnitModel model, SkeletonWarriorController controller) {
         super(level, model, controller);
         this.model = model;
         this.controller = controller;

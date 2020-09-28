@@ -9,26 +9,24 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.utils.Array;
 import com.timgapps.warfare.Level.Level;
-import com.timgapps.warfare.Units.GameUnits.Enemy.zombie.EnemyUnitController;
 import com.timgapps.warfare.Units.GameUnits.Enemy.zombie.EnemyUnitModel;
-import com.timgapps.warfare.Units.GameUnits.GameUnitView;
+import com.timgapps.warfare.Units.GameUnits.Enemy.zombie.EnemyUnitView;
 import com.timgapps.warfare.Warfare;
 
 import java.util.Random;
 
-public class SkeletonView extends GameUnitView {
-    private com.timgapps.warfare.Units.GameUnits.Enemy.zombie.EnemyUnitController controller;
+public class SkeletonView extends EnemyUnitView {
     private EnemyUnitModel model;
     private float deltaX, deltaY;       // значение в px на сколько нужно сдвигать изобажение юнита относительно его тела, при отрисовке
     private float healthBarDeltaX;
     private float healthBarDeltaY;
     private State currentState;
-    SequenceAction fadeOutAction;
+    private SequenceAction fadeOutAction;
 
-    public SkeletonView(Level level, EnemyUnitModel model, EnemyUnitController controller) {
+    public SkeletonView(Level level, EnemyUnitModel model, SkeletonWarriorController controller) {
         super(level, model, controller);
         this.model = model;
-        this.controller = controller;
+//        this.controller = controller;
         deltaX = model.getUnitData().getDeltaX();
         deltaY = model.getUnitData().getDeltaY();
         healthBarDeltaX = model.getUnitData().getBarDeltaX();
@@ -105,9 +103,10 @@ public class SkeletonView extends GameUnitView {
                     } else {
                         if (attackAnimation.isAnimationFinished(stateTime)) {
                             if (model.isAttack()) {
+//                                model.setIsHit(true);
                                 controller.hit();
                             } else if (model.isAttackTower()) {
-                                controller.hitTower();
+//                                controller.hitTower();
                             }
                             currentState = State.STAY;
                             model.setIsStay(true);

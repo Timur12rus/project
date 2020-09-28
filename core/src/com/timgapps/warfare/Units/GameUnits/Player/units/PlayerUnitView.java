@@ -44,7 +44,6 @@ public class PlayerUnitView extends GameUnitView {
                 return true;
             }
         };
-
         fadeOutAction = new SequenceAction(Actions.delay(1.5f), Actions.fadeOut(1f),
                 checkEndOfAction
         );

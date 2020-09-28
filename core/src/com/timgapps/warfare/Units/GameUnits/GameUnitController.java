@@ -23,9 +23,9 @@ public class GameUnitController {
         model.setVelocity(velocity);
     }
 
-    // метод для нанесения урона вражескому юниту
-    public void hit() {
-    }
+//    // метод для нанесения урона вражескому юниту
+//    public void hit() {
+//    }
 
     public void removeUnitFromLevel(GameUnitModel model) {
         level.getArrayModels().remove(model);

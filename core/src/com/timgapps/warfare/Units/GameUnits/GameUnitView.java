@@ -2,12 +2,9 @@ package com.timgapps.warfare.Units.GameUnits;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.timgapps.warfare.Level.Level;
 import com.timgapps.warfare.Units.GameUnits.Player.units.HealthBar;
@@ -23,7 +20,8 @@ public class GameUnitView extends Actor {
     protected boolean isDebug = true;
     protected Level level;
     private GameUnitModel model;
-    private GameUnitController controller;
+    protected GameUnitController controller;
+    //    private EnemyController controller;
     protected boolean isDrawHealthBar;
     protected HealthBar healthBar;
     protected float stateTime;
