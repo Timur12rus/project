@@ -19,7 +19,6 @@ public class EnemyUnitModel extends GameUnitModel {
     private boolean isTouchedPlayer;
     private boolean isTouchedTower;
     private boolean isAttackTower;
-    private boolean isHit;
 
     public EnemyUnitModel(Level level, Vector2 position, EnemyUnitData enemyUnitData) {
         super(level, position);
@@ -38,14 +37,6 @@ public class EnemyUnitModel extends GameUnitModel {
         isTouchedTower = false;
         isAttackTower = false;
         unitBit = ENEMY_BIT;
-    }
-
-    public boolean getIsHit() {
-        return isHit;
-    }
-
-    public void setIsHit(boolean isHit) {
-        this.isHit = isHit;
     }
 
     @Override

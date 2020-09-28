@@ -23,7 +23,7 @@ public class SkeletonView extends EnemyUnitView {
     private State currentState;
     private SequenceAction fadeOutAction;
 
-    public SkeletonView(Level level, EnemyUnitModel model, SkeletonWarriorController controller) {
+    public SkeletonView(Level level, EnemyUnitModel model, SkeletonController controller) {
         super(level, model, controller);
         this.model = model;
 //        this.controller = controller;
@@ -43,7 +43,6 @@ public class SkeletonView extends EnemyUnitView {
                 return true;
             }
         };
-
         fadeOutAction = new SequenceAction(Actions.fadeOut(1.5f),
                 checkEndOfAction
         );

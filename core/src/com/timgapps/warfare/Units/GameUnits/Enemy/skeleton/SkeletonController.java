@@ -1,23 +1,14 @@
 package com.timgapps.warfare.Units.GameUnits.Enemy.skeleton;
 
-import com.badlogic.gdx.math.Intersector;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.timgapps.warfare.Level.Level;
 import com.timgapps.warfare.Units.GameUnits.Enemy.zombie.EnemyUnitController;
 import com.timgapps.warfare.Units.GameUnits.Enemy.zombie.EnemyUnitModel;
-import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnitModel;
 import com.timgapps.warfare.Units.GameUnits.Player.units.EnemyWarriorAi;
 
-public class SkeletonWarriorController extends EnemyUnitController implements EnemyWarriorAi {
-//    protected EnemyUnitModel model;
-//    private Level level;
-    private Rectangle body;
-
-    public SkeletonWarriorController(Level level, EnemyUnitModel model) {
+public class SkeletonController extends EnemyUnitController implements EnemyWarriorAi {
+    public SkeletonController(Level level, EnemyUnitModel model) {
         super(level, model);
-        this.model = model;
-        body = model.getBody();
     }
 
     public void update(float delta) {
@@ -57,31 +48,31 @@ public class SkeletonWarriorController extends EnemyUnitController implements En
         System.out.println("Attack tower!");
     }
 
-    public void checkCollisions() {
-//        model.setIsTouchedPlayer(checkCollision(body, ((PlayerUnitModel) gameUnitModel).getBody()));
-        if (!model.isTouchedPlayer()) {               // проверяем коллизию
-            for (PlayerUnitModel playerUnit : level.getArrayPlayers()) {
-                if (playerUnit.isBodyActive()) {     // если тело активно
-                    model.setIsTouchedPlayer(checkCollision(body, playerUnit.getBody()));
-                    if (model.isTouchedPlayer()) {
-                        targetPlayer = playerUnit;
-                        break;
-                    } else {
-                        model.setIsTouchedPlayer(false);
-                    }
-                }
-            }
-        }
-    }
+//    public void checkCollisions() {
+////        model.setIsTouchedPlayer(checkCollision(body, ((PlayerUnitModel) gameUnitModel).getBody()));
+//        if (!model.isTouchedPlayer()) {               // проверяем коллизию
+//            for (PlayerUnitModel playerUnit : level.getArrayPlayers()) {
+//                if (playerUnit.isBodyActive()) {     // если тело активно
+//                    model.setIsTouchedPlayer(checkCollision(body, playerUnit.getBody()));
+//                    if (model.isTouchedPlayer()) {
+//                        targetPlayer = playerUnit;
+//                        break;
+//                    } else {
+//                        model.setIsTouchedPlayer(false);
+//                    }
+//                }
+//            }
+//        }
+//    }
 
     // для проверки столкновения
-    public boolean checkCollision(Rectangle bodyA, Rectangle bodyB) {
-        if (Intersector.overlaps(bodyA, bodyB)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+//    public boolean checkCollision(Rectangle bodyA, Rectangle bodyB) {
+//        if (Intersector.overlaps(bodyA, bodyB)) {
+//            return true;
+//        } else {
+//            return false;
+//        }
+//    }
 
     public void attackPlayer() {
         if (model.isAttack()) {

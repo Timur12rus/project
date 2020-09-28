@@ -2,11 +2,10 @@ package com.timgapps.warfare.Units.GameUnits.Player.units;
 
 import com.badlogic.gdx.math.Vector2;
 import com.timgapps.warfare.Level.Level;
-import com.timgapps.warfare.Units.GameUnits.Enemy.skeleton.SkeletonWarriorController;
+import com.timgapps.warfare.Units.GameUnits.Enemy.skeleton.SkeletonController;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitData;
-import com.timgapps.warfare.Units.GameUnits.Enemy.skeleton.SkeletonView;
 import com.timgapps.warfare.Units.GameUnits.Enemy.zombie.EnemyUnitModel;
-import com.timgapps.warfare.Units.GameUnits.GameUnitController;
+import com.timgapps.warfare.Units.GameUnits.Enemy.zombie.EnemyUnitView;
 import com.timgapps.warfare.Units.GameUnits.GameUnitModel;
 import com.timgapps.warfare.Units.GameUnits.GameUnitView;
 import com.timgapps.warfare.Units.GameUnits.unitTypes.EnemyUnits;
@@ -62,11 +61,12 @@ public class UnitCreator {
                     }
                 }
                 EnemyUnitModel enemyUnitModel = new EnemyUnitModel(level, position, new EnemyUnitData(unitId));
-                SkeletonWarriorController skeletonWarriorController = new SkeletonWarriorController(level, enemyUnitModel);
+                SkeletonController skeletonController = new SkeletonController(level, enemyUnitModel);
 //                EnemyUnitController enemyUnitController = new EnemyUnitController(level, enemyUnitModel);
-                SkeletonView skeletonView = new SkeletonView(level, enemyUnitModel, skeletonWarriorController);
-//                EnemyUnitView enemyUnitView = new EnemyUnitView(level, enemyUnitModel, (SkeletWarriorController) enemyUnitController);
-                createEnemyUnit(enemyUnitModel, skeletonView);
+//                SkeletonView skeletonView = new SkeletonView(level, enemyUnitModel, skeletonWarriorController);
+                EnemyUnitView enemyUnitView = new EnemyUnitView(level, enemyUnitModel, skeletonController);
+                createEnemyUnit(enemyUnitModel, enemyUnitView);
+//                createEnemyUnit(enemyUnitModel, skeletonView);
                 level.addEnemyUnitToEnemyArray(enemyUnitModel);
                 level.addUnitModel(enemyUnitModel);
 //                level.addEnemyUnitToEnemyArray(enemyUnitView);

@@ -7,7 +7,6 @@ import com.timgapps.warfare.Level.Level;
 import com.timgapps.warfare.Units.GameUnits.Barricade;
 import com.timgapps.warfare.Units.GameUnits.Enemy.zombie.EnemyUnitModel;
 import com.timgapps.warfare.Units.GameUnits.GameUnitController;
-
 import java.util.ArrayList;
 
 public class PlayerUnitController extends GameUnitController {
@@ -27,7 +26,7 @@ public class PlayerUnitController extends GameUnitController {
         this.model = model;
         this.level = level;
         barricade = level.getBarricade();
-
+        body = model.getBody();
     }
 
     // метод обновления логики игрового юнита
@@ -62,8 +61,10 @@ public class PlayerUnitController extends GameUnitController {
             if (targetEnemy != null) {
                 if (targetEnemy.isBodyActive()) {
                     model.setIsTouchedEnemy(checkCollision(body, targetEnemy.getBody()));               // проверим столкновение тел юнитов
+                    System.out.println("Touched Enemy = " + model.isTouchedEnemy());
                 } else {
                     model.setIsTouchedEnemy(false);
+                    System.out.println("Touched Enemy = " + model.isTouchedEnemy());
                     model.setTargetEnemy(null);
                     targetEnemy = null;
                     model.setIsHaveTargetEnemy(false);
@@ -135,7 +136,7 @@ public class PlayerUnitController extends GameUnitController {
         }
     }
 
-//    @Override
+    //    @Override
     // наносим урон вражескому юниту
     public void hit() {
 //        super.hit();

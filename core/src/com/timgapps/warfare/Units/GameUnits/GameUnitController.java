@@ -12,7 +12,7 @@ public class GameUnitController {
     public GameUnitController(Level level, GameUnitModel model) {
         this.level = level;
         this.model = model;
-        body = model.getBody();
+//        body = model.getBody();
     }
 
     public void update(float delta) {
@@ -22,10 +22,6 @@ public class GameUnitController {
     public void setVelocity(Vector2 velocity) {
         model.setVelocity(velocity);
     }
-
-//    // метод для нанесения урона вражескому юниту
-//    public void hit() {
-//    }
 
     public void removeUnitFromLevel(GameUnitModel model) {
         level.getArrayModels().remove(model);

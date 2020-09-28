@@ -29,14 +29,12 @@ public abstract class GameUnitModel {
     protected float bodyHeight;
     private Vector2 velocity;
     protected GameUnitView.State currentState;
-    private boolean isEndAttack, isEndStay;
     private boolean isAttack, isStay, isMove, isDestroyed;
     protected Level level;
     protected boolean isDamaged;
     protected boolean isBodyActive;
     protected float xPosDamageLabel, yPosDamagelabel;
     protected short unitBit;
-    protected PlayerUnitModel targetPlayer;
 
     public GameUnitModel(Level level, Vector2 position) {
         System.out.println("GameUnitModel = " + this.toString());
@@ -119,10 +117,6 @@ public abstract class GameUnitModel {
 
     public float getY() {
         return position.y;
-    }
-
-    public void isEndAttack(boolean isEndAttack) {
-        this.isEndAttack = isEndAttack;
     }
 
     public boolean isAttack() {
