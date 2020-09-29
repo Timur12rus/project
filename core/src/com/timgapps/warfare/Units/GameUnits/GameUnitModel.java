@@ -1,23 +1,15 @@
 package com.timgapps.warfare.Units.GameUnits;
 
-import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.World;
 import com.timgapps.warfare.Level.Level;
-import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnitModel;
 
 // абстрактный класс, модель игрового юнита
 public abstract class GameUnitModel {
     protected Vector2 position;
-    protected World world;
     protected Rectangle body;
     protected float health;
-    protected float fullHealth;
     protected float speed;
-    protected boolean isDraw;
-    private boolean isBodyInactive = false;
     public static final short PLAYER_BIT = 1;
     public static final short ENEMY_BIT = 2;
     public static final short BULLET_BIT = 4;
@@ -35,6 +27,8 @@ public abstract class GameUnitModel {
     protected boolean isBodyActive;
     protected float xPosDamageLabel, yPosDamagelabel;
     protected short unitBit;
+    protected boolean isDrawHealthBar;
+    private final float DAMAGE_LABEL_Y = 116;
 
     public GameUnitModel(Level level, Vector2 position) {
         System.out.println("GameUnitModel = " + this.toString());
@@ -92,11 +86,8 @@ public abstract class GameUnitModel {
     public void updateBodyPosition() {
         position.add(velocity);
         body.setPosition(position.x, position.y);
+        System.out.println("bodyPosition = " + position.x + " / " + position.y);
     }
-
-//    protected void addDamageLabel(float x, float y, float value) {
-//        new DamageLabel(level, x, y, (int) value);
-//    }
 
 
     public void setVelocity(Vector2 vel) {
@@ -161,9 +152,13 @@ public abstract class GameUnitModel {
 
     // метод для получения урона от противника, уменьшает кол-во здоровья на значение "damage"
     public void subHealth(float damage) {
+        isDrawHealthBar = true;
         health -= damage;
-        addDamageLabel(getX() + xPosDamageLabel, getY() + yPosDamagelabel, damage);
+        addDamageLabel(getX() + 12, getY() + DAMAGE_LABEL_Y, damage);
+
         if (health <= 0) {
+            health = 0;
+            isDrawHealthBar = false;
             isBodyActive = false;
             isDestroyed = true;
         }
@@ -175,5 +170,10 @@ public abstract class GameUnitModel {
 
     public boolean isDamaged() {
         return isDamaged;
+    }
+
+
+    public boolean isDrawHealthBar() {
+        return isDrawHealthBar;
     }
 }

@@ -52,6 +52,7 @@ public class GameUnitView extends Actor {
             controller.update(delta);
         }
         setPosition(model.getPosition().x, model.getPosition().y);      // обновляем позицию view по координатам позиции модели
+        isDrawHealthBar = model.isDrawHealthBar();
     }
 
     public float getHealth() {

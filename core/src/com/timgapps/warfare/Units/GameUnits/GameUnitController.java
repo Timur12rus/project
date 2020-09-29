@@ -12,7 +12,6 @@ public class GameUnitController {
     public GameUnitController(Level level, GameUnitModel model) {
         this.level = level;
         this.model = model;
-//        body = model.getBody();
     }
 
     public void update(float delta) {

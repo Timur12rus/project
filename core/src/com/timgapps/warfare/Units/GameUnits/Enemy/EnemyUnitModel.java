@@ -1,11 +1,10 @@
-package com.timgapps.warfare.Units.GameUnits.Enemy.zombie;
+package com.timgapps.warfare.Units.GameUnits.Enemy;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.timgapps.warfare.Level.Level;
-import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitData;
 import com.timgapps.warfare.Units.GameUnits.GameUnitModel;
 
 public class EnemyUnitModel extends GameUnitModel {
@@ -27,6 +26,7 @@ public class EnemyUnitModel extends GameUnitModel {
         health = enemyUnitData.getHealth();
         speed = enemyUnitData.getSpeed();
         name = enemyUnitData.getName();
+        xPosDamageLabel = 8;        // смещение надписи получаемого урона по оси х
         bodyWidth = 48;
         bodyHeight = 24;
         body = createBody();
@@ -58,16 +58,11 @@ public class EnemyUnitModel extends GameUnitModel {
         super.subHealth(damage);
         isDamaged = true;
         bloodSpray.start();
-//        addDamageLabel(getX() + xPosDamageLabel, getY() + yPosDamagelabel, damage);
         if (health <= 0 && !isRemovedFromEnemiesArray) {   // если здоровье меньше или равно 0, то удаляем из массива вражеских юнитов
             isRemovedFromEnemiesArray = true;
             level.removeEnemyUnitFromArray(this);                      // текущий юнит
         }
     }
-
-//    protected void addDamageLabel(float x, float y, float value) {
-//        new DamageLabel(level, x, y, (int) value);
-//    }
 
     public String getName() {
         return name;

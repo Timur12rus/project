@@ -1,4 +1,4 @@
-package com.timgapps.warfare.Units.GameUnits.Enemy.zombie;
+package com.timgapps.warfare.Units.GameUnits.Enemy;
 
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
@@ -7,8 +7,8 @@ import com.timgapps.warfare.Units.GameUnits.GameUnitController;
 import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnitModel;
 
 public class EnemyUnitController extends GameUnitController {
-    protected PlayerUnitModel targetPlayer;
     protected EnemyUnitModel model;
+    protected PlayerUnitModel targetPlayer;
 
     public EnemyUnitController(Level level, EnemyUnitModel model) {
         super(level, model);
@@ -16,8 +16,22 @@ public class EnemyUnitController extends GameUnitController {
         body = model.getBody();
     }
 
+    public void hit() {
+        if (targetPlayer != null) {
+            targetPlayer.subHealth(model.getDamage());
+            if (targetPlayer.getHealth() <= 0) {
+                targetPlayer = null;
+            }
+        }
+    }
+
+    public void hitTower() {
+        if (level.getSiegeTower().getHealth() > 0) {
+            level.getSiegeTower().setHealth(model.getDamage());
+        }
+    }
+
     public void checkCollisions() {
-//        model.setIsTouchedPlayer(checkCollision(body, ((PlayerUnitModel) gameUnitModel).getBody()));
         if (!model.isTouchedPlayer()) {               // проверяем коллизию
             for (PlayerUnitModel playerUnit : level.getArrayPlayers()) {
                 if (playerUnit.isBodyActive()) {     // если тело активно

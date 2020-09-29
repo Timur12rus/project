@@ -6,7 +6,7 @@ import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnit;
-import com.timgapps.warfare.Units.GameUnits.Enemy.zombie.EnemyUnitModel;
+import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitModel;
 import com.timgapps.warfare.Units.GameUnits.GameUnitView;
 import com.timgapps.warfare.Units.GameUnits.Player.Bullets.Bullet;
 import com.timgapps.warfare.Units.GameUnits.Player.Bullets.Stone;

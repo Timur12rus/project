@@ -1,4 +1,4 @@
-package com.timgapps.warfare.Units.GameUnits.Player.units;
+package com.timgapps.warfare.Units.GameUnits.Player.units.thor;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -12,10 +12,12 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.utils.Array;
 import com.timgapps.warfare.Level.Level;
 import com.timgapps.warfare.Units.GameUnits.GameUnitView;
+import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnitController;
+import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnitModel;
 import com.timgapps.warfare.Utils.Setting;
 import com.timgapps.warfare.Warfare;
 
-public class PlayerUnitView extends GameUnitView {
+public class ThorView extends GameUnitView {
     private PlayerUnitModel model;
     private PlayerUnitController controller;
     private Level level;
@@ -26,7 +28,7 @@ public class PlayerUnitView extends GameUnitView {
     private boolean isAddAction;
     private SequenceAction fadeOutAction;
 
-    public PlayerUnitView(Level level, PlayerUnitModel model, PlayerUnitController controller) {
+    public ThorView(Level level, PlayerUnitModel model, PlayerUnitController controller) {
         super(level, model, controller);
         this.model = model;
         this.controller = controller;
@@ -34,7 +36,6 @@ public class PlayerUnitView extends GameUnitView {
         deltaY = model.getUnitData().getDeltaY();
         healthBarDeltaX = model.getUnitData().getBarDeltaX();
         healthBarDeltaY = model.getUnitData().getBarDeltaY();
-        System.out.println("healthBarDeltaX = " + healthBarDeltaX);
         createAnimations();
         setSize(Warfare.atlas.findRegion(model.getPlayerUnitData().getName().toLowerCase() + "Stay1").getRegionWidth(),
                 Warfare.atlas.findRegion(model.getPlayerUnitData().getName().toLowerCase() + "Stay1").getRegionHeight());
@@ -70,9 +71,9 @@ public class PlayerUnitView extends GameUnitView {
         if (currentState == State.DIE) {
             batch.draw((TextureRegion) dieAnimation.getKeyFrame(stateTime, false), getX() + deltaX, getY() + deltaY);
         }
-//        if (isDrawHealthBar) {
-//            healthBar.drawHealthBar(batch, getX() + healthBarDeltaX, getY() + getHeight() + healthBarDeltaY, model.getHealth());
-//        }
+        if (isDrawHealthBar) {
+            healthBar.drawHealthBar(batch, getX() + healthBarDeltaX, getY() + getHeight() + healthBarDeltaY, model.getHealth());
+        }
         batch.end();
         if (Setting.DEBUG_GAME) {
             shapeRenderer.begin(ShapeRenderer.ShapeType.Line);

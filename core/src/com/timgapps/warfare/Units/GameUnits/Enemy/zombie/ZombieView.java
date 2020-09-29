@@ -10,15 +10,15 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.utils.Array;
 import com.timgapps.warfare.Level.Level;
-import com.timgapps.warfare.Units.GameUnits.Enemy.skeleton.SkeletonController;
+import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitModel;
 import com.timgapps.warfare.Units.GameUnits.GameUnitView;
 import com.timgapps.warfare.Warfare;
 
 import java.util.Random;
 
-public class EnemyUnitView extends GameUnitView {
-    protected SkeletonController controller;
-    private EnemyUnitModel model;
+public class ZombieView extends GameUnitView {
+    protected ZombieController controller;
+    private com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitModel model;
     private float deltaX, deltaY;       // значение в px на сколько нужно сдвигать изобажение юнита относительно его тела, при отрисовке
     private float healthBarDeltaX;
     private float healthBarDeltaY;
@@ -26,7 +26,7 @@ public class EnemyUnitView extends GameUnitView {
     private SequenceAction fadeOutAction;
     private boolean isAddAction;
 
-    public EnemyUnitView(Level level, EnemyUnitModel model, SkeletonController controller) {
+    public ZombieView(Level level, EnemyUnitModel model, ZombieController controller) {
         super(level, model, controller);
         this.model = model;
         this.controller = controller;
@@ -182,7 +182,7 @@ public class EnemyUnitView extends GameUnitView {
         }
 
         if (isDrawHealthBar) {
-            healthBar.drawHealthBar(batch, healthBarDeltaX, getHeight() + healthBarDeltaY, model.getHealth());
+            healthBar.drawHealthBar(batch, getX() + healthBarDeltaX, getY() + getHeight() + healthBarDeltaY, model.getHealth());
         }
     }
 
@@ -220,4 +220,3 @@ public class EnemyUnitView extends GameUnitView {
         frames.clear();
     }
 }
-

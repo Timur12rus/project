@@ -1,5 +1,6 @@
-package com.timgapps.warfare.Units.GameUnits.Player.units;
+package com.timgapps.warfare.Units.GameUnits.Enemy.interfacesAi;
 
+// интерфейс поведения вражеского воина (не стреляет)
 public interface EnemyWarriorAi {
     void attackTower();
 

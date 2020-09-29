@@ -24,7 +24,7 @@ import com.timgapps.warfare.Level.LevelScreens.LevelCompletedScreen;
 import com.timgapps.warfare.Level.LevelScreens.PauseScreen;
 import com.timgapps.warfare.Tools.WorldContactListener;
 import com.timgapps.warfare.Units.GameUnits.Barricade;
-import com.timgapps.warfare.Units.GameUnits.Enemy.zombie.EnemyUnitModel;
+import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitModel;
 import com.timgapps.warfare.Units.GameUnits.GameUnitModel;
 import com.timgapps.warfare.Units.GameUnits.Player.units.Gnome;
 import com.timgapps.warfare.Units.GameUnits.Player.units.Knight;

@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.timgapps.warfare.Level.GUI.Screens.PlayerUnitData;
 import com.timgapps.warfare.Level.Level;
-import com.timgapps.warfare.Units.GameUnits.Enemy.zombie.EnemyUnitModel;
+import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitModel;
 import com.timgapps.warfare.Units.GameUnits.GameUnitModel;
 
 public class PlayerUnitModel extends GameUnitModel {
@@ -14,7 +14,6 @@ public class PlayerUnitModel extends GameUnitModel {
     private PlayerUnitData playerUnitData;      // данные юнита (тип, урон, здоровье
     private int energyPrice;
     private boolean isTouchedBarricade;
-    private boolean isAttackEnemy;
     private boolean isAttackBarricade;
     private boolean isTouchedEnemy;
     private boolean isHaveTargetEnemy;
@@ -30,6 +29,7 @@ public class PlayerUnitModel extends GameUnitModel {
         damage = playerUnitData.getDamage();
         health = playerUnitData.getHealth();
         energyPrice = playerUnitData.getEnergyPrice();
+        xPosDamageLabel = playerUnitData.getDeltaX();
         bodyWidth = 48;
         bodyHeight = 24;
         body = createBody();
@@ -98,6 +98,14 @@ public class PlayerUnitModel extends GameUnitModel {
     public void setIsTouchedEnemy(boolean isTouchedEnemy) {
 //        System.out.println("isTouchedEnemy = " + isTouchedEnemy);
         this.isTouchedEnemy = isTouchedEnemy;
+    }
+
+    public void setIsTouchedBarricade(boolean isTouchedBarricade) {
+        this.isTouchedBarricade = isTouchedBarricade;
+    }
+
+    public boolean isTouchedBarricade() {
+        return isTouchedBarricade;
     }
 
     public Vector2 getBodySize() {
