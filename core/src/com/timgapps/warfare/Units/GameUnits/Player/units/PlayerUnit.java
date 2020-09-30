@@ -32,7 +32,6 @@ public class PlayerUnit extends GameUnit {
     protected boolean isHaveTarget = false;
     protected PlayerUnitModel model;
     protected PlayerUnitController controller;
-    protected PlayerUnitView view;
     protected Level level;
 //    protected TextureRegion lifeIndicator;
 

@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.timgapps.warfare.Level.Level;
 import com.timgapps.warfare.Units.GameUnits.GameUnitController;
 import com.timgapps.warfare.Units.GameUnits.GameUnitView;
+import com.timgapps.warfare.Warfare;
 
 public class EnemyUnitView extends GameUnitView {
     protected EnemyUnitModel model;
@@ -38,15 +39,15 @@ public class EnemyUnitView extends GameUnitView {
         fadeOutAction = new SequenceAction(Actions.delay(1.5f), Actions.fadeOut(1f),
                 checkEndOfAction
         );
+        setSize(Warfare.atlas.findRegion(model.getUnitData().getName().toLowerCase() + "Stay1").getRegionWidth(),
+                Warfare.atlas.findRegion(model.getUnitData().getName().toLowerCase() + "Stay1").getRegionHeight());
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
-//        if (level.getState() != Level.PAUSED) {
         Color color = getColor();
         batch.setColor(color.r, color.g, color.b, color.a * parentAlpha);
-//        }
         if (currentState == State.WALKING) {
             batch.draw((TextureRegion) walkAnimation.getKeyFrame(stateTime, true), getX() + deltaX, getY() + deltaY);
         }
@@ -62,11 +63,9 @@ public class EnemyUnitView extends GameUnitView {
         if (currentState == State.DIE) {
             batch.draw((TextureRegion) dieAnimation.getKeyFrame(stateTime, false), getX() + deltaX, getY() + deltaY);
         }
-
         if (model.isDamaged()) {
             model.getBloodSpray().draw(batch);
         }
-
         if (isDrawHealthBar) {
             healthBar.drawHealthBar(batch, getX() + healthBarDeltaX, getY() + getHeight() + healthBarDeltaY, model.getHealth());
         }
