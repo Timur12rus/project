@@ -53,7 +53,6 @@ public class PlayerUnitModel extends GameUnitModel {
         return damage;
     }
 
-
     public void setIsHaveTargetEnemy(boolean isHaveTargetEnemy) {
         this.isHaveTargetEnemy = isHaveTargetEnemy;
     }

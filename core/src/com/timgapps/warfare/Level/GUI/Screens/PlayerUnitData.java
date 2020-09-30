@@ -61,7 +61,7 @@ public class PlayerUnitData extends UnitData {
                 barDeltaX = -84;        // смещение healthBar по оси х
                 barDeltaY = 0;
                 unitLevel = 1;
-                speed = 0.8f;
+                speed = 0.9f;
                 name = "Thor";
                 System.out.println("HAHAHAHAHAHAH");
                 break;

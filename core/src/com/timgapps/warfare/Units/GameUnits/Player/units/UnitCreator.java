@@ -4,8 +4,12 @@ import com.badlogic.gdx.math.Vector2;
 import com.timgapps.warfare.Level.Level;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitData;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitModel;
-import com.timgapps.warfare.Units.GameUnits.Enemy.zombie.ZombieController;
-import com.timgapps.warfare.Units.GameUnits.Enemy.zombie.ZombieView;
+import com.timgapps.warfare.Units.GameUnits.Enemy.zombie1.Zombie1Controller;
+import com.timgapps.warfare.Units.GameUnits.Enemy.zombie1.Zombie1View;
+import com.timgapps.warfare.Units.GameUnits.Enemy.zombie2.Zombie2Controller;
+import com.timgapps.warfare.Units.GameUnits.Enemy.zombie2.Zombie2View;
+import com.timgapps.warfare.Units.GameUnits.Enemy.zombie3.Zombie3Controller;
+import com.timgapps.warfare.Units.GameUnits.Enemy.zombie3.Zombie3View;
 import com.timgapps.warfare.Units.GameUnits.GameUnitModel;
 import com.timgapps.warfare.Units.GameUnits.GameUnitView;
 import com.timgapps.warfare.Units.GameUnits.Player.units.thor.ThorController;
@@ -62,9 +66,26 @@ public class UnitCreator {
                     }
                 }
                 EnemyUnitModel enemyUnitModel = new EnemyUnitModel(level, position, new EnemyUnitData(unitId));
-                ZombieController zombieController = new ZombieController(level, enemyUnitModel);
-                ZombieView zombieView = new ZombieView(level, enemyUnitModel, zombieController);
-                createEnemyUnit(enemyUnitModel, zombieView);
+                switch (unitId) {
+                    case Zombie1:
+                        Zombie1Controller zombie1Controller = new Zombie1Controller(level, enemyUnitModel);
+                        Zombie1View zombie1View = new Zombie1View(level, enemyUnitModel, zombie1Controller);
+                        createEnemyUnit(enemyUnitModel, zombie1View);
+                        break;
+                    case Zombie2:
+                        Zombie2Controller zombie2Controller = new Zombie2Controller(level, enemyUnitModel);
+                        Zombie2View zombie2View = new Zombie2View(level, enemyUnitModel, zombie2Controller);
+                        createEnemyUnit(enemyUnitModel, zombie2View);
+                        break;
+                    case Zombie3:
+                        Zombie3Controller zombie3Controller = new Zombie3Controller(level, enemyUnitModel);
+                        Zombie3View zombie3View = new Zombie3View(level, enemyUnitModel, zombie3Controller);
+                        createEnemyUnit(enemyUnitModel, zombie3View);
+                        break;
+                }
+//                Zombie2Controller zombie2Controller = new Zombie2Controller(level, enemyUnitModel);
+//                Zombie2View zombie2View = new Zombie2View(level, enemyUnitModel, zombie2Controller);
+//                createEnemyUnit(enemyUnitModel, zombie2View);
                 level.addEnemyUnitToEnemyArray(enemyUnitModel);
                 level.addUnitModel(enemyUnitModel);
                 break;

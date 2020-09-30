@@ -155,7 +155,6 @@ public abstract class GameUnitModel {
         isDrawHealthBar = true;
         health -= damage;
         addDamageLabel(getX() + 12, getY() + DAMAGE_LABEL_Y, damage);
-
         if (health <= 0) {
             health = 0;
             isDrawHealthBar = false;
@@ -171,7 +170,6 @@ public abstract class GameUnitModel {
     public boolean isDamaged() {
         return isDamaged;
     }
-
 
     public boolean isDrawHealthBar() {
         return isDrawHealthBar;

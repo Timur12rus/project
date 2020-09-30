@@ -1,4 +1,4 @@
-package com.timgapps.warfare.Units.GameUnits.Enemy.zombie;
+package com.timgapps.warfare.Units.GameUnits.Enemy.zombie2;
 
 import com.badlogic.gdx.math.Vector2;
 import com.timgapps.warfare.Level.Level;
@@ -6,8 +6,8 @@ import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitController;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitModel;
 import com.timgapps.warfare.Units.GameUnits.Enemy.interfacesAi.EnemyWarriorAi;
 
-public class ZombieController extends EnemyUnitController implements EnemyWarriorAi {
-    public ZombieController(Level level, EnemyUnitModel model) {
+public class Zombie2Controller extends EnemyUnitController implements EnemyWarriorAi {
+    public Zombie2Controller(Level level, EnemyUnitModel model) {
         super(level, model);
     }
 

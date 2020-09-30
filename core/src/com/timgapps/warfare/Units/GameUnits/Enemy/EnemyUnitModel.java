@@ -11,7 +11,6 @@ public class EnemyUnitModel extends GameUnitModel {
     private float damage;
     private EnemyUnitData enemyUnitData;
     private String name;
-    //    private boolean isDamaged;
     private boolean isRemovedFromEnemiesArray;
     private ParticleEffect bloodSpray;
     private boolean isMove;
