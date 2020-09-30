@@ -1,55 +1,21 @@
-package com.timgapps.warfare.Units.GameUnits.Enemy.zombie2;
+package com.timgapps.warfare.Units.GameUnits.Enemy.zombie3;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.utils.Array;
 import com.timgapps.warfare.Level.Level;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitModel;
-import com.timgapps.warfare.Units.GameUnits.GameUnitView;
+import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitView;
+import com.timgapps.warfare.Units.GameUnits.Enemy.zombie2.Zombie2Controller;
 import com.timgapps.warfare.Warfare;
 
-import java.util.Random;
-
-public class Zombie2View extends GameUnitView {
+public class Zombie3UnitView extends EnemyUnitView {
     protected Zombie2Controller controller;
-    protected EnemyUnitModel model;
-    protected float deltaX, deltaY;       // значение в px на сколько нужно сдвигать изобажение юнита относительно его тела, при отрисовке
-    protected float healthBarDeltaX;
-    protected float healthBarDeltaY;
-    protected State currentState;
-    protected SequenceAction fadeOutAction;
-    protected boolean isAddAction;
 
-    public Zombie2View(Level level, EnemyUnitModel model, Zombie2Controller controller) {
+    public Zombie3UnitView(Level level, EnemyUnitModel model, Zombie2Controller controller) {
         super(level, model, controller);
-        this.model = model;
         this.controller = controller;
-        deltaX = model.getUnitData().getDeltaX();
-        deltaY = model.getUnitData().getDeltaY();
-        healthBarDeltaX = model.getUnitData().getBarDeltaX();
-        healthBarDeltaY = model.getUnitData().getBarDeltaY();
         createAnimations();
-        currentState = State.STAY;
-        setSize(Warfare.atlas.findRegion(model.getUnitData().getName().toLowerCase() + "Stay1").getRegionWidth(),
-                Warfare.atlas.findRegion(model.getUnitData().getName().toLowerCase() + "Stay1").getRegionHeight());
-
-        Action checkEndOfAction = new Action() {
-            @Override
-            public boolean act(float delta) {
-                remove();
-                return true;
-            }
-        };
-
-        fadeOutAction = new SequenceAction(Actions.delay(1.5f), Actions.fadeOut(1f),
-                checkEndOfAction
-        );
     }
 
     @Override
@@ -79,20 +45,21 @@ public class Zombie2View extends GameUnitView {
                     if (currentState != State.WALKING) {
                         currentState = State.WALKING;
                         resetStateTime();
-                    } else {
-                        if (walkAnimation.isAnimationFinished(stateTime)) {
-                            Random random = new Random();
-                            if (random.nextBoolean()) {
-                                currentState = State.STAY;
-                                model.setIsStay(true);
-                                resetStateTime();
-                            } else {
-                                currentState = State.WALKING;
-                                model.setIsStay(false);
-                                resetStateTime();
-                            }
-                        }
                     }
+//                    else {
+//                        if (walkAnimation.isAnimationFinished(stateTime)) {
+//                            Random random = new Random();
+//                            if (random.nextBoolean()) {
+//                                currentState = State.STAY;
+//                                model.setIsStay(true);
+//                                resetStateTime();
+//                            } else {
+//                                currentState = State.WALKING;
+//                                model.setIsStay(false);
+//                                resetStateTime();
+//                            }
+//                        }
+//                    }
                 } else if (currentState != State.STAY) {
                     currentState = State.STAY;
                     resetStateTime();
@@ -147,51 +114,18 @@ public class Zombie2View extends GameUnitView {
         model.setCurrentState(currentState);
     }
 
-    public String getName() {
-        return model.getName();
-    }
-
-    @Override
-    public void draw(Batch batch, float parentAlpha) {
-        super.draw(batch, parentAlpha);
-        Color color = getColor();
-        batch.setColor(color.r, color.g, color.b, color.a * parentAlpha);
-        if (currentState == State.WALKING) {
-            batch.draw((TextureRegion) walkAnimation.getKeyFrame(stateTime, true), getX() + deltaX, getY() + deltaY);
-        }
-        if (currentState == State.ATTACK) {
-            batch.draw((TextureRegion) attackAnimation.getKeyFrame(stateTime, false), getX() + deltaX, getY() + deltaY);
-        }
-        if (currentState == State.STAY) {
-            batch.draw((TextureRegion) stayAnimation.getKeyFrame(stateTime, false), getX() + deltaX, getY() + deltaY);
-        }
-        if (currentState == State.RUN) {
-            batch.draw((TextureRegion) runAnimation.getKeyFrame(stateTime, true), getX() + deltaX, getY() + deltaY);
-        }
-        if (currentState == State.DIE) {
-            batch.draw((TextureRegion) dieAnimation.getKeyFrame(stateTime, false), getX() + deltaX, getY() + deltaY);
-        }
-
-        if (model.isDamaged()) {
-            model.getBloodSpray().draw(batch);
-        }
-
-        if (isDrawHealthBar) {
-            healthBar.drawHealthBar(batch, getX() + healthBarDeltaX, getY() + getHeight() + healthBarDeltaY, model.getHealth());
-        }
-    }
-
+//}
 
     protected void createAnimations() {
         String name = model.getUnitData().getUnitId().toString().toLowerCase();
         System.out.println("Name = " + name);
         Array<TextureRegion> frames = new Array<TextureRegion>();
         for (int i = 0; i < 3; i++)
-            frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Walk" + i)));
-        frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Walk2")));
-        frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Walk1")));
-        frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Walk0")));
-        walkAnimation = new Animation(0.15f, frames);
+            frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Run" + i)));
+        frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Run2")));
+        frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Run1")));
+        frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Run0")));
+        walkAnimation = new Animation(0.09f, frames);
         frames.clear();
 
         for (int i = 0; i < 5; i++)

@@ -6,11 +6,11 @@ import com.badlogic.gdx.utils.Array;
 import com.timgapps.warfare.Level.Level;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitModel;
 import com.timgapps.warfare.Units.GameUnits.Enemy.zombie2.Zombie2Controller;
-import com.timgapps.warfare.Units.GameUnits.Enemy.zombie2.Zombie2View;
+import com.timgapps.warfare.Units.GameUnits.Enemy.zombie2.Zombie2UnitView;
 import com.timgapps.warfare.Warfare;
 
-public class Zombie1View extends Zombie2View {
-    public Zombie1View(Level level, EnemyUnitModel model, Zombie2Controller controller) {
+public class Zombie1UnitView extends Zombie2UnitView {
+    public Zombie1UnitView(Level level, EnemyUnitModel model, Zombie2Controller controller) {
         super(level, model, controller);
     }
 
