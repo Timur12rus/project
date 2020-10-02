@@ -116,11 +116,11 @@ public class Level extends StageGame {
 
         unitCreator = new UnitCreator(this);
         unitCreator.createUnit("Zombie1", new Vector2(600, 270));
-        unitCreator.createUnit("Zombie2", new Vector2(400, 200));
-        unitCreator.createUnit("Zombie1", new Vector2(300, 250));
-        unitCreator.createUnit("Zombie3", new Vector2(750, 220));
-        unitCreator.createUnit("Thor", new Vector2(200, 200));
-
+//        unitCreator.createUnit("Zombie2", new Vector2(400, 200));
+//        unitCreator.createUnit("Zombie1", new Vector2(300, 250));
+//        unitCreator.createUnit("Zombie3", new Vector2(750, 220));
+//        unitCreator.createUnit("Thor", new Vector2(100, 200));
+        unitCreator.createUnit("Archer", new Vector2(200, 200));
 
         coinsCount = gameManager.getCoinsCount();
         hud = new HUD(this);

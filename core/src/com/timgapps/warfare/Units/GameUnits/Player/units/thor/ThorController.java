@@ -54,6 +54,7 @@ public class ThorController extends PlayerUnitController implements PlayerWarrio
                 }
 //            System.out.println("Collision = " + checkCollision(body, targetEnemy.getBody()) + " /bodyA = " + body.toString() + "/ bodyB = " + targetEnemy.getBody().toString());
             }
+
             if (model.isTouchedEnemy()) {
                 attackEnemy();
             } else if (model.isHaveTargetEnemy()) {

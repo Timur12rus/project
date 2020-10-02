@@ -12,6 +12,8 @@ import com.timgapps.warfare.Units.GameUnits.Enemy.zombie3.Zombie3Controller;
 import com.timgapps.warfare.Units.GameUnits.Enemy.zombie3.Zombie3UnitView;
 import com.timgapps.warfare.Units.GameUnits.GameUnitModel;
 import com.timgapps.warfare.Units.GameUnits.GameUnitView;
+import com.timgapps.warfare.Units.GameUnits.Player.units.archer.ArcherController;
+import com.timgapps.warfare.Units.GameUnits.Player.units.archer.ArcherView;
 import com.timgapps.warfare.Units.GameUnits.Player.units.thor.ThorController;
 import com.timgapps.warfare.Units.GameUnits.Player.units.thor.ThorView;
 import com.timgapps.warfare.Units.GameUnits.unitTypes.EnemyUnits;
@@ -49,24 +51,40 @@ public class UnitCreator {
         }
         switch (typeOfUnit) {
             case PLAYER_UNIT:
-                PlayerUnitModel playerUnitModel = new PlayerUnitModel(level, position, level.getGameManager().getUnitData(unitName));
-                ThorController thorController = new ThorController(level, playerUnitModel);
-                ThorView thorView = new ThorView(level, playerUnitModel, thorController);
-                createPlayerUnit(playerUnitModel, thorView);
+                PlayerUnits playerUnitId = PlayerUnits.None;
+                for (PlayerUnits playerUnit : PlayerUnits.values()) {
+                    if (unitName.equals(playerUnit.name())) {
+                        playerUnitId = playerUnit;
+                    }
+                }
+                PlayerUnitModel playerUnitModel = new PlayerUnitModel(level, position, level.getGameManager().getUnitData(playerUnitId.toString()));
+                switch (playerUnitId) {
+                    case Thor:
+                        ThorController thorController = new ThorController(level, playerUnitModel);
+                        ThorView thorView = new ThorView(level, playerUnitModel, thorController);
+                        createPlayerUnit(playerUnitModel, thorView);
+                        break;
+                    case Archer:
+                        ArcherController archerController = new ArcherController(level, playerUnitModel);
+                        ArcherView archerView = new ArcherView(level, playerUnitModel, archerController);
+                        createPlayerUnit(playerUnitModel, archerView);
+                        break;
+                }
+
                 level.addPlayerUnitToPlayerArray(playerUnitModel);
                 level.addUnitModel(playerUnitModel);
                 break;
             case ENEMEY_UNIT:
                 // TODO нужно сделать для вражеских юнитов
-                EnemyUnits unitId = EnemyUnits.None;
+                EnemyUnits enemyUnitId = EnemyUnits.None;
                 for (EnemyUnits enemyUnit : EnemyUnits.values()) {
                     if (unitName.equals(enemyUnit.name())) {
                         System.out.println("unitName = " + unitName + " unitId = " + enemyUnit.name());
-                        unitId = enemyUnit;
+                        enemyUnitId = enemyUnit;
                     }
                 }
-                EnemyUnitModel enemyUnitModel = new EnemyUnitModel(level, position, new EnemyUnitData(unitId));
-                switch (unitId) {
+                EnemyUnitModel enemyUnitModel = new EnemyUnitModel(level, position, new EnemyUnitData(enemyUnitId));
+                switch (enemyUnitId) {
                     case Zombie1:
                         Zombie1Controller zombie1Controller = new Zombie1Controller(level, enemyUnitModel);
                         Zombie1UnitView zombie1View = new Zombie1UnitView(level, enemyUnitModel, zombie1Controller);

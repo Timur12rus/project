@@ -18,6 +18,7 @@ public class PlayerUnitModel extends GameUnitModel {
     private boolean isTouchedEnemy;
     private boolean isHaveTargetEnemy;
     private boolean isMoveToTarget;
+    private boolean barricadeIsDetected;
     private EnemyUnitModel targetEnemy;
     private boolean isRemovedFromPlayersArray;
 
@@ -101,6 +102,14 @@ public class PlayerUnitModel extends GameUnitModel {
 
     public void setIsTouchedBarricade(boolean isTouchedBarricade) {
         this.isTouchedBarricade = isTouchedBarricade;
+    }
+
+    public void setBarricadeIsDetected(boolean barricadeIsDetected) {
+        this.barricadeIsDetected = barricadeIsDetected;
+    }
+
+    public boolean barricadeIsDetected() {
+        return barricadeIsDetected;
     }
 
     public boolean isTouchedBarricade() {
