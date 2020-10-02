@@ -86,7 +86,7 @@ public abstract class GameUnitModel {
     public void updateBodyPosition() {
         position.add(velocity);
         body.setPosition(position.x, position.y);
-        System.out.println("bodyPosition = " + position.x + " / " + position.y);
+//        System.out.println("bodyPosition = " + position.x + " / " + position.y);
     }
 
 

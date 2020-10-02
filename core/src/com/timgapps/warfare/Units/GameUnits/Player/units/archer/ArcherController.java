@@ -127,23 +127,31 @@ public class ArcherController extends PlayerUnitController implements PlayerShoo
     private boolean checkDistanceToEnemy(EnemyUnitModel enemyUnit) {
         Vector2 bodyPosition = new Vector2();       // текущая позиция юнита
         Vector2 enemyBodyPosition = new Vector2();
-        bodyPosition.set(model.getPosition().x + model.getBodyWidth(), model.getPosition().y);
+        bodyPosition.set(model.getPosition().x, model.getPosition().y);
         enemyBodyPosition.set(enemyUnit.getPosition().x, enemyUnit.getPosition().y);
-        Vector2 distanceToEnemy = enemyBodyPosition.sub(bodyPosition);
-
+        float distanceToEnemy = new Vector2(enemyBodyPosition.x - bodyPosition.x, enemyBodyPosition.y - bodyPosition.y).len();
+        
         /** время необходимое для движения до вражеского юнита tф = S / V **/
-        float time = distanceToEnemy.len() / model.getSpeed();
+        float time = distanceToEnemy / model.getSpeed();
 
         /** рассчитанное время для движения до вражеского юнита tp = Sy / Vy**/
         float y1 = enemyBodyPosition.y;
-        float y2 = bodyPosition.y;
-        float timeCalculated = (float) Math.abs((y1 - y2) / (model.getSpeed() * Math.sin(MathUtils.degreesToRadians * distanceToEnemy.angle())));
+        float y2 = model.getPosition().y;
+        Vector2 distance = new Vector2(enemyBodyPosition.x - bodyPosition.x, enemyBodyPosition.y - bodyPosition.y);
+        float timeCalculated = (float) Math.abs((y1 - y2) / (model.getSpeed() * Math.sin(MathUtils.degreesToRadians * distance.angle())));
+        System.out.println("playerPos = [" + bodyPosition.x + ", " + bodyPosition.y + "]");
+        System.out.println("enemyPos = [" + enemyBodyPosition.x + ", " + enemyBodyPosition.y + "]");
+        System.out.println("y1 - y2 = " + Math.abs((y1 - y2)));
+        System.out.println("playerSpeed = " + model.getSpeed());
+        System.out.println("Distance to Enemy = " + distanceToEnemy);
+        System.out.println("Angle Distance to Enemy = " + distanceToEnemy);
+        System.out.println("Time need = " + time);
+        System.out.println("Time calculated = " + timeCalculated);
         if (timeCalculated <= time)
             return true;        // игровой юнит успевает достигнуть варжеского = true
         else
             return false;       // игровой юнит не успевает достигнуть вражеского = false
     }
-
 
     @Override
     public EnemyUnitModel findEnemyUnit() {
@@ -161,38 +169,22 @@ public class ArcherController extends PlayerUnitController implements PlayerShoo
                      * если да, то добавим его в массив вражеских юнитов, которых видит ИГРОВОЙ ЮНИТ
                      * **/
                     // позиция вражеского юнита
-                    Vector2 enemyPosition = new Vector2();
                     float x = enemy.getPosition().x + 24;
                     float y = enemy.getPosition().y;
-
-//            System.out.println("EnemyX = " + x);
-//            System.out.println("EnemyY = " + y);
+                    System.out.println("EnemyX = " + x);
+                    System.out.println("EnemyY = " + y);
+                    Vector2 enemyPosition = new Vector2();
                     enemyPosition.set(x, y);
                     // позиция игрового юнита
-                    Vector2 playerPosition = new Vector2();
-                    float x2 = model.getPosition().x + model.getBodySize().x + 60;
+                    float x2 = model.getPosition().x + model.getBodySize().x;
                     float y2 = model.getPosition().y + model.getBodySize().y / 2;
-//            System.out.println("PlayerX = " + x2);
-//            System.out.println("PlayerY = " + y2);
+                    System.out.println("PlayerX = " + x2);
+                    System.out.println("PlayerY = " + y2);
+                    Vector2 playerPosition = new Vector2();
                     playerPosition.set(x2, y2);
-//                float distance = new Vector2(enemyPosition.sub(playerPosition)).len();      // расстояние между юнитами (вражеским и игровым)
-                    float x3 = x2 + 480;
-                    float y3 = y2 + 2000;
-                    float x4 = x2 + 480;
-                    float y4 = y2 - 2000;
-                    Vector2 vectorUp = new Vector2();
-                    vectorUp.set(x3, y3);
-                    Vector2 vectorDown = new Vector2();
-                    vectorDown.set(x4, y4);
-//                if (Intersector.isPointInTriangle(enemyPosition, playerPosition, vectorUp, vectorDown)) {      // если вражеский юнит находится в пределах видимости, то добавляем его в массив
-//                    if (!targetEnemies.equals(enemy))
-//                        targetEnemies.add(enemy);                                  // потенциальных целей
-//                }
-
                     /** проверим расстояяние до вражеского юнита, можем ли мы двигаться к нему (успеем ли..)
                      * если да, то добавим его в массив вражеских юнитов, которых видит ИГРОВОЙ ЮНИТ
                      * **/
-
                     if (checkDistanceToEnemy(enemy)) {
                         System.out.println("checkDistance to enemy = TRUE");
                         targetEnemies.add(enemy);  // добавим вражеский юнита в массив потенциальных "целевых юнитов"
@@ -228,9 +220,6 @@ public class ArcherController extends PlayerUnitController implements PlayerShoo
                 if (!targetEnemy.equals(newTargetEnemy)) {
 //                isHaveTarget = true;        // изменим флаг на true, т.е. есть "враг-цель"
                     targetEnemy = newTargetEnemy;
-//                calculateVerticalDirection();       // вычислим направление вертикального перемещения
-//                model.setIsMoveToTarget(true);
-//                currentState = State.WALKING;
                 }
             } else {
                 targetEnemy = newTargetEnemy;
