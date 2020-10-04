@@ -114,4 +114,8 @@ public class EnemyUnitModel extends GameUnitModel {
     public void disposeBloodSpray() {
         bloodSpray.dispose();
     }
+
+//    public float getSpeed() {
+//
+//    }
 }

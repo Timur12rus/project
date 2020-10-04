@@ -33,6 +33,7 @@ public class ArcherController extends PlayerUnitController implements PlayerShoo
         if (targetEnemy == null) {
             if (newTargetEnemy != null) {
                 targetEnemy = newTargetEnemy;
+                System.out.println("TargetEnemy = " + targetEnemy.getName());
             }
         } else {
             if (!targetEnemy.equals(newTargetEnemy) && (newTargetEnemy != null)) {      // если новая цель не соответствет старой, то меняем цель на новую
@@ -94,12 +95,15 @@ public class ArcherController extends PlayerUnitController implements PlayerShoo
         model.setIsAttack(false);
         model.setIsStay(false);
         model.setIsAttackBarricade(false);
-        model.getPosition().add(model.getSpeed(), 0);
+        velocity.set(0, 0);
+        velocity.set(model.getUnitData().getSpeed(), 0);
+        model.setVelocity(velocity);
     }
 
     @Override
     public void moveToTarget() {
-        velocity = new Vector2(targetEnemy.getX(), targetEnemy.getY()).sub(new Vector2(model.getX(), model.getY())).nor().scl(model.getSpeed());
+        velocity.set(targetEnemy.getX(), targetEnemy.getY()).sub(new Vector2(model.getX(), model.getY())).nor().scl(model.getSpeed());
+//        velocity = new Vector2(targetEnemy.getX(), targetEnemy.getY()).sub(new Vector2(model.getX(), model.getY())).nor().scl(model.getSpeed());
         model.setVelocity(velocity);
         if (!model.isMoveToTarget()) {
             System.out.println("moveToTarget");
@@ -113,7 +117,8 @@ public class ArcherController extends PlayerUnitController implements PlayerShoo
     @Override
     public void shootEnemy() {
         if (model.isAttack()) {
-            Vector2 velocity = new Vector2(0, 0);
+            velocity.set(0, 0);
+//            Vector2 velocity = new Vector2(0, 0);
             model.setVelocity(velocity);
         } else {
             System.out.println("attackEnemy");
@@ -130,24 +135,29 @@ public class ArcherController extends PlayerUnitController implements PlayerShoo
         bodyPosition.set(model.getPosition().x, model.getPosition().y);
         enemyBodyPosition.set(enemyUnit.getPosition().x, enemyUnit.getPosition().y);
         float distanceToEnemy = new Vector2(enemyBodyPosition.x - bodyPosition.x, enemyBodyPosition.y - bodyPosition.y).len();
-        
+
         /** время необходимое для движения до вражеского юнита tф = S / V **/
         float time = distanceToEnemy / model.getSpeed();
 
         /** рассчитанное время для движения до вражеского юнита tp = Sy / Vy**/
         float y1 = enemyBodyPosition.y;
         float y2 = model.getPosition().y;
-        Vector2 distance = new Vector2(enemyBodyPosition.x - bodyPosition.x, enemyBodyPosition.y - bodyPosition.y);
-        float timeCalculated = (float) Math.abs((y1 - y2) / (model.getSpeed() * Math.sin(MathUtils.degreesToRadians * distance.angle())));
+        Vector2 distance = new Vector2(enemyBodyPosition.x - model.getPosition().x, enemyBodyPosition.y - model.getPosition().y);
+        float v = ((float) Math.abs(y1 - y2) / (distance.len())) * model.getSpeed();      // скорость с которой должен двигаться юнит
+//        float v1 = (float) Math.sin(MathUtils.degreesToRadians * 30 * model.getSpeed());      // скорость с которой должен двигаться юнит
+        float v1 = (float) Math.sin(MathUtils.degreesToRadians * distance.angle() * model.getSpeed());      // скорость с которой должен двигаться юнит
+//        float timeCalculated = (float) Math.abs((y1 - y2) / (model.getSpeed() * Math.sin(MathUtils.degreesToRadians * distance.angle())));
         System.out.println("playerPos = [" + bodyPosition.x + ", " + bodyPosition.y + "]");
         System.out.println("enemyPos = [" + enemyBodyPosition.x + ", " + enemyBodyPosition.y + "]");
         System.out.println("y1 - y2 = " + Math.abs((y1 - y2)));
         System.out.println("playerSpeed = " + model.getSpeed());
         System.out.println("Distance to Enemy = " + distanceToEnemy);
-        System.out.println("Angle Distance to Enemy = " + distanceToEnemy);
+        System.out.println("Angle Distance to Enemy = " + distance.angle());
         System.out.println("Time need = " + time);
-        System.out.println("Time calculated = " + timeCalculated);
-        if (timeCalculated <= time)
+//        System.out.println("Time calculated = " + timeCalculated);
+        System.out.println("V = " + v);
+        System.out.println("V1 = " + v1);
+        if ((v <= model.getSpeed()) && (enemyBodyPosition.x > (model.getPosition().x + model.getBodyWidth() / 2)))
             return true;        // игровой юнит успевает достигнуть варжеского = true
         else
             return false;       // игровой юнит не успевает достигнуть вражеского = false
@@ -197,36 +207,31 @@ public class ArcherController extends PlayerUnitController implements PlayerShoo
              * т.е. найдем по расстоянию между ними, т.е. самое маленькое расстояние
              * **/
             float minDistance;
-            Vector2 bodyPosition = new Vector2();
+            Vector2 playerPosition = new Vector2(model.getX(), model.getY());
             Vector2 enemyPosition = new Vector2();
-            bodyPosition.set(model.getPosition().x, model.getPosition().y);
-            enemyPosition.set(targetEnemies.get(0).getPosition().x, targetEnemies.get(0).getPosition().y);
-            minDistance = enemyPosition.sub(bodyPosition).len();
-            EnemyUnitModel newTargetEnemy = targetEnemies.get(0);
-            for (EnemyUnitModel enemyUnit : targetEnemies) {
-                Vector2 playerPos = new Vector2();
-                playerPos.set(model.getPosition());
-                Vector2 enemyPos = new Vector2();
-                enemyPos.set(enemyUnit.getPosition());
-                float distanceToEnemy = enemyPos.sub(playerPos).len();
-                if (distanceToEnemy < minDistance) {
-                    minDistance = distanceToEnemy;
-                    newTargetEnemy = enemyUnit;
+            EnemyUnitModel target = null;
+            if (targetEnemies.size() > 0) {
+                enemyPosition.set(targetEnemies.get(0).getX(), targetEnemies.get(0).getY());
+                Vector2 distance = enemyPosition.sub(playerPosition);
+                minDistance = distance.len();
+                target = targetEnemies.get(0);
+                // найдем самого близкого вражеского юнита к игровому
+                for (EnemyUnitModel enemyUnit : targetEnemies) {
+                    Vector2 playerPos = new Vector2();
+                    playerPos.set(model.getPosition().x, model.getPosition().y);
+                    Vector2 enemyPos = new Vector2();
+                    enemyPos.set(enemyUnit.getPosition().x, enemyUnit.getPosition().y);
+                    float distanceToEnemy = enemyPos.sub(playerPos).len();
+                    if (distanceToEnemy < minDistance) {
+                        minDistance = distanceToEnemy;
+                        target = enemyUnit;
+//                        targetEnemy = enemyUnit;
+                    }
                 }
             }
-            minDistance = 0;
-            if (targetEnemy != null) {
-                // если текущий "враг-цель" находится дальше чем новый найденный, то новый "враг-цель"  - это новый найденный
-                if (!targetEnemy.equals(newTargetEnemy)) {
-//                isHaveTarget = true;        // изменим флаг на true, т.е. есть "враг-цель"
-                    targetEnemy = newTargetEnemy;
-                }
-            } else {
-                targetEnemy = newTargetEnemy;
-            }
-            if (targetEnemy != null) {
-                if (targetEnemy.getHealth() > 0) {
-                    calculateVerticalDirection();       // вычислим направление вертикального перемещения
+            if (target != null) {
+                if (target.getHealth() > 0) {
+//                        calculateVerticalDirection();       // вычислим направление вертикального перемещения
                     isHaveTargetEnemy = true;
                     model.setIsHaveTargetEnemy(true);
                 } else {
@@ -237,7 +242,7 @@ public class ArcherController extends PlayerUnitController implements PlayerShoo
                 isHaveTargetEnemy = false;
                 model.setIsHaveTargetEnemy(false);
             }
-            return targetEnemy;
+            return target;
         } catch (Exception e) {
             verticalDirectionMovement = Direction.NONE;
             return null;

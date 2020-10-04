@@ -79,6 +79,7 @@ public class ThorController extends PlayerUnitController implements PlayerWarrio
     }
 
     // метод для поиска вражеского юнита (юнит которого будем атаковать))
+
     @Override
     public EnemyUnitModel findEnemyUnit() {
         /** массив вражеских юнитов **/
@@ -86,7 +87,39 @@ public class ThorController extends PlayerUnitController implements PlayerWarrio
         /** массив вражеских юнитов - "потенциальных целей" **/
         ArrayList<EnemyUnitModel> targetEnemies = new ArrayList<EnemyUnitModel>();
         /** выполним поиск ВРАЖЕСКОГО ЮНИТА-ЦЕЛЬ **/
+//        for (int i = 0; i < enemies.size(); i++) {
+        for (EnemyUnitModel enemy : enemies) {
+            if (enemy.getHealth() > 0 && enemy.isBodyActive()) {
+                /** проверим расстояние до вражеского юнита, можем ли мы двигаться к нему (успеем ли..)
+                 * если да, то добавим его в массив вражеских юнитов, которых видит ИГРОВОЙ ЮНИТ
+                 * **/
+                Vector2 enemyPosition = new Vector2();
+                float x = enemy.getPosition().x + 24;
+                float y = enemy.getPosition().y;
 
+//            System.out.println("EnemyX = " + x);
+//            System.out.println("EnemyY = " + y);
+                enemyPosition.set(x, y);
+                Vector2 playerPosition = new Vector2();
+                float x2 = model.getPosition().x + model.getBodySize().x;
+                float y2 = model.getPosition().y + model.getBodySize().y / 2;
+//            System.out.println("PlayerX = " + x2);
+//            System.out.println("PlayerY = " + y2);
+                playerPosition.set(x2, y2);
+                float x3 = x2 + 480;
+                float y3 = y2 + 2000;
+                float x4 = x2 + 480;
+                float y4 = y2 - 2000;
+                Vector2 vectorUp = new Vector2();
+                vectorUp.set(x3, y3);
+                Vector2 vectorDown = new Vector2();
+                vectorDown.set(x4, y4);
+                if (Intersector.isPointInTriangle(enemyPosition, playerPosition, vectorUp, vectorDown)) {      // если вражеский юнит находится в пределах видимости, то добавляем его в массив
+                    if (!targetEnemies.equals(enemy))
+                        targetEnemies.add(enemy);                                  // потенциальных целей
+                }
+            }
+        }
         /** здесь определим самого ближнего ВРАЖЕСКОГО ЮНИТА к ИГРОВОМУ
          * т.е. найдем по расстоянию между ними, т.е. самое маленькое расстояние
          * **/
@@ -103,7 +136,8 @@ public class ThorController extends PlayerUnitController implements PlayerWarrio
                 float distanceToEnemy = new Vector2(enemyUnitModel.getX(), enemyUnitModel.getY()).sub(playerPosition).len();
                 if (distanceToEnemy < minDistance) {
                     minDistance = distanceToEnemy;
-                    targetEnemy = enemyUnitModel;
+                    target = enemyUnitModel;
+//                    targetEnemy = enemyUnitModel;
                 }
             }
         }
@@ -126,7 +160,7 @@ public class ThorController extends PlayerUnitController implements PlayerWarrio
     @Override
     public void attackEnemy() {
         if (model.isAttack()) {
-            Vector2 velocity = new Vector2(0, 0);
+            velocity.set(0, 0);
             model.setVelocity(velocity);
         } else {
             System.out.println("attackEnemy");
@@ -140,16 +174,22 @@ public class ThorController extends PlayerUnitController implements PlayerWarrio
     // метод для атаки баррикады
     @Override
     public void attackBarricade() {
-        model.setIsAttackBarricade(true);
-        model.setIsMove(false);
-        model.setIsAttack(false);
-        System.out.println("Attack Barricade!");
+        if (model.isAttackBarricade()) {
+            velocity.set(0, 0);
+            model.setVelocity(velocity);
+        } else {
+            System.out.println("Attack Barricade!");
+            model.setIsAttack(false);
+            model.setIsMoveToTarget(false);
+            model.setIsMove(false);
+            model.setIsAttackBarricade(true);
+        }
     }
 
     // метод для движения к вражескому юниту
     @Override
     public void moveToTarget() {
-        velocity = new Vector2(targetEnemy.getX(), targetEnemy.getY()).sub(new Vector2(model.getX(), model.getY())).nor().scl(model.getSpeed());
+        velocity.set(targetEnemy.getX(), targetEnemy.getY()).sub(new Vector2(model.getX(), model.getY())).nor().scl(model.getSpeed());
         model.setVelocity(velocity);
         if (!model.isMoveToTarget()) {
             System.out.println("moveToTarget");
@@ -168,6 +208,7 @@ public class ThorController extends PlayerUnitController implements PlayerWarrio
         model.setIsAttack(false);
         model.setIsStay(false);
         model.setIsAttackBarricade(false);
-        model.getPosition().add(model.getSpeed(), 0);
+        velocity.set(model.getSpeed(), 0);
+        model.setVelocity(velocity);
     }
 }

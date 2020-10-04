@@ -21,6 +21,7 @@ public class PlayerUnitController extends GameUnitController {
         this.level = level;
         barricade = level.getBarricade();
         body = model.getBody();
+        velocity = new Vector2();
     }
 
     // для проверки столкновения

@@ -45,15 +45,20 @@ public class Zombie2Controller extends EnemyUnitController implements EnemyWarri
     }
 
     public void attackTower() {
-        model.setIsAttackTower(true);
-        model.setIsMove(false);
-        model.setIsAttack(false);
-        System.out.println("Attack tower!");
+        if (model.isAttackTower()) {
+            velocity.set(0, 0);
+            model.setVelocity(velocity);
+        } else {
+            model.setIsAttackTower(true);
+            model.setIsMove(false);
+            model.setIsAttack(false);
+            System.out.println("Attack tower!");
+        }
     }
 
     public void attackPlayer() {
         if (model.isAttack()) {
-            Vector2 velocity = new Vector2(0, 0);
+            velocity.set(0, 0);
             model.setVelocity(velocity);
         } else {
             System.out.println("attackPlayer");
@@ -67,7 +72,11 @@ public class Zombie2Controller extends EnemyUnitController implements EnemyWarri
         System.out.println("Move");
         model.setIsMove(true);
         if (!model.isStay()) {
-            model.getPosition().add(model.getSpeed(), 0);
+            velocity.set(model.getSpeed(), 0);
+            model.setVelocity(velocity);
+        } else {
+            velocity.set(0, 0);
+            model.setVelocity(velocity);
         }
     }
 }
