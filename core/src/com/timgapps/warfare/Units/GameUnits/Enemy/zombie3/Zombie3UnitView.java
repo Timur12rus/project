@@ -28,7 +28,7 @@ public class Zombie3UnitView extends EnemyUnitView {
                 System.out.println("!DIE");
                 resetStateTime();
             } else {
-                System.out.println("Else");
+//                System.out.println("Else");
                 if (dieAnimation.isAnimationFinished(stateTime)) {
                     level.removeEnemyUnitFromArray(model);
                     model.disposeBloodSpray();

@@ -17,6 +17,7 @@ public class PlayerUnitModel extends GameUnitModel {
     private boolean isAttackBarricade;
     private boolean isTouchedEnemy;
     private boolean isHaveTargetEnemy;
+    private boolean isReadyToShoot;         // готов стрелять
     private boolean isMoveToTarget;
     private boolean barricadeIsDetected;
     private EnemyUnitModel targetEnemy;
@@ -92,6 +93,16 @@ public class PlayerUnitModel extends GameUnitModel {
     // проверяет коснулся ли юнит врага
     public boolean isTouchedEnemy() {
         return isTouchedEnemy;
+    }
+
+    // проверяет готов ли стрелять
+    public boolean isShoot() {
+        return isReadyToShoot;
+    }
+
+    // устанавливает готов ли стрелять
+    public void setIsShoot(boolean isReadyToShoot) {
+        this.isReadyToShoot = isReadyToShoot;
     }
 
     // устанавливает коснулся ли юнит врага
