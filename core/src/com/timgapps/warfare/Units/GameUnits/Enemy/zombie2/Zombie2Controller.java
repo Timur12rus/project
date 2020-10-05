@@ -69,7 +69,7 @@ public class Zombie2Controller extends EnemyUnitController implements EnemyWarri
     }
 
     public void move() {
-        System.out.println("Move");
+//        System.out.println("Move");
         model.setIsMove(true);
         if (!model.isStay()) {
             velocity.set(model.getSpeed(), 0);

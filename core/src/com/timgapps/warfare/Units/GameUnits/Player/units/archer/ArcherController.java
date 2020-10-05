@@ -15,6 +15,7 @@ public class ArcherController extends PlayerUnitController implements PlayerShoo
     private boolean isHaveVerticalDirection;
     private Direction verticalDirectionMovement = Direction.NONE;
     private final float ATTACK_DISTANCE = 96;
+    private boolean isReachedEnemyYPos;
 
     enum Direction {
         NONE,
@@ -30,9 +31,10 @@ public class ArcherController extends PlayerUnitController implements PlayerShoo
     public void update(float delta) {
         super.update(delta);
         EnemyUnitModel newTargetEnemy = findEnemyUnit();
-        System.out.println("New TARGET ENEMY = " + newTargetEnemy);
+//        System.out.println("New TARGET ENEMY = " + newTargetEnemy);
         if (targetEnemy == null) {
             if (newTargetEnemy != null) {
+                isReachedEnemyYPos = false;
                 targetEnemy = newTargetEnemy;
                 System.out.println("TargetEnemy = " + targetEnemy.getName());
             }
@@ -50,7 +52,7 @@ public class ArcherController extends PlayerUnitController implements PlayerShoo
         }
         if (!model.isDestroyed()) {
             if (targetEnemy != null) {
-                System.out.println("TargEt ENEMy = " + targetEnemy.getName());
+//                System.out.println("TargEt ENEMy = " + targetEnemy.getName());
                 if (targetEnemy.isBodyActive()) {
                     model.setIsTouchedEnemy(checkCollision(body, targetEnemy.getBody()));               // проверим столкновение тел юнитов
                 } else {
@@ -67,10 +69,10 @@ public class ArcherController extends PlayerUnitController implements PlayerShoo
             if (model.isTouchedEnemy()) {
                 shootEnemy();
             } else if (model.isHaveTargetEnemy()) {
-                System.out.println("Target Enemy = " + targetEnemy.getName());
-                if (model.isShoot()) {
-                    shootEnemy();
-//                    shootEnemy();
+                System.out.println("Target Enemy! = " + targetEnemy.getName());
+                if (isReachedEnemyYPos) {
+                    System.out.println("IsReachedEnemyYPos");
+                    checkAttack(targetEnemy);
                 } else {
                     moveToTarget();
                 }
@@ -85,6 +87,18 @@ public class ArcherController extends PlayerUnitController implements PlayerShoo
             } else {
                 move();
             }
+        }
+        System.out.println("isReachedEnemyYPos = " + isReachedEnemyYPos);
+        System.out.println("verticalDirectionMovement = " + verticalDirectionMovement);
+        System.out.println("velocity = " + velocity);
+    }
+
+    private void checkAttack(EnemyUnitModel target) {
+        float distance = target.getX() - model.getX();
+        if (distance <= ATTACK_DISTANCE) {
+            shootEnemy();
+//        } else {
+//            move();
         }
     }
 
@@ -109,36 +123,36 @@ public class ArcherController extends PlayerUnitController implements PlayerShoo
         Vector2 distanceToTarget = enemyPosition.sub(playerPosition);       // расстояние до врежеского юнита
         // если юнит движется вниз
         if (verticalDirectionMovement == Direction.DOWN) {
-            if (posY > posYTarget) {
+            if (posY > posYTarget && !isReachedEnemyYPos) {
                 if (distanceToTarget.x <= ATTACK_DISTANCE) {
                     velocity.set(0, -model.getSpeed());
                 } else {
                     velocity.set(targetEnemy.getX(), targetEnemy.getY()).sub(new Vector2(model.getX(), model.getY())).nor().scl(model.getSpeed());
                 }
             } else {
+                isReachedEnemyYPos = true;
+                isHaveVerticalDirection = false;
                 verticalDirectionMovement = Direction.NONE;
-                velocity.set(model.getSpeed(), 0);
+//                velocity.set(model.getSpeed(), 0);
             }
             // если юнит движется вверх
         } else if (verticalDirectionMovement == Direction.UP) {
-            if (posY < posYTarget) {
+            if (posY < posYTarget && !isReachedEnemyYPos) {
                 if (distanceToTarget.x <= ATTACK_DISTANCE) {
                     velocity.set(0, model.getSpeed());
                 } else {
                     velocity.set(targetEnemy.getX(), targetEnemy.getY()).sub(new Vector2(model.getX(), model.getY())).nor().scl(model.getSpeed());
                 }
             } else {
+                isReachedEnemyYPos = true;
+                isHaveVerticalDirection = false;
                 verticalDirectionMovement = Direction.NONE;
-                velocity.set(model.getSpeed(), 0);
+//                velocity.set(model.getSpeed(), 0);
             }
         }
-
-        System.out.println("Vertical Direction = " + verticalDirectionMovement.name());
-//        if (verticalDirectionMovement == Direction.NONE && distanceToTarget.x <= ATTACK_DISTANCE) {
-//            System.out.println("shooooooot");
-//            model.setIsShoot(true);
-//            shootEnemy();
-//        }
+        if (!isReachedEnemyYPos) {
+            checkVerticalMovement();
+        }
         model.setVelocity(velocity);
         if (!model.isMoveToTarget()) {
             System.out.println("moveToTarget");
@@ -202,22 +216,22 @@ public class ArcherController extends PlayerUnitController implements PlayerShoo
                 // позиция вражеского юнита
                 float x = enemy.getPosition().x + 24;
                 float y = enemy.getPosition().y;
-                System.out.println("EnemyX = " + x);
-                System.out.println("EnemyY = " + y);
+//                System.out.println("EnemyX = " + x);
+//                System.out.println("EnemyY = " + y);
                 Vector2 enemyPosition = new Vector2();
                 enemyPosition.set(x, y);
                 // позиция игрового юнита
                 float x2 = model.getPosition().x + model.getBodySize().x;
                 float y2 = model.getPosition().y + model.getBodySize().y / 2;
-                System.out.println("PlayerX = " + x2);
-                System.out.println("PlayerY = " + y2);
+//                System.out.println("PlayerX = " + x2);
+//                System.out.println("PlayerY = " + y2);
                 Vector2 playerPosition = new Vector2();
                 playerPosition.set(x2, y2);
                 /** проверим расстояяние до вражеского юнита, можем ли мы двигаться к нему (успеем ли..)
                  * если да, то добавим его в массив вражеских юнитов, которых видит ИГРОВОЙ ЮНИТ
                  * **/
                 if (checkDistanceToEnemy(enemy)) {
-                    System.out.println("checkDistance to enemy = TRUE");
+//                    System.out.println("checkDistance to enemy = TRUE");
                     targetEnemies.add(enemy);  // добавим вражеский юнита в массив потенциальных "целевых юнитов"
                 } else {
                     System.out.println("checkDistance to enemy = FALSE");
@@ -237,7 +251,7 @@ public class ArcherController extends PlayerUnitController implements PlayerShoo
         if (targetEnemies.size() > 0) {
             enemyPosition.set(targetEnemies.get(0).getX(), targetEnemies.get(0).getY());
             Vector2 distance = enemyPosition.sub(playerPosition);
-            System.out.println("DISTANCE = " + distance.len());
+//            System.out.println("DISTANCE = " + distance.len());
             minDistance = distance.len();
             target = targetEnemies.get(0);
             // найдем самого близкого вражеского юнита к игровому
@@ -248,7 +262,7 @@ public class ArcherController extends PlayerUnitController implements PlayerShoo
                 if (distanceToEnemy < minDistance) {
                     minDistance = distanceToEnemy;
                     target = enemyUnit;
-                    System.out.println("set TargetEnemy  = " + target.getName());
+//                    System.out.println("set TargetEnemy  = " + target.getName());
 //                        targetEnemy = enemyUnit;
                 }
             }
@@ -284,5 +298,24 @@ public class ArcherController extends PlayerUnitController implements PlayerShoo
         if (posY == posYTarget) verticalDirectionMovement = Direction.NONE;
         isHaveVerticalDirection = true;
         return verticalDirectionMovement;
+    }
+
+    /**
+     * Метод для преверки вертикального перемещения, нужно ли еще перемещаться вверх или вниз
+     **/
+    private void checkVerticalMovement() {
+        Vector2 playerPosition = new Vector2(model.getX(), model.getY());
+        Vector2 enemyPosition = new Vector2(targetEnemy.getX(), targetEnemy.getY());
+        if (isHaveVerticalDirection) {
+            if ((verticalDirectionMovement == Direction.UP) && (playerPosition.y > enemyPosition.y)) {
+                verticalDirectionMovement = Direction.NONE;
+                isHaveVerticalDirection = false;
+//                stay();
+            } else if ((verticalDirectionMovement == Direction.DOWN) && (playerPosition.y < enemyPosition.y)) {
+                verticalDirectionMovement = Direction.NONE;
+                isHaveVerticalDirection = false;
+//                stay();
+            }
+        }
     }
 }
