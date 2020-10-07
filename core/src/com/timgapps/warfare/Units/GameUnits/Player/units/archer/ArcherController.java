@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.timgapps.warfare.Level.Level;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitModel;
+import com.timgapps.warfare.Units.GameUnits.Player.Bullets.Arrow;
 import com.timgapps.warfare.Units.GameUnits.Player.interfacesAi.PlayerShooterAi;
 import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnitController;
 import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnitModel;
@@ -14,7 +15,7 @@ public class ArcherController extends PlayerUnitController implements PlayerShoo
     private boolean isHaveTarget;
     private boolean isHaveVerticalDirection;
     private Direction verticalDirectionMovement = Direction.NONE;
-    private final float ATTACK_DISTANCE = 96;
+    private final float ATTACK_DISTANCE = 300;
     private boolean isReachedEnemyYPos;
 
     enum Direction {
@@ -74,7 +75,7 @@ public class ArcherController extends PlayerUnitController implements PlayerShoo
 
             // Ai логика
             if (model.isTouchedEnemy()) {
-                shootEnemy();
+                attackEnemy();
 //                shootEnemy();
             } else if (model.isHaveTargetEnemy()) {
                 System.out.println("Target Enemy! = " + targetEnemy.getName());
@@ -85,7 +86,8 @@ public class ArcherController extends PlayerUnitController implements PlayerShoo
 //                System.out.println("barricadeHealth = " + barricade.getHealth());
                 model.setIsTouchedBarricade(checkCollision(body, barricade.getBody()));
                 if (model.isTouchedBarricade()) {
-                    shootEnemy();
+//                    shootEnemy();
+                    stay();
                 } else {
                     move();
                 }
@@ -108,6 +110,12 @@ public class ArcherController extends PlayerUnitController implements PlayerShoo
         }
     }
 
+    // метод для выпуска стрелы
+    public void throwBullet() {
+        System.out.println("Throw Arrow!");
+        new Arrow(level, new Vector2(model.getX(), model.getY()));
+    }
+
     @Override
     public void move() {
         System.out.println("move");
@@ -118,6 +126,21 @@ public class ArcherController extends PlayerUnitController implements PlayerShoo
         velocity.set(0, 0);
         velocity.set(model.getUnitData().getSpeed(), 0);
         model.setVelocity(velocity);
+    }
+
+    @Override
+    public void stay() {
+        System.out.println("Stay");
+        if (model.isStay()) {
+            velocity.set(0, 0);
+            model.setVelocity(velocity);
+        } else {
+            model.setIsShoot(false);
+            model.setIsAttack(false);
+            model.setIsMoveToTarget(false);
+            model.setIsMove(false);
+            model.setIsAttackBarricade(false);
+        }
     }
 
     @Override

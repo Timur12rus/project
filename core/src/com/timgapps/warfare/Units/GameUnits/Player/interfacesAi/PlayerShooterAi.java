@@ -6,6 +6,8 @@ public interface PlayerShooterAi {
 
     void move();
 
+    void stay();
+
     void moveToTarget();
 
     void shootEnemy();

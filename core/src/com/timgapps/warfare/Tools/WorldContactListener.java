@@ -8,7 +8,7 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnit;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitModel;
 import com.timgapps.warfare.Units.GameUnits.GameUnitView;
-import com.timgapps.warfare.Units.GameUnits.Player.Bullets.Bullet;
+import com.timgapps.warfare.Units.GameUnits.Player.Bullets.Bullet1;
 import com.timgapps.warfare.Units.GameUnits.Player.Bullets.Stone;
 import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnit;
 import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnitModel;
@@ -149,15 +149,15 @@ public class WorldContactListener implements ContactListener {
         if (fixA.getFilterData().categoryBits == BULLET_BIT) {
             Object bulletData = fixA.getUserData();
             Object enemyUserData = fixB.getUserData();
-            if (bulletData instanceof Bullet) {
-                ((Bullet) bulletData).inflictDamage((EnemyUnit) enemyUserData);
+            if (bulletData instanceof Bullet1) {
+                ((Bullet1) bulletData).inflictDamage((EnemyUnit) enemyUserData);
 
             }
         } else {
             Object bulletData = fixB.getUserData();
             Object enemyUserData = fixA.getUserData();
-            if (bulletData instanceof Bullet) {
-                ((Bullet) bulletData).inflictDamage((EnemyUnit) enemyUserData);
+            if (bulletData instanceof Bullet1) {
+                ((Bullet1) bulletData).inflictDamage((EnemyUnit) enemyUserData);
             }
         }
     }

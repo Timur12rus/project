@@ -42,17 +42,23 @@ public class ArcherView extends PlayerUnitView {
                     currentState = State.WALKING;
                     resetStateTime();
                 }
-            } else if (model.isAttack() || model.isAttackBarricade()) {
+            } else if (model.isAttack() || model.isShoot()) {
                 if (model.isStay() == false) {
                     if (currentState != State.ATTACK) {
                         currentState = State.ATTACK;
                         resetStateTime();
                     } else {
+                        // если кадры анимации стрельбы == 4 и юнит не выпустил стрелу, выпускаем стрелу
+                        if (attackAnimation.getKeyFrameIndex(stateTime) == 3 && !model.isShooted() && model.isShoot()) {
+                            controller.throwBullet();
+                            model.setIsShooted(true);
+                        }
                         if (attackAnimation.isAnimationFinished(stateTime)) {
                             if (model.isAttack()) {
                                 controller.hit();
-                            } else if (model.isAttackBarricade()) {
-                                controller.hitBarricade();
+                            }
+                            if (model.isShooted()) {
+                                model.setIsShooted(false);
                             }
                             currentState = State.STAY;
                             model.setIsStay(true);

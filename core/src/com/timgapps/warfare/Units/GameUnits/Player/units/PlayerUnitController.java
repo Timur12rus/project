@@ -46,4 +46,7 @@ public class PlayerUnitController extends GameUnitController {
             barricade.setHealth(model.getDamage());
         }
     }
+
+    public void throwBullet() {
+    }
 }

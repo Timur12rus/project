@@ -1,81 +1,61 @@
 package com.timgapps.warfare.Units.GameUnits.Player.Bullets;
 
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.timgapps.warfare.Level.Level;
-import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnit;
-import com.timgapps.warfare.Units.GameUnits.Interfaces.IBody;
 
-public abstract class Bullet extends Actor implements IBody {
+import org.lwjgl.opengl.NVTextureEnvCombine4;
 
-    protected Body body;
-    protected Level level;
-    protected World world;
+public abstract class Bullet extends Actor {
+    private Level level;
+    protected Rectangle body;
     protected float damage;
-    protected boolean isDamaged = false;
-    protected boolean isDestroyed = false;
-    protected float deltaY;
+    protected Vector2 position;
+    protected Vector2 velocity;
+    protected TextureRegion image;
+    protected boolean isDebug;
+    private ShapeRenderer shapeRenderer;
+    protected float deltaX, deltaY;
 
-    public Bullet(Level level, float x, float y, float deltaY) {
+    public Bullet(Level level, Vector2 position) {
+        this.position = position;
         this.level = level;
-        this.deltaY = deltaY;
-        world = level.getWorld();
-//        body = createBody(x, y);
-    }
-
-//    @Override
-//    public Body createBody(float x, float y) {
-////        BodyDef def = new BodyDef();
-////        def.type = BodyDef.BodyType.DynamicBody;
-////        body = world.createBody(def);
-////
-////        PolygonShape shape = new PolygonShape();
-////        shape.setAsBox(2 / Level.WORLD_SCALE, 2 / Level.WORLD_SCALE);
-////
-////        FixtureDef fDef = new FixtureDef();
-////        fDef.shape = shape;
-////        fDef.filter.categoryBits = GameUnit.BULLET_BIT;
-////        fDef.filter.maskBits = GameUnit.ENEMY_BIT;
-////
-////        body.createFixture(fDef).setUserData(this);
-////        shape.dispose();
-////        body.setTransform((x + 24) / Level.WORLD_SCALE, y / Level.WORLD_SCALE, 0);
-////        return body;
-//        return null;
-//    }
-
-    public void inflictDamage(EnemyUnit enemyUnit) {
-        if (!isDamaged) {
-            enemyUnit.subHealth(damage);
-            isDamaged = true;
-            destroy();
-            body.setLinearVelocity(0, 0);
-        }
+        body = createBody();
+        shapeRenderer = new ShapeRenderer();
+        velocity = new Vector2();
     }
 
     @Override
     public void act(float delta) {
         super.act(delta);
-
-        if (!body.isActive() && isDestroyed) {
-            world.destroyBody(body);
-            this.remove();
+        if (level.getState() != Level.PAUSED) {
+            position.add(velocity);
+            setPosition(position.x, position.y);
         }
+        System.out.println("Body Width = " + body.getWidth());
+        System.out.println("Body posX = " + body.getX());
+        System.out.println("Body posY = " + body.getY());
 
-        if (isDestroyed) {
-            body.setActive(false);
-        }
-        if (isDamaged) {
-            destroy();
-        }
-
-        setPosition(body.getPosition().x * Level.WORLD_SCALE, body.getPosition().y * Level.WORLD_SCALE + deltaY);
     }
 
-    protected void destroy() {
-        if (!isDestroyed) {
-            isDestroyed = true;
+    @Override
+    public void draw(Batch batch, float parentAlpha) {
+        super.draw(batch, parentAlpha);
+        batch.draw(image, getX() + deltaX, getY() + deltaY);
+        if (isDebug) {
+            batch.end();
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+            shapeRenderer.setColor(Color.RED);
+            shapeRenderer.rect(getX(), getY(), body.getWidth(), body.getHeight());
+            shapeRenderer.end();
+            batch.begin();
         }
     }
+
+    abstract Rectangle createBody();
 }
