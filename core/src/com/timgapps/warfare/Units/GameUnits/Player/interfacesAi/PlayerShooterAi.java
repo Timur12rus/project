@@ -10,6 +10,8 @@ public interface PlayerShooterAi {
 
     void shootEnemy();
 
+    void attackEnemy();
+
     void update(float delta);
 
     EnemyUnitModel findEnemyUnit();

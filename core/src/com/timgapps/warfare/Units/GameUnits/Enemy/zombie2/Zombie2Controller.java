@@ -34,6 +34,9 @@ public class Zombie2Controller extends EnemyUnitController implements EnemyWarri
             } else {
                 move();
             }
+        } else {
+            velocity.set(0, 0);
+            model.setVelocity(velocity);
         }
         if (model.isDamaged()) {
             model.getBloodSpray().setPosition(model.getX() + 54, model.getY() + 64);
