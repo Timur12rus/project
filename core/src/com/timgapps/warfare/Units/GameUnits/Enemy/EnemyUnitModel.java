@@ -59,6 +59,7 @@ public class EnemyUnitModel extends GameUnitModel {
         bloodSpray.start();
         if (health <= 0 && !isRemovedFromEnemiesArray) {   // если здоровье меньше или равно 0, то удаляем из массива вражеских юнитов
             isRemovedFromEnemiesArray = true;
+            setBodyIsActive(false);                         // тело не активно
             level.removeEnemyUnitFromArray(this);                      // текущий юнит
         }
     }

@@ -36,7 +36,6 @@ public class ArcherView extends PlayerUnitView {
                 }
             }
         } else {
-            // если юнит в состоянии атакует цель(isAttack = true), но в д
             if (model.isMoveToTarget() == true) {
                 if (currentState != State.WALKING) {
                     currentState = State.WALKING;

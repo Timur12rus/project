@@ -8,11 +8,12 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.timgapps.warfare.Level.Level;
+import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitModel;
 
 import org.lwjgl.opengl.NVTextureEnvCombine4;
 
 public abstract class Bullet extends Actor {
-    private Level level;
+    protected Level level;
     protected Rectangle body;
     protected float damage;
     protected Vector2 position;
@@ -21,10 +22,14 @@ public abstract class Bullet extends Actor {
     protected boolean isDebug;
     private ShapeRenderer shapeRenderer;
     protected float deltaX, deltaY;
+    protected boolean isTouchedEnemy;
+    protected EnemyUnitModel targetEnemy;
+    protected boolean isDestroyed;
 
-    public Bullet(Level level, Vector2 position) {
+    public Bullet(Level level, Vector2 position, float damage) {
         this.position = position;
         this.level = level;
+        this.damage = damage;
         body = createBody();
         shapeRenderer = new ShapeRenderer();
         velocity = new Vector2();
@@ -35,12 +40,10 @@ public abstract class Bullet extends Actor {
         super.act(delta);
         if (level.getState() != Level.PAUSED) {
             position.add(velocity);
+            body.setX(position.x);
+            body.setY(position.y);
             setPosition(position.x, position.y);
         }
-        System.out.println("Body Width = " + body.getWidth());
-        System.out.println("Body posX = " + body.getX());
-        System.out.println("Body posY = " + body.getY());
-
     }
 
     @Override

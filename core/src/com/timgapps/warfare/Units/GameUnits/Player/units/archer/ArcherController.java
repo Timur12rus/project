@@ -113,7 +113,7 @@ public class ArcherController extends PlayerUnitController implements PlayerShoo
     // метод для выпуска стрелы
     public void throwBullet() {
         System.out.println("Throw Arrow!");
-        new Arrow(level, new Vector2(model.getX(), model.getY()));
+        new Arrow(level, new Vector2(model.getX(), model.getY()), model.getDamage());
     }
 
     @Override
@@ -122,6 +122,8 @@ public class ArcherController extends PlayerUnitController implements PlayerShoo
         model.setIsMove(true);
         model.setIsAttack(false);
         model.setIsStay(false);
+        model.setIsShooted(false);
+        model.setIsShoot(false);
         model.setIsAttackBarricade(false);
         velocity.set(0, 0);
         velocity.set(model.getUnitData().getSpeed(), 0);
@@ -135,6 +137,7 @@ public class ArcherController extends PlayerUnitController implements PlayerShoo
             velocity.set(0, 0);
             model.setVelocity(velocity);
         } else {
+            model.setIsShooted(false);
             model.setIsShoot(false);
             model.setIsAttack(false);
             model.setIsMoveToTarget(false);
@@ -157,6 +160,8 @@ public class ArcherController extends PlayerUnitController implements PlayerShoo
             model.setIsAttack(false);
             model.setIsMove(false);
             model.setIsStay(false);
+            model.setIsShooted(false);
+            model.setIsShoot(false);
         }
         if (isHaveVerticalDirection) {
             if (verticalDirectionMovement == Direction.DOWN) {
@@ -239,6 +244,7 @@ public class ArcherController extends PlayerUnitController implements PlayerShoo
             System.out.println("attackEnemy");
             model.setIsAttack(true);
             model.setIsShoot(false);
+            model.setIsShooted(false);
             model.setIsMoveToTarget(false);
             model.setIsMove(false);
             model.setIsAttackBarricade(false);
