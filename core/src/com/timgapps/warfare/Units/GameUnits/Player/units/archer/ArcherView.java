@@ -36,16 +36,19 @@ public class ArcherView extends PlayerUnitView {
                 }
             }
         } else {
+            // Ai юнита
             if (model.isMoveToTarget() == true) {           // если юнит движется к цели
                 // если юнит в состоянии, что видид баррикаду
                 if (model.barricadeIsDetected()) {
                     if (!model.isHaveVerticalDirection()) {
-
-                    }
-                    if (currentState != State.STAY) {
-                        currentState = State.STAY;
-                        resetStateTime();
-                    } else if (stayAnimation.isAnimationFinished(stateTime)) {
+                        if (currentState != State.STAY) {
+                            currentState = State.STAY;
+                            resetStateTime();
+                        } else if (stayAnimation.isAnimationFinished(stateTime)) {
+                            resetStateTime();
+                        }
+                    } else if (currentState != State.WALKING) {
+                        currentState = State.WALKING;
                         resetStateTime();
                     }
                 } else if (currentState != State.WALKING) {
