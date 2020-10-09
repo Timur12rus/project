@@ -63,7 +63,6 @@ public class PlayerUnitData extends UnitData {
                 unitLevel = 1;
                 speed = 0.9f;
                 name = "Thor";
-                System.out.println("HAHAHAHAHAHAH");
                 break;
             case Knight:
                 damage = 15;

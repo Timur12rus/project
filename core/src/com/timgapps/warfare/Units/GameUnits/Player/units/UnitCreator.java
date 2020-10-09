@@ -14,6 +14,8 @@ import com.timgapps.warfare.Units.GameUnits.GameUnitModel;
 import com.timgapps.warfare.Units.GameUnits.GameUnitView;
 import com.timgapps.warfare.Units.GameUnits.Player.units.archer.ArcherController;
 import com.timgapps.warfare.Units.GameUnits.Player.units.archer.ArcherView;
+import com.timgapps.warfare.Units.GameUnits.Player.units.gnome.GnomeController;
+import com.timgapps.warfare.Units.GameUnits.Player.units.gnome.GnomeView;
 import com.timgapps.warfare.Units.GameUnits.Player.units.thor.ThorController;
 import com.timgapps.warfare.Units.GameUnits.Player.units.thor.ThorView;
 import com.timgapps.warfare.Units.GameUnits.unitTypes.EnemyUnits;
@@ -63,6 +65,11 @@ public class UnitCreator {
                         ThorController thorController = new ThorController(level, playerUnitModel);
                         ThorView thorView = new ThorView(level, playerUnitModel, thorController);
                         createPlayerUnit(playerUnitModel, thorView);
+                        break;
+                    case Gnome:
+                        GnomeController gnomeController = new GnomeController(level, playerUnitModel);
+                        GnomeView gnomeView = new GnomeView(level, playerUnitModel, gnomeController);
+                        createPlayerUnit(playerUnitModel, gnomeView);
                         break;
                     case Archer:
                         ArcherController archerController = new ArcherController(level, playerUnitModel);
