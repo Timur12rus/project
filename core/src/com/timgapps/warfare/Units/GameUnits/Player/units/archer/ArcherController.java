@@ -16,7 +16,10 @@ public class ArcherController extends PlayerUnitController implements PlayerShoo
     private boolean isHaveVerticalDirection;
     private Direction verticalDirectionMovement = Direction.NONE;
     private final float ATTACK_DISTANCE = 300;
+    private final float DISTANCE_TO_BARRICADE = 300;
     private boolean isReachedEnemyYPos;
+    private Vector2 barricadePosition;
+    private float distanceToBarricade;
 
     enum Direction {
         NONE,
@@ -26,6 +29,7 @@ public class ArcherController extends PlayerUnitController implements PlayerShoo
 
     public ArcherController(Level level, PlayerUnitModel model) {
         super(level, model);
+        barricadePosition = new Vector2();
     }
 
     @Override
@@ -82,11 +86,11 @@ public class ArcherController extends PlayerUnitController implements PlayerShoo
                 if (!model.isShoot()) {     // если юнит не в соятоянии атаки, то двигаемся к врагу
                     moveToTarget();
                 }
-            } else if (barricade.getHealth() > 0) {
-//                System.out.println("barricadeHealth = " + barricade.getHealth());
-                model.setIsTouchedBarricade(checkCollision(body, barricade.getBody()));
-                if (model.isTouchedBarricade()) {
-//                    shootEnemy();
+            } else if (barricade.getHealth() > 0) {         // если баррикада существует
+                Vector2 playerPosition = new Vector2(model.getX(), model.getY());
+                distanceToBarricade = barricadePosition.x - playerPosition.x;
+                if (distanceToBarricade <= DISTANCE_TO_BARRICADE) {
+                    model.setBarricadeIsDetected(true);
                     stay();
                 } else {
                     move();
@@ -96,7 +100,8 @@ public class ArcherController extends PlayerUnitController implements PlayerShoo
             }
         }
         System.out.println("isReachedEnemyYPos = " + isReachedEnemyYPos);
-        System.out.println("isHaveVerticalDirection = " + isHaveVerticalDirection);
+        System.out.println("isHaveVerticalDirection = " + model.isHaveVerticalDirection());
+//        System.out.println("isHaveVerticalDirection = " + isHaveVerticalDirection);
         System.out.println("verticalDirectionMovement = " + verticalDirectionMovement);
         System.out.println("velocity = " + velocity);
     }
@@ -125,6 +130,7 @@ public class ArcherController extends PlayerUnitController implements PlayerShoo
         model.setIsShooted(false);
         model.setIsShoot(false);
         model.setIsAttackBarricade(false);
+        model.setBarricadeIsDetected(false);
         velocity.set(0, 0);
         velocity.set(model.getUnitData().getSpeed(), 0);
         model.setVelocity(velocity);
@@ -137,12 +143,13 @@ public class ArcherController extends PlayerUnitController implements PlayerShoo
             velocity.set(0, 0);
             model.setVelocity(velocity);
         } else {
+            model.setIsStay(true);
             model.setIsShooted(false);
             model.setIsShoot(false);
             model.setIsAttack(false);
-            model.setIsMoveToTarget(false);
+//            model.setIsMoveToTarget(false);
             model.setIsMove(false);
-            model.setIsAttackBarricade(false);
+//            model.setIsAttackBarricade(false);
         }
     }
 
@@ -152,7 +159,12 @@ public class ArcherController extends PlayerUnitController implements PlayerShoo
         float posYTarget = targetEnemy.getPosition().y;
         Vector2 playerPosition = new Vector2(model.getX(), model.getY());
         Vector2 enemyPosition = new Vector2(targetEnemy.getX(), targetEnemy.getY());
+        barricadePosition.set(level.getBarricade().getBody().getX(), level.getBarricade().getBody().getY());
         Vector2 distanceToTarget = enemyPosition.sub(playerPosition);       // расстояние до врежеского юнита
+        distanceToBarricade = (barricadePosition.x - playerPosition.x);
+        if (distanceToBarricade < DISTANCE_TO_BARRICADE) {
+            model.setBarricadeIsDetected(true);
+        }
 
         if (!model.isMoveToTarget()) {
             System.out.println("moveToTarget");
@@ -162,37 +174,45 @@ public class ArcherController extends PlayerUnitController implements PlayerShoo
             model.setIsStay(false);
             model.setIsShooted(false);
             model.setIsShoot(false);
+//            model.setBarricadeIsDetected(false);
         }
-        if (isHaveVerticalDirection) {
+        if (model.isHaveVerticalDirection()) {
+//        if (isHaveVerticalDirection) {
             if (verticalDirectionMovement == Direction.DOWN) {
-                if (posY >= posYTarget) {        // если координата Y при перемещении юнита вниз больше координаты Y врага
-                    if (distanceToTarget.x <= ATTACK_DISTANCE) {    // если расстояние по оси х меньше дистанции для атаки (т.е. на расстоянии видимости)
+                if (posY > posYTarget) {        // если координата Y при перемещении юнита вниз больше координаты Y врага
+                    if (distanceToTarget.x <= ATTACK_DISTANCE || distanceToBarricade <= DISTANCE_TO_BARRICADE) {    // если расстояние по оси х меньше дистанции для атаки (т.е. на расстоянии видимости)
                         velocity.set(0, -model.getSpeed());
                     } else {
                         velocity.set(targetEnemy.getX(), targetEnemy.getY()).sub(new Vector2(model.getX(), model.getY())).nor().scl(model.getSpeed());
                     }
                     model.setVelocity(velocity);
                 } else {
-                    isHaveVerticalDirection = false;
+                    model.setIsHaveVerticalDirection(false);
+//                    isHaveVerticalDirection = false;
                     verticalDirectionMovement = Direction.NONE;
                 }
             } else if (verticalDirectionMovement == Direction.UP) {
-                if (posY <= posYTarget) {   // если координата Y при перемещении юнита вниз больше координаты Y врага
-                    if (distanceToTarget.x <= ATTACK_DISTANCE) {  // / если расстояние по оси х меньше дистанции для атаки (т.е. на расстоянии видимости)
+                if (posY < posYTarget) {   // если координата Y при перемещении юнита вверх меньше координаты Y врага
+                    if (distanceToTarget.x < ATTACK_DISTANCE || distanceToBarricade < DISTANCE_TO_BARRICADE) {  // / если расстояние по оси х меньше дистанции для атаки (т.е. на расстоянии видимости)
                         velocity.set(0, model.getSpeed());
                     } else {
                         velocity.set(targetEnemy.getX(), targetEnemy.getY()).sub(new Vector2(model.getX(), model.getY())).nor().scl(model.getSpeed());
                     }
                     model.setVelocity(velocity);
                 } else {
-                    isHaveVerticalDirection = false;
+                    model.setIsHaveVerticalDirection(false);
+//                    isHaveVerticalDirection = false;
                     verticalDirectionMovement = Direction.NONE;
                 }
             }
-        } else if (distanceToTarget.x <= ATTACK_DISTANCE) {
+        } else if (distanceToTarget.x < ATTACK_DISTANCE) {
             velocity.set(0, 0);
             model.setVelocity(velocity);
             shootEnemy();
+        } else {
+            velocity.set(0, 0);
+            model.setVelocity(velocity);
+            stay();
         }
     }
 
@@ -202,14 +222,16 @@ public class ArcherController extends PlayerUnitController implements PlayerShoo
     private void checkVerticalMovement() {
         Vector2 playerPosition = new Vector2(model.getX(), model.getY());
         Vector2 enemyPosition = new Vector2(targetEnemy.getX(), targetEnemy.getY());
-        if (isHaveVerticalDirection) {
+        if (model.isHaveVerticalDirection()) {
             if ((verticalDirectionMovement == Direction.UP) && (playerPosition.y > enemyPosition.y)) {
                 verticalDirectionMovement = Direction.NONE;
-                isHaveVerticalDirection = false;
+                model.setIsHaveVerticalDirection(false);
+//                isHaveVerticalDirection = false;
 //                stay();
             } else if ((verticalDirectionMovement == Direction.DOWN) && (playerPosition.y < enemyPosition.y)) {
                 verticalDirectionMovement = Direction.NONE;
-                isHaveVerticalDirection = false;
+                model.setIsHaveVerticalDirection(false);
+//                isHaveVerticalDirection = false;
 //                stay();
             }
         }
@@ -231,6 +253,7 @@ public class ArcherController extends PlayerUnitController implements PlayerShoo
             model.setIsAttack(false);
             model.setIsMove(false);
             model.setIsAttackBarricade(false);
+            model.setBarricadeIsDetected(false);
         }
     }
 
@@ -349,13 +372,15 @@ public class ArcherController extends PlayerUnitController implements PlayerShoo
 //                model.setIsHaveTargetEnemy(true);
                 return target;
             } else {
-                isHaveVerticalDirection = false;
+                model.setIsHaveVerticalDirection(false);
+//                isHaveVerticalDirection = false;
                 isHaveTargetEnemy = false;
                 model.setIsHaveTargetEnemy(false);
                 verticalDirectionMovement = Direction.NONE;
             }
         } else {
-            isHaveVerticalDirection = false;
+            model.setIsHaveVerticalDirection(false);
+//            isHaveVerticalDirection = false;
             isHaveTargetEnemy = false;
             model.setIsHaveTargetEnemy(false);
             verticalDirectionMovement = Direction.NONE;
@@ -367,12 +392,14 @@ public class ArcherController extends PlayerUnitController implements PlayerShoo
      * Метод для вычисления направления вертикального перемещения
      **/
     private Direction calculateVerticalDirection(EnemyUnitModel target) {
+        System.out.println("Calculate Vertical direction!");
         float posY = model.getY();
         float posYTarget = target.getY();
         if (posY < posYTarget) verticalDirectionMovement = Direction.UP;
         if (posY > posYTarget) verticalDirectionMovement = Direction.DOWN;
         if (posY == posYTarget) verticalDirectionMovement = Direction.NONE;
-        isHaveVerticalDirection = true;
+        model.setIsHaveVerticalDirection(true);
+//        isHaveVerticalDirection = true;
         return verticalDirectionMovement;
     }
 }

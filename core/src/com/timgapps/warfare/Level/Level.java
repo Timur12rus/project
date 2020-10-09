@@ -121,6 +121,8 @@ public class Level extends StageGame {
 //        unitCreator.createUnit("Zombie2", new Vector2(400, 200));
 //        unitCreator.createUnit("Zombie1", new Vector2(750, 250));
         unitCreator.createUnit("Zombie3", new Vector2(1490, 280));
+        unitCreator.createUnit("Zombie3", new Vector2(5000, 300));
+        unitCreator.createUnit("Zombie3", new Vector2(3000, 220));
         unitCreator.createUnit("Zombie1", new Vector2(900, 270));
 //        unitCreator.createUnit("Thor", new Vector2(100, 200));
 //        unitCreator.createUnit("Thor", new Vector2(300, 200));
@@ -318,6 +320,8 @@ public class Level extends StageGame {
         if (barricade.isBarricadeDestroyed() && state != PAUSED && !levelCompletedScreen.isStarted()) {
             levelCompleted();   // запускаем метод завершения уровня
         }
+
+
 //        if (state != PLAY) {
 //            finger.stopPlayAction(true);
 //        } else {

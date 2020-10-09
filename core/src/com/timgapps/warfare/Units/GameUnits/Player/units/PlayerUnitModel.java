@@ -17,6 +17,7 @@ public class PlayerUnitModel extends GameUnitModel {
     private boolean isAttackBarricade;
     private boolean isTouchedEnemy;
     private boolean isHaveTargetEnemy;
+    private boolean isHaveVerticalDirection;        // имеет ли вертикальное перемещение
     private boolean isShoot;         // в состоянии стрельбы
     private boolean isShooted;      // выстрелил
     private boolean isMoveToTarget;
@@ -37,6 +38,16 @@ public class PlayerUnitModel extends GameUnitModel {
         bodyHeight = 24;
         body = createBody();
         unitBit = PLAYER_BIT;
+    }
+
+    // устанавливает имеет ли юнит вертикальное перемещение
+    public void setIsHaveVerticalDirection(boolean isHaveVerticalDirection) {
+        this.isHaveVerticalDirection = isHaveVerticalDirection;
+    }
+
+    // возвращает имеет ли юнит вертикальное перемещение
+    public boolean isHaveVerticalDirection() {
+        return isHaveVerticalDirection;
     }
 
     public void setIsMoveToTarget(boolean isMoveToTarget) {

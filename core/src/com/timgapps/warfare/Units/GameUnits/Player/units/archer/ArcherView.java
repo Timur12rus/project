@@ -23,7 +23,7 @@ public class ArcherView extends PlayerUnitView {
     public void act(float delta) {
         super.act(delta);
         currentState = model.getCurrentState();
-        if (model.isDestroyed()) {
+        if (model.isDestroyed()) {                      // если юнит уничтожен, включаем анимацию уничтожения
             if (currentState != State.DIE) {
                 currentState = State.DIE;
                 resetStateTime();
@@ -36,13 +36,24 @@ public class ArcherView extends PlayerUnitView {
                 }
             }
         } else {
-            if (model.isMoveToTarget() == true) {
-                if (currentState != State.WALKING) {
+            if (model.isMoveToTarget() == true) {           // если юнит движется к цели
+                // если юнит в состоянии, что видид баррикаду
+                if (model.barricadeIsDetected()) {
+                    if (!model.isHaveVerticalDirection()) {
+
+                    }
+                    if (currentState != State.STAY) {
+                        currentState = State.STAY;
+                        resetStateTime();
+                    } else if (stayAnimation.isAnimationFinished(stateTime)) {
+                        resetStateTime();
+                    }
+                } else if (currentState != State.WALKING) {
                     currentState = State.WALKING;
                     resetStateTime();
                 }
-            } else if (model.isAttack() || model.isShoot()) {
-                if (model.isStay() == false) {
+            } else if (model.isAttack() || model.isShoot()) {       // если юнит в состоянии атакует или стреляет
+                if (model.isStay() == false) {                      // если юнит не в состоянии стоит
                     if (currentState != State.ATTACK) {
                         currentState = State.ATTACK;
                         resetStateTime();
@@ -68,6 +79,13 @@ public class ArcherView extends PlayerUnitView {
                     if (stayAnimation.isAnimationFinished(stateTime)) {
                         model.setIsStay(false);
                     }
+                }
+            } else if (model.barricadeIsDetected()) {
+                if (currentState != State.STAY) {
+                    currentState = State.STAY;
+                    resetStateTime();
+                } else if (stayAnimation.isAnimationFinished(stateTime)) {
+                    resetStateTime();
                 }
             } else {
                 if (currentState != State.WALKING) {
@@ -102,6 +120,8 @@ public class ArcherView extends PlayerUnitView {
 
         for (int i = 0; i < 3; i++)
             frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Stay" + i)));
+        frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Stay1")));
+        frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Stay0")));
         stayAnimation = new Animation(0.18f, frames);
         frames.clear();
     }
