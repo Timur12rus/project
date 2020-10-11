@@ -5,5 +5,5 @@ public enum UnitType {
     Gnome,
     Archer,
     Stone,
-    Knight
+    Knight,
 }

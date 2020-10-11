@@ -88,7 +88,7 @@ public class SavedGame implements Serializable {
         indexOfRewardStars = 0;     // индекс следующей награды за звёзды
         rewardForStarsDataList = new ArrayList<RewardForStarsData>();
         rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_STONE, 1, "block1_image"));
-        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_ARCHER, 4, "archer1Stay0"));
+        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_ARCHER, 4, "archerStay0"));
         rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_BOX, 15, "boxImage0"));
         rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_GNOME, 30, "gnomeStay0"));
         rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_BOX, 45, "boxImage0"));
@@ -132,6 +132,15 @@ public class SavedGame implements Serializable {
         teamDataList = new ArrayList<PlayerUnitData>();
         teamDataList.add(new PlayerUnitData(PlayerUnits.Thor));
         teamDataList.get(0).setDefaultData(PlayerUnits.Thor);
+        // здесь создаем команду, иначе будет выдавать null , т.к. юниты не добавлены в команду
+        teamDataList.add(new PlayerUnitData(PlayerUnits.Archer));
+        teamDataList.get(1).setDefaultData(PlayerUnits.Archer);
+        teamDataList.add(new PlayerUnitData(PlayerUnits.Knight));
+        teamDataList.get(2).setDefaultData(PlayerUnits.Knight);
+        teamDataList.add(new PlayerUnitData(PlayerUnits.Knight));
+        teamDataList.get(3).setDefaultData(PlayerUnits.Knight);
+        teamDataList.add(new PlayerUnitData(PlayerUnits.Gnome));
+        teamDataList.get(4).setDefaultData(PlayerUnits.Gnome);
 //        teamDataList.add(new TeamEntityData(TeamEntityData.KNIGHT));
 //        teamDataList.get(1).setDefaultData(TeamEntityData.KNIGHT);
 //        teamDataList.add(new TeamEntityData(TeamEntityData.ARCHER));

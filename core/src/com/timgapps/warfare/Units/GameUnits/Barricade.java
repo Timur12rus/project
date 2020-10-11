@@ -21,7 +21,7 @@ public class Barricade extends Group {
     private Level level;
     private Image rockBig, rockMiddle, rockSmall;
     //    private Body body;
-    private float health = 100;
+    private float health = 130;
     private Rectangle body;
     private Texture healthTexture;
     private Texture backTexture;

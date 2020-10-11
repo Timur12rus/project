@@ -126,6 +126,10 @@ public class GameManager {
             /** установим значения по умолчанию  для данных TeamEntity **/
 //            savedGame.getTeamDataList().get(0).setDefaultData();
             team.add(new TeamUnit(savedGame.getTeamDataList().get(0)));
+            team.add(new TeamUnit(savedGame.getTeamDataList().get(1)));
+            team.add(new TeamUnit(savedGame.getTeamDataList().get(2)));
+            team.add(new TeamUnit(savedGame.getTeamDataList().get(3)));
+            team.add(new TeamUnit(savedGame.getTeamDataList().get(4)));
 //            team.add(new TeamEntity(savedGame.getTeamDataList().get(1)));
 //            team.add(new TeamEntity(savedGame.getTeamDataList().get(2)));
 
@@ -488,6 +492,7 @@ public class GameManager {
     // метод получает UnitData юнита из команды
     public PlayerUnitData getUnitData(String id) {
         for (TeamUnit teamUnit : team) {
+            System.out.println("teamUnit.getUnitData.getUnitId = " + teamUnit.getUnitData().getUnitId());
             if (id.equals(teamUnit.getUnitData().getUnitId().name())) {
                 return teamUnit.getUnitData();
             }

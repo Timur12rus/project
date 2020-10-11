@@ -1,4 +1,4 @@
-package com.timgapps.warfare.Units.GameUnits.Player.units.thor;
+package com.timgapps.warfare.Units.GameUnits.Player.units.knight;
 
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
@@ -10,8 +10,8 @@ import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnitModel;
 
 import java.util.ArrayList;
 
-public class ThorController extends PlayerUnitController implements PlayerWarriorAi {
-    public ThorController(Level level, PlayerUnitModel model) {
+public class KnightController extends PlayerUnitController implements PlayerWarriorAi {
+    public KnightController(Level level, PlayerUnitModel model) {
         super(level, model);
     }
 
@@ -72,20 +72,20 @@ public class ThorController extends PlayerUnitController implements PlayerWarrio
                 } else {
                     moveToTarget();
                 }
-        } else if (barricade.getHealth() > 0) {
-            System.out.println("barricadeHealth = " + barricade.getHealth());
-            model.setIsTouchedBarricade(checkCollision(body, barricade.getBody()));
-            if (model.isTouchedBarricade()) {
-                attackBarricade();
+            } else if (barricade.getHealth() > 0) {
+                System.out.println("barricadeHealth = " + barricade.getHealth());
+                model.setIsTouchedBarricade(checkCollision(body, barricade.getBody()));
+                if (model.isTouchedBarricade()) {
+                    attackBarricade();
+                } else {
+                    move();
+                }
             } else {
                 move();
             }
-        } else {
-            move();
         }
-    }
 
-}
+    }
 
     // метод для поиска вражеского юнита (юнит которого будем атаковать))
 

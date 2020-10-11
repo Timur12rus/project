@@ -16,6 +16,8 @@ import com.timgapps.warfare.Units.GameUnits.Player.units.archer.ArcherController
 import com.timgapps.warfare.Units.GameUnits.Player.units.archer.ArcherView;
 import com.timgapps.warfare.Units.GameUnits.Player.units.gnome.GnomeController;
 import com.timgapps.warfare.Units.GameUnits.Player.units.gnome.GnomeView;
+import com.timgapps.warfare.Units.GameUnits.Player.units.knight.KnightController;
+import com.timgapps.warfare.Units.GameUnits.Player.units.knight.KnightView;
 import com.timgapps.warfare.Units.GameUnits.Player.units.thor.ThorController;
 import com.timgapps.warfare.Units.GameUnits.Player.units.thor.ThorView;
 import com.timgapps.warfare.Units.GameUnits.unitTypes.EnemyUnits;
@@ -54,11 +56,15 @@ public class UnitCreator {
         switch (typeOfUnit) {
             case PLAYER_UNIT:
                 PlayerUnits playerUnitId = PlayerUnits.None;
+                System.out.println("PLAYER UNIT NAME = " + unitName);
                 for (PlayerUnits playerUnit : PlayerUnits.values()) {
+                    System.out.println("PlayerUnit Value.name = " + playerUnit.name());
                     if (unitName.equals(playerUnit.name())) {
                         playerUnitId = playerUnit;
                     }
                 }
+                System.out.println("PLAYER UNIT ID = " + playerUnitId);
+//                System.out.println("getUnitData = " +  level.getGameManager().getUnitData(playerUnitId.toString()).toString());
                 PlayerUnitModel playerUnitModel = new PlayerUnitModel(level, position, level.getGameManager().getUnitData(playerUnitId.toString()));
                 switch (playerUnitId) {
                     case Thor:
@@ -70,6 +76,11 @@ public class UnitCreator {
                         GnomeController gnomeController = new GnomeController(level, playerUnitModel);
                         GnomeView gnomeView = new GnomeView(level, playerUnitModel, gnomeController);
                         createPlayerUnit(playerUnitModel, gnomeView);
+                        break;
+                    case Knight:
+                        KnightController knightController = new KnightController(level, playerUnitModel);
+                        KnightView knightView = new KnightView(level, playerUnitModel, knightController);
+                        createPlayerUnit(playerUnitModel, knightView);
                         break;
                     case Archer:
                         ArcherController archerController = new ArcherController(level, playerUnitModel);

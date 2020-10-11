@@ -120,14 +120,15 @@ public class Level extends StageGame {
 //        unitCreator.createUnit("Zombie1", new Vector2(1200, 270));
 //        unitCreator.createUnit("Zombie2", new Vector2(400, 200));
 //        unitCreator.createUnit("Zombie1", new Vector2(750, 250));
-        unitCreator.createUnit("Zombie3", new Vector2(1490, 280));
+        unitCreator.createUnit("Zombie3", new Vector2(2500, 280));
         unitCreator.createUnit("Zombie3", new Vector2(5000, 300));
         unitCreator.createUnit("Zombie3", new Vector2(3000, 220));
         unitCreator.createUnit("Zombie1", new Vector2(900, 270));
 //        unitCreator.createUnit("Thor", new Vector2(100, 200));
         unitCreator.createUnit("Thor", new Vector2(200, 220));
         unitCreator.createUnit("Gnome", new Vector2(400, 200));
-//        unitCreator.createUnit("Archer", new Vector2(400, 200));
+        unitCreator.createUnit("Knight", new Vector2(400, 200));
+        unitCreator.createUnit("Archer", new Vector2(400, 200));
 
         coinsCount = gameManager.getCoinsCount();
         hud = new HUD(this);
@@ -365,7 +366,7 @@ public class Level extends StageGame {
                         /** меняем местами ZIndex актеров, если их коориднаты не соответствуют ZIndex'ам **/
                         if (gameActors.get(i).getY() < gameActors.get(i + 1).getY()) {
 //                        if (gameActors.get(i).getY() < gameActors.get(i + 1).getY()) {
-                            if ((gameActors.get(i + 1).getY() - gameActors.get(i).getY()) >= 8) {
+                            if ((gameActors.get(i + 1).getY() - gameActors.get(i).getY()) >= 2) {
                                 tempZIndex = gameActors.get(i).getZIndex();
                                 gameActors.get(i).setZIndex(gameActors.get(i + 1).getZIndex());
                                 gameActors.get(i + 1).setZIndex(tempZIndex);

@@ -27,7 +27,7 @@ public class PlayerUnitData extends UnitData {
             case Gnome:
                 damage = 14;
                 health = 30;
-                speed = 0.7f;
+                speed = 0.8f;
                 energyPrice = 15;
                 deltaX = -124;
                 deltaY = 0;
@@ -51,6 +51,21 @@ public class PlayerUnitData extends UnitData {
                 name = "Archer";
                 unitLevel = 1;
                 break;
+            case Knight:
+                damage = 15;
+                health = 20;
+                energyPrice = 25;
+                deltaX = -142;
+                deltaY = -24;
+                barDeltaX = -84;        // смещение healthBar по оси х
+                barDeltaY = 0;
+                starsCount = 50;
+                System.out.println("NAME UNIT ID SWITCH = " + unitId.name());
+                speed = 0.4f;
+                name = "Knight";
+                System.out.println("NAME UNIT ID SWITCH = " + name);
+                unitLevel = 1;
+                break;
             case Thor:
                 damage = 12;
                 health = 20;
@@ -63,19 +78,6 @@ public class PlayerUnitData extends UnitData {
                 unitLevel = 1;
                 speed = 0.9f;
                 name = "Thor";
-                break;
-            case Knight:
-                damage = 15;
-                health = 20;
-                energyPrice = 25;
-                deltaX = -142;
-                deltaY = -24;
-                barDeltaX = -84;        // смещение healthBar по оси х
-                barDeltaY = 0;
-                unitLevel = 1;
-                starsCount = 50;
-                speed = 0.4f;
-                name = "Knight";
                 break;
             case Stone:
                 damage = 10;

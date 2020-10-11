@@ -55,12 +55,21 @@ public class GnomeController extends PlayerUnitController implements PlayerWarri
 //            System.out.println("Collision = " + checkCollision(body, targetEnemy.getBody()) + " /bodyA = " + body.toString() + "/ bodyB = " + targetEnemy.getBody().toString());
             }
 
+            // AI юнита
             if (model.isTouchedEnemy()) {
                 attackEnemy();
             } else if (model.isHaveTargetEnemy()) {
                 System.out.println("Target Enemy = " + targetEnemy.getName());
                 if (model.isTouchedEnemy()) {
                     attackEnemy();
+                } else if (barricade.getHealth() > 0) {
+                    System.out.println("barricadeHealth = " + barricade.getHealth());
+                    model.setIsTouchedBarricade(checkCollision(body, barricade.getBody()));
+                    if (model.isTouchedBarricade()) {
+                        attackBarricade();
+                    } else {
+                        moveToTarget();
+                    }
                 } else {
                     moveToTarget();
                 }
@@ -162,6 +171,7 @@ public class GnomeController extends PlayerUnitController implements PlayerWarri
         if (model.isAttack()) {
             velocity.set(0, 0);
             model.setVelocity(velocity);
+            model.setIsHited(true);
         } else {
             System.out.println("attackEnemy");
             model.setIsAttack(true);
@@ -189,7 +199,11 @@ public class GnomeController extends PlayerUnitController implements PlayerWarri
     // метод для движения к вражескому юниту
     @Override
     public void moveToTarget() {
-        velocity.set(targetEnemy.getX(), targetEnemy.getY()).sub(new Vector2(model.getX(), model.getY())).nor().scl(model.getSpeed());
+        if (model.isHited()) {
+            velocity.set(targetEnemy.getX(), targetEnemy.getY()).sub(new Vector2(model.getX(), model.getY())).nor().scl(model.getSpeed() * 0.7f);
+        } else {
+            velocity.set(targetEnemy.getX(), targetEnemy.getY()).sub(new Vector2(model.getX(), model.getY())).nor().scl(model.getSpeed());
+        }
         model.setVelocity(velocity);
         if (!model.isMoveToTarget()) {
             System.out.println("moveToTarget");
@@ -208,7 +222,12 @@ public class GnomeController extends PlayerUnitController implements PlayerWarri
         model.setIsAttack(false);
         model.setIsStay(false);
         model.setIsAttackBarricade(false);
-        velocity.set(model.getSpeed(), 0);
+        if (model.isHited()) {
+            velocity.set(model.getSpeed() * 0.7f, 0);
+        } else {
+            velocity.set(model.getSpeed(), 0);
+        }
+//        velocity.set(model.getSpeed(), 0);
         model.setVelocity(velocity);
     }
 }
