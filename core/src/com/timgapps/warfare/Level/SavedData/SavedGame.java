@@ -1,6 +1,6 @@
 package com.timgapps.warfare.Level.SavedData;
 
-import com.timgapps.warfare.Level.GUI.Screens.TeamUnit;
+import com.timgapps.warfare.Level.GUI.team_unit.TeamUnit;
 import com.timgapps.warfare.Level.GUI.Screens.PlayerUnitData;
 import com.timgapps.warfare.Level.LevelMap.LevelIcon;
 import com.timgapps.warfare.Level.LevelMap.LevelIconData;
@@ -132,15 +132,16 @@ public class SavedGame implements Serializable {
         teamDataList = new ArrayList<PlayerUnitData>();
         teamDataList.add(new PlayerUnitData(PlayerUnits.Thor));
         teamDataList.get(0).setDefaultData(PlayerUnits.Thor);
+
         // здесь создаем команду, иначе будет выдавать null , т.к. юниты не добавлены в команду
         teamDataList.add(new PlayerUnitData(PlayerUnits.Archer));
         teamDataList.get(1).setDefaultData(PlayerUnits.Archer);
+
         teamDataList.add(new PlayerUnitData(PlayerUnits.Knight));
         teamDataList.get(2).setDefaultData(PlayerUnits.Knight);
-        teamDataList.add(new PlayerUnitData(PlayerUnits.Knight));
-        teamDataList.get(3).setDefaultData(PlayerUnits.Knight);
+
         teamDataList.add(new PlayerUnitData(PlayerUnits.Gnome));
-        teamDataList.get(4).setDefaultData(PlayerUnits.Gnome);
+        teamDataList.get(3).setDefaultData(PlayerUnits.Gnome);
 //        teamDataList.add(new TeamEntityData(TeamEntityData.KNIGHT));
 //        teamDataList.get(1).setDefaultData(TeamEntityData.KNIGHT);
 //        teamDataList.add(new TeamEntityData(TeamEntityData.ARCHER));

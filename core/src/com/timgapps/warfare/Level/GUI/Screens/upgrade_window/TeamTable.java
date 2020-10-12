@@ -3,7 +3,7 @@ package com.timgapps.warfare.Level.GUI.Screens.upgrade_window;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.timgapps.warfare.Level.GUI.Screens.TeamUnit;
+import com.timgapps.warfare.Level.GUI.team_unit.TeamUnit;
 import com.timgapps.warfare.Warfare;
 
 import java.util.ArrayList;
@@ -19,7 +19,9 @@ public class TeamTable extends Table {
     private Label collectionLabel;
     private String collectionText;
 
-    /** таблица с командой юнитов **/
+    /**
+     * таблица с командой юнитов
+     **/
     public TeamTable(ArrayList<TeamUnit> unitTeam) {
         this.unitTeam = unitTeam;
 
@@ -33,25 +35,25 @@ public class TeamTable extends Table {
         collectionLabel = new Label(collectionText, labelStyle);
 
         for (int i = 0; i < unitTeam.size(); i++) {
-            add(unitTeam.get(i)).width(unitTeam.get(i).getWidth()).height(unitTeam.get(i).getHeight()).padLeft(12).padRight(12).left();
+            add(unitTeam.get(i).getUnitImageButton()).width(unitTeam.get(i).getImageButtonWidth()).height(unitTeam.get(i).getImageButtonHeight()).padLeft(12).padRight(12).left();
         }
 
         /** проверим, если количество юнитов в команде, меньше ячеек,
          * то делаем оставшиеся ячейки пустыми
-          */
+         */
         if (unitTeam.size() < numOfUnits) {
             for (int i = 0; i < numOfUnits - unitTeam.size(); i++) {
-                add().width(unitTeam.get(0).getWidth()).height(unitTeam.get(0).getHeight()).padLeft(12).padRight(12).left();
+                add().width(unitTeam.get(0).getImageButtonWidth()).height(unitTeam.get(0).getImageButtonHeight()).padLeft(12).padRight(12).left();
             }
         }
 
-        width = (unitTeam.get(0).getWidth() + 24) * numOfUnits;
+        width = (unitTeam.get(0).getImageButtonWidth() + 24) * numOfUnits;
 
         /** добавим горизонтальную серую черту-разделитель **/
         row();
         float lineHeight = 0;
         add(collectionLabel).colspan(5).center().expandX().padTop(8);
-        height = unitTeam.get(0).getHeight() + lineHeight + 16;         //  высота таблицы в px
+        height = unitTeam.get(0).getImageButtonHeight() + lineHeight + 16;         //  высота таблицы в px
 
         // установим ширину и высоту таблицы
         setWidth(width);
@@ -62,6 +64,7 @@ public class TeamTable extends Table {
     public void setHeight(float height) {
         this.height = height;
     }
+
     public void setWidth(float width) {
         this.width = width;
     }

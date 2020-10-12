@@ -8,16 +8,19 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.boontaran.MessageListener;
 import com.boontaran.games.StageGame;
 import com.timgapps.warfare.Level.GUI.Finger;
 import com.timgapps.warfare.Level.GUI.HUD;
-import com.timgapps.warfare.Level.GUI.Screens.TeamUnit;
+import com.timgapps.warfare.Level.GUI.team_unit.TeamUnit;
 import com.timgapps.warfare.Level.GUI.StoneButton;
-import com.timgapps.warfare.Level.GUI.UnitButton;
+import com.timgapps.warfare.Level.GUI.team_unit.UnitButton;
+import com.timgapps.warfare.Level.GUI.team_unit.UnitImageButton;
 import com.timgapps.warfare.Level.LevelScreens.ColorRectangle;
 import com.timgapps.warfare.Level.LevelScreens.GameOverScreen;
 import com.timgapps.warfare.Level.LevelScreens.LevelCompletedScreen;
@@ -32,6 +35,7 @@ import com.timgapps.warfare.Units.GameUnits.Player.SiegeTower;
 import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnitModel;
 import com.timgapps.warfare.Units.GameUnits.Player.units.Thor;
 import com.timgapps.warfare.Units.GameUnits.Player.units.UnitCreator;
+import com.timgapps.warfare.Units.GameUnits.unitTypes.PlayerUnits;
 import com.timgapps.warfare.Utils.Setting;
 import com.timgapps.warfare.Warfare;
 
@@ -308,16 +312,17 @@ public class Level extends StageGame {
             }
             compareActorsYPos();
         }
-        if (finger != null) {
-            if (tableUnitButtons.getUnitButton(0).getIsUnitButtonReady() && state == PLAY) {
-                finger.show();
-            } else {
-                finger.hide();
-            }
-            if (state != PLAY) {
-                finger.setVisible(false);
-            }
-        }
+        // finger
+//        if (finger != null) {
+//            if (tableUnitButtons.getUnitButton(0).getIsUnitButtonReady() && state == PLAY) {
+//                finger.show();
+//            } else {
+//                finger.hide();
+//            }
+//            if (state != PLAY) {
+//                finger.setVisible(false);
+//            }
+//        }
         // если баррикада разрушена и текущее состояние не "пауза" и экран завершения уровня не запущен
         if (barricade.isBarricadeDestroyed() && state != PAUSED && !levelCompletedScreen.isStarted()) {
             levelCompleted();   // запускаем метод завершения уровня
@@ -447,7 +452,7 @@ public class Level extends StageGame {
     }
 
     class TableUnitButton extends Table {
-        ArrayList<UnitButton> unitButtonArrayList;
+        ArrayList<UnitImageButton> unitButtonArrayList;
         ArrayList<TeamUnit> team;
         //        float unitButtonWidth;
 //        float unitButtonHeight;
@@ -459,7 +464,7 @@ public class Level extends StageGame {
             super();
             this.team = team;
             this.level = level;
-            unitButtonArrayList = new ArrayList<UnitButton>();
+            unitButtonArrayList = new ArrayList<UnitImageButton>();
             unitButtonWidth = team.get(0).getUnitImageButton().getWidth();
             unitButtonHeight = team.get(0).getUnitImageButton().getHeight();
             stoneButton = null;
@@ -478,38 +483,56 @@ public class Level extends StageGame {
                 stoneButton.setPosX(posX);
         }
 
-        UnitButton getUnitButton(int i) {
+        UnitImageButton getUnitButton(int i) {
             return unitButtonArrayList.get(i);
         }
 
         // метод добавляет кнопки юнитов в соответствии с командой
         void addUnitButtons() {
             for (int i = 0; i < team.size(); i++) {
-                switch (team.get(i).getUnitId()) {
-                    case Gnome:
-                        unitButtonArrayList.add(new UnitButton(level, new Image(Warfare.atlas.findRegion("gnomeActive")),
-                                new Image(Warfare.atlas.findRegion("gnomeInactive")), team.get(i).getUnitData()));
-                        break;
-                    case Archer:
-                        unitButtonArrayList.add(new UnitButton(level, new Image(Warfare.atlas.findRegion("archer1Active")),
-                                new Image(Warfare.atlas.findRegion("archer1Inactive")), team.get(i).getUnitData()));
-                        break;
-                    case Thor:
-                        unitButtonArrayList.add(new UnitButton(level, new Image(Warfare.atlas.findRegion("thorActive")),
-                                new Image(Warfare.atlas.findRegion("thorInactive")), team.get(i).getUnitData()));
-                        break;
-
-                    case Knight:
-                        unitButtonArrayList.add(new UnitButton(level, new Image(Warfare.atlas.findRegion("knightActive")),
-                                new Image(Warfare.atlas.findRegion("knightInactive")), team.get(i).getUnitData()));
-                        break;
-
-                    case Stone:
-                        stoneButton = new StoneButton(level, new Image(Warfare.atlas.findRegion("stoneButtonActive")),
-                                new Image(Warfare.atlas.findRegion("stoneButtonInactive")), team.get(i).getUnitData());
-                        unitButtonArrayList.add(stoneButton);
-                        break;
+                unitButtonArrayList.add(team.get(i).getUnitImageButton());
+                if (team.get(i).getUnitId() != PlayerUnits.Stone) {
+                    this.addListener(new ClickListener() {
+                        @Override
+                        public void clicked(InputEvent event, float x, float y) {
+                            super.clicked(event, x, y);
+//                            System.out.println("Add Unit " + team.get(i).getName() + " on Scene!");
+//                            if ((isReadyUnitButton) && (checkEnergyCount(energyPrice))) {
+//                                isReadyUnitButton = false;
+//                                setInActive();
+//                                addPlayerUnit(unitType);
+//                            }
+                        }
+                    });
                 }
+
+
+//                unitButtonArrayList.get(i).addListener(new ClickListener())
+//                switch (team.get(i).getUnitId()) {
+//                    case Gnome:
+//                        unitButtonArrayList.add(new UnitButton(level, new Image(Warfare.atlas.findRegion("gnomeActive")),
+//                                new Image(Warfare.atlas.findRegion("gnomeInactive")), team.get(i).getUnitData()));
+//                        break;
+//                    case Archer:
+//                        unitButtonArrayList.add(new UnitButton(level, new Image(Warfare.atlas.findRegion("archer1Active")),
+//                                new Image(Warfare.atlas.findRegion("archer1Inactive")), team.get(i).getUnitData()));
+//                        break;
+//                    case Thor:
+//                        unitButtonArrayList.add(new UnitButton(level, new Image(Warfare.atlas.findRegion("thorActive")),
+//                                new Image(Warfare.atlas.findRegion("thorInactive")), team.get(i).getUnitData()));
+//                        break;
+//
+//                    case Knight:
+//                        unitButtonArrayList.add(new UnitButton(level, new Image(Warfare.atlas.findRegion("knightActive")),
+//                                new Image(Warfare.atlas.findRegion("knightInactive")), team.get(i).getUnitData()));
+//                        break;
+//
+//                    case Stone:
+//                        stoneButton = new StoneButton(level, new Image(Warfare.atlas.findRegion("stoneButtonActive")),
+//                                new Image(Warfare.atlas.findRegion("stoneButtonInactive")), team.get(i).getUnitData());
+//                        unitButtonArrayList.add(stoneButton);
+//                        break;
+//                }
             }
         }
     }

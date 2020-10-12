@@ -18,7 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.timgapps.warfare.Level.GUI.Screens.resources_view.ResourcesTable;
-import com.timgapps.warfare.Level.GUI.Screens.TeamUnit;
+import com.timgapps.warfare.Level.GUI.team_unit.TeamUnit;
 import com.timgapps.warfare.Level.GUI.Screens.TeamUpgradeScreen;
 import com.timgapps.warfare.Level.GUI.Screens.win_creator.ConstructedWindow;
 import com.timgapps.warfare.Level.GameManager;
@@ -335,9 +335,9 @@ public class UpgradeScreen extends Group {
         this.teamUnit = teamUnit;
         addHealthValue = teamUnit.getAddHealthValue();
         addDamageValue = teamUnit.getAddDamageValue();
-        healthValue = teamUnit.getHEALTH();
-        damageValue = teamUnit.getDAMAGE();
-        speedValue = teamUnit.getSPEED();
+        healthValue = teamUnit.getHealth();
+        damageValue = teamUnit.getDamage();
+        speedValue = teamUnit.getSpeed();
         timePrepearValue = teamUnit.getTimePrepare();
         unitNameLabel.setText(teamUnit.getName());
         unitNameLabel.setPosition(container.getX() + (container.getWidth() - unitNameLabel.getWidth()) / 2,
@@ -489,7 +489,7 @@ public class UpgradeScreen extends Group {
         /** обновим параметры юнита, которого прокачиваем **/
         teamUnit.setUnitLevel(newUnitLevel);
         teamUnit.addHEALTH(addHealthValue);
-        teamUnit.addDAMAGE(addDamageValue);
+        teamUnit.addDamage(addDamageValue);
 
         if (teamUnit.getUnitLevel() >= teamUnit.getMaxUnitLevel()) {
             upgradeToLevelLabel.setVisible(false);

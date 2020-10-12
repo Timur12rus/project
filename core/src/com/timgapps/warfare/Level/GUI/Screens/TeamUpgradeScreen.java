@@ -17,6 +17,7 @@ import com.timgapps.warfare.Level.GUI.Screens.upgrade_window.CollectionTable;
 import com.timgapps.warfare.Level.GUI.Screens.upgrade_window.TeamTable;
 import com.timgapps.warfare.Level.GUI.Screens.upgrade_window.UpgradeScreen;
 import com.timgapps.warfare.Level.GUI.Screens.win_creator.ConstructedWindow;
+import com.timgapps.warfare.Level.GUI.team_unit.TeamUnit;
 import com.timgapps.warfare.Level.GameManager;
 import com.timgapps.warfare.Warfare;
 
@@ -31,9 +32,9 @@ public class TeamUpgradeScreen extends Group {
     private UpgradeScreen upgradeScreen;
     private ConstructedWindow constructedWindow;
     private ImageButton closeButton;
-    private ArrayList<TeamUnit> team;                 // массив юнитов из КОМАНДЫ
-    private ArrayList<TeamUnit> unitCollection;       // массив юнитов из КОЛЛЕКЦИИ
-    private TeamUnit replaceUnit;                     // заменяющий юнит из коллекциии, заменяет юнита в команде при процессе замены
+    private ArrayList<com.timgapps.warfare.Level.GUI.team_unit.TeamUnit> team;                 // массив юнитов из КОМАНДЫ
+    private ArrayList<com.timgapps.warfare.Level.GUI.team_unit.TeamUnit> unitCollection;       // массив юнитов из КОЛЛЕКЦИИ
+    private com.timgapps.warfare.Level.GUI.team_unit.TeamUnit replaceUnit;                     // заменяющий юнит из коллекциии, заменяет юнита в команде при процессе замены
     private float teamTableWidth;
     private float teamTableHeight;
     private float paddingLeft = 48;
@@ -50,7 +51,7 @@ public class TeamUpgradeScreen extends Group {
     private String teamText;
     private GameManager gameManager;
     private boolean toRaplaceUnitFromCollectionToTeam = false;
-    private TeamUnit clickedTeamUnit;
+    private com.timgapps.warfare.Level.GUI.team_unit.TeamUnit clickedTeamUnit;
 
     /**
      * передаем в конструктор список team, который содержит в себе КОМАНДУ ЮНИТОВ
@@ -111,12 +112,13 @@ public class TeamUpgradeScreen extends Group {
         collectionTable = new CollectionTable(unitCollection);
 //        Table collectionTable = new CollectionTable(unitCollection).debug();
 
-        for (int i = 0; i < team.size(); i++) {
-            addClickListener(team.get(i));
-        }
-        for (int i = 0; i < unitCollection.size(); i++) {
-            addClickListener(unitCollection.get(i));
-        }
+//        // убрал пока
+//        for (int i = 0; i < team.size(); i++) {
+//            addClickListener(team.get(i));
+//        }
+//        for (int i = 0; i < unitCollection.size(); i++) {
+//            addClickListener(unitCollection.get(i));
+//        }
         collectionTable.debug();
         final Table scrollTable = new Table();
         scrollTable.left().top();
@@ -175,7 +177,7 @@ public class TeamUpgradeScreen extends Group {
     /**
      * метод показывает заменяющего юнита (нового), которого игрок хочет добавить в команду
      **/
-    public void showReplaceUnit(TeamUnit teamUnit) {
+    public void showReplaceUnit(com.timgapps.warfare.Level.GUI.team_unit.TeamUnit teamUnit) {
 
         /** делаем таблицу с командой юнитов невидимой, скрываем её **/
         tableCollection.setVisible(false);
@@ -211,7 +213,7 @@ public class TeamUpgradeScreen extends Group {
     /**
      * метод показывает запускает экран UpgradeScreen
      **/
-    private void showUpgradeScreen(TeamUnit teamUnit) {             // selectButton - false или true, показать кнопку
+    private void showUpgradeScreen(com.timgapps.warfare.Level.GUI.team_unit.TeamUnit teamUnit) {             // selectButton - false или true, показать кнопку
         upgradeScreen.setUnitUpgradeData(teamUnit);
         boolean showSelectButton = false;       // показывать ли кнопеу "ВЫБРАТЬ" в окне информации о юните
         if (unitCollection.contains(teamUnit)) {
@@ -227,20 +229,20 @@ public class TeamUpgradeScreen extends Group {
      * слушатель для кнопок-юнитов в команде и юнитов в коллекции
      **/
     private void addClickListener(final TeamUnit teamUnit) {
-        teamUnit.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-
-                /** если флаг isReplaceActive - false, то вызываем окно апгрейда, если true - заменяем юнит в команде на юнит из коллекции **/
-                if (!isReplaceActive)
-                    showUpgradeScreen(teamUnit);
-                else {
-                    toRaplaceUnitFromCollectionToTeam = true;
-                    clickedTeamUnit = teamUnit;
-                }
-            }
-        });
+//        teamUnit.addListener(new ClickListener() {
+//            @Override
+//            public void clicked(InputEvent event, float x, float y) {
+//                super.clicked(event, x, y);
+//
+//                /** если флаг isReplaceActive - false, то вызываем окно апгрейда, если true - заменяем юнит в команде на юнит из коллекции **/
+//                if (!isReplaceActive)
+//                    showUpgradeScreen(teamUnit);
+//                else {
+//                    toRaplaceUnitFromCollectionToTeam = true;
+//                    clickedTeamUnit = teamUnit;
+//                }
+//            }
+//        });
     }
 
     /**
@@ -289,7 +291,7 @@ public class TeamUpgradeScreen extends Group {
         updateCollectionTable();
 
         hideReplaceUnit();
-        System.out.println("teamTable.get(0) = " + teamTable.getCell(team.get(0)));
+//        System.out.println("teamTable.get(0) = " + teamTable.getCell(team.get(0)));
     }
 
     /**
@@ -300,7 +302,7 @@ public class TeamUpgradeScreen extends Group {
         Array<Cell> cells = teamTable.getCells();
         for (int i = 0; i < team.size(); i++) {
             System.out.println("team[" + i + "] = " + team.get(i).toString());
-            teamTable.getCells().get(i).setActor(team.get(i)).width(team.get(i).width).height(team.get(i).height);
+//            teamTable.getCells().get(i).setActor(team.get(i)).getW(team.get(i).width).height(team.get(i).height);
         }
     }
 
@@ -312,7 +314,7 @@ public class TeamUpgradeScreen extends Group {
         System.out.println("UpdateCollectionTable()!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         for (int i = 0; i < unitCollection.size(); i++) {
             System.out.println("collection[" + i + "] = " + unitCollection.get(i).toString());
-            cells.get(i).setActor(unitCollection.get(i));
+//            cells.get(i).setActor(unitCollection.get(i));
         }
     }
 

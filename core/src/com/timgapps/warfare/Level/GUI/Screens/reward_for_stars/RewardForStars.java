@@ -14,7 +14,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.timgapps.warfare.Level.GUI.Finger;
-import com.timgapps.warfare.Level.GUI.Screens.TeamUnit;
 import com.timgapps.warfare.Level.GameManager;
 import com.timgapps.warfare.Level.LevelMap.actions.CoinsAction;
 import com.timgapps.warfare.Units.GameUnits.unitTypes.PlayerUnits;

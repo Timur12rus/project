@@ -5,15 +5,15 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.timgapps.warfare.Level.GUI.Screens.PlayerUnitData;
+import com.timgapps.warfare.Level.GUI.team_unit.UnitButton;
+import com.timgapps.warfare.Level.GUI.team_unit.UnitImageButton;
 import com.timgapps.warfare.Level.Level;
 import com.timgapps.warfare.Units.GameUnits.Player.Bullets.Stone;
+import com.timgapps.warfare.Units.GameUnits.unitTypes.PlayerUnits;
 import com.timgapps.warfare.Warfare;
 
-public class StoneButton extends UnitButton {
-
-
+public class StoneButton extends UnitImageButton {
     private Image greenTarget, redTarget;
-    private float posX, posY;
     private final float Y_MIN = 100;
     private final float Y_MAX = 280;
     private final float X_MIN = -680;
@@ -22,18 +22,16 @@ public class StoneButton extends UnitButton {
     private float unitButtonTablePosX = 0;
     private int damage;
     private int health;
-//    protected int energyPrice;
-
+    private Level level;
+    private PlayerUnitData data;
 
     //     if (stoneButton != null) stoneButton.setUnitButtonTablePosX(tableUnitButtons.getX());
-    public StoneButton(final Level level, Image activeImage, Image inactiveImage, PlayerUnitData data) {
-        super(level, activeImage, inactiveImage, data);
+    public StoneButton(final Level level, PlayerUnitData data) {
+        super(data.getUnitId(), data.isUnlock());
+        this.level = level;
         this.unitButtonTablePosX = unitButtonTablePosX;
         greenTarget = new Image(Warfare.atlas.findRegion("targetGreen"));
         redTarget = new Image(Warfare.atlas.findRegion("targetRed"));
-//        this.energyPrice = setEnergyPrice(typeOfUnit);
-//        posX = x;
-//        posY = y;
         damage = data.getDamage();
         health = data.getHealth();
         addActor(greenTarget);

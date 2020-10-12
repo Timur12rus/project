@@ -2,13 +2,14 @@ package com.timgapps.warfare.Level.GUI.Screens.upgrade_window;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.timgapps.warfare.Level.GUI.Screens.TeamUnit;
+import com.timgapps.warfare.Level.GUI.team_unit.TeamUnit;
 
 import java.util.ArrayList;
 
-/** Создадим таблицу КОЛЛЕКЦИИ ЮНИТОВ
+/**
+ * Создадим таблицу КОЛЛЕКЦИИ ЮНИТОВ
  * unitCollection - массив юнитов в коллекции
- * **/
+ **/
 public class CollectionTable extends Table {
     private Image unitImage;
     private ArrayList<TeamUnit> unitCollectiion;
@@ -21,16 +22,16 @@ public class CollectionTable extends Table {
 
         this.left().top();
 
-        height = unitCollection.get(0).getHeight();
-        width = (unitCollection.get(0).getWidth() + 24) * 5;
+        height = unitCollection.get(0).getImageButtonHeight();
+        width = (unitCollection.get(0).getImageButtonWidth() + 24) * 5;
         for (int i = 0; i < unitCollection.size(); i++) {
 //            unitCollection.get(i);
             if (i % 5 == 0) {
 //                row().padBottom(24);
                 row().padTop(24);
-                height +=  unitCollection.get(0).getHeight();
+                height += unitCollection.get(0).getImageButtonHeight();
             }
-            add(unitCollection.get(i)).width(unitCollection.get(i).getWidth()).height(unitCollection.get(i).getHeight()).left().padLeft(12).padRight(12);
+            add(unitCollection.get(i).getUnitImageButton()).width(unitCollection.get(i).getImageButtonWidth()).height(unitCollection.get(i).getImageButtonHeight()).left().padLeft(12).padRight(12);
         }
     }
 
@@ -41,7 +42,7 @@ public class CollectionTable extends Table {
     public void updateCellTable(ArrayList<TeamUnit> unitCollection) {
         for (int i = 0; i < unitCollection.size(); i++) {
             unitCollection.get(i);
-            add(unitCollection.get(i)).width(unitCollection.get(i).getWidth()).height(unitCollection.get(i).getHeight()).left().padLeft(12).padRight(12);
+            add(unitCollection.get(i).getUnitImageButton()).width(unitCollection.get(i).getImageButtonWidth()).height(unitCollection.get(i).getImageButtonHeight()).left().padLeft(12).padRight(12);
         }
     }
 

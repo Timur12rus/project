@@ -16,6 +16,7 @@ public class PlayerUnitData extends UnitData {
     private boolean isUnlock = false;
     private int starsCount;
     private int energyPrice;
+    private int timePrepare;        // время приготовления
 
     public PlayerUnitData(PlayerUnits unitId) {
         this.unitId = unitId;
@@ -29,6 +30,7 @@ public class PlayerUnitData extends UnitData {
                 health = 30;
                 speed = 0.8f;
                 energyPrice = 15;
+                timePrepare = 10;
                 deltaX = -124;
                 deltaY = 0;
                 barDeltaX = -84;
@@ -42,6 +44,7 @@ public class PlayerUnitData extends UnitData {
                 damage = 10;
                 health = 30;
                 energyPrice = 20;
+                timePrepare = 25;
                 deltaX = -174;
                 deltaY = 0;
                 barDeltaX = -64;        // смещение healthBar по оси х
@@ -55,21 +58,21 @@ public class PlayerUnitData extends UnitData {
                 damage = 15;
                 health = 20;
                 energyPrice = 25;
+                timePrepare = 18;
                 deltaX = -142;
                 deltaY = -24;
                 barDeltaX = -84;        // смещение healthBar по оси х
                 barDeltaY = 0;
                 starsCount = 50;
-                System.out.println("NAME UNIT ID SWITCH = " + unitId.name());
                 speed = 0.4f;
                 name = "Knight";
-                System.out.println("NAME UNIT ID SWITCH = " + name);
                 unitLevel = 1;
                 break;
             case Thor:
                 damage = 12;
                 health = 20;
                 energyPrice = 15;
+                timePrepare = 18;
                 deltaX = -100;
 //                deltaX = -124;
                 deltaY = -8;
@@ -84,12 +87,14 @@ public class PlayerUnitData extends UnitData {
                 health = 50;
                 starsCount = 1;
                 energyPrice = 8;
+                timePrepare = 10;
                 unitLevel = 1;
                 speed = 0;
                 name = "Stone";
                 break;
             case None:
                 energyPrice = 0;
+                timePrepare = 0;
                 damage = 0;
                 health = 0;
                 starsCount = 0;

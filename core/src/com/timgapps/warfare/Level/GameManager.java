@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.boontaran.DataManager;
 import com.timgapps.warfare.Level.GUI.Screens.CoinsPanel;
-import com.timgapps.warfare.Level.GUI.Screens.TeamUnit;
+import com.timgapps.warfare.Level.GUI.team_unit.TeamUnit;
 import com.timgapps.warfare.Level.GUI.Screens.PlayerUnitData;
 import com.timgapps.warfare.Level.LevelMap.LevelIcon;
 import com.timgapps.warfare.Level.GUI.Screens.reward_for_stars.RewardForStarsData;
@@ -129,7 +129,7 @@ public class GameManager {
             team.add(new TeamUnit(savedGame.getTeamDataList().get(1)));
             team.add(new TeamUnit(savedGame.getTeamDataList().get(2)));
             team.add(new TeamUnit(savedGame.getTeamDataList().get(3)));
-            team.add(new TeamUnit(savedGame.getTeamDataList().get(4)));
+//            team.add(new TeamUnit(savedGame.getTeamDataList().get(4)));
 //            team.add(new TeamEntity(savedGame.getTeamDataList().get(1)));
 //            team.add(new TeamEntity(savedGame.getTeamDataList().get(2)));
 
@@ -156,17 +156,12 @@ public class GameManager {
             giftTimeSecond = 0;
             savedGame.setGiftTimeFirst(giftTimeFirst);
             savedGame.setGiftTimeSecond(giftTimeSecond);
-
 //            savedGame.setTeam(team);
         } else {
-
-
             teamDataList = savedGame.getTeamDataList();
             collectionDataList = savedGame.getCollectionDataList();
-
             for (int i = 0; i < teamDataList.size(); i++) {
                 team.add(new TeamUnit(savedGame.getTeamDataList().get(i)));
-
             }
             for (int i = 0; i < collectionDataList.size(); i++) {
                 collection.add(new TeamUnit(savedGame.getCollectionDataList().get(i)));

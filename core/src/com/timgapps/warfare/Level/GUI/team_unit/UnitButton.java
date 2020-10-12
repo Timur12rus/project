@@ -1,4 +1,4 @@
-package com.timgapps.warfare.Level.GUI;
+package com.timgapps.warfare.Level.GUI.team_unit;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.timgapps.warfare.Level.GUI.Screens.TeamUnit;
+import com.timgapps.warfare.Level.GUI.team_unit.TeamUnit;
 import com.timgapps.warfare.Level.GUI.Screens.PlayerUnitData;
 import com.timgapps.warfare.Level.Level;
 //import com.timgapps.warfare.Units.GameUnits.Player.units.Archer1;
@@ -179,19 +179,18 @@ public class UnitButton extends Group {
 
     protected int setEnergyPrice(int typeOfUnit) {
         int energyPrice = 0;
-        switch (typeOfUnit) {
-            case TeamUnit.GNOME:
-                energyPrice = Gnome.getEnergyPrice();
-                break;
-            case TeamUnit.ARCHER:
-//                energyPrice = Archer1.getEnergyPrice();
-                break;
-            case TeamUnit.THOR:
-                energyPrice = Thor.getEnergyPrice();
-                break;
-            case TeamUnit.STONE:
-                energyPrice = Stone.getEnergyPrice();
-        }
+//        switch (typeOfUnit) {
+//            case TeamUnit.GNOME:
+//                energyPrice = Gnome.getEnergyPrice();
+//                break;
+//            case TeamUnit.ARCHER:
+//                break;
+//            case TeamUnit.THOR:
+//                energyPrice = Thor.getEnergyPrice();
+//                break;
+//            case TeamUnit.STONE:
+//                energyPrice = Stone.getEnergyPrice();
+//        }
 
         return energyPrice;
     }
