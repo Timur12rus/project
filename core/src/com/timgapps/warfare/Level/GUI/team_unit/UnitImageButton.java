@@ -1,43 +1,56 @@
 package com.timgapps.warfare.Level.GUI.team_unit;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.timgapps.warfare.Level.GUI.Screens.PlayerUnitData;
 import com.timgapps.warfare.Units.GameUnits.unitTypes.PlayerUnits;
 import com.timgapps.warfare.Warfare;
 
 // кнопка юнита (в магазине на сцене для вызова юнита)
 public class UnitImageButton extends Group {
-    private Image bgImage, dwnImage, lockImage;
+    protected Image activeImage, inactiveImage, lockImage;
     private boolean isUnlock;
     private PlayerUnits unitId;
     protected boolean isReadyUnitButton;
+    protected PlayerUnitData playerUnitData;
+    protected float height;
 
-    public UnitImageButton(PlayerUnits unitId, final boolean isUnlock) {
-        this.unitId = unitId;
-        this.isUnlock = isUnlock;
+    public UnitImageButton(PlayerUnitData playerUnitData) {
+//    public UnitImageButton(PlayerUnits unitId, final boolean isUnlock) {
+        this.playerUnitData = playerUnitData;
+        this.unitId = playerUnitData.getUnitId();
+        this.isUnlock = playerUnitData.isUnlock();
         System.out.println("unitId = " + unitId);
-        bgImage = new Image(Warfare.atlas.findRegion(unitId.name().toLowerCase() + "Active"));
-        dwnImage = new Image(Warfare.atlas.findRegion(unitId.name().toLowerCase() + "Inactive"));
+        activeImage = new Image(Warfare.atlas.findRegion(unitId.name().toLowerCase() + "Active"));
+        inactiveImage = new Image(Warfare.atlas.findRegion(unitId.name().toLowerCase() + "Inactive"));
         lockImage = new Image(Warfare.atlas.findRegion(unitId.name().toLowerCase() + "Lock"));
+        height = activeImage.getHeight();
 
-        setSize(bgImage.getWidth(), bgImage.getHeight());
-        dwnImage.setVisible(false);
-        bgImage.setVisible(false);
+        setSize(activeImage.getWidth(), activeImage.getHeight());
+        activeImage.setVisible(true);
+        inactiveImage.setVisible(false);
         lockImage.setVisible(false);
 
         if (isUnlock) {                     // если разблокирован
-            bgImage.setVisible(true);
+            activeImage.setVisible(true);
+            lockImage.setVisible(false);
         } else {                            // в противном случае, заблокирован
             lockImage.setVisible(true);
+            activeImage.setVisible(false);
+            inactiveImage.setVisible(false);
         }
-        addActor(bgImage);
-        addActor(dwnImage);
-        dwnImage.setPosition(0, -10);
+        addActor(activeImage);
+        addActor(inactiveImage);
+        inactiveImage.setPosition(0, -10);
         addActor(lockImage);
+//        setInActive();
 
         addCaptureListener(new EventListener() { // добавляет слушателя события корневому элементу, отключая его для дочерних элементов
             @Override
@@ -46,6 +59,15 @@ public class UnitImageButton extends Group {
                 return true;
             }
         });
+        addClickListener();
+    }
+
+    @Override
+    public void draw(Batch batch, float parentAlpha) {
+        super.draw(batch, parentAlpha);
+    }
+
+    private void addClickListener() {
         addListener(new ClickListener() { // создаем слушателя события нажатия кнопки
             // переопределяем метод TouchDown(), который называется прикасание
 
@@ -54,8 +76,9 @@ public class UnitImageButton extends Group {
                 if (!isUnlock) {
                     lockImage.setY(lockImage.getY() - 10);
                 } else {
-                    dwnImage.setVisible(true); // устанавливаем видимость для фона нажатой кнопки, а также оставим вызов метода суперкласса
-                    bgImage.setVisible(false);
+//                    dwnImage.setVisible(true); // устанавливаем видимость для фона нажатой кнопки, а также оставим вызов метода суперкласса
+//                    bgImage.setVisible(false);
+                    activeImage.setY(activeImage.getY() - 10);
                 }
                 return super.touchDown(event, x, y, pointer, button);
             }
@@ -64,24 +87,35 @@ public class UnitImageButton extends Group {
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 if (!isUnlock) {
                     lockImage.setY(lockImage.getY() + 10);
+                    activeImage.setY(activeImage.getY() + 10);
                 } else {
-                    dwnImage.setVisible(false);
-                    bgImage.setVisible(true);
+//                    activeImage.setY(activeImage.getY() + 10);
+                    activeImage.setY(activeImage.getY() + 10);
                 }
                 super.touchUp(event, x, y, pointer, button);
             }
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                buttonClicked();
+                super.clicked(event, x, y);
+            }
         });
+    }
+
+    public void buttonClicked() {
+
     }
 
     public void unlock() {
         isUnlock = true;
         lockImage.setVisible(false);
-        bgImage.setVisible(true);
+        activeImage.setVisible(true);
     }
 
     public void setInActive() {
-        bgImage.setVisible(false);
-        dwnImage.setVisible(true);
+        activeImage.setVisible(false);
+        inactiveImage.setVisible(true);
 //        isReadyUnitButton = false;
     }
 }

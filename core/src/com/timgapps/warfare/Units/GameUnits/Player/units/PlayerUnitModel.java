@@ -29,6 +29,7 @@ public class PlayerUnitModel extends GameUnitModel {
     public PlayerUnitModel(Level level, Vector2 position, PlayerUnitData playerUnitData) {
         super(level, position);
         this.playerUnitData = playerUnitData;
+        System.out.println("PlayerUnitModel = " + playerUnitData.getUnitId());
         speed = playerUnitData.getSpeed();
         name = playerUnitData.getName();
         damage = playerUnitData.getDamage();

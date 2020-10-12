@@ -17,9 +17,10 @@ import com.boontaran.MessageListener;
 import com.boontaran.games.StageGame;
 import com.timgapps.warfare.Level.GUI.Finger;
 import com.timgapps.warfare.Level.GUI.HUD;
+import com.timgapps.warfare.Level.GUI.Screens.PlayerUnitData;
+import com.timgapps.warfare.Level.GUI.team_unit.CreateUnitButton;
 import com.timgapps.warfare.Level.GUI.team_unit.TeamUnit;
 import com.timgapps.warfare.Level.GUI.StoneButton;
-import com.timgapps.warfare.Level.GUI.team_unit.UnitButton;
 import com.timgapps.warfare.Level.GUI.team_unit.UnitImageButton;
 import com.timgapps.warfare.Level.LevelScreens.ColorRectangle;
 import com.timgapps.warfare.Level.LevelScreens.GameOverScreen;
@@ -69,7 +70,7 @@ public class Level extends StageGame {
     private int coinsCount;         // кол-во монет у игрока
     private int levelNumber;
     private GameManager gameManager;
-    Random random;
+    private Random random;
     private ArrayList<TeamUnit> team;
     private Barricade barricade;
     private Image rockBig, rockMiddle, rockSmall;
@@ -128,11 +129,14 @@ public class Level extends StageGame {
         unitCreator.createUnit("Zombie3", new Vector2(5000, 300));
         unitCreator.createUnit("Zombie3", new Vector2(3000, 220));
         unitCreator.createUnit("Zombie1", new Vector2(900, 270));
+        unitCreator.createUnit("Zombie2", new Vector2(600, 230));
+        unitCreator.createUnit("Zombie1", new Vector2(540, 240));
+        unitCreator.createUnit("Zombie2", new Vector2(720, 270));
 //        unitCreator.createUnit("Thor", new Vector2(100, 200));
-        unitCreator.createUnit("Thor", new Vector2(200, 220));
-        unitCreator.createUnit("Gnome", new Vector2(400, 200));
-        unitCreator.createUnit("Knight", new Vector2(400, 200));
-        unitCreator.createUnit("Archer", new Vector2(400, 200));
+//        unitCreator.createUnit("Thor", new Vector2(200, 220));
+//        unitCreator.createUnit("Gnome", new Vector2(400, 200));
+//        unitCreator.createUnit("Knight", new Vector2(400, 200));
+//        unitCreator.createUnit("Archer", new Vector2(400, 200));
 
         coinsCount = gameManager.getCoinsCount();
         hud = new HUD(this);
@@ -202,6 +206,10 @@ public class Level extends StageGame {
                 }
             }
         });
+    }
+
+    public void createPlayerUnit(PlayerUnits unitId) {
+        unitCreator.createUnit(unitId.name(), new Vector2(200 + random.nextFloat() * 16 - 8, 220));
     }
 
     public void addEnemyUnitToEnemyArray(EnemyUnitModel enemyUnit) {
@@ -489,9 +497,11 @@ public class Level extends StageGame {
 
         // метод добавляет кнопки юнитов в соответствии с командой
         void addUnitButtons() {
-            for (int i = 0; i < team.size(); i++) {
-                unitButtonArrayList.add(team.get(i).getUnitImageButton());
-                if (team.get(i).getUnitId() != PlayerUnits.Stone) {
+            for (TeamUnit teamUnit : team) {
+//            for (int i = 0; i < team.size(); i++) {
+                unitButtonArrayList.add(new CreateUnitButton(level, teamUnit.getUnitData()));
+//                unitButtonArrayList.add(team.get(i).getUnitImageButton());
+                if (teamUnit.getUnitId() != PlayerUnits.Stone) {
                     this.addListener(new ClickListener() {
                         @Override
                         public void clicked(InputEvent event, float x, float y) {

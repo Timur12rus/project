@@ -128,7 +128,7 @@ public class Zombie2UnitView extends EnemyUnitView {
         frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Walk2")));
         frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Walk1")));
 //        frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Walk0")));
-        walkAnimation = new Animation(0.15f, frames);
+        walkAnimation = new Animation(0.12f, frames);
         frames.clear();
 
         for (int i = 0; i < 5; i++)

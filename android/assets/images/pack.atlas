@@ -4,23 +4,9 @@ size: 2048,2048
 format: RGBA8888
 filter: MipMapLinearNearest,Linear
 repeat: none
-archer1Active
+archerActive
   rotate: false
   xy: 582, 1163
-  size: 96, 104
-  orig: 96, 104
-  offset: 0, 0
-  index: -1
-archer1Inactive
-  rotate: false
-  xy: 1934, 328
-  size: 96, 104
-  orig: 96, 104
-  offset: 0, 0
-  index: -1
-archer1Lock
-  rotate: false
-  xy: 1935, 222
   size: 96, 104
   orig: 96, 104
   offset: 0, 0
@@ -93,6 +79,20 @@ archerDie4
   xy: 390, 283
   size: 204, 102
   orig: 204, 102
+  offset: 0, 0
+  index: -1
+archerInactive
+  rotate: false
+  xy: 1934, 328
+  size: 96, 104
+  orig: 96, 104
+  offset: 0, 0
+  index: -1
+archerLock
+  rotate: false
+  xy: 1935, 222
+  size: 96, 104
+  orig: 96, 104
   offset: 0, 0
   index: -1
 archerStay0

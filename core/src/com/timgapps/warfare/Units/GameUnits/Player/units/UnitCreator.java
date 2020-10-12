@@ -65,7 +65,7 @@ public class UnitCreator {
                 }
                 System.out.println("PLAYER UNIT ID = " + playerUnitId);
 //                System.out.println("getUnitData = " +  level.getGameManager().getUnitData(playerUnitId.toString()).toString());
-                PlayerUnitModel playerUnitModel = new PlayerUnitModel(level, position, level.getGameManager().getUnitData(playerUnitId.toString()));
+                PlayerUnitModel playerUnitModel = new PlayerUnitModel(level, position, level.getGameManager().getUnitData(playerUnitId));
                 switch (playerUnitId) {
                     case Thor:
                         ThorController thorController = new ThorController(level, playerUnitModel);

@@ -133,21 +133,12 @@ public class SavedGame implements Serializable {
         teamDataList.add(new PlayerUnitData(PlayerUnits.Thor));
         teamDataList.get(0).setDefaultData(PlayerUnits.Thor);
 
-        // здесь создаем команду, иначе будет выдавать null , т.к. юниты не добавлены в команду
-        teamDataList.add(new PlayerUnitData(PlayerUnits.Archer));
-        teamDataList.get(1).setDefaultData(PlayerUnits.Archer);
-
+        teamDataList.add(new PlayerUnitData(PlayerUnits.Gnome));
+        teamDataList.get(1).setDefaultData(PlayerUnits.Gnome);
         teamDataList.add(new PlayerUnitData(PlayerUnits.Knight));
         teamDataList.get(2).setDefaultData(PlayerUnits.Knight);
-
-        teamDataList.add(new PlayerUnitData(PlayerUnits.Gnome));
-        teamDataList.get(3).setDefaultData(PlayerUnits.Gnome);
-//        teamDataList.add(new TeamEntityData(TeamEntityData.KNIGHT));
-//        teamDataList.get(1).setDefaultData(TeamEntityData.KNIGHT);
-//        teamDataList.add(new TeamEntityData(TeamEntityData.ARCHER));
-//        teamDataList.get(2).setDefaultData(TeamEntityData.ARCHER);
-//        teamDataList.add(new TeamEntityData(TeamEntityData.STONE));
-//        teamDataList.get(2).setDefaultData(TeamEntityData.STONE);
+        teamDataList.add(new PlayerUnitData(PlayerUnits.Archer));
+        teamDataList.get(3).setDefaultData(PlayerUnits.Archer);
     }
 
     /**
@@ -155,14 +146,14 @@ public class SavedGame implements Serializable {
      **/
     public void createCollectionDataList() {
         collectionDataList = new ArrayList<PlayerUnitData>();
-        collectionDataList.add(new PlayerUnitData(PlayerUnits.Stone));
-        collectionDataList.get(0).setDefaultData(PlayerUnits.Stone);
-        collectionDataList.add(new PlayerUnitData(PlayerUnits.Archer));
-        collectionDataList.get(1).setDefaultData(PlayerUnits.Archer);
+//        collectionDataList.add(new PlayerUnitData(PlayerUnits.Stone));
+//        collectionDataList.add(new PlayerUnitData(PlayerUnits.Archer));
         collectionDataList.add(new PlayerUnitData(PlayerUnits.Gnome));
-        collectionDataList.get(2).setDefaultData(PlayerUnits.Gnome);
-        collectionDataList.add(new PlayerUnitData(PlayerUnits.Knight));
-        collectionDataList.get(3).setDefaultData(PlayerUnits.Knight);
+//        collectionDataList.add(new PlayerUnitData(PlayerUnits.Knight));
+
+        for (PlayerUnitData collectionUnitData : collectionDataList) {
+            collectionUnitData.setDefaultData(collectionUnitData.getUnitId());
+        }
     }
 
     public ArrayList<PlayerUnitData> getCollectionDataList() {

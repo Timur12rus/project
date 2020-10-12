@@ -1,10 +1,7 @@
 package com.timgapps.warfare.Level.GUI.Screens;
 
-import com.timgapps.warfare.Units.GameUnits.Player.units.Thor;
 import com.timgapps.warfare.Units.GameUnits.UnitData;
 import com.timgapps.warfare.Units.GameUnits.unitTypes.PlayerUnits;
-
-import java.io.Serializable;
 
 public class PlayerUnitData extends UnitData {
     private PlayerUnits unitId;
@@ -16,7 +13,7 @@ public class PlayerUnitData extends UnitData {
     private boolean isUnlock = false;
     private int starsCount;
     private int energyPrice;
-    private int timePrepare;        // время приготовления
+    private int appearanceTime;        // время приготовления
 
     public PlayerUnitData(PlayerUnits unitId) {
         this.unitId = unitId;
@@ -26,85 +23,89 @@ public class PlayerUnitData extends UnitData {
     public void setDefaultData(PlayerUnits unitId) {
         switch (unitId) {
             case Gnome:
+                name = "Gnome";
                 damage = 14;
                 health = 30;
                 speed = 0.8f;
                 energyPrice = 15;
-                timePrepare = 10;
+                appearanceTime = 10;
                 deltaX = -124;
                 deltaY = 0;
                 barDeltaX = -84;
                 barDeltaY = 0;
                 starsCount = 15;
-                name = "Gnome";
-                // TODO: 23.01.2020 Исправить ПОЛУЧИТЬ ЗНАЧЕНИЕ УРОВНЯ ЮНИТА
                 unitLevel = 1;
                 break;
             case Archer:
+                name = "Archer";
                 damage = 10;
                 health = 30;
+                speed = 0.5f;
                 energyPrice = 20;
-                timePrepare = 25;
+                appearanceTime = 25;
                 deltaX = -174;
                 deltaY = 0;
                 barDeltaX = -64;        // смещение healthBar по оси х
                 barDeltaY = 8;
                 starsCount = 4;
-                speed = 0.5f;
-                name = "Archer";
                 unitLevel = 1;
                 break;
             case Knight:
+                name = "Knight";
                 damage = 15;
                 health = 20;
+                speed = 0.4f;
                 energyPrice = 25;
-                timePrepare = 18;
+                appearanceTime = 18;
                 deltaX = -142;
                 deltaY = -24;
                 barDeltaX = -84;        // смещение healthBar по оси х
                 barDeltaY = 0;
                 starsCount = 50;
-                speed = 0.4f;
-                name = "Knight";
                 unitLevel = 1;
                 break;
             case Thor:
+                name = "Thor";
                 damage = 12;
                 health = 20;
+                speed = 0.9f;
                 energyPrice = 15;
-                timePrepare = 18;
+                appearanceTime = 18;
                 deltaX = -100;
 //                deltaX = -124;
                 deltaY = -8;
                 barDeltaX = -84;        // смещение healthBar по оси х
                 barDeltaY = 0;
                 unitLevel = 1;
-                speed = 0.9f;
-                name = "Thor";
+                isUnlock = true;
                 break;
             case Stone:
+                name = "Stone";
                 damage = 10;
                 health = 50;
+                speed = 0;
                 starsCount = 1;
                 energyPrice = 8;
-                timePrepare = 10;
+                appearanceTime = 10;
                 unitLevel = 1;
-                speed = 0;
-                name = "Stone";
                 break;
             case None:
-                energyPrice = 0;
-                timePrepare = 0;
+                name = "None";
                 damage = 0;
                 health = 0;
-                starsCount = 0;
                 speed = 0;
-                name = "None";
+                energyPrice = 0;
+                appearanceTime = 0;
+                starsCount = 0;
                 break;
         }
         if (unitId.equals(PlayerUnits.Thor)) {
             setUnlock();        // разблокируем юнита "THOR" , первый доступный юнит
         }
+    }
+
+    public float getAppearanceTime() {
+        return appearanceTime;
     }
 
     // метод возвращает значение скорость юнита

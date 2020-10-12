@@ -8,6 +8,7 @@ import com.timgapps.warfare.Units.GameUnits.unitTypes.PlayerUnits;
 public class TeamUnit {
     private PlayerUnitData data;
     private UnitImageButton unitImageButton;
+    private CreateUnitButton createUnitButton;
     private UnitImage unitImage;
     private PlayerUnits unitId;
     private int damage;
@@ -35,7 +36,7 @@ public class TeamUnit {
         this.unitId = data.getUnitId();
         this.data = data;
         name = data.getName();
-        unitImageButton = new UnitImageButton(unitId, data.isUnlock());
+        unitImageButton = new UnitImageButton(data);
         speed = (int) (data.getSpeed() * 10 * 2);           // скорость юнита отображаемая в характеристиках в таблице апгрейда
         addHealthValue = 2;
         addDamageValue = 2;

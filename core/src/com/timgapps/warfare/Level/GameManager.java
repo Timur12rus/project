@@ -11,6 +11,7 @@ import com.timgapps.warfare.Level.GUI.Screens.reward_for_stars.RewardForStarsDat
 import com.timgapps.warfare.Level.LevelMap.ScorePanel;
 import com.timgapps.warfare.Level.LevelMap.StarsPanel;
 import com.timgapps.warfare.Level.SavedData.SavedGame;
+import com.timgapps.warfare.Units.GameUnits.unitTypes.PlayerUnits;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -26,8 +27,6 @@ import java.util.ArrayList;
  */
 public class GameManager {
     private ArrayList<TeamUnit> team;     // команда, массив объектов TeamEntity()
-    //    private Map<UnitType, TeamUnit> team;      // команда, мап <тип юнита, модель юнита>
-    //    private ArrayList<TeamUnit> team;     // команда, массив объектов TeamEntity()
     private ArrayList<PlayerUnitData> teamDataList;     // команда, массив объектов TeamEntity()
     private ArrayList<PlayerUnitData> collectionDataList;     // команда, массив объектов TeamEntity()
     private ArrayList<TeamUnit> collection;     // коллекция, массив объектов TeamEntity()
@@ -36,29 +35,21 @@ public class GameManager {
     private int coinsCount;
     private int scoreCount;
     private int starsCount;
-
     private int foodCount;      // количество пищи
     private int ironCount;      // количестов железа
     private int woodCount;      // количество дерева
-
     private float towerHealth;  // количество здоровья у ОСАДНОЙ БАШНИ
-
     private CoinsPanel coinsPanel;
     protected ScorePanel scorePanel;
     protected StarsPanel starsPanel;
-
     private int scoreRewardforLevel = 0;
     private int coinsRewardForLevel = 0;
-
     private ArrayList<LevelIcon> levelIcons = new ArrayList<LevelIcon>();
     private SavedGame savedGame;
-
     private DataManager manager;
-
     private long giftTimeFirst;      // время до получения первого подарка
     private long giftTimeSecond;      // время до получения второго подарка
     private int indexOfRewardStars;
-
     public static final int HELP_UNIT_CREATE = 1;
     public static final int HELP_STARS_PANEL = 2;
     public static final int HELP_TEAM_UPGRADE = 3;
@@ -69,11 +60,7 @@ public class GameManager {
     public GameManager() {
 
         /** загрузим данные игры **/
-
-
         /** создадим КОМАНДУ - массив юнитов в команде**/
-
-//        team = new ArrayList<TeamEntity>();
 
         // создаем объект для сохранения игры
         savedGame = loadSavedGame();
@@ -83,15 +70,12 @@ public class GameManager {
 //        public LevelIcon(int id, int coinsCount, int scoreCount, String levelOfDifficulty, boolean isActive) {
 //        levelIcons.add(new LevelIcon(1, 15, 10, LevelIcon.EASY, true));
 
-        team = new ArrayList<TeamUnit>();
-//        team = new HashMap<UnitType, TeamUnit>();
-        collection = new ArrayList<TeamUnit>();
+        team = new ArrayList<TeamUnit>();            // команда юнитов
+        collection = new ArrayList<TeamUnit>();     // коллекция юнитов
 
         // если сохранения нет(запускает игру впервый раз), null, то создадим объект для схранниения игры и создадим объект "КОМАНДА" team
         if (savedGame == null) {
-//            System.out.println("SavedGame null ");
             savedGame = new SavedGame();
-
             savedGame.setHelpStatus(GameManager.HELP_UNIT_CREATE);      // установим статус обучалки - "создание юнита"
 
             /** создаем массив "ДАННЫХ" об уровнях (LevelIconData) **/
@@ -119,57 +103,32 @@ public class GameManager {
             savedGame.setFoodCount(foodCount);
             savedGame.setIronCount(ironCount);
             savedGame.setWoodCount(woodCount);
-
-
             /** создадим КОМАНДУ - массив юнитов в команде */
 
-            /** установим значения по умолчанию  для данных TeamEntity **/
-//            savedGame.getTeamDataList().get(0).setDefaultData();
-            team.add(new TeamUnit(savedGame.getTeamDataList().get(0)));
-            team.add(new TeamUnit(savedGame.getTeamDataList().get(1)));
-            team.add(new TeamUnit(savedGame.getTeamDataList().get(2)));
-            team.add(new TeamUnit(savedGame.getTeamDataList().get(3)));
-//            team.add(new TeamUnit(savedGame.getTeamDataList().get(4)));
-//            team.add(new TeamEntity(savedGame.getTeamDataList().get(1)));
-//            team.add(new TeamEntity(savedGame.getTeamDataList().get(2)));
-
+            /** установим значения по умолчанию  для данных TeamUnit **/
+            for (PlayerUnitData savedUnitData : savedGame.getTeamDataList()) {
+                team.add(new TeamUnit(savedUnitData));
+                System.out.println("saved UnitId = " + savedUnitData.getUnitId());
+            }
 
             /** создадим КОЛЛЕКЦИЮ - массив юнитов в коллекции  **/
-            collection.add(new TeamUnit(savedGame.getCollectionDataList().get(0)));
-            collection.add(new TeamUnit(savedGame.getCollectionDataList().get(1)));
-
-//            collection.add(new TeamEntity(savedGame.getCollectionDataList().get(1)));
-//            collection.add(new TeamEntity(savedGame.getCollectionDataList().get(1)));
-//            collection.add(new TeamEntity(savedGame.getCollectionDataList().get(1)));
-//            collection.add(new TeamEntity(savedGame.getCollectionDataList().get(1)));
-//            collection.add(new TeamEntity(savedGame.getCollectionDataList().get(1)));
-//            collection.add(new TeamEntity(savedGame.getCollectionDataList().get(1)));
-//            collection.add(new TeamEntity(savedGame.getCollectionDataList().get(1)));
-//            collection.add(new TeamEntity(savedGame.getCollectionDataList().get(1)));
-//            collection.add(new TeamEntity(savedGame.getCollectionDataList().get(1)));
-
-            collection.add(new TeamUnit(savedGame.getCollectionDataList().get(2)));
-            collection.add(new TeamUnit(savedGame.getCollectionDataList().get(3)));
-//            collection.add(new TeamEntity(savedGame.getCollectionDataList().get(4)));
+            for (PlayerUnitData savedUnitData : savedGame.getCollectionDataList()) {
+                collection.add(new TeamUnit(savedUnitData));
+            }
 
             giftTimeFirst = 0;
             giftTimeSecond = 0;
             savedGame.setGiftTimeFirst(giftTimeFirst);
             savedGame.setGiftTimeSecond(giftTimeSecond);
-//            savedGame.setTeam(team);
         } else {
             teamDataList = savedGame.getTeamDataList();
             collectionDataList = savedGame.getCollectionDataList();
-            for (int i = 0; i < teamDataList.size(); i++) {
-                team.add(new TeamUnit(savedGame.getTeamDataList().get(i)));
+            for (PlayerUnitData playerUnitData : teamDataList) {
+                team.add(new TeamUnit(playerUnitData));
             }
-            for (int i = 0; i < collectionDataList.size(); i++) {
-                collection.add(new TeamUnit(savedGame.getCollectionDataList().get(i)));
+            for (PlayerUnitData playerUnitData : collectionDataList) {
+                collection.add(new TeamUnit(playerUnitData));
             }
-//            collection.add(new TeamEntity(savedGame.getCollectionDataList().get(0)));
-//            collection.add(new TeamEntity(savedGame.getCollectionDataList().get(1)));
-//            collection.add(new TeamEntity(savedGame.getCollectionDataList().get(2)));
-
             // получим кол-во ресурсов
             foodCount = savedGame.getFoodCount();
             ironCount = savedGame.getIronCount();
@@ -193,33 +152,16 @@ public class GameManager {
         } else {
             rewardStarsCount = rewardForStarsDataList.get(rewardForStarsDataList.size() - 1).getStarsCount();
         }
-        System.out.println("REWARDsTARScOUNT= " + rewardStarsCount);
-        System.out.println("indexOfRewardStars = " + indexOfRewardStars);
-
         coinsPanel = new CoinsPanel(coinsCount);
         scorePanel = new ScorePanel(scoreCount);
         starsPanel = new StarsPanel(starsCount, rewardStarsCount, rewardForStarsDataList, indexOfRewardStars);
-
         giftTimeFirst = savedGame.getGiftTimeFirst();       // получим сохраненное время для получения первого подарка
         giftTimeSecond = savedGame.getGiftTimeSecond();     // получим сохраненное время для получения второго подарка
-
         for (int i = 0; i < savedGame.getLevelIconDataList().size(); i++) {
             levelIcons.add(new LevelIcon(savedGame.getLevelIconDataList().get(i)));
         }
-
         /** получи кол-во здоровья ОСАДНОЙ БАШНИ **/
         towerHealth = 50;
-
-//        /** Добавляем бойцов в команду **/
-//        // TODO: 31.01.2020  Здесь нужно будет изменить код, так чтобы брать данные из сохранненного объекта
-//        team.add(new TeamEntity(TeamEntity.GNOME));
-//        team.add(new TeamEntity(TeamEntity.ARCHER));
-//        team.add(new TeamEntity(TeamEntity.STONE));
-
-        /** Добавляем бойцов в коллекцию **/
-        // TODO: 31.01.2020  Здесь нужно будет изменить код, так чтобы брать данные из сохранненного объекта
-//
-//        collection.add(new TeamEntity(TeamEntity.THOR));
     }
 
     /**
@@ -303,7 +245,6 @@ public class GameManager {
 //            FileOutputStream outputStream = new FileOutputStream("save.ser");
 //            FileOutputStream outputStream = new FileOutputStream(String.valueOf(Gdx.files.local("save.ser")));
 //            ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
-
 
             ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArray);
@@ -485,10 +426,9 @@ public class GameManager {
     }
 
     // метод получает UnitData юнита из команды
-    public PlayerUnitData getUnitData(String id) {
+    public PlayerUnitData getUnitData(PlayerUnits id) {
         for (TeamUnit teamUnit : team) {
-            System.out.println("teamUnit.getUnitData.getUnitId = " + teamUnit.getUnitData().getUnitId());
-            if (id.equals(teamUnit.getUnitData().getUnitId().name())) {
+            if (id.equals(teamUnit.getUnitData().getUnitId())) {
                 return teamUnit.getUnitData();
             }
         }

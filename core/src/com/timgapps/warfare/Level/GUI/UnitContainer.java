@@ -1,14 +1,13 @@
 package com.timgapps.warfare.Level.GUI;
 
 import com.badlogic.gdx.scenes.scene2d.Group;
-import com.timgapps.warfare.Level.GUI.team_unit.UnitButton;
+import com.timgapps.warfare.Level.GUI.team_unit.UnitImageButton;
 
 public class UnitContainer extends Group {
+    private UnitImageButton unitImageButton;
 
-    private com.timgapps.warfare.Level.GUI.team_unit.UnitButton unitButton;
-
-    public UnitContainer(UnitButton unitButton) {
-        this.unitButton = unitButton;
-        addActor(unitButton);
+    public UnitContainer(UnitImageButton unitImageButton) {
+        this.unitImageButton = unitImageButton;
+        addActor(unitImageButton);
     }
 }
