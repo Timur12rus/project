@@ -72,20 +72,23 @@ public class ThorController extends PlayerUnitController implements PlayerWarrio
                 } else {
                     moveToTarget();
                 }
-        } else if (barricade.getHealth() > 0) {
-            System.out.println("barricadeHealth = " + barricade.getHealth());
-            model.setIsTouchedBarricade(checkCollision(body, barricade.getBody()));
-            if (model.isTouchedBarricade()) {
-                attackBarricade();
+            } else if (barricade.getHealth() > 0) {
+                System.out.println("barricadeHealth = " + barricade.getHealth());
+                model.setIsTouchedBarricade(checkCollision(body, barricade.getBody()));
+                if (model.isTouchedBarricade()) {
+                    attackBarricade();
+                } else {
+                    move();
+                }
             } else {
                 move();
             }
         } else {
-            move();
+            velocity.set(0, 0);
+            model.setVelocity(velocity);
         }
-    }
 
-}
+    }
 
     // метод для поиска вражеского юнита (юнит которого будем атаковать))
 

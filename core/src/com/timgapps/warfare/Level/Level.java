@@ -407,7 +407,8 @@ public class Level extends StageGame {
         return coinsCount;
     }
 
-    public void setEnergyCount(float priceEnergy) {
+    // вычитает кол-во энергии из общего кол-ва энергии
+    public void subEnergyCount(float priceEnergy) {
         this.energyCount -= priceEnergy;
     }
 

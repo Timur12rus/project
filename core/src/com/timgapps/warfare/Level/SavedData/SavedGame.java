@@ -133,12 +133,13 @@ public class SavedGame implements Serializable {
         teamDataList.add(new PlayerUnitData(PlayerUnits.Thor));
         teamDataList.get(0).setDefaultData(PlayerUnits.Thor);
 
-        teamDataList.add(new PlayerUnitData(PlayerUnits.Gnome));
-        teamDataList.get(1).setDefaultData(PlayerUnits.Gnome);
-        teamDataList.add(new PlayerUnitData(PlayerUnits.Knight));
-        teamDataList.get(2).setDefaultData(PlayerUnits.Knight);
-        teamDataList.add(new PlayerUnitData(PlayerUnits.Archer));
-        teamDataList.get(3).setDefaultData(PlayerUnits.Archer);
+        // это для теста
+//        teamDataList.add(new PlayerUnitData(PlayerUnits.Gnome));
+//        teamDataList.get(1).setDefaultData(PlayerUnits.Gnome);
+//        teamDataList.add(new PlayerUnitData(PlayerUnits.Knight));
+//        teamDataList.get(2).setDefaultData(PlayerUnits.Knight);
+//        teamDataList.add(new PlayerUnitData(PlayerUnits.Archer));
+//        teamDataList.get(3).setDefaultData(PlayerUnits.Archer);
     }
 
     /**
@@ -146,10 +147,10 @@ public class SavedGame implements Serializable {
      **/
     public void createCollectionDataList() {
         collectionDataList = new ArrayList<PlayerUnitData>();
-//        collectionDataList.add(new PlayerUnitData(PlayerUnits.Stone));
-//        collectionDataList.add(new PlayerUnitData(PlayerUnits.Archer));
+        collectionDataList.add(new PlayerUnitData(PlayerUnits.Stone));
+        collectionDataList.add(new PlayerUnitData(PlayerUnits.Archer));
         collectionDataList.add(new PlayerUnitData(PlayerUnits.Gnome));
-//        collectionDataList.add(new PlayerUnitData(PlayerUnits.Knight));
+        collectionDataList.add(new PlayerUnitData(PlayerUnits.Knight));
 
         for (PlayerUnitData collectionUnitData : collectionDataList) {
             collectionUnitData.setDefaultData(collectionUnitData.getUnitId());

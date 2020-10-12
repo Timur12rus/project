@@ -87,7 +87,7 @@ public class StoneButton extends UnitImageButton {
 
     private void throwStone(Level level, float x, float y, float damage, float health) {
         setInActive();
-        level.setEnergyCount(Stone.getEnergyPrice());
+        level.subEnergyCount(Stone.getEnergyPrice());
         new Stone(level, x, y + 600, damage, health, 32 + y + greenTarget.getHeight() / 2);
 //        new Stone(level, x, y + 600, damage, 14 + y + greenTarget.getHeight() / 2);
     }

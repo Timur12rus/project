@@ -3,7 +3,6 @@ package com.timgapps.warfare.Level.GUI.team_unit;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.timgapps.warfare.Level.GUI.Screens.PlayerUnitData;
 import com.timgapps.warfare.Level.Level;
 import com.timgapps.warfare.Warfare;
@@ -21,15 +20,17 @@ public class CreateUnitButton extends UnitImageButton {
     public CreateUnitButton(Level level, PlayerUnitData playerUnitData) {
         super(playerUnitData);
         this.level = level;
-        appearanceTime = 1;       // время появления юнита
-        energyPrice = 1;          // кол-во энергии для появления юнита
         // это для теста
+        appearanceTime = 1;       // время появления юнита
+//        energyPrice = 1;          // кол-во энергии для появления юнита
+
 //        appearanceTime = playerUnitData.getAppearanceTime();    // время появления юнита
-//        energyPrice = playerUnitData.getEnergyPrice();          // кол-во энергии для появления юнита
+        energyPrice = playerUnitData.getEnergyPrice();          // кол-во энергии для появления юнита
         interpolation = (height / appearanceTime) / 60;
 
         darkLayer = new TextureRegion(Warfare.atlas.findRegion("unitButtonDark"));
         height = darkLayer.getRegionHeight();
+        lockImage.setVisible(false);
         setInActive();
     }
 
@@ -58,7 +59,7 @@ public class CreateUnitButton extends UnitImageButton {
             isReadyUnitButton = false;
             setInActive();
             System.out.println("Add new Player unit " + playerUnitData.getUnitId());
-            level.setEnergyCount(level.getEnergyCount() - playerUnitData.getEnergyPrice());
+            level.subEnergyCount(playerUnitData.getEnergyPrice());
             level.createPlayerUnit(playerUnitData.getUnitId());
         }
     }
@@ -67,7 +68,6 @@ public class CreateUnitButton extends UnitImageButton {
         percentage = 0;
         activeImage.setVisible(true);
         inactiveImage.setVisible(false);
-//        isReadyUnitButton = true;
     }
 
     protected boolean checkEnergyCount(int energyPrice) {

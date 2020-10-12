@@ -73,8 +73,9 @@ public class UnitImageButton extends Group {
 
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if (!isUnlock) {
-                    lockImage.setY(lockImage.getY() - 10);
+                if (!isUnlock) {        // если заблокирован юнит
+                    lockImage.setY(lockImage.getY() - 10);      // изображение с блокировкой
+                    activeImage.setY(activeImage.getY() - 10);
                 } else {
 //                    dwnImage.setVisible(true); // устанавливаем видимость для фона нажатой кнопки, а также оставим вызов метода суперкласса
 //                    bgImage.setVisible(false);
@@ -89,8 +90,8 @@ public class UnitImageButton extends Group {
                     lockImage.setY(lockImage.getY() + 10);
                     activeImage.setY(activeImage.getY() + 10);
                 } else {
-//                    activeImage.setY(activeImage.getY() + 10);
                     activeImage.setY(activeImage.getY() + 10);
+//                    activeImage.setY(activeImage.getY() + 10);
                 }
                 super.touchUp(event, x, y, pointer, button);
             }

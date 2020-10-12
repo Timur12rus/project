@@ -1648,28 +1648,28 @@ star_panel_small
   orig: 118, 51
   offset: 0, 0
   index: -1
-stoneButtonActive
+stoneActive
   rotate: false
   xy: 694, 404
   size: 96, 104
   orig: 96, 104
   offset: 0, 0
   index: -1
-stoneButtonInactive
+stoneButton_lock
   rotate: false
   xy: 792, 404
   size: 96, 104
   orig: 96, 104
   offset: 0, 0
   index: -1
-stoneButtonLock
+stoneInactive
   rotate: false
   xy: 890, 404
   size: 96, 104
   orig: 96, 104
   offset: 0, 0
   index: -1
-stoneButton_lock
+stoneLock
   rotate: false
   xy: 988, 404
   size: 96, 104

@@ -7,7 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.timgapps.warfare.Level.GUI.team_unit.TeamUnit;
 import com.timgapps.warfare.Level.GUI.Screens.PlayerUnitData;
 import com.timgapps.warfare.Level.Level;
 //import com.timgapps.warfare.Units.GameUnits.Player.units.Archer1;
@@ -121,7 +120,7 @@ public class UnitButton extends Group {
         switch (unitType) {
             case Gnome:
                 level.addGnome(health, damage);
-                level.setEnergyCount(Gnome.getEnergyPrice());    // установим количество энергии, вычтем стоимость энергии для появления юнита
+                level.subEnergyCount(Gnome.getEnergyPrice());    // установим количество энергии, вычтем стоимость энергии для появления юнита
                 break;
             case Archer:
                 level.addArcher1(health, damage);
@@ -129,11 +128,11 @@ public class UnitButton extends Group {
                 break;
             case Thor:
                 level.addThor(health, damage);
-                level.setEnergyCount(Thor.getEnergyPrice());    // установим количество энергии, вычтем стоимость энергии для появления юнита
+                level.subEnergyCount(Thor.getEnergyPrice());    // установим количество энергии, вычтем стоимость энергии для появления юнита
                 break;
             case Knight:
                 level.addKnight(health, damage);
-                level.setEnergyCount(Knight.getEnergyPrice());  // установим количество энергии, вычтем стоимость энергии для появления юнита
+                level.subEnergyCount(Knight.getEnergyPrice());  // установим количество энергии, вычтем стоимость энергии для появления юнита
                 break;
         }
     }
