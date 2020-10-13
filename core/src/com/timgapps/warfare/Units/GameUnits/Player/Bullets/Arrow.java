@@ -13,11 +13,13 @@ import com.timgapps.warfare.Warfare;
 import java.util.ArrayList;
 
 public class Arrow extends Bullet {
-    public Arrow(Level level, Vector2 position, float damage) {
+    public Arrow(Level level, Vector2 position, float damage, Vector2 velocity) {
         super(level, position, damage);
         image = new TextureRegion(Warfare.atlas.findRegion("arrow"));
-        velocity.set(10f, 0);
+        this.velocity.set(velocity);
+//        velocity.set(10f, 0);
         level.addChild(this, position.x, position.y);
+        this.toFront();
         isDebug = true;
         deltaX = 12;
         deltaY = 42;

@@ -115,15 +115,17 @@ public class Level extends StageGame {
 //        unitCreator.createUnit("Zombie1", new Vector2(1200, 270));
 //        unitCreator.createUnit("Zombie2", new Vector2(400, 200));
 //        unitCreator.createUnit("Zombie1", new Vector2(750, 250));
-        unitCreator.createUnit("Zombie3", new Vector2(2500, 280));
-        unitCreator.createUnit("Zombie3", new Vector2(5000, 300));
-        unitCreator.createUnit("Zombie3", new Vector2(3000, 220));
-        unitCreator.createUnit("Zombie1", new Vector2(900, 270));
+
+//        unitCreator.createUnit("Zombie3", new Vector2(2500, 280));
+//        unitCreator.createUnit("Zombie3", new Vector2(5000, 300));
+//        unitCreator.createUnit("Zombie3", new Vector2(3000, 220));
+//        unitCreator.createUnit("Zombie1", new Vector2(900, 270));
         unitCreator.createUnit("Zombie2", new Vector2(600, 230));
-        unitCreator.createUnit("Zombie1", new Vector2(540, 240));
-        unitCreator.createUnit("Zombie2", new Vector2(720, 270));
-        unitCreator.createUnit("Skeleton1", new Vector2(640, 240));
-        unitCreator.createUnit("Skeleton2", new Vector2(820, 230));
+        unitCreator.createUnit("Zombie1", new Vector2(300, 240));
+//        unitCreator.createUnit("Zombie2", new Vector2(720, 270));
+//        unitCreator.createUnit("Skeleton1", new Vector2(640, 240));
+//        unitCreator.createUnit("Skeleton2", new Vector2(820, 230));
+
 //        unitCreator.createUnit("Thor", new Vector2(100, 200));
 //        unitCreator.createUnit("Thor", new Vector2(200, 220));
 //        unitCreator.createUnit("Gnome", new Vector2(400, 200));

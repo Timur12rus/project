@@ -14,12 +14,17 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Align;
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import com.timgapps.warfare.Level.Level;
 import com.timgapps.warfare.Units.GameUnits.DamageLabel;
 import com.timgapps.warfare.Units.GameUnits.Effects.Explosion;
 import com.timgapps.warfare.Units.GameUnits.Effects.Fire;
+import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitModel;
+import com.timgapps.warfare.Units.GameUnits.Player.Bullets.Arrow;
 import com.timgapps.warfare.Utils.Setting;
 import com.timgapps.warfare.Warfare;
+
+import javax.security.auth.login.FailedLoginException;
 
 public class SiegeTower extends Group {
     private Image tower, frontWheel, backWheel;
@@ -48,6 +53,13 @@ public class SiegeTower extends Group {
     private final float MAX_VELOCITY = 6;
     private float deltaAngle;
     private boolean isStart, isStop;
+    private boolean isAttack;
+    private boolean isHaveTarget;
+    private EnemyUnitModel targetEnemy;
+    private final float ATTACK_DISTANCE = 140;
+    private final float ATTACK_PAUSE_TIME = 180;
+    private float distanceToEnemy;
+    private float attackPauseTime;
 
     public SiegeTower(Level level, float x, float y, float health, float damage) {
         this.level = level;
@@ -76,7 +88,7 @@ public class SiegeTower extends Group {
         bodyPosition.set(x + tower.getWidth() - WIDTH / 3, y - 128);  // позиция тела
         body = createBody();
         smoke = new ParticleEffect();
-        smoke.load(Gdx.files.internal("effects/smoke.paty"), Gdx.files.internal("effects/")); //file);     /
+        smoke.load(Gdx.files.internal("effects/smoke.paty"), Gdx.files.internal("effects/")); //file);
 
         /** создадим HealthBar **/
         healthBarWidth = 108;        // ширина HealthBar
@@ -92,7 +104,6 @@ public class SiegeTower extends Group {
         addActor(explosion1);
         addActor(explosion2);
 
-
         /** создадим ОГОНЬ  и разместим его в координатах**/
         fire = new Fire(level);
         fire.setPosition(getX() + tower.getWidth() - 64, 48);
@@ -101,6 +112,98 @@ public class SiegeTower extends Group {
         level.addChild(this, x, y);
         shapeRenderer = new ShapeRenderer();
     }
+
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+        if (level.getState() != Level.PAUSED) {
+            checkToDestroy();       // проверяем, нужно ли уничтожить актера
+            smoke.update(delta);
+            if (explosion1.isEnd()) {
+                explosion2.start();
+            }
+            if (isMove) {
+                smoke.setPosition(getX() + tower.getWidth() - 32, 364);
+                rotateWheels();
+            }
+            if (targetEnemy == null && !isHaveTarget) {          // если не имеет врага
+                targetEnemy = findTarget();
+            }
+            if (targetEnemy == null && isHaveTarget) {
+                isHaveTarget = false;
+                isAttack = false;
+            }
+            if (targetEnemy != null) {
+                System.out.println("TARGET TOWER ENEMY = " + targetEnemy.getName());
+                if (targetEnemy.isDestroyed()) {
+                    targetEnemy = null;
+                    isHaveTarget = false;
+                    isAttack = false;
+                }
+            }
+            if (targetEnemy != null && !isAttack) {
+                attack();
+            }
+            if (isAttack) {
+                if (attackPauseTime < 0) {
+                    attackPauseTime = ATTACK_PAUSE_TIME;
+                    throwArrow();
+                }
+                attackPauseTime--;
+            }
+        }
+        // проверим, имеет ли башня цель-врага
+    }
+
+    private void attack() {
+        isAttack = true;
+        throwArrow();
+    }
+
+    private void throwArrow() {
+        System.out.println("Throw Arrow!");
+        Vector2 velocity = new Vector2(8, 0);
+        Vector2 startPosition = new Vector2(getX() + tower.getWidth() - 96, getY() + 140);
+        Vector2 endPosition = new Vector2(targetEnemy.getX(), targetEnemy.getY());
+        System.out.println("StartPosition = " + startPosition);
+        System.out.println("EndPosition = " + endPosition);
+        float angle = endPosition.sub(startPosition).angle();
+        velocity.setAngle(angle);
+        System.out.println("Angle = " + angle);
+        System.out.println("Velosity = " + velocity);
+        new Arrow(level, startPosition, 10, velocity).setRotation(angle);
+//        new Arrow(level, startPosition, 10, velocity.setAngle(0));
+    }
+
+    // метод устанавливает врага по которому будем стрелять
+    public void setTargetEnemy(EnemyUnitModel enemyUnitModel) {
+        targetEnemy = enemyUnitModel;
+    }
+
+    private EnemyUnitModel findTarget() {
+        if (level.getArrayEnemies().size() > 0) {
+            EnemyUnitModel enemyUnit = level.getArrayEnemies().get(0);
+            float minDistance = enemyUnit.getX() - bodyPosition.x;
+            targetEnemy = enemyUnit;
+            System.out.println("Target ENNNNEMMMYYY = " + targetEnemy);
+            for (EnemyUnitModel enemyUnitModel : level.getArrayEnemies()) {
+                distanceToEnemy = enemyUnitModel.getX() - bodyPosition.x;
+                if (distanceToEnemy < ATTACK_DISTANCE) {
+                    if (distanceToEnemy < minDistance) {
+                        minDistance = distanceToEnemy;
+                        targetEnemy = enemyUnitModel;
+                        return targetEnemy;
+                    }
+                }
+            }
+            if ((targetEnemy.getX() - bodyPosition.x) < ATTACK_DISTANCE) {
+                return targetEnemy;
+            }
+        }
+        return null;        // возвращаем, что врага нет
+    }
+
+    // метод для проверки, может ли башня выстрелить по варжескому юниту
 
     // метод для движения
     public void setIsMove(boolean isMove) {
@@ -200,23 +303,6 @@ public class SiegeTower extends Group {
 
     public float getFullHealth() {
         return fullHealth;
-    }
-
-
-    @Override
-    public void act(float delta) {
-        super.act(delta);
-        if (level.getState() != Level.PAUSED) {
-            checkToDestroy();       // проверяем, нужно ли уничтожить актера
-            smoke.update(delta);
-            if (explosion1.isEnd()) {
-                explosion2.start();
-            }
-            if (isMove) {
-                smoke.setPosition(getX() + tower.getWidth() - 32, 364);
-                rotateWheels();
-            }
-        }
     }
 
     public void startMove() {
