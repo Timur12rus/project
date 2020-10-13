@@ -39,8 +39,11 @@ public class EnemyUnitView extends GameUnitView {
         fadeOutAction = new SequenceAction(Actions.delay(1.5f), Actions.fadeOut(1f),
                 checkEndOfAction
         );
-        setSize(Warfare.atlas.findRegion(model.getUnitData().getName().toLowerCase() + "Stay1").getRegionWidth(),
-                Warfare.atlas.findRegion(model.getUnitData().getName().toLowerCase() + "Stay1").getRegionHeight());
+//        setSize(Warfare.atlas.findRegion(model.getUnitData().getName().toLowerCase() + "Stay1").getRegionWidth(),
+//                Warfare.atlas.findRegion(model.getUnitData().getName().toLowerCase() + "Stay1").getRegionHeight());
+
+        setSize(Warfare.atlas.findRegion(model.getUnitData().getUnitId().name().toLowerCase() + "Stay1").getRegionWidth(),
+                Warfare.atlas.findRegion(model.getUnitData().getUnitId().name().toLowerCase() + "Stay1").getRegionHeight());
     }
 
     @Override

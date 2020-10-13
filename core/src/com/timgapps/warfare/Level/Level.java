@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -17,7 +16,6 @@ import com.boontaran.MessageListener;
 import com.boontaran.games.StageGame;
 import com.timgapps.warfare.Level.GUI.Finger;
 import com.timgapps.warfare.Level.GUI.HUD;
-import com.timgapps.warfare.Level.GUI.Screens.PlayerUnitData;
 import com.timgapps.warfare.Level.GUI.team_unit.CreateUnitButton;
 import com.timgapps.warfare.Level.GUI.team_unit.TeamUnit;
 import com.timgapps.warfare.Level.GUI.StoneButton;
@@ -26,18 +24,13 @@ import com.timgapps.warfare.Level.LevelScreens.ColorRectangle;
 import com.timgapps.warfare.Level.LevelScreens.GameOverScreen;
 import com.timgapps.warfare.Level.LevelScreens.LevelCompletedScreen;
 import com.timgapps.warfare.Level.LevelScreens.PauseScreen;
-import com.timgapps.warfare.Tools.WorldContactListener;
 import com.timgapps.warfare.Units.GameUnits.Barricade;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitModel;
 import com.timgapps.warfare.Units.GameUnits.GameUnitModel;
-import com.timgapps.warfare.Units.GameUnits.Player.units.Gnome;
-import com.timgapps.warfare.Units.GameUnits.Player.units.Knight;
 import com.timgapps.warfare.Units.GameUnits.Player.SiegeTower;
 import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnitModel;
-import com.timgapps.warfare.Units.GameUnits.Player.units.Thor;
 import com.timgapps.warfare.Units.GameUnits.Player.units.UnitCreator;
 import com.timgapps.warfare.Units.GameUnits.unitTypes.PlayerUnits;
-import com.timgapps.warfare.Utils.Setting;
 import com.timgapps.warfare.Warfare;
 
 import java.util.ArrayList;
@@ -54,10 +47,9 @@ public class Level extends StageGame {
     public static final int ON_RETRY = 3;
     public static final int ON_EXIT = 4;
     public static final int ON_PAUSED = 5;
-    public static final float WORLD_SCALE = 100; // коэффициент масштабирования
     private Box2DDebugRenderer debugRender;
     private ShapeRenderer shapeRenderer;
-    private World world;
+//    private ShapeRenderer shapeRenderer;
     private float accumulator;
     public static final float STEP = 1 / 60f;
     private ArrayList<EnemyUnitModel> arrayEnemies;
@@ -105,8 +97,6 @@ public class Level extends StageGame {
         arrayPlayers = new ArrayList<PlayerUnitModel>();
         arrayModels = new ArrayList<GameUnitModel>();
         arrayActors = new ArrayList<Actor>();
-        world = new World(new Vector2(0, 0), true);
-        world.setContactListener(new WorldContactListener()); // присваиваем слушатель ContactListener, который регистрирует событие столкновения в игровом мире
         debugRender = new Box2DDebugRenderer(); // объект debugRendered будем использовать для отладки игрового мира, он позволяет выделить границы полигона
         /** создадим баррикаду **/
         barricade = new Barricade(this, Barricade.ROCKS);
@@ -132,6 +122,8 @@ public class Level extends StageGame {
         unitCreator.createUnit("Zombie2", new Vector2(600, 230));
         unitCreator.createUnit("Zombie1", new Vector2(540, 240));
         unitCreator.createUnit("Zombie2", new Vector2(720, 270));
+        unitCreator.createUnit("Skeleton1", new Vector2(640, 240));
+        unitCreator.createUnit("Skeleton2", new Vector2(820, 230));
 //        unitCreator.createUnit("Thor", new Vector2(100, 200));
 //        unitCreator.createUnit("Thor", new Vector2(200, 220));
 //        unitCreator.createUnit("Gnome", new Vector2(400, 200));
@@ -285,15 +277,11 @@ public class Level extends StageGame {
 //        addBackground(bg, false, false);
     }
 
-    public World getWorld() {
-        return world;
-    }
-
     @Override
     public void render(float delta) {
         super.render(delta);
-        if (Setting.DEBUG_WORLD) {
-            debugRender.render(world, camera.combined.cpy().scl(WORLD_SCALE));
+//        if (Setting.DEBUG_WORLD) {
+//            debugRender.render(world, camera.combined.cpy().scl(WORLD_SCALE));
 //            stage.getBatch().end();
 //            shapeRenderer.begin();
 //            shapeRenderer.setColor(Color.RED);
@@ -302,7 +290,7 @@ public class Level extends StageGame {
 //            }
 //            shapeRenderer.end();
 //            stage.getBatch().begin();
-        }
+//        }
     }
 
     @Override
@@ -313,11 +301,11 @@ public class Level extends StageGame {
 //        timeCount += delta;
             energyCount += delta;
             /** Timur **/
-            accumulator += delta;
-            while (accumulator >= STEP) {
-                world.step(STEP, 8, 6);
-                accumulator -= STEP;
-            }
+//            accumulator += delta;
+//            while (accumulator >= STEP) {
+//                world.step(STEP, 8, 6);
+//                accumulator -= STEP;
+//            }
             compareActorsYPos();
         }
         // finger
@@ -345,7 +333,7 @@ public class Level extends StageGame {
     }
 
     public void addGnome(int health, int damage) {
-        new Gnome(this, 160, 210, health, damage);
+//        new Gnome(this, 160, 210, health, damage);
     }
 
     public void addArcher1(int health, int damage) {
@@ -355,15 +343,10 @@ public class Level extends StageGame {
 
     }
 
-    public void addThor(int health, int damage) {
-//        new Knight(this, 160, 210, health, damage);
-//        new Gnome(this, 160, 210, health, damage);
-        new Thor(this, 160, 210, health, damage);
-    }
 
-    public void addKnight(int health, int damage) {
-        new Knight(this, 160, 210, health, damage);
-    }
+//    public void addKnight(int health, int damage) {
+//        new Knight(this, 160, 210, health, damage);
+//    }
 
     public void compareActorsYPos() {
         /** Полностью рабочий код, но с ошиблкой Zindex cannot be < 0 **/

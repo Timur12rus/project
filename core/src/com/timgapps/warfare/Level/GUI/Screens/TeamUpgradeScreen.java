@@ -26,6 +26,8 @@ import java.util.ArrayList;
 /**
  * Класс ЭКРАНА АПГРЕЙДА ИГРОВОЙ КОМАНДЫ
  **/
+
+// экран с командой и коллекцией юнитов
 public class TeamUpgradeScreen extends Group {
     public static final int ON_RESUME = 1;
     public Label screenTitle; // отображаем текст заголовка
@@ -113,12 +115,12 @@ public class TeamUpgradeScreen extends Group {
 //        Table collectionTable = new CollectionTable(unitCollection).debug();
 
 //        // убрал пока
-//        for (int i = 0; i < team.size(); i++) {
-//            addClickListener(team.get(i));
-//        }
-//        for (int i = 0; i < unitCollection.size(); i++) {
-//            addClickListener(unitCollection.get(i));
-//        }
+        for (int i = 0; i < team.size(); i++) {
+            addClickListener(team.get(i));
+        }
+        for (int i = 0; i < unitCollection.size(); i++) {
+            addClickListener(unitCollection.get(i));
+        }
         collectionTable.debug();
         final Table scrollTable = new Table();
         scrollTable.left().top();
@@ -229,20 +231,20 @@ public class TeamUpgradeScreen extends Group {
      * слушатель для кнопок-юнитов в команде и юнитов в коллекции
      **/
     private void addClickListener(final TeamUnit teamUnit) {
-//        teamUnit.addListener(new ClickListener() {
-//            @Override
-//            public void clicked(InputEvent event, float x, float y) {
-//                super.clicked(event, x, y);
-//
-//                /** если флаг isReplaceActive - false, то вызываем окно апгрейда, если true - заменяем юнит в команде на юнит из коллекции **/
-//                if (!isReplaceActive)
-//                    showUpgradeScreen(teamUnit);
-//                else {
-//                    toRaplaceUnitFromCollectionToTeam = true;
-//                    clickedTeamUnit = teamUnit;
-//                }
-//            }
-//        });
+        teamUnit.getUnitImageButton().addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                /** если флаг isReplaceActive - false, то вызываем окно апгрейда, если true - заменяем юнит в команде на юнит из коллекции **/
+                if (!isReplaceActive)
+                    showUpgradeScreen(teamUnit);
+                else {
+                    toRaplaceUnitFromCollectionToTeam = true;
+                    clickedTeamUnit = teamUnit;
+                }
+            }
+        });
     }
 
     /**

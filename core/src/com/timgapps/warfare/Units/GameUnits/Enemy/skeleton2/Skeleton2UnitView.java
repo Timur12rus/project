@@ -1,4 +1,4 @@
-package com.timgapps.warfare.Units.GameUnits.Enemy.zombie3;
+package com.timgapps.warfare.Units.GameUnits.Enemy.skeleton2;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -6,13 +6,13 @@ import com.badlogic.gdx.utils.Array;
 import com.timgapps.warfare.Level.Level;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitModel;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitView;
-import com.timgapps.warfare.Units.GameUnits.Enemy.zombie2.Zombie2Controller;
+import com.timgapps.warfare.Units.GameUnits.GameUnitView;
 import com.timgapps.warfare.Warfare;
 
-public class Zombie3UnitView extends EnemyUnitView {
-    protected Zombie2Controller controller;
+public class Skeleton2UnitView extends EnemyUnitView {
+    protected Skeleton2Controller controller;
 
-    public Zombie3UnitView(Level level, EnemyUnitModel model, Zombie2Controller controller) {
+    public Skeleton2UnitView(Level level, EnemyUnitModel model, Skeleton2Controller controller) {
         super(level, model, controller);
         this.controller = controller;
         createAnimations();
@@ -23,8 +23,8 @@ public class Zombie3UnitView extends EnemyUnitView {
         super.act(delta);
         currentState = model.getCurrentState();
         if (model.isDestroyed()) {
-            if (currentState != State.DIE) {
-                currentState = State.DIE;
+            if (currentState != GameUnitView.State.DIE) {
+                currentState = GameUnitView.State.DIE;
                 System.out.println("!DIE");
                 resetStateTime();
             } else {
@@ -42,12 +42,12 @@ public class Zombie3UnitView extends EnemyUnitView {
         } else {
             if (model.isMove()) {
                 if (!model.isStay()) {
-                    if (currentState != State.WALKING) {
-                        currentState = State.WALKING;
+                    if (currentState != GameUnitView.State.WALKING) {
+                        currentState = GameUnitView.State.WALKING;
                         resetStateTime();
                     }
-                } else if (currentState != State.STAY) {
-                    currentState = State.STAY;
+                } else if (currentState != GameUnitView.State.STAY) {
+                    currentState = GameUnitView.State.STAY;
                     resetStateTime();
                 } else {
                     if (stayAnimation.isAnimationFinished(stateTime)) {
@@ -56,8 +56,8 @@ public class Zombie3UnitView extends EnemyUnitView {
                 }
             } else if (model.isAttack() || model.isAttackTower()) {
                 if (!model.isStay()) {
-                    if (currentState != State.ATTACK) {
-                        currentState = State.ATTACK;
+                    if (currentState != GameUnitView.State.ATTACK) {
+                        currentState = GameUnitView.State.ATTACK;
                         resetStateTime();
                     } else {
                         if (attackAnimation.isAnimationFinished(stateTime)) {
@@ -66,13 +66,13 @@ public class Zombie3UnitView extends EnemyUnitView {
                             } else if (model.isAttackTower()) {
                                 controller.hitTower();
                             }
-                            currentState = State.STAY;
+                            currentState = GameUnitView.State.STAY;
                             model.setIsStay(true);
                             resetStateTime();
                         }
                     }
-                } else if (currentState != State.STAY) {
-                    currentState = State.STAY;
+                } else if (currentState != GameUnitView.State.STAY) {
+                    currentState = GameUnitView.State.STAY;
                     resetStateTime();
                 } else {
                     if (stayAnimation.isAnimationFinished(stateTime)) {
@@ -80,8 +80,8 @@ public class Zombie3UnitView extends EnemyUnitView {
                     }
                 }
             } else if (model.isStay()) {
-                if (currentState != State.STAY) {
-                    currentState = State.STAY;
+                if (currentState != GameUnitView.State.STAY) {
+                    currentState = GameUnitView.State.STAY;
                     resetStateTime();
                 } else {
                     if (stayAnimation.isAnimationFinished(stateTime)) {
@@ -90,8 +90,8 @@ public class Zombie3UnitView extends EnemyUnitView {
                     }
                 }
             } else {
-                if (currentState != State.WALKING) {
-                    currentState = State.WALKING;
+                if (currentState != GameUnitView.State.WALKING) {
+                    currentState = GameUnitView.State.WALKING;
                     resetStateTime();
                 }
                 model.setIsMove(true);
@@ -107,10 +107,10 @@ public class Zombie3UnitView extends EnemyUnitView {
         System.out.println("Name = " + name);
         Array<TextureRegion> frames = new Array<TextureRegion>();
         for (int i = 0; i < 3; i++)
-            frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Run" + i)));
-        frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Run2")));
-        frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Run1")));
-        frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Run0")));
+            frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Walk" + i)));
+        frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Walk2")));
+        frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Walk1")));
+        frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Walk0")));
         walkAnimation = new Animation(0.09f, frames);
         frames.clear();
 

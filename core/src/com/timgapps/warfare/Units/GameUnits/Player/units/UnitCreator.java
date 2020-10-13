@@ -4,6 +4,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.timgapps.warfare.Level.Level;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitData;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitModel;
+import com.timgapps.warfare.Units.GameUnits.Enemy.skeleton1.Skeleton1Controller;
+import com.timgapps.warfare.Units.GameUnits.Enemy.skeleton1.Skeleton1UnitView;
+import com.timgapps.warfare.Units.GameUnits.Enemy.skeleton2.Skeleton2Controller;
+import com.timgapps.warfare.Units.GameUnits.Enemy.skeleton2.Skeleton2UnitView;
 import com.timgapps.warfare.Units.GameUnits.Enemy.zombie1.Zombie1Controller;
 import com.timgapps.warfare.Units.GameUnits.Enemy.zombie1.Zombie1UnitView;
 import com.timgapps.warfare.Units.GameUnits.Enemy.zombie2.Zombie2Controller;
@@ -117,6 +121,16 @@ public class UnitCreator {
                         Zombie3Controller zombie3Controller = new Zombie3Controller(level, enemyUnitModel);
                         Zombie3UnitView zombie3View = new Zombie3UnitView(level, enemyUnitModel, zombie3Controller);
                         createEnemyUnit(enemyUnitModel, zombie3View);
+                        break;
+                    case Skeleton1:
+                        Skeleton1Controller skeleton1Controller = new Skeleton1Controller(level, enemyUnitModel);
+                        Skeleton1UnitView skeleton1UnitView = new Skeleton1UnitView(level, enemyUnitModel, skeleton1Controller);
+                        createEnemyUnit(enemyUnitModel, skeleton1UnitView);
+                        break;
+                    case Skeleton2:
+                        Skeleton2Controller skeleton2Controller = new Skeleton2Controller(level, enemyUnitModel);
+                        Skeleton2UnitView skeleton2UnitView = new Skeleton2UnitView(level, enemyUnitModel, skeleton2Controller);
+                        createEnemyUnit(enemyUnitModel, skeleton2UnitView);
                         break;
                 }
 //                Zombie2Controller zombie2Controller = new Zombie2Controller(level, enemyUnitModel);

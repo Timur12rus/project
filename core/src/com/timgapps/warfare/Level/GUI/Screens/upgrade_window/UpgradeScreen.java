@@ -26,6 +26,7 @@ import com.timgapps.warfare.Warfare;
 
 import java.util.ArrayList;
 
+// экран с данными юнита и апгрейда
 public class UpgradeScreen extends Group {
     public static final int ON_RESUME = 1;
     private ConstructedWindow constructedWindow;
@@ -298,6 +299,8 @@ public class UpgradeScreen extends Group {
         coinsCount = gameManager.getCoinsPanel().getCoinsCount();
         setVisible(true);
         /** добавим объект - изображение юнита со значком уровня юнита**/
+        imageContainer.clearChildren();
+        imageContainer.clearActions();
         imageContainer.addActor(unitImage);
         boolean isUnlock = teamUnit.getUnitData().isUnlock();
         /** если юнит разблокирован, то делаем значок уровня юнита видимым **/

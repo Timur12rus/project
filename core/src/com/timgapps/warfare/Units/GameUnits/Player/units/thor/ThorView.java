@@ -103,7 +103,8 @@ public class ThorView extends PlayerUnitView {
         for (int i = 0; i < 3; i++)
             frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Run" + i)));
         frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Run1")));
-        runAnimation = new Animation(0.13f, frames);
+        runAnimation = new Animation(0.11f, frames);
+//        runAnimation = new Animation(0.13f, frames);
         frames.clear();
     }
 }

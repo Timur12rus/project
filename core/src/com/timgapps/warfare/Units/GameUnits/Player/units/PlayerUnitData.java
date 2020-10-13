@@ -1,4 +1,4 @@
-package com.timgapps.warfare.Level.GUI.Screens;
+package com.timgapps.warfare.Units.GameUnits.Player.units;
 
 import com.timgapps.warfare.Units.GameUnits.UnitData;
 import com.timgapps.warfare.Units.GameUnits.unitTypes.PlayerUnits;
@@ -68,7 +68,8 @@ public class PlayerUnitData extends UnitData {
                 name = "Thor";
                 damage = 12;
                 health = 20;
-                speed = 0.9f;
+                speed = 1.1f;
+//                speed = 0.9f;
                 energyPrice = 15;
                 appearanceTime = 18;
                 deltaX = -100;

@@ -1,6 +1,6 @@
 package com.timgapps.warfare.Level.GUI.team_unit;
 
-import com.timgapps.warfare.Level.GUI.Screens.PlayerUnitData;
+import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnitData;
 import com.timgapps.warfare.Level.GUI.Screens.upgrade_window.UnitImage;
 import com.timgapps.warfare.Units.GameUnits.unitTypes.PlayerUnits;
 

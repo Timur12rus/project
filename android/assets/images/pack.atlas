@@ -830,126 +830,126 @@ skeleton1Walk2
   orig: 191, 108
   offset: 0, 0
   index: -1
-skeleton3Attack0
+skeleton2Attack0
   rotate: false
   xy: 1095, 1222
   size: 176, 102
   orig: 176, 102
   offset: 0, 0
   index: -1
-skeleton3Attack1
+skeleton2Attack1
   rotate: false
   xy: 944, 24
   size: 176, 102
   orig: 176, 102
   offset: 0, 0
   index: -1
-skeleton3Attack2
+skeleton2Attack2
   rotate: false
   xy: 1644, 1004
   size: 176, 102
   orig: 176, 102
   offset: 0, 0
   index: -1
-skeleton3Attack3
+skeleton2Attack3
   rotate: false
   xy: 1299, 476
   size: 176, 102
   orig: 176, 102
   offset: 0, 0
   index: -1
-skeleton3Attack4
+skeleton2Attack4
   rotate: false
   xy: 1299, 372
   size: 176, 102
   orig: 176, 102
   offset: 0, 0
   index: -1
-skeleton3Die0
+skeleton2Die0
   rotate: false
   xy: 1299, 268
   size: 176, 102
   orig: 176, 102
   offset: 0, 0
   index: -1
-skeleton3Die1
+skeleton2Die1
   rotate: false
   xy: 1310, 164
   size: 176, 102
   orig: 176, 102
   offset: 0, 0
   index: -1
-skeleton3Die2
+skeleton2Die2
   rotate: false
   xy: 1560, 900
   size: 176, 102
   orig: 176, 102
   offset: 0, 0
   index: -1
-skeleton3Die3
+skeleton2Die3
   rotate: false
   xy: 1738, 900
   size: 176, 102
   orig: 176, 102
   offset: 0, 0
   index: -1
-skeleton3Die4
+skeleton2Die4
   rotate: false
   xy: 1822, 1004
   size: 176, 102
   orig: 176, 102
   offset: 0, 0
   index: -1
-skeleton3Run0
+skeleton2Run0
   rotate: false
   xy: 1310, 60
   size: 176, 102
   orig: 176, 102
   offset: 0, 0
   index: -1
-skeleton3Run1
+skeleton2Run1
   rotate: false
   xy: 1633, 532
   size: 176, 102
   orig: 176, 102
   offset: 0, 0
   index: -1
-skeleton3Run2
+skeleton2Run2
   rotate: false
   xy: 1626, 428
   size: 176, 102
   orig: 176, 102
   offset: 0, 0
   index: -1
-skeleton3Run3
+skeleton2Run3
   rotate: false
   xy: 1626, 324
   size: 176, 102
   orig: 176, 102
   offset: 0, 0
   index: -1
-skeleton3Stay0
+skeleton2Stay0
   rotate: false
   xy: 1866, 1432
   size: 176, 102
   orig: 176, 102
   offset: 0, 0
   index: -1
-skeleton3Stay1
+skeleton2Stay1
   rotate: false
   xy: 1865, 1224
   size: 176, 102
   orig: 176, 102
   offset: 0, 0
   index: -1
-skeleton3Stay3
+skeleton2Stay3
   rotate: false
   xy: 1865, 1224
   size: 176, 102
   orig: 176, 102
   offset: 0, 0
   index: -1
-skeleton3Stay2
+skeleton2Stay2
   rotate: false
   xy: 1865, 1120
   size: 176, 102
@@ -1585,35 +1585,35 @@ score_icon
   orig: 48, 48
   offset: 0, 0
   index: -1
-skeleton3Walk0
+skeleton2Walk0
   rotate: false
   xy: 2, 920
   size: 176, 102
   orig: 176, 102
   offset: 0, 0
   index: -1
-skeleton3Walk1
+skeleton2Walk1
   rotate: false
   xy: 2, 816
   size: 176, 102
   orig: 176, 102
   offset: 0, 0
   index: -1
-skeleton3Walk2
+skeleton2Walk2
   rotate: false
   xy: 180, 920
   size: 176, 102
   orig: 176, 102
   offset: 0, 0
   index: -1
-skeleton3Walk3
+skeleton2Walk3
   rotate: false
   xy: 2, 712
   size: 176, 102
   orig: 176, 102
   offset: 0, 0
   index: -1
-skeleton3Walk4
+skeleton2Walk4
   rotate: false
   xy: 180, 816
   size: 176, 102

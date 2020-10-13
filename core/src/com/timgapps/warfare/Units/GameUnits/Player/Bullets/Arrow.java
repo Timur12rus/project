@@ -16,7 +16,7 @@ public class Arrow extends Bullet {
     public Arrow(Level level, Vector2 position, float damage) {
         super(level, position, damage);
         image = new TextureRegion(Warfare.atlas.findRegion("arrow"));
-        velocity.set(5f, 0);
+        velocity.set(10f, 0);
         level.addChild(this, position.x, position.y);
         isDebug = true;
         deltaX = 12;

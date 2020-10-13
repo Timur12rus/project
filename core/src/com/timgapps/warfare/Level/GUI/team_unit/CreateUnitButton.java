@@ -3,7 +3,7 @@ package com.timgapps.warfare.Level.GUI.team_unit;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.timgapps.warfare.Level.GUI.Screens.PlayerUnitData;
+import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnitData;
 import com.timgapps.warfare.Level.Level;
 import com.timgapps.warfare.Warfare;
 
@@ -22,10 +22,10 @@ public class CreateUnitButton extends UnitImageButton {
         this.level = level;
         // это для теста
         appearanceTime = 1;       // время появления юнита
-//        energyPrice = 1;          // кол-во энергии для появления юнита
+        energyPrice = 1;          // кол-во энергии для появления юнита
 
 //        appearanceTime = playerUnitData.getAppearanceTime();    // время появления юнита
-        energyPrice = playerUnitData.getEnergyPrice();          // кол-во энергии для появления юнита
+//        energyPrice = playerUnitData.getEnergyPrice();          // кол-во энергии для появления юнита
         interpolation = (height / appearanceTime) / 60;
 
         darkLayer = new TextureRegion(Warfare.atlas.findRegion("unitButtonDark"));
@@ -59,7 +59,7 @@ public class CreateUnitButton extends UnitImageButton {
             isReadyUnitButton = false;
             setInActive();
             System.out.println("Add new Player unit " + playerUnitData.getUnitId());
-            level.subEnergyCount(playerUnitData.getEnergyPrice());
+            level.subEnergyCount(energyPrice);
             level.createPlayerUnit(playerUnitData.getUnitId());
         }
     }

@@ -5,7 +5,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.boontaran.DataManager;
 import com.timgapps.warfare.Level.GUI.Screens.CoinsPanel;
 import com.timgapps.warfare.Level.GUI.team_unit.TeamUnit;
-import com.timgapps.warfare.Level.GUI.Screens.PlayerUnitData;
+import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnitData;
 import com.timgapps.warfare.Level.LevelMap.LevelIcon;
 import com.timgapps.warfare.Level.GUI.Screens.reward_for_stars.RewardForStarsData;
 import com.timgapps.warfare.Level.LevelMap.ScorePanel;

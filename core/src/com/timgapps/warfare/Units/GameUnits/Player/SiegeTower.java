@@ -211,25 +211,25 @@ public class SiegeTower extends Group {
         return fullHealth;
     }
 
-    public Body createBody(float x, float y) {
-        BodyDef def = new BodyDef();
-        def.type = BodyDef.BodyType.StaticBody;
-//        def.type = BodyDef.BodyType.DynamicBody;
-        Body body = world.createBody(def);
-
-        PolygonShape shape = new PolygonShape();
-        shape.setAsBox(24 / Level.WORLD_SCALE, 84 / Level.WORLD_SCALE);
-
-        FixtureDef fDef = new FixtureDef();
-        fDef.shape = shape;
-        fDef.filter.categoryBits = TOWER_BIT;
-        fDef.filter.maskBits = ENEMY_BIT;
-
-        body.createFixture(fDef).setUserData(this);
-        shape.dispose();
-        body.setTransform(x / Level.WORLD_SCALE, y / Level.WORLD_SCALE, 0);
-        return body;
-    }
+//    public Body createBody(float x, float y) {
+//        BodyDef def = new BodyDef();
+//        def.type = BodyDef.BodyType.StaticBody;
+////        def.type = BodyDef.BodyType.DynamicBody;
+//        Body body = world.createBody(def);
+//
+//        PolygonShape shape = new PolygonShape();
+//        shape.setAsBox(24 / Level.WORLD_SCALE, 84 / Level.WORLD_SCALE);
+//
+//        FixtureDef fDef = new FixtureDef();
+//        fDef.shape = shape;
+//        fDef.filter.categoryBits = TOWER_BIT;
+//        fDef.filter.maskBits = ENEMY_BIT;
+//
+//        body.createFixture(fDef).setUserData(this);
+//        shape.dispose();
+//        body.setTransform(x / Level.WORLD_SCALE, y / Level.WORLD_SCALE, 0);
+//        return body;
+//    }
 
     @Override
     public void act(float delta) {

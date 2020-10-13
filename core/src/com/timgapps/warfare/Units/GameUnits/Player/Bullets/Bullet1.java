@@ -4,7 +4,6 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.timgapps.warfare.Level.Level;
-import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnit;
 import com.timgapps.warfare.Units.GameUnits.Interfaces.IBody;
 
 public abstract class Bullet1 extends Actor implements IBody {
@@ -20,7 +19,7 @@ public abstract class Bullet1 extends Actor implements IBody {
     public Bullet1(Level level, float x, float y, float deltaY) {
         this.level = level;
         this.deltaY = deltaY;
-        world = level.getWorld();
+//        world = level.getWorld();
 //        body = createBody(x, y);
     }
 
@@ -45,14 +44,14 @@ public abstract class Bullet1 extends Actor implements IBody {
 //        return null;
 //    }
 
-    public void inflictDamage(EnemyUnit enemyUnit) {
-        if (!isDamaged) {
-            enemyUnit.subHealth(damage);
-            isDamaged = true;
-            destroy();
-            body.setLinearVelocity(0, 0);
-        }
-    }
+//    public void inflictDamage(EnemyUnit enemyUnit) {
+//        if (!isDamaged) {
+//            enemyUnit.subHealth(damage);
+//            isDamaged = true;
+//            destroy();
+//            body.setLinearVelocity(0, 0);
+//        }
+//    }
 
     @Override
     public void act(float delta) {
@@ -70,7 +69,7 @@ public abstract class Bullet1 extends Actor implements IBody {
             destroy();
         }
 
-        setPosition(body.getPosition().x * Level.WORLD_SCALE, body.getPosition().y * Level.WORLD_SCALE + deltaY);
+//        setPosition(body.getPosition().x * Level.WORLD_SCALE, body.getPosition().y * Level.WORLD_SCALE + deltaY);
     }
 
     protected void destroy() {

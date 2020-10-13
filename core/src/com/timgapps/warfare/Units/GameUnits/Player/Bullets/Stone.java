@@ -96,7 +96,7 @@ public class Stone extends Bullet1 {
         if ((position.y < targetY)) {
 
             if (moveIsEnd && !isDamaged) {
-                body.setTransform((getX() + 20) / Level.WORLD_SCALE, (getY() + 10) / Level.WORLD_SCALE, 0);
+//                body.setTransform((getX() + 20) / Level.WORLD_SCALE, (getY() + 10) / Level.WORLD_SCALE, 0);
             }
             if (!moveIsEnd)
                 checkCollisionEnemyUnit();
@@ -169,7 +169,7 @@ public class Stone extends Bullet1 {
 
         FixtureDef fDef = new FixtureDef();
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(20 / Level.WORLD_SCALE, 6 / Level.WORLD_SCALE);
+//        shape.setAsBox(20 / Level.WORLD_SCALE, 6 / Level.WORLD_SCALE);
 
         fDef.shape = shape;
         fDef.filter.categoryBits = STONE_BIT;
@@ -180,7 +180,7 @@ public class Stone extends Bullet1 {
         shape.dispose();
         body.setAngularDamping(0);
         body.setLinearDamping(0);
-        body.setTransform(x / Level.WORLD_SCALE, y / Level.WORLD_SCALE, 0);
+//        body.setTransform(x / Level.WORLD_SCALE, y / Level.WORLD_SCALE, 0);
         return body;
     }
 
