@@ -142,7 +142,7 @@ public class Barricade extends Group {
 
     public void setHealth(float damage) {
         health -= damage;
-        if (health <= 0) {
+        if (health <= 0 && !isDestroyed) {
             health = 0;
             setToDestroy();
             barricadeHealthBar.remove();
@@ -160,7 +160,8 @@ public class Barricade extends Group {
     }
 
     public void setToDestroy() {
-//        isDestroyed = true;
+        isDestroyed = true;
+        level.getSiegeTower().startMove();
 //        body.setActive(false);
     }
 
@@ -204,7 +205,6 @@ public class Barricade extends Group {
                         break;
                 }
                 isDestroyed = true;
-
                 /** если баррикада разрушена вызываем метод завершения уровня (победа) **/
 //                level.levelCompleted();
             }

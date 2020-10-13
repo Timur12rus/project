@@ -7,12 +7,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -21,64 +18,65 @@ import com.timgapps.warfare.Level.Level;
 import com.timgapps.warfare.Units.GameUnits.DamageLabel;
 import com.timgapps.warfare.Units.GameUnits.Effects.Explosion;
 import com.timgapps.warfare.Units.GameUnits.Effects.Fire;
-import com.timgapps.warfare.Units.GameUnits.GameUnitView;
 import com.timgapps.warfare.Utils.Setting;
 import com.timgapps.warfare.Warfare;
-
-import static com.timgapps.warfare.Units.GameUnits.GameUnitModel.ENEMY_BIT;
-import static com.timgapps.warfare.Units.GameUnits.GameUnitModel.TOWER_BIT;
 
 public class SiegeTower extends Group {
     private Image tower, frontWheel, backWheel;
     private World world;
     private Level level;
     private float health;
-
     private Rectangle body;
-
     private boolean isDestroyed = false;
-
     private Texture healthTexture;
     private Texture backTexture;
     private float fullHealth;
     private int healthBarWidth;
     private int healthBarHeight;
     private boolean isDrawHealthBar = false;
-
     private Fire fire;
     private ParticleEffect smoke;
     private Explosion explosion1;
     private Explosion explosion2;
-    private Vector2 position;
-    private final float WIDTH = 48;
-    private final float HEIGHT = 200;
+    private Vector2 bodyPosition;
+    private final float WIDTH = 32;
+    private final float HEIGHT = 220;
     private ShapeRenderer shapeRenderer;
-
+    private boolean isMove;                 // флаг, движется ли башня
+    private float angleFWheel = 0;
+    private float velocity;
+    private final float MAX_VELOCITY = 6;
+    private float deltaAngle;
+    private boolean isStart, isStop;
 
     public SiegeTower(Level level, float x, float y, float health, float damage) {
         this.level = level;
-        position = new Vector2();
+        bodyPosition = new Vector2();
         tower = new Image(Warfare.atlas.findRegion("tower"));
         frontWheel = new Image(Warfare.atlas.findRegion("wheel"));
         backWheel = new Image(Warfare.atlas.findRegion("wheel"));
         this.health = health;
+        isStop = true;
+        isMove = true;
+        deltaAngle = 4;
+        velocity = 2.6f;
 
         frontWheel.setOrigin(Align.center);
-        frontWheel.setRotation(90);
+        frontWheel.setRotation(angleFWheel + 90);
         frontWheel.setPosition(135, 0);
+
         backWheel.setPosition(24, 0);
+        backWheel.setOrigin(Align.center);
+        backWheel.setRotation(angleFWheel);
 
         addActor(tower);
         addActor(frontWheel);
         addActor(backWheel);
 
-        position.set(x + tower.getWidth() - WIDTH, y);
+        bodyPosition.set(x + tower.getWidth() - WIDTH / 3, y - 128);  // позиция тела
         body = createBody();
-
         smoke = new ParticleEffect();
         smoke.load(Gdx.files.internal("effects/smoke.paty"), Gdx.files.internal("effects/")); //file);     /
-//        smoke.load(Gdx.files.internal("effects/bloodSpray.paty"), Gdx.files.internal("effects/")); //file);
-
 
         /** создадим HealthBar **/
         healthBarWidth = 108;        // ширина HealthBar
@@ -97,27 +95,29 @@ public class SiegeTower extends Group {
 
         /** создадим ОГОНЬ  и разместим его в координатах**/
         fire = new Fire(level);
-//        fire.setPosition(0, 0);
-        fire.setPosition(x + tower.getWidth() - 64, 48);
-        smoke.setPosition(x + tower.getWidth() - 32, 364);
-
-//        explosion.start();
-
-//        smoke.setPosition(fire.getX(), fire.getY() + 16);
-
+        fire.setPosition(getX() + tower.getWidth() - 64, 48);
+        smoke.setPosition(getX() + tower.getWidth() - 32, 364);
         addActor(fire);
-//        fire.startFire();
-
         level.addChild(this, x, y);
         shapeRenderer = new ShapeRenderer();
+    }
+
+    // метод для движения
+    public void setIsMove(boolean isMove) {
+        this.isMove = isMove;
+    }
+
+    public boolean isMove() {
+        return isMove;
     }
 
     public Rectangle getBody() {
         return body;
     }
 
+    // метод создает прямоугольное тело
     private Rectangle createBody() {
-        Rectangle body = new Rectangle(position.x, position.y, WIDTH, HEIGHT);
+        Rectangle body = new Rectangle(bodyPosition.x, bodyPosition.y, WIDTH, HEIGHT);
         return body;
     }
 
@@ -160,14 +160,6 @@ public class SiegeTower extends Group {
     }
 
     public void checkToDestroy() {
-//        if (level.getState() != Level.PAUSED) {
-//            if (!body.isActive() && isDestroyed && explosion2.isEnd()) {
-////        if (!body.isActive() && isDestroyed && explosion.isEnd()) {
-//                level.gameOver();
-//                world.destroyBody(body);
-//                this.remove();
-//                smoke.dispose();
-//            }
         if (isDestroyed) {
             if (explosion2.isEnd()) {
                 this.remove();
@@ -177,12 +169,11 @@ public class SiegeTower extends Group {
     }
 
     /**
-     * метод устанавливает значение здоровья
+     * метод вычитает кол-во здоровья
      **/
-    public void setHealth(float damage) {
+    public void subHealth(float damage) {
         isDrawHealthBar = true;
         addDamageLabel(getX() + (tower.getWidth()) / 2 + 16, getY() + tower.getHeight() + 14, damage);
-
         health -= damage;
         if (health <= 0) {
             health = 0;
@@ -211,25 +202,6 @@ public class SiegeTower extends Group {
         return fullHealth;
     }
 
-//    public Body createBody(float x, float y) {
-//        BodyDef def = new BodyDef();
-//        def.type = BodyDef.BodyType.StaticBody;
-////        def.type = BodyDef.BodyType.DynamicBody;
-//        Body body = world.createBody(def);
-//
-//        PolygonShape shape = new PolygonShape();
-//        shape.setAsBox(24 / Level.WORLD_SCALE, 84 / Level.WORLD_SCALE);
-//
-//        FixtureDef fDef = new FixtureDef();
-//        fDef.shape = shape;
-//        fDef.filter.categoryBits = TOWER_BIT;
-//        fDef.filter.maskBits = ENEMY_BIT;
-//
-//        body.createFixture(fDef).setUserData(this);
-//        shape.dispose();
-//        body.setTransform(x / Level.WORLD_SCALE, y / Level.WORLD_SCALE, 0);
-//        return body;
-//    }
 
     @Override
     public void act(float delta) {
@@ -237,20 +209,68 @@ public class SiegeTower extends Group {
         if (level.getState() != Level.PAUSED) {
             checkToDestroy();       // проверяем, нужно ли уничтожить актера
             smoke.update(delta);
-
             if (explosion1.isEnd()) {
                 explosion2.start();
             }
+            if (isMove) {
+                smoke.setPosition(getX() + tower.getWidth() - 32, 364);
+                rotateWheels();
+            }
+        }
+    }
+
+    public void startMove() {
+        isStart = true;
+        isMove = true;
+    }
+
+    // метод для вращения колес
+    private void rotateWheels() {
+        // если машина должна остановиться
+        if (isStart) {
+            if (velocity < MAX_VELOCITY) {
+                velocity += 0.05f;
+            }
+            if (deltaAngle < 4) {
+                deltaAngle += 0.8f;
+            }
+            angleFWheel -= deltaAngle;
+            if (angleFWheel < -360) {
+                angleFWheel = 0;
+            }
+        } else if (isStop) {        // если машина должна остановиться
+            if (velocity > 0) {
+                velocity -= 0.05f;      // уменьшаем скорость
+                System.out.println("velocityTower = " + velocity);
+            } else {
+                velocity = 0;
+                isMove = false;
+                isStop = false;
+            }
+            System.out.println("deltaAngle = " + deltaAngle);
+            if (deltaAngle > 0) {
+                deltaAngle -= 0.05f;
+            } else {
+                deltaAngle = 0;
+            }
+            System.out.println("deltaAngle = " + deltaAngle);
+        }
+        if (isMove) {
+            angleFWheel -= deltaAngle;
+        }
+        if (angleFWheel < -360) {
+            angleFWheel = 0;
         }
 
-//        if (explosion2.isEnd()) {
-//
-//        }
+        frontWheel.setRotation(angleFWheel + 90);
+        backWheel.setRotation(angleFWheel);
+        bodyPosition.add(velocity, 0);       // изменим позицию тела (прямоугольника)
+        body.setX(bodyPosition.x);
+        body.setY(bodyPosition.y);
 
-//        if(explosion.isEnd()) {     // когда анимация взрыва завершится, уничтожаем актера (remove())
-//        }
-//
-
+        setPosition(getX() + velocity, getY());      // изменим позицию актера-башни
+//        frontWheel.setPosition();
+//        backWheel.setPosition(position.x, position.y);
     }
 
     @Override
@@ -261,7 +281,7 @@ public class SiegeTower extends Group {
         if (Setting.DEBUG_GAME) {
             shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
             shapeRenderer.setColor(Color.RED);
-            shapeRenderer.rect(position.x, position.y, WIDTH, HEIGHT);
+            shapeRenderer.rect(bodyPosition.x, bodyPosition.y, WIDTH, HEIGHT);
             shapeRenderer.end();
         }
         batch.begin();

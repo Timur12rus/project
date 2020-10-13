@@ -49,7 +49,7 @@ public class Level extends StageGame {
     public static final int ON_PAUSED = 5;
     private Box2DDebugRenderer debugRender;
     private ShapeRenderer shapeRenderer;
-//    private ShapeRenderer shapeRenderer;
+    //    private ShapeRenderer shapeRenderer;
     private float accumulator;
     public static final float STEP = 1 / 60f;
     private ArrayList<EnemyUnitModel> arrayEnemies;
@@ -100,7 +100,7 @@ public class Level extends StageGame {
         debugRender = new Box2DDebugRenderer(); // объект debugRendered будем использовать для отладки игрового мира, он позволяет выделить границы полигона
         /** создадим баррикаду **/
         barricade = new Barricade(this, Barricade.ROCKS);
-        siegeTower = new SiegeTower(this, 8, 260, gameManager.getTowerHealth(), 2);
+        siegeTower = new SiegeTower(this, -48, 270, gameManager.getTowerHealth(), 2);
         /** Добавим вражеских юнитов **/
         random = new Random();
         levelCreator = new LevelCreator(this, levelNumber);

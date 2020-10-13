@@ -31,7 +31,7 @@ public class EnemyUnitController extends GameUnitController {
 
     public void hitTower() {
         if (level.getSiegeTower().getHealth() > 0) {
-            level.getSiegeTower().setHealth(model.getDamage());
+            level.getSiegeTower().subHealth(model.getDamage());
         }
     }
 
