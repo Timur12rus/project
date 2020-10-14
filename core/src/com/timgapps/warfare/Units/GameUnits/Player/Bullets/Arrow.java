@@ -26,7 +26,7 @@ public class Arrow extends Bullet {
     }
 
     @Override
-    Rectangle createBody() {
+    protected Rectangle createBody() {
         Rectangle body = new Rectangle();
         body.set(position.x, position.y, 16, 24);
         return body;

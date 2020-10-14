@@ -7,5 +7,6 @@ public enum EnemyUnits {
     Skeleton1,
     Skeleton2,
     Goblin1,
+    Wizard,
     None
 }

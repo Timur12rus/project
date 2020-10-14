@@ -62,5 +62,5 @@ public abstract class Bullet extends Actor {
         }
     }
 
-    abstract Rectangle createBody();
+    protected abstract Rectangle createBody();
 }

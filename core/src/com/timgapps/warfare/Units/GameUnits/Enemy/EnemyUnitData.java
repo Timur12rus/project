@@ -47,6 +47,16 @@ public class EnemyUnitData extends UnitData {
                 barDeltaX = -84;
                 barDeltaY = 0;
                 break;
+            case Wizard:
+                damage = 6;
+                health = 50;
+                speed = -1.2f;
+                name = "Zombie3";
+                deltaX = -78;
+                deltaY = 0;
+                barDeltaX = -84;
+                barDeltaY = 0;
+                break;
         }
     }
 

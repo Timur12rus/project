@@ -26,6 +26,7 @@ import com.timgapps.warfare.Level.LevelScreens.LevelCompletedScreen;
 import com.timgapps.warfare.Level.LevelScreens.PauseScreen;
 import com.timgapps.warfare.Units.GameUnits.Barricade;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitModel;
+import com.timgapps.warfare.Units.GameUnits.Enemy.enemy_bullets.Lightning;
 import com.timgapps.warfare.Units.GameUnits.GameUnitModel;
 import com.timgapps.warfare.Units.GameUnits.Player.SiegeTower;
 import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnitModel;
@@ -122,6 +123,8 @@ public class Level extends StageGame {
 //        unitCreator.createUnit("Zombie1", new Vector2(900, 270));
         unitCreator.createUnit("Zombie2", new Vector2(600, 230));
         unitCreator.createUnit("Zombie1", new Vector2(300, 240));
+        unitCreator.createUnit("Wizard", new Vector2(600, 250));
+
 //        unitCreator.createUnit("Zombie2", new Vector2(720, 270));
 //        unitCreator.createUnit("Skeleton1", new Vector2(640, 240));
 //        unitCreator.createUnit("Skeleton2", new Vector2(820, 230));
@@ -131,6 +134,9 @@ public class Level extends StageGame {
 //        unitCreator.createUnit("Gnome", new Vector2(400, 200));
 //        unitCreator.createUnit("Knight", new Vector2(400, 200));
 //        unitCreator.createUnit("Archer", new Vector2(400, 200));
+
+        // молния для теста
+        Lightning lightning = new Lightning(this, new Vector2(500, 240));
 
         coinsCount = gameManager.getCoinsCount();
         hud = new HUD(this);

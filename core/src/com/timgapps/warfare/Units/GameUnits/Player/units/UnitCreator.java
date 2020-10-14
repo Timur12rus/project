@@ -8,6 +8,8 @@ import com.timgapps.warfare.Units.GameUnits.Enemy.skeleton1.Skeleton1Controller;
 import com.timgapps.warfare.Units.GameUnits.Enemy.skeleton1.Skeleton1UnitView;
 import com.timgapps.warfare.Units.GameUnits.Enemy.skeleton2.Skeleton2Controller;
 import com.timgapps.warfare.Units.GameUnits.Enemy.skeleton2.Skeleton2UnitView;
+import com.timgapps.warfare.Units.GameUnits.Enemy.wizard.WizardController;
+import com.timgapps.warfare.Units.GameUnits.Enemy.wizard.WizardUnitView;
 import com.timgapps.warfare.Units.GameUnits.Enemy.zombie1.Zombie1Controller;
 import com.timgapps.warfare.Units.GameUnits.Enemy.zombie1.Zombie1UnitView;
 import com.timgapps.warfare.Units.GameUnits.Enemy.zombie2.Zombie2Controller;
@@ -131,6 +133,11 @@ public class UnitCreator {
                         Skeleton2Controller skeleton2Controller = new Skeleton2Controller(level, enemyUnitModel);
                         Skeleton2UnitView skeleton2UnitView = new Skeleton2UnitView(level, enemyUnitModel, skeleton2Controller);
                         createEnemyUnit(enemyUnitModel, skeleton2UnitView);
+                        break;
+                    case Wizard:
+                        WizardController wizardController = new WizardController(level, enemyUnitModel);
+                        WizardUnitView wizardUnitView = new WizardUnitView(level, enemyUnitModel, wizardController);
+                        createEnemyUnit(enemyUnitModel, wizardUnitView);
                         break;
                 }
 //                Zombie2Controller zombie2Controller = new Zombie2Controller(level, enemyUnitModel);
