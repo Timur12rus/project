@@ -29,7 +29,7 @@ public class PlayerUnitData extends UnitData {
                 speed = 0.8f;
                 energyPrice = 15;
                 appearanceTime = 10;
-                deltaX = -124;
+                deltaX = -124;          // смещение изображения юнита относительно тела юнита (прямоугольника)
                 deltaY = 0;
                 barDeltaX = -84;
                 barDeltaY = 0;

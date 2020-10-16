@@ -1,4 +1,4 @@
-package com.timgapps.warfare.Units.GameUnits.Enemy.enemy_bullets;
+package com.timgapps.warfare.Units.GameUnits.Player.Bullets;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -18,19 +18,20 @@ public class Lightning extends Actor {
     private Level level;
     protected float stateTime;
 
-    public Lightning(Level level, Vector2 position) {
+    public Lightning(Level level, Vector2 position, float deltaX) {
         this.level = level;
         this.position = position;
         createAnimation();
-        setPosition(position.x, position.y);
+        setPosition(position.x - 18 + deltaX, position.y);
         level.addChild(this);
+        this.debug();
     }
 
     private void createAnimation() {
         Array<TextureRegion> frames = new Array<TextureRegion>();
         for (int i = 0; i < 6; i++)
             frames.add(new TextureRegion(Warfare.atlas.findRegion("tenorAnimation" + i)));
-        animation = new Animation(0.13f, frames);
+        animation = new Animation(0.11f, frames);
         frames.clear();
     }
 
@@ -40,14 +41,14 @@ public class Lightning extends Actor {
         if (level.getState() != Level.PAUSED) {
             stateTime += Gdx.graphics.getDeltaTime();
         }
-        batch.draw((TextureRegion) animation.getKeyFrame(stateTime, true), getX(), getY());
+        batch.draw((TextureRegion) animation.getKeyFrame(stateTime, false), getX(), getY());
     }
 
     @Override
     public void act(float delta) {
         super.act(delta);
         if (animation.isAnimationFinished(stateTime)) {
-//            this.remove();
+            this.remove();
         }
     }
 }
