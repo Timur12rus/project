@@ -17,6 +17,8 @@ public class EnemyUnitModel extends GameUnitModel {
     private boolean isTouchedPlayer;
     private boolean isTouchedTower;
     private boolean isAttackTower;
+    private boolean isShoot;        //  готов ли юнит стрелять
+    private boolean isShooted;      //  выстрелил ли юнит
 
     public EnemyUnitModel(Level level, Vector2 position, EnemyUnitData enemyUnitData) {
         super(level, position);
@@ -117,7 +119,24 @@ public class EnemyUnitModel extends GameUnitModel {
         bloodSpray.dispose();
     }
 
-//    public float getSpeed() {
-//
-//    }
+    // проверяет готов ли стрелять
+    public boolean isShoot() {
+        return isShoot;
+    }
+
+    // проверяет выстрелил ли юнит
+    public boolean isShooted() {
+        return isShooted;
+    }
+
+    // устанавливает готов ли стрелять
+    public void setIsShoot(boolean isShoot) {
+        this.isShoot = isShoot;
+    }
+
+    // устанавливает выстрелил ли юнит
+    public void setIsShooted(boolean isShooted) {
+        this.isShooted = isShooted;
+    }
+
 }

@@ -13,7 +13,7 @@ public class WizardController extends EnemyUnitController implements EnemyShoote
     private final float STOP_POSITION_X = 1000;
     private final float ATTACK_DISTANCE_X = 400;
     private ArrayList<PlayerUnitModel> targetUnitsArray;
-    private float waitTime = 200;
+    private float waitTime = 1;
     private boolean isReachedAttackPosition;
 
     public WizardController(Level level, EnemyUnitModel model) {
@@ -33,15 +33,23 @@ public class WizardController extends EnemyUnitController implements EnemyShoote
             checkCollisions();
             if (model.isTouchedPlayer()) {
                 if (targetPlayer != null) {
-                    attackPlayer();
+                    attackPlayer();             // ударяем игрового юнита, с которым столкнулись
                 } else {
                     model.setIsTouchedPlayer(false);
                     model.setIsAttack(false);
                 }
             } else if (model.getX() < STOP_POSITION_X) {      // если дошел до позиции ожидания
-                isReachedAttackPosition = true;             // достиг позиции атаки
-                stay();
-                shootPlayer();              // стреляем по игровым юнитам
+                if (!isReachedAttackPosition) {
+                    isReachedAttackPosition = true;             // достиг позиции атаки
+                    stay();
+                }
+                if (waitTime < 0) {
+//                    targetPlayer = null;
+//                    targetPlayer = findPlayerUnit();
+//                    if (targetPlayer != null) {
+                        shootPlayer();   // стреляем по игровым юнитам
+//                    }
+                }
             } else {
                 move();
             }
@@ -58,8 +66,14 @@ public class WizardController extends EnemyUnitController implements EnemyShoote
         }
     }
 
-    @Override
-    public EnemyUnitModel findPlayerUnit() {
+    public PlayerUnitModel findPlayerUnit() {
+        PlayerUnitModel targetPlayer = null;
+        for (PlayerUnitModel playerUnit : level.getArrayPlayers()) {
+            if (model.getX() - playerUnit.getX() < ATTACK_DISTANCE_X) {
+                targetPlayer = playerUnit;
+            }
+            return targetPlayer;
+        }
         return null;
     }
 
@@ -75,18 +89,28 @@ public class WizardController extends EnemyUnitController implements EnemyShoote
 
     @Override
     public void shootPlayer() {
-        if (waitTime < 0) {
-            for (PlayerUnitModel playerUnit : level.getArrayPlayers()) {
-                if (model.getX() - playerUnit.getX() < ATTACK_DISTANCE_X) {
-                    targetUnitsArray.add(playerUnit);
-                }
-            }
-            if (targetUnitsArray.size() > 0 && !model.isAttack()) {
-                throwLightning();
-            }
-            waitTime = 200;      // сбросим время ожидания на начальное значение
-            stay();             // стоит ждет, пока не выйдет время ожидания
+        if (model.isShoot()) {
+            velocity.set(0, 0);
+            model.setVelocity(velocity);
+        } else {
+            model.setIsShoot(true);
+            model.setIsAttack(false);
+            model.setIsMove(false);
         }
+    }
+
+    // метод для запуска молний
+    public void throwLightnings() {
+        for (PlayerUnitModel playerUnit : level.getArrayPlayers()) {
+            if (model.getX() - playerUnit.getX() < ATTACK_DISTANCE_X) {
+                targetUnitsArray.add(playerUnit);
+            }
+        }
+        if (targetUnitsArray.size() > 0 && !model.isAttack()) {
+            throwLightning();
+        }
+        waitTime = 200;      // сбросим время ожидания на начальное значение
+        stay();             // стоит ждет, пока не выйдет время ожидания
     }
 
     public void attackTower() {
@@ -110,6 +134,8 @@ public class WizardController extends EnemyUnitController implements EnemyShoote
             model.setIsAttack(true);
             model.setIsMove(false);
             model.setIsStay(false);
+            model.setIsShoot(false);
+            isReachedAttackPosition = false;
         }
     }
 

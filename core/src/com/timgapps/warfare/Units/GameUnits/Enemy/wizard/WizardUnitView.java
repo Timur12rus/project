@@ -45,49 +45,97 @@ public class WizardUnitView extends EnemyUnitView {
                 }
             }
         } else {
+            // Ai юнита
             if (model.isMove()) {
-                if (!model.isStay()) {
-                    if (currentState != State.WALKING) {
-                        currentState = State.WALKING;
-                        resetStateTime();
-                    }
-                } else if (currentState != State.STAY) {
-                    currentState = State.STAY;
+//                if (model.isStay() == false) {
+                if (currentState != State.WALKING) {
+                    currentState = State.WALKING;
                     resetStateTime();
+//                    }
                 }
-//            }
-//            else {
-//                if (stayAnimation.isAnimationFinished(stateTime)) {
-//                    model.setIsStay(false);
+//                else {
+//                    if (currentState != State.STAY) {
+//                        currentState = State.STAY;
+//                        resetStateTime();
+//                    }
 //                }
-//            }
-            } else if (model.isAttack() || model.isAttackTower()) {
-                if (!model.isStay()) {
+            } else if (model.isAttack()) {
+                if (model.isStay() == false) {
                     if (currentState != GameUnitView.State.ATTACK) {
                         currentState = GameUnitView.State.ATTACK;
                         resetStateTime();
                     } else {
                         if (attackAnimation.isAnimationFinished(stateTime)) {
-                            if (model.isAttack()) {
-                                controller.hit();
-                            } else if (model.isAttackTower()) {
-//                                controller.hitTower();
-                            }
-                            currentState = State.STAY;
+                            controller.hit();
                             model.setIsStay(true);
+                            currentState = State.STAY;
                             resetStateTime();
-                            waitTime = 200;
                         }
                     }
-                } else if (currentState != State.STAY) {
-                    currentState = GameUnitView.State.STAY;
-                    resetStateTime();
                 } else {
                     if (stayAnimation.isAnimationFinished(stateTime)) {
                         model.setIsStay(false);
                     }
                 }
-            } else if (model.isStay()) {
+//                else {
+//                    if ()
+//                }
+            } else if (model.isShoot()) {
+                if (model.isStay() == false) {
+                    if (currentState != GameUnitView.State.ATTACK) {
+                        currentState = GameUnitView.State.ATTACK;
+                        resetStateTime();
+                    } else if (attackAnimation.getKeyFrameIndex(stateTime) == 3 && !model.isShooted() && model.isShoot()) {
+                        controller.throwLightnings();       // запусаем молнни
+                        model.setIsShooted(true);
+                    } else {
+                        if (attackAnimation.isAnimationFinished(stateTime)) {
+                            model.setIsStay(true);
+                            currentState = State.STAY;
+                            model.setIsShooted(false);
+                            resetStateTime();
+                        }
+                    }
+                } else {
+                    if (stayAnimation.isAnimationFinished(stateTime)) {
+                        model.setIsStay(false);
+                    }
+                }
+            }
+//            else if (model.isAttack() || model.isAttackTower() || model.isShoot()) {
+//                if (!model.isStay()) {
+//                    if (currentState != GameUnitView.State.ATTACK) {
+//                        currentState = GameUnitView.State.ATTACK;
+//                        resetStateTime();
+//                    } else {
+//                        if (attackAnimation.getKeyFrameIndex(stateTime) == 3 && !model.isShooted() && model.isShoot()) {
+//                            controller.throwLightnings();       // запусаем молнни
+//                            model.setIsShooted(true);
+//                        }
+//                        if (attackAnimation.isAnimationFinished(stateTime)) {
+//                            if (model.isAttack()) {
+//                                controller.hit();
+//                            } else if (model.isAttackTower()) {
+////                                controller.hitTower();
+//                            }
+//                            if (model.isShooted()) {
+//                                model.setIsShooted(false);
+//                            }
+//                            currentState = State.STAY;
+//                            model.setIsStay(true);
+//                            resetStateTime();
+//                        }
+//                    }
+//                } else if (currentState != State.STAY) {
+//                    currentState = State.STAY;
+//                    resetStateTime();
+//                } else {
+//                    if (stayAnimation.isAnimationFinished(stateTime)) {
+//                        model.setIsStay(false);
+//                    }
+//                }
+//            }
+            else if (model.isStay()) {
                 if (currentState != State.STAY) {
                     currentState = State.STAY;
                     resetStateTime();
@@ -132,7 +180,8 @@ public class WizardUnitView extends EnemyUnitView {
         frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Stay1")));
         frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Stay0")));
         stayAnimation = new Animation(1, frames);
-//        stayAnimation = new Animation(0.18f, frames);
+//        stayAnimation = new Animation(1, frames);
+        stayAnimation = new Animation(0.18f, frames);
         frames.clear();
 
         for (int i = 0; i < 5; i++)
