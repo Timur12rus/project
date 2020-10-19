@@ -11,7 +11,7 @@ import com.timgapps.warfare.Warfare;
 
 public class WizardUnitView extends EnemyUnitView {
     private WizardController controller;
-    private float waitTime = 200;
+//    private float waitTime = 300;
 
     public WizardUnitView(Level level, EnemyUnitModel model, WizardController controller) {
         super(level, model, controller);
@@ -24,7 +24,7 @@ public class WizardUnitView extends EnemyUnitView {
     public void act(float delta) {
         super.act(delta);
         if (level.getState() != Level.PAUSED) {
-            waitTime--;
+//            waitTime--;
         }
         currentState = model.getCurrentState();
         if (model.isDestroyed()) {
@@ -47,18 +47,10 @@ public class WizardUnitView extends EnemyUnitView {
         } else {
             // Ai юнита
             if (model.isMove()) {
-//                if (model.isStay() == false) {
                 if (currentState != State.WALKING) {
                     currentState = State.WALKING;
                     resetStateTime();
-//                    }
                 }
-//                else {
-//                    if (currentState != State.STAY) {
-//                        currentState = State.STAY;
-//                        resetStateTime();
-//                    }
-//                }
             } else if (model.isAttack()) {
                 if (model.isStay() == false) {
                     if (currentState != GameUnitView.State.ATTACK) {
@@ -67,6 +59,7 @@ public class WizardUnitView extends EnemyUnitView {
                     } else {
                         if (attackAnimation.isAnimationFinished(stateTime)) {
                             controller.hit();
+                            model.setIsAttack(false);
                             model.setIsStay(true);
                             currentState = State.STAY;
                             resetStateTime();
@@ -77,9 +70,6 @@ public class WizardUnitView extends EnemyUnitView {
                         model.setIsStay(false);
                     }
                 }
-//                else {
-//                    if ()
-//                }
             } else if (model.isShoot()) {
                 if (model.isStay() == false) {
                     if (currentState != GameUnitView.State.ATTACK) {
@@ -91,58 +81,27 @@ public class WizardUnitView extends EnemyUnitView {
                     } else {
                         if (attackAnimation.isAnimationFinished(stateTime)) {
                             model.setIsStay(true);
-                            currentState = State.STAY;
                             model.setIsShooted(false);
+                            model.setIsShoot(false);
+                            currentState = State.STAY;
                             resetStateTime();
+                            controller.resetTarget();
+                            controller.resetWaitTime();
                         }
                     }
                 } else {
                     if (stayAnimation.isAnimationFinished(stateTime)) {
                         model.setIsStay(false);
+                        resetStateTime();
                     }
                 }
-            }
-//            else if (model.isAttack() || model.isAttackTower() || model.isShoot()) {
-//                if (!model.isStay()) {
-//                    if (currentState != GameUnitView.State.ATTACK) {
-//                        currentState = GameUnitView.State.ATTACK;
-//                        resetStateTime();
-//                    } else {
-//                        if (attackAnimation.getKeyFrameIndex(stateTime) == 3 && !model.isShooted() && model.isShoot()) {
-//                            controller.throwLightnings();       // запусаем молнни
-//                            model.setIsShooted(true);
-//                        }
-//                        if (attackAnimation.isAnimationFinished(stateTime)) {
-//                            if (model.isAttack()) {
-//                                controller.hit();
-//                            } else if (model.isAttackTower()) {
-////                                controller.hitTower();
-//                            }
-//                            if (model.isShooted()) {
-//                                model.setIsShooted(false);
-//                            }
-//                            currentState = State.STAY;
-//                            model.setIsStay(true);
-//                            resetStateTime();
-//                        }
-//                    }
-//                } else if (currentState != State.STAY) {
-//                    currentState = State.STAY;
-//                    resetStateTime();
-//                } else {
-//                    if (stayAnimation.isAnimationFinished(stateTime)) {
-//                        model.setIsStay(false);
-//                    }
-//                }
-//            }
-            else if (model.isStay()) {
+            } else if (model.isStay()) {
                 if (currentState != State.STAY) {
                     currentState = State.STAY;
                     resetStateTime();
-                    waitTime = 200;
                 } else {
                     if (stayAnimation.isAnimationFinished(stateTime)) {
-                        model.setIsStay(false);
+                        currentState = State.STAY;
                         resetStateTime();
                     }
                 }
@@ -174,14 +133,34 @@ public class WizardUnitView extends EnemyUnitView {
         frames.clear();
 
         for (int i = 0; i < 2; i++)
-            frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Stay" + i)));
+//            frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Stay" + i)));
+//        frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Stay0")));
+//        frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Stay1")));
 //        frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Stay2")));
-//        frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Stay2")));
+//        frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Stay1")));
+//        frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Stay0")));
+//        frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Stay0")));
+//        frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Stay0")));
+//        frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Stay0")));
+//        frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Stay0")));
+//        frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Stay1")));
+//        frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Stay1")));
+//        frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Stay0")));
+//        frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Stay0")));
+//        frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Stay0")));
+//        frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Stay0")));
+
+            frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Stay0")));
+        frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Stay1")));
         frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Stay1")));
         frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Stay0")));
-        stayAnimation = new Animation(1, frames);
+        frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Stay0")));
+        frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Stay0")));
+        frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Stay0")));
+
+        stayAnimation = new Animation(0.2f, frames);
 //        stayAnimation = new Animation(1, frames);
-        stayAnimation = new Animation(0.18f, frames);
+//        stayAnimation = new Animation(0.18f, frames);
         frames.clear();
 
         for (int i = 0; i < 5; i++)

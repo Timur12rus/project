@@ -83,8 +83,10 @@ public class KnightController extends PlayerUnitController implements PlayerWarr
             } else {
                 move();
             }
+        } else {
+            velocity.set(0, 0);
+            model.setVelocity(velocity);
         }
-
     }
 
     // метод для поиска вражеского юнита (юнит которого будем атаковать))

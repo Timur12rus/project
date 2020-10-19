@@ -84,6 +84,9 @@ public class GnomeController extends PlayerUnitController implements PlayerWarri
             } else {
                 move();
             }
+        } else {
+            velocity.set(0, 0);
+            model.setVelocity(velocity);
         }
     }
 

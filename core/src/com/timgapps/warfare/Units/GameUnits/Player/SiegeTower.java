@@ -185,7 +185,7 @@ public class SiegeTower extends Group {
             EnemyUnitModel enemyUnit = level.getArrayEnemies().get(0);
             float minDistance = enemyUnit.getX() - bodyPosition.x;
             targetEnemy = enemyUnit;
-            System.out.println("Target ENNNNEMMMYYY = " + targetEnemy);
+//            System.out.println("Target ENNNNEMMMYYY = " + targetEnemy);
             for (EnemyUnitModel enemyUnitModel : level.getArrayEnemies()) {
                 distanceToEnemy = enemyUnitModel.getX() - bodyPosition.x;
                 if (distanceToEnemy < ATTACK_DISTANCE) {
@@ -327,19 +327,19 @@ public class SiegeTower extends Group {
         } else if (isStop) {        // если машина должна остановиться
             if (velocity > 0) {
                 velocity -= 0.05f;      // уменьшаем скорость
-                System.out.println("velocityTower = " + velocity);
+//                System.out.println("velocityTower = " + velocity);
             } else {
                 velocity = 0;
                 isMove = false;
                 isStop = false;
             }
-            System.out.println("deltaAngle = " + deltaAngle);
+//            System.out.println("deltaAngle = " + deltaAngle);
             if (deltaAngle > 0) {
                 deltaAngle -= 0.05f;
             } else {
                 deltaAngle = 0;
             }
-            System.out.println("deltaAngle = " + deltaAngle);
+//            System.out.println("deltaAngle = " + deltaAngle);
         }
         if (isMove) {
             angleFWheel -= deltaAngle;

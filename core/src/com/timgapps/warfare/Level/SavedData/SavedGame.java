@@ -134,12 +134,12 @@ public class SavedGame implements Serializable {
         teamDataList.get(0).setDefaultData(PlayerUnits.Thor);
 
         // это для теста
-//        teamDataList.add(new PlayerUnitData(PlayerUnits.Gnome));
-//        teamDataList.get(1).setDefaultData(PlayerUnits.Gnome);
-//        teamDataList.add(new PlayerUnitData(PlayerUnits.Knight));
-//        teamDataList.get(2).setDefaultData(PlayerUnits.Knight);
-//        teamDataList.add(new PlayerUnitData(PlayerUnits.Archer));
-//        teamDataList.get(3).setDefaultData(PlayerUnits.Archer);
+        teamDataList.add(new PlayerUnitData(PlayerUnits.Gnome));
+        teamDataList.get(1).setDefaultData(PlayerUnits.Gnome);
+        teamDataList.add(new PlayerUnitData(PlayerUnits.Knight));
+        teamDataList.get(2).setDefaultData(PlayerUnits.Knight);
+        teamDataList.add(new PlayerUnitData(PlayerUnits.Archer));
+        teamDataList.get(3).setDefaultData(PlayerUnits.Archer);
     }
 
     /**

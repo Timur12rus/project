@@ -43,7 +43,8 @@ public class PlayerUnitData extends UnitData {
                 speed = 0.5f;
                 energyPrice = 20;
                 appearanceTime = 25;
-                deltaX = -174;
+                deltaX = -100;
+//                deltaX = -174;
                 deltaY = 0;
                 barDeltaX = -64;        // смещение healthBar по оси х
                 barDeltaY = 8;

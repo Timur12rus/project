@@ -10,11 +10,13 @@ import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnitModel;
 import java.util.ArrayList;
 
 public class WizardController extends EnemyUnitController implements EnemyShooterAi {
+    //    private final float STOP_POSITION_X = 800;
     private final float STOP_POSITION_X = 1000;
     private final float ATTACK_DISTANCE_X = 400;
     private ArrayList<PlayerUnitModel> targetUnitsArray;
-    private float waitTime = 1;
+    private float waitTime = 100;
     private boolean isReachedAttackPosition;
+    private final float LIGHTNING_DAMAGE = 15;
 
     public WizardController(Level level, EnemyUnitModel model) {
         super(level, model);
@@ -31,6 +33,8 @@ public class WizardController extends EnemyUnitController implements EnemyShoote
         // ai юнита
         if (!model.isDestroyed()) {
             checkCollisions();
+            System.out.println("Model X = " + model.getX());
+            System.out.println("Stop Position = " + STOP_POSITION_X);
             if (model.isTouchedPlayer()) {
                 if (targetPlayer != null) {
                     attackPlayer();             // ударяем игрового юнита, с которым столкнулись
@@ -41,14 +45,14 @@ public class WizardController extends EnemyUnitController implements EnemyShoote
             } else if (model.getX() < STOP_POSITION_X) {      // если дошел до позиции ожидания
                 if (!isReachedAttackPosition) {
                     isReachedAttackPosition = true;             // достиг позиции атаки
+                    System.out.println("Stay()!!!!!");
                     stay();
                 }
-                if (waitTime < 0) {
-//                    targetPlayer = null;
-//                    targetPlayer = findPlayerUnit();
-//                    if (targetPlayer != null) {
+                if (waitTime <= 0 && !model.isShoot()) {
+                    targetPlayer = findPlayerUnit();
+                    if (targetPlayer != null) {
                         shootPlayer();   // стреляем по игровым юнитам
-//                    }
+                    }
                 }
             } else {
                 move();
@@ -66,6 +70,10 @@ public class WizardController extends EnemyUnitController implements EnemyShoote
         }
     }
 
+    public void resetTarget() {
+        targetPlayer = null;
+    }
+
     public PlayerUnitModel findPlayerUnit() {
         PlayerUnitModel targetPlayer = null;
         for (PlayerUnitModel playerUnit : level.getArrayPlayers()) {
@@ -77,13 +85,30 @@ public class WizardController extends EnemyUnitController implements EnemyShoote
         return null;
     }
 
+    // метод останавливает юнит, чтобы тот не двигался вперед (в этом состоянии анимация stateAnimation)
     public void stay() {
         if (model.isStay()) {
             velocity.set(0, 0);
             model.setVelocity(velocity);
+            System.out.println("STAY!!!!!!!!!!!!!");
         } else {
             model.setIsStay(true);
             model.setIsMove(false);
+            System.out.println("STAY!!");
+            velocity.set(0, 0);
+            model.setVelocity(velocity);
+        }
+    }
+
+    public void move() {
+        if (model.isMove()) {
+            velocity.set(model.getSpeed(), 0);
+            model.setVelocity(velocity);
+        } else {
+            model.setIsMove(true);
+            model.setIsAttack(false);
+            model.setIsShoot(false);
+            model.setIsShooted(false);
         }
     }
 
@@ -109,8 +134,6 @@ public class WizardController extends EnemyUnitController implements EnemyShoote
         if (targetUnitsArray.size() > 0 && !model.isAttack()) {
             throwLightning();
         }
-        waitTime = 200;      // сбросим время ожидания на начальное значение
-        stay();             // стоит ждет, пока не выйдет время ожидания
     }
 
     public void attackTower() {
@@ -133,29 +156,24 @@ public class WizardController extends EnemyUnitController implements EnemyShoote
             System.out.println("attackPlayer");
             model.setIsAttack(true);
             model.setIsMove(false);
-            model.setIsStay(false);
+//            model.setIsStay(false);
             model.setIsShoot(false);
-            isReachedAttackPosition = false;
+//            isReachedAttackPosition = false;
         }
     }
 
     public void throwLightning() {
         for (PlayerUnitModel targetPlayerUnit : targetUnitsArray) {
-            targetPlayerUnit.subHealth(5);
+            targetPlayerUnit.subHealth(LIGHTNING_DAMAGE);
+//            targetPlayerUnit.subHealth(model.getUnitData().getDamage());
             new Lightning(level, targetPlayerUnit.getPosition(), targetPlayerUnit.getUnitData().getDeltaX());
+            System.out.println("TARGET PLAYER DELTA X = " + targetPlayerUnit.getUnitData().getDeltaX());
+            System.out.println("TARGET NAME = " + targetPlayerUnit.getUnitData().getName());
         }
         targetUnitsArray.clear();
-
     }
 
-    public void move() {
-        model.setIsMove(true);
-        if (!model.isStay()) {
-            velocity.set(model.getSpeed(), 0);
-            model.setVelocity(velocity);
-        } else {
-            velocity.set(0, 0);
-            model.setVelocity(velocity);
-        }
+    public void resetWaitTime() {
+        waitTime = 200;
     }
 }
