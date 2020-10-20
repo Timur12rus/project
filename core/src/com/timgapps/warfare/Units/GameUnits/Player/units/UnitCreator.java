@@ -4,6 +4,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.timgapps.warfare.Level.Level;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitData;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitModel;
+import com.timgapps.warfare.Units.GameUnits.Enemy.ent_1.Ent1Controller;
+import com.timgapps.warfare.Units.GameUnits.Enemy.ent_1.Ent1View;
 import com.timgapps.warfare.Units.GameUnits.Enemy.skeleton1.Skeleton1Controller;
 import com.timgapps.warfare.Units.GameUnits.Enemy.skeleton1.Skeleton1UnitView;
 import com.timgapps.warfare.Units.GameUnits.Enemy.skeleton2.Skeleton2Controller;
@@ -133,6 +135,11 @@ public class UnitCreator {
                         Skeleton2Controller skeleton2Controller = new Skeleton2Controller(level, enemyUnitModel);
                         Skeleton2UnitView skeleton2UnitView = new Skeleton2UnitView(level, enemyUnitModel, skeleton2Controller);
                         createEnemyUnit(enemyUnitModel, skeleton2UnitView);
+                        break;
+                    case Ent1:
+                        Ent1Controller ent1Controller = new Ent1Controller(level, enemyUnitModel);
+                        Ent1View ent1View = new Ent1View(level, enemyUnitModel, ent1Controller);
+                        createEnemyUnit(enemyUnitModel, ent1View);
                         break;
                     case Wizard:
                         WizardController wizardController = new WizardController(level, enemyUnitModel);

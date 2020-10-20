@@ -8,5 +8,6 @@ public enum EnemyUnits {
     Skeleton2,
     Goblin1,
     Wizard,
+    Ent1,
     None
 }

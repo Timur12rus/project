@@ -19,6 +19,7 @@ public class EnemyUnitModel extends GameUnitModel {
     private boolean isAttackTower;
     private boolean isShoot;        //  готов ли юнит стрелять
     private boolean isShooted;      //  выстрелил ли юнит
+    private boolean isAttacked;     // атаковал ли юнит врага
 
     public EnemyUnitModel(Level level, Vector2 position, EnemyUnitData enemyUnitData) {
         super(level, position);
@@ -137,6 +138,16 @@ public class EnemyUnitModel extends GameUnitModel {
     // устанавливает выстрелил ли юнит
     public void setIsShooted(boolean isShooted) {
         this.isShooted = isShooted;
+    }
+
+    // утсанавливает атаковал ли юнит врага
+    public void setIsAttacked(boolean isAttacked) {
+        this.isAttacked = isAttacked;
+    }
+
+    // возвращает атаковал ли юнит врага
+    public boolean isAttacked() {
+        return isAttacked;
     }
 
 }

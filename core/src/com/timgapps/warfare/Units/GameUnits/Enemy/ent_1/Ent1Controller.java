@@ -1,12 +1,12 @@
-package com.timgapps.warfare.Units.GameUnits.Enemy.skeleton2;
+package com.timgapps.warfare.Units.GameUnits.Enemy.ent_1;
 
 import com.timgapps.warfare.Level.Level;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitController;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitModel;
 import com.timgapps.warfare.Units.GameUnits.Enemy.interfacesAi.EnemyWarriorAi;
 
-public class Skeleton2Controller extends EnemyUnitController implements EnemyWarriorAi {
-    public Skeleton2Controller(Level level, EnemyUnitModel model) {
+public class Ent1Controller extends EnemyUnitController implements EnemyWarriorAi {
+    public Ent1Controller(Level level, EnemyUnitModel model) {
         super(level, model);
     }
 
@@ -67,33 +67,17 @@ public class Skeleton2Controller extends EnemyUnitController implements EnemyWar
             model.setIsAttack(true);
             model.setIsMove(false);
             model.setIsStay(false);
-            model.setIsAttacked(true);
         }
     }
 
     public void move() {
-        System.out.println("Move");
-//        model.setIsMove(true);
-//        if (!model.isStay()) {
-//            velocity.set(model.getSpeed(), 0);
-//            model.setVelocity(velocity);
-//        } else {
-//            velocity.set(0, 0);
-//            model.setVelocity(velocity);
-//        }
-
-        if (model.isMove()) {
-            if (!model.isAttacked()) {
-                velocity.set(model.getSpeed(), 0);
-            } else {
-                velocity.set(model.getSpeed() * 0.5f, 0);
-            }
+        model.setIsMove(true);
+        if (!model.isStay()) {
+            velocity.set(model.getSpeed(), 0);
             model.setVelocity(velocity);
         } else {
-            model.setIsMove(true);
-            model.setIsAttack(false);
-            model.setIsStay(false);
+            velocity.set(0, 0);
+            model.setVelocity(velocity);
         }
     }
 }
-
