@@ -19,7 +19,6 @@ public class Fire extends Actor {
 
     public Fire(Level level) {
         this.level = level;
-
         createAnimation();
         setVisible(false);
     }
@@ -40,7 +39,7 @@ public class Fire extends Actor {
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
         if (isStarted) {
-            stateTime += Gdx.graphics.getDeltaTime();
+            if (level.getState() != Level.PAUSED) stateTime += Gdx.graphics.getDeltaTime();
             batch.draw((TextureRegion) fireAnimation.getKeyFrame(stateTime, true), getX(), getY());
         }
     }
@@ -48,7 +47,7 @@ public class Fire extends Actor {
     public void startFire() {
         if (!isStarted)
             isStarted = true;
-            setVisible(true);
+        setVisible(true);
 
     }
 

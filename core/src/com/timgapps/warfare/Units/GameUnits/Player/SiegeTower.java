@@ -122,34 +122,36 @@ public class SiegeTower extends Group {
             if (explosion1.isEnd()) {
                 explosion2.start();
             }
-            if (isMove) {
-                smoke.setPosition(getX() + tower.getWidth() - 32, 364);
-                rotateWheels();
-            }
-            if (targetEnemy == null && !isHaveTarget) {          // если не имеет врага
-                targetEnemy = findTarget();
-            }
-            if (targetEnemy == null && isHaveTarget) {
-                isHaveTarget = false;
-                isAttack = false;
-            }
-            if (targetEnemy != null) {
-                System.out.println("TARGET TOWER ENEMY = " + targetEnemy.getName());
-                if (targetEnemy.isDestroyed()) {
-                    targetEnemy = null;
+            if (health > 0) {       // если башня не уничтожена
+                if (isMove) {
+                    smoke.setPosition(getX() + tower.getWidth() - 32, 364);
+                    rotateWheels();
+                }
+                if (targetEnemy == null && !isHaveTarget) {          // если не имеет врага
+                    targetEnemy = findTarget();
+                }
+                if (targetEnemy == null && isHaveTarget) {
                     isHaveTarget = false;
                     isAttack = false;
                 }
-            }
-            if (targetEnemy != null && !isAttack) {
-                attack();
-            }
-            if (isAttack) {
-                if (attackPauseTime < 0) {
-                    attackPauseTime = ATTACK_PAUSE_TIME;
-                    throwArrow();
+                if (targetEnemy != null) {
+                    System.out.println("TARGET TOWER ENEMY = " + targetEnemy.getName());
+                    if (targetEnemy.isDestroyed()) {
+                        targetEnemy = null;
+                        isHaveTarget = false;
+                        isAttack = false;
+                    }
                 }
-                attackPauseTime--;
+                if (targetEnemy != null && !isAttack) {
+                    attack();
+                }
+                if (isAttack) {
+                    if (attackPauseTime < 0) {
+                        attackPauseTime = ATTACK_PAUSE_TIME;
+                        throwArrow();
+                    }
+                    attackPauseTime--;
+                }
             }
         }
         // проверим, имеет ли башня цель-врага
