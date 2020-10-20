@@ -6,10 +6,7 @@ import com.badlogic.gdx.utils.Array;
 import com.timgapps.warfare.Level.Level;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitModel;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitView;
-import com.timgapps.warfare.Units.GameUnits.Enemy.zombie2.Zombie2Controller;
 import com.timgapps.warfare.Warfare;
-
-import java.util.Random;
 
 public class Ent1View extends EnemyUnitView {
     protected Ent1Controller controller;
@@ -42,76 +39,69 @@ public class Ent1View extends EnemyUnitView {
                     }
                 }
             }
-        } else {
-            if (model.isMove()) {
-                if (!model.isStay()) {
-                    if (currentState != State.WALKING) {
-                        currentState = State.WALKING;
-                        resetStateTime();
-                    } else {
-                        if (walkAnimation.isAnimationFinished(stateTime)) {
-                            Random random = new Random();
-                            if (random.nextBoolean()) {
-                                currentState = State.STAY;
-                                model.setIsStay(true);
-                                resetStateTime();
-                            } else {
-                                currentState = State.WALKING;
-                                model.setIsStay(false);
-                                resetStateTime();
-                            }
-                        }
-                    }
-                } else if (currentState != State.STAY) {
-                    currentState = State.STAY;
+        } else if (model.isMove()) {
+            if (!model.isStay()) {
+                if (currentState != State.WALKING) {
+                    currentState = State.WALKING;
                     resetStateTime();
                 } else {
-                    if (stayAnimation.isAnimationFinished(stateTime)) {
-                        model.setIsStay(false);
-                    }
+                    walkAnimation.isAnimationFinished(stateTime);
+                    model.setIsStay(true);
+                    controller.resetWaitTime();
                 }
-            } else if (model.isAttack() || model.isAttackTower()) {
-                if (!model.isStay()) {
-                    if (currentState != State.ATTACK) {
-                        currentState = State.ATTACK;
-                        resetStateTime();
-                    } else {
-                        if (attackAnimation.isAnimationFinished(stateTime)) {
-                            if (model.isAttack()) {
-                                controller.hit();
-                            } else if (model.isAttackTower()) {
-                                controller.hitTower();
-                            }
-                            currentState = State.STAY;
-                            model.setIsStay(true);
-                            resetStateTime();
-                        }
-                    }
-                } else if (currentState != State.STAY) {
-                    currentState = State.STAY;
-                    resetStateTime();
-                } else {
-                    if (stayAnimation.isAnimationFinished(stateTime)) {
-                        model.setIsStay(false);
-                    }
-                }
-            } else if (model.isStay()) {
+            } else {
                 if (currentState != State.STAY) {
                     currentState = State.STAY;
                     resetStateTime();
                 } else {
                     if (stayAnimation.isAnimationFinished(stateTime)) {
-                        model.setIsStay(false);
+//                    currentState = State.STAY;
+                        resetStateTime();
+//                        model.setIsStay(false);
+                    }
+                }
+            }
+        } else if (model.isAttack() || model.isAttackTower()) {
+            if (!model.isStay()) {
+                if (currentState != State.ATTACK) {
+                    currentState = State.ATTACK;
+                    resetStateTime();
+                } else {
+                    if (attackAnimation.isAnimationFinished(stateTime)) {
+                        if (model.isAttack()) {
+                            controller.hit();
+                        } else if (model.isAttackTower()) {
+                            controller.hitTower();
+                        }
+                        currentState = State.STAY;
+                        model.setIsStay(true);
                         resetStateTime();
                     }
                 }
+            } else if (currentState != State.STAY) {
+                currentState = State.STAY;
+                resetStateTime();
             } else {
-                if (currentState != State.WALKING) {
-                    currentState = State.WALKING;
+                if (stayAnimation.isAnimationFinished(stateTime)) {
+                    model.setIsStay(false);
+                }
+            }
+        } else if (model.isStay()) {
+            if (currentState != State.STAY) {
+                currentState = State.STAY;
+                resetStateTime();
+            } else {
+                if (stayAnimation.isAnimationFinished(stateTime)) {
+                    model.setIsStay(false);
                     resetStateTime();
                 }
-                model.setIsMove(true);
             }
+        } else {
+            if (currentState != State.WALKING) {
+                currentState = State.WALKING;
+                resetStateTime();
+            }
+            model.setIsMove(true);
         }
         model.setCurrentState(currentState);
     }

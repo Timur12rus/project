@@ -6,14 +6,20 @@ import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitModel;
 import com.timgapps.warfare.Units.GameUnits.Enemy.interfacesAi.EnemyWarriorAi;
 
 public class Ent1Controller extends EnemyUnitController implements EnemyWarriorAi {
+    private float waitTime;
+
     public Ent1Controller(Level level, EnemyUnitModel model) {
         super(level, model);
+        waitTime = 60;
     }
 
     // метод обновления логики игрового юнита
     @Override
     public void update(float delta) {
         super.update(delta);
+        if (level.getState() != Level.PAUSED) {
+            waitTime--;
+        }
         if (!model.isDestroyed()) {
             checkCollisions();
             if (model.isTouchedPlayer()) {
@@ -28,7 +34,11 @@ public class Ent1Controller extends EnemyUnitController implements EnemyWarriorA
                 if (model.isTouchedTower()) {
                     attackTower();
                 } else {
-                    move();
+                    if (waitTime < 0) {
+                        model.setIsStay(false);
+                        move();
+                        resetWaitTime();
+                    }
                 }
             } else {
                 move();
@@ -44,7 +54,10 @@ public class Ent1Controller extends EnemyUnitController implements EnemyWarriorA
         if (model.isDamaged() && model.getBloodSpray().isComplete()) {
             model.setIsDamaged(false);
         }
+        System.out.println("waitTime = " + waitTime);
+        System.out.println("Is Stay = " + model.isStay());
     }
+
 
     public void attackTower() {
         if (model.isAttackTower()) {
@@ -70,14 +83,26 @@ public class Ent1Controller extends EnemyUnitController implements EnemyWarriorA
         }
     }
 
+    public void stay() {
+        if (model.isStay()) {
+            velocity.set(0, 0);
+            model.setVelocity(velocity);
+        } else {
+            model.setIsStay(true);
+        }
+    }
+
     public void move() {
         model.setIsMove(true);
         if (!model.isStay()) {
             velocity.set(model.getSpeed(), 0);
-            model.setVelocity(velocity);
         } else {
             velocity.set(0, 0);
-            model.setVelocity(velocity);
         }
+        model.setVelocity(velocity);
+    }
+
+    public void resetWaitTime() {
+        waitTime = 60;
     }
 }
