@@ -39,69 +39,70 @@ public class Ent1View extends EnemyUnitView {
                     }
                 }
             }
-        } else if (model.isMove()) {
-            if (!model.isStay()) {
-                if (currentState != State.WALKING) {
-                    currentState = State.WALKING;
+        } else {
+            if (model.isMove()) {
+                if (!model.isStay()) {
+                    if (currentState != State.WALKING) {
+                        currentState = State.WALKING;
+                        resetStateTime();
+                    } else {
+                        if (walkAnimation.isAnimationFinished(stateTime)) {
+//                            currentState = State.STAY;
+//                            resetStateTime();
+                            model.setIsStay(true);
+                        }
+                    }
+                } else if (currentState != State.STAY) {
+                    currentState = State.STAY;
                     resetStateTime();
                 } else {
-                    walkAnimation.isAnimationFinished(stateTime);
-                    model.setIsStay(true);
-                    controller.resetWaitTime();
+                    if (stayAnimation.isAnimationFinished(stateTime)) {
+                        resetStateTime();
+//                        model.setIsStay(false);
+                    }
                 }
-            } else {
+            } else if (model.isAttack() || model.isAttackTower()) {
+                if (!model.isStay()) {
+                    if (currentState != State.ATTACK) {
+                        currentState = State.ATTACK;
+                        resetStateTime();
+                    } else {
+                        if (attackAnimation.isAnimationFinished(stateTime)) {
+                            if (model.isAttack()) {
+                                controller.hit();
+                            } else if (model.isAttackTower()) {
+                                controller.hitTower();
+                            }
+                            currentState = State.STAY;
+                            model.setIsStay(true);
+                            resetStateTime();
+                        }
+                    }
+                } else if (currentState != State.STAY) {
+                    currentState = State.STAY;
+                    resetStateTime();
+                } else {
+                    if (stayAnimation.isAnimationFinished(stateTime)) {
+                        model.setIsStay(false);
+                    }
+                }
+            } else if (model.isStay()) {
                 if (currentState != State.STAY) {
                     currentState = State.STAY;
                     resetStateTime();
                 } else {
                     if (stayAnimation.isAnimationFinished(stateTime)) {
-//                    currentState = State.STAY;
-                        resetStateTime();
-//                        model.setIsStay(false);
-                    }
-                }
-            }
-        } else if (model.isAttack() || model.isAttackTower()) {
-            if (!model.isStay()) {
-                if (currentState != State.ATTACK) {
-                    currentState = State.ATTACK;
-                    resetStateTime();
-                } else {
-                    if (attackAnimation.isAnimationFinished(stateTime)) {
-                        if (model.isAttack()) {
-                            controller.hit();
-                        } else if (model.isAttackTower()) {
-                            controller.hitTower();
-                        }
-                        currentState = State.STAY;
-                        model.setIsStay(true);
+                        model.setIsStay(false);
                         resetStateTime();
                     }
                 }
-            } else if (currentState != State.STAY) {
-                currentState = State.STAY;
-                resetStateTime();
             } else {
-                if (stayAnimation.isAnimationFinished(stateTime)) {
-                    model.setIsStay(false);
-                }
-            }
-        } else if (model.isStay()) {
-            if (currentState != State.STAY) {
-                currentState = State.STAY;
-                resetStateTime();
-            } else {
-                if (stayAnimation.isAnimationFinished(stateTime)) {
-                    model.setIsStay(false);
+                if (currentState != State.WALKING) {
+                    currentState = State.WALKING;
                     resetStateTime();
                 }
+                model.setIsMove(true);
             }
-        } else {
-            if (currentState != State.WALKING) {
-                currentState = State.WALKING;
-                resetStateTime();
-            }
-            model.setIsMove(true);
         }
         model.setCurrentState(currentState);
     }
@@ -118,6 +119,7 @@ public class Ent1View extends EnemyUnitView {
             frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Walk" + i)));
         frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Walk2")));
         frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Walk1")));
+        frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Walk0")));
 //        frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Walk0")));
         walkAnimation = new Animation(0.12f, frames);
         frames.clear();
@@ -129,8 +131,9 @@ public class Ent1View extends EnemyUnitView {
 
         for (int i = 0; i < 3; i++)
             frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Stay" + i)));
-        frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Stay2")));
         frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Stay1")));
+        frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Stay0")));
+        frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Stay0")));
         frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Stay0")));
         stayAnimation = new Animation(0.18f, frames);
         frames.clear();

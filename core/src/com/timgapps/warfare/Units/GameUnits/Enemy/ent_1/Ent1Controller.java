@@ -5,12 +5,16 @@ import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitController;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitModel;
 import com.timgapps.warfare.Units.GameUnits.Enemy.interfacesAi.EnemyWarriorAi;
 
+import java.util.Random;
+
 public class Ent1Controller extends EnemyUnitController implements EnemyWarriorAi {
     private float waitTime;
+    private Random random;
 
     public Ent1Controller(Level level, EnemyUnitModel model) {
         super(level, model);
-        waitTime = 60;
+        waitTime = 160;
+        random = new Random();
     }
 
     // метод обновления логики игрового юнита
@@ -35,11 +39,17 @@ public class Ent1Controller extends EnemyUnitController implements EnemyWarriorA
                     attackTower();
                 } else {
                     if (waitTime < 0) {
-                        model.setIsStay(false);
-                        move();
                         resetWaitTime();
+                        boolean flag = random.nextBoolean();
+                        if (flag == true) {
+                            System.out.println("random.nextBoolean = " + flag);
+                            model.setIsStay(false);
+
+                        }
                     }
+                    move();
                 }
+//            }
             } else {
                 move();
             }
@@ -103,6 +113,6 @@ public class Ent1Controller extends EnemyUnitController implements EnemyWarriorA
     }
 
     public void resetWaitTime() {
-        waitTime = 60;
+        waitTime = 160;
     }
 }
