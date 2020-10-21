@@ -22,12 +22,18 @@ import com.timgapps.warfare.Units.GameUnits.GameUnitModel;
 import com.timgapps.warfare.Units.GameUnits.GameUnitView;
 import com.timgapps.warfare.Units.GameUnits.Player.units.archer.ArcherController;
 import com.timgapps.warfare.Units.GameUnits.Player.units.archer.ArcherView;
+import com.timgapps.warfare.Units.GameUnits.Player.units.barbarian.BarbarianController;
+import com.timgapps.warfare.Units.GameUnits.Player.units.barbarian.BarbarianView;
 import com.timgapps.warfare.Units.GameUnits.Player.units.gnome.GnomeController;
 import com.timgapps.warfare.Units.GameUnits.Player.units.gnome.GnomeView;
 import com.timgapps.warfare.Units.GameUnits.Player.units.knight.KnightController;
 import com.timgapps.warfare.Units.GameUnits.Player.units.knight.KnightView;
+import com.timgapps.warfare.Units.GameUnits.Player.units.shooter.ShooterController;
+import com.timgapps.warfare.Units.GameUnits.Player.units.shooter.ShooterView;
 import com.timgapps.warfare.Units.GameUnits.Player.units.thor.ThorController;
 import com.timgapps.warfare.Units.GameUnits.Player.units.thor.ThorView;
+import com.timgapps.warfare.Units.GameUnits.Player.units.viking.VikingController;
+import com.timgapps.warfare.Units.GameUnits.Player.units.viking.VikingView;
 import com.timgapps.warfare.Units.GameUnits.unitTypes.EnemyUnits;
 import com.timgapps.warfare.Units.GameUnits.unitTypes.PlayerUnits;
 
@@ -94,6 +100,21 @@ public class UnitCreator {
                         ArcherController archerController = new ArcherController(level, playerUnitModel);
                         ArcherView archerView = new ArcherView(level, playerUnitModel, archerController);
                         createPlayerUnit(playerUnitModel, archerView);
+                        break;
+                    case Shooter:
+                        ShooterController shooterController = new ShooterController(level, playerUnitModel);
+                        ShooterView shooterView = new ShooterView(level, playerUnitModel, shooterController);
+                        createPlayerUnit(playerUnitModel, shooterView);
+                        break;
+                    case Barbarian:
+                        BarbarianController barbarianController = new BarbarianController(level, playerUnitModel);
+                        BarbarianView barbarianView = new BarbarianView(level, playerUnitModel, barbarianController);
+                        createPlayerUnit(playerUnitModel, barbarianView);
+                        break;
+                    case Viking:
+                        VikingController vikingController = new VikingController(level, playerUnitModel);
+                        VikingView vikingView = new VikingView(level, playerUnitModel, vikingController);
+                        createPlayerUnit(playerUnitModel, vikingView);
                         break;
                 }
 

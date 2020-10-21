@@ -21,7 +21,7 @@ public class ArcherController extends PlayerUnitController implements PlayerShoo
     private Vector2 barricadePosition;
     private float distanceToBarricade;
 
-    enum Direction {
+    public enum Direction {
         NONE,
         UP,
         DOWN
@@ -98,12 +98,15 @@ public class ArcherController extends PlayerUnitController implements PlayerShoo
             } else {
                 move();
             }
+        } else {
+            velocity.set(0, 0);
+            model.setVelocity(velocity);
         }
-        System.out.println("isReachedEnemyYPos = " + isReachedEnemyYPos);
-        System.out.println("isHaveVerticalDirection = " + model.isHaveVerticalDirection());
+//        System.out.println("isReachedEnemyYPos = " + isReachedEnemyYPos);
+//        System.out.println("isHaveVerticalDirection = " + model.isHaveVerticalDirection());
 //        System.out.println("isHaveVerticalDirection = " + isHaveVerticalDirection);
-        System.out.println("verticalDirectionMovement = " + verticalDirectionMovement);
-        System.out.println("velocity = " + velocity);
+//        System.out.println("verticalDirectionMovement = " + verticalDirectionMovement);
+//        System.out.println("velocity = " + velocity);
     }
 
     private void checkAttack(EnemyUnitModel target) {

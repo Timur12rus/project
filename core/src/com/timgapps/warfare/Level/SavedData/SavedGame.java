@@ -140,6 +140,15 @@ public class SavedGame implements Serializable {
         teamDataList.get(2).setDefaultData(PlayerUnits.Knight);
         teamDataList.add(new PlayerUnitData(PlayerUnits.Archer));
         teamDataList.get(3).setDefaultData(PlayerUnits.Archer);
+
+        teamDataList.add(new PlayerUnitData(PlayerUnits.Barbarian));
+        teamDataList.get(4).setDefaultData(PlayerUnits.Barbarian);
+
+        teamDataList.add(new PlayerUnitData(PlayerUnits.Viking));
+        teamDataList.get(5).setDefaultData(PlayerUnits.Viking);
+
+        teamDataList.add(new PlayerUnitData(PlayerUnits.Shooter));
+        teamDataList.get(6).setDefaultData(PlayerUnits.Shooter);
     }
 
     /**

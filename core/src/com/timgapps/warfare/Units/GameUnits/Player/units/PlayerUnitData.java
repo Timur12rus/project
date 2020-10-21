@@ -36,8 +36,51 @@ public class PlayerUnitData extends UnitData {
                 starsCount = 15;
                 unitLevel = 1;
                 break;
+            case Barbarian:
+                name = "Barbarian";
+                damage = 14;
+                health = 30;
+                speed = 1.2f;
+                energyPrice = 15;
+                appearanceTime = 10;
+                deltaX = -124;          // смещение изображения юнита относительно тела юнита (прямоугольника)
+                deltaY = 0;
+                barDeltaX = -84;
+                barDeltaY = 0;
+                starsCount = 15;
+                unitLevel = 1;
+                break;
+            case Viking:
+                name = "Viking";
+                damage = 14;
+                health = 30;
+                speed = 1.2f;
+                energyPrice = 15;
+                appearanceTime = 10;
+                deltaX = -124;          // смещение изображения юнита относительно тела юнита (прямоугольника)
+                deltaY = 0;
+                barDeltaX = -84;
+                barDeltaY = 0;
+                starsCount = 15;
+                unitLevel = 1;
+                break;
             case Archer:
                 name = "Archer";
+                damage = 10;
+                health = 30;
+                speed = 0.5f;
+                energyPrice = 20;
+                appearanceTime = 25;
+                deltaX = -100;
+//                deltaX = -174;
+                deltaY = 0;
+                barDeltaX = -64;        // смещение healthBar по оси х
+                barDeltaY = 8;
+                starsCount = 4;
+                unitLevel = 1;
+                break;
+            case Shooter:
+                name = "Shooter";
                 damage = 10;
                 health = 30;
                 speed = 0.5f;
