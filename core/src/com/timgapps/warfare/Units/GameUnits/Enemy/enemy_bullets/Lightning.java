@@ -1,4 +1,4 @@
-package com.timgapps.warfare.Units.GameUnits.Player.Bullets;
+package com.timgapps.warfare.Units.GameUnits.Enemy.enemy_bullets;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;

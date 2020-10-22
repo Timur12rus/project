@@ -17,7 +17,6 @@ public class Arrow extends Bullet {
         super(level, position, damage);
         image = new TextureRegion(Warfare.atlas.findRegion("arrow"));
         this.velocity.set(velocity);
-//        velocity.set(10f, 0);
         level.addChild(this, position.x, position.y);
         this.toFront();
         isDebug = true;

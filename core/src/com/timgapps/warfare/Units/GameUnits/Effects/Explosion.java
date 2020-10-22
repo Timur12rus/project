@@ -3,11 +3,11 @@ package com.timgapps.warfare.Units.GameUnits.Effects;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Array;
 import com.timgapps.warfare.Warfare;
-
 
 public class Explosion extends Actor {
     protected Animation explosionAnimation;
@@ -15,9 +15,11 @@ public class Explosion extends Actor {
     protected boolean isEndAnimation = false;
     protected boolean isStarted = false;
 
+
     public Explosion() {
         setVisible(false);
         createAnimation();
+        setSize(160, 140);
     }
 
     public void start() {
@@ -31,7 +33,7 @@ public class Explosion extends Actor {
         // получим кадры и добавим анимацию
         for (int i = 0; i < 6; i++)
             frames.add(new TextureRegion(Warfare.atlas.findRegion("explosion" + i)));
-        explosionAnimation = new Animation(0.12f, frames);
+        explosionAnimation = new Animation(0.11f, frames);
         frames.clear();
     }
 
@@ -48,6 +50,11 @@ public class Explosion extends Actor {
     @Override
     public void act(float delta) {
         super.act(delta);
+        // возможно нуно исправить // 22.10.2020
+        if (isEnd()) {
+            this.remove();
+        }
+        ///////////////////////////////////////////////
         if (explosionAnimation.isAnimationFinished(stateTime)) {
             isEndAnimation = true;
         }

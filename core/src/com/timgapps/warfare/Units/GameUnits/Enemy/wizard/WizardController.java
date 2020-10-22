@@ -4,7 +4,7 @@ import com.timgapps.warfare.Level.Level;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitController;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitModel;
 import com.timgapps.warfare.Units.GameUnits.Enemy.interfacesAi.EnemyShooterAi;
-import com.timgapps.warfare.Units.GameUnits.Player.Bullets.Lightning;
+import com.timgapps.warfare.Units.GameUnits.Enemy.enemy_bullets.Lightning;
 import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnitModel;
 
 import java.util.ArrayList;

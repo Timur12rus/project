@@ -20,7 +20,7 @@ public abstract class Bullet extends Actor {
     protected Vector2 velocity;
     protected TextureRegion image;
     protected boolean isDebug;
-    private ShapeRenderer shapeRenderer;
+    protected ShapeRenderer shapeRenderer;
     protected float deltaX, deltaY;
     protected boolean isTouchedEnemy;
     protected EnemyUnitModel targetEnemy;
@@ -49,8 +49,10 @@ public abstract class Bullet extends Actor {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
-        batch.draw(image, getX() + deltaX, getY() + deltaY, image.getRegionWidth() / 2, image.getRegionHeight() / 2,
-                image.getRegionWidth(), image.getRegionHeight(), 1, 1, getRotation());
+        if (image != null) {
+            batch.draw(image, getX() + deltaX, getY() + deltaY, image.getRegionWidth() / 2, image.getRegionHeight() / 2,
+                    image.getRegionWidth(), image.getRegionHeight(), 1, 1, getRotation());
+        }
 //        batch.draw(image, getX() + deltaX, getY() + deltaY);
         if (isDebug) {
             batch.end();

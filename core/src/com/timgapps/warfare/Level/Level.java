@@ -26,8 +26,8 @@ import com.timgapps.warfare.Level.LevelScreens.LevelCompletedScreen;
 import com.timgapps.warfare.Level.LevelScreens.PauseScreen;
 import com.timgapps.warfare.Units.GameUnits.Barricade;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitModel;
-import com.timgapps.warfare.Units.GameUnits.Player.Bullets.Lightning;
 import com.timgapps.warfare.Units.GameUnits.GameUnitModel;
+import com.timgapps.warfare.Units.GameUnits.Player.Bullets.throwFireRock.FireRockShoot;
 import com.timgapps.warfare.Units.GameUnits.Player.SiegeTower;
 import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnitModel;
 import com.timgapps.warfare.Units.GameUnits.Player.units.UnitCreator;
@@ -85,6 +85,7 @@ public class Level extends StageGame {
     private float unitButtonHeight;
     private Finger finger;
     private UnitCreator unitCreator;
+    private float waitTime = 300;
 
     public Level(int levelNumber, final GameManager gameManager) {
         this.levelNumber = levelNumber;
@@ -110,26 +111,26 @@ public class Level extends StageGame {
         colorRectangle.setVisible(false);
         addOverlayChild(colorRectangle);
 
+
         unitCreator = new UnitCreator(this);
-//        unitCreator.createUnit("Zombie1", new Vector2(370, 270));
-//        unitCreator.createUnit("Zombie3", new Vector2(570, 270));
+        unitCreator.createUnit("Zombie1", new Vector2(370, 270));
+        unitCreator.createUnit("Zombie3", new Vector2(570, 270));
 //        unitCreator.createUnit("Zombie1", new Vector2(1200, 270));
-//        unitCreator.createUnit("Zombie2", new Vector2(400, 200));
+        unitCreator.createUnit("Zombie2", new Vector2(600, 200));
 //        unitCreator.createUnit("Zombie1", new Vector2(750, 250));
 
 //        unitCreator.createUnit("Zombie3", new Vector2(2500, 280));
 //        unitCreator.createUnit("Zombie3", new Vector2(5000, 300));
 //        unitCreator.createUnit("Zombie3", new Vector2(3000, 220));
-//        unitCreator.createUnit("Zombie1", new Vector2(900, 270));
+        unitCreator.createUnit("Zombie1", new Vector2(700, 250));
 //        unitCreator.createUnit("Zombie2", new Vector2(600, 230));
-//        unitCreator.createUnit("Zombie1", new Vector2(300, 240));
+        unitCreator.createUnit("Zombie1", new Vector2(300, 240));
 ////
 //        unitCreator.createUnit("Wizard", new Vector2(1100, 250));
 //        unitCreator.createUnit("Skeleton1", new Vector2(1200, 230));
-//        unitCreator.createUnit("Skeleton2", new Vector2(900, 270));
+        unitCreator.createUnit("Skeleton2", new Vector2(900, 270));
 //
         unitCreator.createUnit("Ent1", new Vector2(1000, 270));
-
 //        unitCreator.createUnit("Barbarian", new Vector2(200, 240));
 //        unitCreator.createUnit("Viking", new Vector2(200, 240));
 
@@ -145,6 +146,8 @@ public class Level extends StageGame {
 
         // молния для теста
 //        Lightning lightning = new Lightning(this, new Vector2(500, 240), -100);
+
+//        new FireRockShoot(this);
 
         coinsCount = gameManager.getCoinsCount();
         hud = new HUD(this);
@@ -315,6 +318,13 @@ public class Level extends StageGame {
     protected void update(float delta) {
         super.update(delta);
         if (state != PAUSED) {
+
+            waitTime--;
+            if (waitTime < 0) {
+                new FireRockShoot(this);
+                waitTime = 200;
+            }
+
 //        if (state == PLAY) {
 //        timeCount += delta;
             energyCount += delta;
@@ -348,6 +358,13 @@ public class Level extends StageGame {
 //        } else {
 //            finger.stopPlayAction(false);
 //        }
+    }
+
+    public void shakeCamera() {
+        float x = camera.position.x;
+        float y = camera.position.y;
+        camera.position.x = (float) (x + Math.random() * 16 + 4);
+        camera.position.y = (float) (y + Math.random() * 16 + 4);
     }
 
     public void addGnome(int health, int damage) {

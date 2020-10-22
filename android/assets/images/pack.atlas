@@ -424,6 +424,13 @@ fire4
   orig: 48, 58
   offset: 0, 0
   index: -1
+fireRock
+  rotate: false
+  xy: 132, 2
+  size: 29, 29
+  orig: 29, 29
+  offset: 0, 0
+  index: -1
 food_icon
   rotate: false
   xy: 1975, 284
