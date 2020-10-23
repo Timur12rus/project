@@ -126,7 +126,7 @@ public class Level extends StageGame {
 //        unitCreator.createUnit("Zombie2", new Vector2(600, 230));
         unitCreator.createUnit("Zombie1", new Vector2(300, 240));
 ////
-//        unitCreator.createUnit("Wizard", new Vector2(1100, 250));
+        unitCreator.createUnit("Wizard", new Vector2(1100, 250));
 //        unitCreator.createUnit("Skeleton1", new Vector2(1200, 230));
         unitCreator.createUnit("Skeleton2", new Vector2(900, 270));
 //
@@ -319,11 +319,11 @@ public class Level extends StageGame {
         super.update(delta);
         if (state != PAUSED) {
 
-            waitTime--;
-            if (waitTime < 0) {
-                new FireRockShoot(this);
-                waitTime = 200;
-            }
+//            waitTime--;
+//            if (waitTime < 0) {
+//                new FireRockShoot(this);
+//                waitTime = 200;
+//            }
 
 //        if (state == PLAY) {
 //        timeCount += delta;
