@@ -21,6 +21,7 @@ public class TeamUnit {
     private int timePrepare;
     private int energyCost;
     private final int MAX_UNIT_LEVEL = 10;
+    private boolean isCalled;           // призван ли юнит (т.е. куплени ли он, нужно ли будет его покупать)
 
     @Override
     public String toString() {
@@ -46,6 +47,7 @@ public class TeamUnit {
         health = data.getHealth();
         unitLevel = data.getUnitLevel();
         unitImage = new UnitImage(unitId, unitLevel, energyCost);
+        isCalled = data.isCalled();     // призван ли юнит (т.е. куплен ли он)
     }
 
     public int getMaxUnitLevel() {

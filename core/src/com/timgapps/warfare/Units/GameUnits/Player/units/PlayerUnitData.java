@@ -13,7 +13,9 @@ public class PlayerUnitData extends UnitData {
     private boolean isUnlock = false;
     private int starsCount;
     private int energyPrice;
-    private int appearanceTime;        // время приготовления
+    private int prepareTime;        // время приготовления
+    private boolean isCalled;           // призван ли юнит (т.е. доступен ли он)
+    private int unitPrice;              // цена юнита, чтобы его купить
 
     public PlayerUnitData(PlayerUnits unitId) {
         this.unitId = unitId;
@@ -28,13 +30,14 @@ public class PlayerUnitData extends UnitData {
                 health = 30;
                 speed = 0.8f;
                 energyPrice = 15;
-                appearanceTime = 10;
+                prepareTime = 10;
                 deltaX = -124;          // смещение изображения юнита относительно тела юнита (прямоугольника)
                 deltaY = 0;
                 barDeltaX = -84;
                 barDeltaY = 0;
                 starsCount = 15;
                 unitLevel = 1;
+                isCalled = true;
                 break;
             case Barbarian:
                 name = "Barbarian";
@@ -42,13 +45,15 @@ public class PlayerUnitData extends UnitData {
                 health = 30;
                 speed = 1.2f;
                 energyPrice = 15;
-                appearanceTime = 10;
+                prepareTime = 10;
                 deltaX = -124;          // смещение изображения юнита относительно тела юнита (прямоугольника)
                 deltaY = 0;
                 barDeltaX = -84;
                 barDeltaY = 0;
                 starsCount = 15;
                 unitLevel = 1;
+                isCalled = false;
+                unitPrice = 100;             // стоимость юнита
                 break;
             case Viking:
                 name = "Viking";
@@ -56,13 +61,15 @@ public class PlayerUnitData extends UnitData {
                 health = 30;
                 speed = 1.2f;
                 energyPrice = 15;
-                appearanceTime = 10;
+                prepareTime = 10;
                 deltaX = -124;          // смещение изображения юнита относительно тела юнита (прямоугольника)
                 deltaY = 0;
                 barDeltaX = -84;
                 barDeltaY = 0;
                 starsCount = 15;
                 unitLevel = 1;
+                isCalled = false;
+                unitPrice = 200;               // стоимость юнита
                 break;
             case Archer:
                 name = "Archer";
@@ -70,7 +77,7 @@ public class PlayerUnitData extends UnitData {
                 health = 30;
                 speed = 0.5f;
                 energyPrice = 20;
-                appearanceTime = 25;
+                prepareTime = 25;
                 deltaX = -100;
 //                deltaX = -174;
                 deltaY = 0;
@@ -78,6 +85,7 @@ public class PlayerUnitData extends UnitData {
                 barDeltaY = 8;
                 starsCount = 4;
                 unitLevel = 1;
+                isCalled = true;
                 break;
             case Shooter:
                 name = "Shooter";
@@ -85,7 +93,7 @@ public class PlayerUnitData extends UnitData {
                 health = 30;
                 speed = 0.5f;
                 energyPrice = 20;
-                appearanceTime = 25;
+                prepareTime = 25;
                 deltaX = -100;
 //                deltaX = -174;
                 deltaY = 0;
@@ -93,6 +101,8 @@ public class PlayerUnitData extends UnitData {
                 barDeltaY = 8;
                 starsCount = 4;
                 unitLevel = 1;
+                isCalled = false;
+                unitPrice = 200;               // стоимость юнита
                 break;
             case Knight:
                 name = "Knight";
@@ -100,13 +110,14 @@ public class PlayerUnitData extends UnitData {
                 health = 20;
                 speed = 0.4f;
                 energyPrice = 25;
-                appearanceTime = 18;
+                prepareTime = 18;
                 deltaX = -142;
                 deltaY = -24;
                 barDeltaX = -84;        // смещение healthBar по оси х
                 barDeltaY = 0;
                 starsCount = 50;
                 unitLevel = 1;
+                isCalled = true;
                 break;
             case Thor:
                 name = "Thor";
@@ -115,7 +126,7 @@ public class PlayerUnitData extends UnitData {
                 speed = 1.1f;
 //                speed = 0.9f;
                 energyPrice = 15;
-                appearanceTime = 18;
+                prepareTime = 18;
                 deltaX = -100;
 //                deltaX = -124;
                 deltaY = -8;
@@ -123,6 +134,7 @@ public class PlayerUnitData extends UnitData {
                 barDeltaY = 0;
                 unitLevel = 1;
                 isUnlock = true;
+                isCalled = true;
                 break;
             case Stone:
                 name = "Stone";
@@ -131,8 +143,9 @@ public class PlayerUnitData extends UnitData {
                 speed = 0;
                 starsCount = 1;
                 energyPrice = 8;
-                appearanceTime = 10;
+                prepareTime = 10;
                 unitLevel = 1;
+                isCalled = true;
                 break;
             case None:
                 name = "None";
@@ -140,7 +153,7 @@ public class PlayerUnitData extends UnitData {
                 health = 0;
                 speed = 0;
                 energyPrice = 0;
-                appearanceTime = 0;
+                prepareTime = 0;
                 starsCount = 0;
                 break;
         }
@@ -149,8 +162,18 @@ public class PlayerUnitData extends UnitData {
         }
     }
 
-    public float getAppearanceTime() {
-        return appearanceTime;
+    // устанавливает куплен ли юнит (призван ли)
+    public void setIsCalled(boolean isCalled) {
+        this.isCalled = isCalled;
+    }
+
+    // возвращает, куплен ли юнит
+    public boolean isCalled() {
+        return isCalled;
+    }
+
+    public int getPrepareTime() {
+        return prepareTime;
     }
 
     // метод возвращает значение скорость юнита

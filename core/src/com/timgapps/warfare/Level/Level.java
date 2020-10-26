@@ -319,11 +319,12 @@ public class Level extends StageGame {
         super.update(delta);
         if (state != PAUSED) {
 
-//            waitTime--;
-//            if (waitTime < 0) {
-//                new FireRockShoot(this);
-//                waitTime = 200;
-//            }
+            // для теста
+            waitTime--;
+            if (waitTime < 0) {
+                new FireRockShoot(this);
+                waitTime = 200;
+            }
 
 //        if (state == PLAY) {
 //        timeCount += delta;
@@ -366,22 +367,6 @@ public class Level extends StageGame {
         camera.position.x = (float) (x + Math.random() * 16 + 4);
         camera.position.y = (float) (y + Math.random() * 16 + 4);
     }
-
-    public void addGnome(int health, int damage) {
-//        new Gnome(this, 160, 210, health, damage);
-    }
-
-    public void addArcher1(int health, int damage) {
-//        new Archer1(this, 140, 210, health, 50);
-//        new Archer1(this, 140, 210, health, damage);
-//        new Archer1(this, 600, 210, health, damage);
-
-    }
-
-
-//    public void addKnight(int health, int damage) {
-//        new Knight(this, 160, 210, health, damage);
-//    }
 
     public void compareActorsYPos() {
         /** Полностью рабочий код, но с ошиблкой Zindex cannot be < 0 **/

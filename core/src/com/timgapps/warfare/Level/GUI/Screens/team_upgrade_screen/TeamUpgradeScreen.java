@@ -1,4 +1,4 @@
-package com.timgapps.warfare.Level.GUI.Screens;
+package com.timgapps.warfare.Level.GUI.Screens.team_upgrade_screen;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -13,9 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.boontaran.MessageEvent;
-import com.timgapps.warfare.Level.GUI.Screens.upgrade_window.CollectionTable;
-import com.timgapps.warfare.Level.GUI.Screens.upgrade_window.TeamTable;
-import com.timgapps.warfare.Level.GUI.Screens.upgrade_window.UpgradeScreen;
+import com.timgapps.warfare.Level.GUI.Screens.upgrade_window.UpgradeWindow;
 import com.timgapps.warfare.Level.GUI.Screens.win_creator.ConstructedWindow;
 import com.timgapps.warfare.Level.GUI.team_unit.TeamUnit;
 import com.timgapps.warfare.Level.GameManager;
@@ -30,15 +28,12 @@ import java.util.ArrayList;
 // экран с командой и коллекцией юнитов
 public class TeamUpgradeScreen extends Group {
     public static final int ON_RESUME = 1;
-    public Label screenTitle; // отображаем текст заголовка
-    private UpgradeScreen upgradeScreen;
+    private UpgradeWindow upgradeWindow;
     private ConstructedWindow constructedWindow;
     private ImageButton closeButton;
     private ArrayList<com.timgapps.warfare.Level.GUI.team_unit.TeamUnit> team;                 // массив юнитов из КОМАНДЫ
     private ArrayList<com.timgapps.warfare.Level.GUI.team_unit.TeamUnit> unitCollection;       // массив юнитов из КОЛЛЕКЦИИ
     private com.timgapps.warfare.Level.GUI.team_unit.TeamUnit replaceUnit;                     // заменяющий юнит из коллекциии, заменяет юнита в команде при процессе замены
-    private float teamTableWidth;
-    private float teamTableHeight;
     private float paddingLeft = 48;
     private float paddingTop = 24;
     private Label replaceUnitLabel;
@@ -53,7 +48,7 @@ public class TeamUpgradeScreen extends Group {
     private String teamText;
     private GameManager gameManager;
     private boolean toRaplaceUnitFromCollectionToTeam = false;
-    private com.timgapps.warfare.Level.GUI.team_unit.TeamUnit clickedTeamUnit;
+    private TeamUnit clickedTeamUnit;
 
     /**
      * передаем в конструктор список team, который содержит в себе КОМАНДУ ЮНИТОВ
@@ -79,9 +74,9 @@ public class TeamUpgradeScreen extends Group {
 
         /** upgradeScreen - экран апгрейда юнита
          * - характеристики юнита
-         * - таблица с количество ресурсов и т.д.
+         * - таблица с количеством ресурсов и т.д.
          */
-        upgradeScreen = new UpgradeScreen(gameManager, this);
+        upgradeWindow = new UpgradeWindow(gameManager, this);
         addActor(constructedWindow);
 
         teamLabel = new Label(teamText, labelStyle);
@@ -113,7 +108,6 @@ public class TeamUpgradeScreen extends Group {
          * **/
         collectionTable = new CollectionTable(unitCollection);
 //        Table collectionTable = new CollectionTable(unitCollection).debug();
-
 //        // убрал пока
         for (int i = 0; i < team.size(); i++) {
             addClickListener(team.get(i));
@@ -138,13 +132,11 @@ public class TeamUpgradeScreen extends Group {
         tableCollection.setWidth(collectionTable.getWidth());
         tableCollection.setHeight(270);
         tableCollection.add(scroller).fill().expand();
-
         tableCollection.setPosition(teamTable.getX(), constructedWindow.getY() + 30);
         addActor(tableCollection);
-        addActor(upgradeScreen);
+        addActor(upgradeWindow);
         replaceUnitLabel.setPosition(constructedWindow.getX() + constructedWindow.getWidth() / 2 - replaceUnitLabel.getWidth() / 2,
                 constructedWindow.getY() + constructedWindow.getHeight() / 2 - replaceUnitLabel.getHeight());
-
         replaceUnitLabel.setVisible(false);
         addActor(replaceUnitLabel);
 
@@ -180,18 +172,14 @@ public class TeamUpgradeScreen extends Group {
      * метод показывает заменяющего юнита (нового), которого игрок хочет добавить в команду
      **/
     public void showReplaceUnit(com.timgapps.warfare.Level.GUI.team_unit.TeamUnit teamUnit) {
-
         /** делаем таблицу с командой юнитов невидимой, скрываем её **/
         tableCollection.setVisible(false);
         replaceUnit = teamUnit;   // юнит из коллекции, который заменит юнита в команде
-
         /** назначаем изображение выбранного для замены юнита **/
         replacedUnitImage.setDrawable((teamUnit.getUnitImage().getImage()).getDrawable());
-
         /** делаем видимыми надпись "ВЫБЕРИТЕ ЮНИТ ДЛЯ ЗАМЕНЫ" и изображение заменяющего юнита **/
         replaceUnitLabel.setVisible(true);
         replacedUnitImage.setVisible(true);
-
         /** устанавливаем флаг - true для того чтобы обозначить, что происходит процесс замены юнита **/
         isReplaceActive = true;
     }
@@ -215,16 +203,21 @@ public class TeamUpgradeScreen extends Group {
     /**
      * метод показывает запускает экран UpgradeScreen
      **/
-    private void showUpgradeScreen(com.timgapps.warfare.Level.GUI.team_unit.TeamUnit teamUnit) {             // selectButton - false или true, показать кнопку
-        upgradeScreen.setUnitUpgradeData(teamUnit);
+    private void showUpgradeWindow(TeamUnit teamUnit) {             // selectButton - false или true, показать кнопку
+        upgradeWindow.setUnitUpgradeData(teamUnit);
+//        infoTable.redraw();
         boolean showSelectButton = false;       // показывать ли кнопеу "ВЫБРАТЬ" в окне информации о юните
+        boolean showCallLabel = false;          // показать надпись "Призвать"
         if (unitCollection.contains(teamUnit)) {
-            if (teamUnit.getUnitData().isUnlock()) {      // если юнит находится в "КОЛЛЕКЦИИ", и разблокирован
+            if (!teamUnit.getUnitData().isCalled()) {
+                showCallLabel = true;
+            } else if (teamUnit.getUnitData().isUnlock()) {      // если юнит находится в "КОЛЛЕКЦИИ", и разблокирован
                 showSelectButton = true;                     // то покажем кнопку "ВЫБРАТЬ"
             }
+
             //TODO нужно сделать надпись типа "соберите *10 для разблокировки
         }
-        upgradeScreen.showUpgradeScreen(showSelectButton, teamUnit);
+        upgradeWindow.show(showSelectButton, showCallLabel,  teamUnit);
     }
 
     /**
@@ -238,7 +231,7 @@ public class TeamUpgradeScreen extends Group {
 
                 /** если флаг isReplaceActive - false, то вызываем окно апгрейда, если true - заменяем юнит в команде на юнит из коллекции **/
                 if (!isReplaceActive)
-                    showUpgradeScreen(teamUnit);
+                    showUpgradeWindow(teamUnit);
                 else {
                     toRaplaceUnitFromCollectionToTeam = true;
                     clickedTeamUnit = teamUnit;
@@ -330,10 +323,10 @@ public class TeamUpgradeScreen extends Group {
     }
 
     public boolean isUpgradeScreenVisible() {
-        return upgradeScreen.isVisible();
+        return upgradeWindow.isVisible();
     }
 
     public void setUpgradeScreenVisible(boolean visible) {
-        upgradeScreen.setVisible(visible);
+        upgradeWindow.setVisible(visible);
     }
 }

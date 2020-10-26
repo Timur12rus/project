@@ -19,23 +19,24 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.timgapps.warfare.Level.GUI.Screens.resources_view.ResourcesTable;
 import com.timgapps.warfare.Level.GUI.team_unit.TeamUnit;
-import com.timgapps.warfare.Level.GUI.Screens.TeamUpgradeScreen;
+import com.timgapps.warfare.Level.GUI.Screens.team_upgrade_screen.TeamUpgradeScreen;
 import com.timgapps.warfare.Level.GUI.Screens.win_creator.ConstructedWindow;
+import com.timgapps.warfare.Level.GUI.team_unit.UnitLevelIcon;
 import com.timgapps.warfare.Level.GameManager;
 import com.timgapps.warfare.Warfare;
 
 import java.util.ArrayList;
 
 // экран с данными юнита и апгрейда
-public class UpgradeScreen extends Group {
+public class UpgradeWindow extends Group {
     public static final int ON_RESUME = 1;
     private ConstructedWindow constructedWindow;
     private ImageButton closeButton;
-    private Table infoTable;        // таблица содержит данные о характеристиках юнита
-    private Table container;
-    private Label healthLabel;      // текст "ЗДОРОВЬЕ"
-    private Label damageLabel;      // текст "УРОН"
-    private Label speedLabel;       // текст "СКОРОСТЬ"
+    private Table infoTable;
+    private Table container;     // основной верхний контейнер-таблица, в котором будут помещаться infoTable, imageContainer и resourceContainer
+    private Label healthLabel;   // текст "ЗДОРОВЬЕ"
+    private Label damageLabel;   // текст "УРОН"
+    private Label speedLabel;    // текст "СКОРОСТЬ"
     private Label timePrepearLabel;       // текст "ВРЕМЯ ПОЯВЛЕНИЯ"
     private Label upgradeCostLabel;       // текст "СТОИМОСТЬ АПРГРЕЙДА"
     private Label healthValueLabel;      // текст количество "здоровья"
@@ -87,9 +88,9 @@ public class UpgradeScreen extends Group {
     private BlockTable blockTable;
     private Table costUpgradeTable;
     private Label maxLevelReached;  // надпись "максимальный уровнень достигнут"
+    private Label callLabel;
 
-    public UpgradeScreen(GameManager gameManager, TeamUpgradeScreen teamUpgradeScreen) {
-
+    public UpgradeWindow(GameManager gameManager, TeamUpgradeScreen teamUpgradeScreen) {
         this.teamUpgradeScreen = teamUpgradeScreen;
         this.gameManager = gameManager;
         this.team = gameManager.getTeam();              // команда - массив типа TeamEntity
@@ -97,7 +98,6 @@ public class UpgradeScreen extends Group {
         blockTable = new BlockTable();
 
         /** зададим значения характеристик юнита**/
-
         foodIcon = new Image(Warfare.atlas.findRegion("food_icon"));
         ironIcon = new Image(Warfare.atlas.findRegion("iron_icon"));
         woodIcon = new Image(Warfare.atlas.findRegion("wood_icon"));
@@ -160,8 +160,11 @@ public class UpgradeScreen extends Group {
         timePrepearValueLabel = new Label("" + timePrepearValue, labelStyle);          // текст значения скорость
         healthAddValueLabel = new Label(" + " + addHealthValue, greenLabelStyle);  // текст на сколько прибавится здоровья
         damageAddValueLabel = new Label(" + " + addDamageValue, greenLabelStyle);  // текст на сколько прибавится урон
+
+        // нижняя часть надписей (ниже таблицы с характеристиками)
         upgradeCostLabel = new Label(upgradeCostText, labelStyle);          // текст "СТОИМОСТЬ УЛУЧШЕНИЯ"
         maxLevelReached = new Label("The unit has reached maximum level", labelStyle);
+        callLabel = new Label("Call unit:", labelStyle);
         maxLevelReached.setVisible(true);
         toastLabel = new Label("", redLabelStyle);          // текст "СТОИМОСТЬ УЛУЧШЕНИЯ"
         unitNameLabel = new Label("", labelStyle);
@@ -284,7 +287,8 @@ public class UpgradeScreen extends Group {
         addActor(maxLevelReached);
     }
 
-    public void showUpgradeScreen(boolean showSelectButton, TeamUnit teamUnit) {
+    // метод показывает окно с данными об апгрейде юнита
+    public void show(boolean showSelectButton, boolean showCallLabel, TeamUnit teamUnit) {
         this.teamUnit = teamUnit;
         // если уровень текущего юнита максимальный, не показываем таблицу о стоимости апгрейда
         if (teamUnit.getUnitLevel() >= teamUnit.getMaxUnitLevel()) {
@@ -313,6 +317,11 @@ public class UpgradeScreen extends Group {
             damageAddValueLabel.setVisible(false);
         }
 
+        /** если юнит не призван (не куплен), выводим надипись "призвать" и стоимость **/
+        if (showCallLabel) {
+            upgradeToLevelLabel.setText("Call this unit:");
+
+        }
         /** если юнит не состоит в команде, отображаем кнопку "ВЫБРАТЬ" **/
         if (showSelectButton) {
             unitImage.getSelectButton().setVisible(true);
@@ -406,7 +415,7 @@ public class UpgradeScreen extends Group {
     }
 
     /**
-     * метод для проверки достаточно ли монет и ресурсов для апргрейда
+     * метод для проверки достаточно ли монет и ресурсов для апргрейда или "покупки юнита"
      **/
     private void checkRecourcesAndCoinsCount() {
         if (coinsCount >= upgradeCost) {

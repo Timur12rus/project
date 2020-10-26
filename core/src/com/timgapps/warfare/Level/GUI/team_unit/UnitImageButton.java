@@ -11,7 +11,7 @@ import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnitData;
 import com.timgapps.warfare.Units.GameUnits.unitTypes.PlayerUnits;
 import com.timgapps.warfare.Warfare;
 
-// кнопка юнита (в магазине на сцене для вызова юнита)
+// кнопка юнита (в магазине и на сцене для вызова юнита)
 public class UnitImageButton extends Group {
     protected Image activeImage, inactiveImage, lockImage;
     private boolean isUnlock;
@@ -19,6 +19,8 @@ public class UnitImageButton extends Group {
     protected boolean isReadyUnitButton;
     protected PlayerUnitData playerUnitData;
     protected float height;
+    protected UnitLevelIcon unitLevelIcon;
+    protected Image lockIcon;
 
     public UnitImageButton(PlayerUnitData playerUnitData) {
 //    public UnitImageButton(PlayerUnits unitId, final boolean isUnlock) {
@@ -29,6 +31,8 @@ public class UnitImageButton extends Group {
         activeImage = new Image(Warfare.atlas.findRegion(unitId.name().toLowerCase() + "Active"));
         inactiveImage = new Image(Warfare.atlas.findRegion(unitId.name().toLowerCase() + "Inactive"));
         lockImage = new Image(Warfare.atlas.findRegion(unitId.name().toLowerCase() + "Lock"));
+        lockIcon = new Image(Warfare.atlas.findRegion("lockIcon"));         // значок "замок" заблокирован юнит
+        unitLevelIcon = new UnitLevelIcon(playerUnitData.getUnitLevel());           // значок "уровень юнита"
         height = activeImage.getHeight();
 
         setSize(activeImage.getWidth(), activeImage.getHeight());
@@ -36,18 +40,27 @@ public class UnitImageButton extends Group {
         inactiveImage.setVisible(false);
         lockImage.setVisible(false);
 
+        unitLevelIcon.setPosition(getWidth() - unitLevelIcon.getWidth(), getHeight() - unitLevelIcon.getHeight() + 10);
+        lockIcon.setPosition(getWidth() - lockIcon.getWidth(), getHeight() - lockIcon.getHeight() + 10);
+
         if (isUnlock) {                     // если разблокирован
             activeImage.setVisible(true);
             lockImage.setVisible(false);
+            lockIcon.setVisible(false);
+            unitLevelIcon.setVisible(true);
         } else {                            // в противном случае, заблокирован
             lockImage.setVisible(true);
             activeImage.setVisible(false);
             inactiveImage.setVisible(false);
+            lockIcon.setVisible(true);
+            unitLevelIcon.setVisible(false);
         }
         addActor(activeImage);
         addActor(inactiveImage);
         inactiveImage.setPosition(0, -10);
         addActor(lockImage);
+        addActor(lockIcon);
+        addActor(unitLevelIcon);
 //        setInActive();
 
         addCaptureListener(new EventListener() { // добавляет слушателя события корневому элементу, отключая его для дочерних элементов
@@ -74,21 +87,25 @@ public class UnitImageButton extends Group {
                 if (!isUnlock) {        // если заблокирован юнит
                     lockImage.setY(lockImage.getY() - 10);      // изображение с блокировкой
                     activeImage.setY(activeImage.getY() - 10);
+                    lockIcon.setY(lockIcon.getY() - 10);
                 } else {
 //                    dwnImage.setVisible(true); // устанавливаем видимость для фона нажатой кнопки, а также оставим вызов метода суперкласса
 //                    bgImage.setVisible(false);
                     activeImage.setY(activeImage.getY() - 10);
+                    unitLevelIcon.setY(unitLevelIcon.getY() - 10);
                 }
                 return super.touchDown(event, x, y, pointer, button);
             }
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                if (!isUnlock) {
+                if (!isUnlock) {            // если заблокирован юнит
                     lockImage.setY(lockImage.getY() + 10);
                     activeImage.setY(activeImage.getY() + 10);
+                    lockIcon.setY(lockIcon.getY() + 10);
                 } else {
                     activeImage.setY(activeImage.getY() + 10);
+                    unitLevelIcon.setY(unitLevelIcon.getY() + 10);
 //                    activeImage.setY(activeImage.getY() + 10);
                 }
                 super.touchUp(event, x, y, pointer, button);
@@ -115,6 +132,5 @@ public class UnitImageButton extends Group {
     public void setInActive() {
         activeImage.setVisible(false);
         inactiveImage.setVisible(true);
-//        isReadyUnitButton = false;
     }
 }

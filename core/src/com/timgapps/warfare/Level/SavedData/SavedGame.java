@@ -134,21 +134,21 @@ public class SavedGame implements Serializable {
         teamDataList.get(0).setDefaultData(PlayerUnits.Thor);
 
         // это для теста
-        teamDataList.add(new PlayerUnitData(PlayerUnits.Gnome));
-        teamDataList.get(1).setDefaultData(PlayerUnits.Gnome);
-        teamDataList.add(new PlayerUnitData(PlayerUnits.Knight));
-        teamDataList.get(2).setDefaultData(PlayerUnits.Knight);
-        teamDataList.add(new PlayerUnitData(PlayerUnits.Archer));
-        teamDataList.get(3).setDefaultData(PlayerUnits.Archer);
-
-        teamDataList.add(new PlayerUnitData(PlayerUnits.Barbarian));
-        teamDataList.get(4).setDefaultData(PlayerUnits.Barbarian);
-
-        teamDataList.add(new PlayerUnitData(PlayerUnits.Viking));
-        teamDataList.get(5).setDefaultData(PlayerUnits.Viking);
-
-        teamDataList.add(new PlayerUnitData(PlayerUnits.Shooter));
-        teamDataList.get(6).setDefaultData(PlayerUnits.Shooter);
+//        teamDataList.add(new PlayerUnitData(PlayerUnits.Gnome));
+//        teamDataList.get(1).setDefaultData(PlayerUnits.Gnome);
+//        teamDataList.add(new PlayerUnitData(PlayerUnits.Knight));
+//        teamDataList.get(2).setDefaultData(PlayerUnits.Knight);
+//        teamDataList.add(new PlayerUnitData(PlayerUnits.Archer));
+//        teamDataList.get(3).setDefaultData(PlayerUnits.Archer);
+//
+//        teamDataList.add(new PlayerUnitData(PlayerUnits.Barbarian));
+//        teamDataList.get(4).setDefaultData(PlayerUnits.Barbarian);
+//
+//        teamDataList.add(new PlayerUnitData(PlayerUnits.Viking));
+//        teamDataList.get(5).setDefaultData(PlayerUnits.Viking);
+//
+//        teamDataList.add(new PlayerUnitData(PlayerUnits.Shooter));
+//        teamDataList.get(6).setDefaultData(PlayerUnits.Shooter);
     }
 
     /**
@@ -160,6 +160,11 @@ public class SavedGame implements Serializable {
         collectionDataList.add(new PlayerUnitData(PlayerUnits.Archer));
         collectionDataList.add(new PlayerUnitData(PlayerUnits.Gnome));
         collectionDataList.add(new PlayerUnitData(PlayerUnits.Knight));
+
+        collectionDataList.add(new PlayerUnitData(PlayerUnits.Barbarian));
+        collectionDataList.add(new PlayerUnitData(PlayerUnits.Viking));
+        collectionDataList.add(new PlayerUnitData(PlayerUnits.Shooter));
+
 
         for (PlayerUnitData collectionUnitData : collectionDataList) {
             collectionUnitData.setDefaultData(collectionUnitData.getUnitId());

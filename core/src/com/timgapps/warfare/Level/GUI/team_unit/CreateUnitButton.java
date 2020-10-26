@@ -7,7 +7,7 @@ import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnitData;
 import com.timgapps.warfare.Level.Level;
 import com.timgapps.warfare.Warfare;
 
-// кнопка для созждания юинтов на сцене
+// кнопка для создания юинтов на сцене
 public class CreateUnitButton extends UnitImageButton {
     protected TextureRegion darkLayer;
     private boolean isUnlock;
@@ -16,6 +16,7 @@ public class CreateUnitButton extends UnitImageButton {
     private int energyPrice;
     protected float percentage = 0;
     private Level level;
+    private boolean isActive = false;
 
     public CreateUnitButton(Level level, PlayerUnitData playerUnitData) {
         super(playerUnitData);
@@ -32,13 +33,14 @@ public class CreateUnitButton extends UnitImageButton {
         height = darkLayer.getRegionHeight();
         lockImage.setVisible(false);
         setInActive();
+        unitLevelIcon.setIsActiveIcon(false);
     }
 
     @Override
     public void act(float delta) {
         super.act(delta);
         if (level.getState() == Level.PLAY) {
-            if (!isReadyUnitButton) {
+            if (!isReadyUnitButton) {                         // если юнит не готов к появлению
                 if (percentage < height) {                   // проверяем, прошло ли достаточно времени, чтобы родился юнит
                     percentage += interpolation;
                 } else {
@@ -64,10 +66,24 @@ public class CreateUnitButton extends UnitImageButton {
         }
     }
 
+    @Override
+    public void setInActive() {
+        super.setInActive();
+        // что то не так!!!!!!
+        if (isActive == true) {
+            unitLevelIcon.setIsActiveIcon(false);
+            isActive = false;
+        }
+    }
+
     public void setActive() {
         percentage = 0;
-        activeImage.setVisible(true);
-        inactiveImage.setVisible(false);
+        if (isActive == false) {
+            activeImage.setVisible(true);
+            inactiveImage.setVisible(false);
+            unitLevelIcon.setIsActiveIcon(true);
+            isActive = true;
+        }
     }
 
     protected boolean checkEnergyCount(int energyPrice) {

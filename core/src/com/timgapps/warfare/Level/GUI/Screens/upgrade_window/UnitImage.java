@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.timgapps.warfare.Level.GUI.team_unit.UnitLevelIcon;
 import com.timgapps.warfare.Units.GameUnits.unitTypes.PlayerUnits;
 import com.timgapps.warfare.Warfare;
 
@@ -18,7 +19,7 @@ import com.timgapps.warfare.Warfare;
 public class UnitImage extends Group {
     private Label levelLabel;       // надпись, текущий уровень юнита
     private Label energyLabel;       // надпись, стоимость энергии
-    private UnitLevelIcon levelIcon;       // значок для отображения текущего уровня
+    private com.timgapps.warfare.Level.GUI.team_unit.UnitLevelIcon levelIcon;       // значок для отображения текущего уровня
     //    private Image levelIcon;       // значок для отображения текущего уровня
     private Image energyIcon;
     private Image image;       // изображение юнита
@@ -53,10 +54,10 @@ public class UnitImage extends Group {
                 textureRegionName = "rockUnitImage";
                 break;
         }
-        image = new Image(Warfare.atlas.findRegion(textureRegionName));         // зададим изображение изображение юнита
-        energyIcon = new Image(Warfare.atlas.findRegion("energyIcon"));    // зададим изображение изображение юнита
+        image = new Image(Warfare.atlas.findRegion(textureRegionName));         // зададим изображение юнита
+        energyIcon = new Image(Warfare.atlas.findRegion("energyIcon"));    // зададим изображение юнита
         selectButton = new ColorButton("Select", ColorButton.YELLOW_BUTTON);
-        levelIcon = new UnitLevelIcon(unitLevel);
+        levelIcon = new com.timgapps.warfare.Level.GUI.team_unit.UnitLevelIcon(unitLevel);
         levelIcon.setPosition(image.getWidth(), image.getHeight() - levelIcon.getHeight());
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.fontColor = Color.DARK_GRAY;

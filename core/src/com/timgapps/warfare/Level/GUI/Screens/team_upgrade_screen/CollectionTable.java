@@ -1,4 +1,4 @@
-package com.timgapps.warfare.Level.GUI.Screens.upgrade_window;
+package com.timgapps.warfare.Level.GUI.Screens.team_upgrade_screen;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -11,9 +11,7 @@ import java.util.ArrayList;
  * unitCollection - массив юнитов в коллекции
  **/
 public class CollectionTable extends Table {
-    private Image unitImage;
     private ArrayList<TeamUnit> unitCollectiion;
-
     private float width, height;
 
     public CollectionTable(ArrayList<TeamUnit> unitCollection) {
