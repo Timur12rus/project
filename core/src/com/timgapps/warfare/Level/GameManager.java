@@ -435,6 +435,7 @@ public class GameManager {
         return null;
     }
 
+
     /**
      * метод для получения коллекции юнитов игрока
      **/
@@ -467,4 +468,10 @@ public class GameManager {
         return savedGame;
     }
 
+    /**
+     * метод совершает покупку юнита (т.е. делаем его isHared = true, добавляет в команду если в коменде < 5 юнитов
+     **/
+    public void setUnitIsHared(PlayerUnits id) {
+        team.get
+    }
 }

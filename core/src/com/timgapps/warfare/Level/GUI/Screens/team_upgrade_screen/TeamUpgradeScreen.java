@@ -201,11 +201,10 @@ public class TeamUpgradeScreen extends Group {
     }
 
     /**
-     * метод показывает запускает экран UpgradeScreen
+     * метод показывает запускает экран UpgradeWindow
      **/
     private void showUpgradeWindow(TeamUnit teamUnit) {             // selectButton - false или true, показать кнопку
         upgradeWindow.setUnitUpgradeData(teamUnit);
-//        infoTable.redraw();
         boolean showSelectButton = false;       // показывать ли кнопеу "ВЫБРАТЬ" в окне информации о юните
         boolean showCallLabel = false;          // показать надпись "Призвать"
         if (unitCollection.contains(teamUnit)) {

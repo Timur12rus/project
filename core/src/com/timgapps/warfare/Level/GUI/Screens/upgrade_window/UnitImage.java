@@ -37,23 +37,7 @@ public class UnitImage extends Group {
      */
     public UnitImage(PlayerUnits unitId, int unitLevel, int energyCost) {
         this.unitLevel = unitLevel;
-        switch (unitId) {
-            case Gnome:
-                textureRegionName = "gnomeUnitImage";
-                break;
-            case Archer:
-                textureRegionName = "archerUnitImage";
-                break;
-            case Thor:
-                textureRegionName = "thorUnitImage";
-                break;
-            case Knight:
-                textureRegionName = "knightUnitImage";
-                break;
-            case Stone:
-                textureRegionName = "rockUnitImage";
-                break;
-        }
+        textureRegionName = unitId.name().toLowerCase() + "UnitImage";
         image = new Image(Warfare.atlas.findRegion(textureRegionName));         // зададим изображение юнита
         energyIcon = new Image(Warfare.atlas.findRegion("energyIcon"));    // зададим изображение юнита
         selectButton = new ColorButton("Select", ColorButton.YELLOW_BUTTON);

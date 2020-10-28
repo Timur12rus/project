@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
 import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnitData;
 import com.timgapps.warfare.Warfare;
 
@@ -36,8 +37,8 @@ public class InfoTable extends Table {
     private String timePrepearText = "Time prepear";
     private float paddingLeft = 48;
     private PlayerUnitData data;
-    private float addHealthValue = 2;
-    private float addDamageValue = 2;
+    private int addHealthValue = 2;
+    private int addDamageValue = 2;
     private Label.LabelStyle labelStyle;
     private Label.LabelStyle greenLabelStyle;
 
@@ -67,6 +68,15 @@ public class InfoTable extends Table {
         timePrepearValueLabel = new Label("", labelStyle);          // текст значения скорость
         healthAddValueLabel = new Label(" + " + addHealthValue, greenLabelStyle);  // текст на сколько прибавится здоровья
         damageAddValueLabel = new Label(" + " + addDamageValue, greenLabelStyle);  // текст на сколько прибавится урон
+
+        healthLabel.setAlignment(Align.right);
+        damageLabel.setAlignment(Align.right);
+        speedLabel.setAlignment(Align.right);
+        timePrepearLabel.setAlignment(Align.right);
+        healthValueLabel.setAlignment(Align.left);
+        damageValueLabel.setAlignment(Align.left);
+        speedValueLabel.setAlignment(Align.left);
+        timePrepearValueLabel.setAlignment(Align.left);
 
         // добавим все надписи в таблицу
         add(healthLabel).width(200).padRight(8);
@@ -99,4 +109,23 @@ public class InfoTable extends Table {
         speedValueLabel.setText("" + (int) data.getSpeed() * 10 * 2);       // текст значения скорость
         timePrepearValue = data.getPrepareTime();           // время приготовления
     }
+
+    public int getAddDamageValue() {
+        return addDamageValue;
+    }
+
+    public int getAddHealthValue() {
+        return addHealthValue;
+    }
+
+    public void showUpgradeLabels() {
+        healthAddValueLabel.setVisible(true);
+        damageAddValueLabel.setVisible(true);
+    }
+
+    public void hideUpgradeLabels() {
+        healthAddValueLabel.setVisible(false);
+        damageAddValueLabel.setVisible(false);
+    }
+
 }

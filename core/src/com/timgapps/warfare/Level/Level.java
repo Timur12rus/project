@@ -505,7 +505,7 @@ public class Level extends StageGame {
 //            for (int i = 0; i < team.size(); i++) {
                 unitButtonArrayList.add(new CreateUnitButton(level, teamUnit.getUnitData()));
 //                unitButtonArrayList.add(team.get(i).getUnitImageButton());
-                if (teamUnit.getUnitId() != PlayerUnits.Stone) {
+                if (teamUnit.getUnitId() != PlayerUnits.Rock) {
                     this.addListener(new ClickListener() {
                         @Override
                         public void clicked(InputEvent event, float x, float y) {

@@ -53,6 +53,7 @@ public class PlayerUnitData extends UnitData {
                 starsCount = 15;
                 unitLevel = 1;
                 isCalled = false;
+                isUnlock = true;
                 unitPrice = 100;             // стоимость юнита
                 break;
             case Viking:
@@ -85,7 +86,7 @@ public class PlayerUnitData extends UnitData {
                 barDeltaY = 8;
                 starsCount = 4;
                 unitLevel = 1;
-                isCalled = true;
+                isCalled = false;
                 break;
             case Shooter:
                 name = "Shooter";
@@ -117,7 +118,7 @@ public class PlayerUnitData extends UnitData {
                 barDeltaY = 0;
                 starsCount = 50;
                 unitLevel = 1;
-                isCalled = true;
+                isCalled = false;
                 break;
             case Thor:
                 name = "Thor";
@@ -136,7 +137,7 @@ public class PlayerUnitData extends UnitData {
                 isUnlock = true;
                 isCalled = true;
                 break;
-            case Stone:
+            case Rock:
                 name = "Stone";
                 damage = 10;
                 health = 50;
@@ -160,6 +161,10 @@ public class PlayerUnitData extends UnitData {
         if (unitId.equals(PlayerUnits.Thor)) {
             setUnlock();        // разблокируем юнита "THOR" , первый доступный юнит
         }
+    }
+
+    public int getUnitPrice() {
+        return unitPrice;
     }
 
     // устанавливает куплен ли юнит (призван ли)

@@ -8,6 +8,6 @@ public enum PlayerUnits {
     Knight,
     Barbarian,
     Viking,
-    Stone,
+    Rock,
     None
 }

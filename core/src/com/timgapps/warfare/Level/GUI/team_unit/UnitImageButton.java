@@ -21,12 +21,14 @@ public class UnitImageButton extends Group {
     protected float height;
     protected UnitLevelIcon unitLevelIcon;
     protected Image lockIcon;
+    protected boolean isCalled;     // юнит призван (куплен)
 
     public UnitImageButton(PlayerUnitData playerUnitData) {
 //    public UnitImageButton(PlayerUnits unitId, final boolean isUnlock) {
         this.playerUnitData = playerUnitData;
         this.unitId = playerUnitData.getUnitId();
         this.isUnlock = playerUnitData.isUnlock();
+        this.isCalled = playerUnitData.isCalled();
         System.out.println("unitId = " + unitId);
         activeImage = new Image(Warfare.atlas.findRegion(unitId.name().toLowerCase() + "Active"));
         inactiveImage = new Image(Warfare.atlas.findRegion(unitId.name().toLowerCase() + "Inactive"));
@@ -43,11 +45,18 @@ public class UnitImageButton extends Group {
         unitLevelIcon.setPosition(getWidth() - unitLevelIcon.getWidth(), getHeight() - unitLevelIcon.getHeight() + 10);
         lockIcon.setPosition(getWidth() - lockIcon.getWidth(), getHeight() - lockIcon.getHeight() + 10);
 
-        if (isUnlock) {                     // если разблокирован
-            activeImage.setVisible(true);
-            lockImage.setVisible(false);
+
+        if (isUnlock) {                         // если разблокирован
+            if (isCalled) {                     // если призван
+                activeImage.setVisible(true);
+                unitLevelIcon.setVisible(true);
+                lockImage.setVisible(false);
+            } else {
+                activeImage.setVisible(false);
+                unitLevelIcon.setVisible(false);
+                lockImage.setVisible(true);
+            }
             lockIcon.setVisible(false);
-            unitLevelIcon.setVisible(true);
         } else {                            // в противном случае, заблокирован
             lockImage.setVisible(true);
             activeImage.setVisible(false);
@@ -89,8 +98,7 @@ public class UnitImageButton extends Group {
                     activeImage.setY(activeImage.getY() - 10);
                     lockIcon.setY(lockIcon.getY() - 10);
                 } else {
-//                    dwnImage.setVisible(true); // устанавливаем видимость для фона нажатой кнопки, а также оставим вызов метода суперкласса
-//                    bgImage.setVisible(false);
+                    lockImage.setY(lockImage.getY() - 10);
                     activeImage.setY(activeImage.getY() - 10);
                     unitLevelIcon.setY(unitLevelIcon.getY() - 10);
                 }
@@ -104,6 +112,7 @@ public class UnitImageButton extends Group {
                     activeImage.setY(activeImage.getY() + 10);
                     lockIcon.setY(lockIcon.getY() + 10);
                 } else {
+                    lockImage.setY(lockImage.getY() + 10);
                     activeImage.setY(activeImage.getY() + 10);
                     unitLevelIcon.setY(unitLevelIcon.getY() + 10);
 //                    activeImage.setY(activeImage.getY() + 10);
@@ -125,6 +134,12 @@ public class UnitImageButton extends Group {
 
     public void unlock() {
         isUnlock = true;
+        lockImage.setVisible(false);
+        activeImage.setVisible(true);
+    }
+
+    public void call() {
+        isCalled = true;
         lockImage.setVisible(false);
         activeImage.setVisible(true);
     }

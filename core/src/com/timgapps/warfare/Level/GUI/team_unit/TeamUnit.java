@@ -50,6 +50,10 @@ public class TeamUnit {
         isCalled = data.isCalled();     // призван ли юнит (т.е. куплен ли он)
     }
 
+    public int getUnitPrice() {
+        return data.getUnitPrice();
+    }
+
     public int getMaxUnitLevel() {
         return MAX_UNIT_LEVEL;
     }
@@ -61,7 +65,7 @@ public class TeamUnit {
     /**
      * метод для добавления количества здоровья
      **/
-    public void addHEALTH(int health) {
+    public void addHealth(int health) {
         this.health += health;
     }
 

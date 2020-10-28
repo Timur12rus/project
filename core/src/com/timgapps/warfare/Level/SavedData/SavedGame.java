@@ -156,7 +156,7 @@ public class SavedGame implements Serializable {
      **/
     public void createCollectionDataList() {
         collectionDataList = new ArrayList<PlayerUnitData>();
-        collectionDataList.add(new PlayerUnitData(PlayerUnits.Stone));
+        collectionDataList.add(new PlayerUnitData(PlayerUnits.Rock));
         collectionDataList.add(new PlayerUnitData(PlayerUnits.Archer));
         collectionDataList.add(new PlayerUnitData(PlayerUnits.Gnome));
         collectionDataList.add(new PlayerUnitData(PlayerUnits.Knight));

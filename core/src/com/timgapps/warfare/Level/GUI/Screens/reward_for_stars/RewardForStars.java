@@ -93,7 +93,7 @@ public class RewardForStars extends Group {
 //                starsNum = 15;
                 deltaX = -16;
                 break;
-            case com.timgapps.warfare.Level.GUI.Screens.reward_for_stars.RewardForStarsData.REWARD_BOX:
+            case RewardForStarsData.REWARD_BOX:
                 if (!data.getIsReceived()) {
                     rewardImage = new Image(Warfare.atlas.findRegion(data.getImageString()));
                 } else {
@@ -373,7 +373,7 @@ public class RewardForStars extends Group {
         switch (data.getTypeOfReward()) {
             case com.timgapps.warfare.Level.GUI.Screens.reward_for_stars.RewardForStarsData.REWARD_STONE:                           // если награда "КАМЕНЬ"
                 for (int i = 0; i < gameManager.getCollection().size(); i++) {
-                    if (gameManager.getCollection().get(i).getUnitId() == PlayerUnits.Stone) {
+                    if (gameManager.getCollection().get(i).getUnitId() == PlayerUnits.Rock) {
                         addRewardUnitToTeam(i);
                         Image actorImage = new Image(Warfare.atlas.findRegion(data.getImageString()));
                         rewardForStarsScreen.startAddAction(actorImage, getX() + rewardForStarsScreen.getScrollTableX(), getY() + 240, deltaX);
@@ -447,9 +447,12 @@ public class RewardForStars extends Group {
             // удалим юнит из коллекции
             gameManager.getCollection().remove(i);
             gameManager.getSavedGame().getCollectionDataList().remove(i);
+        } else {
+            // TODO сделать чтобы юнит добавлялся в коллекцию, если в команде больше 5 юнитов
+//            //
+//            gameManager.getTeam().add(gameManager.getCollection().get(i));  // добавляем в команду полученный юнит из коллекции
+//            gameManager.getSavedGame().getTeamDataList().add(gameManager.getSavedGame().getCollectionDataList().get(i));
         }
-//        System.out.println("gameManager.getCollection().get(0) = " + gameManager.getCollection().get(0).toString());
-//        System.out.println("gameManager.getCollectionDataList().get(0) = " + gameManager.getSavedGame().getCollectionDataList().get(0));
     }
 
     /**
