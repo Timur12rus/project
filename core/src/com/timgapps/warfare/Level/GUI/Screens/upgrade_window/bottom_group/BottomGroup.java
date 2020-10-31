@@ -5,12 +5,13 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.timgapps.warfare.Level.GUI.Screens.upgrade_window.UpgradeWindow;
 import com.timgapps.warfare.Warfare;
 
 // группа из кнопки апгрейда, кнопки нанять, надписи "Улучишть до уровня", "Нанять",
 public class BottomGroup extends Group {
-    private Label textLabel;
-    private Label hareLabel;
+    private Label upgradeLabel;
+    private Label hireLabel;
     private String upgradeToLevelText = "Upgrade to Level ";
     private String hireLabelText = "Hire this unit: ";
     private CoinButton upgradeButton;              // кнопка для апгрейда юнита
@@ -18,6 +19,7 @@ public class BottomGroup extends Group {
     private float WIDTH = 550;
     private float HEIGHT = 160;
     private int nextLevel;      // номер слудющего уровня
+    private boolean canBeUpgrade;
 
     public BottomGroup() {
         Label.LabelStyle labelStyle = new Label.LabelStyle();
@@ -35,52 +37,36 @@ public class BottomGroup extends Group {
         hireButton = new CoinButton();        // зеленая кнопка для апгрейда
 
         // добавим в группу кнопку апгрейда и надпись "улучшить до следующего уровня"
-        textLabel = new Label(upgradeToLevelText, labelStyle);
-        addActor(textLabel);
+        upgradeLabel = new Label(upgradeToLevelText, labelStyle);
+        addActor(upgradeLabel);
         addActor(upgradeButton);
 
         // добавим в группу кнопку "нанять" и надпись "нанять этого юнита"
-        hareLabel = new Label(hireLabelText, labelStyle);
-        hareLabel.setPosition((WIDTH - hareLabel.getWidth()) / 2, 0);
-        addActor(hareLabel);
+        hireLabel = new Label(hireLabelText, labelStyle);
+        hireLabel.setPosition((WIDTH - hireLabel.getWidth()) / 2, 0);
+        addActor(hireLabel);
         hireButton.setPosition((WIDTH - hireButton.getWidth()) / 2, -hireButton.getHeight() - 16);
         addActor(hireButton);
+    }
 
-        upgradeButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-                /** проверяем, может ли быть сделан апгрейд, если да - делаем апгрейд, если нет проверяем чего не хватает и выводим сообщение **/
-//                if (upgradeCostTable.isVisible()) {
-//                    if (canBeUpgrade) {
-//                        upgradeTeamEntity(teamUnit);
-//                    } else {
-//                        applyActionsToToast();
-//                    }
-//                    checkRecourcesAndCoinsCount();
-//                } else {        // если покупаем ("призываем" юнита)//
-//                    // если места не хватает, то оставляем его в коллекции
-//                    hireUnit();         // нанимаем юнита
-//                }
-            }
-        });
+    public void setUpgradeCost(int upgradeCost, boolean canUpgrade) {
+        this.canBeUpgrade = canUpgrade;
+        upgradeButton.setCost(upgradeCost, canUpgrade);
+    }
+
+    public void setHireCost(int hireCost, boolean canHire) {
+        hireButton.setCost(hireCost, canHire);
     }
 
     // устанавливает значение следующего уровня апгрейда
     public void setNextLevel(int nextLevel) {
         this.nextLevel = nextLevel;
-    }
-
-    public void redraw() {
-        textLabel.setText(upgradeToLevelText + nextLevel);
-        textLabel.setPosition((WIDTH - textLabel.getWidth()) / 2, 0);
-        upgradeButton.setPosition((WIDTH - upgradeButton.getWidth()) / 2, -upgradeButton.getHeight() - 16);
+        upgradeLabel.setText(upgradeToLevelText + nextLevel);
     }
 
     public void showUpgradeButton() {
-        textLabel.setText(upgradeToLevelText + nextLevel);
-        textLabel.setPosition((WIDTH - textLabel.getWidth()) / 2, 0);
-        textLabel.setVisible(true);
+        upgradeLabel.setPosition((WIDTH - upgradeLabel.getWidth()) / 2, 0);
+        upgradeLabel.setVisible(true);
         upgradeButton.setPosition((WIDTH - upgradeButton.getWidth()) / 2, -upgradeButton.getHeight() - 16);
         upgradeButton.setVisible(true);
 
@@ -88,18 +74,17 @@ public class BottomGroup extends Group {
 
     public void hideUpgradeButton() {
         upgradeButton.setVisible(false);
-        textLabel.setVisible(false);
+        upgradeLabel.setVisible(false);
     }
 
     public void showHireButton() {
+        hireLabel.setVisible(true);
         hireButton.setVisible(true);
-        textLabel.setText(hireLabelText);
-        textLabel.setVisible(true);
     }
 
     public void hideHireButton() {
         hireButton.setVisible(false);
-        textLabel.setVisible(false);
+        hireLabel.setVisible(false);
     }
 
     // возвращает upgradeButton

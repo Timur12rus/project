@@ -34,10 +34,40 @@ public class TeamTable extends Table {
         collectionText = "Collection";
         collectionLabel = new Label(collectionText, labelStyle);
 
+        redraw(unitTeam);
+
+//        for (int i = 0; i < unitTeam.size(); i++) {
+//            add(unitTeam.get(i).getUnitImageButton()).width(unitTeam.get(i).getImageButtonWidth()).height(unitTeam.get(i).getImageButtonHeight()).padLeft(12).padRight(12).left();
+//        }
+//
+//        /** проверим, если количество юнитов в команде, меньше ячеек,
+//         * то делаем оставшиеся ячейки пустыми
+//         */
+//        if (unitTeam.size() < numOfUnits) {
+//            for (int i = 0; i < numOfUnits - unitTeam.size(); i++) {
+//                add().width(unitTeam.get(0).getImageButtonWidth()).height(unitTeam.get(0).getImageButtonHeight()).padLeft(12).padRight(12).left();
+//            }
+//        }
+//
+//        width = (unitTeam.get(0).getImageButtonWidth() + 24) * numOfUnits;
+//
+//        /** добавим горизонтальную серую черту-разделитель **/
+//        row();
+//        float lineHeight = 0;
+//        add(collectionLabel).colspan(5).center().expandX().padTop(8);
+//        height = unitTeam.get(0).getImageButtonHeight() + lineHeight + 16;         //  высота таблицы в px
+//
+//        // установим ширину и высоту таблицы
+//        setWidth(width);
+//        setHeight(height);
+    }
+
+    public void redraw(ArrayList<TeamUnit> team) {
+        unitTeam = team;
+        clear();
         for (int i = 0; i < unitTeam.size(); i++) {
             add(unitTeam.get(i).getUnitImageButton()).width(unitTeam.get(i).getImageButtonWidth()).height(unitTeam.get(i).getImageButtonHeight()).padLeft(12).padRight(12).left();
         }
-
         /** проверим, если количество юнитов в команде, меньше ячеек,
          * то делаем оставшиеся ячейки пустыми
          */
@@ -46,15 +76,12 @@ public class TeamTable extends Table {
                 add().width(unitTeam.get(0).getImageButtonWidth()).height(unitTeam.get(0).getImageButtonHeight()).padLeft(12).padRight(12).left();
             }
         }
-
         width = (unitTeam.get(0).getImageButtonWidth() + 24) * numOfUnits;
-
         /** добавим горизонтальную серую черту-разделитель **/
         row();
         float lineHeight = 0;
         add(collectionLabel).colspan(5).center().expandX().padTop(8);
         height = unitTeam.get(0).getImageButtonHeight() + lineHeight + 16;         //  высота таблицы в px
-
         // установим ширину и высоту таблицы
         setWidth(width);
         setHeight(height);

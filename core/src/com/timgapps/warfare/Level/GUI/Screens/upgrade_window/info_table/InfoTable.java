@@ -108,6 +108,7 @@ public class InfoTable extends Table {
         damageValueLabel.setText("" + data.getDamage());        // текст значения урон
         speedValueLabel.setText("" + (int) data.getSpeed() * 10 * 2);       // текст значения скорость
         timePrepearValue = data.getPrepareTime();           // время приготовления
+        timePrepearValueLabel.setText("" + timePrepearValue);
     }
 
     public int getAddDamageValue() {

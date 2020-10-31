@@ -41,7 +41,7 @@ public class TeamUpgradeScreen extends Group {
     private Image replacedUnitImage;
     private boolean isReplaceActive = false; // переменная - флаг, нужна для того, чтобы изменить поведение листнера,
     // при замене юнита из коллекции в команду
-    private Table teamTable;            // таблица с комендой юнитов
+    private TeamTable teamTable;            // таблица с комендой юнитов
     private Table tableCollection;      // таблица-контейнер, в него добавляется scroll с коллекцией юнитов
     private CollectionTable collectionTable;
     private Label teamLabel;
@@ -107,7 +107,6 @@ public class TeamUpgradeScreen extends Group {
          * @param unitCollection - массив юнитов в коллекции
          * **/
         collectionTable = new CollectionTable(unitCollection);
-//        Table collectionTable = new CollectionTable(unitCollection).debug();
 //        // убрал пока
         for (int i = 0; i < team.size(); i++) {
             addClickListener(team.get(i));
@@ -151,19 +150,11 @@ public class TeamUpgradeScreen extends Group {
      * метод для обновления команды и коллекции юнитов
      **/
     public void updateTeam() {
-//        team.clear();
-//        for (int i = 0; i < gameManager.getSavedGame().getTeamDataList().size(); i++) {
-//            team.add(new TeamEntity(gameManager.getSavedGame().getTeamDataList().get(i)));
-//        }
         //TODO исправить!!!
         updateTeamTable();
     }
 
     public void updateCollection() {
-//        unitCollection.clear();
-//        for (int i = 0; i < gameManager.getSavedGame().getCollectionDataList().size(); i++) {
-//            unitCollection.add(new TeamEntity(gameManager.getSavedGame().getCollectionDataList().get(i)));
-//        }
         //TODO исправить!!!
         updateCollectionTable();
     }
@@ -204,22 +195,7 @@ public class TeamUpgradeScreen extends Group {
      * метод показывает запускает экран UpgradeWindow (экран с характеристиками юнита и ресурсами для апгрейда)
      **/
     private void showUpgradeWindow(TeamUnit teamUnit) {             // selectButton - false или true, показать кнопку
-        upgradeWindow.setUnitUpgradeData(teamUnit);
-
-//        boolean showSelectButton = false;       // показывать ли кнопеу "ВЫБРАТЬ" в окне информации о юните
-//        boolean showCallLabel = false;          // показать надпись "Призвать"
-//        if (unitCollection.contains(teamUnit)) {
-//            if (!teamUnit.getUnitData().isCalled()) {
-//                showCallLabel = true;
-//            } else if (teamUnit.getUnitData().isUnlock()) {      // если юнит находится в "КОЛЛЕКЦИИ", и разблокирован
-//                showSelectButton = true;                     // то покажем кнопку "ВЫБРАТЬ"
-//            }
-//
-//            //TODO нужно сделать надпись типа "соберите *10 для разблокировки
-//        }
         upgradeWindow.show(teamUnit);
-
-//        upgradeWindow.show(showSelectButton, showCallLabel,  teamUnit);
     }
 
     /**
@@ -296,10 +272,12 @@ public class TeamUpgradeScreen extends Group {
      **/
     private void updateTeamTable() {
         System.out.println("UpdateTeamTable()!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        teamTable.redraw(team);
         Array<Cell> cells = teamTable.getCells();
         for (int i = 0; i < team.size(); i++) {
             System.out.println("team[" + i + "] = " + team.get(i).toString());
 //            teamTable.getCells().get(i).setActor(team.get(i)).getW(team.get(i).width).height(team.get(i).height);
+//            add(unitTeam.get(i).getUnitImageButton()).width(unitTeam.get(i).getImageButtonWidth()).height(unitTeam.get(i).getImageButtonHeight()).padLeft(12).padRight(12).left();
         }
     }
 

@@ -35,10 +35,12 @@ public class CoinButton extends Group {
         labelStyle.font = Warfare.font40;
         label = new Label("" + upgradeCost, labelStyle);
         Table table = new Table();
+//        table.debug();
         table.setWidth(bg.getWidth());
         table.setHeight(bg.getHeight());
         table.add(label);
-        table.add(coin);
+        table.add(coin).padBottom(6);
+        table.setY(2);
         addActor(table);
 
         /** добавляет слушателя события корневому элементу, отключая его для дочерних элементов **/
@@ -67,9 +69,9 @@ public class CoinButton extends Group {
 
     /**
      * метод для уставки цвета ТЕКСТА КНОПКИ
-     * @param upgradeCost - количество монет, стоимость действия
-     * @param canBeMake - флаг, может ли быть совершено действие (покупа или улучшение), если true - может, если false - не может
      *
+     * @param upgradeCost - количество монет, стоимость действия
+     * @param canBeMake   - флаг, может ли быть совершено действие (покупа или улучшение), если true - может, если false - не может
      **/
     public void setCost(int upgradeCost, boolean canBeMake) {
         this.upgradeCost = upgradeCost;

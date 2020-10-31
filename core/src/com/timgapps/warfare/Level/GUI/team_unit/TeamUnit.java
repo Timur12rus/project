@@ -21,7 +21,7 @@ public class TeamUnit {
     private int timePrepare;
     private int energyCost;
     private final int MAX_UNIT_LEVEL = 10;
-    private boolean isCalled;           // призван ли юнит (т.е. куплени ли он, нужно ли будет его покупать)
+    private boolean isHired;           // призван ли юнит (т.е. куплени ли он, нужно ли будет его покупать)
 
     @Override
     public String toString() {
@@ -36,18 +36,27 @@ public class TeamUnit {
     public TeamUnit(PlayerUnitData data) {
         this.unitId = data.getUnitId();
         this.data = data;
-        name = data.getName();
+        this.name = data.getName();
         unitImageButton = new UnitImageButton(data);
         speed = (int) (data.getSpeed() * 10 * 2);           // скорость юнита отображаемая в характеристиках в таблице апгрейда
         addHealthValue = 2;
         addDamageValue = 2;
-        timePrepare = 10;
-        energyCost = 15;
+        timePrepare = data.getPrepareTime();
+        energyCost = data.getEnergyPrice();
         damage = data.getDamage();
         health = data.getHealth();
         unitLevel = data.getUnitLevel();
         unitImage = new UnitImage(unitId, unitLevel, energyCost);
-        isCalled = data.isHired();     // призван ли юнит (т.е. куплен ли он)
+        isHired = data.isHired();     // призван ли юнит (т.е. куплен ли он)
+    }
+
+    public boolean isHired() {
+        return isHired;
+    }
+
+    public void setIsHired(boolean isHired) {
+        data.setIsHired(isHired);
+        this.isHired = isHired;
     }
 
     public int getUnitPrice() {

@@ -1,6 +1,7 @@
 package com.timgapps.warfare.Level.GUI.Screens.upgrade_window;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
@@ -19,14 +20,14 @@ import com.timgapps.warfare.Warfare;
 public class UnitImage extends Group {
     private Label levelLabel;       // надпись, текущий уровень юнита
     private Label energyLabel;       // надпись, стоимость энергии
-    private com.timgapps.warfare.Level.GUI.team_unit.UnitLevelIcon levelIcon;       // значок для отображения текущего уровня
-    //    private Image levelIcon;       // значок для отображения текущего уровня
+    private UnitLevelIcon levelIcon;       // значок для отображения текущего уровня
     private Image energyIcon;
     private Image image;       // изображение юнита
     private int unitLevel;      // значение текущего уровня юнита
     private String textureRegionName = "gnomeUnitImage";
     private Table table;
-    private ColorButton selectButton;
+    //    private ColorButton selectButton;
+    private boolean isEndAction;        // завершено действие
 
     /**
      * Конструктор
@@ -40,8 +41,8 @@ public class UnitImage extends Group {
         textureRegionName = unitId.name().toLowerCase() + "UnitImage";
         image = new Image(Warfare.atlas.findRegion(textureRegionName));         // зададим изображение юнита
         energyIcon = new Image(Warfare.atlas.findRegion("energyIcon"));    // зададим изображение юнита
-        selectButton = new ColorButton("Select", ColorButton.YELLOW_BUTTON);
-        levelIcon = new com.timgapps.warfare.Level.GUI.team_unit.UnitLevelIcon(unitLevel);
+//        selectButton = new ColorButton("Select", ColorButton.YELLOW_BUTTON);
+        levelIcon = new UnitLevelIcon(unitLevel);
         levelIcon.setPosition(image.getWidth(), image.getHeight() - levelIcon.getHeight());
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.fontColor = Color.DARK_GRAY;
@@ -60,16 +61,22 @@ public class UnitImage extends Group {
         table.add(energyLabel).padTop(16);
         table.add(energyIcon).width(energyIcon.getWidth()).height(energyIcon.getHeight());
         table.setPosition(image.getWidth(), image.getY() - energyIcon.getHeight() / 2);
-        selectButton.setPosition(16 + (image.getWidth() - selectButton.getWidth()) / 2,
-                (-selectButton.getHeight()) - 32);
         addActor(image);
         addActor(levelIcon);
         addActor(table);
-        addActor(selectButton);
+//        addActor(selectButton);
     }
 
     public UnitLevelIcon getUnitLevelIcon() {
         return levelIcon;
+    }
+
+    public void hideLevelIcon() {
+        levelIcon.setVisible(false);
+    }
+
+    public void showLevelIcon() {
+        levelIcon.setVisible(true);
     }
 
 
@@ -77,6 +84,15 @@ public class UnitImage extends Group {
      * метод применяет действие к значку УРОВЕНЬ ИГРОКА
      **/
     public void startAction() {
+
+        Action checkEndOfAction = new Action() {
+            @Override
+            public boolean act(float delta) {
+                isEndAction = true;
+                return true;
+            }
+        };
+
         MoveToAction mtaUp = new MoveToAction();
         MoveToAction mtaDown = new MoveToAction();
         float startPosY = levelIcon.getY();
@@ -84,14 +100,24 @@ public class UnitImage extends Group {
         mtaUp.setDuration(0.3f);
         mtaDown.setPosition(levelIcon.getX(), startPosY);
         mtaDown.setDuration(0.3f);
-        SequenceAction sa = new SequenceAction(mtaUp, mtaDown);
+        SequenceAction sa = new SequenceAction(mtaUp, mtaDown, checkEndOfAction);
         levelIcon.addAction(sa);
         SequenceAction flicker = new SequenceAction(Actions.fadeOut(0.25f), Actions.fadeIn(0.25f));
         image.addAction(flicker);
     }
 
+    public void setIsEndAction(boolean isEndAction) {
+        this.isEndAction = isEndAction;
+    }
+
+    private boolean isEndAction() {
+        return isEndAction;
+    }
+
     public void clearActions() {
+        image.setColor(1, 1, 1, 1);
         levelIcon.clearActions();
+        levelIcon.setPosition(image.getWidth(), image.getHeight() - levelIcon.getHeight());
         image.clearActions();
     }
 
@@ -99,9 +125,9 @@ public class UnitImage extends Group {
         levelIcon.setLevelValue(levelValue);
     }
 
-    public ColorButton getSelectButton() {
-        return selectButton;
-    }
+//    public ColorButton getSelectButton() {
+//        return selectButton;
+//    }
 
     public Image getImage() {
         return image;

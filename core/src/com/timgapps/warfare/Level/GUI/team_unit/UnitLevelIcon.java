@@ -49,6 +49,9 @@ public class UnitLevelIcon extends Group {
     }
 
     public void setLevelValue(int levelValue) {
+        if (levelValue >= 10) {
+            levelLabel.setX(levelLabel.getX() - 2);
+        }
         levelLabel.setText("" + levelValue);
     }
 

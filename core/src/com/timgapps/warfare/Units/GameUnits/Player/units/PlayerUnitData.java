@@ -37,7 +37,7 @@ public class PlayerUnitData extends UnitData {
                 barDeltaY = 0;
                 starsCount = 15;
                 unitLevel = 1;
-                isHired = true;
+                isHired = true;     // куплен
                 break;
             case Barbarian:
                 name = "Barbarian";
@@ -52,9 +52,8 @@ public class PlayerUnitData extends UnitData {
                 barDeltaY = 0;
                 starsCount = 15;
                 unitLevel = 1;
-                isHired = false;            // юнита нанят
                 isUnlock = true;
-                unitPrice = 100;             // стоимость юнита
+                unitPrice = 250;             // стоимость юнита
                 break;
             case Viking:
                 name = "Viking";
@@ -69,7 +68,6 @@ public class PlayerUnitData extends UnitData {
                 barDeltaY = 0;
                 starsCount = 15;
                 unitLevel = 1;
-                isHired = false;
                 unitPrice = 200;               // стоимость юнита
                 break;
             case Archer:
@@ -86,7 +84,7 @@ public class PlayerUnitData extends UnitData {
                 barDeltaY = 8;
                 starsCount = 4;
                 unitLevel = 1;
-                isHired = false;
+                isHired = true;     // куплен
                 break;
             case Shooter:
                 name = "Shooter";
@@ -102,7 +100,6 @@ public class PlayerUnitData extends UnitData {
                 barDeltaY = 8;
                 starsCount = 4;
                 unitLevel = 1;
-                isHired = false;
                 unitPrice = 200;               // стоимость юнита
                 break;
             case Knight:
@@ -118,7 +115,7 @@ public class PlayerUnitData extends UnitData {
                 barDeltaY = 0;
                 starsCount = 50;
                 unitLevel = 1;
-                isHired = false;
+                isHired = true;     // куплен
                 break;
             case Thor:
                 name = "Thor";
@@ -135,7 +132,7 @@ public class PlayerUnitData extends UnitData {
                 barDeltaY = 0;
                 unitLevel = 1;
                 isUnlock = true;
-                isHired = true;
+                isHired = true;     // куплен
                 break;
             case Rock:
                 name = "Stone";
@@ -146,7 +143,7 @@ public class PlayerUnitData extends UnitData {
                 energyPrice = 8;
                 prepareTime = 10;
                 unitLevel = 1;
-                isHired = true;
+                isHired = true;     // куплен
                 break;
             case None:
                 name = "None";
@@ -168,8 +165,8 @@ public class PlayerUnitData extends UnitData {
     }
 
     // устанавливает куплен ли юнит (призван ли)
-    public void setIsCalled(boolean isCalled) {
-        this.isHired = isCalled;
+    public void setIsHired(boolean isHired) {
+        this.isHired = isHired;
     }
 
     // возвращает, куплен ли юнит
