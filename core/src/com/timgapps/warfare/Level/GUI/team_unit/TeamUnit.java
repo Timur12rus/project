@@ -4,7 +4,7 @@ import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnitData;
 import com.timgapps.warfare.Level.GUI.Screens.upgrade_window.UnitImage;
 import com.timgapps.warfare.Units.GameUnits.unitTypes.PlayerUnits;
 
-// Сущность юнит из команды (сущность)
+// Сущность юнит из команды или коллекции (сущность)
 public class TeamUnit {
     private PlayerUnitData data;
     private UnitImageButton unitImageButton;
@@ -47,7 +47,7 @@ public class TeamUnit {
         health = data.getHealth();
         unitLevel = data.getUnitLevel();
         unitImage = new UnitImage(unitId, unitLevel, energyCost);
-        isCalled = data.isCalled();     // призван ли юнит (т.е. куплен ли он)
+        isCalled = data.isHired();     // призван ли юнит (т.е. куплен ли он)
     }
 
     public int getUnitPrice() {

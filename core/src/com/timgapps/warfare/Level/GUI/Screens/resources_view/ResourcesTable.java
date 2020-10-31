@@ -109,7 +109,7 @@ public class ResourcesTable extends Group {
         return isEndAction;
     }
 
-    public void setIsAction(boolean flag) {
+    public void setIsEndAction(boolean flag) {
         isEndAction = flag;
     }
 

@@ -28,7 +28,7 @@ public class UnitImageButton extends Group {
         this.playerUnitData = playerUnitData;
         this.unitId = playerUnitData.getUnitId();
         this.isUnlock = playerUnitData.isUnlock();
-        this.isCalled = playerUnitData.isCalled();
+        this.isCalled = playerUnitData.isHired();
         System.out.println("unitId = " + unitId);
         activeImage = new Image(Warfare.atlas.findRegion(unitId.name().toLowerCase() + "Active"));
         inactiveImage = new Image(Warfare.atlas.findRegion(unitId.name().toLowerCase() + "Inactive"));

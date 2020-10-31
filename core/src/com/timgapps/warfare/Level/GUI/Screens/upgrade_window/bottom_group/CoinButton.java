@@ -1,4 +1,4 @@
-package com.timgapps.warfare.Level.GUI.Screens.upgrade_window;
+package com.timgapps.warfare.Level.GUI.Screens.upgrade_window.bottom_group;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Event;
@@ -12,8 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.timgapps.warfare.Warfare;
 
-
-public class UpgradeButton extends Group {
+// кнопка с надписью и монетой, используется для апгрейда и покупки юнита
+public class CoinButton extends Group {
     private ImageButton button;
     private Label label;
     private Image bg, bgDown, coin;
@@ -21,7 +21,7 @@ public class UpgradeButton extends Group {
     private int upgradeCost;
     Label.LabelStyle labelStyle;
 
-    public UpgradeButton() {
+    public CoinButton() {
         bg = new Image(Warfare.atlas.findRegion("button_ok"));
         bgDown = new Image(Warfare.atlas.findRegion("button_ok_dwn"));
         coin = new Image(Warfare.atlas.findRegion("coin_icon"));
@@ -45,7 +45,7 @@ public class UpgradeButton extends Group {
         addCaptureListener(new EventListener() { // добавляет слушателя события корневому элементу, отключая его для дочерних элементов
             @Override
             public boolean handle(Event event) {
-                event.setTarget(UpgradeButton.this);
+                event.setTarget(CoinButton.this);
                 return true;
             }
         });
@@ -67,13 +67,13 @@ public class UpgradeButton extends Group {
 
     /**
      * метод для уставки цвета ТЕКСТА КНОПКИ
-     * @param upgradeCost - количество монет, стоимость апгрейда
-     * @param canBeUpgrade - флаг, может ли быть улучшен, если true - может, если false - не может
+     * @param upgradeCost - количество монет, стоимость действия
+     * @param canBeMake - флаг, может ли быть совершено действие (покупа или улучшение), если true - может, если false - не может
      *
      **/
-    public void setUpgradeCost(int upgradeCost, boolean canBeUpgrade) {
+    public void setCost(int upgradeCost, boolean canBeMake) {
         this.upgradeCost = upgradeCost;
-        if (canBeUpgrade) {
+        if (canBeMake) {
             labelStyle.fontColor = Color.DARK_GRAY;
         } else {
             labelStyle.fontColor = Color.RED;

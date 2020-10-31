@@ -102,7 +102,7 @@ public class InfoTable extends Table {
     }
 
     // метод для перерисовки данных о характеристиках юнита
-    public void redraw(PlayerUnitData data) {
+    public void  redraw(PlayerUnitData data) {
         this.data = data;
         healthValueLabel.setText("" + data.getHealth());        // текст значения здоровья
         damageValueLabel.setText("" + data.getDamage());        // текст значения урон

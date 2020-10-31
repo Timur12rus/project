@@ -201,22 +201,25 @@ public class TeamUpgradeScreen extends Group {
     }
 
     /**
-     * метод показывает запускает экран UpgradeWindow
+     * метод показывает запускает экран UpgradeWindow (экран с характеристиками юнита и ресурсами для апгрейда)
      **/
     private void showUpgradeWindow(TeamUnit teamUnit) {             // selectButton - false или true, показать кнопку
         upgradeWindow.setUnitUpgradeData(teamUnit);
-        boolean showSelectButton = false;       // показывать ли кнопеу "ВЫБРАТЬ" в окне информации о юните
-        boolean showCallLabel = false;          // показать надпись "Призвать"
-        if (unitCollection.contains(teamUnit)) {
-            if (!teamUnit.getUnitData().isCalled()) {
-                showCallLabel = true;
-            } else if (teamUnit.getUnitData().isUnlock()) {      // если юнит находится в "КОЛЛЕКЦИИ", и разблокирован
-                showSelectButton = true;                     // то покажем кнопку "ВЫБРАТЬ"
-            }
 
-            //TODO нужно сделать надпись типа "соберите *10 для разблокировки
-        }
-        upgradeWindow.show(showSelectButton, showCallLabel,  teamUnit);
+//        boolean showSelectButton = false;       // показывать ли кнопеу "ВЫБРАТЬ" в окне информации о юните
+//        boolean showCallLabel = false;          // показать надпись "Призвать"
+//        if (unitCollection.contains(teamUnit)) {
+//            if (!teamUnit.getUnitData().isCalled()) {
+//                showCallLabel = true;
+//            } else if (teamUnit.getUnitData().isUnlock()) {      // если юнит находится в "КОЛЛЕКЦИИ", и разблокирован
+//                showSelectButton = true;                     // то покажем кнопку "ВЫБРАТЬ"
+//            }
+//
+//            //TODO нужно сделать надпись типа "соберите *10 для разблокировки
+//        }
+        upgradeWindow.show(teamUnit);
+
+//        upgradeWindow.show(showSelectButton, showCallLabel,  teamUnit);
     }
 
     /**

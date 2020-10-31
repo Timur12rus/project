@@ -14,6 +14,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.timgapps.warfare.Level.GUI.Screens.resources_view.ResourcesTable;
+import com.timgapps.warfare.Level.GUI.Screens.upgrade_window.bottom_group.BottomGroup;
+import com.timgapps.warfare.Level.GUI.Screens.upgrade_window.bottom_group.CoinButton;
 import com.timgapps.warfare.Level.GUI.Screens.upgrade_window.info_table.InfoTable;
 import com.timgapps.warfare.Level.GUI.team_unit.TeamUnit;
 import com.timgapps.warfare.Level.GUI.Screens.team_upgrade_screen.TeamUpgradeScreen;
@@ -31,14 +33,13 @@ public class UpgradeWindow extends Group {
     private ImageButton closeButton;
     private InfoTable infoTable;
     private Table container;     // основной верхний контейнер-таблица, в котором будут помещаться infoTable, imageContainer и resourceContainer
-    private Label upgradeCostLabel;       // текст "СТОИМОСТЬ АПРГРЕЙДА"
-    private Label foodCostLabel, ironCostLabel, woodCostLabel, upgradeToLevelLabel;
+    //    private Label upgradeToLevelLabel;
     private Label toastLabel;
-    private String upgradeCostText = "Upgrade cost";
-    private String upgradeToLevelText = "Upgrade to Level ";
+    //    private String upgradeToLevelText = "Upgrade to Level ";
     private float paddingLeft = 48;
     private Image foodIcon, ironIcon, woodIcon;
-    private UpgradeButton upgradeButton;
+    private CoinButton upgradeButton;              // кнопка для апгрейда юнита
+    private CoinButton hareButton;                // кнопка для найма(покупки) юнита
     private ArrayList<TeamUnit> team;
     private Group imageContainer;           // контейнер - Group для хранения изображения юнита со значком уровня и энергии
     private UnitImage unitImage;            // изображение юнита
@@ -62,6 +63,7 @@ public class UpgradeWindow extends Group {
     private BlockTable blockTable;
     private UpgradeCostTable upgradeCostTable;
     private Label maxLevelReached;  // надпись "максимальный уровнень достигнут"
+    private BottomGroup bottomGroup;
 
     public UpgradeWindow(GameManager gameManager, TeamUpgradeScreen teamUpgradeScreen) {
         this.teamUpgradeScreen = teamUpgradeScreen;
@@ -86,8 +88,8 @@ public class UpgradeWindow extends Group {
             }
         });
 
-        imageContainer = new Group();
-        upgradeButton = new UpgradeButton();        // зеленая кнопка
+        upgradeButton = new CoinButton();        // зеленая кнопка для апгрейда
+        hareButton = new CoinButton();        // зеленая кнопка для апгрейда
 
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.fontColor = Color.DARK_GRAY;
@@ -100,13 +102,50 @@ public class UpgradeWindow extends Group {
         redLabelStyle.font = Warfare.font20;
 
         // нижняя часть надписей (ниже таблицы с характеристиками)
-//        upgradeCostLabel = new Label(upgradeCostText, labelStyle);          // текст "СТОИМОСТЬ УЛУЧШЕНИЯ"
         maxLevelReached = new Label("The unit has reached maximum level", labelStyle);
-        maxLevelReached.setVisible(true);
-        toastLabel = new Label("", redLabelStyle);          // текст "СТОИМОСТЬ УЛУЧШЕНИЯ"
+        toastLabel = new Label("", redLabelStyle);          // надпись с оповещением
         unitNameLabel = new Label("", labelStyle);
-        upgradeToLevelLabel = new Label(upgradeToLevelText, labelStyle);
 
+        // создадим таблицу с характеристиками юнита
+        craetUpgradeTableContainer();
+
+        //  добавим группу с кнопкой апгрейда и кнопкой "нанять" (купить)
+        bottomGroup = new BottomGroup();
+        bottomGroup.setPosition(container.getX() + (550 - bottomGroup.getWidth()) / 2, 154);
+        addActor(bottomGroup);
+//        bottomGroup.hideUpgradeButton();
+//        bottomGroup.hideHireButton();
+//        bottomGroup.redraw();
+
+        createBlockTable();     // таблица : собрите n-ое кол-во звезд для разблокировки
+
+        /** Добавляем панель (таблицу) с реурсами(ПИЩА, ЖЕЛЕЗО, ДЕРЕВО) **/
+        resourcesTable = new ResourcesTable(gameManager.getFoodCount(),
+                gameManager.getIronCount(),
+                gameManager.getWoodCount());
+
+        resourcesTable.setPosition(container.getX() + container.getWidth() + 48,
+                container.getY() - (resourcesTable.getHeight() - container.getHeight()));
+        addActor(resourcesTable);
+
+        setVisible(false);
+        toastLabel.setVisible(false);
+        toastLabel.setPosition(Warfare.V_WIDTH / 2 - toastLabel.getWidth() - 200, Warfare.V_HEIGHT / 2);
+        addActor(toastLabel);
+        unitNameLabel.setPosition(container.getX() + container.getWidth() - unitNameLabel.getWidth(),
+                constructedWindow.getY() + constructedWindow.getHeight() - unitNameLabel.getHeight());
+        addActor(unitNameLabel);
+
+        maxLevelReached.setPosition(constructedWindow.getX() + (constructedWindow.getWidth() - maxLevelReached.getWidth()) / 2, 272);
+        maxLevelReached.setVisible(false);
+        addActor(maxLevelReached);
+    }
+
+    // создает таблицу-контейнер с характеристиками юнита
+    private void craetUpgradeTableContainer() {
+        imageContainer = new Group();
+
+        // таблица с информацией (характеристиками) юнита
         infoTable = new InfoTable();
         infoTable.debug();
 
@@ -121,77 +160,32 @@ public class UpgradeWindow extends Group {
         container.add(imageContainer).width(200).padLeft(32).left().padTop(32);
 
         /** Таблица СТОИМОСТЬ АПГРЕЙДА в режиме DEBUG **/
-//        Table costUpgradeTable = new Table().debug();
-
         upgradeCostTable = new UpgradeCostTable();
         Table line = new Table();
         line.setBackground(new TextureRegionDrawable(Warfare.atlas.findRegion("div_line")));
-        line.add(upgradeCostLabel).width(500);
         container.row();
 
         /** добавим таблицу со стоимостью апгрейда **/
         container.add(upgradeCostTable).colspan(3);
-        container.row();
-        container.add(upgradeToLevelLabel).colspan(6).padTop(32);
-
-        container.row();
-        container.add(upgradeButton).height(upgradeButton.getHeight()).width(upgradeButton.getWidth()).colspan(3).padTop(8);
-
         container.setPosition(constructedWindow.getX() + paddingLeft, constructedWindow.getY());
         container.setPosition(constructedWindow.getX() + paddingLeft, constructedWindow.getY() - 16);
         addActor(container);
 
+    }
+
+    // таблица : собрите n-ое кол-во звезд для разблокировки
+    private void createBlockTable() {
         blockTable.setPosition(500, 260);
         blockTable.setVisible(false);
         addActor(blockTable);
-
-        /** Добавляем панель (таблицу) с реурсами(ПИЩА, ЖЕЛЕЗО, ДЕРЕВО) **/
-        resourcesTable = new ResourcesTable(gameManager.getFoodCount(),
-                gameManager.getIronCount(),
-                gameManager.getWoodCount());
-
-        resourcesTable.setPosition(container.getX() + container.getWidth() + 48,
-                container.getY() - (resourcesTable.getHeight() - container.getHeight()));
-        addActor(resourcesTable);
-        setVisible(false);
-        toastLabel.setVisible(false);
-        toastLabel.setPosition(Warfare.V_WIDTH / 2 - toastLabel.getWidth() - 200, Warfare.V_HEIGHT / 2);
-        addActor(toastLabel);
-        unitNameLabel.setPosition(container.getX() + container.getWidth() - unitNameLabel.getWidth(),
-                constructedWindow.getY() + constructedWindow.getHeight() - unitNameLabel.getHeight());
-        addActor(unitNameLabel);
-        maxLevelReached.setPosition(constructedWindow.getX() + (constructedWindow.getWidth() - maxLevelReached.getWidth()) / 2, 272);
-        maxLevelReached.setVisible(false);
-        addActor(maxLevelReached);
-
-        upgradeButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-                /** проверяем, может ли быть сделан апгрейд, если да - делаем апгрейд, если нет проверяем чего не хватает и выводим сообщение **/
-                if (upgradeCostTable.isVisible()) {
-                    if (canBeUpgrade) {
-                        upgradeTeamEntity(teamUnit);
-                    } else {
-                        applyActionsToToast();
-                    }
-                    checkRecourcesAndCoinsCount();
-                } else {        // если покупаем ("призываем" юнита)
-//                    if (coinsCount >= teamUnit.getUnitCallCost()) {       // проверим хватает ли у нас монет на покупку
-//                                                                          // если хватает, добавялем юнита в команду, если хватает места,
-                    // если места не хватает, то оставляем его в коллекции
-                    hireUnit();         // нанимаем юнита
-//                    }
-                }
-            }
-        });
     }
 
     // метод для найма юнита
     public void hireUnit() {
         if (coinsCount >= teamUnit.getUnitPrice()) {
             teamUnit.getUnitData().setIsCalled(true);
-            show(false, false, teamUnit);
+            show(teamUnit);
+//            show(false, false, teamUnit);
 
             if (gameManager.getTeam().size() < 5) {
                 // добавим полученный юнит в команду
@@ -205,6 +199,52 @@ public class UpgradeWindow extends Group {
                 gameManager.saveGame();
             }
         }
+    }
+
+    // метод показывает экран с апгрейдом юнита
+    public void show(TeamUnit teamUnit) {
+        this.teamUnit = teamUnit;
+        // обновим кол-во ресурсов в таблице
+        resourcesTable.updateResources(gameManager.getFoodCount(), gameManager.getIronCount(), gameManager.getWoodCount());
+        // обновим количество монет
+        coinsCount = gameManager.getCoinsPanel().getCoinsCount();
+        imageContainer.clearChildren();
+        imageContainer.clearActions();
+        maxLevelReached.setVisible(false);      // скроем надпись "максимальный уровень достигнут"
+        blockTable.setVisible(false);          // скроем сообщение "соберите кол-во звезд"
+        bottomGroup.hideHireButton();
+        bottomGroup.hideUpgradeButton();
+//        bottomGroup.setVisible(false);         // скром кнопку "апгрейда" и надпись "улучшить до уровня"
+        selectUnitButton.setVisible(false);
+        upgradeCostTable.setVisible(false);
+        // добавим объект - изображение юнита со значком уровня юнита
+        imageContainer.addActor(unitImage);
+        infoTable.hideUpgradeLabels();
+        bottomGroup.hideHireButton();
+
+        boolean isUnlock = teamUnit.getUnitData().isUnlock();
+        if (isUnlock == true) {               // если юнит разблокирован
+//            bottomGroup.setVisible(true);
+            if (teamUnit.getUnitData().isHired()) {          // если юнит "призван" (нанят)
+                int nextUnitLevel = teamUnit.getUnitLevel();
+                nextUnitLevel++;
+                if (teamUnit.getUnitLevel() >= teamUnit.getMaxUnitLevel()) {    // если уровень юнита >= максимальному уровню юнита
+                    maxLevelReached.setVisible(true);
+                } else {
+                    upgradeCostTable.setVisible(true);
+                    bottomGroup.setNextLevel(nextUnitLevel);
+//                    bottomGroup.getUpgradeButton().setCost(upgradeCost);
+                    bottomGroup.showUpgradeButton();
+                    infoTable.showUpgradeLabels();
+                }
+            } else {
+                bottomGroup.showHireButton();
+            }
+        } else {
+            blockTable.setLabelStarsCount(teamUnit.getUnitData().getStarsCount());      // установим значение, кол-ва звезд для открытия юнита
+            blockTable.setVisible(true);
+        }
+        setVisible(true);
     }
 
     // метод показывает окно с данными об апгрейде юнита
@@ -233,32 +273,33 @@ public class UpgradeWindow extends Group {
         /** если юнит разблокирован, то делаем значок уровня юнита видимым **/
 //        if (isCalled == true) {
         if (isUnlock == true) {
-            blockTable.setVisible(false);
             upgradeButton.setVisible(true);
             if (showCallLabel) {         // если нужно показать надпись "призвать"
                 teamUnit.getUnitImage().getUnitLevelIcon().setVisible(false);
                 infoTable.hideUpgradeLabels();
 
                 upgradeCostTable.setVisible(false);
-                upgradeToLevelLabel.setText("Call this unit:"); // если юнит не призван (не куплен), выводим надипись "призвать" и стоимость **/
-                upgradeToLevelLabel.setVisible(true);
+                bottomGroup.showHireButton();
+//                upgradeToLevelLabel.setText("Call this unit:"); // если юнит не призван (не куплен), выводим надипись "призвать" и стоимость **/
+//                upgradeToLevelLabel.setVisible(true);
             } else {
                 teamUnit.getUnitImage().getUnitLevelIcon().setVisible(true);
                 infoTable.showUpgradeLabels();
                 upgradeCostTable.setVisible(true);
                 int nextUnitLevel = teamUnit.getUnitLevel() + 1;
-                upgradeToLevelLabel.setText(upgradeToLevelText + nextUnitLevel);
-                upgradeToLevelLabel.setVisible(true);
+                bottomGroup.showUpgradeButton();
+//                upgradeToLevelLabel.setText(upgradeToLevelText + nextUnitLevel);
+//                upgradeToLevelLabel.setVisible(true);
             }
         } else {
             infoTable.hideUpgradeLabels();
-            upgradeToLevelLabel.setVisible(false);
+//            upgradeToLevelLabel.setVisible(false);
         }
 
         /** если юнит не состоит в команде, отображаем кнопку "ВЫБРАТЬ" **/
         if (showSelectButton) {
             unitImage.getSelectButton().setVisible(true);
-            upgradeToLevelLabel.setVisible(true);
+//            upgradeToLevelLabel.setVisible(true);
         } else {
             unitImage.getSelectButton().setVisible(false);
         }
@@ -300,7 +341,9 @@ public class UpgradeWindow extends Group {
         });
         int nextUnitLevel = teamUnit.getUnitLevel();
         nextUnitLevel++;
-        upgradeToLevelLabel.setText(upgradeToLevelText + nextUnitLevel);
+//        upgradeToLevelLabel.setText(upgradeToLevelText + nextUnitLevel);
+        bottomGroup.setNextLevel(nextUnitLevel);
+//        bottomGroup.showUpgradeButton();
 //        upgradeToLevelLabel.setText(upgradeToLevelText + newUnitLevel); // надпись над зеленой кнопкой ("улучишть до уровня" или "призвать")
         upgradeCost = teamUnit.getUnitLevel() * COST_UPGRADE;
         checkRecourcesAndCoinsCount();
@@ -322,7 +365,7 @@ public class UpgradeWindow extends Group {
                 blockTable.setVisible(true);
             }
         } else {
-            if (teamUnit.getUnitData().isCalled()) {
+            if (teamUnit.getUnitData().isHired()) {
                 if (teamUnit.getUnitLevel() < teamUnit.getMaxUnitLevel()) {
                     upgradeCostTable.setVisible(true);
                     upgradeButton.setVisible(true);
@@ -353,18 +396,18 @@ public class UpgradeWindow extends Group {
                     gameManager.getIronCount() >= upgradeCostTable.getIronCostValue() &&
                     gameManager.getWoodCount() >= upgradeCostTable.getWoodCostValue()) {
                 canBeUpgrade = true;
-                upgradeButton.setUpgradeCost(upgradeCost, true);
+                upgradeButton.setCost(upgradeCost, true);
             } else {
                 toastLabel.setText(noResources);
                 canBeUpgrade = false;
 //                applyActionsToToast();
-                upgradeButton.setUpgradeCost(upgradeCost, false);
+                upgradeButton.setCost(upgradeCost, false);
             }
         } else {
             toastLabel.setText(noCoins);
             canBeUpgrade = false;
 //            applyActionsToToast();
-            upgradeButton.setUpgradeCost(upgradeCost, false);
+            upgradeButton.setCost(upgradeCost, false);
         }
     }
 
@@ -376,8 +419,7 @@ public class UpgradeWindow extends Group {
         /** сделаем невидимыми надпись "УЛУЧШИТЬ ДО УРОВНЯ" и кнопку апгрейда,
          * до тех пор пока не закончится действие перемещения значков ресурсов
          */
-        upgradeToLevelLabel.setVisible(false);
-        upgradeButton.setVisible(false);
+        bottomGroup.hideUpgradeButton();
 
         /** применим действия к значкам ресурсов (движение и мерцание картинки юнита) **/
         resourcesTable.startActions();
@@ -389,7 +431,7 @@ public class UpgradeWindow extends Group {
         teamUnit.addDamage(infoTable.getAddDamageValue());
 
         if (teamUnit.getUnitLevel() >= teamUnit.getMaxUnitLevel()) {
-            upgradeToLevelLabel.setVisible(false);
+            bottomGroup.showUpgradeButton();
             upgradeCostTable.setVisible(false);
             upgradeButton.setVisible(false);
             maxLevelReached.setVisible(true);
@@ -459,12 +501,13 @@ public class UpgradeWindow extends Group {
         super.act(delta);
         /** проверим, завершилось ли действие перемещения значков на изображение юнита, при апгрейде **/
         if (resourcesTable.getIsEndAction() == true) {
-            resourcesTable.setIsAction(false);
+            resourcesTable.setIsEndAction(false);
 
             /** сделаем видимыми надпись "УЛУЧШИТЬ ДО УРОВНЯ" и кнопку апгрейда **/
             if (teamUnit.getUnitLevel() < teamUnit.getMaxUnitLevel()) {
-                upgradeToLevelLabel.setVisible(true);
-                upgradeButton.setVisible(true);
+//                upgradeToLevelLabel.setVisible(true);
+//                upgradeButton.setVisible(true);
+                bottomGroup.showUpgradeButton();
             }
 //            unitImage.clearActions();
             unitImage.startAction();

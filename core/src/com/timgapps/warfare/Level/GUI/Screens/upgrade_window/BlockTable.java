@@ -10,10 +10,10 @@ import com.timgapps.warfare.Warfare;
  * таблица : собрите n-ое кол-во звезд для разблокировки
  **/
 public class BlockTable extends Table {
-    Image star;
-    Image blockIcon;
-    Label label;
-    int starsCount;
+    private Image star;
+    private Image blockIcon;
+    private Label label;
+    private int starsCount;
 
     public BlockTable() {
         Label label1;
@@ -28,7 +28,6 @@ public class BlockTable extends Table {
         add(label);
         add(star).width(star.getWidth()).padLeft(4).padRight(4);
         add(label1);
-
         setSize(200, 64);
     }
 
