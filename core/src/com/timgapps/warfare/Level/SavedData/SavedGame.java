@@ -251,7 +251,6 @@ public class SavedGame implements Serializable {
                 teamDataList.add(team.get(i).getUnitData());
             } else
                 teamDataList.set(i, team.get(i).getUnitData());
-//           teamDataList.get(i) = (TeamEntityData)team.get(i).getEntityData();
         }
     }
 
@@ -259,8 +258,6 @@ public class SavedGame implements Serializable {
         for (int i = 0; i < collection.size(); i++) {
             collectionDataList.clear();
             collectionDataList.add(collection.get(i).getUnitData());
-//            collectionDataList.set(i, collection.get(i).getEntityData());
-//           teamDataList.get(i) = (TeamEntityData)team.get(i).getEntityData();
         }
     }
 

@@ -44,8 +44,7 @@ public class UpgradeWindow extends Group {
     private String noCoins = "Not enought coins!";
     private boolean isStartToastAction = false;
     private boolean canBeUpgrade, canHire;
-    ;
-    private TeamUnit teamUnit;
+        private TeamUnit teamUnit;
     private ResourcesTable resourcesTable;
     private UnitLevelIcon unitLevelIcon;
     private TextureRegionDrawable textureRegionDrawableBg;
@@ -203,24 +202,22 @@ public class UpgradeWindow extends Group {
             gameManager.getCoinsPanel().setCoinsCount(coinsCount);
             gameManager.setCoinsCount(coinsCount);
             teamUnit.getUnitData().setIsHired(true);
+
+            // добавим текущий юнит в команду, если есть свободные места, если нет - оставим в коллекции
+            teamUpgradeScreen.addUnitToTeamFromCollection(teamUnit);
+            teamUpgradeScreen.redrawTeamTable();
+            teamUpgradeScreen.redrawCollection();
+            // перерисуем кнопку-изображение (значок) юнита
+            teamUnit.getUnitImageButton().redraw();
             show(teamUnit);
-//            show(false, false, teamUnit);
-
-            if (gameManager.getTeam().size() < 5) {
-                // добавим полученный юнит в команду
-                gameManager.getTeam().add(teamUnit);  // добавляем в команду полученный юнит из коллекции
-                gameManager.getSavedGame().getTeamDataList().add(teamUnit.getUnitData());
-
-//                gameManager.getSavedGame().getTeamDataList().add(gameManager.getSavedGame().getCollectionDataList().get(i));
-
-                // удалим юнит из коллекции
-                gameManager.getCollection().remove(teamUnit);
-                gameManager.getSavedGame().getCollectionDataList().remove(teamUnit.getUnitData());
-            }
+            gameManager.updateTeam(team);
+            gameManager.updateCollection();
             gameManager.saveGame();
         }
     }
 
+
+    // перерисовывает окно апгрейда юнита
     public void redraw(TeamUnit teamUnit) {
         this.teamUnit = teamUnit;
         System.out.println("Show UpgradeWindow!");
@@ -294,7 +291,6 @@ public class UpgradeWindow extends Group {
             blockTable.setLabelStarsCount(teamUnit.getUnitData().getStarsCount());      // установим значение, кол-ва звезд для открытия юнита
             blockTable.setVisible(true);
         }
-
     }
 
     // метод показывает экран с апгрейдом юнита
@@ -437,7 +433,7 @@ public class UpgradeWindow extends Group {
     @Override
     public void act(float delta) {
         super.act(delta);
-        /** проверим, завершилось ли действие перемещения значков на изображение юнита, при апгрейде **/
+        /** проверим, завершилось ли дgaействие перемещения значков на изображение юнита, при апгрейде **/
         if (resourcesTable.getIsEndAction() == true) {
             resourcesTable.setIsEndAction(false);
             /** сделаем видимыми надпись "УЛУЧШИТЬ ДО УРОВНЯ" и кнопку апгрейда **/

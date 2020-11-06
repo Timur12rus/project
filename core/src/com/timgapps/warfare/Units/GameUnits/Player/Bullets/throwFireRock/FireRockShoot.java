@@ -50,7 +50,7 @@ public class FireRockShoot {
         System.out.println("SECOND POSITION = " + secondPosition);
         System.out.println("THIRD POSITION = " + thirdPosition);
         fireRocks.add(new FireRock(level, new Vector2(100, 1000), firstPosition, 10));
-        fireRocks.add(new FireRock(level, new Vector2(140, 1600), secondPosition, 10));
+        fireRocks.add(new FireRock(level, new Vector2(-160, 1600), secondPosition, 10));
         fireRocks.add(new FireRock(level, new Vector2(240, 1100), thirdPosition, 10));
     }
 

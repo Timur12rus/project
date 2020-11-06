@@ -95,7 +95,9 @@ public class GameManager {
             woodCount = 4;
 
             /** количество монет у игрока **/
-            coinsCount = 100;
+            coinsCount = 5000;
+            // для теста
+//            coinsCount = 100;
             scoreCount = 0;
             starsCount = 0;
 
@@ -448,9 +450,7 @@ public class GameManager {
      **/
     public void updateTeam(ArrayList<TeamUnit> team) {
         this.team = team;
-//        savedGame.setTeam(team);
         savedGame.updateTeamDataList(team);
-//        saveGame();
     }
 
     /**
@@ -458,6 +458,13 @@ public class GameManager {
      **/
     public void updateCollection(ArrayList<TeamUnit> collection) {
         this.collection = collection;
+        savedGame.updateCollectionDataList(collection);
+    }
+
+    /**
+     * метод для обновления коллекции юнитов
+     **/
+    public void updateCollection() {
         savedGame.updateCollectionDataList(collection);
     }
 

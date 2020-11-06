@@ -31,9 +31,9 @@ public class TeamUpgradeScreen extends Group {
     private UpgradeWindow upgradeWindow;
     private ConstructedWindow constructedWindow;
     private ImageButton closeButton;
-    private ArrayList<com.timgapps.warfare.Level.GUI.team_unit.TeamUnit> team;                 // массив юнитов из КОМАНДЫ
-    private ArrayList<com.timgapps.warfare.Level.GUI.team_unit.TeamUnit> unitCollection;       // массив юнитов из КОЛЛЕКЦИИ
-    private com.timgapps.warfare.Level.GUI.team_unit.TeamUnit replaceUnit;                     // заменяющий юнит из коллекциии, заменяет юнита в команде при процессе замены
+    private ArrayList<TeamUnit> team;                 // массив юнитов из КОМАНДЫ
+    private ArrayList<TeamUnit> unitCollection;       // массив юнитов из КОЛЛЕКЦИИ
+    private TeamUnit replaceUnit;                     // заменяющий юнит из коллекциии, заменяет юнита в команде при процессе замены
     private float paddingLeft = 48;
     private float paddingTop = 24;
     private Label replaceUnitLabel;
@@ -146,6 +146,16 @@ public class TeamUpgradeScreen extends Group {
         addActor(replacedUnitImage);
     }
 
+    // перерисовывает таблицу с юнитами в команде
+    public void redrawTeamTable() {
+        teamTable.redraw(team);
+    }
+
+    // перерисовывает таблицу с юнитами в коллекции
+    public void redrawCollection() {
+        collectionTable.redraw(unitCollection);
+    }
+
     /**
      * метод для обновления команды и коллекции юнитов
      **/
@@ -218,6 +228,15 @@ public class TeamUpgradeScreen extends Group {
         });
     }
 
+    // метод добавляет юнита в команду, если есть свободные ячейки
+    public void addUnitToTeamFromCollection(TeamUnit teamUnit) {
+        // если есть свободные ячейки
+        if (team.size() < teamTable.getMaxNumOfUnits()) {
+            unitCollection.remove(teamUnit);        // удаляем этот юнит из коллекции
+            team.add(teamUnit);                      // добавляем юнита в команду
+        }
+    }
+
     /**
      * метод для замены выбранного юнита из коллекции на юнита в команде
      * т.е. меняем юнита из команды на юнита из коллекции
@@ -244,7 +263,7 @@ public class TeamUpgradeScreen extends Group {
             System.out.println("unitCollection teamEntity = " + unitCollection.indexOf(teamUnit));
             /** обновим команду(team) и коллекцию (collection) и сохраним игру **/
             gameManager.updateTeam(team);
-            gameManager.updateCollection(unitCollection);
+//            gameManager.updateCollection(unitCollection);
             // сохраним состояние игры
             gameManager.saveGame();
         }
@@ -285,6 +304,7 @@ public class TeamUpgradeScreen extends Group {
      * метод для обновления таблицы коллекции юнитов
      **/
     private void updateCollectionTable() {
+        collectionTable.redraw(unitCollection);
         Array<Cell> cells = collectionTable.getCells();
         System.out.println("UpdateCollectionTable()!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         for (int i = 0; i < unitCollection.size(); i++) {

@@ -29,9 +29,18 @@ public class Lightning extends Actor {
 
     private void createAnimation() {
         Array<TextureRegion> frames = new Array<TextureRegion>();
-        for (int i = 0; i < 6; i++)
-            frames.add(new TextureRegion(Warfare.atlas.findRegion("tenorAnimation" + i)));
-        animation = new Animation(0.11f, frames);
+//        for (int i = 0; i < 6; i++)
+//            frames.add(new TextureRegion(Warfare.atlas.findRegion("tenorAnimation" + i)));
+        frames.add(new TextureRegion(Warfare.atlas.findRegion("tenorAnimation" + 0)));
+        frames.add(new TextureRegion(Warfare.atlas.findRegion("tenorAnimation" + 1)));
+        frames.add(new TextureRegion(Warfare.atlas.findRegion("tenorAnimation" + 2)));
+        frames.add(new TextureRegion(Warfare.atlas.findRegion("tenorAnimation" + 2)));
+        frames.add(new TextureRegion(Warfare.atlas.findRegion("tenorAnimation" + 3)));
+        frames.add(new TextureRegion(Warfare.atlas.findRegion("tenorAnimation" + 4)));
+        frames.add(new TextureRegion(Warfare.atlas.findRegion("tenorAnimation" + 4)));
+        frames.add(new TextureRegion(Warfare.atlas.findRegion("tenorAnimation" + 5)));
+        frames.add(new TextureRegion(Warfare.atlas.findRegion("tenorAnimation" + 5)));
+        animation = new Animation(0.05f, frames);
         frames.clear();
     }
 

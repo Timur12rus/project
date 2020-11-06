@@ -46,6 +46,49 @@ public class UnitImageButton extends Group {
         lockIcon.setPosition(getWidth() - lockIcon.getWidth(), getHeight() - lockIcon.getHeight() + 10);
 
 
+//        if (isUnlock) {                         // если разблокирован
+//            if (isCalled) {                     // если призван
+//                activeImage.setVisible(true);
+//                unitLevelIcon.setVisible(true);
+//                lockImage.setVisible(false);
+//            } else {
+//                activeImage.setVisible(false);
+//                unitLevelIcon.setVisible(false);
+//                lockImage.setVisible(true);
+//            }
+//            lockIcon.setVisible(false);
+//        } else {                            // в противном случае, заблокирован
+//            lockImage.setVisible(true);
+//            activeImage.setVisible(false);
+//            inactiveImage.setVisible(false);
+//            lockIcon.setVisible(true);
+//            unitLevelIcon.setVisible(false);
+//        }
+//
+
+        redraw();
+        addActor(activeImage);
+        addActor(inactiveImage);
+        inactiveImage.setPosition(0, -10);
+        addActor(lockImage);
+        addActor(lockIcon);
+        addActor(unitLevelIcon);
+//        setInActive();
+
+        addCaptureListener(new EventListener() { // добавляет слушателя события корневому элементу, отключая его для дочерних элементов
+            @Override
+            public boolean handle(Event event) {
+                event.setTarget(UnitImageButton.this);
+                return true;
+            }
+        });
+        addClickListener();
+    }
+
+    // перерисовывает кнопку-изображение (значок) юнита
+    public void redraw() {
+        this.isUnlock = playerUnitData.isUnlock();
+        this.isCalled = playerUnitData.isHired();
         if (isUnlock) {                         // если разблокирован
             if (isCalled) {                     // если призван
                 activeImage.setVisible(true);
@@ -64,22 +107,6 @@ public class UnitImageButton extends Group {
             lockIcon.setVisible(true);
             unitLevelIcon.setVisible(false);
         }
-        addActor(activeImage);
-        addActor(inactiveImage);
-        inactiveImage.setPosition(0, -10);
-        addActor(lockImage);
-        addActor(lockIcon);
-        addActor(unitLevelIcon);
-//        setInActive();
-
-        addCaptureListener(new EventListener() { // добавляет слушателя события корневому элементу, отключая его для дочерних элементов
-            @Override
-            public boolean handle(Event event) {
-                event.setTarget(UnitImageButton.this);
-                return true;
-            }
-        });
-        addClickListener();
     }
 
     @Override
