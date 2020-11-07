@@ -255,9 +255,15 @@ public class SavedGame implements Serializable {
     }
 
     public void updateCollectionDataList(ArrayList<TeamUnit> collection) {
+        collectionDataList.clear();
         for (int i = 0; i < collection.size(); i++) {
-            collectionDataList.clear();
             collectionDataList.add(collection.get(i).getUnitData());
+        }
+        int i = 0;
+        System.out.println("updateCollectionDataList()!!!!!!!!!!!!!!!!!!!!!!");
+        for (TeamUnit collectionUnit : collection) {
+            System.out.println("collectionUnit[" + i + "] = " + collectionUnit.getUnitData().getUnitId().toString());
+            System.out.println("collectionUnitData[" + i + "] = " + collectionDataList.get(i).getUnitId().toString());
         }
     }
 

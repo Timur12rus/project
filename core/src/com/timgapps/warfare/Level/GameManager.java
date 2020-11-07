@@ -456,15 +456,12 @@ public class GameManager {
     /**
      * метод для обновления коллекции юнитов
      **/
-    public void updateCollection(ArrayList<TeamUnit> collection) {
-        this.collection = collection;
-        savedGame.updateCollectionDataList(collection);
-    }
-
-    /**
-     * метод для обновления коллекции юнитов
-     **/
     public void updateCollection() {
+        int i = 0;
+        for (TeamUnit collectionUnit : collection) {
+            System.out.println("collectionUnit[" + i + "] = " + collectionUnit.getUnitData().getUnitId().toString());
+            i++;
+        }
         savedGame.updateCollectionDataList(collection);
     }
 

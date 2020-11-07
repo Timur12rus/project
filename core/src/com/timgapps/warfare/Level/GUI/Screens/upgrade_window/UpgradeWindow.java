@@ -44,7 +44,7 @@ public class UpgradeWindow extends Group {
     private String noCoins = "Not enought coins!";
     private boolean isStartToastAction = false;
     private boolean canBeUpgrade, canHire;
-        private TeamUnit teamUnit;
+    private TeamUnit teamUnit;
     private ResourcesTable resourcesTable;
     private UnitLevelIcon unitLevelIcon;
     private TextureRegionDrawable textureRegionDrawableBg;
@@ -206,10 +206,10 @@ public class UpgradeWindow extends Group {
             // добавим текущий юнит в команду, если есть свободные места, если нет - оставим в коллекции
             teamUpgradeScreen.addUnitToTeamFromCollection(teamUnit);
             teamUpgradeScreen.redrawTeamTable();
-            teamUpgradeScreen.redrawCollection();
+            teamUpgradeScreen.redrawCollectionTable();
             // перерисуем кнопку-изображение (значок) юнита
             teamUnit.getUnitImageButton().redraw();
-            show(teamUnit);
+            show(teamUnit);                         // перерисовываем окно апгрейда юнита (то, в котором сейчас находимся)
             gameManager.updateTeam(team);
             gameManager.updateCollection();
             gameManager.saveGame();
@@ -375,9 +375,14 @@ public class UpgradeWindow extends Group {
             bottomGroup.showUpgradeButton();
             upgradeCostTable.setVisible(false);
             maxLevelReached.setVisible(true);
+        } else {
+            teamUnit.getUnitImage().setLevelValue(nextUnitLevel);
         }
         /** обновим данные юнита и сохраним его данные **/
         teamUnit.updateTeamEntityData();
+        teamUnit.getUnitImageButton().redraw();
+        teamUpgradeScreen.redrawTeamTable();     // перерисуем таблицу с команой юнитов
+//        teamUpgradeScreen.updateTeam();     // перерисуем таблицу с команой юнитов
 
         /** обновим количество монет и установим новое кол-во монет в панели монет **/
         coinsCount -= upgradeCost;

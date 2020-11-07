@@ -85,7 +85,7 @@ public class UnitImageButton extends Group {
         addClickListener();
     }
 
-    // перерисовывает кнопку-изображение (значок) юнита
+    // перерисовывает кнопку-изображение (значок) юнита в зависимости от доступности юнита
     public void redraw() {
         this.isUnlock = playerUnitData.isUnlock();
         this.isCalled = playerUnitData.isHired();

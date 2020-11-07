@@ -152,7 +152,7 @@ public class TeamUpgradeScreen extends Group {
     }
 
     // перерисовывает таблицу с юнитами в коллекции
-    public void redrawCollection() {
+    public void redrawCollectionTable() {
         collectionTable.redraw(unitCollection);
     }
 
@@ -160,13 +160,16 @@ public class TeamUpgradeScreen extends Group {
      * метод для обновления команды и коллекции юнитов
      **/
     public void updateTeam() {
-        //TODO исправить!!!
-        updateTeamTable();
+        teamTable.redraw(team);
     }
 
     public void updateCollection() {
-        //TODO исправить!!!
-        updateCollectionTable();
+        collectionTable.redraw(unitCollection);
+//        System.out.println("UpdateCollection()!!!!!!!!!!!!!!!!!!!");
+//        int i = 0;
+//        for (TeamUnit collectionUnit : unitCollection) {
+//            System.out.println("collectionUnit[" + i + "] = " + collectionUnit.getUnitData().getUnitId().name());
+//        }
     }
 
     /**
