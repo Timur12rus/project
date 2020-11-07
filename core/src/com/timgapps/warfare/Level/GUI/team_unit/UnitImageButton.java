@@ -45,27 +45,6 @@ public class UnitImageButton extends Group {
         unitLevelIcon.setPosition(getWidth() - unitLevelIcon.getWidth(), getHeight() - unitLevelIcon.getHeight() + 10);
         lockIcon.setPosition(getWidth() - lockIcon.getWidth(), getHeight() - lockIcon.getHeight() + 10);
 
-
-//        if (isUnlock) {                         // если разблокирован
-//            if (isCalled) {                     // если призван
-//                activeImage.setVisible(true);
-//                unitLevelIcon.setVisible(true);
-//                lockImage.setVisible(false);
-//            } else {
-//                activeImage.setVisible(false);
-//                unitLevelIcon.setVisible(false);
-//                lockImage.setVisible(true);
-//            }
-//            lockIcon.setVisible(false);
-//        } else {                            // в противном случае, заблокирован
-//            lockImage.setVisible(true);
-//            activeImage.setVisible(false);
-//            inactiveImage.setVisible(false);
-//            lockIcon.setVisible(true);
-//            unitLevelIcon.setVisible(false);
-//        }
-//
-
         redraw();
         addActor(activeImage);
         addActor(inactiveImage);
@@ -107,6 +86,10 @@ public class UnitImageButton extends Group {
             lockIcon.setVisible(true);
             unitLevelIcon.setVisible(false);
         }
+    }
+
+    public void setLevelValue(int levelValue) {
+        unitLevelIcon.setLevelValue(levelValue);
     }
 
     @Override

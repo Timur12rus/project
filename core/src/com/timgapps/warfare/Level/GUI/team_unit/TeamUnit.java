@@ -130,6 +130,7 @@ public class TeamUnit {
     public void setUnitLevel(int unitLevel) {
         this.unitLevel = unitLevel;
         unitImage.setLevelValue(unitLevel);
+        unitImageButton.setLevelValue(unitLevel);
     }
 
     public UnitImageButton getUnitImageButton() {

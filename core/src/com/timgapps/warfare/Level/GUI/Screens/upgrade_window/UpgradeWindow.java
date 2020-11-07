@@ -220,6 +220,7 @@ public class UpgradeWindow extends Group {
     // перерисовывает окно апгрейда юнита
     public void redraw(TeamUnit teamUnit) {
         this.teamUnit = teamUnit;
+        nextUnitLevel = 0;
         System.out.println("Show UpgradeWindow!");
         infoTable.redraw(teamUnit.getUnitData());       // обновляем данные в infoTable
         unitNameLabel.setText(teamUnit.getName());      // обновляем имя юнита
@@ -368,6 +369,7 @@ public class UpgradeWindow extends Group {
         resourcesTable.startActions();
         /** обновим параметры юнита, которого прокачиваем **/
         teamUnit.setUnitLevel(nextUnitLevel);
+        teamUnit.getUnitData().setUnitLevel(nextUnitLevel);
         teamUnit.addHealth(infoTable.getAddHealthValue());
         teamUnit.addDamage(infoTable.getAddDamageValue());
 
