@@ -122,10 +122,10 @@ public class Level extends StageGame {
 //        unitCreator.createUnit("Zombie3", new Vector2(3000, 220));
 
 
-        // 08.11.2020
+        // TODO TEST 08.11.2020
 //        unitCreator.createUnit("Zombie1", new Vector2(370, 270));
 //        unitCreator.createUnit("Zombie3", new Vector2(570, 270));
-//        unitCreator.createUnit("Zombie1", new Vector2(700, 250));
+        unitCreator.createUnit("Zombie1", new Vector2(700, 250));
 //        unitCreator.createUnit("Zombie1", new Vector2(300, 240));
 //        unitCreator.createUnit("Zombie2", new Vector2(600, 200));
 //        unitCreator.createUnit("Wizard", new Vector2(1100, 250));

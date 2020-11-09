@@ -46,6 +46,7 @@ public class EnemyUnitController extends GameUnitController {
                     } else {
                         model.setIsTouchedPlayer(false);
                     }
+                    
                 }
             }
         }

@@ -17,6 +17,8 @@ public class EnemyUnitModel extends GameUnitModel {
     private boolean isTouchedPlayer;
     private boolean isTouchedTower;
     private boolean isAttackTower;
+    private boolean isTouchedStone;
+    private boolean isAttackStone;
     private boolean isShoot;        //  готов ли юнит стрелять
     private boolean isShooted;      //  выстрелил ли юнит
     private boolean isAttacked;     // атаковал ли юнит врага
@@ -55,6 +57,7 @@ public class EnemyUnitModel extends GameUnitModel {
         return new Vector2(bodyWidth, bodyHeight);
     }
 
+    // метод для получения урона от игрока
     @Override
     public void subHealth(float damage) {
         super.subHealth(damage);
@@ -115,6 +118,23 @@ public class EnemyUnitModel extends GameUnitModel {
     public boolean isAttackTower() {
         return isAttackTower;
     }
+
+    public void setIsTouchedStone(boolean isTouchedStone) {
+        this.isTouchedStone = isTouchedStone;
+    }
+
+    public boolean isTouchedStone() {
+        return isTouchedStone;
+    }
+
+    public void setIsAttackStone(boolean isAttackStone) {
+        this.isAttackStone = isAttackStone;
+    }
+
+    public boolean isAttackStone() {
+        return isAttackStone;
+    }
+
 
     public void disposeBloodSpray() {
         bloodSpray.dispose();

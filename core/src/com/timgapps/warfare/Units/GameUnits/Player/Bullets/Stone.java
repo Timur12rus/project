@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -11,6 +12,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.timgapps.warfare.Level.Level;
+import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitModel;
 import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnitData;
 import com.timgapps.warfare.Warfare;
 
@@ -80,11 +82,24 @@ public class Stone extends Bullet {
         /** изменим позицию нашего прямоугольника для определения коллизий **/
     }
 
-    public void setHealth(float damage) {
+    // метод для получения урона от противника
+    public void subHealth(float damage) {
         health -= damage;
     }
 
     private void checkCollisionEnemyUnit() {
+        if (moveIsEnd && !isDamaged) {
+            try {
+                for (EnemyUnitModel enemy : level.getArrayEnemies()) {
+                    if (Intersector.overlaps(body, enemy.getBody())) {
+                        enemy.subHealth(45);
+                    }
+                }
+            } catch (Exception e) {
+
+            }
+            isDamaged = true;
+        }
     }
 
     public float getHealth() {
