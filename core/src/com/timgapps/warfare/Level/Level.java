@@ -113,24 +113,33 @@ public class Level extends StageGame {
 
 
         unitCreator = new UnitCreator(this);
-        unitCreator.createUnit("Zombie1", new Vector2(370, 270));
-        unitCreator.createUnit("Zombie3", new Vector2(570, 270));
+
 //        unitCreator.createUnit("Zombie1", new Vector2(1200, 270));
-        unitCreator.createUnit("Zombie2", new Vector2(600, 200));
 //        unitCreator.createUnit("Zombie1", new Vector2(750, 250));
 
 //        unitCreator.createUnit("Zombie3", new Vector2(2500, 280));
 //        unitCreator.createUnit("Zombie3", new Vector2(5000, 300));
 //        unitCreator.createUnit("Zombie3", new Vector2(3000, 220));
-        unitCreator.createUnit("Zombie1", new Vector2(700, 250));
+
+
+        // 08.11.2020
+//        unitCreator.createUnit("Zombie1", new Vector2(370, 270));
+//        unitCreator.createUnit("Zombie3", new Vector2(570, 270));
+//        unitCreator.createUnit("Zombie1", new Vector2(700, 250));
+//        unitCreator.createUnit("Zombie1", new Vector2(300, 240));
+//        unitCreator.createUnit("Zombie2", new Vector2(600, 200));
+//        unitCreator.createUnit("Wizard", new Vector2(1100, 250));
+//        unitCreator.createUnit("Skeleton2", new Vector2(900, 270));
+//        unitCreator.createUnit("Ent1", new Vector2(1000, 270));
+
 //        unitCreator.createUnit("Zombie2", new Vector2(600, 230));
-        unitCreator.createUnit("Zombie1", new Vector2(300, 240));
+
 ////
-        unitCreator.createUnit("Wizard", new Vector2(1100, 250));
+
 //        unitCreator.createUnit("Skeleton1", new Vector2(1200, 230));
-        unitCreator.createUnit("Skeleton2", new Vector2(900, 270));
+
 //
-        unitCreator.createUnit("Ent1", new Vector2(1000, 270));
+
 //        unitCreator.createUnit("Barbarian", new Vector2(200, 240));
 //        unitCreator.createUnit("Viking", new Vector2(200, 240));
 
@@ -160,7 +169,11 @@ public class Level extends StageGame {
         tableUnitButtons.setWidth(team.size() * unitButtonWidth + 24);
         tableUnitButtons.setHeight(unitButtonHeight);
         tableUnitButtons.setPosition((getWidth() - tableUnitButtons.getWidth()) / 2, 24);
+        // TODO fix X coordiante
+        System.out.println("tableUnitButton X = " + tableUnitButtons.getX());
+        System.out.println("unitButtonDeltaX = " + (team.get(2).getUnitImageButton().getWidth() + 24) * 2);
         tableUnitButtons.setStoneButtonPosX(tableUnitButtons.getX());
+//        tableUnitButtons.setStoneButtonPosX(tableUnitButtons.getX() + (team.get(2).getUnitImageButton().getWidth() + 24) * 2);
         addOverlayChild(tableUnitButtons);
         // добавим указатель "ПАЛЕЦ"
         if (levelNumber == 1) {
@@ -319,12 +332,12 @@ public class Level extends StageGame {
         super.update(delta);
         if (state != PAUSED) {
 
-            // для теста
-            waitTime--;
-            if (waitTime < 0) {
-                new FireRockShoot(this);
-                waitTime = 200;
-            }
+            // для теста (пуск огненных камней)
+//            waitTime--;
+//            if (waitTime < 0) {
+//                new FireRockShoot(this);
+//                waitTime = 200;
+//            }
 
 //        if (state == PLAY) {
 //        timeCount += delta;
@@ -503,7 +516,12 @@ public class Level extends StageGame {
         void addUnitButtons() {
             for (TeamUnit teamUnit : team) {
 //            for (int i = 0; i < team.size(); i++) {
-                unitButtonArrayList.add(new CreateUnitButton(level, teamUnit.getUnitData()));
+                if (teamUnit.getUnitData().getUnitId() != PlayerUnits.Rock) {
+                    unitButtonArrayList.add(new CreateUnitButton(level, teamUnit.getUnitData()));
+                } else {
+                    stoneButton = new StoneButton(level, teamUnit.getUnitData());
+                    unitButtonArrayList.add(stoneButton);
+                }
 //                unitButtonArrayList.add(team.get(i).getUnitImageButton());
                 if (teamUnit.getUnitId() != PlayerUnits.Rock) {
                     this.addListener(new ClickListener() {
