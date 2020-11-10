@@ -15,6 +15,7 @@ public class Zombie2Controller extends EnemyUnitController implements EnemyWarri
     @Override
     public void update(float delta) {
         super.update(delta);
+        System.out.println("Zombie Pos = " + model.getPosition());
         if (!model.isDestroyed()) {
             checkCollisions();
             if (model.isTouchedPlayer()) {

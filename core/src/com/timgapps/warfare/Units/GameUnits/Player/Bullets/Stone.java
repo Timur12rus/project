@@ -1,7 +1,9 @@
 package com.timgapps.warfare.Units.GameUnits.Player.Bullets;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Intersector;
@@ -31,6 +33,7 @@ public class Stone extends Bullet {
     private static final float APPEARANCE_TIME = 1;
     //    private static int ENERGY_PRICE = 6;
     private static int ENERGY_PRICE = 1;
+    private ParticleEffect destroyEffect;
 
     public Stone(Level level, Vector2 position, PlayerUnitData data) {
         super(level, position, 0);
@@ -50,9 +53,19 @@ public class Stone extends Bullet {
         level.arrayActors.add(this);
         System.out.println("Target Pos = " + targetPos);
         System.out.println("Start Pos = " + this.position);
-        isDebug = true;
+//        isDebug = true;
         setSize(image.getRegionWidth(), image.getRegionHeight());
         debug();
+        destroyEffect = new ParticleEffect();
+        destroyEffect.load(Gdx.files.internal("effects/destroyRockEffect10.paty"), Gdx.files.internal("effects/")); //file);
+    }
+
+    @Override
+    public void draw(Batch batch, float parentAlpha) {
+        super.draw(batch, parentAlpha);
+        if (isDestroyed) {
+            destroyEffect.draw(batch);
+        }
     }
 
     @Override
@@ -66,8 +79,8 @@ public class Stone extends Bullet {
     public void act(float delta) {
         super.act(delta);
         /** изменим позицию нашего актреа **/
-        System.out.println("Position = " + position);
-        System.out.println("TargetPosition = " + targetPos);
+//        System.out.println("Position = " + position);
+//        System.out.println("TargetPosition = " + targetPos);
 
         if ((position.y <= targetPos.y)) {
             if (!moveIsEnd) {
@@ -77,9 +90,31 @@ public class Stone extends Bullet {
         }
         if (moveIsEnd) {
             position.y = targetPos.y;
-            checkCollisionEnemyUnit();
+            if (!isDestroyed) {
+                checkCollisionEnemyUnit();
+                destroyEffect.setPosition(position.x + image.getRegionWidth() / 2, position.y);
+                destroy();
+            }
         }
+        if (isDestroyed) {
+            destroyEffect.update(delta);
+            if (destroyEffect.isComplete()) {
+                destroyEffect.dispose();
+                remove();
+            }
+        }
+
+        System.out.println("Body Position = " + body.getX() + ", " + body.getY());
+        System.out.println(" Position Actor = " + getX() + ", " + getY());
         /** изменим позицию нашего прямоугольника для определения коллизий **/
+    }
+
+
+    // метод для разрушения камня
+    public void destroy() {
+        image = null;
+        isDestroyed = true;
+        destroyEffect.start();
     }
 
     // метод для получения урона от противника
