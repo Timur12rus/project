@@ -19,6 +19,7 @@ import com.timgapps.warfare.Level.LevelMap.actions.CoinsAction;
 import com.timgapps.warfare.Units.GameUnits.unitTypes.PlayerUnits;
 import com.timgapps.warfare.Warfare;
 
+// награда за звезды (изображение)
 public class RewardForStars extends Group {
     private Image rewardImage;
     private Image bg, bgYellow, bgOrange;
@@ -29,9 +30,9 @@ public class RewardForStars extends Group {
     private int rewardCountStars; // кол-во звёзд для плучения текущей награды
     private int starsNum;
     private float deltaX;       // количество пикселей по Х, на сколько нужно сдвинуть изображение
-    private com.timgapps.warfare.Level.GUI.Screens.reward_for_stars.RewardForStarsData data;
+    private RewardForStarsData data;
     private GameManager gameManager;
-    private com.timgapps.warfare.Level.GUI.Screens.reward_for_stars.RewardForStarsScreen rewardForStarsScreen;
+    private RewardForStarsScreen rewardForStarsScreen;
     private Finger finger;
     private StarsBar bar;
     private final int BG_PANEL_WIDTH = 140;
@@ -79,24 +80,24 @@ public class RewardForStars extends Group {
                 rewardImage = new Image(Warfare.atlas.findRegion(data.getImageString()));
                 name = "Rock";
 //                starsNum = data.getStarsCount();
-                deltaX = 0;
+                deltaX = -16;
                 break;
             case RewardForStarsData.REWARD_ARCHER:
                 rewardImage = new Image(Warfare.atlas.findRegion(data.getImageString()));
                 name = "Archer";
 //                starsNum = 4;
-                deltaX = 42;
+                deltaX = -12;
                 break;
             case RewardForStarsData.REWARD_GNOME:
                 rewardImage = new Image(Warfare.atlas.findRegion(data.getImageString()));
                 name = "Gnome";
 //                starsNum = 15;
-                deltaX = -16;
+                deltaX = -10;
                 break;
             case RewardForStarsData.REWARD_BOX:
-                if (!data.getIsReceived()) {
+                if (!data.getIsReceived()) {            // если награда (сундук) не получена
                     rewardImage = new Image(Warfare.atlas.findRegion(data.getImageString()));
-                } else {
+                } else {        // в противном случае
                     rewardImage = new Image(Warfare.atlas.findRegion("boxImage4"));
                 }
                 name = "Box";
@@ -105,7 +106,7 @@ public class RewardForStars extends Group {
             case RewardForStarsData.REWARD_KNIGHT:
                 rewardImage = new Image(Warfare.atlas.findRegion(data.getImageString()));
                 name = "Knight";
-                deltaX = -16;
+                deltaX = -12;
                 break;
         }
         starsNum = data.getStarsCount();        // кол-во звезд, необходимое для получения награды
@@ -371,7 +372,7 @@ public class RewardForStars extends Group {
     public void getRewardForStars() {
         nameLabel.setColor(Color.LIGHT_GRAY);
         switch (data.getTypeOfReward()) {
-            case com.timgapps.warfare.Level.GUI.Screens.reward_for_stars.RewardForStarsData.REWARD_STONE:                           // если награда "КАМЕНЬ"
+            case RewardForStarsData.REWARD_STONE:                           // если награда "КАМЕНЬ"
                 for (int i = 0; i < gameManager.getCollection().size(); i++) {
                     if (gameManager.getCollection().get(i).getUnitId() == PlayerUnits.Rock) {
                         addRewardUnitToTeam(i);
@@ -381,7 +382,7 @@ public class RewardForStars extends Group {
                     }
                 }
                 break;
-            case com.timgapps.warfare.Level.GUI.Screens.reward_for_stars.RewardForStarsData.REWARD_ARCHER:
+            case RewardForStarsData.REWARD_ARCHER:
                 for (int i = 0; i < gameManager.getCollection().size(); i++) {
                     if (gameManager.getCollection().get(i).getUnitId() == PlayerUnits.Archer) {
                         addRewardUnitToTeam(i);
@@ -423,6 +424,15 @@ public class RewardForStars extends Group {
                     }
                 }
                 break;
+            case RewardForStarsData.REWARD_KNIGHT:
+                for (int i = 0; i < gameManager.getCollection().size(); i++) {
+                    if (gameManager.getCollection().get(i).getUnitId() == PlayerUnits.Knight) {
+                        addRewardUnitToTeam(i);
+                        Image actorImage = new Image(Warfare.atlas.findRegion(data.getImageString()));
+                        rewardForStarsScreen.startAddAction(actorImage, getX() + rewardForStarsScreen.getScrollTableX(), getY() + 240, deltaX);
+                    }
+                }
+                break;
         }
         bar.setIsReceived(true);
 //         сохраним данные
@@ -438,6 +448,7 @@ public class RewardForStars extends Group {
 //        unlockRewardForStars(i);                                               // разблокируем награду
         gameManager.getCollection().get(i).getUnitData().setUnlock();     // снимаем блокировку юнита
         gameManager.getCollection().get(i).getUnitImageButton().unlock();
+        gameManager.getCollection().get(i).getUnitImageButton().redraw();
 
         if (gameManager.getTeam().size() < 5) {
             // добавим полученный юнит в команду

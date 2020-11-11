@@ -114,7 +114,7 @@ public class UnitImage extends Group {
         return isEndAction;
     }
 
-    public void clearActions() {
+    public void clearAction() {
         image.setColor(1, 1, 1, 1);
         levelIcon.clearActions();
         levelIcon.setPosition(image.getWidth(), image.getHeight() - levelIcon.getHeight());

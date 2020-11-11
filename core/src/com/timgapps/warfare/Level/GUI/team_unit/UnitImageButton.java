@@ -103,30 +103,13 @@ public class UnitImageButton extends Group {
 
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if (!isUnlock) {        // если заблокирован юнит
-                    lockImage.setY(lockImage.getY() - 10);      // изображение с блокировкой
-                    activeImage.setY(activeImage.getY() - 10);
-                    lockIcon.setY(lockIcon.getY() - 10);
-                } else {
-                    lockImage.setY(lockImage.getY() - 10);
-                    activeImage.setY(activeImage.getY() - 10);
-                    unitLevelIcon.setY(unitLevelIcon.getY() - 10);
-                }
+                touchedDown();
                 return super.touchDown(event, x, y, pointer, button);
             }
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                if (!isUnlock) {            // если заблокирован юнит
-                    lockImage.setY(lockImage.getY() + 10);
-                    activeImage.setY(activeImage.getY() + 10);
-                    lockIcon.setY(lockIcon.getY() + 10);
-                } else {
-                    lockImage.setY(lockImage.getY() + 10);
-                    activeImage.setY(activeImage.getY() + 10);
-                    unitLevelIcon.setY(unitLevelIcon.getY() + 10);
-//                    activeImage.setY(activeImage.getY() + 10);
-                }
+                touchedUp();
                 super.touchUp(event, x, y, pointer, button);
             }
 
@@ -138,8 +121,37 @@ public class UnitImageButton extends Group {
         });
     }
 
-    public void buttonClicked() {
+    public void setInActive() {
+        activeImage.setVisible(false);
+        inactiveImage.setVisible(true);
+    }
 
+    public void touchedDown() {
+        if (!isUnlock) {                 // если не разблокирован юнит
+            lockImage.setY(lockImage.getY() - 10);      // изображение с блокировкой
+            activeImage.setY(activeImage.getY() - 10);
+            lockIcon.setY(lockIcon.getY() - 10);
+        } else {
+            lockImage.setY(lockImage.getY() - 10);
+            activeImage.setY(activeImage.getY() - 10);
+            unitLevelIcon.setY(unitLevelIcon.getY() - 10);
+        }
+    }
+
+    public void touchedUp() {
+        if (!isUnlock) {            // если не разблокирован юнит
+            lockImage.setY(lockImage.getY() + 10);
+            activeImage.setY(activeImage.getY() + 10);
+            lockIcon.setY(lockIcon.getY() + 10);
+        } else {
+            lockImage.setY(lockImage.getY() + 10);
+            activeImage.setY(activeImage.getY() + 10);
+            unitLevelIcon.setIsActiveIcon(true);
+//            unitLevelIcon.setY(unitLevelIcon.getY() + 10);
+        }
+    }
+
+    public void buttonClicked() {
     }
 
     public void unlock() {
@@ -152,10 +164,5 @@ public class UnitImageButton extends Group {
         isCalled = true;
         lockImage.setVisible(false);
         activeImage.setVisible(true);
-    }
-
-    public void setInActive() {
-        activeImage.setVisible(false);
-        inactiveImage.setVisible(true);
     }
 }

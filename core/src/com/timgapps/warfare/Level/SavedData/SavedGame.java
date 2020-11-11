@@ -87,14 +87,22 @@ public class SavedGame implements Serializable {
         starsCount = 0;             // кол-во звезд у игрока
         indexOfRewardStars = 0;     // индекс следующей награды за звёзды
         rewardForStarsDataList = new ArrayList<RewardForStarsData>();
-        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_STONE, 1, "block1_image"));
-        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_ARCHER, 4, "archerStay0"));
+        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_STONE, 1, PlayerUnits.Rock.name().toLowerCase() + "UnitImage"));
+        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_ARCHER, 4, PlayerUnits.Archer.name().toLowerCase() + "UnitImage"));
         rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_BOX, 15, "boxImage0"));
-        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_GNOME, 30, "gnomeStay0"));
+        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_GNOME, 30, PlayerUnits.Gnome.name().toLowerCase() + "UnitImage"));
         rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_BOX, 45, "boxImage0"));
-        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_KNIGHT, 75, "knightUnitImage"));
-        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_KNIGHT, 110, "knightUnitImage"));
-        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_KNIGHT, 50, "knightUnitImage"));
+        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_KNIGHT, 75, PlayerUnits.Knight.name().toLowerCase() + "UnitImage"));
+
+//        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_STONE, 1, "rockUnitImage"));
+//        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_ARCHER, 4, PlayerUnits.Archer.name().toLowerCase() + "UnitImage"));
+//        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_BOX, 15, "boxImage0"));
+//        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_GNOME, 30, PlayerUnits.Gnome.name().toLowerCase() + "UnitImage"));
+//        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_BOX, 45, "boxImage0"));
+//        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_KNIGHT, 75, PlayerUnits.Knight.name().toLowerCase() + "UnitImage"));
+//
+//        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_KNIGHT, 110, "knightUnitImage"));
+//        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_KNIGHT, 50, "knightUnitImage"));
 //        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_GNOME, 45));
 //        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_GNOME, 80));
 //        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_GNOME, 100));

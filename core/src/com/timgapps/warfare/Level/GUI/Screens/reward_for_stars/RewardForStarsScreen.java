@@ -29,7 +29,7 @@ import java.util.ArrayList;
 
 public class RewardForStarsScreen extends StageGame {
     public static final int ON_BACK = 1;
-    private ArrayList<RewardForStarsData> rewardForStarsDataList;
+    private ArrayList<RewardForStarsData> rewardForStarsDataList;           // массив данных наград
     private ArrayList<RewardForStars> rewardForStarsList;
     private BackButton backButton;
     private Texture bgTexture;
@@ -55,13 +55,10 @@ public class RewardForStarsScreen extends StageGame {
 
         /** получим текущее кол-во звезд **/
 //        starsCount = 7;
-//        starsCount = gameManager.getStarsPanel().getStarsCount();
-        starsCount = gameManager.getSavedGame().getStarsCount();
-//        starsCount = 100;
+//        starsCount = gameManager.getSavedGame().getStarsCount();
+        // для теста
+        starsCount = 110;
         System.out.println("starsCount = " + starsCount);
-//        starsCount = 15;
-//        starsCount = 3;
-//        starsCount = 30;
 
         backButton = new BackButton();
         backButton.setPosition(64, 64);

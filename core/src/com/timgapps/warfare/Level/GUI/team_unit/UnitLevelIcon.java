@@ -26,6 +26,7 @@ public class UnitLevelIcon extends Group {
     }
 
     public void setIsActiveIcon(boolean isActiveIcon) {
+        this.isActiveIcon = isActiveIcon;
         if (isActiveIcon == false) {
             this.setColor(1, 1, 1, 0.7f);
             this.setY(this.getY() - 10);
@@ -33,7 +34,6 @@ public class UnitLevelIcon extends Group {
             this.setColor(1, 1, 1, 1);
             this.setY(this.getY() + 10);
         }
-        this.isActiveIcon = isActiveIcon;
     }
 
     public boolean isActiveIcon() {

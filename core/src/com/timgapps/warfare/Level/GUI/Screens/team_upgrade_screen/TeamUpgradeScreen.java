@@ -175,7 +175,7 @@ public class TeamUpgradeScreen extends Group {
     /**
      * метод показывает заменяющего юнита (нового), которого игрок хочет добавить в команду
      **/
-    public void showReplaceUnit(com.timgapps.warfare.Level.GUI.team_unit.TeamUnit teamUnit) {
+    public void showReplaceUnit(TeamUnit teamUnit) {
         /** делаем таблицу с командой юнитов невидимой, скрываем её **/
         tableCollection.setVisible(false);
         replaceUnit = teamUnit;   // юнит из коллекции, который заменит юнита в команде
@@ -235,8 +235,8 @@ public class TeamUpgradeScreen extends Group {
     public void addUnitToTeamFromCollection(TeamUnit teamUnit) {
         // если есть свободные ячейки
         if (team.size() < teamTable.getMaxNumOfUnits()) {
-            unitCollection.remove(teamUnit);        // удаляем этот юнит из коллекции
             team.add(teamUnit);                      // добавляем юнита в команду
+            unitCollection.remove(teamUnit);        // удаляем этот юнит из коллекции
         }
     }
 
@@ -266,6 +266,7 @@ public class TeamUpgradeScreen extends Group {
             System.out.println("unitCollection teamEntity = " + unitCollection.indexOf(teamUnit));
             /** обновим команду(team) и коллекцию (collection) и сохраним игру **/
             gameManager.updateTeam(team);
+            gameManager.updateCollection();
 //            gameManager.updateCollection(unitCollection);
             // сохраним состояние игры
             gameManager.saveGame();
@@ -330,6 +331,8 @@ public class TeamUpgradeScreen extends Group {
     }
 
     public void setUpgradeScreenVisible(boolean visible) {
-        upgradeWindow.setVisible(visible);
+//        upgradeWindow.setVisible(visible);
+        upgradeWindow.hideUpgradeWindow();
+//        upgradeWindow.setVisible(visible);
     }
 }

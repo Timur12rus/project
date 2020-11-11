@@ -30,7 +30,7 @@ public class GameManager {
     private ArrayList<PlayerUnitData> teamDataList;     // команда, массив объектов TeamEntity()
     private ArrayList<PlayerUnitData> collectionDataList;     // команда, массив объектов TeamEntity()
     private ArrayList<TeamUnit> collection;     // коллекция, массив объектов TeamEntity()
-    private ArrayList<RewardForStarsData> rewardForStarsDataList;     // коллекция, массив объектов TeamEntity()
+    private ArrayList<RewardForStarsData> rewardForStarsDataList;     // массив из данных апгрейдов за звезды
     private int currentLevelId;
     private int coinsCount;
     private int scoreCount;

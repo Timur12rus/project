@@ -123,14 +123,14 @@ public class Level extends StageGame {
 
 
         // TODO TEST 08.11.2020
-        unitCreator.createUnit("Zombie1", new Vector2(370, 270));
-        unitCreator.createUnit("Zombie3", new Vector2(570, 270));
-        unitCreator.createUnit("Zombie1", new Vector2(700, 250));
-        unitCreator.createUnit("Zombie1", new Vector2(300, 240));
-        unitCreator.createUnit("Zombie2", new Vector2(600, 200));
-        unitCreator.createUnit("Wizard", new Vector2(1100, 250));
-        unitCreator.createUnit("Skeleton2", new Vector2(900, 270));
-        unitCreator.createUnit("Ent1", new Vector2(1000, 270));
+//        unitCreator.createUnit("Zombie1", new Vector2(370, 270));
+//        unitCreator.createUnit("Zombie3", new Vector2(570, 270));
+//        unitCreator.createUnit("Zombie1", new Vector2(700, 250));
+//        unitCreator.createUnit("Zombie1", new Vector2(300, 240));
+//        unitCreator.createUnit("Zombie2", new Vector2(600, 200));
+//        unitCreator.createUnit("Wizard", new Vector2(1100, 250));
+//        unitCreator.createUnit("Skeleton2", new Vector2(900, 270));
+//        unitCreator.createUnit("Ent1", new Vector2(1000, 270));
 
 //        unitCreator.createUnit("Zombie2", new Vector2(600, 230));
 

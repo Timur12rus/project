@@ -82,6 +82,14 @@ public class UpgradeWindow extends Group {
 
         selectButton = new ColorButton("Select", ColorButton.YELLOW_BUTTON);
         selectButton.setPosition(-16, -selectButton.getHeight() - 32);
+        selectButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                hideUpgradeWindow();
+                showReplace();
+            }
+        });
 
         /** слушатель для КНОПКИ ЗАКРЫТИЯ ОКНА **/
         closeButton = constructedWindow.getCloseButton();
@@ -90,8 +98,8 @@ public class UpgradeWindow extends Group {
             public void clicked(InputEvent event, float x, float y) {
 //                fire(new MessageEvent(ON_RESUME));
                 if (toastLabel.isVisible()) toastLabel.setVisible(false);
-                unitImage.clearActions();
-                hideUpgradeScreen();
+//                unitImage.clearAction();
+                hideUpgradeWindow();
             }
         });
 
@@ -205,14 +213,14 @@ public class UpgradeWindow extends Group {
 
             // добавим текущий юнит в команду, если есть свободные места, если нет - оставим в коллекции
             teamUpgradeScreen.addUnitToTeamFromCollection(teamUnit);
+            gameManager.updateTeam(team);
+            gameManager.updateCollection();
+            gameManager.saveGame();
             teamUpgradeScreen.redrawTeamTable();
             teamUpgradeScreen.redrawCollectionTable();
             // перерисуем кнопку-изображение (значок) юнита
             teamUnit.getUnitImageButton().redraw();
             show(teamUnit);                         // перерисовываем окно апгрейда юнита (то, в котором сейчас находимся)
-            gameManager.updateTeam(team);
-            gameManager.updateCollection();
-            gameManager.saveGame();
         }
     }
 
@@ -228,9 +236,11 @@ public class UpgradeWindow extends Group {
         unitNameLabel.setPosition(container.getX() + (container.getWidth() - unitNameLabel.getWidth()) / 2,
                 constructedWindow.getY() + constructedWindow.getHeight() - unitNameLabel.getHeight() - 32);
 
+        resourcesTable.setIsEndAction(false);
+
         /** получим объект unitImage - изображение со значками (уровень юнита и стоимость энергии) **/
         unitImage = teamUnit.getUnitImage();
-        unitImage.clearActions();
+        unitImage.clearAction();
         unitImage.setLevelValue(teamUnit.getUnitLevel());
 
         // обновим кол-во ресурсов в таблице
@@ -245,6 +255,7 @@ public class UpgradeWindow extends Group {
         upgradeCostTable.setVisible(false);
         // добавим объект - изображение юнита со значком уровня юнита
         imageContainer.clear();
+        imageContainer.clearActions();
         imageContainer.addActor(unitImage);
         imageContainer.addActor(selectButton);
         infoTable.hideUpgradeLabels();
@@ -254,9 +265,15 @@ public class UpgradeWindow extends Group {
         if (isUnlock == true) {               // если юнит разблокирован
             if (teamUnit.getUnitData().isHired()) {          // если юнит "призван" (куплен, не заблокирован)
 //                unitImage.showLevelIcon();
-                if (teamUnit.getUnitData().isHired() && gameManager.getCollection().equals(teamUnit)) {
+                int i = 0;
+
+                if (gameManager.getCollection().contains(teamUnit)) {
                     System.out.println("EQUALS !");
-                    selectButton.setVisible(true);
+                    if (teamUnit.getUnitData().isHired()) {
+                        selectButton.setVisible(true);
+                    } else {
+                        selectButton.setVisible(false);
+                    }
                 } else {
                     selectButton.setVisible(false);
                 }
@@ -304,9 +321,10 @@ public class UpgradeWindow extends Group {
     /**
      * скрываем окно апгрейда
      **/
-    public void hideUpgradeScreen() {
-        imageContainer.removeActor(unitImage);
+    public void hideUpgradeWindow() {
+//        imageContainer.removeActor(unitImage);
         maxLevelReached.setVisible(false);
+        resourcesTable.setIsEndAction(false);
         setVisible(false);
     }
 

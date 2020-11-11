@@ -55,6 +55,20 @@ public class CreateUnitButton extends UnitImageButton {
     }
 
     @Override
+    public void touchedDown() {
+        if (isReadyUnitButton) {
+            super.touchedDown();
+        }
+    }
+
+    @Override
+    public void touchedUp() {
+        if (isReadyUnitButton) {
+            super.touchedUp();
+        }
+    }
+
+    @Override
     public void buttonClicked() {
         super.buttonClicked();
         if ((isReadyUnitButton) && (checkEnergyCount(energyPrice))) {
