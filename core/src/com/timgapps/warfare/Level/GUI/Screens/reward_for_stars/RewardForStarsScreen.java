@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Event;
@@ -22,6 +23,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.boontaran.games.StageGame;
 import com.timgapps.warfare.Level.GUI.Screens.CoinsPanel;
+import com.timgapps.warfare.Level.GUI.Screens.reward_for_stars.gui_elements.FlashEffect;
 import com.timgapps.warfare.Level.GameManager;
 import com.timgapps.warfare.Warfare;
 
@@ -46,6 +48,18 @@ public class RewardForStarsScreen extends StageGame {
     private GameManager gameManager;
     private CoinsPanel coinsPanel;
 
+    @Override
+    public void show() {
+        super.show();
+        int i = 0;
+        for (RewardForStarsData data : rewardForStarsDataList) {
+            if (data.getStarsCount() <= starsCount && !data.getIsReceived()) {
+                rewardForStarsList.get(i).getReward();
+            }
+            i++;
+        }
+    }
+
     public RewardForStarsScreen(GameManager gameManager) {
         createBackground();
         this.gameManager = gameManager;
@@ -55,9 +69,9 @@ public class RewardForStarsScreen extends StageGame {
 
         /** получим текущее кол-во звезд **/
 //        starsCount = 7;
-//        starsCount = gameManager.getSavedGame().getStarsCount();
+        starsCount = gameManager.getSavedGame().getStarsCount();
         // для теста
-        starsCount = 110;
+//        starsCount = 110;
         System.out.println("starsCount = " + starsCount);
 
         backButton = new BackButton();

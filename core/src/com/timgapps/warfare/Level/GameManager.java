@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.boontaran.DataManager;
 import com.timgapps.warfare.Level.GUI.Screens.CoinsPanel;
+import com.timgapps.warfare.Level.GUI.Screens.reward_for_stars.RewardForStars;
 import com.timgapps.warfare.Level.GUI.team_unit.TeamUnit;
 import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnitData;
 import com.timgapps.warfare.Level.LevelMap.LevelIcon;
@@ -166,6 +167,16 @@ public class GameManager {
         towerHealth = 50;
     }
 
+    // метод проверяет стала ли доступна награда за звезды для получения (т.е. получили звезды за прохождение уровня, и проверяем, доступна ли награда)
+    public boolean checkStarsCountForReward() {
+        boolean isHaveReward = false;
+        for (RewardForStarsData rewardForStarsData : rewardForStarsDataList)
+            if (savedGame.getStarsCount() >= rewardForStarsData.getStarsCount() && !rewardForStarsData.getIsReceived()) {
+                isHaveReward = true;
+            }
+        return isHaveReward;
+    }
+
     /**
      * метод для получения статуса обучения
      **/
@@ -318,6 +329,11 @@ public class GameManager {
      **/
     public StarsPanel getStarsPanel() {
         return starsPanel;
+    }
+
+    public void addStarsCount(int starsCount) {
+        this.starsCount += starsCount;
+        savedGame.setStarsCount(starsCount);
     }
 
     /**

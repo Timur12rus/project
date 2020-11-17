@@ -5,11 +5,15 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.DelayAction;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -44,11 +48,28 @@ public class RewardForStars extends Group {
     private float xPos;     // позиция Х panelStarsSmall
     private Hilite hilite;
     private CoinsAction coinsAction;
+    private boolean isGotReward;        // получени ли награда
+    private SequenceAction getRewardAction;
+    private float timeCount = 120;
+    private boolean startCountTimer;
 
     @Override
     public void act(float delta) {
         super.act(delta);
         hilite.act(delta);
+        if (startCountTimer) {
+            timeCount--;
+            if (timeCount < 10 && !bgOrange.isVisible()) {
+                bg.setVisible(false);
+                bgYellow.setVisible(false);
+                bgOrange.setVisible(true);
+            }
+            if (timeCount < 0) {
+                timeCount = 60;
+                startCountTimer = false;
+                getRewardForStars();
+            }
+        }
         if (coinsAction != null && coinsAction.isEndCoinsAction()) {
             int currentCoinsCount = rewardForStarsScreen.getCoinsPanel().getCoinsCount();
             rewardForStarsScreen.getCoinsPanel().setCoinsCount(currentCoinsCount + 100);
@@ -138,21 +159,45 @@ public class RewardForStars extends Group {
         }
         bgYellow.setVisible(false);
         bgOrange.setVisible(false);
-        if (data.getIsReceived()) {
+        // если
+        if (starsCount >= data.getStarsCount()) {
+//            data.setReceived();
+            if (!data.getIsReceived()) {
+                data.setChecked();
+                bgYellow.setVisible(true);
+            }
+        }
+
+        Action checkEndDelayAction = new Action() {
+            @Override
+            public boolean act(float delta) {
+                if (!isGotReward) {
+                    isGotReward = true;
+                    getRewardForStars();
+                }
+                return true;
+            }
+        };
+
+        DelayAction da = new DelayAction(10);
+
+        getRewardAction = new SequenceAction(da, checkEndDelayAction);
+
+        if (data.getIsReceived()) {         // если награда получена
             receivedImg.setVisible(true);
+            bgYellow.setVisible(false);
+            bgOrange.setVisible(false);
         } else {
             receivedImg.setVisible(false);
         }
         rewardImage.setPosition((bg.getWidth() - rewardImage.getWidth()) / 2 - deltaX, 36);
         nameLabel = new Label("" + name, labelStyle);
         nameLabel.setPosition((bg.getWidth() - nameLabel.getWidth()) / 2, 0);
-//        System.out.println("nameLabelWidth = " + nameLabel.getWidth());
         hilite = new Hilite(this);
-//        hilite.setPosition(100, 120);
-//        hilite.debug();
         addActor(rewardImage);                      // добавим изображение
         addActor(nameLabel);
         addActor(receivedImg);
+
         // создаем бары под изображениями наград за звезды
         bar = new StarsBar(getX() + BG_PANEL_WIDTH / 2 - barWidth - 8,
                 getY() - barHeight - 16,
@@ -222,6 +267,12 @@ public class RewardForStars extends Group {
                 }
             }
         });
+    }
+
+    // метод для получения награды
+    public void getReward() {
+        System.out.println("GetReward " + data.getTypeOfReward());
+        startCountTimer = true;
     }
 
     public void setHilite() {
@@ -370,6 +421,7 @@ public class RewardForStars extends Group {
      * метод для получения награды за звезды при клике на награду
      **/
     public void getRewardForStars() {
+        setReceived();
         nameLabel.setColor(Color.LIGHT_GRAY);
         switch (data.getTypeOfReward()) {
             case RewardForStarsData.REWARD_STONE:                           // если награда "КАМЕНЬ"

@@ -230,8 +230,13 @@ public class Warfare extends Game {
 //                    level.unlockNextLevels();
                     hideLevel();
 
-                    // установим количество монет - награду за уровень
-                    showMap(rewardCoins, rewardScore);
+                    if (gameManager.checkStarsCountForReward()) {
+                        // TODO  сделать отображение анимации получения монет за уровень
+                        showRewardForStarsScreen();
+                    } else {
+                        // установим количество монет - награду за уровень
+                        showMap(rewardCoins, rewardScore);
+                    }
                 }
                 if (code == Level.ON_FAILED) {
                     hideLevel();

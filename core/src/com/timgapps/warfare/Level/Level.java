@@ -16,6 +16,7 @@ import com.boontaran.MessageListener;
 import com.boontaran.games.StageGame;
 import com.timgapps.warfare.Level.GUI.Finger;
 import com.timgapps.warfare.Level.GUI.HUD;
+import com.timgapps.warfare.Level.GUI.Screens.reward_for_stars.gui_elements.FlashEffect;
 import com.timgapps.warfare.Level.GUI.team_unit.CreateUnitButton;
 import com.timgapps.warfare.Level.GUI.team_unit.TeamUnit;
 import com.timgapps.warfare.Level.GUI.StoneButton;
@@ -655,6 +656,7 @@ public class Level extends StageGame {
          */
         gameManager.setCoinsCount(coinsCount + getRewardCoinsCount());
         gameManager.addScoreCount(getRewardScoreCount());
+//        gameManager.addStarsCount(starsCount);
 
         /** добавим к панели звёзд полученное кол-во звёзд */
         gameManager.getStarsPanel().addStarsCount(starsCount);
