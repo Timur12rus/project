@@ -23,7 +23,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.boontaran.games.StageGame;
 import com.timgapps.warfare.Level.GUI.Screens.CoinsPanel;
-import com.timgapps.warfare.Level.GUI.Screens.reward_for_stars.gui_elements.FlashEffect;
 import com.timgapps.warfare.Level.GameManager;
 import com.timgapps.warfare.Warfare;
 
