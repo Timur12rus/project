@@ -30,28 +30,45 @@ public class FlashEffect {
     private SequenceAction sa;
     private Image flashImage, circleLightImage, bgImage, bgColor;
     private Texture bgTexture;
+    private Sunshine sunshine;
+    private float imageWidth, imageHeight;
+    private Image rewardImage;
+    private StarsAction starsAction;
 
     public FlashEffect(StageGame stageGame, Vector2 position) {
         this.stageGame = stageGame;
         createBackgroundTexture();
-//        bgImage.setColor(0,1,0,1);
+
+        rewardImage = new Image(Warfare.atlas.findRegion("gnomeUnitImage"));
+        imageWidth = rewardImage.getWidth();
+        imageHeight = rewardImage.getHeight();
 
         flashImage = new Image(Warfare.atlas.findRegion("flash4"));
         circleLightImage = new Image(Warfare.atlas.findRegion("flash1"));
+        sunshine = new Sunshine();      // лучи света
+
+        sunshine.addAction(Actions.fadeOut(0));
+//        star = new Image(Warfare.atlas.findRegion("star"));
+
         this.position = position;
-//        this.position.x -= flashImage.getWidth() / 2;
-//        this.position.y -= flashImage.getHeight() / 2;
         stageGame.addChild(flashImage, position.x - flashImage.getWidth() / 2, position.y - flashImage.getHeight() / 2);
         stageGame.addChild(circleLightImage, position.x - circleLightImage.getWidth() / 2, position.y - circleLightImage.getHeight() / 2);
-//        System.out.println("Size = " + flashImage.getWidth() + ", " + flashImage.getHeight());
+        sunshine.setPosition(position.x - sunshine.getRayWidth() / 2 - 48, position.y + sunshine.getRadius() + 48);
+        stageGame.addChild(sunshine);
+
+//        stageGame.addChild(star);
+
+        starsAction = new StarsAction(stageGame, position);
+
+        rewardImage.setPosition(position.x - rewardImage.getWidth() / 2, position.y - rewardImage.getHeight() / 2);
+        stageGame.addChild(rewardImage);
+
     }
 
     private void createBackgroundTexture() {
         Pixmap bgPixmap = createProceduralPixmap((int) stageGame.getWidth(), (int) stageGame.getHeight(), new Color(0x6da86bff));
         bgTexture = new Texture(bgPixmap);
         bgImage = new Image(bgTexture);
-//        bgImage = new Image(bgTexture);
-//        bgImage.addAction(Actions.fadeOut(0));
         stageGame.addChild(bgImage);
     }
 
@@ -63,41 +80,79 @@ public class FlashEffect {
     }
 
 
-
     public void start() {
-//        if (!isStarted) {
         isStarted = true;
 
-//        SequenceAction sa = new SequenceAction();
-////        sa.addAction(Actions.delay(0.1f));
-//        sa.addAction(Actions.fadeIn(1, new Interpolation.PowIn(3)));
-//        bgImage.addAction(sa);
+//        // экшн для звезд
+//        Action rotateAction  = Actions.forever((Actions.rotateBy(90, 4)));
+//        ParallelAction starRotateAction  = new ParallelAction(
+//                rotateAction,
+//                Actions.fadeIn(1.4f),
+//                Actions.sizeTo(64,64, 2),
+//                Actions.moveTo(-80, 480, 2, Interpolation.pow3In)
+//        );
+//
+//
+//
+//        ParallelAction moveTwo = new ParallelAction(
+//                Actions.fadeIn(1.4f),
+//                Actions.sizeTo(64,64, 2),
+//                Actions.moveTo(1300, 800, 2, Interpolation.pow3In)
+//        );
+//
+//        SequenceAction starTwoAction  = new SequenceAction(
+//                Actions.fadeOut(0),
+//                Actions.sizeTo(4, 4),
+//                Actions.moveTo(position.x, position.y, 0),
+//                Actions.delay(2f),
+//                moveTwo
+//        );
+//
+//        SequenceAction starAction  = new SequenceAction(
+//                Actions.fadeOut(0),
+//                Actions.sizeTo(4, 4),
+//                Actions.delay(2f),
+////                starRotateAction,
+//                starTwoAction
+//        );
+//
+//        star.addAction(starAction);
 
-        SequenceAction sequenceAction1 = new SequenceAction(Actions.fadeOut(0), Actions.fadeIn(1.3f, Interpolation.pow3In),
+        SequenceAction sequenceAction1 = new SequenceAction(Actions.fadeOut(0),
+                Actions.fadeIn(1.3f,
+                        Interpolation.pow3In),
                 Actions.fadeOut(1.4f));
+
         circleLightImage.addAction(sequenceAction1);
 
-        Action changeBgColor  = new Action() {
-            @Override
-            public boolean act(float delta) {
-                bgImage.setColor(0,1,0,1);
-                return false;
-            }
-        };
+        SequenceAction sunshineActions = new SequenceAction(
+//                Actions.fadeOut(0),
+                Actions.delay(1.8f),
+                Actions.fadeIn(3));
+        sunshine.addAction(sunshineActions);
 
-        SequenceAction changeColor = new SequenceAction();
-        changeColor.addAction(Actions.delay(2.2f));
-        changeColor.addAction(changeBgColor);
-//        bgImage.addAction(changeColor);
+        rewardImage.setOrigin(imageWidth / 2, imageHeight / 2);
 
-                ParallelAction flashAction = new ParallelAction();
-//        flashAction.addAction(Actions.moveTo(position.x - 600, position.y - 600, 1.4f, Interpolation.pow4In));
+        ParallelAction imageSizeAction = new ParallelAction(
+                Actions.moveTo(position.x - rewardImage.getWidth(), position.y - rewardImage.getHeight() / 2, 1.3f, Interpolation.swingOut),
+//                Actions.moveTo(position.x - rewardImage.getWidth() / 2 - rewardImage.getWidth() * 0.5f , position.y - rewardImage.getHeight() / 2, 1.3f, Interpolation.swingOut),
+                Actions.sizeTo(imageWidth * 2, imageHeight * 2, 1.3f, Interpolation.swingOut),
+                Actions.fadeIn(2));
+
+
+        SequenceAction imageAction1 = new SequenceAction(
+                Actions.fadeOut(0),
+                Actions.sizeTo(imageWidth * 0.5f, imageHeight * 0.5f, 0),
+                Actions.moveTo(position.x - rewardImage.getWidth() / 4, position.y, 0),
+                Actions.delay(1.4f),
+                imageSizeAction);
+
+        rewardImage.addAction(imageAction1);
+
+        ParallelAction flashAction = new ParallelAction();
         flashAction.addAction(Actions.moveTo(position.x - 700, position.y - 700, 1.4f, Interpolation.swingOut));
         flashAction.addAction(Actions.sizeTo(1400, 1400, 1.4f, Interpolation.swingOut));
-//        flashAction.addAction(Actions.sizeTo(1200, 1200, 1.4f, Interpolation.swingIn));
-//        flashAction.addAction(Actions.sizeTo(1200, 1200, 1.4f, Interpolation.pow4In));
         flashAction.addAction(Actions.fadeOut(2.4f));
-//        flashImage.addAction(flashAction);
 
         SequenceAction sequenceAction = new SequenceAction();
         sequenceAction.addAction(Actions.fadeOut(0));
@@ -106,18 +161,23 @@ public class FlashEffect {
         sequenceAction.addAction(flashAction);
 
         flashImage.addAction(sequenceAction);
-
-//        ParallelAction flashAction = new ParallelAction();
-////        flashAction.addAction(Actions.moveTo(position.x - 600, position.y - 600, 2, new Interpolation.SwingOut(1)));
-////        flashAction.addAction(Actions.sizeTo(1200, 1200, 2, new Interpolation.SwingOut(1)));
-//        flashAction.addAction(Actions.moveTo(position.x - 600, position.y - 600, 1.4f, Interpolation.pow3In));
-//        flashAction.addAction(Actions.sizeTo(1200, 1200, 1.4f, Interpolation.pow3In));
-//        flashAction.addAction(Actions.fadeOut(2.4f));
-//        flashImage.addAction(flashAction);
-
-
         bgImage.addAction(Actions.fadeIn(0.8f, Interpolation.pow3In));
-//        bgImage.addAction(Actions.fadeIn(0.8f, new Interpolation.PowIn(3)));
+    }
 
+    public void clear() {
+        rewardImage.clearActions();
+        flashImage.clearActions();
+        bgImage.clearActions();
+        sunshine.clearActions();
+        sunshine.clear();
+        bgTexture.dispose();
+
+        rewardImage.remove();
+        flashImage.remove();
+        bgImage.remove();
+        sunshine.remove();
+        sunshine.remove();
+
+        starsAction.clear();
     }
 }

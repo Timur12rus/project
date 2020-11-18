@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Interpolation;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Event;
@@ -267,8 +266,8 @@ public class RewardForStarsScreen extends StageGame {
 
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    call(ON_BACK);
                     super.clicked(event, x, y);
+                    closeScreen();
                 }
 
                 @Override
@@ -278,6 +277,12 @@ public class RewardForStarsScreen extends StageGame {
                 }
             });
         }
+    }
+
+    public void closeScreen() {
+
+        this.dispose();
+        call(ON_BACK);
     }
 
     class StarsPanelSmall extends Group {

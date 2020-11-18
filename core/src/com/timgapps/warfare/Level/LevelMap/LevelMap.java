@@ -200,8 +200,9 @@ public class LevelMap extends StageGame implements StartCoinsAction, StartResour
         starsPanel.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                coinsPanel.remove();
-                call(ON_SHOW_REWARD_FOR_STARS_SCREEN);
+//                coinsPanel.remove();
+//                call(ON_SHOW_REWARD_FOR_STARS_SCREEN);
+                showRewardForStarsScreen();
             }
         });
 
@@ -242,6 +243,13 @@ public class LevelMap extends StageGame implements StartCoinsAction, StartResour
 //        flashEffect.start();
 //        flashEffect = new FlashEffect(new Vector2(getWidth() / 2, getHeight() / 2));
 //        addChild(flashEffect);
+    }
+
+    private void showRewardForStarsScreen() {
+        flashEffect.clear();
+        coinsPanel.remove();
+        this.dispose();
+        call(ON_SHOW_REWARD_FOR_STARS_SCREEN);
     }
 
     @Override
