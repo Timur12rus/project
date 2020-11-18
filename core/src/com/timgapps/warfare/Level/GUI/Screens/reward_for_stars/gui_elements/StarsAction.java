@@ -31,7 +31,7 @@ public class StarsAction {
         starOne.setPosition(position.x - 32, position.y);
         starTwo.setPosition(position.x + 32, position.y);
         starThree.setPosition(position.x, position.y - 64);
-        starFour.setPosition(position.x -32, position.y);
+        starFour.setPosition(position.x - 32, position.y);
         starFive.setPosition(position.x + 32, position.y);
 
 
@@ -124,9 +124,13 @@ public class StarsAction {
         starOne.clearActions();
         starTwo.clearActions();
         starThree.clearActions();
+        starFour.clearActions();
+        starFive.clearActions();
 
         starOne.remove();
         starTwo.remove();
         starThree.remove();
+        starFour.remove();
+        starFive.remove();
     }
 }
