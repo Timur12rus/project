@@ -27,7 +27,6 @@ import com.boontaran.games.tiled.TileLayer;
 import com.timgapps.warfare.Level.GUI.Screens.CoinsPanel;
 import com.timgapps.warfare.Level.GUI.Screens.MissionInfoScreen;
 import com.timgapps.warfare.Level.GUI.Screens.gifts_window.GiftScreen;
-import com.timgapps.warfare.Level.GUI.Screens.reward_for_stars.gui_elements.FlashEffect;
 import com.timgapps.warfare.Level.GUI.Screens.team_upgrade_screen.TeamUpgradeScreen;
 import com.timgapps.warfare.Level.GameManager;
 import com.timgapps.warfare.Level.LevelMap.actions.CoinsAction;
@@ -77,7 +76,6 @@ public class LevelMap extends StageGame implements StartCoinsAction, StartResour
     private ResourcesAction resourcesAction;
     private final int W_RECT = 10;
     private final int H_RECT = 8;
-    private FlashEffect flashEffect;
 
     public LevelMap(GameManager gameManager, int coinsReward, int scoreReward) {
         this.coinsReward = coinsReward;
@@ -239,23 +237,35 @@ public class LevelMap extends StageGame implements StartCoinsAction, StartResour
         cameraXpos = camera.position.x;
         cameraYpos = camera.position.y;
 
-        flashEffect = new FlashEffect(this, new Vector2(getWidth() / 2, getHeight() / 2));
 //        flashEffect.start();
 //        flashEffect = new FlashEffect(new Vector2(getWidth() / 2, getHeight() / 2));
 //        addChild(flashEffect);
     }
 
+    // метод для показа экрана наград за звезды
     private void showRewardForStarsScreen() {
-        flashEffect.clear();
-        coinsPanel.remove();
-        this.dispose();
+        hide();
         call(ON_SHOW_REWARD_FOR_STARS_SCREEN);
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        map.dispose();
+        coinsPanel.remove();
+        fade.clear();
+        greenRectangle.clear();
+    }
+
+    @Override
+    public void hide() {
+        super.hide();
+        dispose();
     }
 
     @Override
     public void show() {
         super.show();
-        flashEffect.start();
     }
 
     // метод создает туман войны
@@ -760,11 +770,6 @@ public class LevelMap extends StageGame implements StartCoinsAction, StartResour
         coinsAction.setEndCoinsAction();
     }
 
-    @Override
-    public void dispose() {
-        super.dispose();
-        map.dispose();
-    }
 }
 
 

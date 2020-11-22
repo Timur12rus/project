@@ -23,6 +23,10 @@ public class ColorRectangle extends Actor {
         pixmap.dispose();
     }
 
+    public void clear() {
+        texture.dispose();
+    }
+
     @Override
     public void draw(Batch batch, float parentAlpha) {
         Color color = getColor();

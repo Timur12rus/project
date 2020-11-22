@@ -90,27 +90,28 @@ public class StarsAction {
         SequenceAction starTwoAction = new SequenceAction(
                 Actions.fadeOut(0),
                 Actions.sizeTo(4, 4),
-                Actions.delay(3f),
+                Actions.delay(2.5f),
+//                Actions.delay(3f),
                 MoveActionStarTwo
         );
 
         SequenceAction starThreeAction = new SequenceAction(
                 Actions.fadeOut(0),
                 Actions.sizeTo(4, 4),
-                Actions.delay(4f),
+                Actions.delay(3f),
                 MoveActionStarThree
         );
 
         SequenceAction starFourAction = new SequenceAction(
                 Actions.fadeOut(0),
                 Actions.sizeTo(4, 4),
-                Actions.delay(5f),
+                Actions.delay(3.5f),
                 MoveActionStarFour
         );
         SequenceAction starFiveAction = new SequenceAction(
                 Actions.fadeOut(0),
                 Actions.sizeTo(4, 4),
-                Actions.delay(6f),
+                Actions.delay(4f),
                 MoveActionStarFive
         );
         starOne.addAction(starOneAction);

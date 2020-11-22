@@ -48,20 +48,19 @@ public class FlashEffect {
         sunshine = new Sunshine();      // лучи света
 
         sunshine.addAction(Actions.fadeOut(0));
-//        star = new Image(Warfare.atlas.findRegion("star"));
-
         this.position = position;
         stageGame.addChild(flashImage, position.x - flashImage.getWidth() / 2, position.y - flashImage.getHeight() / 2);
         stageGame.addChild(circleLightImage, position.x - circleLightImage.getWidth() / 2, position.y - circleLightImage.getHeight() / 2);
         sunshine.setPosition(position.x - sunshine.getRayWidth() / 2 - 48, position.y + sunshine.getRadius() + 48);
         stageGame.addChild(sunshine);
 
-//        stageGame.addChild(star);
-
         starsAction = new StarsAction(stageGame, position);
 
         rewardImage.setPosition(position.x - rewardImage.getWidth() / 2, position.y - rewardImage.getHeight() / 2);
         stageGame.addChild(rewardImage);
+
+//        NameLabel nameLabel = new NameLabel();
+        NameLabel nameLabel = new NameLabel(stageGame, new Vector2(position.x, position.y - 148));
 
     }
 
@@ -82,42 +81,6 @@ public class FlashEffect {
 
     public void start() {
         isStarted = true;
-
-//        // экшн для звезд
-//        Action rotateAction  = Actions.forever((Actions.rotateBy(90, 4)));
-//        ParallelAction starRotateAction  = new ParallelAction(
-//                rotateAction,
-//                Actions.fadeIn(1.4f),
-//                Actions.sizeTo(64,64, 2),
-//                Actions.moveTo(-80, 480, 2, Interpolation.pow3In)
-//        );
-//
-//
-//
-//        ParallelAction moveTwo = new ParallelAction(
-//                Actions.fadeIn(1.4f),
-//                Actions.sizeTo(64,64, 2),
-//                Actions.moveTo(1300, 800, 2, Interpolation.pow3In)
-//        );
-//
-//        SequenceAction starTwoAction  = new SequenceAction(
-//                Actions.fadeOut(0),
-//                Actions.sizeTo(4, 4),
-//                Actions.moveTo(position.x, position.y, 0),
-//                Actions.delay(2f),
-//                moveTwo
-//        );
-//
-//        SequenceAction starAction  = new SequenceAction(
-//                Actions.fadeOut(0),
-//                Actions.sizeTo(4, 4),
-//                Actions.delay(2f),
-////                starRotateAction,
-//                starTwoAction
-//        );
-//
-//        star.addAction(starAction);
-
         SequenceAction sequenceAction1 = new SequenceAction(Actions.fadeOut(0),
                 Actions.fadeIn(1.3f,
                         Interpolation.pow3In),
@@ -127,7 +90,7 @@ public class FlashEffect {
 
         SequenceAction sunshineActions = new SequenceAction(
 //                Actions.fadeOut(0),
-                Actions.delay(1.8f),
+                Actions.delay(2.5f),
                 Actions.fadeIn(3));
         sunshine.addAction(sunshineActions);
 

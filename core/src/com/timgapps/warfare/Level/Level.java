@@ -315,17 +315,6 @@ public class Level extends StageGame {
     @Override
     public void render(float delta) {
         super.render(delta);
-//        if (Setting.DEBUG_WORLD) {
-//            debugRender.render(world, camera.combined.cpy().scl(WORLD_SCALE));
-//            stage.getBatch().end();
-//            shapeRenderer.begin();
-//            shapeRenderer.setColor(Color.RED);
-//            for (GameUnitModel unitModel : arrayModels) {
-//                shapeRenderer.rect(unitModel.getBody().getX(), unitModel.getBody().getY(), unitModel.getBody().getWidth(), unitModel.getBody().getHeight());
-//            }
-//            shapeRenderer.end();
-//            stage.getBatch().begin();
-//        }
     }
 
     @Override

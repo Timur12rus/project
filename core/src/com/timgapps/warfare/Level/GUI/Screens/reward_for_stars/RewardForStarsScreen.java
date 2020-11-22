@@ -280,9 +280,22 @@ public class RewardForStarsScreen extends StageGame {
     }
 
     public void closeScreen() {
-
-        this.dispose();
+        hide();
         call(ON_BACK);
+    }
+
+    @Override
+    public void hide() {
+        super.hide();
+        dispose();
+        System.out.println("HIDE");
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        bgTexture.dispose();
+        System.out.println("DISPOSE");
     }
 
     class StarsPanelSmall extends Group {
