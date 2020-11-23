@@ -6,10 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Event;
-import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.AlphaAction;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
@@ -19,15 +16,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.boontaran.games.StageGame;
 import com.timgapps.warfare.Level.GUI.Screens.CoinsPanel;
+import com.timgapps.warfare.Level.GUI.Screens.reward_for_stars.interfaces.ScreenCloser;
 import com.timgapps.warfare.Level.GameManager;
 import com.timgapps.warfare.Warfare;
 
 import java.util.ArrayList;
 
-public class RewardForStarsScreen extends StageGame {
+public class RewardForStarsScreen extends StageGame implements ScreenCloser {
     public static final int ON_BACK = 1;
     private ArrayList<RewardForStarsData> rewardForStarsDataList;           // массив данных наград
     private ArrayList<RewardForStars> rewardForStarsList;
@@ -72,7 +69,7 @@ public class RewardForStarsScreen extends StageGame {
 //        starsCount = 110;
         System.out.println("starsCount = " + starsCount);
 
-        backButton = new BackButton();
+        backButton = new BackButton(this);
         backButton.setPosition(64, 64);
         addOverlayChild(backButton);
         rewardForStarsDataList = gameManager.getRewardForStarsDataList();  // список данных наград
@@ -85,7 +82,6 @@ public class RewardForStarsScreen extends StageGame {
         float scrollTableWidth = getWidth();
         float groupWidth = 0;
         group = new Group();
-//        Group group = new Group();
         int currentIndexSmallPanel = 0;
         int index = 0;  // индекс текущего количества звезд, используется в рассчете поз. х smallStarsPanel
         int lastCount = 0, rewardCount = 0;     // кол-во звезд за последнюю награду и текущую награду
@@ -109,13 +105,15 @@ public class RewardForStarsScreen extends StageGame {
 
             rewardForStarsList.get(i).setPosition(190 * i + rewardForStarsList.get(i).getWidth(), 144);
             group.addActor(rewardForStarsList.get(i));      // добавляем RewardForStars в корневую группу
+
             /** обозначим доступные награды за звезды **/
-            if (starsCount > rewardForStarsDataList.get(i).getStarsCount()) {
-                rewardForStarsDataList.get(i).setChecked();
-            }
-            if ((starsCount >= rewardForStarsDataList.get(i).getStarsCount()) && (!rewardForStarsDataList.get(i).getIsReceived())) {
-                rewardForStarsList.get(i).setChecked(); // установим доступной для получения (подсветим "ЖЕЛТЫМ" цветом)
-            }
+//            if (starsCount > rewardForStarsDataList.get(i).getStarsCount()) {
+//                rewardForStarsDataList.get(i).setChecked();         // обозначим доступна награда или нет
+//            }
+//            if ((starsCount >= rewardForStarsDataList.get(i).getStarsCount()) && (!rewardForStarsDataList.get(i).getIsReceived())) {
+//                rewardForStarsList.get(i).setChecked(); // установим доступной для получения (подсветим "ЖЕЛТЫМ" цветом)
+//            }
+
             /** добавим цифры - кол-во звёзд необходимое для получения награды **/
             countLabel = new Label("" + rewardForStarsList.get(i).getRewardCountStars(), countStarsLabelStyle);
             countLabel.setPosition(rewardForStarsList.get(i).getX() + BG_PANEL_WIDTH / 2 - countLabel.getWidth(),
@@ -147,8 +145,9 @@ public class RewardForStarsScreen extends StageGame {
         xPos = (index) * (184 + 8) + calculatedWidth;
         groupWidth += 190 * rewardForStarsList.size() + rewardForStarsList.get(0).getWidth();
         starsPanelSmall.setPosition(xPos - starsPanelSmall.getWidth() / 2, 0);
-        if (starsCount == 0) starsPanelSmall.setVisible(false);
-        else {
+        if (starsCount == 0) {
+            starsPanelSmall.setVisible(false);
+        } else {
             starsPanelSmall.setVisible(true);
         }
         group.addActor(starsPanelSmall);
@@ -225,60 +224,6 @@ public class RewardForStarsScreen extends StageGame {
         return pixmap;
     }
 
-    class BackButton extends Group {
-        Image bg;
-        Image back;
-        Image backDown;
-        Label backLabel;
-
-        public BackButton() {
-            bg = new Image(Warfare.atlas.findRegion("coinsPanel"));
-            back = new Image(Warfare.atlas.findRegion("backImage"));
-            backDown = new Image(Warfare.atlas.findRegion("backImage_dwn"));
-            backDown.setVisible(false);
-            Label.LabelStyle labelStyle = new Label.LabelStyle();
-            labelStyle.fontColor = Color.WHITE;
-            labelStyle.font = Warfare.font20;
-            backLabel = new Label("Back", labelStyle);
-            back.setPosition((bg.getWidth() - back.getWidth()) / 2 - 4, bg.getHeight() / 2);
-            backDown.setPosition(back.getX() - (backDown.getWidth() - back.getWidth()) / 2,
-                    back.getY() - (backDown.getHeight() - back.getHeight()) / 2);
-            backLabel.setPosition((bg.getWidth() - backLabel.getWidth()) / 2, 0);
-            addActor(bg);
-            addActor(back);
-            addActor(backDown);
-            addActor(backLabel);
-            addCaptureListener(new EventListener() { // добавляет слушателя события корневому элементу, отключая его для дочерних элементов
-                @Override
-                public boolean handle(Event event) {
-                    event.setTarget(BackButton.this);
-                    return true;
-                }
-            });
-
-            addListener(new ClickListener() { // создаем слушателя события нажатия кнопки
-                // переопределяем метод TouchDown(), который называется прикасание
-                @Override
-                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                    backDown.setVisible(true); // устанавливаем видимость для фона нажатой кнопки, а также оставим вызов метода суперкласса
-                    return super.touchDown(event, x, y, pointer, button);
-                }
-
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    super.clicked(event, x, y);
-                    closeScreen();
-                }
-
-                @Override
-                public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                    backDown.setVisible(false);
-                    super.touchUp(event, x, y, pointer, button);
-                }
-            });
-        }
-    }
-
     public void closeScreen() {
         hide();
         call(ON_BACK);
@@ -288,14 +233,12 @@ public class RewardForStarsScreen extends StageGame {
     public void hide() {
         super.hide();
         dispose();
-        System.out.println("HIDE");
     }
 
     @Override
     public void dispose() {
         super.dispose();
         bgTexture.dispose();
-        System.out.println("DISPOSE");
     }
 
     class StarsPanelSmall extends Group {
@@ -361,18 +304,13 @@ public class RewardForStarsScreen extends StageGame {
         }
         ParallelAction pa = new ParallelAction(
                 Actions.moveTo(32 - deltaX, getHeight() / 3, 1, Interpolation.pow3In),
-//                Actions.moveTo(32 - deltaX, getHeight() / 3, 1, Interpolation.pow2Out),
-//                Actions.moveTo(32 - deltaX, getHeight() / 3, 1, new Interpolation.SwingOut(1)),
                 Actions.sizeTo(actor.getWidth() * 0.7f, actor.getHeight() * 0.7f, 1));
         SequenceAction sma = new SequenceAction(
                 Actions.moveTo(xPos, y - 80, 0.5f, Interpolation.pow2Out),
-//                Actions.moveTo(xPos, y - 80, 0.5f, Interpolation.smooth),
-//                Actions.moveTo(xPos, y - 80, 0.5f, new Interpolation.SwingOut(1)),
                 pa,
                 Actions.fadeOut(0),
                 checkEndOfAction
         );
-//        actor.addAction(sma);
         actor.addAction(sma);
     }
 }

@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.boontaran.games.StageGame;
+import com.timgapps.warfare.Level.GUI.Screens.reward_for_stars.GetRewardScreen;
 import com.timgapps.warfare.Level.GUI.Screens.reward_for_stars.RewardForStarsScreen;
 import com.timgapps.warfare.Level.GameManager;
 import com.timgapps.warfare.Level.Level;
@@ -39,6 +40,7 @@ public class Warfare extends Game {
     private Level level;
     private LevelMap levelMap;
     private RewardForStarsScreen rewardForStarsScreen;
+    private GetRewardScreen getRewardScreen;
 
     private Viewport mViewport;
     private OrthographicCamera mOrthographicCamera;
@@ -128,13 +130,13 @@ public class Warfare extends Game {
     public void dispose() {
         // этот метод вызывается перед остановкой игры
         // в нем неоходимо освобождать занимаемую ресурсами память
+        atlas.dispose();
         assetManager.dispose();
         super.dispose();
     }
 
     private void onAssetsLoaded() {  // получаем загруженный атлас текстур и шрифт
         atlas = assetManager.get(path_to_atlas, TextureAtlas.class);
-
 
 //        catatlas = assetManager.get("catatlas.atlas", TextureAtlas.class);
 
@@ -192,33 +194,26 @@ public class Warfare extends Game {
         });
     }
 
+    private void showGetRewardScreen() {
+        getRewardScreen = new GetRewardScreen();
+        setScreen(getRewardScreen);
+        getRewardScreen.setCallback(new StageGame.Callback() {
+            @Override
+            public void call(int code) {
+                if (code == getRewardScreen.ON_BACK) {
+                    hidGetReward();
+                    showMap(0, 0);
+                }
+            }
+        });
+    }
+
     private void showExit() {
 //        System.out.println("EXIT");
     }
 
     private void showLevel(int id) { // метод показа игрового уровня, передаем идентификатор уровня
         level = new Level(id, gameManager);
-//        switch (id) {   // создаем уровень на основе идентификатора
-//            case 1:
-//                level = new Level(1, gameManager);
-//                break;
-//            case 2:
-//                level = new Level(2, gameManager);
-//                break;
-//            case 3:
-//                level = new Level(3, gameManager);
-//                break;
-//            case 4:
-//                level = new Level(4, gameManager);
-//                break;
-//            case 5:
-//                level = new Level(5, gameManager);
-//                break;
-//            default:
-//                level = new Level(1, gameManager);
-//                break;
-//        }
-
         setScreen(level);
 
         level.setCallback(new StageGame.Callback() {
@@ -231,11 +226,10 @@ public class Warfare extends Game {
                     hideLevel();
 
                     if (gameManager.checkStarsCountForReward()) {
-                        // TODO  сделать отображение анимации получения монет за уровень
-                        showRewardForStarsScreen();
+                        showGetRewardScreen();          // показываем экран с анимацией получения нового юнита за звезды
                     } else {
                         // установим количество монет - награду за уровень
-                        showMap(rewardCoins, rewardScore);
+                        showMap(rewardCoins, rewardScore);      // показываем экран с картой
                     }
                 }
                 if (code == Level.ON_FAILED) {
@@ -254,8 +248,12 @@ public class Warfare extends Game {
     }
 
     private void hideRewardForStarsScreen() {
-        rewardForStarsScreen.dispose();
-        rewardForStarsScreen = null;
+        rewardForStarsScreen.hide();
+    }
+
+    private void hidGetReward() {
+        getRewardScreen.hide();;
+
     }
 
     private void hideLevel() {
