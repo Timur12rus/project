@@ -1,23 +1,23 @@
 package com.timgapps.warfare.Units.GameUnits.Player.Bullets.throwFireRock;
 
 import com.badlogic.gdx.math.Vector2;
-import com.timgapps.warfare.Level.Level;
+import com.timgapps.warfare.screens.level.LevelScreen;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitModel;
 
 import java.util.ArrayList;
 
 public class FireRockShoot {
     private ArrayList<FireRock> fireRocks;
-    private Level level;
+    private LevelScreen levelScreen;
 
-    public FireRockShoot(Level level) {
-        this.level = level;
+    public FireRockShoot(LevelScreen levelScreen) {
+        this.levelScreen = levelScreen;
         fireRocks = new ArrayList<FireRock>();
         Vector2 firstPosition = new Vector2();
         Vector2 secondPosition = new Vector2();
         Vector2 thirdPosition = new Vector2();
         // найдем вражеских юнитов по которым будем стрелять
-        for (EnemyUnitModel enemy : level.getArrayEnemies()) {
+        for (EnemyUnitModel enemy : levelScreen.getArrayEnemies()) {
             if (enemy.getHealth() > 0) {
 //            if (enemy.isBodyActive()) {
                 if ((enemy.getX() < 500 && enemy.getX() > 300) && (firstPosition != null)) {
@@ -49,9 +49,9 @@ public class FireRockShoot {
         System.out.println("FIRST POSITION = " + firstPosition);
         System.out.println("SECOND POSITION = " + secondPosition);
         System.out.println("THIRD POSITION = " + thirdPosition);
-        fireRocks.add(new FireRock(level, new Vector2(100, 1000), firstPosition, 10));
-        fireRocks.add(new FireRock(level, new Vector2(-160, 1600), secondPosition, 10));
-        fireRocks.add(new FireRock(level, new Vector2(240, 1100), thirdPosition, 10));
+        fireRocks.add(new FireRock(levelScreen, new Vector2(100, 1000), firstPosition, 10));
+        fireRocks.add(new FireRock(levelScreen, new Vector2(-160, 1600), secondPosition, 10));
+        fireRocks.add(new FireRock(levelScreen, new Vector2(240, 1100), thirdPosition, 10));
     }
 
     // метод для запуска огненног камня, обращается к огненным камням из массива

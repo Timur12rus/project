@@ -3,7 +3,7 @@ package com.timgapps.warfare.Units.GameUnits.Player.units.viking;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
-import com.timgapps.warfare.Level.Level;
+import com.timgapps.warfare.screens.level.LevelScreen;
 import com.timgapps.warfare.Units.GameUnits.GameUnitView;
 import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnitController;
 import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnitModel;
@@ -13,8 +13,8 @@ import com.timgapps.warfare.Warfare;
 public class VikingView extends PlayerUnitView {
     private PlayerUnitController controller;
 
-    public VikingView(Level level, PlayerUnitModel model, PlayerUnitController controller) {
-        super(level, model, controller);
+    public VikingView(LevelScreen levelScreen, PlayerUnitModel model, PlayerUnitController controller) {
+        super(levelScreen, model, controller);
         this.controller = controller;
         createAnimations();
         currentState = GameUnitView.State.STAY;

@@ -2,7 +2,7 @@ package com.timgapps.warfare.Units.GameUnits.Player.units.barbarian;
 
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
-import com.timgapps.warfare.Level.Level;
+import com.timgapps.warfare.screens.level.LevelScreen;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitModel;
 import com.timgapps.warfare.Units.GameUnits.Player.interfacesAi.PlayerWarriorAi;
 import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnitController;
@@ -11,8 +11,8 @@ import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnitModel;
 import java.util.ArrayList;
 
 public class BarbarianController extends PlayerUnitController implements PlayerWarriorAi {
-    public BarbarianController(Level level, PlayerUnitModel model) {
-        super(level, model);
+    public BarbarianController(LevelScreen levelScreen, PlayerUnitModel model) {
+        super(levelScreen, model);
     }
 
     // метод обновления логики игрового юнита
@@ -95,7 +95,7 @@ public class BarbarianController extends PlayerUnitController implements PlayerW
     @Override
     public EnemyUnitModel findEnemyUnit() {
         /** массив вражеских юнитов **/
-        ArrayList<EnemyUnitModel> enemies = level.getArrayEnemies();
+        ArrayList<EnemyUnitModel> enemies = levelScreen.getArrayEnemies();
         /** массив вражеских юнитов - "потенциальных целей" **/
         ArrayList<EnemyUnitModel> targetEnemies = new ArrayList<EnemyUnitModel>();
         /** выполним поиск ВРАЖЕСКОГО ЮНИТА-ЦЕЛЬ **/

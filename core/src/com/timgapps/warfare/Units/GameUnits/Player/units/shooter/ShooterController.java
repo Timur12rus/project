@@ -2,7 +2,7 @@ package com.timgapps.warfare.Units.GameUnits.Player.units.shooter;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.timgapps.warfare.Level.Level;
+import com.timgapps.warfare.screens.level.LevelScreen;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitModel;
 import com.timgapps.warfare.Units.GameUnits.Player.Bullets.Arrow;
 import com.timgapps.warfare.Units.GameUnits.Player.interfacesAi.PlayerShooterAi;
@@ -28,8 +28,8 @@ public class ShooterController extends PlayerUnitController implements PlayerSho
         DOWN
     }
 
-    public ShooterController(Level level, PlayerUnitModel model) {
-        super(level, model);
+    public ShooterController(LevelScreen levelScreen, PlayerUnitModel model) {
+        super(levelScreen, model);
         barricadePosition = new Vector2();
     }
 
@@ -122,7 +122,7 @@ public class ShooterController extends PlayerUnitController implements PlayerSho
     // метод для выпуска стрелы
     public void throwBullet() {
         System.out.println("Throw Arrow!");
-        new Arrow(level, new Vector2(model.getX(), model.getY()), model.getDamage(), new Vector2(10, 0));
+        new Arrow(levelScreen, new Vector2(model.getX(), model.getY()), model.getDamage(), new Vector2(10, 0));
     }
 
     @Override
@@ -163,7 +163,7 @@ public class ShooterController extends PlayerUnitController implements PlayerSho
         float posYTarget = targetEnemy.getPosition().y;
         Vector2 playerPosition = new Vector2(model.getX(), model.getY());
         Vector2 enemyPosition = new Vector2(targetEnemy.getX(), targetEnemy.getY());
-        barricadePosition.set(level.getBarricade().getBody().getX(), level.getBarricade().getBody().getY());
+        barricadePosition.set(levelScreen.getBarricade().getBody().getX(), levelScreen.getBarricade().getBody().getY());
         Vector2 distanceToTarget = enemyPosition.sub(playerPosition);       // расстояние до врежеского юнита
         distanceToBarricade = (barricadePosition.x - playerPosition.x);
         if (distanceToBarricade < DISTANCE_TO_BARRICADE) {
@@ -303,7 +303,7 @@ public class ShooterController extends PlayerUnitController implements PlayerSho
     @Override
     public EnemyUnitModel findEnemyUnit() {
         /** массив вражеских юнитов **/
-        ArrayList<EnemyUnitModel> enemies = level.getArrayEnemies();
+        ArrayList<EnemyUnitModel> enemies = levelScreen.getArrayEnemies();
         /** массив вражеских юнитов - "потенциальных целей" **/
         ArrayList<EnemyUnitModel> targetEnemies = new ArrayList<EnemyUnitModel>();
         /** выполним поиск ВРАЖЕСКОГО ЮНИТА-ЦЕЛЬ **/

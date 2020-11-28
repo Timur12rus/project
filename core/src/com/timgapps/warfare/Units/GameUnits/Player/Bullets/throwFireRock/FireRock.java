@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.timgapps.warfare.Level.Level;
+import com.timgapps.warfare.screens.level.LevelScreen;
 import com.timgapps.warfare.Units.GameUnits.Effects.Explosion;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitModel;
 import com.timgapps.warfare.Units.GameUnits.Player.Bullets.Bullet;
@@ -26,14 +26,14 @@ public class FireRock extends Bullet {
     private final float EXPLOSION_HEIGHT = 280;
     private ArrayList<EnemyUnitModel> targetEnemies;
     private float speed = 10;
-    private Level level;
+    private LevelScreen levelScreen;
     private ParticleEffect fireEffect;
     private float waitTimeToDestroy = 20;
     private Explosion explosion;
 
 
-    public FireRock(Level level, Vector2 startPosition, Vector2 endPosition, float damage) {
-        super(level, startPosition, damage);
+    public FireRock(LevelScreen levelScreen, Vector2 startPosition, Vector2 endPosition, float damage) {
+        super(levelScreen, startPosition, damage);
 //        Vector2 newEndPos = new Vector2();
 //        newEndPos.set(endPosition.x - EXPLOSION_WIDTH / 2, endPosition.y - EXPLOSION_HEIGHT / 2);
 //        this.endPosition = newEndPos;
@@ -47,8 +47,8 @@ public class FireRock extends Bullet {
         Vector2 velocityDirection = new Vector2(endPos.sub(startPosition)).nor();
         velocity.set(velocityDirection.scl(speed));
 //        velocity.set(0, 0);
-        level.addChild(this, position.x, position.y);
-        this.level = level;
+        levelScreen.addChild(this, position.x, position.y);
+        this.levelScreen = levelScreen;
         this.toFront();
 //        isDebug = true;
         setSize(image.getRegionWidth(), image.getRegionHeight());
@@ -66,7 +66,7 @@ public class FireRock extends Bullet {
     public void start() {
         Vector2 velocityDirection = new Vector2(endPosition.sub(startPosition)).nor();
         velocity.set(velocityDirection.scl(speed));
-        level.addChild(this, position.x, position.y);
+        levelScreen.addChild(this, position.x, position.y);
     }
 
     @Override
@@ -131,7 +131,7 @@ public class FireRock extends Bullet {
 
                 // наносим урон юнитам в зоне поражения
                 try {
-                    for (EnemyUnitModel enemy : level.getArrayEnemies()) {
+                    for (EnemyUnitModel enemy : levelScreen.getArrayEnemies()) {
                         if (enemy.isBodyActive() && !isTouchedEnemy) {
                             isTouchedEnemy = checkCollision(explosionRectangle, enemy.getBody());     // если коснулся зоны поражения
                         }
@@ -149,11 +149,11 @@ public class FireRock extends Bullet {
 //                Explosion explosion = new Explosion();
                 explosion.setPosition(position.x - explosion.getWidth() / 2, position.y - explosion.getHeight() / 2);
                 System.out.println("POSITION X = " + position.x);
-                level.addChild(explosion);
+                levelScreen.addChild(explosion);
                 explosion.start();
             }
         }
-        if (level.getState() != Level.PAUSED && waitTimeToDestroy > 0) {
+        if (levelScreen.getState() != LevelScreen.PAUSED && waitTimeToDestroy > 0) {
             fireEffect.update(delta);
         }
     }

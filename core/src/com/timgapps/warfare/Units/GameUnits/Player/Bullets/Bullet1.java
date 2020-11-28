@@ -3,21 +3,21 @@ package com.timgapps.warfare.Units.GameUnits.Player.Bullets;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.timgapps.warfare.Level.Level;
+import com.timgapps.warfare.screens.level.LevelScreen;
 import com.timgapps.warfare.Units.GameUnits.Interfaces.IBody;
 
 public abstract class Bullet1 extends Actor implements IBody {
 
     protected Body body;
-    protected Level level;
+    protected LevelScreen levelScreen;
     protected World world;
     protected float damage;
     protected boolean isDamaged = false;
     protected boolean isDestroyed = false;
     protected float deltaY;
 
-    public Bullet1(Level level, float x, float y, float deltaY) {
-        this.level = level;
+    public Bullet1(LevelScreen levelScreen, float x, float y, float deltaY) {
+        this.levelScreen = levelScreen;
         this.deltaY = deltaY;
 //        world = level.getWorld();
 //        body = createBody(x, y);

@@ -3,7 +3,7 @@ package com.timgapps.warfare.Units.GameUnits.Enemy;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.timgapps.warfare.Level.Level;
+import com.timgapps.warfare.screens.level.LevelScreen;
 import com.timgapps.warfare.Units.GameUnits.GameUnitController;
 import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnitModel;
 
@@ -13,8 +13,8 @@ public class EnemyUnitController extends GameUnitController {
     protected Vector2 velocity;
 
 
-    public EnemyUnitController(Level level, EnemyUnitModel model) {
-        super(level, model);
+    public EnemyUnitController(LevelScreen levelScreen, EnemyUnitModel model) {
+        super(levelScreen, model);
         this.model = model;
         body = model.getBody();
         velocity = new Vector2();
@@ -30,14 +30,14 @@ public class EnemyUnitController extends GameUnitController {
     }
 
     public void hitTower() {
-        if (level.getSiegeTower().getHealth() > 0) {
-            level.getSiegeTower().subHealth(model.getDamage());
+        if (levelScreen.getSiegeTower().getHealth() > 0) {
+            levelScreen.getSiegeTower().subHealth(model.getDamage());
         }
     }
 
     public void checkCollisions() {
         if (!model.isTouchedPlayer()) {               // проверяем коллизию
-            for (PlayerUnitModel playerUnit : level.getArrayPlayers()) {
+            for (PlayerUnitModel playerUnit : levelScreen.getArrayPlayers()) {
                 if (playerUnit.isBodyActive()) {     // если тело активно
                     model.setIsTouchedPlayer(checkCollision(body, playerUnit.getBody()));
                     if (model.isTouchedPlayer()) {

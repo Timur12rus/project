@@ -3,15 +3,15 @@ package com.timgapps.warfare.Units.GameUnits.Enemy.zombie1;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
-import com.timgapps.warfare.Level.Level;
+import com.timgapps.warfare.screens.level.LevelScreen;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitModel;
 import com.timgapps.warfare.Units.GameUnits.Enemy.zombie2.Zombie2Controller;
 import com.timgapps.warfare.Units.GameUnits.Enemy.zombie2.Zombie2UnitView;
 import com.timgapps.warfare.Warfare;
 
 public class Zombie1UnitView extends Zombie2UnitView {
-    public Zombie1UnitView(Level level, EnemyUnitModel model, Zombie2Controller controller) {
-        super(level, model, controller);
+    public Zombie1UnitView(LevelScreen levelScreen, EnemyUnitModel model, Zombie2Controller controller) {
+        super(levelScreen, model, controller);
     }
 
     @Override

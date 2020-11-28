@@ -2,7 +2,7 @@ package com.timgapps.warfare.Units.GameUnits.Player.units;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.timgapps.warfare.Level.Level;
+import com.timgapps.warfare.screens.level.LevelScreen;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitModel;
 import com.timgapps.warfare.Units.GameUnits.GameUnitModel;
 
@@ -25,8 +25,8 @@ public class PlayerUnitModel extends GameUnitModel {
     private EnemyUnitModel targetEnemy;
     private boolean isRemovedFromPlayersArray;
 
-    public PlayerUnitModel(Level level, Vector2 position, PlayerUnitData playerUnitData) {
-        super(level, position);
+    public PlayerUnitModel(LevelScreen levelScreen, Vector2 position, PlayerUnitData playerUnitData) {
+        super(levelScreen, position);
         this.playerUnitData = playerUnitData;
         System.out.println("PlayerUnitModel = " + playerUnitData.getUnitId());
         speed = playerUnitData.getSpeed();
@@ -112,7 +112,7 @@ public class PlayerUnitModel extends GameUnitModel {
             isRemovedFromPlayersArray = true;
             setIsDestroyed(true);
             isBodyActive = false;
-            level.removePlayerUnitFromArray(this);
+            levelScreen.removePlayerUnitFromArray(this);
         }
     }
 

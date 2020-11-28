@@ -3,7 +3,7 @@ package com.timgapps.warfare.Units.GameUnits.Enemy.ent_1;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
-import com.timgapps.warfare.Level.Level;
+import com.timgapps.warfare.screens.level.LevelScreen;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitModel;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitView;
 import com.timgapps.warfare.Warfare;
@@ -11,8 +11,8 @@ import com.timgapps.warfare.Warfare;
 public class Ent1View extends EnemyUnitView {
     protected Ent1Controller controller;
 
-    public Ent1View(Level level, EnemyUnitModel model, Ent1Controller controller) {
-        super(level, model, controller);
+    public Ent1View(LevelScreen levelScreen, EnemyUnitModel model, Ent1Controller controller) {
+        super(levelScreen, model, controller);
         this.controller = controller;
         createAnimations();
         currentState = State.STAY;
@@ -30,7 +30,7 @@ public class Ent1View extends EnemyUnitView {
             } else {
 //                System.out.println("Else");
                 if (dieAnimation.isAnimationFinished(stateTime)) {
-                    level.removeEnemyUnitFromArray(model);
+                    levelScreen.removeEnemyUnitFromArray(model);
                     model.disposeBloodSpray();
 //                    this.remove();
                     if (!isAddAction) {

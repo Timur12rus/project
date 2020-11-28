@@ -2,15 +2,15 @@ package com.timgapps.warfare.Units.GameUnits;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.timgapps.warfare.Level.Level;
+import com.timgapps.warfare.screens.level.LevelScreen;
 
 public class GameUnitController {
     protected Rectangle body;
     protected GameUnitModel model;
-    protected Level level;
+    protected LevelScreen levelScreen;
 
-    public GameUnitController(Level level, GameUnitModel model) {
-        this.level = level;
+    public GameUnitController(LevelScreen levelScreen, GameUnitModel model) {
+        this.levelScreen = levelScreen;
         this.model = model;
     }
 
@@ -23,7 +23,7 @@ public class GameUnitController {
     }
 
     public void removeUnitFromLevel(GameUnitModel model) {
-        level.getArrayModels().remove(model);
+        levelScreen.getArrayModels().remove(model);
     }
 
 }

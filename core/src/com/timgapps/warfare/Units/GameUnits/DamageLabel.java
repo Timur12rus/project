@@ -5,13 +5,13 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.timgapps.warfare.Level.Level;
+import com.timgapps.warfare.screens.level.LevelScreen;
 import com.timgapps.warfare.Warfare;
 
 public class DamageLabel extends Actor {
     private float x, y;
 
-    public DamageLabel(Level level, float x, float y, int damage) {
+    public DamageLabel(LevelScreen levelScreen, float x, float y, int damage) {
         this.x = x;
         this.y = y;
         Label.LabelStyle greenLabelStyle = new Label.LabelStyle();
@@ -24,6 +24,6 @@ public class DamageLabel extends Actor {
                 Actions.fadeOut(0.3f));
         damageLabel.addAction(ma);
 
-        level.addChild(damageLabel);
+        levelScreen.addChild(damageLabel);
     }
 }

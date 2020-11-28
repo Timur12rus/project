@@ -3,7 +3,7 @@ package com.timgapps.warfare.Units.GameUnits.Player.units;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.timgapps.warfare.Level.Level;
+import com.timgapps.warfare.screens.level.LevelScreen;
 import com.timgapps.warfare.Units.GameUnits.Barricade;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitModel;
 import com.timgapps.warfare.Units.GameUnits.GameUnitController;
@@ -15,11 +15,11 @@ public class PlayerUnitController extends GameUnitController {
     protected boolean isHaveTargetEnemy;
     protected Barricade barricade;
 
-    public PlayerUnitController(Level level, PlayerUnitModel model) {
-        super(level, model);
+    public PlayerUnitController(LevelScreen levelScreen, PlayerUnitModel model) {
+        super(levelScreen, model);
         this.model = model;
-        this.level = level;
-        barricade = level.getBarricade();
+        this.levelScreen = levelScreen;
+        barricade = levelScreen.getBarricade();
         body = model.getBody();
         velocity = new Vector2();
     }

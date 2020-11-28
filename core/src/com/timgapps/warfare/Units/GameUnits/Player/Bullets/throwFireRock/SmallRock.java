@@ -2,15 +2,15 @@ package com.timgapps.warfare.Units.GameUnits.Player.Bullets.throwFireRock;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.timgapps.warfare.Level.Level;
+import com.timgapps.warfare.screens.level.LevelScreen;
 import com.timgapps.warfare.Units.GameUnits.Player.Bullets.Bullet;
 
 public class SmallRock extends Bullet {
-    public SmallRock(Level level, Vector2 position, Vector2 velocity, float damage) {
-        super(level, position, damage);
+    public SmallRock(LevelScreen levelScreen, Vector2 position, Vector2 velocity, float damage) {
+        super(levelScreen, position, damage);
         this.velocity = velocity;
         isDebug = true;
-        level.addChild(this, position.x, position.y);
+        levelScreen.addChild(this, position.x, position.y);
     }
 
     @Override

@@ -1,25 +1,16 @@
 package com.timgapps.warfare.Units.GameUnits.Player.Bullets;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.timgapps.warfare.Level.Level;
+import com.timgapps.warfare.screens.level.LevelScreen;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitModel;
 import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnitData;
 import com.timgapps.warfare.Warfare;
-
-import static com.timgapps.warfare.Units.GameUnits.GameUnitModel.ENEMY_BIT;
-import static com.timgapps.warfare.Units.GameUnits.GameUnitModel.STONE_BIT;
 
 public class Stone extends Bullet {
     private Vector2 targetPos;
@@ -35,8 +26,8 @@ public class Stone extends Bullet {
     private static int ENERGY_PRICE = 1;
     private ParticleEffect destroyEffect;
 
-    public Stone(Level level, Vector2 position, PlayerUnitData data) {
-        super(level, position, 0);
+    public Stone(LevelScreen levelScreen, Vector2 position, PlayerUnitData data) {
+        super(levelScreen, position, 0);
         this.data = data;
 //        this.health = data.getHealth();
 //        this.damage = data.getDamage();
@@ -49,8 +40,8 @@ public class Stone extends Bullet {
         this.position.add(-image.getRegionWidth() / 2, 600);  // начальная позиция камня
 //        this.position.add(-21, 600);  // начальная позиция камня
         velocity.set(0, VELOCITY);
-        level.addChild(this);
-        level.arrayActors.add(this);
+        levelScreen.addChild(this);
+        levelScreen.arrayActors.add(this);
         System.out.println("Target Pos = " + targetPos);
         System.out.println("Start Pos = " + this.position);
 //        isDebug = true;
@@ -125,7 +116,7 @@ public class Stone extends Bullet {
     private void checkCollisionEnemyUnit() {
         if (moveIsEnd && !isDamaged) {
             try {
-                for (EnemyUnitModel enemy : level.getArrayEnemies()) {
+                for (EnemyUnitModel enemy : levelScreen.getArrayEnemies()) {
                     if (Intersector.overlaps(body, enemy.getBody())) {
                         enemy.subHealth(45);
                     }

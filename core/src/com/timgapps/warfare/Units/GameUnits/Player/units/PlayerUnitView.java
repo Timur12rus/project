@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
-import com.timgapps.warfare.Level.Level;
+import com.timgapps.warfare.screens.level.LevelScreen;
 import com.timgapps.warfare.Units.GameUnits.GameUnitController;
 import com.timgapps.warfare.Units.GameUnits.GameUnitView;
 import com.timgapps.warfare.Warfare;
@@ -20,8 +20,8 @@ public class PlayerUnitView extends GameUnitView {
     protected SequenceAction fadeOutAction;
     protected boolean isAddAction;
 
-    public PlayerUnitView(Level level, PlayerUnitModel model, GameUnitController controller) {
-        super(level, model, controller);
+    public PlayerUnitView(LevelScreen levelScreen, PlayerUnitModel model, GameUnitController controller) {
+        super(levelScreen, model, controller);
         this.model = model;
         deltaX = model.getUnitData().getDeltaX();
         deltaY = model.getUnitData().getDeltaY();

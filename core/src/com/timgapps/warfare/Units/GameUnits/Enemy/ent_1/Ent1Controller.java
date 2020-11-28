@@ -1,6 +1,6 @@
 package com.timgapps.warfare.Units.GameUnits.Enemy.ent_1;
 
-import com.timgapps.warfare.Level.Level;
+import com.timgapps.warfare.screens.level.LevelScreen;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitController;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitModel;
 import com.timgapps.warfare.Units.GameUnits.Enemy.interfacesAi.EnemyWarriorAi;
@@ -11,8 +11,8 @@ public class Ent1Controller extends EnemyUnitController implements EnemyWarriorA
     private float waitTime;
     private Random random;
 
-    public Ent1Controller(Level level, EnemyUnitModel model) {
-        super(level, model);
+    public Ent1Controller(LevelScreen levelScreen, EnemyUnitModel model) {
+        super(levelScreen, model);
         waitTime = 160;
         random = new Random();
     }
@@ -21,7 +21,7 @@ public class Ent1Controller extends EnemyUnitController implements EnemyWarriorA
     @Override
     public void update(float delta) {
         super.update(delta);
-        if (level.getState() != Level.PAUSED) {
+        if (levelScreen.getState() != LevelScreen.PAUSED) {
             waitTime--;
         }
         if (!model.isDestroyed()) {
@@ -33,8 +33,8 @@ public class Ent1Controller extends EnemyUnitController implements EnemyWarriorA
                     model.setIsTouchedPlayer(false);
                     model.setIsAttack(false);
                 }
-            } else if (level.getSiegeTower().getHealth() > 0) {
-                model.setIsTouchedTower(checkCollision(body, level.getSiegeTower().getBody()));
+            } else if (levelScreen.getSiegeTower().getHealth() > 0) {
+                model.setIsTouchedTower(checkCollision(body, levelScreen.getSiegeTower().getBody()));
                 if (model.isTouchedTower()) {
                     attackTower();
                 } else {

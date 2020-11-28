@@ -1,23 +1,19 @@
 package com.timgapps.warfare.Units.GameUnits.Player.Bullets;
 
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.timgapps.warfare.Level.Level;
+import com.timgapps.warfare.screens.level.LevelScreen;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitModel;
 import com.timgapps.warfare.Warfare;
 
-import java.util.ArrayList;
-
 public class Arrow extends Bullet {
-    public Arrow(Level level, Vector2 position, float damage, Vector2 velocity) {
-        super(level, position, damage);
+    public Arrow(LevelScreen levelScreen, Vector2 position, float damage, Vector2 velocity) {
+        super(levelScreen, position, damage);
         image = new TextureRegion(Warfare.atlas.findRegion("arrow"));
         this.velocity.set(velocity);
-        level.addChild(this, position.x, position.y);
+        levelScreen.addChild(this, position.x, position.y);
         this.toFront();
         isDebug = true;
         deltaX = 12;
@@ -34,7 +30,7 @@ public class Arrow extends Bullet {
     @Override
     public void act(float delta) {
         super.act(delta);
-        for (EnemyUnitModel enemy : level.getArrayEnemies()) {
+        for (EnemyUnitModel enemy : levelScreen.getArrayEnemies()) {
             if (enemy.isBodyActive()) {
                 isTouchedEnemy = checkCollision(body, enemy.getBody());     // если коснулся вражеского юнита
             }

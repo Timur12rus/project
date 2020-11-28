@@ -7,15 +7,13 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Align;
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
-import com.timgapps.warfare.Level.Level;
+import com.timgapps.warfare.screens.level.LevelScreen;
 import com.timgapps.warfare.Units.GameUnits.DamageLabel;
 import com.timgapps.warfare.Units.GameUnits.Effects.Explosion;
 import com.timgapps.warfare.Units.GameUnits.Effects.Fire;
@@ -24,12 +22,10 @@ import com.timgapps.warfare.Units.GameUnits.Player.Bullets.Arrow;
 import com.timgapps.warfare.Utils.Setting;
 import com.timgapps.warfare.Warfare;
 
-import javax.security.auth.login.FailedLoginException;
-
 public class SiegeTower extends Group {
     private Image tower, frontWheel, backWheel;
     private World world;
-    private Level level;
+    private LevelScreen levelScreen;
     private float health;
     private Rectangle body;
     private boolean isDestroyed = false;
@@ -61,8 +57,8 @@ public class SiegeTower extends Group {
     private float distanceToEnemy;
     private float attackPauseTime;
 
-    public SiegeTower(Level level, float x, float y, float health, float damage) {
-        this.level = level;
+    public SiegeTower(LevelScreen levelScreen, float x, float y, float health, float damage) {
+        this.levelScreen = levelScreen;
         bodyPosition = new Vector2();
         tower = new Image(Warfare.atlas.findRegion("tower"));
         frontWheel = new Image(Warfare.atlas.findRegion("wheel"));
@@ -105,18 +101,18 @@ public class SiegeTower extends Group {
         addActor(explosion2);
 
         /** создадим ОГОНЬ  и разместим его в координатах**/
-        fire = new Fire(level);
+        fire = new Fire(levelScreen);
         fire.setPosition(getX() + tower.getWidth() - 64, 48);
         smoke.setPosition(getX() + tower.getWidth() - 32, 364);
         addActor(fire);
-        level.addChild(this, x, y);
+        levelScreen.addChild(this, x, y);
         shapeRenderer = new ShapeRenderer();
     }
 
     @Override
     public void act(float delta) {
         super.act(delta);
-        if (level.getState() != Level.PAUSED) {
+        if (levelScreen.getState() != LevelScreen.PAUSED) {
             checkToDestroy();       // проверяем, нужно ли уничтожить актера
             smoke.update(delta);
             if (explosion1.isEnd()) {
@@ -173,7 +169,7 @@ public class SiegeTower extends Group {
         velocity.setAngle(angle);
         System.out.println("Angle = " + angle);
         System.out.println("Velosity = " + velocity);
-        new Arrow(level, startPosition, 10, velocity).setRotation(angle);
+        new Arrow(levelScreen, startPosition, 10, velocity).setRotation(angle);
 //        new Arrow(level, startPosition, 10, velocity.setAngle(0));
     }
 
@@ -183,12 +179,12 @@ public class SiegeTower extends Group {
     }
 
     private EnemyUnitModel findTarget() {
-        if (level.getArrayEnemies().size() > 0) {
-            EnemyUnitModel enemyUnit = level.getArrayEnemies().get(0);
+        if (levelScreen.getArrayEnemies().size() > 0) {
+            EnemyUnitModel enemyUnit = levelScreen.getArrayEnemies().get(0);
             float minDistance = enemyUnit.getX() - bodyPosition.x;
             targetEnemy = enemyUnit;
 //            System.out.println("Target ENNNNEMMMYYY = " + targetEnemy);
-            for (EnemyUnitModel enemyUnitModel : level.getArrayEnemies()) {
+            for (EnemyUnitModel enemyUnitModel : levelScreen.getArrayEnemies()) {
                 distanceToEnemy = enemyUnitModel.getX() - bodyPosition.x;
                 if (distanceToEnemy < ATTACK_DISTANCE) {
                     if (distanceToEnemy < minDistance) {
@@ -227,7 +223,7 @@ public class SiegeTower extends Group {
     }
 
     protected void addDamageLabel(float x, float y, float value) {
-        new DamageLabel(level, x, y, (int) value);
+        new DamageLabel(levelScreen, x, y, (int) value);
     }
 
     /**
@@ -268,7 +264,7 @@ public class SiegeTower extends Group {
         if (isDestroyed) {
             if (explosion2.isEnd()) {
                 this.remove();
-                level.gameOver();
+                levelScreen.gameOver();
             }
         }
     }

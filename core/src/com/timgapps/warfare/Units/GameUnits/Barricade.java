@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.timgapps.warfare.Level.Level;
+import com.timgapps.warfare.screens.level.LevelScreen;
 import com.timgapps.warfare.Units.GameUnits.Effects.BarricadeExplosion;
 import com.timgapps.warfare.Units.GameUnits.Player.BarricadeHealthBar;
 import com.timgapps.warfare.Utils.Setting;
@@ -18,7 +18,7 @@ public class Barricade extends Group {
     public static final int ROCKS = 1;
     public static final int TREES = 2;
     private int typeOfBarricade;
-    private Level level;
+    private LevelScreen levelScreen;
     private Image rockBig, rockMiddle, rockSmall;
     //    private Body body;
     private float health = 130;
@@ -52,8 +52,8 @@ public class Barricade extends Group {
         batch.begin();
     }
 
-    public Barricade(Level level, int typeOfBarricade) {
-        this.level = level;
+    public Barricade(LevelScreen levelScreen, int typeOfBarricade) {
+        this.levelScreen = levelScreen;
         this.typeOfBarricade = typeOfBarricade;
         bodyWidth = 32;
         bodyHeight = 200;
@@ -77,7 +77,7 @@ public class Barricade extends Group {
         healthBarHeight = 10;       // высота HealthBar
         fullHealth = health;
         createHealthBar(healthBarWidth, healthBarHeight, health);
-        level.addChild(this);
+        levelScreen.addChild(this);
 //        barricadeExplosion1.start();
     }
 
@@ -103,18 +103,18 @@ public class Barricade extends Group {
                 rockSmall = new Image(Warfare.atlas.findRegion("rock_small"));
                 bodyWidth = rockBig.getWidth();
                 // координата X
-                posX = level.getWidth() - bodyWidth - 100;
+                posX = levelScreen.getWidth() - bodyWidth - 100;
                 posY = 150;
                 rockSmall.setPosition(posX + 10, posY + 150);
                 rockMiddle.setPosition(posX + 30, posY + 90);
                 rockBig.setPosition(posX, posY);
-                level.arrayActors.add(rockSmall);
-                level.arrayActors.add(rockMiddle);
-                level.arrayActors.add(rockBig);
+                levelScreen.arrayActors.add(rockSmall);
+                levelScreen.arrayActors.add(rockMiddle);
+                levelScreen.arrayActors.add(rockBig);
 
-                level.addChild(rockSmall);
-                level.addChild(rockMiddle);
-                level.addChild(rockBig);
+                levelScreen.addChild(rockSmall);
+                levelScreen.addChild(rockMiddle);
+                levelScreen.addChild(rockBig);
 
                 // тело баррикады
                 body = createBody();
@@ -123,7 +123,7 @@ public class Barricade extends Group {
     }
 
     protected void addDamageLabel(float x, float y, float value) {
-        new DamageLabel(level, x, y, (int) value);
+        new DamageLabel(levelScreen, x, y, (int) value);
     }
 
     /**
@@ -161,7 +161,7 @@ public class Barricade extends Group {
 
     public void setToDestroy() {
         isDestroyed = true;
-        level.getSiegeTower().startMove();
+        levelScreen.getSiegeTower().startMove();
 //        body.setActive(false);
     }
 

@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Array;
-import com.timgapps.warfare.Level.Level;
+import com.timgapps.warfare.screens.level.LevelScreen;
 import com.timgapps.warfare.Warfare;
 
 
@@ -15,15 +15,15 @@ import com.timgapps.warfare.Warfare;
 public class Lightning extends Actor {
     private Vector2 position;
     private Animation animation;
-    private Level level;
+    private LevelScreen levelScreen;
     protected float stateTime;
 
-    public Lightning(Level level, Vector2 position, float deltaX) {
-        this.level = level;
+    public Lightning(LevelScreen levelScreen, Vector2 position, float deltaX) {
+        this.levelScreen = levelScreen;
         this.position = position;
         createAnimation();
         setPosition(position.x - 18 + deltaX, position.y);
-        level.addChild(this);
+        levelScreen.addChild(this);
         this.debug();
     }
 
@@ -47,7 +47,7 @@ public class Lightning extends Actor {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
-        if (level.getState() != Level.PAUSED) {
+        if (levelScreen.getState() != LevelScreen.PAUSED) {
             stateTime += Gdx.graphics.getDeltaTime();
         }
         batch.draw((TextureRegion) animation.getKeyFrame(stateTime, false), getX(), getY());

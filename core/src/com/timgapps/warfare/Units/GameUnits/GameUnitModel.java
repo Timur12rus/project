@@ -2,7 +2,7 @@ package com.timgapps.warfare.Units.GameUnits;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.timgapps.warfare.Level.Level;
+import com.timgapps.warfare.screens.level.LevelScreen;
 
 // абстрактный класс, модель игрового юнита
 public abstract class GameUnitModel {
@@ -22,7 +22,7 @@ public abstract class GameUnitModel {
     private Vector2 velocity;
     protected GameUnitView.State currentState;
     protected boolean isAttack, isStay, isMove, isDestroyed;
-    protected Level level;
+    protected LevelScreen levelScreen;
     protected boolean isDamaged;
     protected boolean isBodyActive;
     protected float xPosDamageLabel, yPosDamagelabel;
@@ -30,9 +30,9 @@ public abstract class GameUnitModel {
     protected boolean isDrawHealthBar;
     private final float DAMAGE_LABEL_Y = 116;
 
-    public GameUnitModel(Level level, Vector2 position) {
+    public GameUnitModel(LevelScreen levelScreen, Vector2 position) {
         System.out.println("GameUnitModel = " + this.toString());
-        this.level = level;
+        this.levelScreen = levelScreen;
         this.position = position;
         this.velocity = new Vector2(0, 0);
         currentState = GameUnitView.State.STAY;
@@ -40,7 +40,7 @@ public abstract class GameUnitModel {
     }
 
     protected void addDamageLabel(float x, float y, float value) {
-        new DamageLabel(level, x, y, (int) value);
+        new DamageLabel(levelScreen, x, y, (int) value);
     }
 
     public short getUnitBit() {

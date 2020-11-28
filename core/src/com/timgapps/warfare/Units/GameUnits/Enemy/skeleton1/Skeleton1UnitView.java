@@ -3,7 +3,7 @@ package com.timgapps.warfare.Units.GameUnits.Enemy.skeleton1;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
-import com.timgapps.warfare.Level.Level;
+import com.timgapps.warfare.screens.level.LevelScreen;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitModel;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitView;
 import com.timgapps.warfare.Units.GameUnits.GameUnitView;
@@ -12,8 +12,8 @@ import com.timgapps.warfare.Warfare;
 public class Skeleton1UnitView extends EnemyUnitView {
     protected Skeleton1Controller controller;
 
-    public Skeleton1UnitView(Level level, EnemyUnitModel model, Skeleton1Controller controller) {
-        super(level, model, controller);
+    public Skeleton1UnitView(LevelScreen levelScreen, EnemyUnitModel model, Skeleton1Controller controller) {
+        super(levelScreen, model, controller);
         this.controller = controller;
         createAnimations();
     }
@@ -30,7 +30,7 @@ public class Skeleton1UnitView extends EnemyUnitView {
             } else {
 //                System.out.println("Else");
                 if (dieAnimation.isAnimationFinished(stateTime)) {
-                    level.removeEnemyUnitFromArray(model);
+                    levelScreen.removeEnemyUnitFromArray(model);
                     model.disposeBloodSpray();
 //                    this.remove();
                     if (!isAddAction) {

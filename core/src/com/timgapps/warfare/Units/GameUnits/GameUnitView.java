@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.timgapps.warfare.Level.Level;
+import com.timgapps.warfare.screens.level.LevelScreen;
 import com.timgapps.warfare.Units.GameUnits.Player.units.HealthBar;
 import com.timgapps.warfare.Utils.Setting;
 
@@ -18,7 +18,7 @@ public class GameUnitView extends Actor {
     protected Animation runAnimation;            // анимация для бежит
     protected ShapeRenderer shapeRenderer;
     protected boolean isDebug = true;
-    protected Level level;
+    protected LevelScreen levelScreen;
     private GameUnitModel model;
     protected GameUnitController controller;
     //    private EnemyController controller;
@@ -31,8 +31,8 @@ public class GameUnitView extends Actor {
         WALKING, ATTACK, STAY, DIE, RUN, HART
     }
 
-    public GameUnitView(Level level, GameUnitModel model, GameUnitController controller) {
-        this.level = level;
+    public GameUnitView(LevelScreen levelScreen, GameUnitModel model, GameUnitController controller) {
+        this.levelScreen = levelScreen;
         this.model = model;
         this.controller = controller;
         currentState = model.getCurrentState();
@@ -48,7 +48,7 @@ public class GameUnitView extends Actor {
     @Override
     public void act(float delta) {
         super.act(delta);
-        if (level.getState() != Level.PAUSED) {
+        if (levelScreen.getState() != LevelScreen.PAUSED) {
             controller.update(delta);
         }
         setPosition(model.getPosition().x, model.getPosition().y);      // обновляем позицию view по координатам позиции модели
@@ -66,7 +66,7 @@ public class GameUnitView extends Actor {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
-        if (level.getState() != Level.PAUSED) {
+        if (levelScreen.getState() != LevelScreen.PAUSED) {
             stateTime += Gdx.graphics.getDeltaTime();
         }
         batch.end();

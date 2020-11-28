@@ -3,7 +3,7 @@ package com.timgapps.warfare.Units.GameUnits.Enemy.wizard;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
-import com.timgapps.warfare.Level.Level;
+import com.timgapps.warfare.screens.level.LevelScreen;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitModel;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitView;
 import com.timgapps.warfare.Units.GameUnits.GameUnitView;
@@ -13,8 +13,8 @@ public class WizardUnitView extends EnemyUnitView {
     private WizardController controller;
 //    private float waitTime = 300;
 
-    public WizardUnitView(Level level, EnemyUnitModel model, WizardController controller) {
-        super(level, model, controller);
+    public WizardUnitView(LevelScreen levelScreen, EnemyUnitModel model, WizardController controller) {
+        super(levelScreen, model, controller);
         this.controller = controller;
         createAnimations();
         currentState = State.STAY;
@@ -23,7 +23,7 @@ public class WizardUnitView extends EnemyUnitView {
     @Override
     public void act(float delta) {
         super.act(delta);
-        if (level.getState() != Level.PAUSED) {
+        if (levelScreen.getState() != LevelScreen.PAUSED) {
 //            waitTime--;
         }
         currentState = model.getCurrentState();
@@ -35,7 +35,7 @@ public class WizardUnitView extends EnemyUnitView {
             } else {
 //                System.out.println("Else");
                 if (dieAnimation.isAnimationFinished(stateTime)) {
-                    level.removeEnemyUnitFromArray(model);
+                    levelScreen.removeEnemyUnitFromArray(model);
                     model.disposeBloodSpray();
 //                    this.remove();
                     if (!isAddAction) {

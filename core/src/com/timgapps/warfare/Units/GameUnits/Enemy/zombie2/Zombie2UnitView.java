@@ -3,7 +3,7 @@ package com.timgapps.warfare.Units.GameUnits.Enemy.zombie2;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
-import com.timgapps.warfare.Level.Level;
+import com.timgapps.warfare.screens.level.LevelScreen;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitModel;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitView;
 import com.timgapps.warfare.Warfare;
@@ -13,8 +13,8 @@ import java.util.Random;
 public class Zombie2UnitView extends EnemyUnitView {
     protected Zombie2Controller controller;
 
-    public Zombie2UnitView(Level level, EnemyUnitModel model, Zombie2Controller controller) {
-        super(level, model, controller);
+    public Zombie2UnitView(LevelScreen levelScreen, EnemyUnitModel model, Zombie2Controller controller) {
+        super(levelScreen, model, controller);
         this.controller = controller;
         createAnimations();
         currentState = State.STAY;
@@ -32,7 +32,7 @@ public class Zombie2UnitView extends EnemyUnitView {
             } else {
 //                System.out.println("Else");
                 if (dieAnimation.isAnimationFinished(stateTime)) {
-                    level.removeEnemyUnitFromArray(model);
+                    levelScreen.removeEnemyUnitFromArray(model);
                     model.disposeBloodSpray();
 //                    this.remove();
                     if (!isAddAction) {

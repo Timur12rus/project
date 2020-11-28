@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.timgapps.warfare.Level.Level;
+import com.timgapps.warfare.screens.level.LevelScreen;
 import com.timgapps.warfare.Units.GameUnits.GameUnitModel;
 
 public class EnemyUnitModel extends GameUnitModel {
@@ -23,8 +23,8 @@ public class EnemyUnitModel extends GameUnitModel {
     private boolean isShooted;      //  выстрелил ли юнит
     private boolean isAttacked;     // атаковал ли юнит врага
 
-    public EnemyUnitModel(Level level, Vector2 position, EnemyUnitData enemyUnitData) {
-        super(level, position);
+    public EnemyUnitModel(LevelScreen levelScreen, Vector2 position, EnemyUnitData enemyUnitData) {
+        super(levelScreen, position);
         this.enemyUnitData = enemyUnitData;
         damage = enemyUnitData.getDamage();
         health = enemyUnitData.getHealth();
@@ -67,7 +67,7 @@ public class EnemyUnitModel extends GameUnitModel {
             isRemovedFromEnemiesArray = true;
             setBodyIsActive(false);                         // тело не активно
             setIsDestroyed(true);
-            level.removeEnemyUnitFromArray(this);                      // текущий юнит
+            levelScreen.removeEnemyUnitFromArray(this);                      // текущий юнит
         }
     }
 

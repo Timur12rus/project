@@ -1,6 +1,6 @@
 package com.timgapps.warfare.Units.GameUnits.Enemy.wizard;
 
-import com.timgapps.warfare.Level.Level;
+import com.timgapps.warfare.screens.level.LevelScreen;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitController;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitModel;
 import com.timgapps.warfare.Units.GameUnits.Enemy.interfacesAi.EnemyShooterAi;
@@ -18,8 +18,8 @@ public class WizardController extends EnemyUnitController implements EnemyShoote
     private boolean isReachedAttackPosition;
     private final float LIGHTNING_DAMAGE = 15;
 
-    public WizardController(Level level, EnemyUnitModel model) {
-        super(level, model);
+    public WizardController(LevelScreen levelScreen, EnemyUnitModel model) {
+        super(levelScreen, model);
         targetUnitsArray = new ArrayList<PlayerUnitModel>();
     }
 
@@ -27,7 +27,7 @@ public class WizardController extends EnemyUnitController implements EnemyShoote
     @Override
     public void update(float delta) {
         super.update(delta);
-        if (level.getState() != Level.PAUSED) {
+        if (levelScreen.getState() != LevelScreen.PAUSED) {
             waitTime--;
         }
         // ai юнита
@@ -76,7 +76,7 @@ public class WizardController extends EnemyUnitController implements EnemyShoote
 
     public PlayerUnitModel findPlayerUnit() {
         PlayerUnitModel targetPlayer = null;
-        for (PlayerUnitModel playerUnit : level.getArrayPlayers()) {
+        for (PlayerUnitModel playerUnit : levelScreen.getArrayPlayers()) {
             if (model.getX() - playerUnit.getX() < ATTACK_DISTANCE_X) {
                 targetPlayer = playerUnit;
             }
@@ -126,7 +126,7 @@ public class WizardController extends EnemyUnitController implements EnemyShoote
 
     // метод для запуска молний
     public void throwLightnings() {
-        for (PlayerUnitModel playerUnit : level.getArrayPlayers()) {
+        for (PlayerUnitModel playerUnit : levelScreen.getArrayPlayers()) {
             if (model.getX() - playerUnit.getX() < ATTACK_DISTANCE_X) {
                 targetUnitsArray.add(playerUnit);
             }
@@ -166,7 +166,7 @@ public class WizardController extends EnemyUnitController implements EnemyShoote
         for (PlayerUnitModel targetPlayerUnit : targetUnitsArray) {
             targetPlayerUnit.subHealth(LIGHTNING_DAMAGE);
 //            targetPlayerUnit.subHealth(model.getUnitData().getDamage());
-            new Lightning(level, targetPlayerUnit.getPosition(), targetPlayerUnit.getUnitData().getDeltaX());
+            new Lightning(levelScreen, targetPlayerUnit.getPosition(), targetPlayerUnit.getUnitData().getDeltaX());
             System.out.println("TARGET PLAYER DELTA X = " + targetPlayerUnit.getUnitData().getDeltaX());
             System.out.println("TARGET NAME = " + targetPlayerUnit.getUnitData().getName());
         }

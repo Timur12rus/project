@@ -6,19 +6,19 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Array;
-import com.timgapps.warfare.Level.Level;
+import com.timgapps.warfare.screens.level.LevelScreen;
 import com.timgapps.warfare.Warfare;
 
 public class Fire extends Actor {
 
     private float x, y;
-    private Level level;
+    private LevelScreen levelScreen;
     private Animation fireAnimation;
     private float stateTime;
     private boolean isStarted = false;
 
-    public Fire(Level level) {
-        this.level = level;
+    public Fire(LevelScreen levelScreen) {
+        this.levelScreen = levelScreen;
         createAnimation();
         setVisible(false);
     }
@@ -39,7 +39,7 @@ public class Fire extends Actor {
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
         if (isStarted) {
-            if (level.getState() != Level.PAUSED) stateTime += Gdx.graphics.getDeltaTime();
+            if (levelScreen.getState() != LevelScreen.PAUSED) stateTime += Gdx.graphics.getDeltaTime();
             batch.draw((TextureRegion) fireAnimation.getKeyFrame(stateTime, true), getX(), getY());
         }
     }
