@@ -17,7 +17,7 @@ public class BackButton extends Group {
     private Image back;
     private Image backDown;
     private Label backLabel;
-    private com.timgapps.warfare.screens.reward_for_stars.interfaces.ScreenCloser screenCloser;
+    private ScreenCloser screenCloser;
     public BackButton(ScreenCloser screenCloser) {
         this.screenCloser = screenCloser;
         bg = new Image(Warfare.atlas.findRegion("coinsPanel"));

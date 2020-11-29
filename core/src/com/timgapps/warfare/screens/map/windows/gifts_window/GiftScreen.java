@@ -21,7 +21,7 @@ public class GiftScreen extends Group {
     private ImageButton closeButton;
     private Label rewardTitle; // отображаем текст заголовка
     private GameManager gameManager;
-    private com.timgapps.warfare.screens.map.windows.gifts_window.GiftPanel giftPanel, buffPanel;
+    private GiftPanel giftPanel, buffPanel;
     private GiftsTable giftsTable;
     private MapScreen mapScreen;
 

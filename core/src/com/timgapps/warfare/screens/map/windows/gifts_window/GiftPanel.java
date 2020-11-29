@@ -249,4 +249,8 @@ class GiftPanel extends Group {
             super.act(delta);
         }
     }
+
+    public void clearAction() {
+
+    }
 }

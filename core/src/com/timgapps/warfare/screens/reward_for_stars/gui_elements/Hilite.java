@@ -18,9 +18,14 @@ class Hilite extends Actor {
         group.addActor(image);
     }
 
-    public void setHilite() {
-        image.setVisible(true);
-        isHilited = true;
+    public void setHilite(boolean isHilited) {
+        if (isHilited) {
+            image.setVisible(true);
+            this.isHilited = true;
+        } else {
+            image.setVisible(false);
+            this.isHilited = false;
+        }
     }
 
     @Override

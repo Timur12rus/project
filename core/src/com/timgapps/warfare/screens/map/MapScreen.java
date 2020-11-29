@@ -52,14 +52,14 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
     public static final int ON_SHOW_REWARD_FOR_STARS_SCREEN = 4;
     public static final int ON_SHARE = 4;
     private int selectedLevelId = 1;
-    private ArrayList<com.timgapps.warfare.screens.map.gui_elements.LevelIcon> levelIcons;
+    private ArrayList<LevelIcon> levelIcons;
     private MissionInfoWindow missionInfoWindow;
     private TeamUpgradeScreen teamUpgradeScreen;
     private GiftScreen giftScreen;
     //    public static BitmapFont font40;
-    private com.timgapps.warfare.screens.map.gui_elements.TeamUpgradeIcon teamUpgradeIcon;      // кнопка для вызова окна апгрейда юнитов
+    private TeamUpgradeIcon teamUpgradeIcon;      // кнопка для вызова окна апгрейда юнитов
     //    private ImageButton upgradeTeamButton;      // кнопка для вызова окна апгрейда юнитов
-    private com.timgapps.warfare.screens.map.gui_elements.GiftIcon giftIcon;
+    private GiftIcon giftIcon;
     private GameManager gameManager;
     private CoinsPanel coinsPanel;              // панель с монетами
     private ScorePanel scorePanel;              // панель с игровыми очками
@@ -253,19 +253,12 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
     @Override
     public void dispose() {
         super.dispose();
-//        map.dispose();
-//        coinsPanel.remove();
-//        fade.clear();
-//        greenRectangle.clear();
-//        giftScreen.clear();
-//        teamUpgradeScreen.clear();
-//        missionInfoScreen.clear();
     }
 
     @Override
     public void hide() {
         super.hide();
-        dispose();
+//        dispose();
     }
 
     @Override
@@ -274,6 +267,7 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
         redrawLevelIcons();
         resumeLevelMap();
     }
+
     /**
      * метод для скрытия кнопок на экране
      **/
@@ -369,7 +363,6 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
         }
 
 //        redrawLevelIcons();
-
         levelIcons.get(0).setVisible(true);
 //        showLevelIcons(mapLayer.getObjects(), layerName);
     }
@@ -792,13 +785,6 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
     @Override
     public void setEndCoinsAction() {
         coinsAction.setEndCoinsAction();
-    }
-
-    public void checkGetRewardForStars() {
-        if (gameManager.isHaveReward()) {
-            gameManager.updateRewardsForStars();
-            call(ON_SHOW_GET_REWARD);
-        }
     }
 
     @Override

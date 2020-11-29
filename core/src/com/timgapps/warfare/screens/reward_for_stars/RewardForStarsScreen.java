@@ -29,7 +29,7 @@ public class RewardForStarsScreen extends StageGame implements ScreenCloser {
     public static final int ON_BACK = 1;
     private ArrayList<RewardForStarsData> rewardForStarsDataList;           // массив данных наград
     private ArrayList<RewardForStars> rewardForStarsList;
-    private com.timgapps.warfare.screens.reward_for_stars.gui_elements.BackButton backButton;
+    private BackButton backButton;
     private Texture bgTexture;
     protected final int barWidth = 184;
     protected final int barHeight = 32;
@@ -38,24 +38,16 @@ public class RewardForStarsScreen extends StageGame implements ScreenCloser {
     private int starsCount;
     private float xPos;     // позиция Х panelStarsSmall
     private boolean isStartToastAction = false;
-    //    private Hilite hilite;      // подсветка на фоне награды за звёзды
     private Group group;
     private Table scrollTable;
     private GameManager gameManager;
     private CoinsPanel coinsPanel;
-    StarsPanelSmall starsPanelSmall;
+    private StarsPanelSmall starsPanelSmall;
 
     @Override
     public void show() {
         super.show();
         redrawScreen();
-//        int i = 0;
-//        for (RewardForStarsData data : rewardForStarsDataList) {
-//            if (data.getStarsCount() <= starsCount && !data.getIsReceived()) {
-//                rewardForStarsList.get(i).getReward();
-//            }
-//            i++;
-//        }
     }
 
     public RewardForStarsScreen(GameManager gameManager) {
@@ -77,91 +69,13 @@ public class RewardForStarsScreen extends StageGame implements ScreenCloser {
         addOverlayChild(backButton);
         rewardForStarsDataList = gameManager.getRewardForStarsDataList();  // список данных наград
         rewardForStarsList = new ArrayList<RewardForStars>();               // список наград
-//        Label.LabelStyle countStarsLabelStyle = new Label.LabelStyle();
-//        countStarsLabelStyle.fontColor = new Color(0x3c644eff);
-////        countStarsLabelStyle.fontColor = Color.FOREST;
-//        countStarsLabelStyle.font = Warfare.font20;
         starsPanelSmall = new StarsPanelSmall();
         float scrollTableWidth = getWidth();
         float groupWidth = 0;
         group = new Group();
-        int currentIndexSmallPanel = 0;
-        int index = 0;  // индекс текущего количества звезд, используется в рассчете поз. х smallStarsPanel
-        int lastCount = 0, rewardCount = 0;     // кол-во звезд за последнюю награду и текущую награду
-        int calculatedWidth = 0;       // вычисленная координата для starsSmallPanel
-
-//        countLabel = new Label("" + rewardForStarsList.get(i).getRewardCountStars(), countStarsLabelStyle);
 
         scrollTable = new Table();
-//        Table scrollTable = new Table();
         scrollTable.debug();
-
-//        redrawScreen();
-
-        /** создадим картинки и бары **/
-//        for (int i = 0; i < rewardForStarsDataList.size(); i++) {
-//            /** количество звезд за предыдущую награду, нужно для вычисления разницы отрезка (кол-ва звезд) **/
-//            int deltaCountStars;
-//            int lastRewardCountStars;
-//            if (i > 0) {
-//                lastRewardCountStars = rewardForStarsList.get(i - 1).getRewardCountStars(); // кол-во звёзд за прошлую награду
-//                deltaCountStars = starsCount - lastRewardCountStars;    // разница между текущим кол-вом звёзд и кол-вом
-//                // звёзд за прошлую награду
-//            } else {
-//                lastRewardCountStars = 0;
-//                deltaCountStars = starsCount - lastRewardCountStars;
-//            }
-//            rewardForStarsList.add(new RewardForStars(this,
-//                    rewardForStarsDataList.get(i), gameManager, deltaCountStars, lastRewardCountStars));
-//
-//            rewardForStarsList.get(i).setPosition(190 * i + rewardForStarsList.get(i).getWidth(), 144);
-//            group.addActor(rewardForStarsList.get(i));      // добавляем RewardForStars в корневую группу
-//
-//            /** обозначим доступные награды за звезды **/
-////            if (starsCount > rewardForStarsDataList.get(i).getStarsCount()) {
-////                rewardForStarsDataList.get(i).setChecked();         // обозначим доступна награда или нет
-////            }
-////            if ((starsCount >= rewardForStarsDataList.get(i).getStarsCount()) && (!rewardForStarsDataList.get(i).getIsReceived())) {
-////                rewardForStarsList.get(i).setChecked(); // установим доступной для получения (подсветим "ЖЕЛТЫМ" цветом)
-////            }
-//
-//            /** добавим цифры - кол-во звёзд необходимое для получения награды **/
-//            countLabel = new Label("" + rewardForStarsList.get(i).getRewardCountStars(), countStarsLabelStyle);
-//            countLabel.setPosition(rewardForStarsList.get(i).getX() + BG_PANEL_WIDTH / 2 - countLabel.getWidth(),
-//                    rewardForStarsList.get(i).getY() - countLabel.getHeight() - 48);
-//            group.addActor(countLabel);
-//            // получим кол-во звезд, для достижения текущей награды
-//            int rewardStarsCount = rewardForStarsList.get(i).getRewardCountStars();
-//            if ((starsCount >= lastRewardCountStars) && (starsCount <= rewardStarsCount)) {
-//                lastCount = lastRewardCountStars;
-//                rewardCount = rewardStarsCount;
-//                index = i;
-//            }
-//        }
-//        rewardForStarsList.get(index).setHilite();
-//        // получим кол-во звезд, для достижения текущей награды
-////        int rewardStarsCount = rewardForStarsList.get(i).getRewardCountStars();
-//        int deltaCountStars = starsCount - lastCount;
-//        if (starsCount < rewardCount) {
-//            if (deltaCountStars >= 0) {
-//                calculatedWidth = deltaCountStars * (barWidth - 2) / (rewardCount - lastCount);
-//                if (calculatedWidth <= 0) calculatedWidth = 2;
-//            } else {
-//                calculatedWidth = 2;
-//            }
-//        } else {
-//            calculatedWidth = barWidth;
-//        }
-//
-//        xPos = (index) * (184 + 8) + calculatedWidth;
-//        groupWidth += 190 * rewardForStarsList.size() + rewardForStarsList.get(0).getWidth();
-//        starsPanelSmall.setPosition(xPos - starsPanelSmall.getWidth() / 2, 0);
-//        if (starsCount == 0) {
-//            starsPanelSmall.setVisible(false);
-//        } else {
-//            starsPanelSmall.setVisible(true);
-//        }
-
         group.addActor(starsPanelSmall);
 
 
@@ -186,6 +100,7 @@ public class RewardForStarsScreen extends StageGame implements ScreenCloser {
         starsCount = gameManager.getSavedGame().getStarsCount();
         group.clearChildren();
         scrollTable.clearChildren();
+        coinsPanel.setVisible(true);
         int index = 0;  // индекс текущего количества звезд, используется в рассчете поз. х smallStarsPanel
         int lastCount = 0, rewardCount = 0;     // кол-во звезд за последнюю награду и текущую награду
         int calculatedWidth = 0;       // вычисленная координата для starsSmallPanel
@@ -209,14 +124,7 @@ public class RewardForStarsScreen extends StageGame implements ScreenCloser {
             rewardForStarsList.get(i).setPosition(190 * i + rewardForStarsList.get(i).getWidth(), 144);
 //            rewardForStarsList.get(i)
             group.addActor(rewardForStarsList.get(i));      // добавляем RewardForStars в корневую группу
-
-            /** обозначим доступные награды за звезды **/
-//            if (starsCount > rewardForStarsDataList.get(i).getStarsCount()) {
-//                rewardForStarsDataList.get(i).setChecked();         // обозначим доступна награда или нет
-//            }
-//            if ((starsCount >= rewardForStarsDataList.get(i).getStarsCount()) && (!rewardForStarsDataList.get(i).getIsReceived())) {
-//                rewardForStarsList.get(i).setChecked(); // установим доступной для получения (подсветим "ЖЕЛТЫМ" цветом)
-//            }
+            rewardForStarsList.get(i).redraw();
 
             /** добавим цифры - кол-во звёзд необходимое для получения награды **/
 
@@ -238,7 +146,7 @@ public class RewardForStarsScreen extends StageGame implements ScreenCloser {
                 index = i;
             }
         }
-        rewardForStarsList.get(index).setHilite();
+        rewardForStarsList.get(index).setHilite(true);
         // получим кол-во звезд, для достижения текущей награды
 //        int rewardStarsCount = rewardForStarsList.get(i).getRewardCountStars();
         int deltaCountStars = starsCount - lastCount;
@@ -333,13 +241,12 @@ public class RewardForStarsScreen extends StageGame implements ScreenCloser {
     @Override
     public void hide() {
         super.hide();
-        dispose();
+//        dispose();
     }
 
     @Override
     public void dispose() {
         super.dispose();
-//        bgTexture.dispose();
     }
 
     class StarsPanelSmall extends Group {
@@ -366,56 +273,8 @@ public class RewardForStarsScreen extends StageGame implements ScreenCloser {
         }
     }
 
-    public float getScrollTableX() {
-        return scrollTable.getX();
-    }
-
-    public float getScrollTableY() {
-        return scrollTable.getY();
-    }
-
     @Override
     protected void update(float delta) {
         super.update(delta);
-    }
-
-    public void startAddAction(Actor actor, float x, float y, float deltaX) {
-        actor.setPosition(x, y);
-        addChild(actor);
-        final Image upgradeIconImage = new Image(Warfare.atlas.findRegion("teamButton"));
-        upgradeIconImage.addAction(Actions.fadeOut(0));
-        upgradeIconImage.setPosition(32, getHeight() / 3);
-        addChild(upgradeIconImage);
-
-        final SequenceAction upgradeIconAction = new SequenceAction(Actions.fadeIn(0),
-                Actions.sizeBy(8, 8, 0.2f),
-                Actions.sizeBy(-8, -8, 0.2f),
-                Actions.fadeOut(0)
-        );
-
-        Action checkEndOfAction = new Action() {
-            @Override
-            public boolean act(float delta) {
-                upgradeIconImage.addAction(upgradeIconAction);
-                return true;
-            }
-        };
-
-        float xPos;
-        if (x - 32 < 260) {
-            xPos = 260;
-        } else {
-            xPos = x;
-        }
-        ParallelAction pa = new ParallelAction(
-                Actions.moveTo(32 - deltaX, getHeight() / 3, 1, Interpolation.pow3In),
-                Actions.sizeTo(actor.getWidth() * 0.7f, actor.getHeight() * 0.7f, 1));
-        SequenceAction sma = new SequenceAction(
-                Actions.moveTo(xPos, y - 80, 0.5f, Interpolation.pow2Out),
-                pa,
-                Actions.fadeOut(0),
-                checkEndOfAction
-        );
-        actor.addAction(sma);
     }
 }

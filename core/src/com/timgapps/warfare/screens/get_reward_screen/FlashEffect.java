@@ -55,7 +55,6 @@ public class FlashEffect {
         rewardImage.setPosition(position.x - rewardImage.getWidth() / 2, position.y - rewardImage.getHeight() / 2);
         stageGame.addChild(rewardImage);
 
-//        NameLabel nameLabel = new NameLabel();
         NameLabel nameLabel = new NameLabel(stageGame, new Vector2(position.x, position.y - 148));
 
     }
@@ -131,11 +130,11 @@ public class FlashEffect {
         sunshine.clear();
         bgTexture.dispose();
 
-        rewardImage.remove();
-        flashImage.remove();
-        bgImage.remove();
-        sunshine.remove();
-        sunshine.remove();
+//        rewardImage.remove();
+//        flashImage.remove();
+//        bgImage.remove();
+//        sunshine.remove();
+//        sunshine.remove();
 
         starsAction.clear();
     }

@@ -110,7 +110,7 @@ public class GetRewardScreen extends StageGame implements ScreenCloser {
     @Override
     public void hide() {
         super.hide();
-        dispose();
+//        dispose();
     }
 
     @Override
