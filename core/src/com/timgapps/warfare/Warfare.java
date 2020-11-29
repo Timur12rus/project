@@ -179,7 +179,7 @@ public class Warfare extends Game {
                     showLevel(levelId);
                 } else if (code == MapScreen.ON_SHOW_GET_REWARD) {
                     hideLevelMap();
-                    showGetRewardScreen();      // показать экран получения награды за звезды (эффект)
+                    showGetRewardScreen();
                 } else if (code == MapScreen.ON_SHOW_REWARD_FOR_STARS_SCREEN) {
 //                    levelMap = null;
                     hideLevelMap();
@@ -210,9 +210,7 @@ public class Warfare extends Game {
     }
 
     private void showGetRewardScreen() {
-        if (getRewardScreen == null) {
-            getRewardScreen = new GetRewardScreen(gameManager);
-        }
+        getRewardScreen = new GetRewardScreen(gameManager);
         setScreen(getRewardScreen);
         getRewardScreen.setCallback(new StageGame.Callback() {
             @Override

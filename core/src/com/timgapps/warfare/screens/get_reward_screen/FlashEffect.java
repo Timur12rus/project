@@ -17,15 +17,15 @@ import com.timgapps.warfare.screens.get_reward_screen.actions.StarsAction;
 import com.timgapps.warfare.screens.get_reward_screen.gui_elements.Sunshine;
 
 public class FlashEffect {
-    private Vector2 position;
-    private boolean isStarted, isEnd;
+    protected Vector2 position;
+    protected boolean isStarted, isEnd;
     private StageGame stageGame;
     private SequenceAction sa;
-    private Image flashImage, circleLightImage, bgImage, bgColor;
+    protected Image flashImage, circleLightImage, bgImage, bgColor;
     private Texture bgTexture;
-    private Sunshine sunshine;
-    private float imageWidth, imageHeight;
-    private Image rewardImage;
+    protected Sunshine sunshine;
+    protected float imageWidth, imageHeight;
+    protected Image rewardImage;
     private StarsAction starsAction;
     private String imageString;
 
@@ -130,11 +130,11 @@ public class FlashEffect {
         sunshine.clear();
         bgTexture.dispose();
 
-//        rewardImage.remove();
-//        flashImage.remove();
-//        bgImage.remove();
-//        sunshine.remove();
-//        sunshine.remove();
+        rewardImage.remove();
+        flashImage.remove();
+        bgImage.remove();
+        sunshine.remove();
+        sunshine.remove();
 
         starsAction.clear();
     }

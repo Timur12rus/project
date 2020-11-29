@@ -13,10 +13,10 @@ public class GetRewardScreen extends StageGame implements ScreenCloser {
     private BackButton backButton;
     public static final int ON_BACK = 1;
     private GameManager gameManager;
+    private int indexOfReward = 0;
 
     public GetRewardScreen(GameManager gameManager) {
         this.gameManager = gameManager;
-        int indexOfReward = 0;
         for (int i = 0; i < gameManager.getRewardForStarsDataList().size() - 1; i++) {
             if (gameManager.getStarsCount() >= gameManager.getRewardForStarsDataList().get(i).getStarsCount() &&
                     !gameManager.getRewardForStarsDataList().get(i).getIsReceived()) {     // если звезд больше, чем нужно для награды
@@ -27,6 +27,7 @@ public class GetRewardScreen extends StageGame implements ScreenCloser {
             gameManager.saveGame();
         }
 
+        indexOfReward = 2;
         flashEffect = new FlashEffect(this, gameManager.getRewardForStarsDataList().get(indexOfReward),
                 new Vector2(getWidth() / 2, getHeight() / 2));
         backButton = new BackButton(this);
@@ -98,6 +99,8 @@ public class GetRewardScreen extends StageGame implements ScreenCloser {
     @Override
     public void show() {
         super.show();
+        flashEffect = new FlashEffect(this, gameManager.getRewardForStarsDataList().get(indexOfReward),
+                new Vector2(getWidth() / 2, getHeight() / 2));
         flashEffect.start();
     }
 
@@ -110,7 +113,7 @@ public class GetRewardScreen extends StageGame implements ScreenCloser {
     @Override
     public void hide() {
         super.hide();
-//        dispose();
+        dispose();
     }
 
     @Override
