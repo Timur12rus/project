@@ -3,23 +3,30 @@ package com.timgapps.warfare.screens.get_reward_screen;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.boontaran.games.StageGame;
+import com.timgapps.warfare.screens.get_reward_screen.actions.CoinsAction;
+import com.timgapps.warfare.screens.get_reward_screen.actions.ResourcesAction;
 import com.timgapps.warfare.screens.reward_for_stars.RewardForStarsData;
 
 public class BoxFlashEffect extends FlashEffect {
     private BoxActor boxActor;
     private StageGame stageGame;
+    private Vector2 endCoinsPosition;
 
     public BoxFlashEffect(StageGame stageGame, RewardForStarsData rewardForStarsData, Vector2 position) {
         super(stageGame, rewardForStarsData, position);
+        nameLabel.remove();
         this.stageGame = stageGame;
         boxActor = new BoxActor();
         boxActor.setPosition(position.x - rewardImage.getWidth() / 2, position.y - rewardImage.getHeight() / 2);
         stageGame.addChild(boxActor);
+    }
+
+    public void setEndCoinsPosition(Vector2 coinsPanelPosition) {
+        endCoinsPosition = coinsPanelPosition;
     }
 
     @Override
@@ -85,11 +92,14 @@ public class BoxFlashEffect extends FlashEffect {
         // анимация появления монет и их движения к панели монет
 
         // начало действия анимации открытия ящика
-        final CoinsAnimation coinsAnimation = new CoinsAnimation(stageGame, position);
+        final CoinsAction coinsAction = new CoinsAction(stageGame, position);
+        coinsAction.setEndPosition(endCoinsPosition);
+        final ResourcesAction resourcesAction = new ResourcesAction(stageGame, position);
         Action startCoinsAction = new Action() {
             @Override
             public boolean act(float delta) {
-                coinsAnimation.startAnimation();
+                coinsAction.startAnimation();
+                resourcesAction.startAnimation();
                 return true;
             }
         };
@@ -97,7 +107,7 @@ public class BoxFlashEffect extends FlashEffect {
         Action isEndCoinsAnimation = new Action() {
             @Override
             public boolean act(float delta) {
-                coinsAnimation.isEndAnimation();
+                coinsAction.isEndAnimation();
                 return true;
             }
         };

@@ -1,4 +1,4 @@
-package com.timgapps.warfare.screens.get_reward_screen;
+package com.timgapps.warfare.screens.get_reward_screen.actions;
 
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
@@ -9,23 +9,22 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.boontaran.games.StageGame;
 import com.timgapps.warfare.Warfare;
 
-public class CoinsAnimation {
+public class CoinsAction {
     private StageGame stageGame;
     private Image coinOne, coinTwo, coinThree, coinFour, coinFive;
     private Vector2 startPosition;
     private Vector2 endPosition;
     private boolean isEnd;
 
-    public CoinsAnimation(StageGame stageGame, Vector2 startPosition) {
+    public CoinsAction(StageGame stageGame, Vector2 startPosition) {
         this.stageGame = stageGame;
         coinOne = new Image(Warfare.atlas.findRegion("coin_icon"));
         coinTwo = new Image(Warfare.atlas.findRegion("coin_icon"));
         coinThree = new Image(Warfare.atlas.findRegion("coin_icon"));
         coinFour = new Image(Warfare.atlas.findRegion("coin_icon"));
         coinFive = new Image(Warfare.atlas.findRegion("coin_icon"));
-        this.startPosition = new Vector2(startPosition.x - 32, startPosition.y + 64);
-//        this.startPosition.set(startPosition.x - 32, startPosition.y);
-        this.endPosition = new Vector2(1100, 660);      // позиция coinsPanel
+        this.startPosition = new Vector2(startPosition.x - 32, startPosition.y + 64);  // позиция coinsPanel
+
         coinOne.setPosition(this.startPosition.x, this.startPosition.y);
         coinTwo.setPosition(this.startPosition.x, this.startPosition.y);
         coinThree.setPosition(this.startPosition.x, this.startPosition.y);
@@ -39,7 +38,11 @@ public class CoinsAnimation {
         stageGame.addChild(coinFive);
     }
 
-    // класс-действие для вижения монет
+    public void setEndPosition(Vector2 endPosition) {
+        this.endPosition = endPosition;
+    }
+
+    // класс-действие для движения монет
     class MoveCoinAction {
         public MoveCoinAction(Image image, float deltaX, float deltaY) {
             Action isEndAnimation = new Action() {
@@ -76,12 +79,11 @@ public class CoinsAnimation {
         return isEnd;
     }
 
-
     public void startAnimation() {
-        new MoveCoinAction(coinOne, -32, 104);
-        new MoveCoinAction(coinTwo, 0, 84);
-        new MoveCoinAction(coinThree, 24, 104);
-        new MoveCoinAction(coinFour, -8, 114);
-        new MoveCoinAction(coinFive, 8, 148);
+        new MoveCoinAction(coinOne, 0, 104);
+        new MoveCoinAction(coinTwo, 32, 84);
+        new MoveCoinAction(coinThree, 56, 104);
+        new MoveCoinAction(coinFour, 24, 114);
+        new MoveCoinAction(coinFive, 42, 148);
     }
 }

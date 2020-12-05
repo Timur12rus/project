@@ -12,6 +12,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -39,6 +40,8 @@ import com.timgapps.warfare.screens.map.gui_elements.LevelIcon;
 import com.timgapps.warfare.screens.map.gui_elements.ScorePanel;
 import com.timgapps.warfare.screens.map.gui_elements.StarsPanel;
 import com.timgapps.warfare.screens.map.gui_elements.TeamUpgradeIcon;
+
+import org.lwjgl.util.vector.Vector2f;
 
 import java.util.ArrayList;
 
@@ -182,14 +185,15 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
         // добавим панель с монетами на экран
         coinsPanel = gameManager.getCoinsPanel();
         coinsPanel.setCoinsCount(gameManager.getCoinsCount());
-        coinsPanel.addAction(Actions.fadeIn(0.1f));
+//        coinsPanel.addAction(Actions.fadeIn(0.1f));
 //        if (coinsPanel.isVisible()) {
 //            coinsPanel.setVisible(true);
 //        }
 
-        coinsPanel.setVisible(true);
+//        coinsPanel.setVisible(true);
         coinsPanel.setPosition(getWidth() - coinsPanel.getWidth() - 32, getHeight() - coinsPanel.getHeight() - 32);
-        addOverlayChild(coinsPanel);
+        coinsPanel.setPos(new Vector2(coinsPanel.getX(), coinsPanel.getY()));
+//        addOverlayChild(coinsPanel);
 
         // Добавим пенель с очками
         scorePanel = gameManager.getScorePanel();
@@ -258,6 +262,7 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
     @Override
     public void hide() {
         super.hide();
+        removeOverlayChild(coinsPanel);
 //        dispose();
     }
 
@@ -266,6 +271,11 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
         super.show();
         redrawLevelIcons();
         resumeLevelMap();
+        showCoinsPanel();
+    }
+
+    private void showCoinsPanel() {
+        addOverlayChild(coinsPanel);
     }
 
     /**

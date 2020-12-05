@@ -27,6 +27,20 @@ public class RewardForStarsData implements Serializable {
         this.imageString = imageString;
     }
 
+    public String getName() {
+        switch (typeOfReward) {
+            case REWARD_STONE:
+                return "Stone";
+            case REWARD_ARCHER:
+                return "Archer";
+            case REWARD_GNOME:
+                return "Gnome";
+            case REWARD_KNIGHT:
+                return "Knight";
+        }
+        return null;
+    }
+
     /**
      * метод устанавливает статус - доступен или нет
      **/

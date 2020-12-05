@@ -41,6 +41,13 @@ public class HUD extends Group {
         addActor(hudTable);
     }
 
+    public void redraw() {
+        hudTable.clearChildren();
+        hudTable.add(energyPanel);
+        hudTable.add().expandX();
+        hudTable.add(coinsPanel);
+    }
+
     @Override
     public void act(float delta) {
         super.act(delta);

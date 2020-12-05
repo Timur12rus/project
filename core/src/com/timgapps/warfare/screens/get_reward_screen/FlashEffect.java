@@ -28,6 +28,7 @@ public class FlashEffect {
     protected Image rewardImage;
     private StarsAction starsAction;
     private String imageString;
+    protected NameLabel nameLabel;
 
     public FlashEffect(StageGame stageGame, RewardForStarsData rewardForStarsData, Vector2 position) {
         this.stageGame = stageGame;
@@ -55,7 +56,11 @@ public class FlashEffect {
         rewardImage.setPosition(position.x - rewardImage.getWidth() / 2, position.y - rewardImage.getHeight() / 2);
         stageGame.addChild(rewardImage);
 
-        NameLabel nameLabel = new NameLabel(stageGame, new Vector2(position.x, position.y - 148));
+        nameLabel = new NameLabel(stageGame, new Vector2(position.x, position.y - 148), rewardForStarsData.getName());
+
+    }
+
+    public void setEndCoinsPosition(Vector2 position) {
 
     }
 

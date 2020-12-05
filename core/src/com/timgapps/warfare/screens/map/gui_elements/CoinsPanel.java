@@ -1,6 +1,7 @@
 package com.timgapps.warfare.screens.map.gui_elements;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
@@ -18,6 +19,7 @@ public class CoinsPanel extends Group {
     private Label coinsValueLabel;
     private Image coinIcon;
     private TextureRegionDrawable background;
+    private Vector2 pos;            // "позиция"
 
     public CoinsPanel(int coinsCount) {
         this.coinsCount = coinsCount;
@@ -38,6 +40,10 @@ public class CoinsPanel extends Group {
         setWidth(table.getWidth());
         setHeight(table.getHeight());
         addActor(table);
+    }
+
+    public void setPos(Vector2 pos) {
+        this.pos = pos;
     }
 
     public Table getTable() {
@@ -70,6 +76,10 @@ public class CoinsPanel extends Group {
 
     public int getCoinsCount() {
         return coinsCount;
+    }
+
+    public Vector2 getPos() {
+        return pos;
     }
 
 }

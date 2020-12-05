@@ -2,6 +2,7 @@ package com.timgapps.warfare.screens.get_reward_screen;
 
 import com.badlogic.gdx.math.Vector2;
 import com.boontaran.games.StageGame;
+import com.timgapps.warfare.screens.map.gui_elements.CoinsPanel;
 import com.timgapps.warfare.screens.reward_for_stars.gui_elements.BackButton;
 import com.timgapps.warfare.screens.reward_for_stars.RewardForStarsData;
 import com.timgapps.warfare.screens.reward_for_stars.interfaces.ScreenCloser;
@@ -14,6 +15,7 @@ public class GetRewardScreen extends StageGame implements ScreenCloser {
     public static final int ON_BACK = 1;
     private GameManager gameManager;
     private int indexOfReward = 0;
+    private CoinsPanel coinsPanel;
 
     public GetRewardScreen(GameManager gameManager) {
         this.gameManager = gameManager;
@@ -37,6 +39,8 @@ public class GetRewardScreen extends StageGame implements ScreenCloser {
         backButton = new BackButton(this);
         backButton.setPosition(64, 64);
         addOverlayChild(backButton);
+
+        coinsPanel = gameManager.getCoinsPanel();
     }
 
     public void getRewardForStars(com.timgapps.warfare.screens.reward_for_stars.RewardForStarsData data) {
@@ -110,14 +114,17 @@ public class GetRewardScreen extends StageGame implements ScreenCloser {
         } else {
             flashEffect = new BoxFlashEffect(this, gameManager.getRewardForStarsDataList().get(indexOfReward),
                     new Vector2(getWidth() / 2, getHeight() / 2));
+            flashEffect.setEndCoinsPosition(gameManager.getCoinsPanel().getPos());
             flashEffect.start();
         }
+        addChild(coinsPanel);
     }
 
     @Override
     public void dispose() {
         super.dispose();
         flashEffect.clear();
+        coinsPanel.remove();
     }
 
     @Override

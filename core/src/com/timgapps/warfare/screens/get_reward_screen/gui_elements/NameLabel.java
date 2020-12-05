@@ -18,12 +18,14 @@ public class NameLabel {
     private Label label;
     private Texture texture;
     private Image rectangleImage;
+    private StageGame stageGame;
 
-    public NameLabel(StageGame stageGame, Vector2 position) {
+    public NameLabel(StageGame stageGame, Vector2 position, String unitName) {
+        this.stageGame = stageGame;
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.fontColor = Color.WHITE;
         labelStyle.font = Warfare.font40;
-        label = new Label("Gnome", labelStyle);
+        label = new Label(unitName, labelStyle);
 
         rectangleImage = new Image(createBackgroundTexture());
         Vector2 rectangleImagePosition = new Vector2(position.x - rectangleImage.getWidth() / 2, position.y);
@@ -54,6 +56,12 @@ public class NameLabel {
                 Actions.delay(2.4f),
                 Actions.fadeIn(1));
         label.addAction(labelAction);
+    }
+
+    public void remove() {
+        stageGame.removeChild(rectangleImage);
+        stageGame.removeChild(label);
+
     }
 
     private Texture createBackgroundTexture() {

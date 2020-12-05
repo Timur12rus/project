@@ -54,8 +54,8 @@ public class RewardForStarsScreen extends StageGame implements ScreenCloser {
         createBackground();
         this.gameManager = gameManager;
         coinsPanel = gameManager.getCoinsPanel();
-        coinsPanel.setVisible(true);
-        addChild(coinsPanel);
+//        coinsPanel.setVisible(true);
+
 
         /** получим текущее кол-во звезд **/
 //        starsCount = 7;
@@ -98,6 +98,7 @@ public class RewardForStarsScreen extends StageGame implements ScreenCloser {
 
     private void redrawScreen() {
         starsCount = gameManager.getSavedGame().getStarsCount();
+        addChild(coinsPanel);
         group.clearChildren();
         scrollTable.clearChildren();
         coinsPanel.setVisible(true);
@@ -235,6 +236,7 @@ public class RewardForStarsScreen extends StageGame implements ScreenCloser {
 
     public void closeScreen() {
         hide();
+        removeChild(coinsPanel);
         call(ON_BACK);
     }
 
