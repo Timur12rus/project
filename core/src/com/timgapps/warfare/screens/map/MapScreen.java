@@ -207,6 +207,19 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
         addOverlayChild(starsPanel);
         starsPanel.addListener(new ClickListener() {
             @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                starsPanel.onDown();
+
+                return super.touchDown(event, x, y, pointer, button);
+            }
+
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                super.touchUp(event, x, y, pointer, button);
+                starsPanel.onUp();
+            }
+
+            @Override
             public void clicked(InputEvent event, float x, float y) {
 //                coinsPanel.remove();
 //                call(ON_SHOW_REWARD_FOR_STARS_SCREEN);

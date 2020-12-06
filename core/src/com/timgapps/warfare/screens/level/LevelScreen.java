@@ -84,8 +84,8 @@ public class LevelScreen extends StageGame {
     private UnitCreator unitCreator;
     private float waitTime = 300;
 
-    public LevelScreen(int levelNumber, final GameManager gameManager) {
-        this.levelNumber = levelNumber;
+    public LevelScreen(final GameManager gameManager) {
+//        this.levelNumber = levelNumber;
         this.gameManager = gameManager;
 
         shapeRenderer = new ShapeRenderer();
@@ -102,12 +102,13 @@ public class LevelScreen extends StageGame {
         siegeTower = new SiegeTower(this, -48, 270, gameManager.getTowerHealth(), 2);
         /** Добавим вражеских юнитов **/
         random = new Random();
-        levelCreator = new LevelCreator(this, levelNumber);
+        levelCreator = new LevelCreator(this);
+//        levelCreator = new LevelCreator(this, levelNumber);
+
         accumulator = 0;
         colorRectangle = new ColorRectangle(0, 0, getWidth(), getHeight(), new Color(0, 0, 0, 0.7f));
         colorRectangle.setVisible(false);
         addOverlayChild(colorRectangle);
-
 
         unitCreator = new UnitCreator(this);
 
@@ -232,6 +233,22 @@ public class LevelScreen extends StageGame {
                 }
             }
         });
+    }
+
+    public void setLevelNumber(int levelNumber) {
+        this.levelNumber = levelNumber;
+    }
+
+    @Override
+    public void show() {
+        super.show();
+        build(levelNumber);
+    }
+
+    // метод строит уровень
+    public void build(int levelNumber) {
+        levelCreator.loadLevel(levelNumber);
+
     }
 
     public void createPlayerUnit(PlayerUnits unitId) {
@@ -726,6 +743,7 @@ public class LevelScreen extends StageGame {
     @Override
     public void hide() {
         super.hide();
+        levelCreator.clear();
         dispose();
     }
 }

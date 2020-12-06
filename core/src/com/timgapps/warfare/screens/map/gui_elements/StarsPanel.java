@@ -24,7 +24,7 @@ public class StarsPanel extends Group {
     private int starsCount;            // кол-во звезд у игрока текущее
     private Image starIcon;
     private Image background;
-    private Image rewardIcon;
+    private Image rewardIcon;       // изобрежение награды в панели со звездами
     private StarsBar starsBar;
     private Texture barTexture, backTexture;
     private ArrayList<RewardForStarsData> rewardForStarsDataList;
@@ -222,6 +222,14 @@ public class StarsPanel extends Group {
             countRewards = count;
             label.setText("" + countRewards);
         }
+    }
+
+    public void onDown() {
+        rewardIcon.setPosition(rewardIcon.getX(), rewardIcon.getY() - 4);
+    }
+
+    public void onUp() {
+        rewardIcon.setPosition(rewardIcon.getX(), rewardIcon.getY() + 4);
     }
 
     /**

@@ -228,7 +228,10 @@ public class Warfare extends Game {
     }
 
     private void showLevel(int id) { // метод показа игрового уровня, передаем идентификатор уровня
-        levelScreen = new LevelScreen(id, gameManager);
+        if (levelScreen == null) {
+            levelScreen = new LevelScreen(gameManager);
+        }
+        levelScreen.setLevelNumber(id);
         setScreen(levelScreen);
 
         levelScreen.setCallback(new StageGame.Callback() {
@@ -282,8 +285,8 @@ public class Warfare extends Game {
 //        levelMap = null;
     }
 
-    private void showLevel() {
-        levelScreen = new LevelScreen(1, gameManager);
-        setScreen(levelScreen);
-    }
+//    private void showLevel() {
+//        levelScreen = new LevelScreen(gameManager);
+//        setScreen(levelScreen);
+//    }
 }
