@@ -5,11 +5,13 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.boontaran.games.StageGame;
+import com.timgapps.warfare.GameManager;
 import com.timgapps.warfare.screens.reward_for_stars.RewardForStarsData;
 import com.timgapps.warfare.Warfare;
 import com.timgapps.warfare.screens.get_reward_screen.gui_elements.NameLabel;
@@ -29,11 +31,14 @@ public class FlashEffect {
     private StarsAction starsAction;
     private String imageString;
     protected NameLabel nameLabel;
+    protected GameManager gameManager;
 
-    public FlashEffect(StageGame stageGame, RewardForStarsData rewardForStarsData, Vector2 position) {
+    public FlashEffect(StageGame stageGame, GameManager gameManager, int indexOfReward, Vector2 position) {
+//    public FlashEffect(StageGame stageGame, RewardForStarsData rewardForStarsData, Vector2 position) {
         this.stageGame = stageGame;
+        this.gameManager = gameManager;
         createBackgroundTexture();
-        imageString = rewardForStarsData.getImageString();
+        imageString = gameManager.getRewardForStarsDataList().get(indexOfReward).getImageString();
 
         rewardImage = new Image(Warfare.atlas.findRegion(imageString));
 //        rewardImage = new Image(Warfare.atlas.findRegion("gnomeUnitImage"));
@@ -55,12 +60,7 @@ public class FlashEffect {
 
         rewardImage.setPosition(position.x - rewardImage.getWidth() / 2, position.y - rewardImage.getHeight() / 2);
         stageGame.addChild(rewardImage);
-
-        nameLabel = new NameLabel(stageGame, new Vector2(position.x, position.y - 148), rewardForStarsData.getName());
-
-    }
-
-    public void setEndCoinsPosition(Vector2 position) {
+        nameLabel = new NameLabel(stageGame, new Vector2(position.x, position.y - 148), gameManager.getRewardForStarsDataList().get(indexOfReward).getName());
 
     }
 
@@ -78,6 +78,13 @@ public class FlashEffect {
         return pixmap;
     }
 
+    public void setIsEnd(boolean isEnd) {
+        this.isEnd = isEnd;
+    }
+
+    public boolean isEnd() {
+        return isEnd;
+    }
 
     public void start() {
         isStarted = true;
@@ -110,6 +117,15 @@ public class FlashEffect {
                 Actions.delay(1.4f),
                 imageSizeAction);
 
+        Action isEndAction = new Action() {
+            @Override
+            public boolean act(float delta) {
+                isEnd = true;
+                return true;
+            }
+        };
+
+        imageAction1.addAction(isEndAction);
         rewardImage.addAction(imageAction1);
 
         ParallelAction flashAction = new ParallelAction();
@@ -140,7 +156,6 @@ public class FlashEffect {
         bgImage.remove();
         sunshine.remove();
         sunshine.remove();
-
         starsAction.clear();
     }
 }

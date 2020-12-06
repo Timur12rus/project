@@ -366,7 +366,7 @@ public class GameManager {
      * @param count - количество монет, на сколько прибавить
      **/
     public void addCoinsCount(int count) {
-//        coinsCount += coins;
+        coinsCount += count;
 //        coinsPanel.setCoinsCount(coinsCount);       // обновим количество монет в панели для монет (coinsPanel)
 
         savedGame.addCoinsCount(count);

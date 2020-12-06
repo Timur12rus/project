@@ -111,6 +111,8 @@ public class LevelScreen extends StageGame {
 
         unitCreator = new UnitCreator(this);
 
+        unitCreator.createUnit("Goblin1", new Vector2(750, 250));
+
 //        unitCreator.createUnit("Zombie1", new Vector2(1200, 270));
 //        unitCreator.createUnit("Zombie1", new Vector2(750, 250));
 
@@ -121,8 +123,10 @@ public class LevelScreen extends StageGame {
 
         // TODO TEST 08.11.2020
 //        unitCreator.createUnit("Zombie1", new Vector2(370, 270));
+//        unitCreator.createUnit("Zombie1", new Vector2(470, 270));
 //        unitCreator.createUnit("Zombie3", new Vector2(570, 270));
 //        unitCreator.createUnit("Zombie1", new Vector2(700, 250));
+//        unitCreator.createUnit("Zombie1", new Vector2(640, 240));
 //        unitCreator.createUnit("Zombie1", new Vector2(300, 240));
 //        unitCreator.createUnit("Zombie2", new Vector2(600, 200));
 //        unitCreator.createUnit("Wizard", new Vector2(1100, 250));

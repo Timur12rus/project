@@ -271,6 +271,7 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
         super.show();
         redrawLevelIcons();
         resumeLevelMap();
+        coinsPanel.setCoinsCount(gameManager.getCoinsCount());
         showCoinsPanel();
     }
 

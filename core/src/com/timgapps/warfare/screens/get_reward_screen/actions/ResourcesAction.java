@@ -14,7 +14,7 @@ import com.timgapps.warfare.screens.reward_for_stars.IconAnimation;
 
 public class ResourcesAction extends Group {
     private StageGame stageGame;
-    private Image resourceOne, resourceTwo, resourceThree, resourceFour, resourceFive;
+    private Image resourceOne, resourceTwo, resourceThree, resourceFour, resourceFive, resourceSix;
     private Vector2 startPosition;
     private Vector2 endPosition;
     private boolean isEnd;
@@ -24,20 +24,23 @@ public class ResourcesAction extends Group {
         this.startPosition = new Vector2(startPosition.x - 64, startPosition.y + 64);
         this.endPosition = new Vector2(32, stageGame.getHeight() / 3);      // позиция icon
         resourceOne = new Image(Warfare.atlas.findRegion("food_icon"));
-        resourceTwo = new Image(Warfare.atlas.findRegion("food_icon"));
-        resourceThree = new Image(Warfare.atlas.findRegion("food_icon"));
-        resourceFour = new Image(Warfare.atlas.findRegion("food_icon"));
+        resourceTwo = new Image(Warfare.atlas.findRegion("iron_icon"));
+        resourceThree = new Image(Warfare.atlas.findRegion("wood_icon"));
+        resourceFour = new Image(Warfare.atlas.findRegion("iron_icon"));
         resourceFive = new Image(Warfare.atlas.findRegion("food_icon"));
+        resourceSix = new Image(Warfare.atlas.findRegion("wood_icon"));
         resourceOne.setPosition(this.startPosition.x, this.startPosition.y);
         resourceTwo.setPosition(this.startPosition.x, this.startPosition.y);
         resourceThree.setPosition(this.startPosition.x, this.startPosition.y);
         resourceFour.setPosition(this.startPosition.x, this.startPosition.y);
         resourceFive.setPosition(this.startPosition.x, this.startPosition.y);
+        resourceSix.setPosition(this.startPosition.x, this.startPosition.y);
         addActor(resourceOne);
         addActor(resourceTwo);
         addActor(resourceThree);
         addActor(resourceFour);
         addActor(resourceFive);
+        addActor(resourceSix);
 
         stageGame.addChild(this);
     }
@@ -51,9 +54,10 @@ public class ResourcesAction extends Group {
 
         new MoveResourcesAction(resourceOne, -96, 104);
         new MoveResourcesAction(resourceTwo, -64, 84);
-        new MoveResourcesAction(resourceThree, -40, 104);
+        new MoveResourcesAction(resourceThree, -16, 104);
         new MoveResourcesAction(resourceFour, -74, 114);
-        new MoveResourcesAction(resourceFive, -40, 148);
+        new MoveResourcesAction(resourceFive, -96, 148);
+        new MoveResourcesAction(resourceSix, -136, 128);
     }
 
     class MoveResourcesAction {
@@ -91,11 +95,13 @@ public class ResourcesAction extends Group {
         resourceThree.clearActions();
         resourceFour.clearActions();
         resourceFive.clearActions();
+        resourceSix.clearActions();
         removeActor(resourceOne);
         removeActor(resourceTwo);
         removeActor(resourceThree);
         removeActor(resourceFour);
         removeActor(resourceFive);
+        removeActor(resourceSix);
         clearActions();
     }
 }

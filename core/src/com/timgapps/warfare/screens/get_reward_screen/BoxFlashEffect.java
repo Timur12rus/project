@@ -7,26 +7,25 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.boontaran.games.StageGame;
+import com.timgapps.warfare.GameManager;
 import com.timgapps.warfare.screens.get_reward_screen.actions.CoinsAction;
 import com.timgapps.warfare.screens.get_reward_screen.actions.ResourcesAction;
-import com.timgapps.warfare.screens.reward_for_stars.RewardForStarsData;
 
 public class BoxFlashEffect extends FlashEffect {
     private BoxActor boxActor;
     private StageGame stageGame;
-    private Vector2 endCoinsPosition;
 
-    public BoxFlashEffect(StageGame stageGame, RewardForStarsData rewardForStarsData, Vector2 position) {
-        super(stageGame, rewardForStarsData, position);
+    public BoxFlashEffect(StageGame stageGame, GameManager gameManager, int indexOfReward, Vector2 position) {
+        super(stageGame, gameManager, indexOfReward, position);
         nameLabel.remove();
         this.stageGame = stageGame;
         boxActor = new BoxActor();
         boxActor.setPosition(position.x - rewardImage.getWidth() / 2, position.y - rewardImage.getHeight() / 2);
         stageGame.addChild(boxActor);
-    }
-
-    public void setEndCoinsPosition(Vector2 coinsPanelPosition) {
-        endCoinsPosition = coinsPanelPosition;
+        gameManager.addCoinsCount(100);
+        gameManager.addFoodCount(2);
+        gameManager.addIronCount(2);
+        gameManager.addWoodCount(2);
     }
 
     @Override
@@ -79,13 +78,11 @@ public class BoxFlashEffect extends FlashEffect {
         flashAction.addAction(Actions.moveTo(position.x - 700, position.y - 700, 1.4f, Interpolation.swingOut));
         flashAction.addAction(Actions.sizeTo(1400, 1400, 1.4f, Interpolation.swingOut));
         flashAction.addAction(Actions.fadeOut(2.4f));
-
         SequenceAction sequenceAction = new SequenceAction();
         sequenceAction.addAction(Actions.fadeOut(0));
         sequenceAction.addAction(Actions.delay(0.8f));
         sequenceAction.addAction(Actions.fadeIn(0.7f));
         sequenceAction.addAction(flashAction);
-
         flashImage.addAction(sequenceAction);
         bgImage.addAction(Actions.fadeIn(0.8f, Interpolation.pow3In));
 
@@ -93,7 +90,7 @@ public class BoxFlashEffect extends FlashEffect {
 
         // начало действия анимации открытия ящика
         final CoinsAction coinsAction = new CoinsAction(stageGame, position);
-        coinsAction.setEndPosition(endCoinsPosition);
+        coinsAction.setEndPosition(gameManager.getCoinsPanel().getPos());
         final ResourcesAction resourcesAction = new ResourcesAction(stageGame, position);
         Action startCoinsAction = new Action() {
             @Override
@@ -108,6 +105,8 @@ public class BoxFlashEffect extends FlashEffect {
             @Override
             public boolean act(float delta) {
                 coinsAction.isEndAnimation();
+                gameManager.getCoinsPanel().addCoins(100);
+                isEnd = true;
                 return true;
             }
         };

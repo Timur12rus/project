@@ -10,14 +10,12 @@ import com.boontaran.games.StageGame;
 import com.timgapps.warfare.Warfare;
 
 public class CoinsAction {
-    private StageGame stageGame;
     private Image coinOne, coinTwo, coinThree, coinFour, coinFive;
     private Vector2 startPosition;
     private Vector2 endPosition;
     private boolean isEnd;
 
     public CoinsAction(StageGame stageGame, Vector2 startPosition) {
-        this.stageGame = stageGame;
         coinOne = new Image(Warfare.atlas.findRegion("coin_icon"));
         coinTwo = new Image(Warfare.atlas.findRegion("coin_icon"));
         coinThree = new Image(Warfare.atlas.findRegion("coin_icon"));
