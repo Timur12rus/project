@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -65,11 +66,12 @@ public class LevelScreen extends StageGame {
     private Barricade barricade;
     private Image rockBig, rockMiddle, rockSmall;
     private SiegeTower siegeTower;
+
     private LevelCompletedScreen levelCompletedScreen;
     private GameOverScreen gameOverScreen;
     private PauseScreen pausedScreen;
-    private boolean isActiveScreen = true;
-    private ColorRectangle colorRectangle;
+    //    private boolean isActiveScreen = true;      // активный экран или нет
+    private ColorRectangle fade;
     private TableUnitButton tableUnitButtons;
     private int coinsReward;            // награда - кол-во монет за уровень
     private int scoreReward;            // награда - кол-во очков за уровень
@@ -83,6 +85,49 @@ public class LevelScreen extends StageGame {
     private Finger finger;
     private UnitCreator unitCreator;
     private float waitTime = 300;
+    private boolean isShowLevelCompletedScreen;
+
+    // метод строит уровень
+    public void build(int levelNumber) {
+        if (arrayModels != null) {
+            arrayModels.clear();
+        } else {
+            arrayModels = new ArrayList<GameUnitModel>();
+        }
+        if (arrayEnemies != null) {
+            arrayEnemies.clear();
+        } else {
+            arrayEnemies = new ArrayList<EnemyUnitModel>();
+        }
+        if (arrayPlayers != null) {
+            arrayPlayers.clear();
+        } else {
+            arrayPlayers = new ArrayList<PlayerUnitModel>();
+        }
+        stage.getActors().clear();      // очищаем набор всех актеров на сцене
+
+        levelCreator.loadLevel(levelNumber);
+        /** создадим баррикаду **/
+        if (barricade != null) {
+            removeChild(barricade);
+        }
+        /** создадим башню **/
+        if (siegeTower != null) {
+//            siegeTower.remove();
+            removeChild(siegeTower);
+        }
+
+        barricade = new Barricade(this, Barricade.ROCKS);
+        siegeTower = new SiegeTower(this, -48, 270, gameManager.getTowerHealth(), 2);
+        state = PLAY;
+        fade.setVisible(false);
+        tableUnitButtons.setVisible(true);      // кнопки юитов делаем невидимыми
+//        tableUnitButtons.remove();      // кнопки юитов делаем невидимыми
+        hud.redraw();
+
+        isShowLevelCompletedScreen = false;
+        levelCreator.createScreens();
+    }
 
     public LevelScreen(final GameManager gameManager) {
 //        this.levelNumber = levelNumber;
@@ -97,19 +142,17 @@ public class LevelScreen extends StageGame {
         arrayModels = new ArrayList<GameUnitModel>();
         arrayActors = new ArrayList<Actor>();
         debugRender = new Box2DDebugRenderer(); // объект debugRendered будем использовать для отладки игрового мира, он позволяет выделить границы полигона
-        /** создадим баррикаду **/
-        barricade = new Barricade(this, Barricade.ROCKS);
-        siegeTower = new SiegeTower(this, -48, 270, gameManager.getTowerHealth(), 2);
+//        /** создадим баррикаду **/
+//        barricade = new Barricade(this, Barricade.ROCKS);
+//        siegeTower = new SiegeTower(this, -48, 270, gameManager.getTowerHealth(), 2);
         /** Добавим вражеских юнитов **/
         random = new Random();
-        levelCreator = new LevelCreator(this);
+        levelCreator = new LevelCreator(this, gameManager);
 //        levelCreator = new LevelCreator(this, levelNumber);
-
         accumulator = 0;
-        colorRectangle = new ColorRectangle(0, 0, getWidth(), getHeight(), new Color(0, 0, 0, 0.7f));
-        colorRectangle.setVisible(false);
-        addOverlayChild(colorRectangle);
-
+        fade = new ColorRectangle(0, 0, getWidth(), getHeight(), new Color(0, 0, 0, 0.7f));
+        fade.setVisible(false);
+        addOverlayChild(fade);
         unitCreator = new UnitCreator(this);
 
         unitCreator.createUnit("Goblin1", new Vector2(750, 250));
@@ -139,8 +182,6 @@ public class LevelScreen extends StageGame {
 ////
 
 //        unitCreator.createUnit("Skeleton1", new Vector2(1200, 230));
-
-//
 
 //        unitCreator.createUnit("Barbarian", new Vector2(200, 240));
 //        unitCreator.createUnit("Viking", new Vector2(200, 240));
@@ -209,16 +250,18 @@ public class LevelScreen extends StageGame {
             }
         });
 
-        levelCompletedScreen = new LevelCompletedScreen(this, gameManager.getCoinsRewardForLevel(), gameManager.getScoreRewardForLevel());
-        levelCompletedScreen.addListener(new MessageListener() {
-            @Override
-            protected void receivedMessage(int message, Actor actor) {
-                if (message == LevelCompletedScreen.ON_OK) {   // у нас только одна кнопка,
-//                    savePlayerData();
-                    call(ON_COMPLETED);                       // при получении сообщений от которой мы передаем сообщение ON_COMPLETED
-                }
-            }
-        });
+//        levelCompletedScreen = new LevelCompletedScreen(this, gameManager.getCoinsRewardForLevel(), gameManager.getScoreRewardForLevel());
+//        levelCompletedScreen.addListener(new MessageListener() {
+//            @Override
+//            protected void receivedMessage(int message, Actor actor) {
+//                if (message == LevelCompletedScreen.ON_OK) {   // у нас только одна кнопка,
+////                    savePlayerData();
+//                    call(ON_COMPLETED);                       // при получении сообщений от которой мы передаем сообщение ON_COMPLETED
+//                }
+//            }
+//        });
+//        levelCreator.createScreens();
+
         gameOverScreen = new GameOverScreen(this);
         gameOverScreen.addListener(new MessageListener() {
             @Override
@@ -239,16 +282,14 @@ public class LevelScreen extends StageGame {
         this.levelNumber = levelNumber;
     }
 
+    public void onCompleted() {
+        call(ON_COMPLETED);                       // при получении сообщений от которой мы передаем сообщение ON_COMPLETED
+    }
+
     @Override
     public void show() {
         super.show();
         build(levelNumber);
-    }
-
-    // метод строит уровень
-    public void build(int levelNumber) {
-        levelCreator.loadLevel(levelNumber);
-
     }
 
     public void createPlayerUnit(PlayerUnits unitId) {
@@ -265,7 +306,7 @@ public class LevelScreen extends StageGame {
         arrayPlayers.add(playerUnitModel);
     }
 
-    private void resumeLevel() {
+    public void resumeLevel() {
         if (!isPausedScreenHide && isPausedScreenStart) {
             isPausedScreenHide = true;
             isPausedScreenStart = false;
@@ -370,10 +411,14 @@ public class LevelScreen extends StageGame {
 //            }
 //        }
         // если баррикада разрушена и текущее состояние не "пауза" и экран завершения уровня не запущен
-        if (barricade.isBarricadeDestroyed() && state != PAUSED && !levelCompletedScreen.isStarted()) {
+//        if (barricade.isBarricadeDestroyed() && state != PAUSED && !levelCompletedScreen.isStarted()) {
+//            levelCompleted();   // запускаем метод завершения уровня
+//        }
+
+        if (barricade.isBarricadeDestroyed() && state != PAUSED && !isShowLevelCompletedScreen) {
+            isShowLevelCompletedScreen = true;
             levelCompleted();   // запускаем метод завершения уровня
         }
-
 
 //        if (state != PLAY) {
 //            finger.stopPlayAction(true);
@@ -586,7 +631,10 @@ public class LevelScreen extends StageGame {
         } else {
             pausedScreen.setVisible(true);
         }
-        colorRectangle.setVisible(true);
+//        if (!pausedScreen.isVisible()) {
+//            pausedScreen.setVisible(true);
+//        }
+        fade.setVisible(true);
         tableUnitButtons.setVisible(false); // кнопки юитов делаем невидимыми
     }
 
@@ -599,8 +647,13 @@ public class LevelScreen extends StageGame {
     // скрывает экран паузы
     public void hidePauseScreen() {
         pausedScreen.setVisible(false);
-        colorRectangle.setVisible(false);
+        fade.setVisible(false);
         tableUnitButtons.setVisible(true); // кнопки юитов делаем видимыми
+    }
+
+    // скрывает экран завершения уровня
+    public void hideCompletedScreen() {
+
     }
 
     private void pauseLevel() {     // будет вызываться с передачей true
@@ -637,7 +690,7 @@ public class LevelScreen extends StageGame {
         state = LEVEL_FAILED;
         gameOverScreen.setPosition((getWidth() - gameOverScreen.getWidth()) / 2, getHeight() * 2 / 3);
         addOverlayChild(gameOverScreen);
-        colorRectangle.setVisible(true);         // затемняем задний план
+        fade.setVisible(true);         // затемняем задний план
         tableUnitButtons.setVisible(false); // кнопки юитов делаем невидимыми
         hud.hideEnergyPanel();
     }
@@ -646,11 +699,8 @@ public class LevelScreen extends StageGame {
      * метод завершения уровня, вызывается после того, как разрушилась баррикада
      **/
     public void levelCompleted() {
-        levelCompletedScreen.setPosition((getWidth() - levelCompletedScreen.getWidth()) / 2, getHeight() * 2 / 3);
-        addOverlayChild(levelCompletedScreen);
-
-        isActiveScreen = false;
-        colorRectangle.setVisible(true);     // затемняем задний план
+//        isActiveScreen = false;
+        fade.setVisible(true);     // затемняем задний план
         tableUnitButtons.setVisible(false);      // кнопки юитов делаем невидимыми
 //        tableUnitButtons.remove();      // кнопки юитов делаем невидимыми
         hud.hideEnergyPanel();
@@ -684,8 +734,24 @@ public class LevelScreen extends StageGame {
             gameManager.setHelpStatus(GameManager.HELP_STARS_PANEL);
         }
 
-        // после того как разрушилась баррикада, вызываем метод запуска экрана завершения уровня
-        levelCompletedScreen.start(starsCount);   // запускаем экран завершения уровня, запускаем звезды
+        levelCreator.showLevelCompletedScreen(starsCount);
+
+//        levelCompletedScreen.setPosition((getWidth() - levelCompletedScreen.getWidth()) / 2, getHeight() * 2 / 3);
+//        addOverlayChild(levelCompletedScreen);
+//        // после того как разрушилась баррикада, вызываем метод запуска экрана завершения уровня
+//        levelCompletedScreen.start(starsCount);   // запускаем экран завершения уровня, запускаем звезды
+    }
+
+    // добавляет экран(группу) на сцену
+    public void addScreen(Group screen) {
+        addOverlayChild(screen);
+    }
+
+    // удаляет экран(группу) на сцену
+    public void removeScreen(Group screen) {
+        screen.clearChildren();
+//        screen.clear();
+        removeOverlayChild(screen);
     }
 
     public void setState(int state) {

@@ -46,6 +46,7 @@ public class HUD extends Group {
         hudTable.add(energyPanel);
         hudTable.add().expandX();
         hudTable.add(coinsPanel);
+        energyPanel.setVisible(true);
     }
 
     @Override
@@ -59,5 +60,9 @@ public class HUD extends Group {
 
     public void hideEnergyPanel() {
         energyPanel.setVisible(false);
+    }
+
+    public void showEnergyPanel() {
+        energyPanel.setVisible(true);
     }
 }

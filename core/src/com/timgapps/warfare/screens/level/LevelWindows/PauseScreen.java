@@ -20,12 +20,12 @@ public class PauseScreen extends Group {
 
     public static final int ON_MAP = 1;
     public static final int ON_CONTINUE = 2;
+    private LevelScreen levelScreen;
 
     public PauseScreen(LevelScreen levelScreen) {
         debug();
-
-        int levelNumber = levelScreen.getLevelNumber();
-
+        this.levelScreen = levelScreen;
+        final int levelNumber = levelScreen.getLevelNumber();
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.fontColor = Color.GOLD;
         labelStyle.font = Warfare.font40;
@@ -52,6 +52,7 @@ public class PauseScreen extends Group {
         mapButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                hideScreen();
                 fire(new MessageEvent(ON_MAP));
             }
         });
@@ -67,5 +68,9 @@ public class PauseScreen extends Group {
         addActor(pauseLabel);
         addActor(mapButton);
         addActor(continueButton);
+    }
+
+    private void hideScreen() {
+        levelScreen.resumeLevel();
     }
 }

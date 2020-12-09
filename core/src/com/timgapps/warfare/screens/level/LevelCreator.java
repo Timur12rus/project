@@ -6,6 +6,12 @@ import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.boontaran.MessageListener;
+import com.timgapps.warfare.GameManager;
+import com.timgapps.warfare.screens.level.LevelWindows.GameOverScreen;
+import com.timgapps.warfare.screens.level.LevelWindows.LevelCompletedScreen;
+import com.timgapps.warfare.screens.level.LevelWindows.PauseScreen;
 //import com.timgapps.warfare.Units.GameUnits.Enemy.Skeleton;
 //import com.timgapps.warfare.Units.GameUnits.Enemy.Skeleton3;
 //import com.timgapps.warfare.Units.GameUnits.Enemy.Zombie;
@@ -19,15 +25,42 @@ public class LevelCreator {
     private LevelScreen levelScreen;
     private TiledMap map;
     private int mapWidth, mapHeight, tilePixelWidth, tilePixelHeight, levelWidth, levelHeight;
+    private LevelCompletedScreen levelCompletedScreen;
+    private GameOverScreen gameOverScreen;
+    private PauseScreen pausedScreen;
+    private GameManager gameManager;
 
-    public LevelCreator(LevelScreen levelScreen) {
+    public LevelCreator(LevelScreen levelScreen, GameManager gameManager) {
 //    public LevelCreator(LevelScreen levelScreen, int levelNumber) {
         this.levelScreen = levelScreen;
+        this.gameManager = gameManager;
 //        loadLevel(levelNumber);
 //        loadMap("tiled/" + directory + "/map.tmx");
     }
 
+    // метод созаёт экран паузы, победы и проигрыша
+    public void createScreens() {
+        levelCompletedScreen = new LevelCompletedScreen(levelScreen, gameManager.getCoinsRewardForLevel(), gameManager.getScoreRewardForLevel());
+        levelCompletedScreen.addListener(new MessageListener() {
+            @Override
+            protected void receivedMessage(int message, Actor actor) {
+                if (message == LevelCompletedScreen.ON_OK) {   // у нас только одна кнопка,
+                    clear();
+                    levelScreen.onCompleted();
+                }
+            }
+        });
+    }
 
+    // метод для показа экрана завершения уровня
+    public void showLevelCompletedScreen(int starsCount) {
+        levelCompletedScreen.setPosition((levelScreen.getWidth() - levelCompletedScreen.getWidth()) / 2, levelScreen.getHeight() * 2 / 3);
+        levelScreen.addScreen(levelCompletedScreen);
+        // после того как разрушилась баррикада, вызываем метод запуска экрана завершения уровня
+        levelCompletedScreen.start(starsCount);   // запускаем экран завершения уровня, запускаем звезды
+    }
+
+    // загружаем уровень (из tmx файла (расположение вражеских юнитов)
     public void loadLevel(int levelNumber) {
 //    private void loadLevel(String tmxFile) {
         String tmxFilePath = "levels/level" + levelNumber + ".tmx";
@@ -57,6 +90,8 @@ public class LevelCreator {
 
     // мето освобождает ресурсы
     public void clear() {
+        levelCompletedScreen.clearActions();
+        levelScreen.removeScreen(levelCompletedScreen);
         map.dispose();
     }
 

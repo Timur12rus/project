@@ -183,6 +183,7 @@ public class UnitCreator {
         levelScreen.addChild(view, position.x, position.y);
     }
 
+    // метод добавляет актера-юнита на сцену
     public void createPlayerUnit(GameUnitModel model, GameUnitView view) {
         this.model = model;
         this.view = view;
