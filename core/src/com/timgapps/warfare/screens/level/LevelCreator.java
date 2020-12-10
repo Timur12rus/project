@@ -40,6 +40,7 @@ public class LevelCreator {
 
     // метод созаёт экран паузы, победы и проигрыша
     public void createScreens() {
+        // экран победы
         levelCompletedScreen = new LevelCompletedScreen(levelScreen, gameManager.getCoinsRewardForLevel(), gameManager.getScoreRewardForLevel());
         levelCompletedScreen.addListener(new MessageListener() {
             @Override
@@ -50,6 +51,26 @@ public class LevelCreator {
                 }
             }
         });
+        // экран проигрыша
+        gameOverScreen = new GameOverScreen(levelScreen);
+        gameOverScreen.addListener(new MessageListener() {
+            @Override
+            protected void receivedMessage(int message, Actor actor) {
+                if (message == gameOverScreen.ON_MAP) {
+//                    savePlayerData();
+                    clear();
+                    levelScreen.onFailed();
+//                    call(ON_FAILED);                       // при получении сообщений от которой мы передаем сообщение ON_FAILED
+
+                }
+
+                if (message == GameOverScreen.ON_RETRY) {
+                    levelScreen.onRetry();
+//                    call(ON_RETRY);
+                }
+            }
+        });
+
     }
 
     // метод для показа экрана завершения уровня
@@ -58,6 +79,11 @@ public class LevelCreator {
         levelScreen.addScreen(levelCompletedScreen);
         // после того как разрушилась баррикада, вызываем метод запуска экрана завершения уровня
         levelCompletedScreen.start(starsCount);   // запускаем экран завершения уровня, запускаем звезды
+    }
+
+    public void showGameOverScreen() {
+        gameOverScreen.setPosition((levelScreen.getWidth() - levelCompletedScreen.getWidth()) / 2, levelScreen.getHeight() * 2 / 3);
+        levelScreen.addScreen(gameOverScreen);
     }
 
     // загружаем уровень (из tmx файла (расположение вражеских юнитов)
@@ -92,6 +118,8 @@ public class LevelCreator {
     public void clear() {
         levelCompletedScreen.clearActions();
         levelScreen.removeScreen(levelCompletedScreen);
+        gameOverScreen.clearActions();
+        levelScreen.removeScreen(gameOverScreen);
         map.dispose();
     }
 

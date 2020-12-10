@@ -81,7 +81,8 @@ public class SiegeTower extends Group {
         addActor(frontWheel);
         addActor(backWheel);
 
-        bodyPosition.set(x + tower.getWidth() - WIDTH / 3, y - 128);  // позиция тела
+        bodyPosition.set(x + tower.getWidth() - WIDTH, y - 128);  // позиция тела
+//        bodyPosition.set(x + tower.getWidth() - WIDTH / 3, y - 128);  // позиция тела
         body = createBody();
         smoke = new ParticleEffect();
         smoke.load(Gdx.files.internal("effects/smoke.paty"), Gdx.files.internal("effects/")); //file);
@@ -264,7 +265,8 @@ public class SiegeTower extends Group {
         if (isDestroyed) {
             if (explosion2.isEnd()) {
                 this.remove();
-                levelScreen.gameOver();
+                levelScreen.levelFailed();
+//                levelScreen.gameOver();
             }
         }
     }

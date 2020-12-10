@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.boontaran.MessageListener;
 import com.boontaran.games.StageGame;
+import com.sun.net.httpserver.Authenticator;
 import com.timgapps.warfare.screens.map.windows.team_upgrade_window.team_unit.CreateUnitButton;
 import com.timgapps.warfare.screens.map.windows.team_upgrade_window.team_unit.TeamUnit;
 import com.timgapps.warfare.screens.map.windows.team_upgrade_window.team_unit.UnitImageButton;
@@ -87,6 +88,7 @@ public class LevelScreen extends StageGame {
     private float waitTime = 300;
     private boolean isShowLevelCompletedScreen;
 
+
     // метод строит уровень
     public void build(int levelNumber) {
         if (arrayModels != null) {
@@ -127,6 +129,12 @@ public class LevelScreen extends StageGame {
 
         isShowLevelCompletedScreen = false;
         levelCreator.createScreens();
+
+        unitCreator.createUnit("Zombie3", new Vector2(570, 270));
+        unitCreator.createUnit("Zombie1", new Vector2(700, 250));
+        unitCreator.createUnit("Zombie1", new Vector2(640, 240));
+        unitCreator.createUnit("Zombie1", new Vector2(300, 240));
+        energyCount = 0;
     }
 
     public LevelScreen(final GameManager gameManager) {
@@ -262,21 +270,22 @@ public class LevelScreen extends StageGame {
 //        });
 //        levelCreator.createScreens();
 
-        gameOverScreen = new GameOverScreen(this);
-        gameOverScreen.addListener(new MessageListener() {
-            @Override
-            protected void receivedMessage(int message, Actor actor) {
-                if (message == gameOverScreen.ON_MAP) {
-//                    savePlayerData();
-                    call(ON_FAILED);                       // при получении сообщений от которой мы передаем сообщение ON_FAILED
-                }
-
-                if (message == GameOverScreen.ON_RETRY) {
-                    call(ON_RETRY);
-                }
-            }
-        });
+//        gameOverScreen = new GameOverScreen(this);
+//        gameOverScreen.addListener(new MessageListener() {
+//            @Override
+//            protected void receivedMessage(int message, Actor actor) {
+//                if (message == gameOverScreen.ON_MAP) {
+////                    savePlayerData();
+//                    call(ON_FAILED);                       // при получении сообщений от которой мы передаем сообщение ON_FAILED
+//                }
+//
+//                if (message == GameOverScreen.ON_RETRY) {
+//                    call(ON_RETRY);
+//                }
+//            }
+//        });
     }
+
 
     public void setLevelNumber(int levelNumber) {
         this.levelNumber = levelNumber;
@@ -284,6 +293,14 @@ public class LevelScreen extends StageGame {
 
     public void onCompleted() {
         call(ON_COMPLETED);                       // при получении сообщений от которой мы передаем сообщение ON_COMPLETED
+    }
+
+    public void onFailed() {
+        call(ON_FAILED);
+    }
+
+    public void onRetry() {
+        call(ON_RETRY);
     }
 
     @Override
@@ -568,56 +585,20 @@ public class LevelScreen extends StageGame {
         // метод добавляет кнопки юнитов в соответствии с командой
         void addUnitButtons() {
             for (TeamUnit teamUnit : team) {
-//            for (int i = 0; i < team.size(); i++) {
                 if (teamUnit.getUnitData().getUnitId() != PlayerUnits.Rock) {
                     unitButtonArrayList.add(new CreateUnitButton(levelScreen, teamUnit.getUnitData()));
                 } else {
                     stoneButton = new StoneButton(levelScreen, teamUnit.getUnitData());
                     unitButtonArrayList.add(stoneButton);
                 }
-//                unitButtonArrayList.add(team.get(i).getUnitImageButton());
                 if (teamUnit.getUnitId() != PlayerUnits.Rock) {
                     this.addListener(new ClickListener() {
                         @Override
                         public void clicked(InputEvent event, float x, float y) {
                             super.clicked(event, x, y);
-//                            System.out.println("Add Unit " + team.get(i).getName() + " on Scene!");
-//                            if ((isReadyUnitButton) && (checkEnergyCount(energyPrice))) {
-//                                isReadyUnitButton = false;
-//                                setInActive();
-//                                addPlayerUnit(unitType);
-//                            }
                         }
                     });
                 }
-
-
-//                unitButtonArrayList.get(i).addListener(new ClickListener())
-//                switch (team.get(i).getUnitId()) {
-//                    case Gnome:
-//                        unitButtonArrayList.add(new UnitButton(level, new Image(Warfare.atlas.findRegion("gnomeActive")),
-//                                new Image(Warfare.atlas.findRegion("gnomeInactive")), team.get(i).getUnitData()));
-//                        break;
-//                    case Archer:
-//                        unitButtonArrayList.add(new UnitButton(level, new Image(Warfare.atlas.findRegion("archer1Active")),
-//                                new Image(Warfare.atlas.findRegion("archer1Inactive")), team.get(i).getUnitData()));
-//                        break;
-//                    case Thor:
-//                        unitButtonArrayList.add(new UnitButton(level, new Image(Warfare.atlas.findRegion("thorActive")),
-//                                new Image(Warfare.atlas.findRegion("thorInactive")), team.get(i).getUnitData()));
-//                        break;
-//
-//                    case Knight:
-//                        unitButtonArrayList.add(new UnitButton(level, new Image(Warfare.atlas.findRegion("knightActive")),
-//                                new Image(Warfare.atlas.findRegion("knightInactive")), team.get(i).getUnitData()));
-//                        break;
-//
-//                    case Stone:
-//                        stoneButton = new StoneButton(level, new Image(Warfare.atlas.findRegion("stoneButtonActive")),
-//                                new Image(Warfare.atlas.findRegion("stoneButtonInactive")), team.get(i).getUnitData());
-//                        unitButtonArrayList.add(stoneButton);
-//                        break;
-//                }
             }
         }
     }
@@ -656,10 +637,6 @@ public class LevelScreen extends StageGame {
 
     }
 
-    private void pauseLevel() {     // будет вызываться с передачей true
-        pauseLevel(true);
-    }
-
     private void pauseLevel(boolean withDialog) {
 //        if (state == PAUSED ) return;
         if (state != PLAY) return;
@@ -686,13 +663,12 @@ public class LevelScreen extends StageGame {
         }
     }
 
-    public void gameOver() {
+    public void levelFailed() {
         state = LEVEL_FAILED;
-        gameOverScreen.setPosition((getWidth() - gameOverScreen.getWidth()) / 2, getHeight() * 2 / 3);
-        addOverlayChild(gameOverScreen);
         fade.setVisible(true);         // затемняем задний план
         tableUnitButtons.setVisible(false); // кнопки юитов делаем невидимыми
         hud.hideEnergyPanel();
+        levelCreator.showGameOverScreen();
     }
 
     /**
@@ -704,7 +680,6 @@ public class LevelScreen extends StageGame {
         tableUnitButtons.setVisible(false);      // кнопки юитов делаем невидимыми
 //        tableUnitButtons.remove();      // кнопки юитов делаем невидимыми
         hud.hideEnergyPanel();
-
         int starsCount = calculateStarsCount();
 
         /** установим кол-во монет в менеджере и сохраняем игру
@@ -713,33 +688,21 @@ public class LevelScreen extends StageGame {
         gameManager.setCoinsCount(coinsCount + getRewardCoinsCount());
         gameManager.addScoreCount(getRewardScoreCount());
 //        gameManager.addStarsCount(starsCount);
-
         /** добавим к панели звёзд полученное кол-во звёзд */
         gameManager.addStarsCount(starsCount);
 //        gameManager.getStarsPanel().addStarsCount(starsCount);
-
 //        gameManager.getSavedGame().addStarsCount(starsCount);
         gameManager.getSavedGame().setIndexRewardStars(gameManager.getStarsPanel().getIndexOfRewardStars());
-
         gameManager.getStarsPanel().updateCountReward();
         setStarsCountToLevelIcon();
         gameManager.getLevelIcons().get(levelNumber - 1).setFinished();
 //        gameManager.getLevelIcons().get(levelNumber).setActive();
 //        unlockNextLevels();
-
-
         gameManager.saveGame();
-
         if (levelNumber == 1) {
             gameManager.setHelpStatus(GameManager.HELP_STARS_PANEL);
         }
-
         levelCreator.showLevelCompletedScreen(starsCount);
-
-//        levelCompletedScreen.setPosition((getWidth() - levelCompletedScreen.getWidth()) / 2, getHeight() * 2 / 3);
-//        addOverlayChild(levelCompletedScreen);
-//        // после того как разрушилась баррикада, вызываем метод запуска экрана завершения уровня
-//        levelCompletedScreen.start(starsCount);   // запускаем экран завершения уровня, запускаем звезды
     }
 
     // добавляет экран(группу) на сцену
@@ -766,11 +729,9 @@ public class LevelScreen extends StageGame {
 
         float towerHealth = siegeTower.getHealth();
         float fullTowerHealth = siegeTower.getFullHealth();
-
         if (((towerHealth / fullTowerHealth) >= 1.0 / 3.0) && (towerHealth / fullTowerHealth) <= 2.0 / 3.0) {
             starsCount = 2; // starCount = 2;
         }
-
         if ((towerHealth / fullTowerHealth) == 1) {
             starsCount = 3;
         }

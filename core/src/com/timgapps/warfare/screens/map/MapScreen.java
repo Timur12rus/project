@@ -41,8 +41,6 @@ import com.timgapps.warfare.screens.map.gui_elements.ScorePanel;
 import com.timgapps.warfare.screens.map.gui_elements.StarsPanel;
 import com.timgapps.warfare.screens.map.gui_elements.TeamUpgradeIcon;
 
-import org.lwjgl.util.vector.Vector2f;
-
 import java.util.ArrayList;
 
 import static java.lang.Integer.parseInt;
@@ -70,7 +68,6 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
     private boolean isEndCoinsAction = false;
     private int coinsReward = 0;
     private int scoreReward = 0;
-
     private TiledMap map;
     private int mapWidth, mapHeight, tilePixelWidth, tilePixelHeight, levelWidth, levelHeight;
     private boolean isFocused = true;
@@ -84,6 +81,7 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
     private final int W_RECT = 10;
     private final int H_RECT = 8;
     private boolean getRewardIsChecked;
+    private boolean isScreenShown;
 
     public MapScreen(GameManager gameManager, int coinsReward, int scoreReward) {
         this.coinsReward = coinsReward;
@@ -137,7 +135,20 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
         giftIcon.setPosition(getWidth() - giftIcon.getWidth() - 32, getHeight() / 3);
         giftIcon.addListener(new ClickListener() {
             @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                isFocused = false;
+                return super.touchDown(event, x, y, pointer, button);
+            }
+
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                super.touchUp(event, x, y, pointer, button);
+                isFocused = true;
+            }
+
+            @Override
             public void clicked(InputEvent event, float x, float y) {
+                isFocused = false;
                 showGiftScreen();
             }
         });
@@ -176,6 +187,19 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
         addOverlayChild(teamLabel);
 //        gameManager.setHelpStatus(gameManager.HELP_TEAM_UPGRADE);
         teamUpgradeIcon.addListener(new ClickListener() {
+
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                isFocused = false;
+                return super.touchDown(event, x, y, pointer, button);
+            }
+
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                super.touchUp(event, x, y, pointer, button);
+                isFocused = true;
+            }
+
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 showTeamUpgradeScreen();
@@ -209,7 +233,7 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 starsPanel.onDown();
-
+                isFocused = false;
                 return super.touchDown(event, x, y, pointer, button);
             }
 
@@ -217,13 +241,16 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchUp(event, x, y, pointer, button);
                 starsPanel.onUp();
+                isFocused = true;
             }
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
 //                coinsPanel.remove();
 //                call(ON_SHOW_REWARD_FOR_STARS_SCREEN);
+                isFocused = false;
                 showRewardForStarsScreen();
+
             }
         });
 
@@ -261,9 +288,18 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
         cameraYpos = camera.position.y;
     }
 
+    public void setIsTouchedIcon(boolean isTouchedIcon) {
+        this.isScreenShown = isTouchedIcon;
+    }
+
+    public boolean isScreenShown() {
+        return isScreenShown;
+    }
+
     // метод для показа экрана наград за звезды
     private void showRewardForStarsScreen() {
 //        hide();
+        isScreenShown = true;
         call(ON_SHOW_REWARD_FOR_STARS_SCREEN);
     }
 
@@ -282,6 +318,7 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
     @Override
     public void show() {
         super.show();
+        isScreenShown = false;
         redrawLevelIcons();
         resumeLevelMap();
         coinsPanel.setCoinsCount(gameManager.getCoinsCount());
@@ -322,7 +359,7 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
-        if (isFocused) {
+        if (isFocused && !isScreenShown) {
             float x = Gdx.input.getDeltaX();
             float y = Gdx.input.getDeltaY();
             cameraXpos = camera.position.x;
@@ -519,6 +556,7 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
     }
 
     private void showTeamUpgradeScreen() {
+        isScreenShown = true;
         isFocused = false;
         hideButtons();
         teamUpgradeScreen.redrawTeamTable();
@@ -536,6 +574,7 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
     }
 
     private void showGiftScreen() {
+        isScreenShown = true;
         hideButtons();
         isFocused = false;
         giftScreen.setVisible(true);
@@ -554,6 +593,7 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
      * метод для возврата к карте уровней для выбора уровня
      **/
     private void resumeLevelMap() {
+        isScreenShown = false;
         /** скрываем окно с описанием уровня **/
         missionInfoWindow.hide();
         teamUpgradeScreen.setVisible(false);
@@ -704,7 +744,20 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
 // при клике мы будем сохранять в переменную полученный id нажатого уровня
 
         @Override
+        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+            isFocused = false;
+            return super.touchDown(event, x, y, pointer, button);
+        }
+
+        @Override
+        public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+            super.touchUp(event, x, y, pointer, button);
+            isFocused = true;
+        }
+
+        @Override
         public void clicked(InputEvent event, float x, float y) {
+            isFocused = false;
             //будем воспроизводить звук щелчка и передавать в callBack сообщенме onLevelSelected
             selectedLevelId = ((LevelIcon) event.getTarget()).getId();
 
@@ -729,6 +782,7 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
 
     private void showMissionInfo(int selectedLevelId) {
         isFocused = false;
+        isScreenShown = true;
         hideButtons();
         if (levelIcons.get(selectedLevelId - 1).getData().isActiveIcon()) {     // проверяем, активен ли уровень,
             if (!missionInfoWindow.isVisible()) {                               // если да, показываем окно с информацией об уровне
