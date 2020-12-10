@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset name="MapObjects" tilewidth="32" tileheight="32" tilecount="42" columns="0">
+<tileset name="MapObjects" tilewidth="32" tileheight="32" tilecount="40" columns="0">
  <grid orientation="orthogonal" width="1" height="1"/>
  <terraintypes>
   <terrain name="ArcherTowerFront" tile="7"/>
@@ -135,8 +135,5 @@
  </tile>
  <tile id="45" terrain=",,,10">
   <image width="32" height="32" source="BlackRectangle/black_rectangle.png"/>
- </tile>
- <tile id="46">
-  <image width="32" height="32" source="BlackRectangle/gray_rectangle.png"/>
  </tile>
 </tileset>

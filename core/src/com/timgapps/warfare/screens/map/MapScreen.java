@@ -8,6 +8,7 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Interpolation;
@@ -495,6 +496,7 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
     }
 
 
+    // метод очищает область вокруг значка уровня на карте от "тумана войны"
     private void clearFog() {
         for (LevelIcon levelIcon : levelIcons) {
             if (levelIcon.equals(levelIcons.get(0))) {
@@ -511,7 +513,6 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
                     }
                 }
             }
-//            levelIcons.get(0).setFinished();
 
             if (levelIcon.isFinished()) {
                 int xLevelIcon = (int) levelIcon.getX() / 32;
@@ -522,11 +523,8 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
                 yLevelIcon = yLevelIcon - height / 2 + 1;
                 for (int deltaY = 0; deltaY < height; deltaY++) {
                     for (int deltaX = 0; deltaX < width; deltaX++) {
-//                        System.out.println("deltaX = " + deltaX);
-//                        System.out.println("deltaY = " + deltaY);
                         int y = yLevelIcon + deltaY;
-//                        System.out.println("levelIconY = " + y);
-//                        clearFogTile(xLevelIcon + deltaX, yLevelIcon + deltaY);
+                        // не удаляем углы (чтобы была форма не прямоугольника)
                         if (((deltaY == 0 || (deltaY == (height - 1))) && (deltaX == 0 || (deltaX == (width - 1))))) {
                             continue;
                         }
@@ -535,11 +533,49 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
                 }
             }
         }
+        // светлая рамка вокруг открытых областей карты
+        setLightMapTiles();
+    }
+
+    private void setLightMapTiles() {
+        TiledMapTileLayer layer = (TiledMapTileLayer) map.getLayers().get("fog");
+        int layerWidth = layer.getWidth();
+        int layerHeight = layer.getHeight();
+
+        for (int x = 0; x < layerWidth; x++) {
+            for (int y = 0; y < layerHeight; y++) {
+                try {
+                    if ((layer.getCell(x, y).getTile() != null) && (layer.getCell(x + 1, y).getTile() == null)) {
+                        layer.getCell(x, y).setTile(map.getTileSets().getTileSet(1).getTile(109));
+                    }
+                } catch (Exception e) {
+                }
+                try {
+                    if ((layer.getCell(x, y).getTile() != null) && (layer.getCell(x - 1, y).getTile() == null)) {
+                        layer.getCell(x, y).setTile(map.getTileSets().getTileSet(1).getTile(109));
+                    }
+                } catch (Exception e) {
+                }
+                try {
+                    if ((layer.getCell(x, y).getTile() != null) && (layer.getCell(x, y + 1).getTile() == null)) {
+                        layer.getCell(x, y).setTile(map.getTileSets().getTileSet(1).getTile(109));
+                    }
+                } catch (Exception e) {
+                }
+                try {
+                    if ((layer.getCell(x, y).getTile() != null) && (layer.getCell(x, y - 1).getTile() == null)) {
+                        layer.getCell(x, y).setTile(map.getTileSets().getTileSet(1).getTile(109));
+                    }
+                } catch (Exception e) {
+
+                }
+            }
+        }
     }
 
     private void clearFogTile(int x, int y) {
         TiledMapTileLayer layer = (TiledMapTileLayer) map.getLayers().get("fog");
-        layer.setOpacity(0.6f);
+//        layer.setOpacity(0.6f);     // добавим прозрачность слою
         if (layer.getCell(x, y) != null) {
             layer.getCell(x, y).getTile();
             layer.getCell(x, y).setTile(null);
