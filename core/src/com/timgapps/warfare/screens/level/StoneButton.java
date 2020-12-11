@@ -75,7 +75,6 @@ public class StoneButton extends CreateUnitButton {
 
     @Override
     public void buttonClicked() {
-
     }
 
     public void setPosX(float posX) {

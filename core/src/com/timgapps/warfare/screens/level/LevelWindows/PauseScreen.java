@@ -25,7 +25,7 @@ public class PauseScreen extends Group {
     public PauseScreen(LevelScreen levelScreen) {
         debug();
         this.levelScreen = levelScreen;
-        final int levelNumber = levelScreen.getLevelNumber();
+//        final int levelNumber = levelScreen.getLevelNumber();
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.fontColor = Color.GOLD;
         labelStyle.font = Warfare.font40;
@@ -34,7 +34,8 @@ public class PauseScreen extends Group {
         pauseLabelStyle.fontColor = Color.WHITE;
         pauseLabelStyle.font = Warfare.font20;
 
-        missionLabel = new Label("Mission " + levelNumber, labelStyle);
+        missionLabel = new Label("", labelStyle);
+        missionLabel = new Label("Mission 10", labelStyle);
         pauseLabel = new Label("Pause", pauseLabelStyle);
 
         mapButton = new ColorButton("Map", ColorButton.GREEN_BUTTON);
@@ -70,7 +71,14 @@ public class PauseScreen extends Group {
         addActor(continueButton);
     }
 
+    public void redraw() {
+        missionLabel.setText("Mission " + levelScreen.getLevelNumber());
+        missionLabel.setPosition(getWidth() / 2 - missionLabel.getWidth() / 2, getHeight() / 2 + 32);
+    }
+
     private void hideScreen() {
         levelScreen.resumeLevel();
     }
+
+
 }

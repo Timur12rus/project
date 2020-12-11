@@ -159,22 +159,13 @@ public class TeamUpgradeScreen extends Group {
     // перерисовывает таблицу с юнитами в коллекции
     public void redrawCollectionTable() {
         collectionTable.redraw(unitCollection);
-    }
 
-    /**
-     * метод для обновления команды и коллекции юнитов
-     **/
-    public void updateTeam() {
-        teamTable.redraw(team);
-    }
-
-    public void updateCollection() {
-        collectionTable.redraw(unitCollection);
-//        System.out.println("UpdateCollection()!!!!!!!!!!!!!!!!!!!");
-//        int i = 0;
-//        for (TeamUnit collectionUnit : unitCollection) {
-//            System.out.println("collectionUnit[" + i + "] = " + collectionUnit.getUnitData().getUnitId().name());
-//        }
+        final Table scrollTable = new Table();
+        scrollTable.left().top();
+        scrollTable.add(collectionTable).width(collectionTable.getWidth()).height(collectionTable.getHeight());
+        final ScrollPane scroller = new ScrollPane(scrollTable);
+        tableCollection.clearChildren();
+        tableCollection.add(scroller).fill().expand();
     }
 
     /**

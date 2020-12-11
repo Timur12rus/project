@@ -10,52 +10,31 @@ import com.timgapps.warfare.Warfare;
 
 public class HUD extends Group {
     private LevelScreen levelScreen;
-    private Image coinIcon;
-
-    private Table hudTable;
-    private int coinsCount;
-
     private EnergyPanel energyPanel;
     private CoinsPanel coinsPanel;
 
     public HUD(LevelScreen levelScreen) {
         this.levelScreen = levelScreen;
-        coinsCount = levelScreen.getCoinsCount();
-
         coinsPanel = levelScreen.getGameManager().getCoinsPanel();
-//        coinsPanel = new CoinsPanel(coinsCount);
         energyPanel = new EnergyPanel(levelScreen);
-
-        /** Таблица для отображения количества энергии и монет **/
-        hudTable = new Table();
-//        energyTable = new Table().debug();
-
-        hudTable.setWidth(levelScreen.getWidth() - 64);
-        coinIcon = new Image(Warfare.atlas.findRegion("coin_icon"));
-
-        setHeight(coinIcon.getHeight());
-        hudTable.add(energyPanel);
-        hudTable.add().expandX();
-        hudTable.add(coinsPanel);
-
-        addActor(hudTable);
+        coinsPanel.setPosition(coinsPanel.getPos().x, coinsPanel.getPos().y);
+        energyPanel.setPosition(32, levelScreen.getHeight() - 32 - energyPanel.getHeight());
+        addActor(energyPanel);
     }
 
     public void redraw() {
-        hudTable.clearChildren();
-        hudTable.add(energyPanel);
-        hudTable.add().expandX();
-        hudTable.add(coinsPanel);
-        energyPanel.setVisible(true);
+        addActor(coinsPanel);
+        showEnergyPanel();
+    }
+
+    public void clear() {
+        removeActor(coinsPanel);
+        hideEnergyPanel();
     }
 
     @Override
     public void act(float delta) {
         super.act(delta);
-    }
-
-    public void updateCoinsCount(int count) {
-        coinsCount = count;
     }
 
     public void hideEnergyPanel() {

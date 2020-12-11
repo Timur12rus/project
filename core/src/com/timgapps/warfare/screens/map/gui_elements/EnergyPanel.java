@@ -40,12 +40,12 @@ public class EnergyPanel extends Group {
         table.setHeight(46);
         table.setWidth(background.getRegion().getRegionWidth());
         table.setBackground(background);
-
         setWidth(table.getWidth());
         setHeight(table.getHeight());
 
         addActor(table);
     }
+
 
     @Override
     public void act(float delta) {

@@ -100,6 +100,7 @@ public class RewardForStarsScreen extends StageGame implements ScreenCloser {
         starsCount = gameManager.getSavedGame().getStarsCount();
         addChild(coinsPanel);
         group.clearChildren();
+        rewardForStarsList.clear();
         scrollTable.clearChildren();
         coinsPanel.setVisible(true);
         int index = 0;  // индекс текущего количества звезд, используется в рассчете поз. х smallStarsPanel

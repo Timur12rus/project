@@ -8,17 +8,12 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.boontaran.MessageListener;
 import com.boontaran.games.StageGame;
-import com.sun.net.httpserver.Authenticator;
-import com.timgapps.warfare.screens.map.windows.team_upgrade_window.team_unit.CreateUnitButton;
+import com.timgapps.warfare.screens.level.gui_elements.UnitButtons;
 import com.timgapps.warfare.screens.map.windows.team_upgrade_window.team_unit.TeamUnit;
-import com.timgapps.warfare.screens.map.windows.team_upgrade_window.team_unit.UnitImageButton;
 import com.timgapps.warfare.GameManager;
 import com.timgapps.warfare.screens.level.LevelWindows.ColorRectangle;
 import com.timgapps.warfare.screens.level.LevelWindows.GameOverScreen;
@@ -73,7 +68,6 @@ public class LevelScreen extends StageGame {
     private PauseScreen pausedScreen;
     //    private boolean isActiveScreen = true;      // активный экран или нет
     private ColorRectangle fade;
-    private TableUnitButton tableUnitButtons;
     private int coinsReward;            // награда - кол-во монет за уровень
     private int scoreReward;            // награда - кол-во очков за уровень
     private int state = 1;
@@ -87,6 +81,7 @@ public class LevelScreen extends StageGame {
     private UnitCreator unitCreator;
     private float waitTime = 300;
     private boolean isShowLevelCompletedScreen;
+    private UnitButtons unitButtons;
 
 
     // метод строит уровень
@@ -123,12 +118,13 @@ public class LevelScreen extends StageGame {
         siegeTower = new SiegeTower(this, -48, 270, gameManager.getTowerHealth(), 2);
         state = PLAY;
         fade.setVisible(false);
-        tableUnitButtons.setVisible(true);      // кнопки юитов делаем невидимыми
-//        tableUnitButtons.remove();      // кнопки юитов делаем невидимыми
+        unitButtons.show();      // кнопки юитов делаем видимыми
+//        tableUnitButtons.setVisible(true);      // кнопки юитов делаем невидимыми
         hud.redraw();
 
         isShowLevelCompletedScreen = false;
         levelCreator.createScreens();
+        pausedScreen.redraw();
 
         unitCreator.createUnit("Zombie3", new Vector2(570, 270));
         unitCreator.createUnit("Zombie1", new Vector2(700, 250));
@@ -211,32 +207,36 @@ public class LevelScreen extends StageGame {
 
         coinsCount = gameManager.getCoinsCount();
         hud = new HUD(this);
-        hud.setPosition(32, getHeight() - hud.getHeight());
+//        hud.setPosition(32, getHeight() - hud.getHeight());
         addOverlayChild(hud);
         // создадим таблицу с юнитами
         team = gameManager.getTeam();
         // создадим таблицу с кнопками юнитов
-        tableUnitButtons = new TableUnitButton(this, team);
-        tableUnitButtons.debug();
-        tableUnitButtons.setWidth(team.size() * unitButtonWidth + 24);
-        tableUnitButtons.setHeight(unitButtonHeight);
-        tableUnitButtons.setPosition((getWidth() - tableUnitButtons.getWidth()) / 2, 24);
+        unitButtons = new UnitButtons(this, team);
+//        tableUnitButtons = new TableUnitButton(this, team);
+//        unitButtons.debug();
+//        unitButtons.setWidth(team.size() * unitButtonWidth + 24);
+//        unitButtons.setHeight(unitButtonHeight);
+
+//        unitButtons.setPosition((getWidth() - unitButtons.getWidth()) / 2, 24);
         // TODO fix X coordiante
-        System.out.println("tableUnitButton X = " + tableUnitButtons.getX());
-        System.out.println("unitButtonDeltaX = " + (team.get(0).getUnitImageButton().getWidth() + 24) * 2);
-        tableUnitButtons.setStoneButtonPosX(tableUnitButtons.getX());
+//        System.out.println("tableUnitButton X = " + unitButtons.getX());
+//        System.out.println("unitButtonDeltaX = " + (team.get(0).getUnitImageButton().getWidth() + 24) * 2);
+//        unitButtons.setStoneButtonPosX(unitButtons.getX());
 //        tableUnitButtons.setStoneButtonPosX(tableUnitButtons.getX() + (team.get(2).getUnitImageButton().getWidth() + 24) * 2);
-        addOverlayChild(tableUnitButtons);
+
+        unitButtons.show();
+        addOverlayChild(unitButtons);
         // добавим указатель "ПАЛЕЦ"
         if (levelNumber == 1) {
             /** если статус обучалки "как создать юнит", то создадим указатель **/
             if (gameManager.getHelpStatus() == gameManager.HELP_UNIT_CREATE) {
-                finger = new Finger(tableUnitButtons.getX() + (unitButtonWidth / 2 - Finger.WIDTH / 2) + 48 + 36,
-                        tableUnitButtons.getY() + unitButtonHeight + 16 + Finger.HEIGHT,
+                finger = new Finger(unitButtons.getX() + (unitButtonWidth / 2 - Finger.WIDTH / 2) + 48 + 36,
+                        unitButtons.getY() + unitButtonHeight + 16 + Finger.HEIGHT,
                         Finger.DOWN, new TextureRegion(Warfare.atlas.findRegion("fingerUpRight")));
                 finger.debug();
-                float x = tableUnitButtons.getX() + (unitButtonWidth - Finger.WIDTH) / 2 + 48 + 36;
-                float y = tableUnitButtons.getY() + unitButtonHeight + 16 + Finger.HEIGHT;
+                float x = unitButtons.getX() + (unitButtonWidth - Finger.WIDTH) / 2 + 48 + 36;
+                float y = unitButtons.getY() + unitButtonHeight + 16 + Finger.HEIGHT;
                 finger.setPosition(x, y);
                 addChild(finger);
                 finger.setVisible(false);
@@ -257,35 +257,7 @@ public class LevelScreen extends StageGame {
                 }
             }
         });
-
-//        levelCompletedScreen = new LevelCompletedScreen(this, gameManager.getCoinsRewardForLevel(), gameManager.getScoreRewardForLevel());
-//        levelCompletedScreen.addListener(new MessageListener() {
-//            @Override
-//            protected void receivedMessage(int message, Actor actor) {
-//                if (message == LevelCompletedScreen.ON_OK) {   // у нас только одна кнопка,
-////                    savePlayerData();
-//                    call(ON_COMPLETED);                       // при получении сообщений от которой мы передаем сообщение ON_COMPLETED
-//                }
-//            }
-//        });
-//        levelCreator.createScreens();
-
-//        gameOverScreen = new GameOverScreen(this);
-//        gameOverScreen.addListener(new MessageListener() {
-//            @Override
-//            protected void receivedMessage(int message, Actor actor) {
-//                if (message == gameOverScreen.ON_MAP) {
-////                    savePlayerData();
-//                    call(ON_FAILED);                       // при получении сообщений от которой мы передаем сообщение ON_FAILED
-//                }
-//
-//                if (message == GameOverScreen.ON_RETRY) {
-//                    call(ON_RETRY);
-//                }
-//            }
-//        });
     }
-
 
     public void setLevelNumber(int levelNumber) {
         this.levelNumber = levelNumber;
@@ -520,19 +492,6 @@ public class LevelScreen extends StageGame {
     }
 
     /**
-     * метод разблокирует следующие три уровня
-     **/
-    private void unlockNextLevels() {
-        for (int i = levelNumber - 1; i < levelNumber + 3; i++) {
-            // делаем levelIcon активным
-            gameManager.getLevelIcons().get(i).getData().setActive();
-
-            // обновляем визуальное представление levelIcon
-            gameManager.getLevelIcons().get(i).checkIsActive();
-        }
-    }
-
-    /**
      * метод для получения БАРРИКАДЫ
      **/
     public Barricade getBarricade() {
@@ -544,63 +503,6 @@ public class LevelScreen extends StageGame {
      **/
     public SiegeTower getSiegeTower() {
         return siegeTower;
-    }
-
-    class TableUnitButton extends Table {
-        ArrayList<UnitImageButton> unitButtonArrayList;
-        ArrayList<TeamUnit> team;
-        //        float unitButtonWidth;
-//        float unitButtonHeight;
-        StoneButton stoneButton;
-        LevelScreen levelScreen;
-        float stoneButtonXpos;
-
-        public TableUnitButton(LevelScreen levelScreen, ArrayList<TeamUnit> team) {
-            super();
-            this.team = team;
-            this.levelScreen = levelScreen;
-            unitButtonArrayList = new ArrayList<UnitImageButton>();
-            unitButtonWidth = team.get(0).getUnitImageButton().getWidth();
-            unitButtonHeight = team.get(0).getUnitImageButton().getHeight();
-            stoneButton = null;
-            // добавим кнопки с юнитами в соответствии с имеющимися юнитами в команде
-            addUnitButtons();
-
-            for (int i = 0; i < unitButtonArrayList.size(); i++) {
-                add(unitButtonArrayList.get(i)).width(unitButtonWidth).height(unitButtonHeight).padLeft(12).padRight(12);
-            }
-            setWidth((unitButtonWidth + 24) * unitButtonArrayList.size());
-            setHeight(unitButtonHeight);
-        }
-
-        void setStoneButtonPosX(float posX) {
-            if (stoneButton != null)
-                stoneButton.setPosX(posX);
-        }
-
-        UnitImageButton getUnitButton(int i) {
-            return unitButtonArrayList.get(i);
-        }
-
-        // метод добавляет кнопки юнитов в соответствии с командой
-        void addUnitButtons() {
-            for (TeamUnit teamUnit : team) {
-                if (teamUnit.getUnitData().getUnitId() != PlayerUnits.Rock) {
-                    unitButtonArrayList.add(new CreateUnitButton(levelScreen, teamUnit.getUnitData()));
-                } else {
-                    stoneButton = new StoneButton(levelScreen, teamUnit.getUnitData());
-                    unitButtonArrayList.add(stoneButton);
-                }
-                if (teamUnit.getUnitId() != PlayerUnits.Rock) {
-                    this.addListener(new ClickListener() {
-                        @Override
-                        public void clicked(InputEvent event, float x, float y) {
-                            super.clicked(event, x, y);
-                        }
-                    });
-                }
-            }
-        }
     }
 
     // метод для показа экрана паузы
@@ -616,7 +518,8 @@ public class LevelScreen extends StageGame {
 //            pausedScreen.setVisible(true);
 //        }
         fade.setVisible(true);
-        tableUnitButtons.setVisible(false); // кнопки юитов делаем невидимыми
+//        tableUnitButtons.setVisible(false); // кнопки юитов делаем невидимыми
+        unitButtons.hide();
     }
 
     // метод для удаления указателя "палец"
@@ -629,7 +532,7 @@ public class LevelScreen extends StageGame {
     public void hidePauseScreen() {
         pausedScreen.setVisible(false);
         fade.setVisible(false);
-        tableUnitButtons.setVisible(true); // кнопки юитов делаем видимыми
+        unitButtons.setVisible(true); // кнопки юитов делаем видимыми
     }
 
     // скрывает экран завершения уровня
@@ -666,7 +569,8 @@ public class LevelScreen extends StageGame {
     public void levelFailed() {
         state = LEVEL_FAILED;
         fade.setVisible(true);         // затемняем задний план
-        tableUnitButtons.setVisible(false); // кнопки юитов делаем невидимыми
+        unitButtons.hide();
+//        tableUnitButtons.setVisible(false); // кнопки юитов делаем невидимыми
         hud.hideEnergyPanel();
         levelCreator.showGameOverScreen();
     }
@@ -677,7 +581,8 @@ public class LevelScreen extends StageGame {
     public void levelCompleted() {
 //        isActiveScreen = false;
         fade.setVisible(true);     // затемняем задний план
-        tableUnitButtons.setVisible(false);      // кнопки юитов делаем невидимыми
+        unitButtons.hide();
+//        tableUnitButtons.setVisible(false);      // кнопки юитов делаем невидимыми
 //        tableUnitButtons.remove();      // кнопки юитов делаем невидимыми
         hud.hideEnergyPanel();
         int starsCount = calculateStarsCount();
@@ -770,6 +675,7 @@ public class LevelScreen extends StageGame {
     @Override
     public void hide() {
         super.hide();
+        hud.clear();
         levelCreator.clear();
         dispose();
     }
