@@ -52,6 +52,7 @@ public class UnitCreator {
         this.levelScreen = levelScreen;
     }
 
+    // передаем имя юнита (id, с заглавной буквы)
     public void createUnit(String unitName, Vector2 position) {
         this.position = position;
         // определим вражеский юнит или юнит игрока

@@ -158,6 +158,7 @@ public class ArcherController extends PlayerUnitController implements PlayerShoo
 
     @Override
     public void moveToTarget() {
+        System.out.println("MoveToTarget!");
         float posY = model.getPosition().y;
         float posYTarget = targetEnemy.getPosition().y;
         Vector2 playerPosition = new Vector2(model.getX(), model.getY());
@@ -196,7 +197,7 @@ public class ArcherController extends PlayerUnitController implements PlayerShoo
                 }
             } else if (verticalDirectionMovement == Direction.UP) {
                 if (posY < posYTarget) {   // если координата Y при перемещении юнита вверх меньше координаты Y врага
-                    if (distanceToTarget.x < ATTACK_DISTANCE || distanceToBarricade < DISTANCE_TO_BARRICADE) {  // / если расстояние по оси х меньше дистанции для атаки (т.е. на расстоянии видимости)
+                    if (distanceToTarget.x <= ATTACK_DISTANCE || distanceToBarricade <= DISTANCE_TO_BARRICADE) {  // / если расстояние по оси х меньше дистанции для атаки (т.е. на расстоянии видимости)
                         velocity.set(0, model.getSpeed());
                     } else {
                         velocity.set(targetEnemy.getX(), targetEnemy.getY()).sub(new Vector2(model.getX(), model.getY())).nor().scl(model.getSpeed());
@@ -208,7 +209,7 @@ public class ArcherController extends PlayerUnitController implements PlayerShoo
                     verticalDirectionMovement = Direction.NONE;
                 }
             }
-        } else if (distanceToTarget.x < ATTACK_DISTANCE) {
+        } else if (distanceToTarget.x <= ATTACK_DISTANCE) {
             velocity.set(0, 0);
             model.setVelocity(velocity);
             shootEnemy();

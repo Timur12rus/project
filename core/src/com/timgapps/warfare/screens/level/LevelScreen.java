@@ -2,8 +2,16 @@ package com.timgapps.warfare.screens.level;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.MapObjects;
+import com.badlogic.gdx.maps.MapProperties;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -12,6 +20,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Array;
 import com.boontaran.MessageListener;
 import com.boontaran.games.StageGame;
+import com.boontaran.games.tiled.TileLayer;
+import com.timgapps.warfare.Units.GameUnits.unitTypes.EnemyUnits;
 import com.timgapps.warfare.screens.level.gui_elements.UnitButtons;
 import com.timgapps.warfare.screens.map.windows.team_upgrade_window.team_unit.TeamUnit;
 import com.timgapps.warfare.GameManager;
@@ -82,6 +92,7 @@ public class LevelScreen extends StageGame {
     private float waitTime = 300;
     private boolean isShowLevelCompletedScreen;
     private UnitButtons unitButtons;
+    private TiledMap levelMap;
 
 
     // метод строит уровень
@@ -125,12 +136,44 @@ public class LevelScreen extends StageGame {
         isShowLevelCompletedScreen = false;
         levelCreator.createScreens();
         pausedScreen.redraw();
-
-        unitCreator.createUnit("Zombie3", new Vector2(570, 270));
-        unitCreator.createUnit("Zombie1", new Vector2(700, 250));
-        unitCreator.createUnit("Zombie1", new Vector2(640, 240));
-        unitCreator.createUnit("Zombie1", new Vector2(300, 240));
         energyCount = 0;
+
+        // создаем вражеских юнитов
+        levelMap = new TiledMap();
+        TmxMapLoader.Parameters params = new TmxMapLoader.Parameters(); // здесь мы прописываем параметры обработки tmx-карты уровня
+        params.generateMipMaps = true;
+        params.textureMinFilter = Texture.TextureFilter.MipMapLinearNearest;
+        params.textureMagFilter = Texture.TextureFilter.Linear;
+        // загружаем карту
+        levelMap = new TmxMapLoader().load("levels/level" + levelNumber + ".tmx", params);
+
+        String layerName;
+        for (MapLayer layer : levelMap.getLayers()) {
+            layerName = layer.getName();
+            System.out.println("Layer NAME = " + layerName);
+            for (EnemyUnits enemyUnit : EnemyUnits.values()) {
+                if (enemyUnit.name().equals(layerName)) {
+                    createEnemyUnit(layer.getObjects(), layerName);
+                }
+            }
+//            if (EnemyUnits.values().toString().equals(layerName)) {
+//                createEnemyUnit(layer.getObjects(), layerName);
+//            }
+        }
+//        unitCreator.createUnit("Zombie3", new Vector2(570, 270));
+//        unitCreator.createUnit("Zombie1", new Vector2(700, 250));
+//        unitCreator.createUnit("Zombie1", new Vector2(640, 240));
+//        unitCreator.createUnit("Zombie1", new Vector2(300, 240));
+
+    }
+
+    private void createEnemyUnit(MapObjects objects, String layerName) {
+        System.out.println("layerName = " + layerName);
+        for (MapObject object : objects) {
+            float x = object.getProperties().get("x", Float.class);
+            float y = object.getProperties().get("y", Float.class);
+            unitCreator.createUnit(layerName, new Vector2(x, 140 + y));
+        }
     }
 
     public LevelScreen(final GameManager gameManager) {
@@ -634,7 +677,7 @@ public class LevelScreen extends StageGame {
 
         float towerHealth = siegeTower.getHealth();
         float fullTowerHealth = siegeTower.getFullHealth();
-        if (((towerHealth / fullTowerHealth) >= 1.0 / 3.0) && (towerHealth / fullTowerHealth) <= 2.0 / 3.0) {
+        if (((towerHealth / fullTowerHealth) >= (1.0 / 3.0)) && (towerHealth / fullTowerHealth) <= (2.0 / 3.0)) {
             starsCount = 2; // starCount = 2;
         }
         if ((towerHealth / fullTowerHealth) == 1) {
