@@ -46,6 +46,12 @@ public class ArcherController extends PlayerUnitController implements PlayerShoo
                 isHaveTargetEnemy = true;
                 model.setIsHaveTargetEnemy(true);
                 System.out.println("TargetEnemy = " + targetEnemy.getName());
+            } else {
+                model.setIsHaveVerticalDirection(false);
+//                isHaveVerticalDirection = false;
+                isHaveTargetEnemy = false;
+                model.setIsHaveTargetEnemy(false);
+                verticalDirectionMovement = Direction.NONE;
             }
         } else {
             if (!targetEnemy.equals(newTargetEnemy) && (newTargetEnemy != null)) { // если новая цель не соответствет старой, то меняем цель на новую
@@ -186,7 +192,12 @@ public class ArcherController extends PlayerUnitController implements PlayerShoo
                         if (distanceToTarget.x <= ATTACK_DISTANCE || distanceToBarricade <= DISTANCE_TO_BARRICADE) {    // если расстояние по оси х меньше дистанции для атаки (т.е. на расстоянии видимости)
                             velocity.set(0, -model.getSpeed());
                         } else {
-                            velocity.set(targetEnemy.getX(), targetEnemy.getY()).sub(new Vector2(model.getX(), model.getY())).nor().scl(model.getSpeed());
+                            if (distanceToTarget.x > ATTACK_DISTANCE) {
+                                System.out.println("> ATTACK_DISTANCE");
+                                velocity.set(targetEnemy.getX() - ATTACK_DISTANCE, targetEnemy.getY()).sub(new Vector2(model.getX(), model.getY())).nor().scl(model.getSpeed());
+                            } else {
+                                velocity.set(targetEnemy.getX(), targetEnemy.getY()).sub(new Vector2(model.getX(), model.getY())).nor().scl(model.getSpeed());
+                            }
                         }
                         model.setVelocity(velocity);
                     } else {
@@ -199,7 +210,12 @@ public class ArcherController extends PlayerUnitController implements PlayerShoo
                         if (distanceToTarget.x <= ATTACK_DISTANCE || distanceToBarricade <= DISTANCE_TO_BARRICADE) {  // / если расстояние по оси х меньше дистанции для атаки (т.е. на расстоянии видимости)
                             velocity.set(0, model.getSpeed());
                         } else {
-                            velocity.set(targetEnemy.getX(), targetEnemy.getY()).sub(new Vector2(model.getX(), model.getY())).nor().scl(model.getSpeed());
+                            if (distanceToTarget.x > ATTACK_DISTANCE) {
+                                System.out.println("> ATTACK_DISTANCE");
+                                velocity.set(targetEnemy.getX() - ATTACK_DISTANCE, targetEnemy.getY()).sub(new Vector2(model.getX(), model.getY())).nor().scl(model.getSpeed());
+                            } else {
+                                velocity.set(targetEnemy.getX(), targetEnemy.getY()).sub(new Vector2(model.getX(), model.getY())).nor().scl(model.getSpeed());
+                            }
                         }
                         model.setVelocity(velocity);
                     } else {
