@@ -33,8 +33,6 @@ public class WizardController extends EnemyUnitController implements EnemyShoote
         // ai юнита
         if (!model.isDestroyed()) {
             checkCollisions();
-            System.out.println("Model X = " + model.getX());
-            System.out.println("Stop Position = " + STOP_POSITION_X);
             if (model.isTouchedPlayer()) {
                 if (targetPlayer != null) {
                     attackPlayer();             // ударяем игрового юнита, с которым столкнулись
@@ -45,7 +43,6 @@ public class WizardController extends EnemyUnitController implements EnemyShoote
             } else if (model.getX() < STOP_POSITION_X) {      // если дошел до позиции ожидания
                 if (!isReachedAttackPosition) {
                     isReachedAttackPosition = true;             // достиг позиции атаки
-                    System.out.println("Stay()!!!!!");
                     stay();
                 }
                 if (waitTime <= 0 && !model.isShoot()) {
@@ -90,11 +87,9 @@ public class WizardController extends EnemyUnitController implements EnemyShoote
         if (model.isStay()) {
             velocity.set(0, 0);
             model.setVelocity(velocity);
-            System.out.println("STAY!!!!!!!!!!!!!");
         } else {
             model.setIsStay(true);
             model.setIsMove(false);
-            System.out.println("STAY!!");
             velocity.set(0, 0);
             model.setVelocity(velocity);
         }

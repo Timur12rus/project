@@ -127,7 +127,7 @@ public class ThorController extends PlayerUnitController implements PlayerWarrio
                 Vector2 vectorDown = new Vector2();
                 vectorDown.set(x4, y4);
                 if (Intersector.isPointInTriangle(enemyPosition, playerPosition, vectorUp, vectorDown)) {      // если вражеский юнит находится в пределах видимости, то добавляем его в массив
-                    if (!targetEnemies.equals(enemy))
+//                    if (!targetEnemies.equals(enemy))
                         targetEnemies.add(enemy);                                  // потенциальных целей
                 }
             }

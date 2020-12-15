@@ -19,7 +19,7 @@ public abstract class GameUnitModel {
     protected UnitData unitData;
     protected float bodyWidth;
     protected float bodyHeight;
-    private Vector2 velocity;
+    protected Vector2 velocity;
     protected GameUnitView.State currentState;
     protected boolean isAttack, isStay, isMove, isDestroyed;
     protected LevelScreen levelScreen;
