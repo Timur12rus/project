@@ -1,13 +1,19 @@
 package com.timgapps.warfare.Units.GameUnits.Enemy.goblin;
 
+import com.timgapps.warfare.Units.GameUnits.Effects.Explosion;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitController;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitModel;
 import com.timgapps.warfare.Units.GameUnits.Enemy.interfacesAi.EnemyWarriorAi;
 import com.timgapps.warfare.screens.level.LevelScreen;
 
 public class GoblinController extends EnemyUnitController implements EnemyWarriorAi {
+    private Explosion explosion;
+    private boolean exposionIsStarted;
+
     public GoblinController(LevelScreen levelScreen, EnemyUnitModel model) {
         super(levelScreen, model);
+        explosion = new Explosion();
+        levelScreen.addChild(explosion);
     }
 
     // метод обновления логики игрового юнита
@@ -34,6 +40,11 @@ public class GoblinController extends EnemyUnitController implements EnemyWarrio
                 move();
             }
         } else {
+            if (!exposionIsStarted) {
+                exposionIsStarted = true;
+                explosion.setPosition(model.getPosition().x - explosion.getWidth() / 2, model.getPosition().y);
+                explosion.start();
+            }
             velocity.set(0, 0);
             model.setVelocity(velocity);
         }
@@ -54,10 +65,13 @@ public class GoblinController extends EnemyUnitController implements EnemyWarrio
             model.setIsAttackTower(true);
             model.setIsMove(false);
             model.setIsAttack(false);
+//            explosion.setPosition(model.getPosition().x - explosion.getWidth() / 2, model.getPosition().y - explosion.getHeight() / 2);
+//            explosion.start();
             hitTower();
             model.subHealth(model.getHealth());
         }
     }
+
 
     public void attackPlayer() {
         if (model.isAttack()) {

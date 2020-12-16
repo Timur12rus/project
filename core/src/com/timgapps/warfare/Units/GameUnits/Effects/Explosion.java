@@ -15,7 +15,6 @@ public class Explosion extends Actor {
     protected boolean isEndAnimation = false;
     protected boolean isStarted = false;
 
-
     public Explosion() {
         setVisible(false);
         createAnimation();
@@ -26,6 +25,7 @@ public class Explosion extends Actor {
         setVisible(true);
         isStarted = true;
         isEndAnimation = false;
+
     }
 
     protected void createAnimation() {
@@ -40,7 +40,6 @@ public class Explosion extends Actor {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
-
         if (isStarted) {
             stateTime += Gdx.graphics.getDeltaTime();
             batch.draw((TextureRegion) explosionAnimation.getKeyFrame(stateTime, false), getX(), getY());
