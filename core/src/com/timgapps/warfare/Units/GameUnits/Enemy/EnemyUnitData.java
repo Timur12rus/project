@@ -87,6 +87,16 @@ public class EnemyUnitData extends UnitData {
                 barDeltaX = -84;
                 barDeltaY = 0;
                 break;
+            case Goblin:
+                damage = 30;
+                health = 80;
+                speed = -0.8f;
+                name = "Goblin";
+                deltaX = -78;
+                deltaY = 0;
+                barDeltaX = -84;
+                barDeltaY = 0;
+                break;
         }
     }
 

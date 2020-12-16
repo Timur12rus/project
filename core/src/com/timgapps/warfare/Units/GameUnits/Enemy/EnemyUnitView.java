@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+import com.timgapps.warfare.Units.GameUnits.unitTypes.EnemyUnits;
 import com.timgapps.warfare.screens.level.LevelScreen;
 import com.timgapps.warfare.Units.GameUnits.GameUnitController;
 import com.timgapps.warfare.Units.GameUnits.GameUnitView;
@@ -42,8 +43,13 @@ public class EnemyUnitView extends GameUnitView {
 //        setSize(Warfare.atlas.findRegion(model.getUnitData().getName().toLowerCase() + "Stay1").getRegionWidth(),
 //                Warfare.atlas.findRegion(model.getUnitData().getName().toLowerCase() + "Stay1").getRegionHeight());
 
-        setSize(Warfare.atlas.findRegion(model.getUnitData().getUnitId().name().toLowerCase() + "Stay1").getRegionWidth(),
-                Warfare.atlas.findRegion(model.getUnitData().getUnitId().name().toLowerCase() + "Stay1").getRegionHeight());
+        if (!model.getUnitData().getUnitId().equals(EnemyUnits.Goblin)) {
+            setSize(Warfare.atlas.findRegion(model.getUnitData().getUnitId().name().toLowerCase() + "Stay1").getRegionWidth(),
+                    Warfare.atlas.findRegion(model.getUnitData().getUnitId().name().toLowerCase() + "Stay1").getRegionHeight());
+        } else {
+            setSize(Warfare.atlas.findRegion(model.getUnitData().getUnitId().name().toLowerCase() + "Walk0").getRegionWidth(),
+                    Warfare.atlas.findRegion(model.getUnitData().getUnitId().name().toLowerCase() + "Walk0").getRegionHeight());
+        }
     }
 
     @Override

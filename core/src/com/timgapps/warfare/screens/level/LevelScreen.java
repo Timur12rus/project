@@ -147,6 +147,8 @@ public class LevelScreen extends StageGame {
         // загружаем карту
         levelMap = new TmxMapLoader().load("levels/level" + levelNumber + ".tmx", params);
 
+        unitCreator.createUnit("Goblin", new Vector2(570, 270));
+
         String layerName;
         for (MapLayer layer : levelMap.getLayers()) {
             layerName = layer.getName();
@@ -202,7 +204,7 @@ public class LevelScreen extends StageGame {
         addOverlayChild(fade);
         unitCreator = new UnitCreator(this);
 
-        unitCreator.createUnit("Goblin1", new Vector2(750, 250));
+//        unitCreator.createUnit("Zombie1", new Vector2(750, 250));
 
 //        unitCreator.createUnit("Zombie1", new Vector2(1200, 270));
 //        unitCreator.createUnit("Zombie1", new Vector2(750, 250));

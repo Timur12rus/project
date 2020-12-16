@@ -37,7 +37,6 @@ public class PlayerUnitView extends GameUnitView {
         fadeOutAction = new SequenceAction(Actions.delay(1.5f), Actions.fadeOut(1f),
                 checkEndOfAction
         );
-
         System.out.println("UnitName = " + model.getPlayerUnitData().getName());
         setSize(Warfare.atlas.findRegion(model.getPlayerUnitData().getName().toLowerCase() + "Stay1").getRegionWidth(),
                 Warfare.atlas.findRegion(model.getPlayerUnitData().getName().toLowerCase() + "Stay1").getRegionHeight());

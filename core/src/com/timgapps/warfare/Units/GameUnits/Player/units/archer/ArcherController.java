@@ -18,6 +18,7 @@ public class ArcherController extends PlayerUnitController implements PlayerShoo
     private Direction verticalDirectionMovement = Direction.NONE;
     private final float ATTACK_DISTANCE = 300;
     private final float DISTANCE_TO_BARRICADE = 300;
+    private final float MIN_DISTANCE = 48;
     private boolean isReachedEnemyYPos;
     private Vector2 barricadePosition;
     private float distanceToBarricade;
@@ -306,7 +307,7 @@ public class ArcherController extends PlayerUnitController implements PlayerShoo
         /** здесь определим самого ближнего ВРАЖЕСКОГО ЮНИТА к ИГРОВОМУ
          * т.е. найдем по расстоянию между ними, т.е. самое маленькое расстояние
          * **/
-        float minDistance = 240;
+        float minDistance = MIN_DISTANCE;
         float distanceX = enemyPosition.x - playerPosition.x;       // расстояние по оси х между игровым и вражеским юнитом
         System.out.println("distanceX = " + distanceX);
         if (isIntersect && (distanceX > minDistance)) {

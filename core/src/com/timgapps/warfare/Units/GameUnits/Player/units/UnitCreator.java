@@ -1,6 +1,8 @@
 package com.timgapps.warfare.Units.GameUnits.Player.units;
 
 import com.badlogic.gdx.math.Vector2;
+import com.timgapps.warfare.Units.GameUnits.Enemy.goblin.GoblinController;
+import com.timgapps.warfare.Units.GameUnits.Enemy.goblin.GoblinUnitView;
 import com.timgapps.warfare.screens.level.LevelScreen;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitData;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitModel;
@@ -167,6 +169,11 @@ public class UnitCreator {
                         WizardController wizardController = new WizardController(levelScreen, enemyUnitModel);
                         WizardUnitView wizardUnitView = new WizardUnitView(levelScreen, enemyUnitModel, wizardController);
                         createEnemyUnit(enemyUnitModel, wizardUnitView);
+                        break;
+                    case Goblin:
+                        GoblinController goblinController = new GoblinController(levelScreen, enemyUnitModel);
+                        GoblinUnitView goblinView = new GoblinUnitView(levelScreen, enemyUnitModel, goblinController);
+                        createEnemyUnit(enemyUnitModel, goblinView);
                         break;
                 }
 //                Zombie2Controller zombie2Controller = new Zombie2Controller(level, enemyUnitModel);

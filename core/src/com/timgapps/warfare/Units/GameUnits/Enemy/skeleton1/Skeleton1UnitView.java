@@ -99,7 +99,6 @@ public class Skeleton1UnitView extends EnemyUnitView {
         }
         model.setCurrentState(currentState);
     }
-
 //}
 
     protected void createAnimations() {

@@ -81,7 +81,7 @@ public class SiegeTower extends Group {
         addActor(frontWheel);
         addActor(backWheel);
 
-        bodyPosition.set(x + tower.getWidth() - WIDTH, y - 128);  // позиция тела
+        bodyPosition.set(x + tower.getWidth() - WIDTH - 16, y - 128);  // позиция тела
 //        bodyPosition.set(x + tower.getWidth() - WIDTH / 3, y - 128);  // позиция тела
         body = createBody();
         smoke = new ParticleEffect();
