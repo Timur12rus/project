@@ -12,7 +12,7 @@ public class GoblinController extends EnemyUnitController implements EnemyWarrio
 
     public GoblinController(LevelScreen levelScreen, EnemyUnitModel model) {
         super(levelScreen, model);
-        explosion = new Explosion();
+        explosion = new Explosion(levelScreen);
         levelScreen.addChild(explosion);
     }
 
@@ -67,7 +67,10 @@ public class GoblinController extends EnemyUnitController implements EnemyWarrio
             model.setIsAttack(false);
 //            explosion.setPosition(model.getPosition().x - explosion.getWidth() / 2, model.getPosition().y - explosion.getHeight() / 2);
 //            explosion.start();
-            hitTower();
+
+//            if (!levelScreen.getSiegeTower().isMove()) {
+//                hitTower();
+//            }
             model.subHealth(model.getHealth());
         }
     }

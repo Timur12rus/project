@@ -94,8 +94,8 @@ public class SiegeTower extends Group {
         createHealthBar(healthBarWidth, healthBarHeight);
 
         /** создадим анимацию взрыва **/
-        explosion1 = new Explosion();
-        explosion2 = new Explosion();
+        explosion1 = new Explosion(levelScreen);
+        explosion2 = new Explosion(levelScreen);
         explosion1.setPosition(tower.getWidth() / 2, 64);
         explosion2.setPosition(0, 96);
         addActor(explosion1);
@@ -114,7 +114,9 @@ public class SiegeTower extends Group {
     public void act(float delta) {
         super.act(delta);
         if (levelScreen.getState() != LevelScreen.PAUSED) {
-            checkToDestroy();       // проверяем, нужно ли уничтожить актера
+            if (!levelScreen.isCompleted()) {
+                checkToDestroy();       // проверяем, нужно ли уничтожить актера
+            }
             smoke.update(delta);
             if (explosion1.isEnd()) {
                 explosion2.start();

@@ -60,7 +60,7 @@ public class FireRock extends Bullet {
         fireEffect.load(Gdx.files.internal("effects/artFire10.paty"), Gdx.files.internal("effects/")); //file);     //Air2.paty
         fireEffect.setPosition(position.x, position.y);
         fireEffect.start();
-        explosion = new Explosion();
+        explosion = new Explosion(levelScreen);
     }
 
     public void start() {

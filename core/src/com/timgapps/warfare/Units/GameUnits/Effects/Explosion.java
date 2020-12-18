@@ -8,16 +8,21 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Array;
 import com.timgapps.warfare.Warfare;
+import com.timgapps.warfare.screens.level.LevelScreen;
+
+import static com.timgapps.warfare.screens.level.LevelScreen.PAUSED;
 
 public class Explosion extends Actor {
     protected Animation explosionAnimation;
     protected float stateTime;
     protected boolean isEndAnimation = false;
     protected boolean isStarted = false;
+    private LevelScreen levelScreen;
 
-    public Explosion() {
+    public Explosion(LevelScreen levelScreen) {
         setVisible(false);
         createAnimation();
+        this.levelScreen = levelScreen;
         setSize(160, 140);
     }
 
@@ -25,7 +30,6 @@ public class Explosion extends Actor {
         setVisible(true);
         isStarted = true;
         isEndAnimation = false;
-
     }
 
     protected void createAnimation() {
@@ -40,8 +44,11 @@ public class Explosion extends Actor {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
-        if (isStarted) {
+        if (levelScreen.getState() != PAUSED) {
             stateTime += Gdx.graphics.getDeltaTime();
+        }
+        if (isStarted) {
+//            stateTime += Gdx.graphics.getDeltaTime();
             batch.draw((TextureRegion) explosionAnimation.getKeyFrame(stateTime, false), getX(), getY());
         }
     }

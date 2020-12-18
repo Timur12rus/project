@@ -104,6 +104,9 @@ public class EnemyUnitModel extends GameUnitModel {
     }
 
     public void setIsTouchedTower(boolean isTouchedTower) {
+        if (isTouchedTower && levelScreen.getSiegeTower().isMove()) {
+            subHealth(100);
+        }
         this.isTouchedTower = isTouchedTower;
     }
 

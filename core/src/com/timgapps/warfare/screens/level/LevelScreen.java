@@ -23,6 +23,8 @@ import com.boontaran.games.StageGame;
 import com.boontaran.games.tiled.TileLayer;
 import com.timgapps.warfare.Units.GameUnits.unitTypes.EnemyUnits;
 import com.timgapps.warfare.screens.level.gui_elements.UnitButtons;
+import com.timgapps.warfare.screens.level.timer.CountDownTimer;
+import com.timgapps.warfare.screens.level.timer.MonsterWave;
 import com.timgapps.warfare.screens.map.windows.team_upgrade_window.team_unit.TeamUnit;
 import com.timgapps.warfare.GameManager;
 import com.timgapps.warfare.screens.level.LevelWindows.ColorRectangle;
@@ -93,10 +95,12 @@ public class LevelScreen extends StageGame {
     private boolean isShowLevelCompletedScreen;
     private UnitButtons unitButtons;
     private TiledMap levelMap;
-
+    private CountDownTimer countDownTimer;
+    private boolean isCompleted;
 
     // метод строит уровень
     public void build(int levelNumber) {
+        isCompleted = false;
         if (arrayModels != null) {
             arrayModels.clear();
         } else {
@@ -167,15 +171,26 @@ public class LevelScreen extends StageGame {
 //        unitCreator.createUnit("Zombie1", new Vector2(640, 240));
 //        unitCreator.createUnit("Zombie1", new Vector2(300, 240));
 
+        // создание волны с монстрами
+//        MonsterWave monsterWave = new MonsterWave(this);
+//        monsterWave.start();
+
+        // создаем счетчик начала "волны врагов"
+        countDownTimer = new CountDownTimer(this);
+        countDownTimer.reset();
     }
 
-    private void createEnemyUnit(MapObjects objects, String layerName) {
+    public void createEnemyUnit(MapObjects objects, String layerName) {
         System.out.println("layerName = " + layerName);
         for (MapObject object : objects) {
             float x = object.getProperties().get("x", Float.class);
             float y = object.getProperties().get("y", Float.class);
             unitCreator.createUnit(layerName, new Vector2(x, 140 + y));
         }
+    }
+
+    public void createEnemyUnit(EnemyUnits unitId, Vector2 position) {
+        unitCreator.createUnit(unitId.name(), position);
     }
 
     public LevelScreen(final GameManager gameManager) {
@@ -199,6 +214,8 @@ public class LevelScreen extends StageGame {
         levelCreator = new LevelCreator(this, gameManager);
 //        levelCreator = new LevelCreator(this, levelNumber);
         accumulator = 0;
+
+
         fade = new ColorRectangle(0, 0, getWidth(), getHeight(), new Color(0, 0, 0, 0.7f));
         fade.setVisible(false);
         addOverlayChild(fade);
@@ -302,6 +319,10 @@ public class LevelScreen extends StageGame {
                 }
             }
         });
+
+//        // создаем счетчик начала "волны врагов"
+//        countDownTimer = new CountDownTimer(this);
+
     }
 
     public void setLevelNumber(int levelNumber) {
@@ -414,7 +435,7 @@ public class LevelScreen extends StageGame {
     protected void update(float delta) {
         super.update(delta);
         if (state != PAUSED) {
-
+            countDownTimer.update(delta);
             // для теста (пуск огненных камней)
 //            waitTime--;
 //            if (waitTime < 0) {
@@ -625,8 +646,10 @@ public class LevelScreen extends StageGame {
      **/
     public void levelCompleted() {
 //        isActiveScreen = false;
+        isCompleted = true;
         fade.setVisible(true);     // затемняем задний план
         unitButtons.hide();
+        countDownTimer.stop();
 //        tableUnitButtons.setVisible(false);      // кнопки юитов делаем невидимыми
 //        tableUnitButtons.remove();      // кнопки юитов делаем невидимыми
         hud.hideEnergyPanel();
@@ -653,6 +676,10 @@ public class LevelScreen extends StageGame {
             gameManager.setHelpStatus(GameManager.HELP_STARS_PANEL);
         }
         levelCreator.showLevelCompletedScreen(starsCount);
+    }
+
+    public boolean isCompleted() {
+        return isCompleted;
     }
 
     // добавляет экран(группу) на сцену
