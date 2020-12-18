@@ -151,7 +151,11 @@ public class LevelScreen extends StageGame {
         // загружаем карту
         levelMap = new TmxMapLoader().load("levels/level" + levelNumber + ".tmx", params);
 
-        unitCreator.createUnit("Goblin", new Vector2(570, 270));
+//        unitCreator.createUnit("Goblin", new Vector2(570, 270));
+        unitCreator.createUnit("Ork1", new Vector2(700, 220));
+        unitCreator.createUnit("Ork1", new Vector2(1300, 240));
+        unitCreator.createUnit("Ork1", new Vector2(1800, 250));
+
 
         String layerName;
         for (MapLayer layer : levelMap.getLayers()) {

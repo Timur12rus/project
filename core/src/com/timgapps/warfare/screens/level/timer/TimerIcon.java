@@ -24,6 +24,7 @@ public class TimerIcon extends Group {
     private LevelScreen levelScreen;
     private String text;
     private float textLabelX, textLabelY;
+    private float iconPosX, iconPosY;
 
     public TimerIcon(LevelScreen levelScreen) {
         this.levelScreen = levelScreen;
@@ -36,7 +37,9 @@ public class TimerIcon extends Group {
 //        textLabel.setText("00 : 00");
         setSize(bg.getWidth(), bg.getHeight());
 //        setSize(textLabel.getWidth(), textLabel.getHeight() + icon.getHeight() + 24);
-        icon.setPosition(16, 16);
+        iconPosX = (bg.getWidth() - icon.getWidth()) / 2;
+        iconPosY = 16;
+        icon.setPosition(iconPosX, iconPosY);
         setVisible(false);
         addActor(bg);
         addActor(icon);
@@ -45,7 +48,7 @@ public class TimerIcon extends Group {
                 levelScreen.getHeight() - 128 - getHeight());
         levelScreen.addChild(this);
         textLabelX = (bg.getWidth() - textLabel.getWidth()) / 2;
-        textLabelY = -textLabel.getHeight() - 6;
+        textLabelY = -textLabel.getHeight();
         textLabel.setPosition(textLabelX, textLabelY);
 //        textLabel.setPosition((icon.getWidth() - textLabel.getWidth()) / 2, -textLabel.getHeight() - 12);
         addAction(Actions.fadeOut(0));
@@ -90,7 +93,7 @@ public class TimerIcon extends Group {
     public void startAction() {
         actionIsStarted = true;
         MoveToAction moveToActionOne = new MoveToAction();
-        moveToActionOne.setPosition(10, 10);
+        moveToActionOne.setPosition(iconPosX - 6, iconPosY - 6);
         moveToActionOne.setDuration(0.5f);
         moveToActionOne.setInterpolation(Interpolation.smooth);
 
@@ -104,7 +107,7 @@ public class TimerIcon extends Group {
         parallelActionOne.addAction(sizeToActionOne);
 
         MoveToAction moveToActionTwo = new MoveToAction();
-        moveToActionTwo.setPosition(16, 16);
+        moveToActionTwo.setPosition(iconPosX, iconPosY);
         moveToActionTwo.setDuration(0.5f);
         moveToActionTwo.setInterpolation(Interpolation.smooth);
 

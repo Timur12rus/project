@@ -3,6 +3,8 @@ package com.timgapps.warfare.Units.GameUnits.Player.units;
 import com.badlogic.gdx.math.Vector2;
 import com.timgapps.warfare.Units.GameUnits.Enemy.goblin.GoblinController;
 import com.timgapps.warfare.Units.GameUnits.Enemy.goblin.GoblinUnitView;
+import com.timgapps.warfare.Units.GameUnits.Enemy.ork1.Ork1Controller;
+import com.timgapps.warfare.Units.GameUnits.Enemy.ork1.Ork1UnitView;
 import com.timgapps.warfare.screens.level.LevelScreen;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitData;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitModel;
@@ -159,6 +161,11 @@ public class UnitCreator {
                         Skeleton2Controller skeleton2Controller = new Skeleton2Controller(levelScreen, enemyUnitModel);
                         Skeleton2UnitView skeleton2UnitView = new Skeleton2UnitView(levelScreen, enemyUnitModel, skeleton2Controller);
                         createEnemyUnit(enemyUnitModel, skeleton2UnitView);
+                        break;
+                    case Ork1:
+                        Ork1Controller ork1Controller = new Ork1Controller(levelScreen, enemyUnitModel);
+                        Ork1UnitView ork1UnitView = new Ork1UnitView(levelScreen, enemyUnitModel, ork1Controller);
+                        createEnemyUnit(enemyUnitModel, ork1UnitView);
                         break;
                     case Ent1:
                         Ent1Controller ent1Controller = new Ent1Controller(levelScreen, enemyUnitModel);

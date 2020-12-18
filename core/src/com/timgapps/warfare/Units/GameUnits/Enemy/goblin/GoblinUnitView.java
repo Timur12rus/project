@@ -1,6 +1,9 @@
 package com.timgapps.warfare.Units.GameUnits.Enemy.goblin;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitModel;
@@ -11,11 +14,16 @@ import com.timgapps.warfare.screens.level.LevelScreen;
 
 public class GoblinUnitView extends EnemyUnitView {
     private GoblinController controller;
+    private ParticleEffect ntnFireEffect;
 
     public GoblinUnitView(LevelScreen levelScreen, EnemyUnitModel model, GoblinController controller) {
         super(levelScreen, model, controller);
         this.controller = controller;
         createAnimations();
+        ntnFireEffect = new ParticleEffect();
+        ntnFireEffect.load(Gdx.files.internal("effects/tntFire.paty"), Gdx.files.internal("effects/")); //file);
+        ntnFireEffect.setPosition(model.getPosition().x, model.getPosition().y);
+        ntnFireEffect.start();
     }
 
     @Override
@@ -45,6 +53,10 @@ public class GoblinUnitView extends EnemyUnitView {
                     if (currentState != GameUnitView.State.WALKING) {
                         currentState = GameUnitView.State.WALKING;
                         resetStateTime();
+                    }
+                    ntnFireEffect.setPosition(model.getPosition().x + 54, model.getPosition().y + 58);
+                    if (levelScreen.getState() != LevelScreen.PAUSED) {
+                        ntnFireEffect.update(delta);
                     }
                 } else if (currentState != GameUnitView.State.STAY) {
                     currentState = GameUnitView.State.STAY;
@@ -100,6 +112,20 @@ public class GoblinUnitView extends EnemyUnitView {
             }
         }
         model.setCurrentState(currentState);
+    }
+
+    @Override
+    public boolean remove() {
+        ntnFireEffect.dispose();
+        return super.remove();
+    }
+
+    @Override
+    public void draw(Batch batch, float parentAlpha) {
+        super.draw(batch, parentAlpha);
+        if (!model.isDestroyed()) {
+            ntnFireEffect.draw(batch);
+        }
     }
 
     protected void createAnimations() {

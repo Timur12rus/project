@@ -362,6 +362,12 @@ public class SiegeTower extends Group {
     }
 
     @Override
+    public boolean remove() {
+        smoke.dispose();
+        return super.remove();
+    }
+
+    @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
 

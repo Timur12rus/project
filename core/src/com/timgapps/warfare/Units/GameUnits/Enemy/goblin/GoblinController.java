@@ -71,6 +71,7 @@ public class GoblinController extends EnemyUnitController implements EnemyWarrio
 //            if (!levelScreen.getSiegeTower().isMove()) {
 //                hitTower();
 //            }
+            hitTower();
             model.subHealth(model.getHealth());
         }
     }
@@ -89,6 +90,8 @@ public class GoblinController extends EnemyUnitController implements EnemyWarrio
             model.subHealth(model.getHealth());
         }
     }
+
+
 
     public void move() {
         model.setIsMove(true);
