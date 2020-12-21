@@ -19,7 +19,7 @@ public class GameUnitView extends Actor {
     protected ShapeRenderer shapeRenderer;
     protected boolean isDebug = true;
     protected LevelScreen levelScreen;
-    private GameUnitModel model;
+    protected GameUnitModel model;
     protected GameUnitController controller;
     //    private EnemyController controller;
     protected boolean isDrawHealthBar;
