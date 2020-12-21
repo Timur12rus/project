@@ -5,6 +5,8 @@ import com.timgapps.warfare.Units.GameUnits.Enemy.goblin.GoblinController;
 import com.timgapps.warfare.Units.GameUnits.Enemy.goblin.GoblinUnitView;
 import com.timgapps.warfare.Units.GameUnits.Enemy.ork1.Ork1Controller;
 import com.timgapps.warfare.Units.GameUnits.Enemy.ork1.Ork1UnitView;
+import com.timgapps.warfare.Units.GameUnits.Enemy.troll1.Troll1Controller;
+import com.timgapps.warfare.Units.GameUnits.Enemy.troll1.Troll1UnitView;
 import com.timgapps.warfare.screens.level.LevelScreen;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitData;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitModel;
@@ -166,6 +168,11 @@ public class UnitCreator {
                         Ork1Controller ork1Controller = new Ork1Controller(levelScreen, enemyUnitModel);
                         Ork1UnitView ork1UnitView = new Ork1UnitView(levelScreen, enemyUnitModel, ork1Controller);
                         createEnemyUnit(enemyUnitModel, ork1UnitView);
+                        break;
+                    case Troll1:
+                        Troll1Controller troll1Controller = new Troll1Controller(levelScreen, enemyUnitModel);
+                        Troll1UnitView troll1UnitView = new Troll1UnitView(levelScreen, enemyUnitModel, troll1Controller);
+                        createEnemyUnit(enemyUnitModel, troll1UnitView);
                         break;
                     case Ent1:
                         Ent1Controller ent1Controller = new Ent1Controller(levelScreen, enemyUnitModel);

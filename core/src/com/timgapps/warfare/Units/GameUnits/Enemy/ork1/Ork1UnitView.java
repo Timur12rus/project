@@ -12,10 +12,12 @@ import java.util.Random;
 
 public class Ork1UnitView extends EnemyUnitView {
     protected Ork1Controller controller;
-    private Random random;
-    private final float STAY_COUNT = 4;
-    private final float WALK_COUNT = 3;
+    protected Random random;
+    public float STAY_COUNT = 2;
+    protected float WALK_COUNT = 3;
+    protected float WAIT_COUNT = 0.8f;     // счетчик ожидания, когда юнит атаковал -> стоит и ждет
     private float stayCount;
+    private float waitCount;        // счетчик ожидания, когда юнит атаковал -> стоит и ждет
     private int walkCount;
 
     //public class Ork1UnitView extends Zombie2UnitView {
@@ -83,7 +85,7 @@ public class Ork1UnitView extends EnemyUnitView {
                 } else {
                     if (stayAnimation.isAnimationFinished(stateTime)) {
                         stayCount += delta;
-                        if (stayCount > 2) {
+                        if (stayCount > STAY_COUNT) {
                             model.setIsStay(false);
                             stayCount = 0;
                         }
@@ -114,7 +116,11 @@ public class Ork1UnitView extends EnemyUnitView {
                     resetStateTime();
                 } else {
                     if (stayAnimation.isAnimationFinished(stateTime)) {
-                        model.setIsStay(false);
+                        waitCount += delta;
+                        if (waitCount > WAIT_COUNT) {
+                            waitCount = 0;
+                            model.setIsStay(false);
+                        }
                     }
                 }
             } else if (model.isStay()) {

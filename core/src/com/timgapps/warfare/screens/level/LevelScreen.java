@@ -153,7 +153,7 @@ public class LevelScreen extends StageGame {
 
 //        unitCreator.createUnit("Goblin", new Vector2(570, 270));
         unitCreator.createUnit("Ork1", new Vector2(700, 220));
-        unitCreator.createUnit("Ork1", new Vector2(1300, 240));
+        unitCreator.createUnit("Troll1", new Vector2(1300, 240));
         unitCreator.createUnit("Ork1", new Vector2(1800, 250));
 
 

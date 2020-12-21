@@ -82,17 +82,17 @@ public class ThorView extends PlayerUnitView {
         for (int i = 0; i < 3; i++)
             frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Walk" + i)));
         frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Walk1")));
-        walkAnimation = new Animation(0.1f, frames);
+        walkAnimation = new Animation(0.07f, frames);
         frames.clear();
 
         for (int i = 0; i < 4; i++)
             frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Attack" + i)));
-        attackAnimation = new Animation(0.1f, frames);
+        attackAnimation = new Animation(0.08f, frames);
         frames.clear();
 
         for (int i = 0; i < 4; i++)
             frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Die" + i)));
-        dieAnimation = new Animation(0.1f, frames);
+        dieAnimation = new Animation(0.11f, frames);
         frames.clear();
 
         for (int i = 0; i < 3; i++)
@@ -103,7 +103,7 @@ public class ThorView extends PlayerUnitView {
         for (int i = 0; i < 3; i++)
             frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Run" + i)));
         frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Run1")));
-        runAnimation = new Animation(0.11f, frames);
+        runAnimation = new Animation(0.1f, frames);
 //        runAnimation = new Animation(0.13f, frames);
         frames.clear();
     }

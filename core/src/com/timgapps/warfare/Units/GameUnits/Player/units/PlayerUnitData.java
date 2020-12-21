@@ -28,7 +28,7 @@ public class PlayerUnitData extends UnitData {
                 name = "Gnome";
                 damage = 14;
                 health = 30;
-                speed = 0.8f;
+                speed = 1.3f;
                 energyPrice = 15;
                 prepareTime = 10;
                 deltaX = -124;          // смещение изображения юнита относительно тела юнита (прямоугольника)
@@ -74,7 +74,7 @@ public class PlayerUnitData extends UnitData {
                 name = "Archer";
                 damage = 10;
                 health = 30;
-                speed = 0.5f;
+                speed = 0.8f;
                 energyPrice = 20;
                 prepareTime = 25;
                 deltaX = -124;
@@ -122,7 +122,7 @@ public class PlayerUnitData extends UnitData {
                 name = "Thor";
                 damage = 12;
                 health = 20;
-                speed = 1.1f;
+                speed = 1.6f;
 //                speed = 0.9f;
                 energyPrice = 15;
                 prepareTime = 18;

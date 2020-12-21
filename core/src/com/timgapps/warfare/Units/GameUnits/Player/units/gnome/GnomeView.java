@@ -96,7 +96,7 @@ public class GnomeView extends PlayerUnitView {
         for (int i = 0; i < 3; i++)
             frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Walk" + i)));
         frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Walk1")));
-        walkAnimation = new Animation(0.11f, frames);
+        walkAnimation = new Animation(0.1f, frames);
         frames.clear();
 
         for (int i = 0; i < 4; i++)
@@ -117,7 +117,7 @@ public class GnomeView extends PlayerUnitView {
         for (int i = 0; i < 3; i++)
             frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Run" + i)));
         frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Run1")));
-        runAnimation = new Animation(0.13f, frames);
+        runAnimation = new Animation(0.1f, frames);
         frames.clear();
     }
 }
