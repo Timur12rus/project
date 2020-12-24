@@ -98,6 +98,8 @@ public class LevelScreen extends StageGame {
     private CountDownTimer countDownTimer;
     private boolean isCompleted;
     public static float screenScale;
+    public static float scaleX;
+    public static float scaleY;
 
     // метод строит уровень
     public void build(int levelNumber) {
@@ -131,6 +133,9 @@ public class LevelScreen extends StageGame {
         }
 
         screenScale = getScreenScale();
+        scaleX = getWidth() / Warfare.V_WIDTH;
+        scaleY = getHeight() / Warfare.V_HEIGHT;
+        System.out.println("screen Scale = " + screenScale);
 
         barricade = new Barricade(this, Barricade.ROCKS);
         siegeTower = new SiegeTower(this, -48, 270, gameManager.getTowerHealth(), 2);
@@ -188,6 +193,8 @@ public class LevelScreen extends StageGame {
         countDownTimer.reset();
         System.out.println("GET WIDTH = " + getWidth());
         System.out.println("GET HEIGHT = " + getHeight());
+
+
     }
 
     private float getScreenScale() {
@@ -449,8 +456,25 @@ public class LevelScreen extends StageGame {
     protected void addBackground(Actor actor, boolean centerX, boolean centerY) {
 //        super.addBackground(actor, centerX, centerY);
         background.addActor(actor);
-        fillScreen(actor, centerX, centerY);
-//        fitScreen(actor, centerX, centerY);
+//        fillScreen(actor, centerX, centerY);
+        fitScreen(actor, centerX, centerY);
+    }
+
+    @Override
+    protected void fitScreen(Actor actor, boolean centerX, boolean centerY) {
+//        super.fitScreen(actor, centerX, centerY);
+        float scale = this.getScreenScale();
+        float scaleX = getWidth() / Warfare.V_WIDTH;
+        float scaleY = getHeight() / Warfare.V_HEIGHT;
+        actor.setWidth(actor.getWidth() * scaleX);
+        actor.setHeight(actor.getHeight() * scaleY);
+        if (centerX) {
+            actor.setX((this.getWidth() - actor.getWidth()) / 2.0F);
+        }
+
+        if (centerY) {
+            actor.setY((this.getHeight() - actor.getHeight()) / 2.0F);
+        }
     }
 
     @Override
