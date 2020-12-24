@@ -69,8 +69,9 @@ public class Warfare extends Game {
         batch = new SpriteBatch();
         Gdx.input.setCatchBackKey(true);    // метод setCatchBackKey определяет перехватывать ли кнопку <-Back на устройстве
 
+//        mOrthographicCamera = new OrthographicCamera(V_WIDTH, V_HEIGHT);
         mOrthographicCamera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        mViewport = new StretchViewport(V_WIDTH, V_HEIGHT, mOrthographicCamera); // The width and height do not need to be in pixels
+//        mViewport = new StretchViewport(V_WIDTH, V_HEIGHT, mOrthographicCamera); // The width and height do not need to be in pixels
         batch.setProjectionMatrix(mOrthographicCamera.combined);
 
 

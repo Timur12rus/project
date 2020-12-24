@@ -97,6 +97,7 @@ public class LevelScreen extends StageGame {
     private TiledMap levelMap;
     private CountDownTimer countDownTimer;
     private boolean isCompleted;
+    public static float screenScale;
 
     // метод строит уровень
     public void build(int levelNumber) {
@@ -129,6 +130,8 @@ public class LevelScreen extends StageGame {
             removeChild(siegeTower);
         }
 
+        screenScale = getScreenScale();
+
         barricade = new Barricade(this, Barricade.ROCKS);
         siegeTower = new SiegeTower(this, -48, 270, gameManager.getTowerHealth(), 2);
         state = PLAY;
@@ -153,8 +156,9 @@ public class LevelScreen extends StageGame {
 
 //        unitCreator.createUnit("Goblin", new Vector2(570, 270));
         unitCreator.createUnit("Ork1", new Vector2(700, 220));
-        unitCreator.createUnit("Troll1", new Vector2(1300, 240));
+        unitCreator.createUnit("Troll1", new Vector2(1300, 230));
         unitCreator.createUnit("Ork1", new Vector2(1800, 250));
+        unitCreator.createUnit("Troll2", new Vector2(900, 260));
 
 
         String layerName;
@@ -182,7 +186,18 @@ public class LevelScreen extends StageGame {
         // создаем счетчик начала "волны врагов"
         countDownTimer = new CountDownTimer(this);
         countDownTimer.reset();
+        System.out.println("GET WIDTH = " + getWidth());
+        System.out.println("GET HEIGHT = " + getHeight());
     }
+
+    private float getScreenScale() {
+        if (getWidth() / getHeight() > (float) appWidth / (float) appHeight) {
+            return getWidth() / appWidth;
+        } else {
+            return getHeight() / appHeight;
+        }
+    }
+
 
     public void createEnemyUnit(MapObjects objects, String layerName) {
         System.out.println("layerName = " + layerName);
@@ -426,8 +441,16 @@ public class LevelScreen extends StageGame {
     private void setBackGround(String region) {
         clearBackground();
         Image bg = new Image(Warfare.atlas.findRegion(region));
-        addBackground(bg, true, true);
+        addBackground(bg, false, false);
 //        addBackground(bg, false, false);
+    }
+
+    @Override
+    protected void addBackground(Actor actor, boolean centerX, boolean centerY) {
+//        super.addBackground(actor, centerX, centerY);
+        background.addActor(actor);
+        fillScreen(actor, centerX, centerY);
+//        fitScreen(actor, centerX, centerY);
     }
 
     @Override

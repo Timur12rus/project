@@ -206,7 +206,8 @@ public class Barricade extends Group {
                 }
                 isDestroyed = true;
                 /** если баррикада разрушена вызываем метод завершения уровня (победа) **/
-//                level.levelCompleted();
+//                levelScreen.onCompleted();
+//                levelScreen.levelCompleted();
             }
         }
     }

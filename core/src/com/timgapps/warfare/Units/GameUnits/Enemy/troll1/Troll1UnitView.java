@@ -10,7 +10,6 @@ import com.timgapps.warfare.Warfare;
 import com.timgapps.warfare.screens.level.LevelScreen;
 
 public class Troll1UnitView extends Ork1UnitView {
-
     public Troll1UnitView(LevelScreen levelScreen, EnemyUnitModel model, Ork1Controller controller) {
         super(levelScreen, model, controller);
         WAIT_COUNT = 1;                              // счетчик ожидания, когда юнит атаковал -> стоит и ждет

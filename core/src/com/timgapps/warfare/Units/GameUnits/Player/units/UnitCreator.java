@@ -7,6 +7,8 @@ import com.timgapps.warfare.Units.GameUnits.Enemy.ork1.Ork1Controller;
 import com.timgapps.warfare.Units.GameUnits.Enemy.ork1.Ork1UnitView;
 import com.timgapps.warfare.Units.GameUnits.Enemy.troll1.Troll1Controller;
 import com.timgapps.warfare.Units.GameUnits.Enemy.troll1.Troll1UnitView;
+import com.timgapps.warfare.Units.GameUnits.Enemy.troll2.Troll2Controller;
+import com.timgapps.warfare.Units.GameUnits.Enemy.troll2.Troll2UnitView;
 import com.timgapps.warfare.screens.level.LevelScreen;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitData;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitModel;
@@ -173,6 +175,11 @@ public class UnitCreator {
                         Troll1Controller troll1Controller = new Troll1Controller(levelScreen, enemyUnitModel);
                         Troll1UnitView troll1UnitView = new Troll1UnitView(levelScreen, enemyUnitModel, troll1Controller);
                         createEnemyUnit(enemyUnitModel, troll1UnitView);
+                        break;
+                    case Troll2:
+                        Troll2Controller troll2Controller = new Troll2Controller(levelScreen, enemyUnitModel);
+                        Troll2UnitView troll2UnitView = new Troll2UnitView(levelScreen, enemyUnitModel, troll2Controller);
+                        createEnemyUnit(enemyUnitModel, troll2UnitView);
                         break;
                     case Ent1:
                         Ent1Controller ent1Controller = new Ent1Controller(levelScreen, enemyUnitModel);

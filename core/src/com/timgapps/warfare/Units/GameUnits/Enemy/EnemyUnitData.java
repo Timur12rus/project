@@ -71,7 +71,17 @@ public class EnemyUnitData extends UnitData {
                 damage = 15;
                 health = 90;
                 speed = -0.4f;
-                name = "Ork1";
+                name = "Troll1";
+                deltaX = -78;
+                deltaY = 0;
+                barDeltaX = -84;
+                barDeltaY = 0;
+                break;
+            case Troll2:
+                damage = 15;
+                health = 90;
+                speed = -0.4f;
+                name = "Troll2";
                 deltaX = -78;
                 deltaY = 0;
                 barDeltaX = -84;

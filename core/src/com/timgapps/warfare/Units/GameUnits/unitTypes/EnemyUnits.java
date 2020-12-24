@@ -11,5 +11,6 @@ public enum EnemyUnits {
     Wizard,
     Ent1,
     Troll1,
+    Troll2,
     None
 }
