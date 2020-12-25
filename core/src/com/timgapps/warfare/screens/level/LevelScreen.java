@@ -98,11 +98,20 @@ public class LevelScreen extends StageGame {
     private CountDownTimer countDownTimer;
     private boolean isCompleted;
     public static float screenScale;
-    public static float scaleX;
-    public static float scaleY;
 
     // метод строит уровень
     public void build(int levelNumber) {
+
+        System.out.println("GetWidth = " + getWidth());
+        System.out.println("GetHeight = " + getHeight());
+        System.out.println("ViewPortWidth = " + stage.getViewport().getScreenWidth());
+        System.out.println("ViewPortHeight = " + stage.getViewport().getScreenHeight());
+        System.out.println("V_WIDTH = " + Warfare.V_WIDTH);
+        System.out.println("V_HEIGHT = " + Warfare.V_HEIGHT);
+
+//        stage.getViewport().update(Warfare.V_WIDTH, Warfare.V_HEIGHT, true);
+
+
         isCompleted = false;
         if (arrayModels != null) {
             arrayModels.clear();
@@ -133,9 +142,6 @@ public class LevelScreen extends StageGame {
         }
 
         screenScale = getScreenScale();
-        scaleX = getWidth() / Warfare.V_WIDTH;
-        scaleY = getHeight() / Warfare.V_HEIGHT;
-        System.out.println("screen Scale = " + screenScale);
 
         barricade = new Barricade(this, Barricade.ROCKS);
         siegeTower = new SiegeTower(this, -48, 270, gameManager.getTowerHealth(), 2);
@@ -193,8 +199,6 @@ public class LevelScreen extends StageGame {
         countDownTimer.reset();
         System.out.println("GET WIDTH = " + getWidth());
         System.out.println("GET HEIGHT = " + getHeight());
-
-
     }
 
     private float getScreenScale() {
@@ -448,33 +452,36 @@ public class LevelScreen extends StageGame {
     private void setBackGround(String region) {
         clearBackground();
         Image bg = new Image(Warfare.atlas.findRegion(region));
+        float scaleX = getScale(getWidth(), Warfare.V_WIDTH);
+        float scaleY = getScale(getHeight(), Warfare.V_HEIGHT);
+
+        System.out.println("ScaleX = " + scaleX);
+        System.out.println("ScaleY = " + scaleY);
+        bg.setWidth(bg.getWidth() * scaleX);
+        bg.setHeight(bg.getHeight() * scaleY);
+
+//        bg.setScaleX(scaleX);
+//        bg.setScaleY(scaleY);
+//        bg.scaleBy(scaleX, scaleY);
+//        addChild(bg);
         addBackground(bg, false, false);
 //        addBackground(bg, false, false);
+    }
+
+    private float getScale(float screenSize, float gameSize) {
+        if (screenSize > gameSize) {
+            return screenSize / gameSize;
+        } else {
+            return gameSize / gameSize;
+        }
     }
 
     @Override
     protected void addBackground(Actor actor, boolean centerX, boolean centerY) {
 //        super.addBackground(actor, centerX, centerY);
         background.addActor(actor);
-//        fillScreen(actor, centerX, centerY);
-        fitScreen(actor, centerX, centerY);
-    }
-
-    @Override
-    protected void fitScreen(Actor actor, boolean centerX, boolean centerY) {
-//        super.fitScreen(actor, centerX, centerY);
-        float scale = this.getScreenScale();
-        float scaleX = getWidth() / Warfare.V_WIDTH;
-        float scaleY = getHeight() / Warfare.V_HEIGHT;
-        actor.setWidth(actor.getWidth() * scaleX);
-        actor.setHeight(actor.getHeight() * scaleY);
-        if (centerX) {
-            actor.setX((this.getWidth() - actor.getWidth()) / 2.0F);
-        }
-
-        if (centerY) {
-            actor.setY((this.getHeight() - actor.getHeight()) / 2.0F);
-        }
+        fillScreen(actor, centerX, centerY);
+//        fitScreen(actor, centerX, centerY);
     }
 
     @Override
