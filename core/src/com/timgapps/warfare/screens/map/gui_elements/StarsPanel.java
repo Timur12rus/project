@@ -61,14 +61,14 @@ public class StarsPanel extends Group {
         setRewardImage(rewardForStarsDataList.get(indexOfRewardStars).getTypeOfReward());
 //        rewardIcon = rewardForStarsDataList.get(indexOfRewardStars).getRewardSmallIcon();
 
-        background = new Image(Warfare.atlas.findRegion("coinsPanel"));
+        background = new Image(Warfare.atlas.findRegion("starsPanel"));
         starsBar = new StarsBar();
 
         starsBar.setPosition(4, background.getHeight() - 36);
         starsCountLabel.setPosition((16 + background.getWidth() - starsCountLabel.getWidth()) / 2, starsBar.getY() - 2);
 
         starIcon.setPosition(8, starsBar.getY() - (starIcon.getHeight() - starsBar.getHeight()) / 2);
-        rewardIcon.setPosition(starsBar.getX() + starsBar.getWidth() - 4, -12);
+        rewardIcon.setPosition(starsBar.getX() + starsBar.getWidth() + 8, -12);
         textLabel.setPosition(4, starIcon.getHeight() - starIcon.getHeight() - 4);
 
         addActor(background);

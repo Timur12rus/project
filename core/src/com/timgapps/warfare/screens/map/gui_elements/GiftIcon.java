@@ -36,7 +36,7 @@ public class GiftIcon extends Group {
         setHeight(rewardIcon.getHeight());
 
         roundCircle = new RoundCircle();
-        roundCircle.setPosition(0, getHeight() - roundCircle.getHeight() / 2);
+        roundCircle.setPosition(getWidth() - roundCircle.getWidth(), getHeight() - roundCircle.getHeight());
 
 
         /** добавим неактивный значок и активный **/

@@ -93,7 +93,8 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
         levelIcons = gameManager.getLevelIcons();
 
 //        new Color(0x35a1afff);
-        greenRectangle = new ColorRectangle(0, 0, 1536, 1024, new Color(0x8eb353ff));
+        greenRectangle = new ColorRectangle(0, 0, 1536, 1024, new Color(0x84a327ff));
+//        greenRectangle = new ColorRectangle(0, 0, 1536, 1024, new Color(0x8eb353ff));
         addChild(greenRectangle);
 
         String directory = "location1";
@@ -133,7 +134,8 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
         });
 
         giftIcon = new com.timgapps.warfare.screens.map.gui_elements.GiftIcon(gameManager);
-        giftIcon.setPosition(getWidth() - giftIcon.getWidth() - 32, getHeight() / 3);
+//        giftIcon.setPosition(getWidth() - giftIcon.getWidth() - 32, getHeight() / 3);
+//        giftIcon.setPosition(getWidth() - giftIcon.getWidth() - 32, getHeight() / 3);
         giftIcon.addListener(new ClickListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -154,7 +156,7 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
             }
         });
 
-        addOverlayChild(giftIcon);
+//        addOverlayChild(giftIcon);
         /** создадим окно с вознаграждениями **/
         giftScreen = new GiftScreen(this, gameManager);
         giftScreen.setVisible(false);
@@ -174,10 +176,15 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
             }
         });
 
-        teamUpgradeIcon = new com.timgapps.warfare.screens.map.gui_elements.TeamUpgradeIcon();
-        teamUpgradeIcon.setPosition(32, getHeight() / 3);
-//        teamUpgradeIcon.setPosition(32, getHeight() / 2);
+        teamUpgradeIcon = new TeamUpgradeIcon();
+//        teamUpgradeIcon.setPosition(32, getHeight() / 3);
+        giftIcon.setPosition(32, 96);
+        teamUpgradeIcon.setPosition(32, giftIcon.getY() + giftIcon.getHeight() + 64);
+
+
+//        giftIcon.setPosition(getWidth() - giftIcon.getWidth() - 32, getHeight() / 3);
         addOverlayChild(teamUpgradeIcon);
+        addOverlayChild(giftIcon);
 
         Label.LabelStyle teamLabelStyle = new Label.LabelStyle();
         teamLabelStyle.fontColor = Color.WHITE;
