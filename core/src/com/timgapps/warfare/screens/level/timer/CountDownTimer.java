@@ -2,12 +2,13 @@ package com.timgapps.warfare.screens.level.timer;
 
 import com.timgapps.warfare.screens.level.LevelScreen;
 
+// счетчик для отсета времени до начала "волны моснтров"
 public class CountDownTimer {
     private float count;
     private LevelScreen levelScreen;
     private boolean waveIsStarted;
-    private final float TIME_TO_WAVE = 10;
-    private TimerIcon timerIcon;
+    private final float TIME_TO_WAVE = 150;     // время до начала отсчета волны
+    private TimerIcon timerIcon;            // счетчик для запуска анимации значака "волны монстров"
 
     public CountDownTimer(LevelScreen levelScreen) {
         this.levelScreen = levelScreen;
@@ -24,7 +25,7 @@ public class CountDownTimer {
 //            new MonsterWave(levelScreen).start();
         }
         timerIcon.update(count);
-        if (timerIcon.isStop() && !waveIsStarted) {
+        if (timerIcon.isStop() && !waveIsStarted && !levelScreen.isCompleted()) {
             waveIsStarted = true;
             new MonsterWave(levelScreen).start();
         }

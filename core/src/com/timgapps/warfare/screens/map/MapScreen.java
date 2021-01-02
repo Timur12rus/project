@@ -189,10 +189,10 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
         Label.LabelStyle teamLabelStyle = new Label.LabelStyle();
         teamLabelStyle.fontColor = Color.WHITE;
         teamLabelStyle.font = Warfare.font10;
-        teamLabel = new Label("Team", teamLabelStyle);
-        teamLabel.setPosition(teamUpgradeIcon.getX() + (teamUpgradeIcon.getWidth() - teamLabel.getWidth()) / 2,
-                teamUpgradeIcon.getY() - teamLabel.getHeight());
-        addOverlayChild(teamLabel);
+//        teamLabel = new Label("Team", teamLabelStyle);
+//        teamLabel.setPosition(teamUpgradeIcon.getX() + (teamUpgradeIcon.getWidth() - teamLabel.getWidth()) / 2,
+//                teamUpgradeIcon.getY() - teamLabel.getHeight());
+//        addOverlayChild(teamLabel);
 //        gameManager.setHelpStatus(gameManager.HELP_TEAM_UPGRADE);
         teamUpgradeIcon.addListener(new ClickListener() {
 
@@ -341,7 +341,7 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
      * метод для скрытия кнопок на экране
      **/
     private void hideButtons() {
-        teamLabel.setVisible(false);
+//        teamLabel.setVisible(false);
         starsPanel.setVisible(false);
         fade.toFront();
         fade.setPosition(cameraXpos - camera.viewportWidth / 2, cameraYpos - camera.viewportHeight / 2);
@@ -354,7 +354,7 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
     }
 
     private void showButtons() {
-        teamLabel.setVisible(true);
+//        teamLabel.setVisible(true);
         starsPanel.setVisible(true);
         fade.setVisible(false);
         giftIcon.setVisible(true);

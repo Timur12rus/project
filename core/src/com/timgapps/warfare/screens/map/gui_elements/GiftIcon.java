@@ -20,6 +20,7 @@ public class GiftIcon extends Group {
     private Long firstGiftTime;
     private Long secondGiftTime;
     private Finger finger;
+    private Label giftsLabel;
 
     public GiftIcon(GameManager gameManager) {
         this.gameManager = gameManager;
@@ -38,11 +39,19 @@ public class GiftIcon extends Group {
         roundCircle = new RoundCircle();
         roundCircle.setPosition(getWidth() - roundCircle.getWidth(), getHeight() - roundCircle.getHeight());
 
+        Label.LabelStyle teamLabelStyle = new Label.LabelStyle();
+        teamLabelStyle.fontColor = Color.WHITE;
+        teamLabelStyle.font = Warfare.font20;
+        giftsLabel = new Label("Podarki", teamLabelStyle);
+        giftsLabel.setPosition((getWidth() - giftsLabel.getWidth()) / 2,
+                14);
 
         /** добавим неактивный значок и активный **/
         addActor(rewardIcon);
         addActor(rewardIconDown);
+        addActor(giftsLabel);
         addActor(roundCircle);
+
 
         finger = new Finger(rewardIcon.getX() - 120 + 16,
                 rewardIcon.getY() + 80,

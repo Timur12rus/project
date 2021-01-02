@@ -18,7 +18,7 @@ public class EnemyUnitData extends UnitData {
     private void init() {
         switch (unitId) {
             case Zombie1:
-                damage = 6;
+                damage = 10;
                 health = 50;
                 speed = -0.35f;
                 name = "Zombie1";

@@ -82,7 +82,7 @@ public class LevelCreator {
     }
 
     public void showGameOverScreen() {
-        gameOverScreen.setPosition((levelScreen.getWidth() - levelCompletedScreen.getWidth()) / 2, levelScreen.getHeight() * 2 / 3);
+        gameOverScreen.setPosition((levelScreen.getWidth() - gameOverScreen.getWidth()) / 2, levelScreen.getHeight() * 2 / 3);
         levelScreen.addScreen(gameOverScreen);
     }
 

@@ -1,11 +1,13 @@
 package com.timgapps.warfare.screens.map.gui_elements;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.timgapps.warfare.screens.level.Finger;
 import com.timgapps.warfare.Warfare;
@@ -15,6 +17,7 @@ public class TeamUpgradeIcon extends Group {
     private Image upgradeIcon, UpgradeIconDown;
     private Image greenArrow;
     private Finger finger;
+    private Label teamLabel;
 
     public TeamUpgradeIcon() {
         upgradeIcon = new Image(Warfare.atlas.findRegion("teamButton"));
@@ -22,8 +25,16 @@ public class TeamUpgradeIcon extends Group {
         UpgradeIconDown.setVisible(false);
         setSize(UpgradeIconDown.getWidth(), UpgradeIconDown.getHeight());
 
+
+        Label.LabelStyle teamLabelStyle = new Label.LabelStyle();
+        teamLabelStyle.fontColor = Color.WHITE;
+        teamLabelStyle.font = Warfare.font20;
+        teamLabel = new Label("KOMAHDA", teamLabelStyle);
+        teamLabel.setPosition((getWidth() - teamLabel.getWidth()) / 2,
+                14);
         addActor(upgradeIcon);
         addActor(UpgradeIconDown);
+        addActor(teamLabel);
 
 
         finger = new Finger(upgradeIcon.getX() + upgradeIcon.getWidth() + 96,

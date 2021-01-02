@@ -26,11 +26,11 @@ public class PlayerUnitData extends UnitData {
         switch (unitId) {
             case Gnome:
                 name = "Gnome";
-                damage = 14;
-                health = 30;
+                damage = 12;
+                health = 34;
                 speed = 1.3f;
-                energyPrice = 15;
-                prepareTime = 10;
+                energyPrice = 10;
+                prepareTime = 20;
                 deltaX = -124;          // смещение изображения юнита относительно тела юнита (прямоугольника)
                 deltaY = 0;
                 barDeltaX = -84;
@@ -41,11 +41,11 @@ public class PlayerUnitData extends UnitData {
                 break;
             case Barbarian:
                 name = "Barbarian";
-                damage = 14;
-                health = 30;
+                damage = 20;
+                health = 25;
                 speed = 1.2f;
-                energyPrice = 15;
-                prepareTime = 10;
+                energyPrice = 20;
+                prepareTime = 12;
                 deltaX = -124;          // смещение изображения юнита относительно тела юнита (прямоугольника)
                 deltaY = 0;
                 barDeltaX = -84;
@@ -72,8 +72,8 @@ public class PlayerUnitData extends UnitData {
                 break;
             case Archer:
                 name = "Archer";
-                damage = 10;
-                health = 30;
+                damage = 5;
+                health = 18;
                 speed = 0.8f;
                 energyPrice = 20;
                 prepareTime = 25;
@@ -120,12 +120,12 @@ public class PlayerUnitData extends UnitData {
                 break;
             case Thor:
                 name = "Thor";
-                damage = 12;
-                health = 20;
+                damage = 10;
+                health = 28;
                 speed = 1.6f;
 //                speed = 0.9f;
-                energyPrice = 15;
-                prepareTime = 18;
+                energyPrice = 10;
+                prepareTime = 3;
                 deltaX = -100;
 //                deltaX = -124;
                 deltaY = -8;
@@ -142,7 +142,7 @@ public class PlayerUnitData extends UnitData {
                 speed = 0;
                 starsCount = 1;
                 energyPrice = 8;
-                prepareTime = 10;
+                prepareTime = 30;
                 unitLevel = 1;
                 isHired = true;     // куплен
                 break;

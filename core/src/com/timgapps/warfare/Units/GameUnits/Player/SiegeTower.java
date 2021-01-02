@@ -56,6 +56,7 @@ public class SiegeTower extends Group {
     private final float ATTACK_PAUSE_TIME = 180;
     private float distanceToEnemy;
     private float attackPauseTime;
+    private final float DAMAGE = 6;
 
     public SiegeTower(LevelScreen levelScreen, float x, float y, float health, float damage) {
         this.levelScreen = levelScreen;
@@ -172,7 +173,7 @@ public class SiegeTower extends Group {
         velocity.setAngle(angle);
         System.out.println("Angle = " + angle);
         System.out.println("Velosity = " + velocity);
-        new Arrow(levelScreen, startPosition, 10, velocity).setRotation(angle);
+        new Arrow(levelScreen, startPosition, DAMAGE, velocity).setRotation(angle);
 //        new Arrow(level, startPosition, 10, velocity.setAngle(0));
     }
 

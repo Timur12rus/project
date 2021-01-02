@@ -166,10 +166,10 @@ public class LevelScreen extends StageGame {
         levelMap = new TmxMapLoader().load("levels/level" + levelNumber + ".tmx", params);
 
 //        unitCreator.createUnit("Goblin", new Vector2(570, 270));
-        unitCreator.createUnit("Ork1", new Vector2(700, 220));
-        unitCreator.createUnit("Troll1", new Vector2(1300, 230));
-        unitCreator.createUnit("Ork1", new Vector2(1800, 250));
-        unitCreator.createUnit("Troll2", new Vector2(900, 260));
+//        unitCreator.createUnit("Ork1", new Vector2(700, 220));
+//        unitCreator.createUnit("Troll1", new Vector2(1300, 230));
+//        unitCreator.createUnit("Ork1", new Vector2(1800, 250));
+//        unitCreator.createUnit("Troll2", new Vector2(900, 260));
 
 
         String layerName;

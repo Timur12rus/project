@@ -55,20 +55,21 @@ public class TimerIcon extends Group {
     }
 
     public void update(float count) {
-        if ((TIMER_COUNT - count) >= 0) {
-            if ((int) (TIMER_COUNT - count) < 10) {
-                if (!actionIsStarted) {
-                    startAction();
+        if (isStarted) {
+            if ((TIMER_COUNT - count) >= 0) {
+                if ((int) (TIMER_COUNT - count) < 10) {
+                    if (!actionIsStarted) {
+                        startAction();
+                    }
+                    text = "0" + (int) (TIMER_COUNT - count);
+                } else {
+                    text = "" + (int) (TIMER_COUNT - count);
                 }
-                text = "0" + (int) (TIMER_COUNT - count);
-            } else {
-                text = "" + (int) (TIMER_COUNT - count);
+                textLabel.setText("00 : " + text);
+            } else if (!isStop) {
+                stop();
             }
-            textLabel.setText("00 : " + text);
-        } else if (!isStop) {
-            stop();
         }
-//        textLabel.setPosition((icon.getWidth() - textLabel.getWidth()) / 2, -textLabel.getHeight() - 24);
     }
 
     @Override
@@ -80,6 +81,7 @@ public class TimerIcon extends Group {
 
     public void stop() {
         isStop = true;
+        isStarted = false;
         icon.clearActions();
         addAction(Actions.fadeOut(1));
     }
