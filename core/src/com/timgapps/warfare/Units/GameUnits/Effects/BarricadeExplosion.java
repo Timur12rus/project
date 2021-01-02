@@ -13,9 +13,8 @@ import com.timgapps.warfare.Warfare;
 public class BarricadeExplosion extends Actor {
     protected Animation explosionAnimation;
     protected float stateTime;
-    protected boolean isEndAnimation = false;
     protected boolean isStarted = false;
-    private boolean isDestroyed = false;
+    private boolean isEnd = false;
     private Barricade barricade;
 
     public BarricadeExplosion(Barricade barricade) {
@@ -27,7 +26,6 @@ public class BarricadeExplosion extends Actor {
     public void start() {
         setVisible(true);
         isStarted = true;
-        isEndAnimation = false;
     }
 
     protected void createAnimation() {
@@ -43,7 +41,6 @@ public class BarricadeExplosion extends Actor {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
-
         if (isStarted) {
             stateTime += Gdx.graphics.getDeltaTime();
             batch.draw((TextureRegion) explosionAnimation.getKeyFrame(stateTime, false), getX(), getY());
@@ -54,15 +51,14 @@ public class BarricadeExplosion extends Actor {
     public void act(float delta) {
         super.act(delta);
         // если анимация взрыва завершена и баррикада не разрушена, вызываем метод разрушения баррикады
-        if (explosionAnimation.isAnimationFinished(stateTime) && (!isDestroyed)) {
-            isEndAnimation = true;
-            isDestroyed = true;
+        if (explosionAnimation.isAnimationFinished(stateTime) && (!isEnd)) {
+            isEnd = true;
             barricade.destroy();
         }
     }
 
     public boolean isEnd() {
-        return isDestroyed;
+        return isEnd;
     }
 
     public boolean isStarted() {

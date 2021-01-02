@@ -531,6 +531,7 @@ public class LevelScreen extends StageGame {
 
         if (barricade.isBarricadeDestroyed() && state != PAUSED && !isShowLevelCompletedScreen) {
             isShowLevelCompletedScreen = true;
+//            barricade.remove();
             levelCompleted();   // запускаем метод завершения уровня
         }
 

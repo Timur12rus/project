@@ -68,9 +68,13 @@ public class Barricade extends Group {
         barricadeExplosion3.setPosition(posX - 10, posY + 80);
         barricadeExplosion2.setPosition(posX - 30, posY - 10);
 
-        addActor(barricadeExplosion1);
-        addActor(barricadeExplosion3);
-        addActor(barricadeExplosion2);
+//        addActor(barricadeExplosion1);
+//        addActor(barricadeExplosion3);
+//        addActor(barricadeExplosion2);
+
+        levelScreen.addChild(barricadeExplosion1);
+        levelScreen.addChild(barricadeExplosion3);
+        levelScreen.addChild(barricadeExplosion2);
 
         /** создадим HealthBar **/
         healthBarWidth = 108;        // ширина HealthBar
@@ -160,7 +164,7 @@ public class Barricade extends Group {
     }
 
     public void setToDestroy() {
-        isDestroyed = true;
+//        isDestroyed = true;
         levelScreen.getSiegeTower().startMove();
 //        body.setActive(false);
     }
