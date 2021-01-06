@@ -30,23 +30,26 @@ public class FireRock extends Bullet {
     private ParticleEffect fireEffect;
     private float waitTimeToDestroy = 20;
     private Explosion explosion;
+    private static final float H = 500;
+    private float gravity = -8;
 
 
     public FireRock(LevelScreen levelScreen, Vector2 startPosition, Vector2 endPosition, float damage) {
         super(levelScreen, startPosition, damage);
-//        Vector2 newEndPos = new Vector2();
-//        newEndPos.set(endPosition.x - EXPLOSION_WIDTH / 2, endPosition.y - EXPLOSION_HEIGHT / 2);
-//        this.endPosition = newEndPos;
         this.startPosition = startPosition;
-//        endPosition.set(endPosition.x, endPosition.y);
         endPosition.set(endPosition.x, endPosition.y - 12);
         this.endPosition = endPosition;
-        System.out.println("END POSITION = " + endPosition);
         image = new TextureRegion(Warfare.atlas.findRegion("fireRock"));
         Vector2 endPos = new Vector2(endPosition.x, endPosition.y);
         Vector2 velocityDirection = new Vector2(endPos.sub(startPosition)).nor();
-        velocity.set(velocityDirection.scl(speed));
-//        velocity.set(0, 0);
+
+        velocity = calculateVelocity();
+//        velocity = new Vector2(15, 0);
+        System.out.println("Velocity = " + velocity);
+
+//        velocity.set(velocityDirection.scl(speed));
+//        velocity.set(speed, 5);
+
         levelScreen.addChild(this, position.x, position.y);
         this.levelScreen = levelScreen;
         this.toFront();
@@ -63,10 +66,20 @@ public class FireRock extends Bullet {
         explosion = new Explosion(levelScreen);
     }
 
+    private Vector2 calculateVelocity() {
+        float znam = 2 * (H - endPosition.y) / (-gravity);
+        float S = endPosition.x + 64;       // путь по горизонтали
+//        float velX = (float) ((endPosition.x + 64) / (Math.sqrt(znam / 60)));
+        float velX;     // начальная скорость по оси Х
+        velX = (float) (S / (Math.sqrt(znam * 60)) );
+//        velX = velX;
+        return new Vector2(velX, 4);
+    }
+
     public void start() {
-        Vector2 velocityDirection = new Vector2(endPosition.sub(startPosition)).nor();
-        velocity.set(velocityDirection.scl(speed));
-        levelScreen.addChild(this, position.x, position.y);
+//        Vector2 velocityDirection = new Vector2(endPosition.sub(startPosition)).nor();
+//        velocity.set(velocityDirection.scl(speed));
+//        levelScreen.addChild(this, position.x, position.y);
     }
 
     @Override
@@ -99,9 +112,8 @@ public class FireRock extends Bullet {
 
     @Override
     public void act(float delta) {
+        velocity.add(0, gravity * delta);
         super.act(delta);
-//        explosionRectangle.setX(position.x - (EXPLOSION_WIDTH - image.getRegionWidth()) / 2);
-//        explosionRectangle.setY(position.y - (EXPLOSION_HEIGHT - image.getRegionHeight()) / 2);
         if (isDestroyed) {
             waitTimeToDestroy--;
             if (waitTimeToDestroy < 0) {
@@ -118,13 +130,13 @@ public class FireRock extends Bullet {
 //            fireEffect.draw(batch);
 //        }
 
-            System.out.println("POSITION Y = " + position.y);
-            System.out.println("END POSITION = " + endPosition);
+//            System.out.println("POSITION Y = " + position.y);
+//            System.out.println("END POSITION = " + endPosition);
             if ((position.y < (endPosition.y + EXPLOSION_HEIGHT / 2)) && !isStartSmallRocks) {
                 explosionRectangle.setX(position.x - (EXPLOSION_WIDTH - image.getRegionWidth()) / 2);
                 explosionRectangle.setY(position.y - (EXPLOSION_HEIGHT - image.getRegionHeight()) / 2);
-                System.out.println("POSITION Y = " + position.y);
-                System.out.println("END POSITION = " + endPosition);
+//                System.out.println("POSITION Y = " + position.y);
+//                System.out.println("END POSITION = " + endPosition);
 //            if ((position.x > (endPosition.x + EXPLOSION_WIDTH / 2)) && !isStartSmallRocks) {
 //            startSmallRocks();
                 isStartSmallRocks = true;

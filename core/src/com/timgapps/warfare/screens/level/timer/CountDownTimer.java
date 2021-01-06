@@ -17,7 +17,7 @@ public class CountDownTimer {
 
     public void update(float delta) {
         count += delta;
-        System.out.println("count = " + count);
+//        System.out.println("count = " + count);
         if (count > TIME_TO_WAVE && !timerIcon.isStarted()) {
             timerIcon.start();
             count = 0;

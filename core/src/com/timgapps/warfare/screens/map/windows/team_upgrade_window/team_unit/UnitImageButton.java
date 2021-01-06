@@ -19,7 +19,7 @@ public class UnitImageButton extends Group {
     protected boolean isReadyUnitButton;
     protected PlayerUnitData playerUnitData;
     protected float height;
-    protected com.timgapps.warfare.screens.map.windows.team_upgrade_window.team_unit.UnitLevelIcon unitLevelIcon;
+    protected UnitLevelIcon unitLevelIcon;
     protected Image lockIcon;
     protected boolean isCalled;     // юнит призван (куплен)
 

@@ -4,6 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnitData;
 import com.timgapps.warfare.Units.GameUnits.unitTypes.PlayerUnits;
 import com.timgapps.warfare.screens.level.LevelScreen;
 import com.timgapps.warfare.screens.level.StoneButton;
@@ -93,5 +94,6 @@ public class UnitButtons extends Group {
                 });
             }
         }
+        unitButtonArrayList.add(new Firebooster(levelScreen, new PlayerUnitData(PlayerUnits.Firebooster)));
     }
 }

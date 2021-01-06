@@ -8,10 +8,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
-import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -20,11 +18,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Array;
 import com.boontaran.MessageListener;
 import com.boontaran.games.StageGame;
-import com.boontaran.games.tiled.TileLayer;
 import com.timgapps.warfare.Units.GameUnits.unitTypes.EnemyUnits;
 import com.timgapps.warfare.screens.level.gui_elements.UnitButtons;
 import com.timgapps.warfare.screens.level.timer.CountDownTimer;
-import com.timgapps.warfare.screens.level.timer.MonsterWave;
 import com.timgapps.warfare.screens.map.windows.team_upgrade_window.team_unit.TeamUnit;
 import com.timgapps.warfare.GameManager;
 import com.timgapps.warfare.screens.level.LevelWindows.ColorRectangle;
@@ -98,6 +94,7 @@ public class LevelScreen extends StageGame {
     private CountDownTimer countDownTimer;
     private boolean isCompleted;
     public static float screenScale;
+//    private BoosterButton boosterButton;
 
     // метод строит уровень
     public void build(int levelNumber) {

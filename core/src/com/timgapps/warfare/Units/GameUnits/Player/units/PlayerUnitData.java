@@ -146,6 +146,18 @@ public class PlayerUnitData extends UnitData {
                 unitLevel = 1;
                 isHired = true;     // куплен
                 break;
+            case Firebooster:
+                name = "FireBooster";
+                damage = 10;
+                health = 50;
+                speed = 0;
+                starsCount = 1;
+                energyPrice = 8;
+                prepareTime = 60;
+                unitLevel = 0;
+                isHired = true;     // куплен
+                isUnlock = true;
+                break;
             case None:
                 name = "None";
                 damage = 0;

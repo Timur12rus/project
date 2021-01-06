@@ -9,5 +9,6 @@ public enum PlayerUnits {
     Barbarian,
     Viking,
     Rock,
+    Firebooster,
     None
 }
