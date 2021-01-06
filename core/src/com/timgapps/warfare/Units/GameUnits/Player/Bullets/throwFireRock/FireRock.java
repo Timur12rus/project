@@ -52,8 +52,8 @@ public class FireRock extends Bullet {
 
         levelScreen.addChild(this, position.x, position.y);
         this.levelScreen = levelScreen;
-        this.toFront();
-//        isDebug = true;
+//        this.toFront();
+        isDebug = true;
         setSize(image.getRegionWidth(), image.getRegionHeight());
         this.debug();
         explosionRectangle = new Rectangle();
@@ -71,7 +71,7 @@ public class FireRock extends Bullet {
         float S = endPosition.x + 64;       // путь по горизонтали
 //        float velX = (float) ((endPosition.x + 64) / (Math.sqrt(znam / 60)));
         float velX;     // начальная скорость по оси Х
-        velX = (float) (S / (Math.sqrt(znam * 60)) );
+        velX = (float) (S / (Math.sqrt(znam * 60)));
 //        velX = velX;
         return new Vector2(velX, 4);
     }
@@ -112,7 +112,9 @@ public class FireRock extends Bullet {
 
     @Override
     public void act(float delta) {
-        velocity.add(0, gravity * delta);
+        if (levelScreen.getState() != LevelScreen.PAUSED && !isDestroyed) {
+            velocity.add(0, gravity * delta);
+        }
         super.act(delta);
         if (isDestroyed) {
             waitTimeToDestroy--;
@@ -160,7 +162,7 @@ public class FireRock extends Bullet {
 //                level.shakeCamera();
 //                Explosion explosion = new Explosion();
                 explosion.setPosition(position.x - explosion.getWidth() / 2, position.y - explosion.getHeight() / 2);
-                System.out.println("POSITION X = " + position.x);
+//                System.out.println("POSITION X = " + position.x);
                 levelScreen.addChild(explosion);
                 explosion.start();
             }

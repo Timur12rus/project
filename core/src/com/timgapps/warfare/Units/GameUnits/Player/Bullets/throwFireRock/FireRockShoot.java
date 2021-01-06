@@ -9,116 +9,81 @@ import java.util.ArrayList;
 public class FireRockShoot {
     private ArrayList<FireRock> fireRocks;
     private LevelScreen levelScreen;
+    private float firstPoint, secondPoint, thirdPoint, fourthPoint;
 
     public FireRockShoot(LevelScreen levelScreen) {
         this.levelScreen = levelScreen;
+        float deltaX;
+        firstPoint = levelScreen.getSiegeTower().getX() + levelScreen.getSiegeTower().getWidth() - 64;
+        fourthPoint = levelScreen.getBarricade().getX();
+        deltaX = (fourthPoint - firstPoint) / 4;          // расстояние между точками, куда нацелен снаряд
+        secondPoint = firstPoint + deltaX;
+        thirdPoint = secondPoint + deltaX;
+        fourthPoint += 128;
+        System.out.println("firstPoint = " + firstPoint);
+        System.out.println("secondPoint = " + secondPoint);
+        System.out.println("thirdPoint = " + thirdPoint);
+        System.out.println("fourthPoint = " + fourthPoint);
         boolean isHaveFirstTarget = false;
         boolean isHaveSecondTarget = false;
         boolean isHaveThirdTarget = false;
+        boolean isHaveFourthTarget = false;
         fireRocks = new ArrayList<FireRock>();
-        Vector2 firstPosition = new Vector2(0, 0);
-        Vector2 secondPosition = new Vector2(0, 0);
-        Vector2 thirdPosition = new Vector2(0, 0);
+        Vector2 firstPosition = new Vector2();
+        Vector2 secondPosition = new Vector2();
+        Vector2 thirdPosition = new Vector2();
+        Vector2 fourthPosition = new Vector2();
         // найдем вражеских юнитов по которым будем стрелять
         for (EnemyUnitModel enemy : levelScreen.getArrayEnemies()) {
             if (enemy.getHealth() > 0) {
-//            if (enemy.isBodyActive()) {
-                if ((enemy.getX() < 500 && enemy.getX() > 300) && (firstPosition != null)) {
-                    System.out.println("Enemy POSITION = " + enemy.getX() + ", " + enemy.getY());
-                    if (!isHaveFirstTarget) {
-                        firstPosition.set(enemy.getX() - 64, enemy.getY() - 60);
-                        isHaveFirstTarget = true;
-                    }
+                // если враг находится на первом промежутке, то запоминаем его позицию
+                if ((enemy.getX() < secondPoint && enemy.getX() > firstPoint) && (!isHaveFirstTarget)) {
+                    System.out.println("Enemy First POSITION = " + enemy.getX() + ", " + enemy.getY());
+                    firstPosition.set(enemy.getX() - 64, enemy.getY() - 60);
+                    isHaveFirstTarget = true;
                 }
-                if ((enemy.getX() < 960 && enemy.getX() >= 500) && (secondPosition != null)) {
-                    System.out.println("Enemy POSITION = " + enemy.getX() + ", " + enemy.getY());
-                    if (!isHaveSecondTarget) {
-                        secondPosition.set(enemy.getX() - 64, enemy.getY() - 60);
-                        isHaveSecondTarget = true;
-                    }
+                if ((enemy.getX() < thirdPoint && enemy.getX() >= secondPoint) && (!isHaveSecondTarget)) {
+                    System.out.println("Enemy Second POSITION = " + enemy.getX() + ", " + enemy.getY());
+                    secondPosition.set(enemy.getX() - 64, enemy.getY() - 60);       // позиция второй цели
+                    isHaveSecondTarget = true;
                 }
-                if ((enemy.getX() < 1300 && enemy.getX() >= 960) && (thirdPosition != null)) {
-                    System.out.println("Enemy POSITION = " + enemy.getX() + ", " + enemy.getY());
-                    if (!isHaveThirdTarget) {
-                        thirdPosition.set(enemy.getX() - 196, enemy.getY() - 60);
-                        isHaveThirdTarget = true;
-                    }
+                if ((enemy.getX() < fourthPoint && enemy.getX() >= thirdPoint) && (!isHaveThirdTarget)) {
+                    System.out.println("Enemy Third POSITION = " + enemy.getX() + ", " + enemy.getY());
+                    thirdPosition.set(enemy.getX() - 64, enemy.getY() - 60);
+                    isHaveThirdTarget = true;
                 }
             }
         }
-
-        if (!isHaveFirstTarget) {        // если первый камень не имеет цель
-            if (isHaveSecondTarget) {       // если второй камень имеет цель
-                firstPosition.set(secondPosition.x - 128, secondPosition.y + 24);
-                if (!isHaveThirdTarget) {
-                    thirdPosition.set(secondPosition.x + 128, secondPosition.y - 24);
-                }
-            } else {                        // если второй камень не имеет цель
-                if (isHaveThirdTarget) {    // если третий камень имеет цель
-                    firstPosition.set(thirdPosition.x - 128, thirdPosition.y + 24);
-                    secondPosition.set(thirdPosition.x + 128, thirdPosition.y - 24);
-                } else {                // если третий камень не имеет цель
-//                    thirdPosition.set(levelScreen.getBarricade().getX() + 270, 210);
-                    thirdPosition.set(960, 180);
-//                    thirdPosition.set(1100, 210);
-                    firstPosition.set(thirdPosition.x + 64, thirdPosition.y - 48);
-                    secondPosition.set(thirdPosition.x + 64, thirdPosition.y - 96);
-                }
-            }
-        } else {            // если первый камень имеет цель
-            if (!isHaveSecondTarget) {          // если второй камень не имеет цель
-                secondPosition.set(firstPosition.x + 128, secondPosition.y + 24);
-            }
-            if (!isHaveThirdTarget) {
-                thirdPosition.set(secondPosition.x + 128, thirdPosition.y - 24);
-            }
+        if (isHaveFirstTarget && !isHaveSecondTarget && !isHaveThirdTarget) {
+            secondPosition.set(firstPosition.x + 64, firstPosition.y - 32);
+            thirdPosition.set(secondPosition.x + 64, secondPosition.y - 32);
         }
-
-
-//        if (firstPosition.x == 0 && firstPosition.y == 0) {
-//            firstPosition.set(500, 130);
-//        }
-//
-//        if (secondPosition.x == 0 && secondPosition.y == 0) {
-//            secondPosition.set(1100, 180);
-//        }
-//
-//        if (thirdPosition.x == 0 && thirdPosition.y == 0) {
-//            thirdPosition.set(1100, 210);
-//        }
-
-//        System.out.println("FIRST POSITION = " + firstPosition);
-//        System.out.println("SECOND POSITION = " + secondPosition);
-//        System.out.println("THIRD POSITION = " + thirdPosition);
+        if (!isHaveFirstTarget && isHaveSecondTarget && !isHaveThirdTarget) {
+            firstPosition.set(secondPosition.x - 64, secondPosition.y + 32);
+            thirdPosition.set(secondPosition.x + 64, secondPosition.y - 32);
+        }
+        if (!isHaveFirstTarget && !isHaveSecondTarget && isHaveThirdTarget) {
+            secondPosition.set(thirdPosition.x - 64, thirdPosition.y + 32);
+            firstPosition.set(secondPosition.x - 64, secondPosition.y + 32);
+        }
+        if (isHaveFirstTarget && !isHaveSecondTarget && isHaveThirdTarget) {
+            secondPosition.set(firstPosition.x + 64, firstPosition.y - 32);
+        }
+        if (isHaveFirstTarget && isHaveSecondTarget && !isHaveThirdTarget) {
+            thirdPosition.set(firstPosition.x + 64, firstPosition.y - 32);
+        }
+        if (!isHaveFirstTarget && isHaveSecondTarget && isHaveThirdTarget) {
+            firstPosition.set(secondPosition.x - 64, secondPosition.y);
+        }
+        if (!isHaveFirstTarget && !isHaveSecondTarget && !isHaveThirdTarget) {
+            firstPosition.set(fourthPoint - 256, 210);
+            secondPosition.set(firstPosition.x + 16, 190);
+            thirdPosition.set(secondPosition.x + 16, 170);
+        }
 
         fireRocks.add(new FireRock(levelScreen, new Vector2(-64, 500), firstPosition, 10));
         fireRocks.add(new FireRock(levelScreen, new Vector2(-64, 500), secondPosition, 10));
         fireRocks.add(new FireRock(levelScreen, new Vector2(-64, 500), thirdPosition, 10));
-
-        System.out.println("FirstEndPosition = " + firstPosition);
-//        fireRocks.add(new FireRock(levelScreen, new Vector2(-64, 500), new Vector2(640, 160 ), 10));
-//        fireRocks.add(new FireRock(levelScreen, new Vector2(-64, 500), new Vector2(320, 140 ), 10));
-//        fireRocks.add(new FireRock(levelScreen, new Vector2(-64, 500), new Vector2(960, 180 ), 10));
-//        fireRocks.add(new FireRock(levelScreen, new Vector2(-64, 500), secondPosition, 10));
-//        fireRocks.add(new FireRock(levelScreen, new Vector2(-64, 500), thirdPosition, 10));
-
-//        fireRocks.add(new
-//
-//                FireRock(levelScreen, new Vector2(100, 1000), firstPosition, 10));
-//        fireRocks.add(new
-//
-//                FireRock(levelScreen, new Vector2(-160, 1600), secondPosition, 10));
-//        fireRocks.add(new
-//
-//                FireRock(levelScreen, new Vector2(240, 1100), thirdPosition, 10));
-    }
-
-
-
-
-    // метод для запуска огненног камня, обращается к огненным камням из массива
-    public void throwFireRock(int i) {
-        if (fireRocks != null && fireRocks.size() > 0)
-            fireRocks.get(i).start();
     }
 }
+

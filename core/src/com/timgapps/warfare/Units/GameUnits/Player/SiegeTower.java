@@ -69,6 +69,7 @@ public class SiegeTower extends Group {
         isMove = true;
         deltaAngle = 4;
         velocity = 2.6f;
+        setWidth(tower.getWidth());
 
         frontWheel.setOrigin(Align.center);
         frontWheel.setRotation(angleFWheel + 90);
