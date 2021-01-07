@@ -19,6 +19,7 @@ public class PlayerUnitData extends UnitData {
 
     public PlayerUnitData(PlayerUnits unitId) {
         this.unitId = unitId;
+        setDefaultData(unitId);
     }
 
     // метод задает начальные значения параметров юнита
@@ -153,7 +154,7 @@ public class PlayerUnitData extends UnitData {
                 speed = 0;
                 energyPrice = 0;
                 prepareTime = 60;
-                unitLevel = 0;
+                unitLevel = 1;
                 isHired = true;     // куплен
                 isUnlock = true;
                 break;

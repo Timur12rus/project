@@ -3,7 +3,9 @@ package com.timgapps.warfare.screens.map.windows.team_upgrade_window.team_unit;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.timgapps.warfare.Units.GameUnits.Player.Bullets.throwFireRock.FireRockShoot;
 import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnitData;
+import com.timgapps.warfare.Units.GameUnits.unitTypes.PlayerUnits;
 import com.timgapps.warfare.screens.level.LevelScreen;
 import com.timgapps.warfare.Warfare;
 
@@ -33,11 +35,16 @@ public class CreateUnitButton extends UnitImageButton {
         lockImage.setVisible(false);
         setInActive();
         unitLevelIcon.setIsActiveIcon(false);
+        System.out.println("isUnlock = " + isUnlock);
+        System.out.println("isCalled = " + isCalled);
+        isUnlock = playerUnitData.isUnlock();
+        System.out.println("isUnlock = " + isUnlock);
     }
 
     @Override
     public void act(float delta) {
         super.act(delta);
+//        System.out.println("isActive = " + isActive);
         if (levelScreen.getState() == LevelScreen.PLAY) {
             if (!isReadyUnitButton) {                         // если юнит не готов к появлению
                 if (percentage < height) {                   // проверяем, прошло ли достаточно времени, чтобы родился юнит
@@ -45,7 +52,8 @@ public class CreateUnitButton extends UnitImageButton {
                 } else {
                     isReadyUnitButton = true;                             // если энергии хватает, делаем кнопку активной
                 }
-            } else if (checkEnergyCount(energyPrice)) {
+            }
+            if (isReadyUnitButton && checkEnergyCount(energyPrice)) {
                 setActive();
             } else {
                 setInActive();
@@ -55,14 +63,14 @@ public class CreateUnitButton extends UnitImageButton {
 
     @Override
     public void touchedDown() {
-        if (isReadyUnitButton) {
+        if (isReadyUnitButton && isActive) {
             super.touchedDown();
         }
     }
 
     @Override
     public void touchedUp() {
-        if (isReadyUnitButton) {
+        if (isReadyUnitButton && isActive) {
             super.touchedUp();
         }
     }
@@ -75,7 +83,11 @@ public class CreateUnitButton extends UnitImageButton {
             setInActive();
             System.out.println("Add new Player unit " + playerUnitData.getUnitId());
             levelScreen.subEnergyCount(energyPrice);
-            levelScreen.createPlayerUnit(playerUnitData.getUnitId());
+            if (playerUnitData.getUnitId() != PlayerUnits.Firebooster) {
+                levelScreen.createPlayerUnit(playerUnitData.getUnitId());
+            } else {
+                new FireRockShoot(levelScreen);
+            }
         }
     }
 

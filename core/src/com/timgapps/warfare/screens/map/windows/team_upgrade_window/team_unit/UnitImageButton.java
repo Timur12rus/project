@@ -15,7 +15,7 @@ import com.timgapps.warfare.Warfare;
 public class UnitImageButton extends Group {
     protected Image activeImage, inactiveImage, lockImage;
     protected boolean isUnlock;
-    private PlayerUnits unitId;
+    protected PlayerUnits unitId;
     protected boolean isReadyUnitButton;
     protected PlayerUnitData playerUnitData;
     protected float height;
@@ -69,6 +69,7 @@ public class UnitImageButton extends Group {
         this.isUnlock = playerUnitData.isUnlock();
         this.isCalled = playerUnitData.isHired();
         if (isUnlock) {                         // если разблокирован
+            lockIcon.setVisible(false);
             if (isCalled) {                     // если призван
                 activeImage.setVisible(true);
                 unitLevelIcon.setVisible(true);
@@ -78,7 +79,6 @@ public class UnitImageButton extends Group {
                 unitLevelIcon.setVisible(false);
                 lockImage.setVisible(true);
             }
-            lockIcon.setVisible(false);
         } else {                            // в противном случае, заблокирован
             lockImage.setVisible(true);
             activeImage.setVisible(false);

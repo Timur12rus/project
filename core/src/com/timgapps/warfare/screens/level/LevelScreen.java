@@ -492,6 +492,18 @@ public class LevelScreen extends StageGame {
         super.update(delta);
         if (state != PAUSED) {
             countDownTimer.update(delta);
+//            System.out.println("camera Pos y = " + camera.position);
+
+            // Трясем камеру
+//            if (Rumble.getRumbleTimeLeft() > 0) {
+//                Rumble.tick(delta);
+//                background.getActors().get(0).setY(-5);
+//                camera.position.y = Rumble.getPos().y;
+//            } else {
+//                background.getActors().get(0).setY(0);
+//                camera.position.y = 360;
+//            }
+
             // для теста (пуск огненных камней)
 //            waitTime--;
 //            if (waitTime < 0) {
@@ -541,10 +553,14 @@ public class LevelScreen extends StageGame {
     }
 
     public void shakeCamera() {
-        float x = camera.position.x;
-        float y = camera.position.y;
-        System.out.println("Camera position = " + y);
-        camera.position.y = y - 6;
+//        float x = camera.position.x;
+//        float y = camera.position.y;
+//        System.out.println("Camera position = " + y);
+//        camera.position.y = y - 6;
+//
+        Rumble.rumble(0.5f, 0.05f);
+//        System.out.println("backgroundPos = " + background.getCamera().position.y);
+
 //        camera.position.x = (float) (x + Math.random() * 16 + 4);
 //        camera.position.y = (float) (y + Math.random() * 16 + 4);
     }

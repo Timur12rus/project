@@ -94,6 +94,8 @@ public class UnitButtons extends Group {
                 });
             }
         }
-        unitButtonArrayList.add(new Firebooster(levelScreen, new PlayerUnitData(PlayerUnits.Firebooster)));
+        unitButtonArrayList.add(new Firebooster(levelScreen,
+                new PlayerUnitData(PlayerUnits.Firebooster)));
+
     }
 }

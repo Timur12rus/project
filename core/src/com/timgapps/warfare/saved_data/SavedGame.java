@@ -139,7 +139,7 @@ public class SavedGame implements Serializable {
     public void createTeamEntityDataList() {
         teamDataList = new ArrayList<PlayerUnitData>();
         teamDataList.add(new PlayerUnitData(PlayerUnits.Thor));
-        teamDataList.get(0).setDefaultData(PlayerUnits.Thor);
+//        teamDataList.get(0).setDefaultData(PlayerUnits.Thor);
 
         // это для теста
 //        teamDataList.add(new PlayerUnitData(PlayerUnits.Gnome));
@@ -174,9 +174,9 @@ public class SavedGame implements Serializable {
         collectionDataList.add(new PlayerUnitData(PlayerUnits.Shooter));
 
 
-        for (PlayerUnitData collectionUnitData : collectionDataList) {
-            collectionUnitData.setDefaultData(collectionUnitData.getUnitId());
-        }
+//        for (PlayerUnitData collectionUnitData : collectionDataList) {
+//            collectionUnitData.setDefaultData(collectionUnitData.getUnitId());
+//        }
     }
 
     public ArrayList<PlayerUnitData> getCollectionDataList() {
