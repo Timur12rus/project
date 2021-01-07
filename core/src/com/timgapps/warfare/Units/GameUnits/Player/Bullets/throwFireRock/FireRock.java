@@ -9,6 +9,9 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.timgapps.warfare.screens.level.LevelScreen;
 import com.timgapps.warfare.Units.GameUnits.Effects.Explosion;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitModel;
@@ -32,11 +35,13 @@ public class FireRock extends Bullet {
     private Explosion explosion;
     private static final float H = 500;
     private float gravity = -8;
+    private float delayTime;
 
-
-    public FireRock(LevelScreen levelScreen, Vector2 startPosition, Vector2 endPosition, float damage) {
+    public FireRock(LevelScreen levelScreen, Vector2 startPosition, Vector2 endPosition, float damage, float delayTime) {
         super(levelScreen, startPosition, damage);
+        isStarted = false;
         this.startPosition = startPosition;
+        this.delayTime = delayTime;
         endPosition.set(endPosition.x, endPosition.y - 12);
         this.endPosition = endPosition;
         image = new TextureRegion(Warfare.atlas.findRegion("fireRock"));
@@ -45,7 +50,7 @@ public class FireRock extends Bullet {
 
         velocity = calculateVelocity();
 //        velocity = new Vector2(15, 0);
-        System.out.println("Velocity = " + velocity);
+//        System.out.println("Velocity = " + velocity);
 
 //        velocity.set(velocityDirection.scl(speed));
 //        velocity.set(speed, 5);
@@ -53,7 +58,7 @@ public class FireRock extends Bullet {
         levelScreen.addChild(this, position.x, position.y);
         this.levelScreen = levelScreen;
 //        this.toFront();
-        isDebug = true;
+//        isDebug = true;
         setSize(image.getRegionWidth(), image.getRegionHeight());
         this.debug();
         explosionRectangle = new Rectangle();
@@ -64,6 +69,7 @@ public class FireRock extends Bullet {
         fireEffect.setPosition(position.x, position.y);
         fireEffect.start();
         explosion = new Explosion(levelScreen);
+
     }
 
     private Vector2 calculateVelocity() {
@@ -113,7 +119,14 @@ public class FireRock extends Bullet {
     @Override
     public void act(float delta) {
         if (levelScreen.getState() != LevelScreen.PAUSED && !isDestroyed) {
-            velocity.add(0, gravity * delta);
+            if (isStarted) {
+                velocity.add(0, gravity * delta);
+            } else {
+                delayTime -= delta;
+                if (delayTime < 0) {
+                    isStarted = true;
+                }
+            }
         }
         super.act(delta);
         if (isDestroyed) {
@@ -121,6 +134,7 @@ public class FireRock extends Bullet {
             if (waitTimeToDestroy < 0) {
 //            if (explosion.isEnd()) {
                 fireEffect.dispose();
+                levelScreen.removeChild(explosion);
                 this.remove();
             }
 //            }
@@ -159,7 +173,7 @@ public class FireRock extends Bullet {
                 }
                 isDestroyed = true;
                 //TODO shakeCamera  !!!!!!!! 22.10.2020
-//                level.shakeCamera();
+//                levelScreen.shakeCamera();
 //                Explosion explosion = new Explosion();
                 explosion.setPosition(position.x - explosion.getWidth() / 2, position.y - explosion.getHeight() / 2);
 //                System.out.println("POSITION X = " + position.x);
@@ -170,7 +184,9 @@ public class FireRock extends Bullet {
         if (levelScreen.getState() != LevelScreen.PAUSED && waitTimeToDestroy > 0) {
             fireEffect.update(delta);
         }
+
     }
+
 
     public void setVelocity(Vector2 velocity) {
         this.velocity.set(velocity);

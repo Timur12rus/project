@@ -14,7 +14,7 @@ import com.timgapps.warfare.Warfare;
 // кнопка юнита (в магазине и на сцене для вызова юнита)
 public class UnitImageButton extends Group {
     protected Image activeImage, inactiveImage, lockImage;
-    private boolean isUnlock;
+    protected boolean isUnlock;
     private PlayerUnits unitId;
     protected boolean isReadyUnitButton;
     protected PlayerUnitData playerUnitData;

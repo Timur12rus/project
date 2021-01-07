@@ -151,8 +151,7 @@ public class PlayerUnitData extends UnitData {
                 damage = 10;
                 health = 50;
                 speed = 0;
-                starsCount = 1;
-                energyPrice = 8;
+                energyPrice = 0;
                 prepareTime = 60;
                 unitLevel = 0;
                 isHired = true;     // куплен

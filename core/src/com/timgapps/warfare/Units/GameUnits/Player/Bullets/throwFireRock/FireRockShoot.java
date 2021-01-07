@@ -41,13 +41,11 @@ public class FireRockShoot {
                     System.out.println("Enemy First POSITION = " + enemy.getX() + ", " + enemy.getY());
                     firstPosition.set(enemy.getX() - 64, enemy.getY() - 60);
                     isHaveFirstTarget = true;
-                }
-                if ((enemy.getX() < thirdPoint && enemy.getX() >= secondPoint) && (!isHaveSecondTarget)) {
+                } else if ((enemy.getX() < thirdPoint && enemy.getX() >= secondPoint) && (!isHaveSecondTarget)) {
                     System.out.println("Enemy Second POSITION = " + enemy.getX() + ", " + enemy.getY());
                     secondPosition.set(enemy.getX() - 64, enemy.getY() - 60);       // позиция второй цели
                     isHaveSecondTarget = true;
-                }
-                if ((enemy.getX() < fourthPoint && enemy.getX() >= thirdPoint) && (!isHaveThirdTarget)) {
+                } else if ((enemy.getX() < fourthPoint && enemy.getX() >= thirdPoint) && (!isHaveThirdTarget)) {
                     System.out.println("Enemy Third POSITION = " + enemy.getX() + ", " + enemy.getY());
                     thirdPosition.set(enemy.getX() - 64, enemy.getY() - 60);
                     isHaveThirdTarget = true;
@@ -57,33 +55,27 @@ public class FireRockShoot {
         if (isHaveFirstTarget && !isHaveSecondTarget && !isHaveThirdTarget) {
             secondPosition.set(firstPosition.x + 64, firstPosition.y - 32);
             thirdPosition.set(secondPosition.x + 64, secondPosition.y - 32);
-        }
-        if (!isHaveFirstTarget && isHaveSecondTarget && !isHaveThirdTarget) {
+        } else if (!isHaveFirstTarget && isHaveSecondTarget && !isHaveThirdTarget) {
             firstPosition.set(secondPosition.x - 64, secondPosition.y + 32);
             thirdPosition.set(secondPosition.x + 64, secondPosition.y - 32);
-        }
-        if (!isHaveFirstTarget && !isHaveSecondTarget && isHaveThirdTarget) {
+        } else if (!isHaveFirstTarget && !isHaveSecondTarget && isHaveThirdTarget) {
             secondPosition.set(thirdPosition.x - 64, thirdPosition.y + 32);
             firstPosition.set(secondPosition.x - 64, secondPosition.y + 32);
-        }
-        if (isHaveFirstTarget && !isHaveSecondTarget && isHaveThirdTarget) {
+        } else if (isHaveFirstTarget && !isHaveSecondTarget && isHaveThirdTarget) {
             secondPosition.set(firstPosition.x + 64, firstPosition.y - 32);
-        }
-        if (isHaveFirstTarget && isHaveSecondTarget && !isHaveThirdTarget) {
+        } else if (isHaveFirstTarget && isHaveSecondTarget && !isHaveThirdTarget) {
             thirdPosition.set(firstPosition.x + 64, firstPosition.y - 32);
-        }
-        if (!isHaveFirstTarget && isHaveSecondTarget && isHaveThirdTarget) {
+        } else if (!isHaveFirstTarget && isHaveSecondTarget && isHaveThirdTarget) {
             firstPosition.set(secondPosition.x - 64, secondPosition.y);
-        }
-        if (!isHaveFirstTarget && !isHaveSecondTarget && !isHaveThirdTarget) {
+        } else if (!isHaveFirstTarget && !isHaveSecondTarget && !isHaveThirdTarget) {
             firstPosition.set(fourthPoint - 256, 210);
             secondPosition.set(firstPosition.x + 16, 190);
             thirdPosition.set(secondPosition.x + 16, 170);
         }
 
-        fireRocks.add(new FireRock(levelScreen, new Vector2(-64, 500), firstPosition, 10));
-        fireRocks.add(new FireRock(levelScreen, new Vector2(-64, 500), secondPosition, 10));
-        fireRocks.add(new FireRock(levelScreen, new Vector2(-64, 500), thirdPosition, 10));
+        fireRocks.add(new FireRock(levelScreen, new Vector2(-64, 500), firstPosition, 10, 0f));
+        fireRocks.add(new FireRock(levelScreen, new Vector2(-64, 500), secondPosition, 10, 0.3f));
+        fireRocks.add(new FireRock(levelScreen, new Vector2(-64, 500), thirdPosition, 10, 0.6f));
     }
 }
 

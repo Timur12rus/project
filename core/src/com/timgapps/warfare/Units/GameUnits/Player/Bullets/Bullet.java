@@ -23,6 +23,7 @@ public abstract class Bullet extends Actor {
     protected boolean isTouchedEnemy;
     protected EnemyUnitModel targetEnemy;
     protected boolean isDestroyed;
+    protected boolean isStarted;
 
     public Bullet(LevelScreen levelScreen, Vector2 position, float damage) {
         this.position = position;
@@ -31,12 +32,13 @@ public abstract class Bullet extends Actor {
         body = createBody();
         shapeRenderer = new ShapeRenderer();
         velocity = new Vector2();
+        isStarted = true;
     }
 
     @Override
     public void act(float delta) {
         super.act(delta);
-        if (levelScreen.getState() != LevelScreen.PAUSED) {
+        if (levelScreen.getState() != LevelScreen.PAUSED && isStarted) {
             position.add(velocity);
             body.setX(position.x);
             body.setY(position.y);

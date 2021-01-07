@@ -508,6 +508,7 @@ public class LevelScreen extends StageGame {
 //                world.step(STEP, 8, 6);
 //                accumulator -= STEP;
 //            }
+
             compareActorsYPos();
         }
         // finger
@@ -542,8 +543,10 @@ public class LevelScreen extends StageGame {
     public void shakeCamera() {
         float x = camera.position.x;
         float y = camera.position.y;
-        camera.position.x = (float) (x + Math.random() * 16 + 4);
-        camera.position.y = (float) (y + Math.random() * 16 + 4);
+        System.out.println("Camera position = " + y);
+        camera.position.y = y - 6;
+//        camera.position.x = (float) (x + Math.random() * 16 + 4);
+//        camera.position.y = (float) (y + Math.random() * 16 + 4);
     }
 
     public void compareActorsYPos() {

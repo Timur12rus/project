@@ -10,10 +10,9 @@ import com.timgapps.warfare.Warfare;
 // кнопка для создания юинтов на сцене
 public class CreateUnitButton extends UnitImageButton {
     protected TextureRegion darkLayer;
-    private boolean isUnlock;
-    private float appearanceTime;
+    protected float appearanceTime;
     protected float interpolation;
-    private int energyPrice;
+    protected int energyPrice;
     protected float percentage = 0;
     private LevelScreen levelScreen;
     private boolean isActive = false;
