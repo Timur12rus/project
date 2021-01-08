@@ -1,5 +1,6 @@
 package com.timgapps.warfare.Units.GameUnits.Enemy.zombie2;
 
+import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnitModel;
 import com.timgapps.warfare.screens.level.LevelScreen;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitController;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitModel;

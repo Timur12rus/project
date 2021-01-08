@@ -22,6 +22,9 @@ public class EnemyUnitModel extends GameUnitModel {
     private boolean isShoot;        //  готов ли юнит стрелять
     private boolean isShooted;      //  выстрелил ли юнит
     private boolean isAttacked;     // атаковал ли юнит врага
+    private boolean isHaveTargetPlayer;  // имеет ли юнит игрока-цель
+    private boolean isMoveToTarget;
+    private EnemyUnitModel targetPlayer;
 
     public EnemyUnitModel(LevelScreen levelScreen, Vector2 position, EnemyUnitData enemyUnitData) {
         super(levelScreen, position);
@@ -41,6 +44,29 @@ public class EnemyUnitModel extends GameUnitModel {
         isTouchedTower = false;
         isAttackTower = false;
         unitBit = ENEMY_BIT;
+    }
+
+    // метод задает юнита "игрока-цель"
+    public void setTargetPlayer(EnemyUnitModel targetEnemy) {
+        if (this.targetPlayer != null) {
+            if (!this.targetPlayer.equals(targetEnemy))
+                this.targetPlayer = targetEnemy;
+        } else {
+            this.targetPlayer = targetEnemy;
+        }
+    }
+
+    public void setIsHaveTargetPlayer(boolean isHaveTargetPlayer) {
+        this.isHaveTargetPlayer = isHaveTargetPlayer;
+    }
+
+    public boolean isHaveTargetPlayer() {
+        return isHaveTargetPlayer;
+    }
+
+    // проверяет коснулся ли юнит врага
+    public boolean isTouchedPlayer() {
+        return isTouchedPlayer;
     }
 
     @Override
@@ -93,10 +119,6 @@ public class EnemyUnitModel extends GameUnitModel {
 
     public ParticleEffect getBloodSpray() {
         return bloodSpray;
-    }
-
-    public boolean isTouchedPlayer() {
-        return isTouchedPlayer;
     }
 
     public void setIsTouchedPlayer(boolean isTouchedPlayer) {

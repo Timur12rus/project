@@ -61,7 +61,7 @@ public class LevelScreen extends StageGame {
     public ArrayList<GameUnitModel> arrayModels;
     private float timeCount = 0;
     private HUD hud;
-    private float energyCount = 0;
+    private float energyCount = 10;
     private int coinsCount;         // кол-во монет у игрока
     private int levelNumber;
     private GameManager gameManager;
@@ -151,7 +151,7 @@ public class LevelScreen extends StageGame {
         isShowLevelCompletedScreen = false;
         levelCreator.createScreens();
         pausedScreen.redraw();
-        energyCount = 0;
+        energyCount = 10;
 
         // создаем вражеских юнитов
         levelMap = new TiledMap();

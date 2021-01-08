@@ -177,4 +177,7 @@ public class PlayerUnitModel extends GameUnitModel {
         return playerUnitData;
     }
 
+    public String getName() {
+        return name;
+    }
 }

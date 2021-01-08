@@ -11,6 +11,8 @@ import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnitModel;
 import java.util.ArrayList;
 
 public class ThorController extends PlayerUnitController implements PlayerWarriorAi {
+    protected EnemyUnitModel newTargetEnemy;
+
     public ThorController(LevelScreen levelScreen, PlayerUnitModel model) {
         super(levelScreen, model);
     }
@@ -20,21 +22,23 @@ public class ThorController extends PlayerUnitController implements PlayerWarrio
     public void update(float delta) {
         super.update(delta);
 //        System.out.println("isTouchedEnemy" + model.isTouchedEnemy());
-        EnemyUnitModel newTargetEnemy = findEnemyUnit();
-        if (targetEnemy == null) {
-            if (newTargetEnemy != null) {
-                targetEnemy = newTargetEnemy;
-            }
-        } else {
-            if (!targetEnemy.equals(newTargetEnemy) && (newTargetEnemy != null)) {      // если новая цель не соответствет старой, то меняем цель на новую
-                // сравним расстояние от игрового юнита до вражеского
-                Vector2 v1 = new Vector2(model.getX(), model.getY());
-                Vector2 newTargetEnemyPos = new Vector2(newTargetEnemy.getX(), newTargetEnemy.getY());
-                Vector2 targetEnemyPos = new Vector2(targetEnemy.getX(), targetEnemy.getY());
-                float distance1 = newTargetEnemyPos.sub(v1).len();      // расстояние до новой цели
-                float distance2 = targetEnemyPos.sub(v1).len();         // расстояние до предыдущей цели
-                if (distance1 < distance2)
+        if (!model.isAttack()) {
+            newTargetEnemy = findEnemyUnit();
+            if (targetEnemy == null) {
+                if (newTargetEnemy != null) {
                     targetEnemy = newTargetEnemy;
+                }
+            } else {
+                if (!targetEnemy.equals(newTargetEnemy) && (newTargetEnemy != null)) {      // если новая цель не соответствет старой, то меняем цель на новую
+                    // сравним расстояние от игрового юнита до вражеского
+                    Vector2 v1 = new Vector2(model.getX(), model.getY());
+                    Vector2 newTargetEnemyPos = new Vector2(newTargetEnemy.getX(), newTargetEnemy.getY());
+                    Vector2 targetEnemyPos = new Vector2(targetEnemy.getX(), targetEnemy.getY());
+                    float distance1 = newTargetEnemyPos.sub(v1).len();      // расстояние до новой цели
+                    float distance2 = targetEnemyPos.sub(v1).len();         // расстояние до предыдущей цели
+                    if (distance1 < distance2)
+                        targetEnemy = newTargetEnemy;
+                }
             }
         }
         if (!model.isDestroyed()) {

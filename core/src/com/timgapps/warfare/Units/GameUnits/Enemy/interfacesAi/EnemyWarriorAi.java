@@ -1,5 +1,8 @@
 package com.timgapps.warfare.Units.GameUnits.Enemy.interfacesAi;
 
+import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitModel;
+import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnitModel;
+
 // интерфейс поведения вражеского воина (не стреляет)
 public interface EnemyWarriorAi {
     void attackTower();
@@ -13,4 +16,5 @@ public interface EnemyWarriorAi {
     void move();
 
     void hitTower();
+
 }
