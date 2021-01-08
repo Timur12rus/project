@@ -77,7 +77,7 @@ public class PlayerUnitData extends UnitData {
                 health = 18;
                 speed = 0.8f;
                 energyPrice = 20;
-                prepareTime = 25;
+                prepareTime = 30;
                 deltaX = -124;
 //                deltaX = -100;
 //                deltaX = -174;
@@ -125,7 +125,7 @@ public class PlayerUnitData extends UnitData {
                 health = 28;
                 speed = 1.6f;
 //                speed = 0.9f;
-                energyPrice = 10;
+                energyPrice = 15;
                 prepareTime = 3;
                 deltaX = -100;
 //                deltaX = -124;

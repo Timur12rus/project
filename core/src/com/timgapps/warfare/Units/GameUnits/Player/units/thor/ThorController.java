@@ -113,7 +113,8 @@ public class ThorController extends PlayerUnitController implements PlayerWarrio
 //            System.out.println("EnemyY = " + y);
                 enemyPosition.set(x, y);
                 Vector2 playerPosition = new Vector2();
-                float x2 = model.getPosition().x + model.getBodySize().x;
+//                float x2 = model.getPosition().x + model.getBodySize().x;
+                float x2 = model.getPosition().x + model.getBodySize().x / 2;
                 float y2 = model.getPosition().y + model.getBodySize().y / 2;
 //            System.out.println("PlayerX = " + x2);
 //            System.out.println("PlayerY = " + y2);
@@ -128,7 +129,7 @@ public class ThorController extends PlayerUnitController implements PlayerWarrio
                 vectorDown.set(x4, y4);
                 if (Intersector.isPointInTriangle(enemyPosition, playerPosition, vectorUp, vectorDown)) {      // если вражеский юнит находится в пределах видимости, то добавляем его в массив
 //                    if (!targetEnemies.equals(enemy))
-                        targetEnemies.add(enemy);                                  // потенциальных целей
+                    targetEnemies.add(enemy);                                  // потенциальных целей
                 }
             }
         }

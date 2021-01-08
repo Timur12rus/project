@@ -22,7 +22,10 @@ public class EnemyUnitController extends GameUnitController {
 
     public void hit() {
         if (targetPlayer != null) {
-            targetPlayer.subHealth(model.getDamage());
+//        if (targetPlayer != null) {
+            if (targetPlayer.isBodyActive()) {
+                targetPlayer.subHealth(model.getDamage());
+            }
             if (targetPlayer.getHealth() <= 0) {
                 targetPlayer = null;
             }
@@ -46,7 +49,11 @@ public class EnemyUnitController extends GameUnitController {
                     } else {
                         model.setIsTouchedPlayer(false);
                     }
-                    
+                } else {
+                    if (targetPlayer.equals(playerUnit)) {
+                        targetPlayer = null;
+                        model.setIsTouchedPlayer(false);
+                    }
                 }
             }
         }

@@ -19,7 +19,7 @@ public class EnemyUnitData extends UnitData {
         switch (unitId) {
             case Zombie1:
                 damage = 10;
-                health = 50;
+                health = 39;
                 speed = -0.35f;
                 name = "Zombie1";
                 deltaX = -72;
@@ -28,8 +28,8 @@ public class EnemyUnitData extends UnitData {
                 barDeltaY = 6;
                 break;
             case Zombie2:
-                damage = 6;
-                health = 50;
+                damage = 10;
+                health = 52;
                 speed = -0.25f;
                 name = "Zombie2";
                 deltaX = -72;
@@ -38,8 +38,8 @@ public class EnemyUnitData extends UnitData {
                 barDeltaY = 0;
                 break;
             case Zombie3:
-                damage = 6;
-                health = 50;
+                damage = 10;
+                health = 39;
                 speed = -1.2f;
                 name = "Zombie3";
                 deltaX = -78;
@@ -48,8 +48,8 @@ public class EnemyUnitData extends UnitData {
                 barDeltaY = 0;
                 break;
             case Skeleton1:
-                damage = 6;
-                health = 50;
+                damage = 10;
+                health = 78;
                 speed = -1.2f;
                 name = "Skeleton1";
                 deltaX = -78;
