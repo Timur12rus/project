@@ -55,6 +55,13 @@ public class EnemyUnitModel extends GameUnitModel {
             this.targetPlayer = targetEnemy;
         }
     }
+    public void setIsMoveToTarget(boolean isMoveToTarget) {
+        this.isMoveToTarget = isMoveToTarget;
+    }
+
+    public boolean isMoveToTarget() {
+        return isMoveToTarget;
+    }
 
     public void setIsHaveTargetPlayer(boolean isHaveTargetPlayer) {
         this.isHaveTargetPlayer = isHaveTargetPlayer;

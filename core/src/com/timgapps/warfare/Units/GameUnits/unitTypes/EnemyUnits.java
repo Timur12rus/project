@@ -2,6 +2,7 @@ package com.timgapps.warfare.Units.GameUnits.unitTypes;
 
 public enum EnemyUnits {
     Zombie1,
+    Zombie1Runner,
     Zombie2,
     Zombie3,
     Skeleton1,

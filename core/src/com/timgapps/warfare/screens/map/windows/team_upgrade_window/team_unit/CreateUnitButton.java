@@ -23,11 +23,11 @@ public class CreateUnitButton extends UnitImageButton {
         super(playerUnitData);
         this.levelScreen = levelScreen;
         // это для теста energyPrice = 1
-//        appearanceTime = 1;       // время появления юнита
-//        energyPrice = 1;          // кол-во энергии для появления юнита
+        appearanceTime = 1;       // время появления юнита
+        energyPrice = 1;          // кол-во энергии для появления юнита
 
-        appearanceTime = playerUnitData.getPrepareTime();    // время появления юнита
-        energyPrice = playerUnitData.getEnergyPrice();          // кол-во энергии для появления юнита
+//        appearanceTime = playerUnitData.getPrepareTime();    // время появления юнита
+//        energyPrice = playerUnitData.getEnergyPrice();          // кол-во энергии для появления юнита
         interpolation = (height / appearanceTime) / 60;
 
         darkLayer = new TextureRegion(Warfare.atlas.findRegion("unitButtonDark"));

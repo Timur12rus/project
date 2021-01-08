@@ -1,4 +1,4 @@
-package com.timgapps.warfare.Units.GameUnits.Enemy.Zombie1Runner;
+package com.timgapps.warfare.Units.GameUnits.Enemy.zombie1_runner;
 
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class Zombie1RunnerController extends EnemyUnitController implements EnemyWarriorAi, EnemyWarriorAiTarget {
     protected PlayerUnitModel newTargetPlayer;
-    protected Vector2 velocity;
+//    protected Vector2 velocity;
     protected boolean isHaveTargetPlayer;
 
     public Zombie1RunnerController(LevelScreen levelScreen, EnemyUnitModel model) {
@@ -32,11 +32,12 @@ public class Zombie1RunnerController extends EnemyUnitController implements Enem
             } else {
                 if (!targetPlayer.equals(newTargetPlayer) && (newTargetPlayer != null)) {      // если новая цель не соответствет старой, то меняем цель на новую
                     // сравним расстояние от игрового юнита до вражеского
-                    Vector2 v1 = new Vector2(model.getX(), model.getY());
+                    Vector2 v1 = new Vector2(model.getX(), model.getY());           // позиция текущего юнита
                     Vector2 newTargetEnemyPos = new Vector2(newTargetPlayer.getX(), newTargetPlayer.getY());
                     Vector2 targetEnemyPos = new Vector2(targetPlayer.getX(), targetPlayer.getY());
-                    float distance1 = newTargetEnemyPos.sub(v1).len();      // расстояние до новой цели
-                    float distance2 = targetEnemyPos.sub(v1).len();         // расстояние до предыдущей цели
+                    float distance1 = v1.sub(newTargetEnemyPos).len();      // расстояние до новой цели
+//                    float distance1 = newTargetEnemyPos.sub(v1).len();      // расстояние до новой цели
+                    float distance2 = v1.sub(targetEnemyPos).len();         // расстояние до предыдущей цели
                     if (distance1 < distance2)
                         targetPlayer = newTargetPlayer;
                 }
@@ -96,23 +97,57 @@ public class Zombie1RunnerController extends EnemyUnitController implements Enem
 
 
     @Override
-    public void attackTower() {
-
+    public void attackPlayer() {
+        if (model.isAttack()) {
+            velocity.set(0, 0);
+            model.setVelocity(velocity);
+        } else {
+            System.out.println("attackPlayer");
+            model.setIsAttack(true);
+            model.setIsMoveToTarget(false);
+            model.setIsMove(false);
+            model.setIsAttackTower(false);
+        }
     }
 
     @Override
-    public void attackPlayer() {
-
+    public void attackTower() {
+        if (model.isAttackTower()) {
+            velocity.set(0, 0);
+            model.setVelocity(velocity);
+        } else {
+            System.out.println("Attack Barricade!");
+            model.setIsAttack(false);
+            model.setIsMoveToTarget(false);
+            model.setIsMove(false);
+            model.setIsAttackTower(true);
+        }
     }
 
     @Override
     public void move() {
-
+        System.out.println("move");
+        model.setIsMove(true);
+        model.setIsAttack(false);
+        model.setIsStay(false);
+        model.setIsAttackTower(false);
+        velocity.set(model.getSpeed(), 0);
+        model.setVelocity(velocity);
     }
 
     @Override
     public void moveToTarget() {
-
+        velocity.set(model.getX(), model.getY()).sub(targetPlayer.getX(), targetPlayer.getY()).nor().scl(model.getSpeed());
+//        velocity.set(new Vector2(model.getX(), model.getY()).sub(targetPlayer.getX(), targetPlayer.getY()).nor().scl(model.getSpeed()));
+//        velocity.set(targetPlayer.getX(), targetPlayer.getY()).sub(new Vector2(model.getX(), model.getY())).nor().scl(model.getSpeed());
+        model.setVelocity(velocity);
+        if (!model.isMoveToTarget()) {
+            System.out.println("moveToTarget");
+            model.setIsMoveToTarget(true);
+            model.setIsAttack(false);
+            model.setIsMove(false);
+            model.setIsStay(false);
+        }
     }
 
     @Override
