@@ -8,6 +8,8 @@ import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitView;
 import com.timgapps.warfare.Warfare;
 import com.timgapps.warfare.screens.level.LevelScreen;
 
+import java.util.Random;
+
 
 public class Zombie1RunnerUnitView extends EnemyUnitView {
     protected com.timgapps.warfare.Units.GameUnits.Enemy.zombie1_runner.Zombie1RunnerController controller;
@@ -37,21 +39,46 @@ public class Zombie1RunnerUnitView extends EnemyUnitView {
             }
         } else {
             // если юнит в состоянии атакует цель(isAttack = true), но в д
-            if (model.isMoveToTarget() == true) {
-                if (currentState != State.RUN) {
-                    currentState = State.RUN;
+            if (model.isMoveToTarget()) {
+                if (!model.isStay()) {
+                    if (currentState != State.RUN) {
+                        currentState = State.RUN;
+                        resetStateTime();
+                    } else {
+                        if (currentState == State.RUN && runAnimation.isAnimationFinished(stateTime)) {
+                            Random random = new Random();
+                            if (random.nextBoolean()) {
+                                currentState = State.STAY;
+                                model.setIsStay(true);
+                                resetStateTime();
+                            } else {
+                                currentState = State.RUN;
+                                model.setIsStay(false);
+                                resetStateTime();
+                            }
+                        }
+                    }
+                } else if (currentState != State.STAY) {
+                    currentState = State.STAY;
                     resetStateTime();
+                } else {
+                    if (stayAnimation.isAnimationFinished(stateTime)) {
+                        model.setIsStay(false);
+                    }
                 }
             } else if (model.isAttack() || model.isAttackTower()) {
-                if (model.isStay() == false) {
-                    if (currentState != State.ATTACK) {
-                        currentState = State.ATTACK;
+                if (model.isStay() == false) {              // TODO нжуно изменить, чтобы если currentState == STAY, то ждем
+                    if (currentState != State.STAY) {
+                        currentState = State.STAY;
+                        model.setIsStay(true);
                         resetStateTime();
+//                    if (currentState != State.ATTACK) {
+//                        currentState = State.ATTACK;
+//                        resetStateTime();
                     } else {
                         if (attackAnimation.isAnimationFinished(stateTime)) {
                             if (model.isAttack()) {
                                 controller.hit();
-                            } else if (model.isAttackTower()) {
                             } else if (model.isAttackTower()) {
                                 controller.hitTower();
                             }
@@ -63,6 +90,7 @@ public class Zombie1RunnerUnitView extends EnemyUnitView {
                 } else {
                     if (stayAnimation.isAnimationFinished(stateTime)) {
                         model.setIsStay(false);
+                        resetStateTime();
                     }
                 }
             } else {

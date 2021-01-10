@@ -131,22 +131,35 @@ public class Zombie1RunnerController extends EnemyUnitController implements Enem
         model.setIsAttack(false);
         model.setIsStay(false);
         model.setIsAttackTower(false);
-        velocity.set(model.getSpeed(), 0);
-        model.setVelocity(velocity);
+//        velocity.set(model.getSpeed(), 0);
+//        model.setVelocity(velocity);
+        if (!model.isStay()) {
+            velocity.set(model.getSpeed(), 0);
+            model.setVelocity(velocity);
+        } else {
+            velocity.set(0, 0);
+            model.setVelocity(velocity);
+        }
     }
 
     @Override
     public void moveToTarget() {
-        velocity.set(model.getX(), model.getY()).sub(targetPlayer.getX(), targetPlayer.getY()).nor().scl(model.getSpeed());
-//        velocity.set(new Vector2(model.getX(), model.getY()).sub(targetPlayer.getX(), targetPlayer.getY()).nor().scl(model.getSpeed()));
-//        velocity.set(targetPlayer.getX(), targetPlayer.getY()).sub(new Vector2(model.getX(), model.getY())).nor().scl(model.getSpeed());
-        model.setVelocity(velocity);
+//        velocity.set(model.getX(), model.getY()).sub(targetPlayer.getX(), targetPlayer.getY()).nor().scl(model.getSpeed());
+//        model.setVelocity(velocity);
         if (!model.isMoveToTarget()) {
             System.out.println("moveToTarget");
             model.setIsMoveToTarget(true);
             model.setIsAttack(false);
             model.setIsMove(false);
             model.setIsStay(false);
+        }
+
+        if (!model.isStay()) {
+            velocity.set(model.getX(), model.getY()).sub(targetPlayer.getX(), targetPlayer.getY()).nor().scl(model.getSpeed());
+            model.setVelocity(velocity);
+        } else {
+            velocity.set(0, 0);
+            model.setVelocity(velocity);
         }
     }
 
