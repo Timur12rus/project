@@ -1,6 +1,9 @@
 package com.timgapps.warfare.screens.map.windows.upgrade_window;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -26,7 +29,7 @@ import com.timgapps.warfare.Warfare;
 import java.util.ArrayList;
 
 // экран с данными юнита и апгрейда
-public class UpgradeWindow extends Group {
+public class UpgradeWindow extends Group implements UpgradeEffectStarter {
     public static final int ON_RESUME = 1;
     private ConstructedWindow constructedWindow;
     private ImageButton closeButton;
@@ -60,6 +63,7 @@ public class UpgradeWindow extends Group {
     private BottomGroup bottomGroup;
     private ColorButton selectButton;
     private int nextUnitLevel;
+    private UpgradeEffectActor upgradeEffectActor;
 
     public UpgradeWindow(GameManager gameManager, TeamUpgradeScreen teamUpgradeScreen) {
         this.teamUpgradeScreen = teamUpgradeScreen;
@@ -123,7 +127,7 @@ public class UpgradeWindow extends Group {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 if (canBeUpgrade) {
-                    upgradeTeamEntity(teamUnit);
+                    upgradeTeamEntity(teamUnit);            // метод для апгрейда юнита
                 } else {
                     applyActionsToToast();
                 }
@@ -164,6 +168,11 @@ public class UpgradeWindow extends Group {
         maxLevelReached.setPosition(constructedWindow.getX() + (constructedWindow.getWidth() - maxLevelReached.getWidth()) / 2, 272);
         maxLevelReached.setVisible(false);
         addActor(maxLevelReached);
+
+        upgradeEffectActor = new UpgradeEffectActor(this);
+//        upgradeEffect = new ParticleEffect();
+//        upgradeEffect.load(Gdx.files.internal("effects/upgradeEffect.paty"), Gdx.files.internal("effects/")); //file);
+//        upgradeEffect.setPosition(unitImage.getX(), unitImage.getY());
     }
 
     // создает таблицу-контейнер с характеристиками юнита
@@ -181,7 +190,7 @@ public class UpgradeWindow extends Group {
         container.left().top();
         container.add(infoTable).left();
 
-        /** добавим в общий контейнер изображение юнита и его значок со значением уровня юнита**/
+        /** добавим в общий контейнер изображение юнита и его значок со значением уровня юнита (ImageContainer) **/
         container.add(imageContainer).width(200).padLeft(32).left().padTop(32);
 
         /** Таблица СТОИМОСТЬ АПГРЕЙДА в режиме DEBUG **/
@@ -192,7 +201,7 @@ public class UpgradeWindow extends Group {
 
         /** добавим таблицу со стоимостью апгрейда **/
         container.add(upgradeCostTable).colspan(3);
-        container.setPosition(constructedWindow.getX() + paddingLeft, constructedWindow.getY());
+//        container.setPosition(constructedWindow.getX() + paddingLeft, constructedWindow.getY());
         container.setPosition(constructedWindow.getX() + paddingLeft, constructedWindow.getY() - 16);
         addActor(container);
 
@@ -241,6 +250,7 @@ public class UpgradeWindow extends Group {
 
         /** получим объект unitImage - изображение со значками (уровень юнита и стоимость энергии) **/
         unitImage = teamUnit.getUnitImage();
+        unitImage.setUpgradeEffectStarter(this);
         unitImage.clearAction();
         unitImage.setLevelValue(teamUnit.getUnitLevel());
 
@@ -256,11 +266,17 @@ public class UpgradeWindow extends Group {
         upgradeCostTable.setVisible(false);
         // добавим объект - изображение юнита со значком уровня юнита
         imageContainer.clear();
+        unitImage.removeActor(upgradeEffectActor);
         imageContainer.clearActions();
+//        imageContainer.addActor(upgradeEffectActor);
         imageContainer.addActor(unitImage);
         imageContainer.addActor(selectButton);
+        upgradeEffectActor.setPosition(128, imageContainer.getHeight() / 2 - 32);
+        unitImage.addActor(upgradeEffectActor);
+
         infoTable.hideUpgradeLabels();
         selectButton.setVisible(false);
+//        upgradeEffect.setPosition(unitImage.getX(), unitImage.getY());
 
         boolean isUnlock = teamUnit.getUnitData().isUnlock();
         if (isUnlock == true) {               // если юнит разблокирован
@@ -288,7 +304,9 @@ public class UpgradeWindow extends Group {
                     upgradeCost = teamUnit.getUnitLevel() * COST_UPGRADE;       // стоимость апгрейда (монет)
                     checkRecourcesAndCoinsCount();
                     infoTable.showUpgradeLabels();
+
                     upgradeCostTable.setVisible(true);
+
                     bottomGroup.setNextLevel(nextUnitLevel);
                     bottomGroup.hideHireButton();
                     bottomGroup.showUpgradeButton();
@@ -386,6 +404,9 @@ public class UpgradeWindow extends Group {
 
         /** применим действия к значкам ресурсов (движение и мерцание картинки юнита) **/
         resourcesTable.startActions();
+        infoTable.startAction();
+
+//        upgradeEffectActor.start();
         /** обновим параметры юнита, которого прокачиваем **/
         teamUnit.setUnitLevel(nextUnitLevel);
         teamUnit.getUnitData().setUnitLevel(nextUnitLevel);
@@ -423,6 +444,7 @@ public class UpgradeWindow extends Group {
         gameManager.saveGame();
     }
 
+
     /**
      * метод для старта action для сообщения о недостаточном количестве монет или ресурсов
      **/
@@ -456,9 +478,16 @@ public class UpgradeWindow extends Group {
         }
     }
 
+//    @Override
+//    public void draw(Batch batch, float parentAlpha) {
+//        super.draw(batch, parentAlpha);
+//        upgradeEffect.draw(batch);
+//    }
+
     @Override
     public void act(float delta) {
         super.act(delta);
+//        upgradeEffect.update(delta);
         /** проверим, завершилось ли дgaействие перемещения значков на изображение юнита, при апгрейде **/
         if (resourcesTable.getIsEndAction() == true) {
             resourcesTable.setIsEndAction(false);
@@ -467,5 +496,10 @@ public class UpgradeWindow extends Group {
 //            show(teamUnit);
             unitImage.startAction();
         }
+    }
+
+    @Override
+    public void start() {
+        upgradeEffectActor.start();
     }
 }

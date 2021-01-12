@@ -4,6 +4,11 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -99,16 +104,49 @@ public class InfoTable extends Table {
         add(timePrepearLabel).width(200).padRight(8);
         add(new Image(Warfare.atlas.findRegion("clock_icon"))).width(56).height(56);
         add(timePrepearValueLabel).fillX().padLeft(8);
+
+        startAction();
+    }
+
+    public Label.LabelStyle getLabelStyle() {
+        return labelStyle;
+    }
+
+    public Label.LabelStyle getGreenLabelStyle() {
+        return greenLabelStyle;
+    }
+
+    public void startAction() {
+//        Actions.moveTo(x + 32, y + 32, 0.8f, new Interpolation.SwingOut(1)),
+//                Actions.moveTo(endXPos, endYPos, 0.6f),
+//                Actions.fadeOut(0)
+
+        ParallelAction moveHealthAction = new ParallelAction(
+                Actions.moveBy(-48, 0, 1.2f, Interpolation.pow3Out),
+                Actions.fadeOut(1)
+        );
+
+        ParallelAction moveDamageAction = new ParallelAction(
+                Actions.moveBy(-48, 0, 1.2f, Interpolation.pow3Out),
+                Actions.fadeOut(1)
+        );
+
+        healthAddValueLabel.addAction(moveHealthAction);
+        damageAddValueLabel.addAction(moveDamageAction);
     }
 
     // метод для перерисовки данных о характеристиках юнита
-    public void  redraw(PlayerUnitData data) {
+    public void redraw(PlayerUnitData data) {
         this.data = data;
+//        healthAddValueLabel.clearActions();
         healthValueLabel.setText("" + data.getHealth());        // текст значения здоровья
         damageValueLabel.setText("" + data.getDamage());        // текст значения урон
         speedValueLabel.setText("" + (int) data.getSpeed() * 10 * 2);       // текст значения скорость
         timePrepearValue = data.getPrepareTime();           // время приготовления
         timePrepearValueLabel.setText("" + timePrepearValue);
+//        healthAddValueLabel.addAction(Actions.moveBy(48, 0));
+        healthAddValueLabel.addAction(Actions.fadeIn(0.3f));
+        damageAddValueLabel.addAction(Actions.fadeIn(0.3f));
     }
 
     public int getAddDamageValue() {

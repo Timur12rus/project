@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.timgapps.warfare.screens.map.windows.team_upgrade_window.team_unit.UnitLevelIcon;
 import com.timgapps.warfare.Units.GameUnits.unitTypes.PlayerUnits;
 import com.timgapps.warfare.Warfare;
+import com.timgapps.warfare.screens.map.windows.upgrade_window.UpgradeEffectStarter;
 
 
 /**
@@ -28,6 +29,7 @@ public class UnitImage extends Group {
     private Table table;
     //    private ColorButton selectButton;
     private boolean isEndAction;        // завершено действие
+    private UpgradeEffectStarter upgradeEffectStarter;
 
     /**
      * Конструктор
@@ -37,6 +39,7 @@ public class UnitImage extends Group {
      * @param energyCost - кол-во энергии, необходимое для появления юнита
      */
     public UnitImage(PlayerUnits unitId, int unitLevel, int energyCost) {
+        this.upgradeEffectStarter = upgradeEffectStarter;
         this.unitLevel = unitLevel;
         textureRegionName = unitId.name().toLowerCase() + "UnitImage";
         image = new Image(Warfare.atlas.findRegion(textureRegionName));         // зададим изображение юнита
@@ -67,6 +70,10 @@ public class UnitImage extends Group {
 //        addActor(selectButton);
     }
 
+    public void setUpgradeEffectStarter(UpgradeEffectStarter upgradeEffectStarter) {
+        this.upgradeEffectStarter = upgradeEffectStarter;
+    }
+
     public UnitLevelIcon getUnitLevelIcon() {
         return levelIcon;
     }
@@ -93,6 +100,14 @@ public class UnitImage extends Group {
             }
         };
 
+        Action startParticleEffect = new Action() {
+            @Override
+            public boolean act(float delta) {
+                startUpgradeEffect();
+                return true;
+            }
+        };
+
         MoveToAction mtaUp = new MoveToAction();
         MoveToAction mtaDown = new MoveToAction();
         float startPosY = levelIcon.getY();
@@ -102,8 +117,15 @@ public class UnitImage extends Group {
         mtaDown.setDuration(0.3f);
         SequenceAction sa = new SequenceAction(mtaUp, mtaDown, checkEndOfAction);
         levelIcon.addAction(sa);
-        SequenceAction flicker = new SequenceAction(Actions.fadeOut(0.25f), Actions.fadeIn(0.25f));
+        SequenceAction flicker = new SequenceAction(Actions.fadeOut(0.25f),
+                startParticleEffect,
+                Actions.fadeIn(0.25f));
         image.addAction(flicker);
+    }
+
+    public void startUpgradeEffect() {
+        System.out.println("StartParticleEffect()");
+        upgradeEffectStarter.start();   // запускаем партикл эффект (сияние и звездочки)
     }
 
     public void setIsEndAction(boolean isEndAction) {

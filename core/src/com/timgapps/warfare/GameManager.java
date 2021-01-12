@@ -90,9 +90,13 @@ public class GameManager {
             savedGame.createRewardForStarsDataList();
 
             // установим кол-во ресурсов
-            foodCount = 6;
-            ironCount = 2;
-            woodCount = 4;
+//            foodCount = 6;
+//            ironCount = 2;
+//            woodCount = 4;
+
+            foodCount = 600;
+            ironCount = 200;
+            woodCount = 400;
 
             /** количество монет у игрока **/
             coinsCount = 5000;
