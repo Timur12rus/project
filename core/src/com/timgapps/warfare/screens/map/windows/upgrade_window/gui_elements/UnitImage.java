@@ -39,7 +39,6 @@ public class UnitImage extends Group {
      * @param energyCost - кол-во энергии, необходимое для появления юнита
      */
     public UnitImage(PlayerUnits unitId, int unitLevel, int energyCost) {
-        this.upgradeEffectStarter = upgradeEffectStarter;
         this.unitLevel = unitLevel;
         textureRegionName = unitId.name().toLowerCase() + "UnitImage";
         image = new Image(Warfare.atlas.findRegion(textureRegionName));         // зададим изображение юнита
@@ -91,7 +90,6 @@ public class UnitImage extends Group {
      * метод применяет действие к значку УРОВЕНЬ ИГРОКА
      **/
     public void startAction() {
-
         Action checkEndOfAction = new Action() {
             @Override
             public boolean act(float delta) {
@@ -112,10 +110,14 @@ public class UnitImage extends Group {
         MoveToAction mtaDown = new MoveToAction();
         float startPosY = levelIcon.getY();
         mtaUp.setPosition(levelIcon.getX(), startPosY + 16);
-        mtaUp.setDuration(0.3f);
+        mtaUp.setDuration(0.1f);
         mtaDown.setPosition(levelIcon.getX(), startPosY);
         mtaDown.setDuration(0.3f);
-        SequenceAction sa = new SequenceAction(mtaUp, mtaDown, checkEndOfAction);
+        SequenceAction sa = new SequenceAction(
+//                Actions.delay(0.2f),
+                mtaUp,
+                mtaDown,
+                checkEndOfAction);
         levelIcon.addAction(sa);
         SequenceAction flicker = new SequenceAction(Actions.fadeOut(0.25f),
                 startParticleEffect,
@@ -124,8 +126,12 @@ public class UnitImage extends Group {
     }
 
     public void startUpgradeEffect() {
-        System.out.println("StartParticleEffect()");
         upgradeEffectStarter.start();   // запускаем партикл эффект (сияние и звездочки)
+    }
+
+    public void stopUpgradeEffect() {
+        image.clearActions();
+        upgradeEffectStarter.stop();
     }
 
     public void setIsEndAction(boolean isEndAction) {

@@ -127,9 +127,10 @@ public class TeamUnit {
         return unitLevel;
     }
 
+    // изменяет значение уровня юнита и значение уровня юнита в значке
     public void setUnitLevel(int unitLevel) {
         this.unitLevel = unitLevel;
-        unitImage.setLevelValue(unitLevel);
+//        unitImage.setLevelValue(unitLevel);
         unitImageButton.setLevelValue(unitLevel);
     }
 

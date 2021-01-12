@@ -88,17 +88,22 @@ public class ResourcesTable extends Group {
             }
         };
         SequenceAction maFood = new SequenceAction(Actions.fadeIn(0),
-                Actions.moveTo(-170, 110, 1, new Interpolation.SwingOut(1)),
+                Actions.moveTo(-170, 110, 0.7f, new Interpolation.PowIn(3)),
+//                Actions.moveTo(-170, 110, 1, new Interpolation.SwingOut(1)),
                 Actions.fadeOut(0),
                 Actions.moveTo(table.getX(), foodImage.getHeight() * 2 + 32));
 
         SequenceAction maIron = new SequenceAction(Actions.fadeIn(0),
-                Actions.moveTo(-170, 110, 1.1f, new Interpolation.SwingOut(1)),
+                Actions.moveTo(-170, 110, 0.9f, new Interpolation.PowIn(3)),
+//                Actions.moveTo(-170, 110, 1.1f, new Interpolation.SwingOut(1)),
                 Actions.fadeOut(0),
                 Actions.moveTo(table.getX(), ironImage.getHeight() * 1 + 16));
 
-        SequenceAction maWood = new SequenceAction(Actions.moveTo(-170, 110, 1.2f, new Interpolation.SwingOut(1)),
-                Actions.moveTo(table.getX(), table.getX()),
+        SequenceAction maWood = new SequenceAction(Actions.fadeIn(0),
+                Actions.moveTo(-170, 110, 1.1f, new Interpolation.PowIn(3)),
+//        SequenceAction maWood = new SequenceAction(Actions.moveTo(-170, 110, 1.2f, new Interpolation.SwingOut(1)),
+                Actions.fadeOut(0),
+                Actions.moveTo(table.getX(), table.getY()),
                 checkEndOfAction);
         foodImage.addAction(maFood);
         ironImage.addAction(maIron);

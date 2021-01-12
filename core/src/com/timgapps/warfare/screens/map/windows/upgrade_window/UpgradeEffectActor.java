@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class UpgradeEffectActor extends Actor {
     private ParticleEffect upgradeEffect;
-    private UpgradeWindow upgradeWindow;
+    private boolean isStop;     // флаг, значит эффект остановлен и не отображается
 
     public UpgradeEffectActor(UpgradeWindow upgradeWindow) {
         upgradeEffect = new ParticleEffect();
@@ -15,13 +15,23 @@ public class UpgradeEffectActor extends Actor {
     }
 
     public void start() {
+        if (isStop) {
+            isStop = false;
+        }
         upgradeEffect.start();
+
+    }
+
+    public void stop() {
+        isStop = true;
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        super.draw(batch, parentAlpha);
-        upgradeEffect.draw(batch);
+        if (!isStop) {
+            super.draw(batch, parentAlpha);
+            upgradeEffect.draw(batch);
+        }
     }
 
     @Override

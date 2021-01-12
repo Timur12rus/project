@@ -17,7 +17,13 @@ public class UnitLevelIcon extends Group {
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.fontColor = Color.DARK_GRAY;
         labelStyle.font = Warfare.font20;
-        levelLabel = new Label("" + unitLevel, labelStyle);
+        levelLabel = new Label("", labelStyle);
+        levelLabel.setText("" + unitLevel);
+        if (unitLevel < 10) {
+            levelLabel.setWidth(13);
+        } else {
+            levelLabel.setWidth(25);
+        }
         levelLabel.setPosition((levelImage.getWidth() - levelLabel.getWidth()) / 2,
                 (levelImage.getHeight() - levelLabel.getHeight()) / 2);
         setSize(levelImage.getImageWidth(), levelImage.getImageHeight());
@@ -49,10 +55,17 @@ public class UnitLevelIcon extends Group {
     }
 
     public void setLevelValue(int levelValue) {
-        if (levelValue >= 10) {
-            levelLabel.setX(levelLabel.getX() - 2);
+//        if (levelValue >= 10) {
+//            levelLabel.setX(levelLabel.getX() - 4);
+//        }
+        if (levelValue < 10) {
+            levelLabel.setWidth(13);
+        } else {
+            levelLabel.setWidth(25);
         }
         levelLabel.setText("" + levelValue);
+        levelLabel.setPosition((levelImage.getWidth() - levelLabel.getWidth()) / 2,
+                (levelImage.getHeight() - levelLabel.getHeight()) / 2);
     }
 
     @Override
