@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import com.timgapps.warfare.screens.map.windows.team_upgrade_window.team_unit.CreateUnitButton;
 import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnitData;
 import com.timgapps.warfare.Units.GameUnits.Player.Bullets.Stone;
@@ -23,6 +24,7 @@ public class StoneButton extends CreateUnitButton {
     private int health;
     private LevelScreen levelScreen;
     private PlayerUnitData data;
+    private float xMin, yMin, xMax, yMax;
 
     //     if (stoneButton != null) stoneButton.setUnitButtonTablePosX(tableUnitButtons.getX());
     public StoneButton(final LevelScreen levelScreen, PlayerUnitData data) {
@@ -42,22 +44,23 @@ public class StoneButton extends CreateUnitButton {
             @Override
             public void touchDragged(InputEvent event, float x, float y, int pointer) {
                 super.touchDragged(event, x, y, pointer);
-                x -= greenTarget.getWidth();
+                x -= greenTarget.getWidth() / 2;
                 if (isReadyUnitButton) {               // если камень "готов" к запуску
                     greenTarget.setVisible(true);
-                    greenTarget.setPosition(x - 64, y);
+                    greenTarget.setPosition(x, y + 24);
                     redTarget.setPosition(greenTarget.getX(), greenTarget.getY());
-                    checkTargetCoordinates(x - 64, y);
+                    checkTargetCoordinates(x + unitButtonTablePosX, y);
                 }
             }
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchUp(event, x, y, pointer, button);
-                x -= greenTarget.getWidth();
+                x -= greenTarget.getWidth() / 2;
                 if (isReadyUnitButton) {
                     if (greenTarget.isVisible()) {
-                        throwStone(levelScreen, getX() - 64 + unitButtonTablePosX + x + greenTarget.getWidth() / 2, y, damage, health);
+                        throwStone(levelScreen, getX() + unitButtonTablePosX + x + greenTarget.getWidth() / 2, y + 24, damage, health);
+//                        throwStone(levelScreen, getX() + unitButtonTablePosX + x + greenTarget.getWidth() / 2, y + 24, damage, health);
                         System.out.println("unitButtonTablePosX = " + unitButtonTablePosX);
 //                        throwStone(level, x + getX() + greenTarget.getWidth() / 2, y, 5);
 //                        System.out.println("GetX = " + getX());
@@ -75,14 +78,28 @@ public class StoneButton extends CreateUnitButton {
 
     @Override
     public void buttonClicked() {
+
     }
 
     public void setPosX(float posX) {
         unitButtonTablePosX = posX;
+        System.out.println("PosX = " + posX);
+        System.out.println("towerX = " + levelScreen.getSiegeTower().getX());
+        System.out.println("barricadeX = " + levelScreen.getBarricade().getX());
+        xMin = (levelScreen.getSiegeTower().getBodyPosition().x);
+        System.out.println("levelScreen.getSiegeTower().getBodyPosition().x = " + levelScreen.getSiegeTower().getBodyPosition().x);
+//        xMin = unitButtonTablePosX - (levelScreen.getSiegeTower().getX() + levelScreen.getSiegeTower().getWidth());
+//        xMax = levelScreen.getBarricade().getX() - unitButtonTablePosX;
+        xMax = levelScreen.getBarricade().getX();
     }
 
     private void checkTargetCoordinates(float x, float y) {
-        if (x < X_MIN || x > X_MAX || y < Y_MIN || y > Y_MAX) {
+        x += greenTarget.getWidth() / 2;
+        System.out.println("X MIN === " + xMin);
+        System.out.println("X MAX === " + xMax);
+        System.out.println("current X = " + x);
+//        if (x < X_MIN || x > X_MAX || y < Y_MIN || y > Y_MAX) {
+        if (x < xMin || x > xMax || y < Y_MIN || y > Y_MAX) {
 //            System.out.println("x = " + x);
             greenTarget.setVisible(false);
             redTarget.setVisible(true);

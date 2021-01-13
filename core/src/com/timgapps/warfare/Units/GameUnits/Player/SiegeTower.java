@@ -110,6 +110,7 @@ public class SiegeTower extends Group {
         addActor(fire);
         levelScreen.addChild(this, x, y);
         shapeRenderer = new ShapeRenderer();
+        System.out.println("TOWER POSITION = " + getX() + ", " + getY());
     }
 
     @Override
@@ -388,5 +389,9 @@ public class SiegeTower extends Group {
         if (isDrawHealthBar) {
             drawHealthBar(batch, (tower.getWidth() - healthBarWidth) / 2 + 16, tower.getHeight());
         }
+    }
+
+    public Vector2 getBodyPosition() {
+        return bodyPosition;
     }
 }

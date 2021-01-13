@@ -95,8 +95,8 @@ public class Stone extends Bullet {
             }
         }
 
-        System.out.println("Body Position = " + body.getX() + ", " + body.getY());
-        System.out.println(" Position Actor = " + getX() + ", " + getY());
+//        System.out.println("Body Position = " + body.getX() + ", " + body.getY());
+//        System.out.println(" Position Actor = " + getX() + ", " + getY());
         /** изменим позицию нашего прямоугольника для определения коллизий **/
     }
 

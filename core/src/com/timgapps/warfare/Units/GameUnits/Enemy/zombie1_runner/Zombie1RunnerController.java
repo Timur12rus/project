@@ -64,11 +64,11 @@ public class Zombie1RunnerController extends EnemyUnitController implements Enem
             if (model.isTouchedPlayer()) {
                 attackPlayer();
             } else if (model.isHaveTargetPlayer()) {
-                System.out.println("Target Player = " + targetPlayer.getName());
+//                System.out.println("Target Player = " + targetPlayer.getName());
                 if (model.isTouchedPlayer()) {
                     attackPlayer();
                 } else if (levelScreen.getSiegeTower().getHealth() > 0) {
-                    System.out.println("towerHealth = " + levelScreen.getSiegeTower().getHealth());
+//                    System.out.println("towerHealth = " + levelScreen.getSiegeTower().getHealth());
                     model.setIsTouchedTower(checkCollision(body, levelScreen.getSiegeTower().getBody()));
                     if (model.isTouchedTower()) {
                         attackTower();
@@ -79,7 +79,7 @@ public class Zombie1RunnerController extends EnemyUnitController implements Enem
                     moveToTarget();
                 }
             } else if (levelScreen.getSiegeTower().getHealth() > 0) {
-                System.out.println("towerHealth = " + levelScreen.getSiegeTower().getHealth());
+//                System.out.println("towerHealth = " + levelScreen.getSiegeTower().getHealth());
                 model.setIsTouchedTower(checkCollision(body, levelScreen.getSiegeTower().getBody()));
                 if (model.isTouchedTower()) {
                     attackTower();
@@ -126,7 +126,7 @@ public class Zombie1RunnerController extends EnemyUnitController implements Enem
 
     @Override
     public void move() {
-        System.out.println("move");
+//        System.out.println("move");
         model.setIsMove(true);
         model.setIsAttack(false);
         model.setIsStay(false);

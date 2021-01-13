@@ -139,6 +139,11 @@ public class SavedGame implements Serializable {
     public void createTeamEntityDataList() {
         teamDataList = new ArrayList<PlayerUnitData>();
         teamDataList.add(new PlayerUnitData(PlayerUnits.Thor));
+
+        // для теста
+        teamDataList.add(new PlayerUnitData(PlayerUnits.Rock));
+        teamDataList.add(new PlayerUnitData(PlayerUnits.Rock));
+
 //        teamDataList.get(0).setDefaultData(PlayerUnits.Thor);
 
         // это для теста

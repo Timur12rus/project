@@ -1,6 +1,7 @@
 package com.timgapps.warfare.screens.level;
 
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -315,7 +316,7 @@ public class LevelScreen extends StageGame {
 //        unitButtons.setStoneButtonPosX(unitButtons.getX());
 //        tableUnitButtons.setStoneButtonPosX(tableUnitButtons.getX() + (team.get(2).getUnitImageButton().getWidth() + 24) * 2);
 
-        unitButtons.show();
+//        unitButtons.show();
         addOverlayChild(unitButtons);
         // добавим указатель "ПАЛЕЦ"
         if (levelNumber == 1) {
@@ -341,7 +342,7 @@ public class LevelScreen extends StageGame {
             protected void receivedMessage(int message, Actor actor) {
                 if (message == pausedScreen.ON_MAP) {   // у нас только одна кнопка,
 //                    savePlayerData();
-                    call(ON_FAILED);                       // при получении сообщений от которой мы передаем сообщение ON_EXIT
+                    call(ON_FAILED);                       // при получении  сообщений от которой мы передаем сообщение ON_EXIT
                 } else if (message == pausedScreen.ON_CONTINUE) {
                     resumeLevel();      // возвращаемся к игре, если получено сообщение ON_CONTINUE
                 }
