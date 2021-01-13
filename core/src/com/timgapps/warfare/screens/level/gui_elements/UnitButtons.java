@@ -46,16 +46,21 @@ public class UnitButtons extends Group {
         unitButtonHeight = 0;
         addUnitButtons();
 
+        float stoneButtonPosX = 0;
         for (int i = 0; i < unitButtonArrayList.size(); i++) {
             unitButtonArrayList.get(i).setPosition((unitButtonWidth + 24) * i, 0);
             width += unitButtonWidth + 24;
             addActor(unitButtonArrayList.get(i));
+            if (unitButtonArrayList.get(i).getUnitId() == PlayerUnits.Rock) {
+                stoneButtonPosX = i * (unitButtonWidth + 24);
+                System.out.println("stoneButton Pos X = " + stoneButtonPosX);
+            }
 //            add(unitButtonArrayList.get(i)).width(unitButtonWidth).height(unitButtonHeight).padLeft(12).padRight(12);
         }
         setSize(width, unitButtonHeight);
-
         this.setPosition((levelScreen.getWidth() - this.getWidth()) / 2, 24);
-        setStoneButtonPosX(this.getX());
+        setStoneButtonPosX(this.getX() + stoneButtonPosX);
+        System.out.println("UnitButtons getX() = " + this.getX());
     }
 
     public void show() {

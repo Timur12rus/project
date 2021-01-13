@@ -165,4 +165,8 @@ public class UnitImageButton extends Group {
         lockImage.setVisible(false);
         activeImage.setVisible(true);
     }
+
+    public PlayerUnits getUnitId() {
+        return unitId;
+    }
 }

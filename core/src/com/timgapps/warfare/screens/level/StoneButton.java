@@ -5,7 +5,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import com.timgapps.warfare.screens.map.windows.team_upgrade_window.team_unit.CreateUnitButton;
 import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnitData;
 import com.timgapps.warfare.Units.GameUnits.Player.Bullets.Stone;
@@ -19,7 +18,7 @@ public class StoneButton extends CreateUnitButton {
     private final float X_MIN = -680;
     private final float X_MAX = 300;
 
-    private float unitButtonTablePosX = 0;
+    private float deltaPosX = 0;
     private int damage;
     private int health;
     private LevelScreen levelScreen;
@@ -49,19 +48,20 @@ public class StoneButton extends CreateUnitButton {
                     greenTarget.setVisible(true);
                     greenTarget.setPosition(x, y + 24);
                     redTarget.setPosition(greenTarget.getX(), greenTarget.getY());
-                    checkTargetCoordinates(x + unitButtonTablePosX, y);
+                    checkTargetCoordinates(x + deltaPosX, y);
+//                    checkTargetCoordinates(x - greenTarget.getWidth() / 2 + deltaPosX, y);
                 }
             }
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchUp(event, x, y, pointer, button);
-                x -= greenTarget.getWidth() / 2;
+//                x -= greenTarget.getWidth() / 2;
                 if (isReadyUnitButton) {
                     if (greenTarget.isVisible()) {
-                        throwStone(levelScreen, getX() + unitButtonTablePosX + x + greenTarget.getWidth() / 2, y + 24, damage, health);
+                        throwStone(levelScreen, x + deltaPosX, y + 24, damage, health);
 //                        throwStone(levelScreen, getX() + unitButtonTablePosX + x + greenTarget.getWidth() / 2, y + 24, damage, health);
-                        System.out.println("unitButtonTablePosX = " + unitButtonTablePosX);
+                        System.out.println("unitButtonTablePosX = " + deltaPosX);
 //                        throwStone(level, x + getX() + greenTarget.getWidth() / 2, y, 5);
 //                        System.out.println("GetX = " + getX());
 //                        System.out.println("x = " + x);
@@ -82,7 +82,7 @@ public class StoneButton extends CreateUnitButton {
     }
 
     public void setPosX(float posX) {
-        unitButtonTablePosX = posX;
+        deltaPosX = posX;
         System.out.println("PosX = " + posX);
         System.out.println("towerX = " + levelScreen.getSiegeTower().getX());
         System.out.println("barricadeX = " + levelScreen.getBarricade().getX());
@@ -94,7 +94,7 @@ public class StoneButton extends CreateUnitButton {
     }
 
     private void checkTargetCoordinates(float x, float y) {
-        x += greenTarget.getWidth() / 2;
+        x -= greenTarget.getWidth() / 2;
         System.out.println("X MIN === " + xMin);
         System.out.println("X MAX === " + xMax);
         System.out.println("current X = " + x);
