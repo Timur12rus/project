@@ -16,7 +16,7 @@ public class CreateUnitButton extends UnitImageButton {
     protected float interpolation;
     protected int energyPrice;
     protected float percentage = 0;
-    private LevelScreen levelScreen;
+    protected LevelScreen levelScreen;
     protected boolean isActive = false;
 
     public CreateUnitButton(LevelScreen levelScreen, PlayerUnitData playerUnitData) {

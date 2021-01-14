@@ -7,10 +7,10 @@ import com.timgapps.warfare.Units.GameUnits.unitTypes.PlayerUnits;
 import com.timgapps.warfare.screens.level.LevelScreen;
 import com.timgapps.warfare.screens.map.windows.team_upgrade_window.team_unit.CreateUnitButton;
 
-public class Firebooster extends CreateUnitButton {
+public class Firebooster1 extends CreateUnitButton {
     private LevelScreen levelScreen;
 
-    public Firebooster(LevelScreen levelScreen, PlayerUnitData playerUnitData) {
+    public Firebooster1(LevelScreen levelScreen, PlayerUnitData playerUnitData) {
         super(levelScreen, playerUnitData);
         this.levelScreen = levelScreen;
         unitLevelIcon.remove();

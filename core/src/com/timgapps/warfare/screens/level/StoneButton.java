@@ -11,16 +11,13 @@ import com.timgapps.warfare.Warfare;
 public class StoneButton extends CreateUnitButton {
     //public class StoneButton extends UnitImageButton {
     protected Image greenTarget, redTarget;
-    private final float Y_MIN = 100;
-    private final float Y_MAX = 280;
-    private final float X_MIN = -680;
-    private final float X_MAX = 300;
+    protected final float Y_MIN = 100;
+    protected final float Y_MAX = 280;
 
-    private float deltaPosX = 0;
+    protected float deltaPosX = 0;
     private int damage;
     private int health;
-    private LevelScreen levelScreen;
-    private float xMin, yMin, xMax, yMax;
+    protected float xMin, xMax;
 
     //     if (stoneButton != null) stoneButton.setUnitButtonTablePosX(tableUnitButtons.getX());
     public StoneButton(final LevelScreen levelScreen, PlayerUnitData data) {
@@ -62,7 +59,7 @@ public class StoneButton extends CreateUnitButton {
     @Override
     public void touchedUp(float x, float y) {
         super.touchedUp(x, y);
-        if (isTouchedDown) {
+        if (isTouchedDown && greenTarget.isVisible()) {
 //        if ((isReadyUnitButton) && (checkEnergyCount(energyPrice))) {
             isReadyUnitButton = false;
             setInActive();
@@ -127,7 +124,7 @@ public class StoneButton extends CreateUnitButton {
     public void setInActive() {
         super.setInActive();
     }
-    
+
     @Override
     public void act(float delta) {
         super.act(delta);
