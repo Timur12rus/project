@@ -122,12 +122,14 @@ public class InfoTable extends Table {
 //                Actions.fadeOut(0)
 
         ParallelAction moveHealthAction = new ParallelAction(
-                Actions.moveBy(-48, 0, 1.2f, Interpolation.pow3Out),
+                Actions.moveBy(-48, 0, 1.1f,Interpolation.pow3Out),
+//                Actions.moveBy(-48, 0, 1.8f, Interpolation.pow3Out),
                 Actions.fadeOut(1)
         );
 
         ParallelAction moveDamageAction = new ParallelAction(
-                Actions.moveBy(-48, 0, 1.2f, Interpolation.pow3Out),
+                Actions.moveBy(-48, 0, 1.1f, Interpolation.pow3Out),
+//                Actions.moveBy(-48, 0, 1.8f, Interpolation.pow3Out),
                 Actions.fadeOut(1)
         );
 

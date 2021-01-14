@@ -55,7 +55,8 @@ public class CoinsAction {
                     Actions.delay(3.2f),
                     Actions.fadeIn(0),
                     Actions.moveTo(startPosition.x + deltaX, startPosition.y + deltaY, 0.7f, Interpolation.pow3Out),
-                    Actions.moveTo(endPosition.x, endPosition.y, 0.8f, Interpolation.pow3In)
+                    Actions.moveTo(endPosition.x, endPosition.y, 0.8f, Interpolation.pow3In)        // TODO испрвить здесь какой-то баг при запуске бывает
+
             );
             moveCoinAction.addAction(isEndAnimation);
             image.addAction(moveCoinAction);

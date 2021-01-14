@@ -18,7 +18,7 @@ public class Firebooster extends CreateUnitButton {
 
 
     @Override
-    public void buttonClicked() {
+    public void buttonClicked(float x, float y) {
         if (isReadyUnitButton) {
             isReadyUnitButton = false;
             new FireRockShoot(levelScreen);

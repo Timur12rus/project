@@ -23,7 +23,7 @@ public class Stone extends Bullet {
     //    private static final float APPEARANCE_TIME = 10;
     private static final float APPEARANCE_TIME = 1;
     //    private static int ENERGY_PRICE = 6;
-    private static int ENERGY_PRICE = 1;
+    private static int energyPrice = 0;
     private ParticleEffect destroyEffect;
 
     public Stone(LevelScreen levelScreen, Vector2 position, PlayerUnitData data) {
@@ -33,6 +33,7 @@ public class Stone extends Bullet {
 //        this.damage = data.getDamage();
         health = 10;
         damage = 5;
+        energyPrice = data.getEnergyPrice();
         targetPos = new Vector2();
         targetPos.set(position.x, position.y);             // позиция цель
         this.position = position;
@@ -137,6 +138,6 @@ public class Stone extends Bullet {
     }
 
     public static int getEnergyPrice() {
-        return ENERGY_PRICE;
+        return energyPrice;
     }
 }

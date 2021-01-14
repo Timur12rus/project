@@ -17,7 +17,7 @@ public class CreateUnitButton extends UnitImageButton {
     protected int energyPrice;
     protected float percentage = 0;
     private LevelScreen levelScreen;
-    private boolean isActive = false;
+    protected boolean isActive = false;
 
     public CreateUnitButton(LevelScreen levelScreen, PlayerUnitData playerUnitData) {
         super(playerUnitData);
@@ -63,21 +63,28 @@ public class CreateUnitButton extends UnitImageButton {
 
     @Override
     public void touchedDown() {
-        if (isReadyUnitButton && isActive) {
-            super.touchedDown();
+        if (isReadyUnitButton && isActive && !isTouchedDown) {
+            isTouchedDown = true;
+            if (!isUnlock) {                 // если не разблокирован юнит
+                activeImage.setY(-10);
+            }
         }
     }
 
     @Override
-    public void touchedUp() {
-        if (isReadyUnitButton && isActive) {
-            super.touchedUp();
+    public void touchedUp(float x, float y) {
+        if (isReadyUnitButton && isActive && isTouchedDown) {       // Здесь я сделал проверку isTouchedDown?
+//            super.touchedUp(x, y);
+            if (!isUnlock) {                 // если не разблокирован юнит
+                activeImage.setY(0);
+                isTouchedDown = false;
+            }
         }
     }
 
     @Override
-    public void buttonClicked() {
-        super.buttonClicked();
+    public void buttonClicked(float x, float y) {
+        isTouchedDown = false;
         if ((isReadyUnitButton) && (checkEnergyCount(energyPrice))) {
             isReadyUnitButton = false;
             setInActive();

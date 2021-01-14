@@ -22,6 +22,7 @@ public class UnitImageButton extends Group {
     protected UnitLevelIcon unitLevelIcon;
     protected Image lockIcon;
     protected boolean isCalled;     // юнит призван (куплен)
+    protected boolean isTouchedDown;
 
     public UnitImageButton(PlayerUnitData playerUnitData) {
 //    public UnitImageButton(PlayerUnits unitId, final boolean isUnlock) {
@@ -101,6 +102,13 @@ public class UnitImageButton extends Group {
         addListener(new ClickListener() { // создаем слушателя события нажатия кнопки
             // переопределяем метод TouchDown(), который называется прикасание
 
+
+            @Override
+            public void touchDragged(InputEvent event, float x, float y, int pointer) {
+                super.touchDragged(event, x, y, pointer);
+                touchedDragged(x, y);
+            }
+
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 touchedDown();
@@ -109,13 +117,13 @@ public class UnitImageButton extends Group {
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                touchedUp();
+                touchedUp(x, y);
                 super.touchUp(event, x, y, pointer, button);
             }
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                buttonClicked();
+                buttonClicked(x, y);
                 super.clicked(event, x, y);
             }
         });
@@ -124,6 +132,9 @@ public class UnitImageButton extends Group {
     public void setInActive() {
         activeImage.setVisible(false);
         inactiveImage.setVisible(true);
+    }
+
+    public void touchedDragged(float x, float y) {
     }
 
     public void touchedDown() {
@@ -138,7 +149,7 @@ public class UnitImageButton extends Group {
         }
     }
 
-    public void touchedUp() {
+    public void touchedUp(float x, float y) {
         if (!isUnlock) {            // если не разблокирован юнит
             lockImage.setY(lockImage.getY() + 10);
             activeImage.setY(activeImage.getY() + 10);
@@ -151,7 +162,7 @@ public class UnitImageButton extends Group {
         }
     }
 
-    public void buttonClicked() {
+    public void buttonClicked(float x, float y) {
     }
 
     public void unlock() {
