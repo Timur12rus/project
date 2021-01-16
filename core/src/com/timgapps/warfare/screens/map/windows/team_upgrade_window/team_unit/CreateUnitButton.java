@@ -3,7 +3,7 @@ package com.timgapps.warfare.screens.map.windows.team_upgrade_window.team_unit;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.timgapps.warfare.Units.GameUnits.Player.Bullets.throwFireRock.FireRockShoot;
+import com.timgapps.warfare.Units.GameUnits.Player.Bullets.throwFireRock.FireRockShoot1;
 import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnitData;
 import com.timgapps.warfare.Units.GameUnits.unitTypes.PlayerUnits;
 import com.timgapps.warfare.screens.level.LevelScreen;
@@ -92,9 +92,10 @@ public class CreateUnitButton extends UnitImageButton {
             levelScreen.subEnergyCount(energyPrice);
             if (playerUnitData.getUnitId() != PlayerUnits.Firebooster) {
                 levelScreen.createPlayerUnit(playerUnitData.getUnitId());
-            } else {
-                new FireRockShoot(levelScreen);
             }
+//            else {
+//                new FireRockShoot1(levelScreen);
+//            }
         }
     }
 

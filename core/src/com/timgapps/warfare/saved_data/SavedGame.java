@@ -142,7 +142,7 @@ public class SavedGame implements Serializable {
 
         // для теста
 //        teamDataList.add(new PlayerUnitData(PlayerUnits.Archer));
-        teamDataList.add(new PlayerUnitData(PlayerUnits.Rock));
+//        teamDataList.add(new PlayerUnitData(PlayerUnits.Rock));
 
 //        teamDataList.get(0).setDefaultData(PlayerUnits.Thor);
 
