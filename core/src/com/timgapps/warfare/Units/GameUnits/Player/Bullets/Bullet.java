@@ -38,7 +38,7 @@ public abstract class Bullet extends Actor {
     @Override
     public void act(float delta) {
         super.act(delta);
-        if (levelScreen.getState() != LevelScreen.PAUSED && isStarted) {
+        if (levelScreen.getState() != LevelScreen.PAUSED && isStarted && !isDestroyed) {
             position.add(velocity);
             body.setX(position.x);
             body.setY(position.y);

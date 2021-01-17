@@ -24,8 +24,10 @@ public class FireRock extends Bullet {
     private Vector2 endPosition;
     private boolean isStartSmallRocks;
     private Rectangle explosionRectangle;
-    private final float EXPLOSION_WIDTH = 260;
-    private final float EXPLOSION_HEIGHT = 280;
+//    private final float EXPLOSION_WIDTH = 260;
+//    private final float EXPLOSION_HEIGHT = 280;
+    private final float EXPLOSION_WIDTH = 160;
+    private final float EXPLOSION_HEIGHT = 120;
     private ArrayList<EnemyUnitModel> targetEnemies;
 //    private float speed = 5;
         private float speed = 14f;

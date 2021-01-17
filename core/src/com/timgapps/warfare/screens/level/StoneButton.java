@@ -17,8 +17,9 @@ public class StoneButton extends CreateUnitButton {
     protected float deltaPosX = 0;
     private int damage;
     private int health;
-    protected float xMin, xMax;
+    protected float xMin, xMax, yMin, yMax;
     protected final float DELTA_Y_TARGET_ICON = 32;
+    protected float greenTargetWidth;
 
     //     if (stoneButton != null) stoneButton.setUnitButtonTablePosX(tableUnitButtons.getX());
     public StoneButton(final LevelScreen levelScreen, PlayerUnitData data) {
@@ -26,6 +27,7 @@ public class StoneButton extends CreateUnitButton {
         this.levelScreen = levelScreen;
         greenTarget = new Image(Warfare.atlas.findRegion("targetGreen"));
         redTarget = new Image(Warfare.atlas.findRegion("targetRed"));
+        greenTargetWidth = greenTarget.getWidth();
         greenTarget.debug();
         redTarget.debug();
         damage = data.getDamage();
@@ -33,6 +35,8 @@ public class StoneButton extends CreateUnitButton {
         addActor(greenTarget);
         addActor(redTarget);
         inactiveTargetImages();
+        yMin = Y_MIN;
+        yMax = Y_MAX;
     }
 
     @Override
@@ -40,7 +44,8 @@ public class StoneButton extends CreateUnitButton {
         super.touchedDragged(x, y);
         if (isTouchedDown) {
 //        if (isActive && isReadyUnitButton && isTouchedDown) {
-            x -= greenTarget.getWidth() / 2;
+            x -= greenTargetWidth / 2;
+//            x -= greenTarget.getWidth() / 2;
             if (isReadyUnitButton) {               // если камень "готов" к запуску
                 greenTarget.setVisible(true);
                 greenTarget.setPosition(x, y + DELTA_Y_TARGET_ICON);
@@ -60,7 +65,7 @@ public class StoneButton extends CreateUnitButton {
     @Override
     public void touchedUp(float x, float y) {
         super.touchedUp(x, y);
-        if (isTouchedDown && greenTarget.isVisible()) {
+        if (isTouchedDown && greenTarget.isVisible() && levelScreen.getState() == LevelScreen.PLAY) {
 //        if ((isReadyUnitButton) && (checkEnergyCount(energyPrice))) {
             isReadyUnitButton = false;
             setInActive();
@@ -99,12 +104,13 @@ public class StoneButton extends CreateUnitButton {
     }
 
     private void checkTargetCoordinates(float x, float y) {
-        x -= greenTarget.getWidth() / 2;
+        x -= greenTargetWidth / 2;
+//        x -= greenTarget.getWidth() / 2;
         System.out.println("X MIN === " + xMin);
         System.out.println("X MAX === " + xMax);
         System.out.println("current X = " + x);
 //        if (x < X_MIN || x > X_MAX || y < Y_MIN || y > Y_MAX) {
-        if (x < xMin || x > xMax || y < Y_MIN || y > Y_MAX) {
+        if (x < xMin || x > xMax || y < yMin || y > yMax) {
 //            System.out.println("x = " + x);
             greenTarget.setVisible(false);
             redTarget.setVisible(true);

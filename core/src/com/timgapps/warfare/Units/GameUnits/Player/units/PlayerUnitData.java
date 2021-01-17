@@ -123,7 +123,7 @@ public class PlayerUnitData extends UnitData {
                 name = "Thor";
                 damage = 10;
                 health = 28;
-                speed = 1.6f;
+                speed = 1.8f;
 //                speed = 0.9f;
                 energyPrice = 15;
                 prepareTime = 3;

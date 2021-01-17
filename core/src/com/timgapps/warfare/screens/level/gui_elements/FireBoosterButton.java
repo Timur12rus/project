@@ -8,7 +8,19 @@ import com.timgapps.warfare.screens.level.StoneButton;
 public class FireBoosterButton extends StoneButton {
     public FireBoosterButton(LevelScreen levelScreen, PlayerUnitData data) {
         super(levelScreen, data);
+//        greenTarget.scaleBy(1);
+//        redTarget.scaleBy(1);
+        greenTarget.scaleBy(1, 0.5f);
+        redTarget.scaleBy(1, 0.5f);
+        greenTargetWidth = greenTarget.getWidth() * 2;
         unitLevelIcon.remove();
+        yMax -= greenTarget.getHeight();
+    }
+
+    @Override
+    public void setPosX(float posX) {
+        super.setPosX(posX);
+        xMax -= greenTargetWidth / 2;
     }
 
     @Override
