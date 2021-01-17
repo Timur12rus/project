@@ -73,9 +73,9 @@ public class FireRockShoot1 {
             thirdPosition.set(secondPosition.x + 16, 170);
         }
 
-        fireRocks.add(new FireRock(levelScreen, new Vector2(-64, 500), firstPosition, 10, 0f));
-        fireRocks.add(new FireRock(levelScreen, new Vector2(-64, 500), secondPosition, 10, 0.3f));
-        fireRocks.add(new FireRock(levelScreen, new Vector2(-64, 500), thirdPosition, 10, 0.6f));
+//        fireRocks.add(new FireRock(levelScreen, firstPosition, 10, 0f));
+//        fireRocks.add(new FireRock(levelScreen, secondPosition, 10, 0.3f));
+//        fireRocks.add(new FireRock(levelScreen, thirdPosition, 10, 0.6f));
     }
 }
 

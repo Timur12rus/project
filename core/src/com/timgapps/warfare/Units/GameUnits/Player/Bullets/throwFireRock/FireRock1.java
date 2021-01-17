@@ -20,15 +20,15 @@ import com.timgapps.warfare.Warfare;
 
 import java.util.ArrayList;
 
-public class FireRock extends Bullet {
+public class FireRock1 extends Bullet {
+    private Vector2 startPosition;
     private Vector2 endPosition;
     private boolean isStartSmallRocks;
     private Rectangle explosionRectangle;
     private final float EXPLOSION_WIDTH = 260;
     private final float EXPLOSION_HEIGHT = 280;
     private ArrayList<EnemyUnitModel> targetEnemies;
-//    private float speed = 5;
-        private float speed = 14f;
+    private float speed = 10;
     private LevelScreen levelScreen;
     private ParticleEffect fireEffect;
     private float waitTimeToDestroy = 20;
@@ -37,38 +37,30 @@ public class FireRock extends Bullet {
     private float gravity = -8;
     private float delayTime;
 
-    public FireRock(LevelScreen levelScreen, Vector2 endPosition, float damage, float delayTime) {
-        super(levelScreen,
-                new Vector2(levelScreen.getSiegeTower().getBodyPosition().x,
-                        levelScreen.getSiegeTower().getBodyPosition().y + 700), damage);
+    public FireRock1(LevelScreen levelScreen, Vector2 startPosition, Vector2 endPosition, float damage, float delayTime) {
+        super(levelScreen, startPosition, damage);
+        isStarted = false;
+        this.startPosition = new Vector2(levelScreen.getSiegeTower().getBodyPosition());
+        this.startPosition.set(this.startPosition.x, this.startPosition.y + 700);
         this.delayTime = delayTime;
-        image = new TextureRegion(Warfare.atlas.findRegion("fireRock"));
-        setSize(image.getRegionWidth(), image.getRegionHeight());
+        endPosition.set(endPosition.x, endPosition.y - 12);
         this.endPosition = endPosition;
-        System.out.println("End POSITION = " + endPosition);
-        float startX = position.x;
-        float startY = position.y;
-        float endX = endPosition.x;
-//        float endX = endPosition.x + getWidth();
-        float endY = endPosition.y;
-        Vector2 startPos = new Vector2(startX, startY);
-        Vector2 endPos = new Vector2(endX, endY);
-        Vector2 velocityDirection = (endPos.sub(startPos)).nor();
-//        Vector2 velocityDirection = (new Vector2(new Vector2(endPosition.x, endPosition.y)).sub(position)).nor();
-//        Vector2 velocityDirection = (new Vector2(endPos).sub(startPos)).nor();
-        velocity.set((velocityDirection).scl(speed));
-//        Vector2 vel = new Vector2((velocityDirection).scl(speed));
-//        velocity.set(vel.x, vel.y);
-        System.out.println("start Position = " + startPos);
-        System.out.println("end Position = " + endPos);
-        System.out.println("VelDirection = " + velocityDirection);
+        image = new TextureRegion(Warfare.atlas.findRegion("fireRock"));
+        Vector2 endPos = new Vector2(endPosition.x, endPosition.y);
+        Vector2 velocityDirection = new Vector2(endPos.sub(startPosition)).nor();
 
+        velocity = calculateVelocity();
+//        velocity = new Vector2(15, 0);
+//        System.out.println("Velocity = " + velocity);
+
+//        velocity.set(velocityDirection.scl(speed));
 //        velocity.set(speed, 5);
 
         levelScreen.addChild(this, position.x, position.y);
         this.levelScreen = levelScreen;
 //        this.toFront();
 //        isDebug = true;
+        setSize(image.getRegionWidth(), image.getRegionHeight());
         this.debug();
         explosionRectangle = new Rectangle();
         explosionRectangle.set(position.x - EXPLOSION_WIDTH / 2, position.y - EXPLOSION_HEIGHT / 2, EXPLOSION_WIDTH, EXPLOSION_HEIGHT);
@@ -78,7 +70,17 @@ public class FireRock extends Bullet {
         fireEffect.setPosition(position.x, position.y);
         fireEffect.start();
         explosion = new Explosion(levelScreen);
-        isStarted = false;
+
+    }
+
+    private Vector2 calculateVelocity() {
+        float znam = 2 * (H - endPosition.y) / (-gravity);
+        float S = endPosition.x + 64;       // путь по горизонтали
+//        float velX = (float) ((endPosition.x + 64) / (Math.sqrt(znam / 60)));
+        float velX;     // начальная скорость по оси Х
+        velX = (float) (S / (Math.sqrt(znam * 60)));
+//        velX = velX;
+        return new Vector2(velX, 4);
     }
 
     public void start() {
@@ -99,7 +101,6 @@ public class FireRock extends Bullet {
         if (!isDestroyed) {
             super.draw(batch, parentAlpha);
         }
-        fireEffect.draw(batch);
         if (isDebug) {
             batch.end();
             shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
@@ -110,7 +111,7 @@ public class FireRock extends Bullet {
             shapeRenderer.end();
             batch.begin();
         }
-//        fireEffect.draw(batch);
+        fireEffect.draw(batch);
 //        if (level.getState() != Level.PAUSED) {
 //            fireEffect.draw(batch);
 //        }
@@ -118,15 +119,17 @@ public class FireRock extends Bullet {
 
     @Override
     public void act(float delta) {
-        super.act(delta);
         if (levelScreen.getState() != LevelScreen.PAUSED && !isDestroyed) {
-            if (!isStarted) {
+            if (isStarted) {
+                velocity.add(0, gravity * delta);
+            } else {
                 delayTime -= delta;
                 if (delayTime < 0) {
                     isStarted = true;
                 }
             }
         }
+        super.act(delta);
         if (isDestroyed) {
             waitTimeToDestroy--;
             if (waitTimeToDestroy < 0) {
@@ -146,10 +149,7 @@ public class FireRock extends Bullet {
 
 //            System.out.println("POSITION Y = " + position.y);
 //            System.out.println("END POSITION = " + endPosition);
-            if ((position.x + getWidth() / 2 > (endPosition.x))
-                    && (position.y < endPosition.y) && !isStartSmallRocks) {
-//            if ((position.x > (endPosition.x + EXPLOSION_WIDTH / 2)) && !isStartSmallRocks) {
-//            if ((position.y < (endPosition.y + EXPLOSION_HEIGHT / 2)) && !isStartSmallRocks) {
+            if ((position.y < (endPosition.y + EXPLOSION_HEIGHT / 2)) && !isStartSmallRocks) {
                 explosionRectangle.setX(position.x - (EXPLOSION_WIDTH - image.getRegionWidth()) / 2);
                 explosionRectangle.setY(position.y - (EXPLOSION_HEIGHT - image.getRegionHeight()) / 2);
 //                System.out.println("POSITION Y = " + position.y);
@@ -176,8 +176,7 @@ public class FireRock extends Bullet {
                 //TODO shakeCamera  !!!!!!!! 22.10.2020
 //                levelScreen.shakeCamera();
 //                Explosion explosion = new Explosion();
-//                explosion.setPosition(position.x - explosion.getWidth() / 2, position.y - getHeight());
-                explosion.setPosition(position.x - explosion.getWidth() / 2, position.y - getHeight());
+                explosion.setPosition(position.x - explosion.getWidth() / 2, position.y - explosion.getHeight() / 2);
 //                System.out.println("POSITION X = " + position.x);
                 levelScreen.addChild(explosion);
                 explosion.start();

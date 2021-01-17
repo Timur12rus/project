@@ -13,6 +13,6 @@ public class FireBoosterButton extends StoneButton {
 
     @Override
     protected void throwBullet(LevelScreen levelScreen, float x, float y, float damage, float health) {
-        new FireRockShoot(levelScreen, x, y);
+        new FireRockShoot(levelScreen, x, y + DELTA_Y_TARGET_ICON);
     }
 }

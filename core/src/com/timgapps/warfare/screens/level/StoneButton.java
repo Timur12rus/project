@@ -18,6 +18,7 @@ public class StoneButton extends CreateUnitButton {
     private int damage;
     private int health;
     protected float xMin, xMax;
+    protected final float DELTA_Y_TARGET_ICON = 32;
 
     //     if (stoneButton != null) stoneButton.setUnitButtonTablePosX(tableUnitButtons.getX());
     public StoneButton(final LevelScreen levelScreen, PlayerUnitData data) {
@@ -42,7 +43,7 @@ public class StoneButton extends CreateUnitButton {
             x -= greenTarget.getWidth() / 2;
             if (isReadyUnitButton) {               // если камень "готов" к запуску
                 greenTarget.setVisible(true);
-                greenTarget.setPosition(x, y + 24);
+                greenTarget.setPosition(x, y + DELTA_Y_TARGET_ICON);
                 redTarget.setPosition(greenTarget.getX(), greenTarget.getY());
                 checkTargetCoordinates(x + deltaPosX, y);
 //                    checkTargetCoordinates(x - greenTarget.getWidth() / 2 + deltaPosX, y);
@@ -64,7 +65,9 @@ public class StoneButton extends CreateUnitButton {
             isReadyUnitButton = false;
             setInActive();
             levelScreen.subEnergyCount(energyPrice);
-            throwBullet(levelScreen, x + deltaPosX, y + 24, damage, health);
+            throwBullet(levelScreen, x + deltaPosX, y + DELTA_Y_TARGET_ICON, damage, health);
+//            throwBullet(levelScreen, x + deltaPosX, y + 24, damage, health);
+            System.out.println("x + deltaPosX  = " + x + deltaPosX);
         }
         greenTarget.setVisible(false);
         redTarget.setVisible(false);
@@ -111,8 +114,9 @@ public class StoneButton extends CreateUnitButton {
         }
     }
 
+
     protected void throwBullet(LevelScreen levelScreen, float x, float y, float damage, float health) {
-        new Stone(levelScreen, new Vector2(x, y + 24 + greenTarget.getHeight() / 2), playerUnitData);
+        new Stone(levelScreen, new Vector2(x, y + DELTA_Y_TARGET_ICON + greenTarget.getHeight() / 2), playerUnitData);
     }
 
     private void inactiveTargetImages() {
