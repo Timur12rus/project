@@ -13,8 +13,10 @@ public class FireBoosterButton extends StoneButton {
         greenTarget.scaleBy(1, 0.5f);
         redTarget.scaleBy(1, 0.5f);
         greenTargetWidth = greenTarget.getWidth() * 2;
+        greenTargetHeight = greenTarget.getHeight();
         unitLevelIcon.remove();
-        yMax -= greenTarget.getHeight();
+        yMax -= greenTarget.getHeight() / 2;
+//        yMin += greenTarget.getHeight();
     }
 
     @Override

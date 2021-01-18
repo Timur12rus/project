@@ -12,14 +12,17 @@ public class StoneButton extends CreateUnitButton {
     //public class StoneButton extends UnitImageButton {
     protected Image greenTarget, redTarget;
     protected final float Y_MIN = 100;
+    //    protected final float Y_MIN = 100;
     protected final float Y_MAX = 280;
 
     protected float deltaPosX = 0;
     private int damage;
     private int health;
     protected float xMin, xMax, yMin, yMax;
-    protected final float DELTA_Y_TARGET_ICON = 32;
+    protected final float DELTA_Y_TARGET_ICON = 64;
+    //    protected final float DELTA_Y_TARGET_ICON = 32;
     protected float greenTargetWidth;
+    protected float greenTargetHeight;
 
     //     if (stoneButton != null) stoneButton.setUnitButtonTablePosX(tableUnitButtons.getX());
     public StoneButton(final LevelScreen levelScreen, PlayerUnitData data) {
@@ -28,6 +31,7 @@ public class StoneButton extends CreateUnitButton {
         greenTarget = new Image(Warfare.atlas.findRegion("targetGreen"));
         redTarget = new Image(Warfare.atlas.findRegion("targetRed"));
         greenTargetWidth = greenTarget.getWidth();
+        greenTargetHeight = greenTarget.getHeight();
         greenTarget.debug();
         redTarget.debug();
         damage = data.getDamage();
@@ -43,23 +47,25 @@ public class StoneButton extends CreateUnitButton {
     public void touchedDragged(float x, float y) {
         super.touchedDragged(x, y);
         if (isTouchedDown) {
-//        if (isActive && isReadyUnitButton && isTouchedDown) {
             x -= greenTargetWidth / 2;
-//            x -= greenTarget.getWidth() / 2;
+            y += DELTA_Y_TARGET_ICON;
             if (isReadyUnitButton) {               // если камень "готов" к запуску
                 greenTarget.setVisible(true);
-                greenTarget.setPosition(x, y + DELTA_Y_TARGET_ICON);
+                greenTarget.setPosition(x, y);
                 redTarget.setPosition(greenTarget.getX(), greenTarget.getY());
                 checkTargetCoordinates(x + deltaPosX, y);
-//                    checkTargetCoordinates(x - greenTarget.getWidth() / 2 + deltaPosX, y);
             }
         }
     }
 
     @Override
+    public void buttonClicked(float x, float y) {
+
+    }
+
+    @Override
     public void touchedDown() {
         super.touchedDown();
-//        isTouchedDown = true;
     }
 
     @Override
@@ -81,15 +87,6 @@ public class StoneButton extends CreateUnitButton {
         isTouchedDown = false;
     }
 
-    @Override
-    public void buttonClicked(float x, float y) {
-//        if ((isReadyUnitButton) && (checkEnergyCount(energyPrice))) {
-//            isReadyUnitButton = false;
-//            setInActive();
-//            levelScreen.subEnergyCount(energyPrice);
-//            throwStone(levelScreen, x + deltaPosX, y + 24, damage, health);
-//        }
-    }
 
     public void setPosX(float posX) {
         deltaPosX = posX;
@@ -105,7 +102,7 @@ public class StoneButton extends CreateUnitButton {
 
     private void checkTargetCoordinates(float x, float y) {
         x -= greenTargetWidth / 2;
-//        x -= greenTarget.getWidth() / 2;
+//        y += greenTargetHeight / 2;
         System.out.println("X MIN === " + xMin);
         System.out.println("X MAX === " + xMax);
         System.out.println("current X = " + x);
@@ -122,7 +119,8 @@ public class StoneButton extends CreateUnitButton {
 
 
     protected void throwBullet(LevelScreen levelScreen, float x, float y, float damage, float health) {
-        new Stone(levelScreen, new Vector2(x, y + DELTA_Y_TARGET_ICON + greenTarget.getHeight() / 2), playerUnitData);
+        new Stone(levelScreen, new Vector2(x, y + greenTarget.getHeight()), playerUnitData);
+//        new Stone(levelScreen, new Vector2(x, y + DELTA_Y_TARGET_ICON + greenTarget.getHeight() / 2), playerUnitData);
     }
 
     private void inactiveTargetImages() {
