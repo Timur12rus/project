@@ -39,7 +39,7 @@ public class ArcherView extends PlayerUnitView {
             // Ai юнита
             if (model.isMoveToTarget() == true) {           // если юнит движется к цели
                 // если юнит в состоянии, что видид баррикаду
-                if (model.barricadeIsDetected()) {
+                if (model.isBarricadeDetected()) {
                     if (!model.isHaveVerticalDirection()) {
                         if (currentState != State.STAY) {
                             currentState = State.STAY;
@@ -83,7 +83,7 @@ public class ArcherView extends PlayerUnitView {
                         model.setIsStay(false);
                     }
                 }
-            } else if (model.barricadeIsDetected()) {
+            } else if (model.isBarricadeDetected()) {
                 if (currentState != State.STAY) {
                     currentState = State.STAY;
                     resetStateTime();

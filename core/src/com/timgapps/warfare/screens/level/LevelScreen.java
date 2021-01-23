@@ -380,6 +380,7 @@ public class LevelScreen extends StageGame {
 
     public void createPlayerUnit(PlayerUnits unitId) {
 //        unitCreator.createUnit(unitId.name(), new Vector2(900 + random.nextFloat() * 16 - 8, 220));           // это для теста
+//        unitCreator.createUnit(unitId.name(), new Vector2(900 + random.nextFloat() * 16 - 8, 220));
         unitCreator.createUnit(unitId.name(), new Vector2(200 + random.nextFloat() * 16 - 8, 220));
 //        unitCreator.createUnit("Wizard", new Vector2(1200, 250));
     }

@@ -129,7 +129,7 @@ public class FireRock extends Bullet {
                 }
             }
         }
-        if (isDestroyed) {
+        if (levelScreen.getState() != LevelScreen.PAUSED && isDestroyed) {
             waitTimeToDestroy--;
             if (waitTimeToDestroy < 0) {
 //            if (explosion.isEnd()) {

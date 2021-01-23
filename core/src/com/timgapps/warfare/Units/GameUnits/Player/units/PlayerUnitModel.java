@@ -155,7 +155,7 @@ public class PlayerUnitModel extends GameUnitModel {
         this.barricadeIsDetected = barricadeIsDetected;
     }
 
-    public boolean barricadeIsDetected() {
+    public boolean isBarricadeDetected() {
         return barricadeIsDetected;
     }
 
