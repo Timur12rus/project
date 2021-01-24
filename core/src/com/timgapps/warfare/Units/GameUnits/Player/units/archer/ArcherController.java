@@ -39,16 +39,6 @@ public class ArcherController extends PlayerUnitController implements PlayerShoo
     @Override
     public void update(float delta) {
         super.update(delta);
-//        if (targetEnemy != null) {
-//            if (targetEnemy.getHealth() <= 0) {
-//                model.setTargetEnemy(null);
-//                targetEnemy = null;
-//                model.setIsHaveTargetEnemy(false);
-//                model.setIsMoveToTarget(false);
-//                model.setIsAttack(false);
-//                model.setIsShoot(false);
-//            }
-//        }
         // логика поведения
         if (!model.isDestroyed()) {
             if (targetEnemy != null) {
@@ -56,12 +46,7 @@ public class ArcherController extends PlayerUnitController implements PlayerShoo
                     // TODO возможно нужно сделать проверку на всех юнитов врага, с которыми возможно столкновение
                     model.setIsTouchedEnemy(checkCollision(body, targetEnemy.getBody()));  // проверим столкновение тел юнитов
                 } else {
-                    model.setIsTouchedEnemy(false);
-                    model.setTargetEnemy(null);
-                    targetEnemy = null;
-                    model.setIsHaveTargetEnemy(false);
-                    model.setIsAttack(false);
-                    model.setIsShoot(false);
+                    resetTargetEnemy();
                 }
             } else if (!model.isShoot()) { //  если юнит не в состоянии стрельбы (isShoot = false) (targetEnemy == null
                 // ищем новую цель
@@ -73,13 +58,15 @@ public class ArcherController extends PlayerUnitController implements PlayerShoo
                         calculateVerticalDirection(newTargetEnemy);       // вычислим направление вертикального перемещения
                         isHaveTargetEnemy = true;
                         model.setIsHaveTargetEnemy(true);
+//                        model.setTargetEnemy(targetEnemy);
                         System.out.println("TargetEnemy = " + targetEnemy.getName());
                     } else {
                         // если не обнаружил нового "врага-цель"
-                        model.setIsHaveVerticalDirection(false);
-                        isHaveTargetEnemy = false;
-                        model.setIsHaveTargetEnemy(false);
-                        verticalDirectionMovement = Direction.NONE;
+//                        model.setIsHaveVerticalDirection(false);
+//                        verticalDirectionMovement = Direction.NONE;
+//                        isHaveTargetEnemy = false;
+//                        model.setIsHaveTargetEnemy(false);
+                        resetTargetEnemy();
                     }
                 } else {        // если "враг-цель" существует
                     if (!targetEnemy.equals(newTargetEnemy) && (newTargetEnemy != null)) { // если новая цель не соответствет старой, то меняем цель на новую
@@ -99,16 +86,10 @@ public class ArcherController extends PlayerUnitController implements PlayerShoo
                 }
             }
 
-//            else {
-//                moveToTarget();
-//            }
-
             // Ai логика
             if (model.isTouchedEnemy()) {
                 attackEnemy();
-//                shootEnemy();
             } else if (model.isHaveTargetEnemy()) {
-//                System.out.println("Target Enemy! = " + targetEnemy.getName());
                 if (!model.isShoot()) {     // если юнит не в состоянии атаки, то двигаемся к врагу
                     moveToTarget();
                 }
@@ -131,7 +112,18 @@ public class ArcherController extends PlayerUnitController implements PlayerShoo
             velocity.set(0, 0);
             model.setVelocity(velocity);
         }
+    }
 
+    private void resetTargetEnemy() {
+        targetEnemy = null;
+        model.setIsTouchedEnemy(false);
+//        model.setTargetEnemy(null);
+        model.setIsHaveTargetEnemy(false);
+        model.setIsAttack(false);
+        model.setIsShoot(false);
+        model.setIsMoveToTarget(false);
+        model.setIsHaveVerticalDirection(false);
+        verticalDirectionMovement = Direction.NONE;
     }
 
     // метод для выпуска стрелы
@@ -241,21 +233,22 @@ public class ArcherController extends PlayerUnitController implements PlayerShoo
                         verticalDirectionMovement = Direction.NONE;
                     }
                 }
-            } else if (distanceToTarget.x < ATTACK_DISTANCE) {             // !!!!!!!
-                // TODO !!!!!!!!!!!!!!! 22.01.20201
-                // если нет веритакльного перемещения, и расстояние до врага-цели больше, чем нужно для атаки, то обнаружив баррикаду - стоим ждем врага
+                /** если движется к врагу, но не имеет направления вертикального перемещения **/
+            } else if (distanceToTarget.x < ATTACK_DISTANCE) {             // если дистанция до врага меньше чем расстояние для атаки,
+                // то юнит имеет нулевую скорость и атакует
                 velocity.set(0, 0);
                 model.setVelocity(velocity);
                 shootEnemy();
             } else {
-//                if (!model.isBarricadeDetected()) {
-//                    velocity.set(model.getSpeed(), 0);
-//                } else {
-//                    velocity.set(0, model.getSpeed());
-//                }
-//                model.setVelocity(velocity);
+                if (!model.isBarricadeDetected()) {
+                    velocity.set(model.getSpeed(), 0);
+                } else {
+                    velocity.set(0, 0);
+                }
+                model.setVelocity(velocity);
 //                move();
-                stay();           /// !!!!!!!!!!!!!!!
+
+//                stay();           /// !!!!!!!!!!!!!!!
             }
     }
 
