@@ -59,6 +59,13 @@ public class SavedGame implements Serializable {
         levelIconDataList.add(new LevelIconData(16, 15, 30, LevelIcon.MEDIUM, true, false));
         levelIconDataList.add(new LevelIconData(17, 15, 30, LevelIcon.MEDIUM, true, false));
         levelIconDataList.add(new LevelIconData(18, 15, 30, LevelIcon.MEDIUM, true, false));
+        levelIconDataList.add(new LevelIconData(19, 15, 30, LevelIcon.MEDIUM, true, false));
+        levelIconDataList.add(new LevelIconData(20, 15, 30, LevelIcon.MEDIUM, true, false));
+        levelIconDataList.add(new LevelIconData(21, 15, 30, LevelIcon.MEDIUM, true, false));
+        levelIconDataList.add(new LevelIconData(22, 15, 30, LevelIcon.MEDIUM, true, false));
+        levelIconDataList.add(new LevelIconData(23, 15, 30, LevelIcon.MEDIUM, true, false));
+        levelIconDataList.add(new LevelIconData(24, 15, 30, LevelIcon.MEDIUM, true, false));
+        levelIconDataList.add(new LevelIconData(25, 15, 30, LevelIcon.MEDIUM, true, false));
 //        levelIconDataList.add(new LevelIconData(19, 15, 30, LevelIcon.MEDIUM, true, false));
     }
 

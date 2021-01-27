@@ -129,15 +129,15 @@
   <image width="32" height="32" source="Forest/Tree-02_04.png"/>
  </tile>
  <tile id="58" terrain=",,,10">
-  <image width="32" height="32" source="Forest/Tree-03_01.png"/>
+  <image width="32" height="32" source="Forest/Tree-01_01.png"/>
  </tile>
  <tile id="59" terrain=",,10,">
-  <image width="32" height="32" source="Forest/Tree-03_02.png"/>
+  <image width="32" height="32" source="Forest/Tree-01_02.png"/>
  </tile>
  <tile id="60" terrain=",10,,">
-  <image width="32" height="32" source="Forest/Tree-03_03.png"/>
+  <image width="32" height="32" source="Forest/Tree-01_03.png"/>
  </tile>
  <tile id="61" terrain="10,,,">
-  <image width="32" height="32" source="Forest/Tree-03_04.png"/>
+  <image width="32" height="32" source="Forest/Tree-01_04.png"/>
  </tile>
 </tileset>

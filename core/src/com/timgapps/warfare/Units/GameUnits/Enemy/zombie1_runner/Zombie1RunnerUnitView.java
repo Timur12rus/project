@@ -12,7 +12,7 @@ import java.util.Random;
 
 
 public class Zombie1RunnerUnitView extends EnemyUnitView {
-    protected com.timgapps.warfare.Units.GameUnits.Enemy.zombie1_runner.Zombie1RunnerController controller;
+    protected Zombie1RunnerController controller;
 
     public Zombie1RunnerUnitView(LevelScreen levelScreen, EnemyUnitModel model, Zombie1RunnerController controller) {
         super(levelScreen, model, controller);
@@ -44,37 +44,43 @@ public class Zombie1RunnerUnitView extends EnemyUnitView {
                     if (currentState != State.RUN) {
                         currentState = State.RUN;
                         resetStateTime();
-                    } else {
-                        if (currentState == State.RUN && runAnimation.isAnimationFinished(stateTime)) {
-                            Random random = new Random();
-                            if (random.nextBoolean()) {
-                                currentState = State.STAY;
-                                model.setIsStay(true);
-                                resetStateTime();
-                            } else {
-                                currentState = State.RUN;
-                                model.setIsStay(false);
-                                resetStateTime();
-                            }
-                        }
                     }
+//                    else {
+//                        if (currentState == State.RUN && runAnimation.isAnimationFinished(stateTime)) {
+//                            currentState = State.STAY;
+//                            model.setIsStay(true);
+//                            resetStateTime();
+//
+//
+////                            Random random = new Random();
+////                            if (random.nextBoolean()) {
+////                                currentState = State.STAY;
+////                                model.setIsStay(true);
+////                                resetStateTime();
+////                            } else {
+////                                currentState = State.RUN;
+////                                model.setIsStay(false);
+////                                resetStateTime();
+////                            }
+//                        }
+//                    }
                 } else if (currentState != State.STAY) {
                     currentState = State.STAY;
-                    resetStateTime();
+//                    resetStateTime();
                 } else {
                     if (stayAnimation.isAnimationFinished(stateTime)) {
                         model.setIsStay(false);
                     }
                 }
             } else if (model.isAttack() || model.isAttackTower()) {
-                if (model.isStay() == false) {              // TODO нжуно изменить, чтобы если currentState == STAY, то ждем
-                    if (currentState != State.STAY) {
-                        currentState = State.STAY;
-                        model.setIsStay(true);
-                        resetStateTime();
-//                    if (currentState != State.ATTACK) {
-//                        currentState = State.ATTACK;
+                if (!model.isStay()) {              // TODO нжуно изменить, чтобы если currentState == STAY, то ждем
+//                    if (currentState != State.STAY) {
+//                        currentState = State.STAY;
+//                        model.setIsStay(true);
 //                        resetStateTime();
+                    if (currentState != State.ATTACK) {
+                        currentState = State.ATTACK;
+                        resetStateTime();
                     } else {
                         if (attackAnimation.isAnimationFinished(stateTime)) {
                             if (model.isAttack()) {
@@ -87,6 +93,19 @@ public class Zombie1RunnerUnitView extends EnemyUnitView {
                             resetStateTime();
                         }
                     }
+                } else if (currentState != State.STAY) {
+                    currentState = State.STAY;
+                    resetStateTime();
+                } else {
+                    if (stayAnimation.isAnimationFinished(stateTime)) {
+                        model.setIsStay(false);
+                        resetStateTime();
+                    }
+                }
+            } else if (model.isStay()) {
+                if (currentState != State.STAY) {
+                    currentState = State.STAY;
+                    resetStateTime();
                 } else {
                     if (stayAnimation.isAnimationFinished(stateTime)) {
                         model.setIsStay(false);

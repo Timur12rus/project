@@ -33,11 +33,11 @@ public class Zombie1RunnerController extends EnemyUnitController implements Enem
                 if (!targetPlayer.equals(newTargetPlayer) && (newTargetPlayer != null)) {      // если новая цель не соответствет старой, то меняем цель на новую
                     // сравним расстояние от игрового юнита до вражеского
                     Vector2 v1 = new Vector2(model.getX(), model.getY());           // позиция текущего юнита
-                    Vector2 newTargetEnemyPos = new Vector2(newTargetPlayer.getX(), newTargetPlayer.getY());
-                    Vector2 targetEnemyPos = new Vector2(targetPlayer.getX(), targetPlayer.getY());
-                    float distance1 = v1.sub(newTargetEnemyPos).len();      // расстояние до новой цели
-//                    float distance1 = newTargetEnemyPos.sub(v1).len();      // расстояние до новой цели
-                    float distance2 = v1.sub(targetEnemyPos).len();         // расстояние до предыдущей цели
+                    Vector2 newTargetPlayerPos = new Vector2(newTargetPlayer.getX(), newTargetPlayer.getY());
+                    Vector2 targetPlayerPos = new Vector2(targetPlayer.getX(), targetPlayer.getY());
+                    float distance1 = v1.sub(newTargetPlayerPos).len();      // расстояние до новой цели
+//                    float distance1 = newTargetPlayerPos.sub(v1).len();      // расстояние до новой цели
+                    float distance2 = v1.sub(targetPlayerPos).len();         // расстояние до предыдущей цели
                     if (distance1 < distance2)
                         targetPlayer = newTargetPlayer;
                 }
@@ -79,7 +79,6 @@ public class Zombie1RunnerController extends EnemyUnitController implements Enem
                     moveToTarget();
                 }
             } else if (levelScreen.getSiegeTower().getHealth() > 0) {
-//                System.out.println("towerHealth = " + levelScreen.getSiegeTower().getHealth());
                 model.setIsTouchedTower(checkCollision(body, levelScreen.getSiegeTower().getBody()));
                 if (model.isTouchedTower()) {
                     attackTower();
@@ -102,6 +101,8 @@ public class Zombie1RunnerController extends EnemyUnitController implements Enem
             velocity.set(0, 0);
             model.setVelocity(velocity);
         } else {
+            model.setIsStay(true);
+
             System.out.println("attackPlayer");
             model.setIsAttack(true);
             model.setIsMoveToTarget(false);
