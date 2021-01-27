@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.timgapps.warfare.screens.level.LevelScreen;
 import com.timgapps.warfare.Units.GameUnits.Player.units.HealthBar;
 import com.timgapps.warfare.Utils.Setting;
@@ -43,12 +44,14 @@ public class GameUnitView extends Actor {
         // для отладки
         shapeRenderer = new ShapeRenderer();
         setDebug(true);
+        setTouchable(Touchable.disabled);
     }
 
     @Override
     public void act(float delta) {
-        super.act(delta);
+//        super.act(delta);
         if (levelScreen.getState() != LevelScreen.PAUSED) {
+            super.act(delta);
             controller.update(delta);
         }
         setPosition(model.getPosition().x, model.getPosition().y);      // обновляем позицию view по координатам позиции модели

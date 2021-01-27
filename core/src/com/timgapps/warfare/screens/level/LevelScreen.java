@@ -607,6 +607,10 @@ public class LevelScreen extends StageGame {
         return (int) energyCount;
     }
 
+    public void addEnergyCount(float energy) {
+        energyCount += energy;
+    }
+
     public int getCoinsCount() {
         return coinsCount;
     }

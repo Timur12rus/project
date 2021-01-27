@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.utils.Array;
 import com.timgapps.warfare.Warfare;
 import com.timgapps.warfare.screens.level.LevelScreen;
@@ -24,6 +25,7 @@ public class Explosion extends Actor {
         createAnimation();
         this.levelScreen = levelScreen;
         setSize(160, 140);
+        setTouchable(Touchable.disabled);
     }
 
     public void start() {

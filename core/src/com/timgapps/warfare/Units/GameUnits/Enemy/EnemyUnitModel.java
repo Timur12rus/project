@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.timgapps.warfare.Units.GameUnits.Enemy.bonus.Bonus;
 import com.timgapps.warfare.screens.level.LevelScreen;
 import com.timgapps.warfare.Units.GameUnits.GameUnitModel;
 
@@ -55,6 +56,7 @@ public class EnemyUnitModel extends GameUnitModel {
             this.targetPlayer = targetEnemy;
         }
     }
+
     public void setIsMoveToTarget(boolean isMoveToTarget) {
         this.isMoveToTarget = isMoveToTarget;
     }
@@ -101,6 +103,9 @@ public class EnemyUnitModel extends GameUnitModel {
             setBodyIsActive(false);                         // тело не активно
             setIsDestroyed(true);
             levelScreen.removeEnemyUnitFromArray(this);                      // текущий юнит
+
+            // добавляем бонус на уровень
+            new Bonus(levelScreen, position);
         }
     }
 

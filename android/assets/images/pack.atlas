@@ -1612,6 +1612,13 @@ coinsPanel
   orig: 142, 62
   offset: 0, 0
   index: -1
+energyIcon_box
+  rotate: false
+  xy: 1050, 986
+  size: 68, 64
+  orig: 68, 64
+  offset: 0, 0
+  index: -1
 ent1Attack3
   rotate: false
   xy: 2, 2
@@ -1719,7 +1726,7 @@ fire7
   index: -1
 fire8
   rotate: false
-  xy: 1955, 158
+  xy: 1050, 926
   size: 48, 58
   orig: 48, 58
   offset: 0, 0
@@ -2370,14 +2377,14 @@ skeleton2Walk4
   index: -1
 star
   rotate: false
-  xy: 1050, 986
+  xy: 1978, 284
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 starInactive
   rotate: false
-  xy: 1978, 284
+  xy: 1978, 218
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
@@ -2720,7 +2727,7 @@ wizardWalk2
   index: -1
 wood_icon
   rotate: false
-  xy: 1978, 218
+  xy: 1955, 152
   size: 64, 64
   orig: 64, 64
   offset: 0, 0

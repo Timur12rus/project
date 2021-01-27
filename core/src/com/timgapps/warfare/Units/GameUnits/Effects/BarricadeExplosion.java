@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.utils.Array;
 import com.timgapps.warfare.Units.GameUnits.Barricade;
 import com.timgapps.warfare.Warfare;
@@ -21,6 +22,7 @@ public class BarricadeExplosion extends Actor {
         this.barricade = barricade;
         setVisible(false);
         createAnimation();
+        setTouchable(Touchable.disabled);
     }
 
     public void start() {
