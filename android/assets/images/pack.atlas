@@ -1614,9 +1614,9 @@ coinsPanel
   index: -1
 energyIcon_box
   rotate: false
-  xy: 1050, 986
-  size: 68, 64
-  orig: 68, 64
+  xy: 1050, 988
+  size: 68, 62
+  orig: 68, 62
   offset: 0, 0
   index: -1
 ent1Attack3
@@ -1726,7 +1726,7 @@ fire7
   index: -1
 fire8
   rotate: false
-  xy: 1050, 926
+  xy: 1050, 928
   size: 48, 58
   orig: 48, 58
   offset: 0, 0

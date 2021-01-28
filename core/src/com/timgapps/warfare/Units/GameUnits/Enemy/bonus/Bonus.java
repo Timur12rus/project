@@ -34,12 +34,16 @@ public class Bonus extends Group {
         labelStyle.font = Warfare.font20;
         label = new Label(" + 15", labelStyle);
 //        label.addAction(Actions.fadeOut(0));
-        label.setVisible(false);
+//        label.setVisible(false);
 //        image.setPosition(position.x, position.y);
         addActor(image);
         addActor(label);
         setSize(image.getWidth() * 1.5f, image.getHeight() * 1.5f);
         this.levelScreen.addChild(this, position.x - 16, position.y);
+        float labelX = imageWidth;
+        float labelY = imageHeight / 2 - 16;
+        label.setVisible(false);
+        label.setPosition(getParent().getX() + labelX, getParent().getY() + labelY);
         addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -96,10 +100,9 @@ public class Bonus extends Group {
     private void click() {
         if (!isClicked) {
             isClicked = true;
-            image.remove();
+//            image.remove();
             label.setVisible(true);
             levelScreen.addEnergyCount(15);
-
 
             Action checkEndOfAction = new Action() {
                 @Override
@@ -112,9 +115,12 @@ public class Bonus extends Group {
 
             SequenceAction moveAction = new SequenceAction(
                     Actions.moveBy(0, 108, 1f, Interpolation.pow3Out),
+                    Actions.fadeOut(0.6f, Interpolation.pow3Out),
                     checkEndOfAction
             );
-            label.addAction(moveAction);
+            addAction(moveAction);
+//            image.addAction(moveAction);
+//            label.addAction(moveAction);
         }
     }
 }
