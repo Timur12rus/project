@@ -13,7 +13,6 @@ import java.util.ArrayList;
 
 public class Zombie1RunnerController extends EnemyUnitController implements EnemyWarriorAi, EnemyWarriorAiTarget {
     protected PlayerUnitModel newTargetPlayer;
-//    protected Vector2 velocity;
     protected boolean isHaveTargetPlayer;
 
     public Zombie1RunnerController(LevelScreen levelScreen, EnemyUnitModel model) {
@@ -68,7 +67,6 @@ public class Zombie1RunnerController extends EnemyUnitController implements Enem
                 if (model.isTouchedPlayer()) {
                     attackPlayer();
                 } else if (levelScreen.getSiegeTower().getHealth() > 0) {
-//                    System.out.println("towerHealth = " + levelScreen.getSiegeTower().getHealth());
                     model.setIsTouchedTower(checkCollision(body, levelScreen.getSiegeTower().getBody()));
                     if (model.isTouchedTower()) {
                         attackTower();
@@ -102,7 +100,6 @@ public class Zombie1RunnerController extends EnemyUnitController implements Enem
             model.setVelocity(velocity);
         } else {
             model.setIsStay(true);
-
             System.out.println("attackPlayer");
             model.setIsAttack(true);
             model.setIsMoveToTarget(false);

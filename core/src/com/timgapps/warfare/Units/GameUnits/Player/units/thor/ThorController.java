@@ -91,7 +91,6 @@ public class ThorController extends PlayerUnitController implements PlayerWarrio
             velocity.set(0, 0);
             model.setVelocity(velocity);
         }
-
     }
 
     // метод для поиска вражеского юнита (юнит которого будем атаковать))

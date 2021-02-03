@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -33,9 +32,6 @@ public class Bonus extends Group {
         labelStyle.fontColor = Color.CYAN;
         labelStyle.font = Warfare.font20;
         label = new Label(" + 15", labelStyle);
-//        label.addAction(Actions.fadeOut(0));
-//        label.setVisible(false);
-//        image.setPosition(position.x, position.y);
         addActor(image);
         addActor(label);
         setSize(image.getWidth() * 1.5f, image.getHeight() * 1.5f);
@@ -51,7 +47,6 @@ public class Bonus extends Group {
                 click();
             }
         });
-
         float deltaMoveX = (imageWidth - imageWidth * 1.2f) / 2;
         ParallelAction moveSizeActionOne = new ParallelAction(
                 Actions.sizeTo(imageWidth * 1.2f, imageHeight, 0.12f, Interpolation.pow5In),
@@ -64,7 +59,7 @@ public class Bonus extends Group {
         );
 
         ParallelAction moveSizeActionThree = new ParallelAction(
-                Actions.sizeTo(imageWidth, imageHeight * 1.2f, 0.3f, Interpolation.swingIn),
+                Actions.sizeTo(imageWidth, imageHeight * 1.2f, 0.2f, Interpolation.swingIn),
                 Actions.moveBy(0, 12, 0.3f, Interpolation.swingIn)
         );
 
@@ -73,20 +68,12 @@ public class Bonus extends Group {
                 Actions.moveBy(0, -12, 0.3f, Interpolation.swingIn)
         );
 
-
         SequenceAction sizeAction = new SequenceAction(
                 moveSizeActionOne,
                 moveSizeActionTwo,
                 moveSizeActionThree,
                 moveSizeActionFour
-
-//                Actions.sizeTo(imageWidth, imageHeight * 1.2f, 0.3f, Interpolation.swingIn),
-//                Actions.sizeTo(imageWidth, imageHeight, 0.3f, Interpolation.swingIn)
-
-//                Actions.sizeTo(imageWidth * 1.2f, imageHeight, 0.3f, Interpolation.swingOut),
-//                Actions.sizeTo(imageWidth, imageHeight, 0.3f, Interpolation.swingOut)
         );
-
         image.addAction(sizeAction);
     }
 
@@ -119,8 +106,6 @@ public class Bonus extends Group {
                     checkEndOfAction
             );
             addAction(moveAction);
-//            image.addAction(moveAction);
-//            label.addAction(moveAction);
         }
     }
 }

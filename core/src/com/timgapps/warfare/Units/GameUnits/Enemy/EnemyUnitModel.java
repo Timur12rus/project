@@ -26,10 +26,12 @@ public class EnemyUnitModel extends GameUnitModel {
     private boolean isHaveTargetPlayer;  // имеет ли юнит игрока-цель
     private boolean isMoveToTarget;
     private EnemyUnitModel targetPlayer;
+    private boolean isHaveBonus;
 
-    public EnemyUnitModel(LevelScreen levelScreen, Vector2 position, EnemyUnitData enemyUnitData) {
+    public EnemyUnitModel(LevelScreen levelScreen, Vector2 position, EnemyUnitData enemyUnitData, boolean isHaveBonus) {
         super(levelScreen, position);
         this.enemyUnitData = enemyUnitData;
+        this.isHaveBonus = isHaveBonus;
         damage = enemyUnitData.getDamage();
         health = enemyUnitData.getHealth();
         speed = enemyUnitData.getSpeed();
@@ -104,8 +106,10 @@ public class EnemyUnitModel extends GameUnitModel {
             setIsDestroyed(true);
             levelScreen.removeEnemyUnitFromArray(this);                      // текущий юнит
 
-            // добавляем бонус на уровень
-            new Bonus(levelScreen, position);
+            if (isHaveBonus) {
+                // добавляем бонус на уровень
+                new Bonus(levelScreen, position);
+            }
         }
     }
 

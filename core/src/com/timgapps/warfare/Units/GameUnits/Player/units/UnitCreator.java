@@ -135,13 +135,18 @@ public class UnitCreator {
             case ENEMEY_UNIT:
                 // TODO нужно сделать для вражеских юнитов
                 EnemyUnits enemyUnitId = EnemyUnits.None;
+                boolean isHaveBonus = false;
                 for (EnemyUnits enemyUnit : EnemyUnits.values()) {
-                    if (unitName.equals(enemyUnit.name())) {
+                    if (unitName.contains(enemyUnit.name())) {
+//                    if (unitName.equals(enemyUnit.name())) {
                         System.out.println("unitName = " + unitName + " unitId = " + enemyUnit.name());
                         enemyUnitId = enemyUnit;
+                        if (unitName.contains("_bonus")) {
+                            isHaveBonus = true;
+                        }
                     }
                 }
-                EnemyUnitModel enemyUnitModel = new EnemyUnitModel(levelScreen, position, new EnemyUnitData(enemyUnitId));
+                EnemyUnitModel enemyUnitModel = new EnemyUnitModel(levelScreen, position, new EnemyUnitData(enemyUnitId), isHaveBonus);
                 switch (enemyUnitId) {
                     case Zombie1:
                         Zombie1Controller zombie1Controller = new Zombie1Controller(levelScreen, enemyUnitModel);
@@ -204,9 +209,6 @@ public class UnitCreator {
                         createEnemyUnit(enemyUnitModel, goblinView);
                         break;
                 }
-//                Zombie2Controller zombie2Controller = new Zombie2Controller(level, enemyUnitModel);
-//                Zombie2View zombie2View = new Zombie2View(level, enemyUnitModel, zombie2Controller);
-//                createEnemyUnit(enemyUnitModel, zombie2View);
                 levelScreen.addEnemyUnitToEnemyArray(enemyUnitModel);
                 levelScreen.addUnitModel(enemyUnitModel);
                 break;

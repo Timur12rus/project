@@ -175,7 +175,8 @@ public class LevelScreen extends StageGame {
             layerName = layer.getName();
             System.out.println("Layer NAME = " + layerName);
             for (EnemyUnits enemyUnit : EnemyUnits.values()) {
-                if (enemyUnit.name().equals(layerName)) {
+                if (layerName.contains(enemyUnit.name())) {
+//                if (enemyUnit.name().equals(layerName)) {
                     createEnemyUnit(layer.getObjects(), layerName);
                 }
             }
