@@ -21,7 +21,6 @@ public class ThorController extends PlayerUnitController implements PlayerWarrio
     @Override
     public void update(float delta) {
         super.update(delta);
-//        System.out.println("isTouchedEnemy" + model.isTouchedEnemy());
         if (!model.isAttack()) {
             newTargetEnemy = findEnemyUnit();
             if (targetEnemy == null) {
@@ -56,17 +55,16 @@ public class ThorController extends PlayerUnitController implements PlayerWarrio
                     model.setIsHaveTargetEnemy(false);
                     model.setIsAttack(false);
                 }
-//            System.out.println("Collision = " + checkCollision(body, targetEnemy.getBody()) + " /bodyA = " + body.toString() + "/ bodyB = " + targetEnemy.getBody().toString());
             }
             // AI юнита
             if (model.isTouchedEnemy()) {
                 attackEnemy();
             } else if (model.isHaveTargetEnemy()) {
-                System.out.println("Target Enemy = " + targetEnemy.getName());
+//                System.out.println("Target Enemy = " + targetEnemy.getName());
                 if (model.isTouchedEnemy()) {
                     attackEnemy();
                 } else if (barricade.getHealth() > 0) {
-                    System.out.println("barricadeHealth = " + barricade.getHealth());
+//                    System.out.println("barricadeHealth = " + barricade.getHealth());
                     model.setIsTouchedBarricade(checkCollision(body, barricade.getBody()));
                     if (model.isTouchedBarricade()) {
                         attackBarricade();
@@ -77,7 +75,7 @@ public class ThorController extends PlayerUnitController implements PlayerWarrio
                     moveToTarget();
                 }
             } else if (barricade.getHealth() > 0) {
-                System.out.println("barricadeHealth = " + barricade.getHealth());
+//                System.out.println("barricadeHealth = " + barricade.getHealth());
                 model.setIsTouchedBarricade(checkCollision(body, barricade.getBody()));
                 if (model.isTouchedBarricade()) {
                     attackBarricade();
@@ -111,16 +109,10 @@ public class ThorController extends PlayerUnitController implements PlayerWarrio
                 Vector2 enemyPosition = new Vector2();
                 float x = enemy.getPosition().x + 24;
                 float y = enemy.getPosition().y;
-
-//            System.out.println("EnemyX = " + x);
-//            System.out.println("EnemyY = " + y);
                 enemyPosition.set(x, y);
                 Vector2 playerPosition = new Vector2();
-//                float x2 = model.getPosition().x + model.getBodySize().x;
                 float x2 = model.getPosition().x + model.getBodySize().x / 2;
                 float y2 = model.getPosition().y + model.getBodySize().y / 2;
-//            System.out.println("PlayerX = " + x2);
-//            System.out.println("PlayerY = " + y2);
                 playerPosition.set(x2, y2);
                 float x3 = x2 + 480;
                 float y3 = y2 + 2000;
@@ -131,7 +123,6 @@ public class ThorController extends PlayerUnitController implements PlayerWarrio
                 Vector2 vectorDown = new Vector2();
                 vectorDown.set(x4, y4);
                 if (Intersector.isPointInTriangle(enemyPosition, playerPosition, vectorUp, vectorDown)) {      // если вражеский юнит находится в пределах видимости, то добавляем его в массив
-//                    if (!targetEnemies.equals(enemy))
                     targetEnemies.add(enemy);                                  // потенциальных целей
                 }
             }

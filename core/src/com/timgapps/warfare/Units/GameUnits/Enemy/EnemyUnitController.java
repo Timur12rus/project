@@ -12,7 +12,6 @@ public class EnemyUnitController extends GameUnitController {
     protected PlayerUnitModel targetPlayer;
     protected Vector2 velocity;
 
-
     public EnemyUnitController(LevelScreen levelScreen, EnemyUnitModel model) {
         super(levelScreen, model);
         this.model = model;
@@ -23,12 +22,7 @@ public class EnemyUnitController extends GameUnitController {
     public void hit() {
         if (targetPlayer != null) {
 //        if (targetPlayer != null) {
-            if (targetPlayer.isBodyActive()) {
-                targetPlayer.subHealth(model.getDamage());
-            }
-            if (targetPlayer.getHealth() <= 0) {
-                targetPlayer = null;
-            }
+            targetPlayer.subHealth(model.getDamage());
         }
     }
 

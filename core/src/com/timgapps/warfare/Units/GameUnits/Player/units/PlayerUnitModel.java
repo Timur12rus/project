@@ -7,7 +7,6 @@ import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitModel;
 import com.timgapps.warfare.Units.GameUnits.GameUnitModel;
 
 public class PlayerUnitModel extends GameUnitModel {
-    //    private float speed;
     private String name;
     private float damage;
     private PlayerUnitData playerUnitData;      // данные юнита (тип, урон, здоровье
@@ -111,8 +110,8 @@ public class PlayerUnitModel extends GameUnitModel {
         if (health <= 0 && !isRemovedFromPlayersArray) {
             isRemovedFromPlayersArray = true;
             setIsDestroyed(true);
-            isBodyActive = false;
             levelScreen.removePlayerUnitFromArray(this);
+            isBodyActive = false;
         }
     }
 

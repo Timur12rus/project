@@ -28,7 +28,7 @@ public class EnemyUnitData extends UnitData {
                 barDeltaY = 6;
                 break;
             case Zombie1Runner:
-                damage = 10;
+                damage = 30;
                 health = 39;
                 speed = -1.4f;
                 name = "Zombie1Runner";

@@ -102,10 +102,9 @@ public class EnemyUnitModel extends GameUnitModel {
         bloodSpray.start();
         if (health <= 0 && !isRemovedFromEnemiesArray) {   // если здоровье меньше или равно 0, то удаляем из массива вражеских юнитов
             isRemovedFromEnemiesArray = true;
-            setBodyIsActive(false);                         // тело не активно
+            isBodyActive = false; // тело не активно
             setIsDestroyed(true);
             levelScreen.removeEnemyUnitFromArray(this);                      // текущий юнит
-
             if (isHaveBonus) {
                 // добавляем бонус на уровень
                 new Bonus(levelScreen, position);

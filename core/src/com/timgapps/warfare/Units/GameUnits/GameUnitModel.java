@@ -52,10 +52,6 @@ public abstract class GameUnitModel {
         return isBodyActive;
     }
 
-    public void setBodyIsActive(boolean isBodyActive) {
-        this.isBodyActive = isBodyActive;
-    }
-
     // создает прямоугольник (тело - для обнаружения столкновений)
     protected abstract Rectangle createBody();
 

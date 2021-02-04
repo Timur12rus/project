@@ -35,7 +35,6 @@ public class Zombie1RunnerController extends EnemyUnitController implements Enem
                     Vector2 newTargetPlayerPos = new Vector2(newTargetPlayer.getX(), newTargetPlayer.getY());
                     Vector2 targetPlayerPos = new Vector2(targetPlayer.getX(), targetPlayer.getY());
                     float distance1 = v1.sub(newTargetPlayerPos).len();      // расстояние до новой цели
-//                    float distance1 = newTargetPlayerPos.sub(v1).len();      // расстояние до новой цели
                     float distance2 = v1.sub(targetPlayerPos).len();         // расстояние до предыдущей цели
                     if (distance1 < distance2)
                         targetPlayer = newTargetPlayer;
@@ -57,7 +56,6 @@ public class Zombie1RunnerController extends EnemyUnitController implements Enem
                     model.setIsHaveTargetPlayer(false);
                     model.setIsAttack(false);
                 }
-//            System.out.println("Collision = " + checkCollision(body, targetEnemy.getBody()) + " /bodyA = " + body.toString() + "/ bodyB = " + targetEnemy.getBody().toString());
             }
             // AI юнита
             if (model.isTouchedPlayer()) {
@@ -92,6 +90,80 @@ public class Zombie1RunnerController extends EnemyUnitController implements Enem
         }
     }
 
+    @Override
+    public PlayerUnitModel findPlayerUnit() {
+        /** массив вражеских юнитов **/
+        ArrayList<PlayerUnitModel> players = levelScreen.getArrayPlayers();
+        /** массив вражеских юнитов - "потенциальных целей" **/
+        ArrayList<PlayerUnitModel> targetPlayers = new ArrayList<PlayerUnitModel>();
+        /** выполним поиск ВРАЖЕСКОГО ЮНИТА-ЦЕЛЬ **/
+//        for (int i = 0; i < enemies.size(); i++) {
+        for (PlayerUnitModel player : players) {
+            if (player.getHealth() > 0 && player.isBodyActive()) {
+                /** проверим расстояние до юнита игрока, можем ли мы двигаться к нему (успеем ли..)
+                 * если да, то добавим его в массив юнитов игрока, которых видит ВРАЖЕСКИЙ ЮНИТ
+                 * **/
+                Vector2 playerPosition = new Vector2();      // позиция юнита игрока (которого будем атаковать)
+                float x = player.getPosition().x + 24;
+                float y = player.getPosition().y;
+                playerPosition.set(x, y);
+
+                Vector2 enemyPosition = new Vector2();     // позиция юнита врага (которым управляем сейчас)
+                float x2 = model.getPosition().x;
+                float y2 = model.getPosition().y + model.getBodySize().y / 2;
+                enemyPosition.set(x2, y2);
+
+                // позиция верхней точки в треугольнике обозрения
+                float x3 = x2 - 480;
+                float y3 = y2 + 2000;
+                // позиция нижней точки в треугольнике обозрения
+                float x4 = x2 - 480;
+                float y4 = y2 - 2000;
+                Vector2 vectorUp = new Vector2();
+                vectorUp.set(x3, y3);
+                Vector2 vectorDown = new Vector2();
+                vectorDown.set(x4, y4);
+                if (Intersector.isPointInTriangle(playerPosition, enemyPosition, vectorUp, vectorDown)) {      // если вражеский юнит находится в пределах видимости, то добавляем его в массив
+//                    if (!targetEnemies.equals(enemy))
+                    targetPlayers.add(player);                                  // потенциальных целей
+                }
+            }
+        }
+        /** здесь определим самого ближнего ВРАЖЕСКОГО ЮНИТА к ИГРОВОМУ
+         * т.е. найдем по расстоянию между ними, т.е. самое маленькое расстояние
+         * **/
+        float minDistance;
+        Vector2 enemyPosition = new Vector2(model.getX(), model.getY());                  // позиция игрового юнита
+        PlayerUnitModel target = null;
+        if (targetPlayers.size() > 0) {
+            Vector2 playerPosition = new Vector2(targetPlayers.get(0).getX(), targetPlayers.get(0).getY());   // позиция первого игрового юнита
+            Vector2 distance = enemyPosition.sub(playerPosition);           // вектор расстояния между игровым и вражеским юнитом
+            minDistance = distance.len();                                   // длина вектора расстояния между вражеским и игровым юнитом
+            target = targetPlayers.get(0);                             // вражеский юнит - "цель", к которому будет двигаться игровой юнит
+            // найдем самого близкого вражеского юнита к игровому
+            for (PlayerUnitModel playerUnitModel : targetPlayers) {
+                float distanceToEnemy = new Vector2(enemyPosition.sub(playerUnitModel.getX(), playerUnitModel.getY())).len();
+//                float distanceToEnemy = new Vector2(playerUnitModel.getX(), playerUnitModel.getY()).sub(enemyPosition).len();
+                if (distanceToEnemy < minDistance) {
+                    minDistance = distanceToEnemy;
+                    target = playerUnitModel;
+                }
+            }
+        }
+        if (target != null) {
+            if (target.getHealth() > 0) {
+                isHaveTargetPlayer = true;
+                model.setIsHaveTargetPlayer(true);
+            } else {
+                isHaveTargetPlayer = false;
+                model.setIsHaveTargetPlayer(false);
+            }
+        } else {
+            isHaveTargetPlayer = false;
+            model.setIsHaveTargetPlayer(false);
+        }
+        return target;
+    }
 
     @Override
     public void attackPlayer() {
@@ -99,7 +171,7 @@ public class Zombie1RunnerController extends EnemyUnitController implements Enem
             velocity.set(0, 0);
             model.setVelocity(velocity);
         } else {
-            model.setIsStay(true);
+//            model.setIsStay(true);
             System.out.println("attackPlayer");
             model.setIsAttack(true);
             model.setIsMoveToTarget(false);
@@ -142,8 +214,6 @@ public class Zombie1RunnerController extends EnemyUnitController implements Enem
 
     @Override
     public void moveToTarget() {
-//        velocity.set(model.getX(), model.getY()).sub(targetPlayer.getX(), targetPlayer.getY()).nor().scl(model.getSpeed());
-//        model.setVelocity(velocity);
         if (!model.isMoveToTarget()) {
             System.out.println("moveToTarget");
             model.setIsMoveToTarget(true);
@@ -159,81 +229,5 @@ public class Zombie1RunnerController extends EnemyUnitController implements Enem
             velocity.set(0, 0);
             model.setVelocity(velocity);
         }
-    }
-
-    @Override
-    public PlayerUnitModel findPlayerUnit() {
-        /** массив вражеских юнитов **/
-        ArrayList<PlayerUnitModel> players = levelScreen.getArrayPlayers();
-        /** массив вражеских юнитов - "потенциальных целей" **/
-        ArrayList<PlayerUnitModel> targetPlayers = new ArrayList<PlayerUnitModel>();
-        /** выполним поиск ВРАЖЕСКОГО ЮНИТА-ЦЕЛЬ **/
-//        for (int i = 0; i < enemies.size(); i++) {
-        for (PlayerUnitModel player : players) {
-            if (player.getHealth() > 0 && player.isBodyActive()) {
-                /** проверим расстояние до юнита игрока, можем ли мы двигаться к нему (успеем ли..)
-                 * если да, то добавим его в массив юнитов игрока, которых видит ВРАЖЕСКИЙ ЮНИТ
-                 * **/
-                Vector2 playerPosition = new Vector2();      // позиция юнита игрока (которого будем атаковать)
-                float x = player.getPosition().x + 24;
-                float y = player.getPosition().y;
-
-//            System.out.println("EnemyX = " + x);
-//            System.out.println("EnemyY = " + y);
-                playerPosition.set(x, y);
-                Vector2 enemyPosition = new Vector2();     // позиция юнита врага (которым управляем сейчас)
-//                float x2 = model.getPosition().x + model.getBodySize().x;
-                float x2 = model.getPosition().x - model.getBodySize().x / 2;
-                float y2 = model.getPosition().y - model.getBodySize().y / 2;
-//            System.out.println("PlayerX = " + x2);
-//            System.out.println("PlayerY = " + y2);
-                enemyPosition.set(x2, y2);
-                float x3 = x2 - 480;
-                float y3 = y2 + 2000;
-                float x4 = x2 - 480;
-                float y4 = y2 - 2000;
-                Vector2 vectorUp = new Vector2();
-                vectorUp.set(x3, y3);
-                Vector2 vectorDown = new Vector2();
-                vectorDown.set(x4, y4);
-                if (Intersector.isPointInTriangle(playerPosition, enemyPosition, vectorUp, vectorDown)) {      // если вражеский юнит находится в пределах видимости, то добавляем его в массив
-//                    if (!targetEnemies.equals(enemy))
-                    targetPlayers.add(player);                                  // потенциальных целей
-                }
-            }
-        }
-        /** здесь определим самого ближнего ВРАЖЕСКОГО ЮНИТА к ИГРОВОМУ
-         * т.е. найдем по расстоянию между ними, т.е. самое маленькое расстояние
-         * **/
-        float minDistance;
-        Vector2 enemyPosition = new Vector2(model.getX(), model.getY());                  // позиция игрового юнита
-        PlayerUnitModel target = null;
-        if (targetPlayers.size() > 0) {
-            Vector2 playerPosition = new Vector2(targetPlayers.get(0).getX(), targetPlayers.get(0).getY());   // позиция первого игрового юнита
-            Vector2 distance = enemyPosition.sub(playerPosition);           // вектор расстояния между игровым и вражеским юнитом
-            minDistance = distance.len();                                   // длина вектора расстояния между вражеским и игровым юнитом
-            target = targetPlayers.get(0);                             // вражеский юнит - "цель", к которому будет двигаться игровой юнит
-            // найдем самого близкого вражеского юнита к игровому
-            for (PlayerUnitModel playerUnitModel : targetPlayers) {
-                float distanceToEnemy = new Vector2(playerUnitModel.getX(), playerUnitModel.getY()).sub(enemyPosition).len();
-                if (distanceToEnemy < minDistance) {
-                    minDistance = distanceToEnemy;
-                    target = playerUnitModel;
-                }
-            }
-        }
-        if (target != null) {
-            if (target.getHealth() > 0) {
-                isHaveTargetPlayer = true;
-                model.setIsHaveTargetPlayer(true);
-            } else {
-                isHaveTargetPlayer = false;
-                model.setIsHaveTargetPlayer(false);
-            }
-        } else {
-            isHaveTargetPlayer = false;
-            model.setIsHaveTargetPlayer(false);
-        }
-        return target;
     }
 }

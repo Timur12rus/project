@@ -38,13 +38,19 @@ public class Zombie1RunnerUnitView extends EnemyUnitView {
                 }
             }
         } else {
-            // если юнит в состоянии атакует цель(isAttack = true), но в д
-            if (model.isMoveToTarget()) {
-                if (!model.isStay()) {
-                    if (currentState != State.RUN) {
-                        currentState = State.RUN;
-                        resetStateTime();
-                    }
+            if (model.isMove()) {
+                if (currentState != State.RUN) {
+                    currentState = State.RUN;
+                    resetStateTime();
+                }
+            } else
+                // если юнит в состоянии атакует цель(isAttack = true), но в д
+                if (model.isMoveToTarget()) {
+                    if (!model.isStay()) {
+                        if (currentState != State.RUN) {
+                            currentState = State.RUN;
+                            resetStateTime();
+                        }
 //                    else {
 //                        if (currentState == State.RUN && runAnimation.isAnimationFinished(stateTime)) {
 //                            currentState = State.STAY;
@@ -64,61 +70,61 @@ public class Zombie1RunnerUnitView extends EnemyUnitView {
 ////                            }
 //                        }
 //                    }
-                } else if (currentState != State.STAY) {
-                    currentState = State.STAY;
+                    } else if (currentState != State.STAY) {
+                        currentState = State.STAY;
 //                    resetStateTime();
-                } else {
-                    if (stayAnimation.isAnimationFinished(stateTime)) {
-                        model.setIsStay(false);
+                    } else {
+                        if (stayAnimation.isAnimationFinished(stateTime)) {
+                            model.setIsStay(false);
+                        }
                     }
-                }
-            } else if (model.isAttack() || model.isAttackTower()) {
-                if (!model.isStay()) {              // TODO нжуно изменить, чтобы если currentState == STAY, то ждем
+                } else if (model.isAttack() || model.isAttackTower()) {
+                    if (!model.isStay()) {              // TODO нжуно изменить, чтобы если currentState == STAY, то ждем
 //                    if (currentState != State.STAY) {
 //                        currentState = State.STAY;
 //                        model.setIsStay(true);
 //                        resetStateTime();
-                    if (currentState != State.ATTACK) {
-                        currentState = State.ATTACK;
+                        if (currentState != State.ATTACK) {
+                            currentState = State.ATTACK;
+                            resetStateTime();
+                        } else {
+                            if (attackAnimation.isAnimationFinished(stateTime)) {
+                                if (model.isAttack()) {
+                                    controller.hit();
+                                } else if (model.isAttackTower()) {
+                                    controller.hitTower();
+                                }
+                                currentState = State.STAY;
+                                model.setIsStay(true);
+                                resetStateTime();
+                            }
+                        }
+                    } else if (currentState != State.STAY) {
+                        currentState = State.STAY;
                         resetStateTime();
                     } else {
-                        if (attackAnimation.isAnimationFinished(stateTime)) {
-                            if (model.isAttack()) {
-                                controller.hit();
-                            } else if (model.isAttackTower()) {
-                                controller.hitTower();
-                            }
-                            currentState = State.STAY;
-                            model.setIsStay(true);
+                        if (stayAnimation.isAnimationFinished(stateTime)) {
+                            model.setIsStay(false);
                             resetStateTime();
                         }
                     }
-                } else if (currentState != State.STAY) {
-                    currentState = State.STAY;
-                    resetStateTime();
+                } else if (model.isStay()) {
+                    if (currentState != State.STAY) {
+                        currentState = State.STAY;
+                        resetStateTime();
+                    } else {
+                        if (stayAnimation.isAnimationFinished(stateTime)) {
+                            model.setIsStay(false);
+                            resetStateTime();
+                        }
+                    }
                 } else {
-                    if (stayAnimation.isAnimationFinished(stateTime)) {
-                        model.setIsStay(false);
+                    if (currentState != State.RUN) {
+                        currentState = State.RUN;
                         resetStateTime();
                     }
+                    model.setIsMove(true);
                 }
-            } else if (model.isStay()) {
-                if (currentState != State.STAY) {
-                    currentState = State.STAY;
-                    resetStateTime();
-                } else {
-                    if (stayAnimation.isAnimationFinished(stateTime)) {
-                        model.setIsStay(false);
-                        resetStateTime();
-                    }
-                }
-            } else {
-                if (currentState != State.RUN) {
-                    currentState = State.RUN;
-                    resetStateTime();
-                }
-                model.setIsMove(true);
-            }
         }
         model.setCurrentState(currentState);
     }
