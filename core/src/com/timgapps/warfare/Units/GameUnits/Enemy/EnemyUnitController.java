@@ -23,6 +23,12 @@ public class EnemyUnitController extends GameUnitController {
         if (targetPlayer != null) {
 //        if (targetPlayer != null) {
             targetPlayer.subHealth(model.getDamage());
+//        }
+            if (targetPlayer.getHealth() <= 0) {
+                targetPlayer = null;
+                model.setIsHaveTargetPlayer(false);
+                model.setIsAttack(false);
+            }
         }
     }
 
