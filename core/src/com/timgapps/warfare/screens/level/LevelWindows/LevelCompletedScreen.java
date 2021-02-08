@@ -14,7 +14,7 @@ public class LevelCompletedScreen extends Group {
     public static final int ON_OK = 1;
 
     private Label victoryLabel;
-    private Label towerSavedLevel;
+    private Label towerSavedLabel;
     private Label missionLabel;
     private Label rewardLabel;
 
@@ -57,21 +57,21 @@ public class LevelCompletedScreen extends Group {
 
         missionLabel = new Label("Mission " + levelNumber, labelStyle);
         victoryLabel = new Label("Victory!", victoryLabelStyle);
-        towerSavedLevel = new Label("Tower saved of: " + "100%", towerSavedLevelStyle);
+        towerSavedLabel = new Label("Tower saved of: ", towerSavedLevelStyle);
         rewardLabel = new Label("Reward:", rewardLabelStyle);
 
         missionLabel.setPosition(stars.getX() + (stars.getWidth() - missionLabel.getWidth()) / 2, getY() - 36 - missionLabel.getHeight());
         victoryLabel.setPosition(stars.getX() + (stars.getWidth() - victoryLabel.getWidth()) / 2, stars.getY() + stars.getHeight() + 16);
-        towerSavedLevel.setPosition(stars.getX() + (stars.getWidth() - towerSavedLevel.getWidth()) / 2, stars.getY() - towerSavedLevel.getHeight() - 6);
+        towerSavedLabel.setPosition(stars.getX() + (stars.getWidth() - towerSavedLabel.getWidth()) / 2, stars.getY() - towerSavedLabel.getHeight() - 6);
         rewardLabel.setPosition(stars.getX() + (stars.getWidth() - rewardLabel.getWidth()) / 2, missionLabel.getY() - rewardLabel.getHeight() - 48);
 
         okButton = new ColorButton("OK", ColorButton.GREEN_BUTTON);
 
-        setWidth(towerSavedLevel.getWidth());
+        setWidth(towerSavedLabel.getWidth());
 
         addActor(missionLabel);
         addActor(victoryLabel);
-        addActor(towerSavedLevel);
+        addActor(towerSavedLabel);
 //        addActor(rewardLabel);
 
         /** создаем таблицу со значениями награды (кол-во монет и очков) **/
@@ -96,6 +96,10 @@ public class LevelCompletedScreen extends Group {
             }
         });
         //TODO Сделать слушатель на кнопку okButton, для выхода на экарна "КАРТА"
+    }
+
+    public void redrawTowerSavedLabel(int percentage) {
+        towerSavedLabel.setText(towerSavedLabel.getText() + "" + percentage + "%");
     }
 
     @Override

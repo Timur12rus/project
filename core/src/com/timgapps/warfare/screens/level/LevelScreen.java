@@ -198,8 +198,6 @@ public class LevelScreen extends StageGame {
         // создаем счетчик начала "волны врагов"
         countDownTimer = new CountDownTimer(this);
         countDownTimer.reset();
-        System.out.println("GET WIDTH = " + getWidth());
-        System.out.println("GET HEIGHT = " + getHeight());
     }
 
     private float getScreenScale() {
@@ -736,10 +734,11 @@ public class LevelScreen extends StageGame {
         unitButtons.hide();
         countDownTimer.stop();
 //        tableUnitButtons.setVisible(false);      // кнопки юитов делаем невидимыми
-//        tableUnitButtons.remove();      // кнопки юитов делаем невидимыми
+//        tableUnitButtons.remove();               // кнопки юитов делаем невидимыми
         hud.hideEnergyPanel();
-        int starsCount = calculateStarsCount();
-
+        int starsCount = calculateStarsCount();         // вычисляем кол-во звезд полученных за уровень
+        int starsSum = gameManager.getStarsCount();     // текущее кол-во звезд у игрока
+        int starsOfLevel = gameManager.getLevelIcons().get(levelNumber - 1).getData().getStarsCount();  // кол-во звезд у уровня
         /** установим кол-во монет в менеджере и сохраняем игру
          * позже просто выведем анимацию добавления монет, очков и звезд полученных за уровень
          */
@@ -747,12 +746,16 @@ public class LevelScreen extends StageGame {
         gameManager.addScoreCount(getRewardScoreCount());
 //        gameManager.addStarsCount(starsCount);
         /** добавим к панели звёзд полученное кол-во звёзд */
-        gameManager.addStarsCount(starsCount);
+//        если получили звезд за уровень больше чем было, то прибавим это кол-во к общему кол-ву звезд у игрока
+        if (starsCount > starsOfLevel) {
+            int addStarsCount = starsCount - starsOfLevel;      // кол-во звезд, которое добавим к общему кол-ву
+            gameManager.addStarsCount(addStarsCount);           //
+        }
 //        gameManager.getStarsPanel().addStarsCount(starsCount);
 //        gameManager.getSavedGame().addStarsCount(starsCount);
-        gameManager.getSavedGame().setIndexRewardStars(gameManager.getStarsPanel().getIndexOfRewardStars());
-        gameManager.getStarsPanel().updateCountReward();
-        setStarsCountToLevelIcon();
+        gameManager.getSavedGame().setIndexRewardStars(gameManager.getStarsPanel().getIndexOfRewardStars());    // установим
+        gameManager.getStarsPanel().updateCountReward();    // обновим кол-во наград за звёзды
+        setStarsCountToLevelIcon();             // установим кол-во полученных звезд текущему значку уровня (уровню)
         gameManager.getLevelIcons().get(levelNumber - 1).setFinished();
 //        gameManager.getLevelIcons().get(levelNumber).setActive();
 //        unlockNextLevels();
@@ -760,7 +763,9 @@ public class LevelScreen extends StageGame {
         if (levelNumber == 1) {
             gameManager.setHelpStatus(GameManager.HELP_STARS_PANEL);
         }
-        levelCreator.showLevelCompletedScreen(starsCount);
+        float towerHealth = siegeTower.getHealth();         // кол-во здоровья у башни после окончания уровня
+        float fullTowerHealth = siegeTower.getFullHealth(); // кол-во полного здоровья у башни
+        levelCreator.showLevelCompletedScreen(starsCount, towerHealth / fullTowerHealth * 100);
     }
 
     public boolean isCompleted() {
@@ -787,14 +792,18 @@ public class LevelScreen extends StageGame {
      * метод для вычисления кол-ва звезд получаемых за уровень
      **/
     private int calculateStarsCount() {
-        int starsCount = 1;
+        int starsCount = 0;
 
-        float towerHealth = siegeTower.getHealth();
-        float fullTowerHealth = siegeTower.getFullHealth();
-        if (((towerHealth / fullTowerHealth) >= (1.0 / 3.0)) && (towerHealth / fullTowerHealth) <= (2.0 / 3.0)) {
-            starsCount = 2; // starCount = 2;
+        float towerHealth = siegeTower.getHealth();         // кол-во здоровья у башни после окончания уровня
+        float fullTowerHealth = siegeTower.getFullHealth(); // кол-во полного здоровья у башни
+        float healthTowerPercent = (towerHealth / fullTowerHealth) * 100;
+        if (healthTowerPercent > 0 && healthTowerPercent < 33) {
+            starsCount = 1;
         }
-        if ((towerHealth / fullTowerHealth) == 1) {
+        if (healthTowerPercent >= 33 && healthTowerPercent < 66) {
+            starsCount = 2;
+        }
+        if (healthTowerPercent >= 66 && healthTowerPercent <= 100) {
             starsCount = 3;
         }
 //        System.out.println("starsCount = " + starsCount);

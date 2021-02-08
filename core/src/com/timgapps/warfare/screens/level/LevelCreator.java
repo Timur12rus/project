@@ -46,11 +46,12 @@ public class LevelCreator {
             @Override
             protected void receivedMessage(int message, Actor actor) {
                 if (message == LevelCompletedScreen.ON_OK) {   // у нас только одна кнопка,
-                    clear();
+                    clear();                        // освобождаем ресурсы
                     levelScreen.onCompleted();
                 }
             }
         });
+
         // экран проигрыша
         gameOverScreen = new GameOverScreen(levelScreen);
         gameOverScreen.addListener(new MessageListener() {
@@ -74,8 +75,9 @@ public class LevelCreator {
     }
 
     // метод для показа экрана завершения уровня
-    public void showLevelCompletedScreen(int starsCount) {
+    public void showLevelCompletedScreen(int starsCount, float percentage) {
         levelCompletedScreen.setPosition((levelScreen.getWidth() - levelCompletedScreen.getWidth()) / 2, levelScreen.getHeight() * 2 / 3);
+        levelCompletedScreen.redrawTowerSavedLabel((int)percentage);
         levelScreen.addScreen(levelCompletedScreen);
         // после того как разрушилась баррикада, вызываем метод запуска экрана завершения уровня
         levelCompletedScreen.start(starsCount);   // запускаем экран завершения уровня, запускаем звезды
@@ -114,11 +116,13 @@ public class LevelCreator {
 //        }
     }
 
-    // мето освобождает ресурсы
+    // метод освобождает ресурсы
     public void clear() {
         levelCompletedScreen.clearActions();
+        levelCompletedScreen.remove();
         levelScreen.removeScreen(levelCompletedScreen);
         gameOverScreen.clearActions();
+        gameOverScreen.remove();
         levelScreen.removeScreen(gameOverScreen);
         map.dispose();
     }
