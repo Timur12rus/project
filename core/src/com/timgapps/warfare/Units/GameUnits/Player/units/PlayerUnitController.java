@@ -37,7 +37,6 @@ public class PlayerUnitController extends GameUnitController {
     public void hit() {
         if (targetEnemy != null) {
             targetEnemy.subHealth(model.getDamage());
-            System.out.println("TargetEnemy health = " + targetEnemy.getHealth());
         }
     }
 

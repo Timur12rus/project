@@ -53,12 +53,11 @@ public class Zombie2UnitView extends EnemyUnitView {
                             if (random.nextBoolean()) {
                                 currentState = State.STAY;
                                 model.setIsStay(true);
-                                resetStateTime();
                             } else {
                                 currentState = State.WALKING;
                                 model.setIsStay(false);
-                                resetStateTime();
                             }
+                            resetStateTime();
                         }
                     }
                 } else if (currentState != State.STAY) {

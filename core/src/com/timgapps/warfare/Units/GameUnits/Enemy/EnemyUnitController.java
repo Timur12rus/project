@@ -21,14 +21,7 @@ public class EnemyUnitController extends GameUnitController {
 
     public void hit() {
         if (targetPlayer != null) {
-//        if (targetPlayer != null) {
             targetPlayer.subHealth(model.getDamage());
-//        }
-            if (targetPlayer.getHealth() <= 0) {
-                targetPlayer = null;
-                model.setIsHaveTargetPlayer(false);
-                model.setIsAttack(false);
-            }
         }
     }
 
@@ -37,6 +30,7 @@ public class EnemyUnitController extends GameUnitController {
             levelScreen.getSiegeTower().subHealth(model.getDamage());
         }
     }
+
 
     public void checkCollisions() {
         if (!model.isTouchedPlayer()) {               // проверяем коллизию
@@ -48,13 +42,22 @@ public class EnemyUnitController extends GameUnitController {
                         break;
                     } else {
                         model.setIsTouchedPlayer(false);
+                        model.setIsAttack(false);   // 08.02.2021
                     }
                 } else {
                     if (targetPlayer.equals(playerUnit)) {
                         targetPlayer = null;
                         model.setIsTouchedPlayer(false);
+                        model.setIsAttack(false);   // 08.02.2021
                     }
                 }
+            }
+        }   /** 08.02.2021 добавил **/
+        else {
+            if (targetPlayer == null || !targetPlayer.isBodyActive()) {
+                model.setIsTouchedPlayer(false);
+                model.setIsAttack(false);   // 08.02.2021
+
             }
         }
     }

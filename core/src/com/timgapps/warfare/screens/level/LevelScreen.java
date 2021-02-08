@@ -186,7 +186,7 @@ public class LevelScreen extends StageGame {
         }
 //        unitCreator.createUnit("Zombie3", new Vector2(570, 270));
         // бегущий зомби
-        unitCreator.createUnit("Zombie1Runner", new Vector2(1100, 250));
+//        unitCreator.createUnit("Zombie1Runner", new Vector2(1100, 250));
 
 //        unitCreator.createUnit("Zombie1", new Vector2(640, 240));
 //        unitCreator.createUnit("Zombie1", new Vector2(300, 240));

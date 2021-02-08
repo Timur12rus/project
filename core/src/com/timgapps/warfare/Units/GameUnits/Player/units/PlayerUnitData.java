@@ -44,7 +44,7 @@ public class PlayerUnitData extends UnitData {
                 name = "Barbarian";
                 damage = 20;
                 health = 25;
-                speed = 1.2f;
+                speed = 1.6f;
                 energyPrice = 20;
                 prepareTime = 12;
                 deltaX = -124;          // смещение изображения юнита относительно тела юнита (прямоугольника)

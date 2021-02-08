@@ -109,9 +109,7 @@ public class PlayerUnitModel extends GameUnitModel {
         super.subHealth(damage);
         if (health <= 0 && !isRemovedFromPlayersArray) {
             isRemovedFromPlayersArray = true;
-//            setIsDestroyed(true);
             levelScreen.removePlayerUnitFromArray(this);
-//            isBodyActive = false;
         }
     }
 

@@ -43,39 +43,27 @@ public class Zombie1RunnerController extends EnemyUnitController implements Enem
         }
         if (!model.isDestroyed()) {
             checkCollisions();
-//            if (targetPlayer != null) {
-//                if (targetPlayer.isBodyActive()) {
-//                    System.out.println("!!!!!!IsBodyActive = " + targetPlayer.isBodyActive());
-//                    model.setIsTouchedPlayer(checkCollision(body, targetPlayer.getBody()));               // проверим столкновение тел юнитов
-//                    System.out.println("Touched Player = " + model.isTouchedPlayer());
-//                } else {
-//                    System.out.println("IsBodyActive = " + targetPlayer.isBodyActive());
-//                    model.setIsTouchedPlayer(false);
-//                    System.out.println("Touched Player = " + model.isTouchedPlayer());
-//                    model.setTargetPlayer(null);
-//                    targetPlayer = null;
-//                    model.setIsHaveTargetPlayer(false);
-//                    model.setIsAttack(false);
-//                }
-//            }
-            // AI юнита
-            if (model.isTouchedPlayer()) {
-                if (targetPlayer != null) {
-                    attackPlayer();
+            if (targetPlayer != null) {
+                if (targetPlayer.isBodyActive()) {
+                    System.out.println("!!!!!!IsBodyActive = " + targetPlayer.isBodyActive());
+                    model.setIsTouchedPlayer(checkCollision(body, targetPlayer.getBody()));               // проверим столкновение тел юнитов
+                    System.out.println("Touched Player = " + model.isTouchedPlayer());
                 } else {
+                    System.out.println("IsBodyActive = " + targetPlayer.isBodyActive());
                     model.setIsTouchedPlayer(false);
+                    System.out.println("Touched Player = " + model.isTouchedPlayer());
+                    model.setTargetPlayer(null);
+                    targetPlayer = null;
+                    model.setIsHaveTargetPlayer(false);
                     model.setIsAttack(false);
                 }
+            }
+            // AI юнита
+            if (model.isTouchedPlayer()) {
+                attackPlayer();
             } else if (model.isHaveTargetPlayer()) {
-//                System.out.println("Target Player = " + targetPlayer.getName());
                 if (model.isTouchedPlayer()) {
-//                    attackPlayer();
-                    if (targetPlayer != null) {
-                        attackPlayer();
-                    } else {
-                        model.setIsTouchedPlayer(false);
-                        model.setIsAttack(false);
-                    }
+                    attackPlayer();
                 } else if (levelScreen.getSiegeTower().getHealth() > 0) {
                     model.setIsTouchedTower(checkCollision(body, levelScreen.getSiegeTower().getBody()));
                     if (model.isTouchedTower()) {
@@ -116,7 +104,7 @@ public class Zombie1RunnerController extends EnemyUnitController implements Enem
                  * если да, то добавим его в массив юнитов игрока, которых видит ВРАЖЕСКИЙ ЮНИТ
                  * **/
                 Vector2 playerPosition = new Vector2();      // позиция юнита игрока (которого будем атаковать)
-                float x = player.getPosition().x + 24;
+                float x = player.getPosition().x - 24;
                 float y = player.getPosition().y;
                 playerPosition.set(x, y);
 

@@ -60,11 +60,9 @@ public class ThorController extends PlayerUnitController implements PlayerWarrio
             if (model.isTouchedEnemy()) {
                 attackEnemy();
             } else if (model.isHaveTargetEnemy()) {
-//                System.out.println("Target Enemy = " + targetEnemy.getName());
                 if (model.isTouchedEnemy()) {
                     attackEnemy();
                 } else if (barricade.getHealth() > 0) {
-//                    System.out.println("barricadeHealth = " + barricade.getHealth());
                     model.setIsTouchedBarricade(checkCollision(body, barricade.getBody()));
                     if (model.isTouchedBarricade()) {
                         attackBarricade();
@@ -75,7 +73,6 @@ public class ThorController extends PlayerUnitController implements PlayerWarrio
                     moveToTarget();
                 }
             } else if (barricade.getHealth() > 0) {
-//                System.out.println("barricadeHealth = " + barricade.getHealth());
                 model.setIsTouchedBarricade(checkCollision(body, barricade.getBody()));
                 if (model.isTouchedBarricade()) {
                     attackBarricade();

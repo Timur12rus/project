@@ -20,7 +20,13 @@ public class Zombie2Controller extends EnemyUnitController implements EnemyWarri
             checkCollisions();
             if (model.isTouchedPlayer()) {
                 if (targetPlayer != null) {
-                    attackPlayer();
+                    if (targetPlayer.isBodyActive()) {
+                        attackPlayer();
+                    } else {
+                        model.setIsTouchedPlayer(false);
+                        model.setIsAttack(false);
+                        targetPlayer = null;
+                    }
                 } else {
                     model.setIsTouchedPlayer(false);
                     model.setIsAttack(false);

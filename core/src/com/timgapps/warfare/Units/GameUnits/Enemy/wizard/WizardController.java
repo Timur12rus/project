@@ -35,7 +35,13 @@ public class WizardController extends EnemyUnitController implements EnemyShoote
             checkCollisions();
             if (model.isTouchedPlayer()) {
                 if (targetPlayer != null) {
-                    attackPlayer();             // ударяем игрового юнита, с которым столкнулись
+                    if (targetPlayer.isBodyActive()) {
+                        attackPlayer();
+                    } else {
+                        model.setIsTouchedPlayer(false);
+                        model.setIsAttack(false);
+                        targetPlayer = null;
+                    }
                 } else {
                     model.setIsTouchedPlayer(false);
                     model.setIsAttack(false);
@@ -47,8 +53,11 @@ public class WizardController extends EnemyUnitController implements EnemyShoote
                 }
                 if (waitTime <= 0 && !model.isShoot()) {
                     targetPlayer = findPlayerUnit();
-                    if (targetPlayer != null) {
+                    if (targetPlayer != null && targetPlayer.isBodyActive()) { //08.02.2021 добавил
+//                    if (targetPlayer != null ) {
                         shootPlayer();   // стреляем по игровым юнитам
+                    } else {
+                        stay();
                     }
                 }
             } else {
