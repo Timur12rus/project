@@ -12,7 +12,7 @@ import com.boontaran.MessageEvent;
 import com.timgapps.warfare.screens.map.windows.upgrade_window.gui_elements.ColorButton;
 import com.timgapps.warfare.screens.map.win_creator.ConstructedWindow;
 import com.timgapps.warfare.screens.map.LevelIconData;
-import com.timgapps.warfare.screens.level.LevelWindows.RewardTable;
+import com.timgapps.warfare.screens.level.level_windows.RewardTable;
 import com.timgapps.warfare.Warfare;
 
 public class MissionInfoWindow extends Group {

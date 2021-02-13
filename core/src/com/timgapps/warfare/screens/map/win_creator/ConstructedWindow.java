@@ -5,7 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.timgapps.warfare.screens.level.LevelWindows.ColorRectangle;
+import com.timgapps.warfare.screens.level.level_windows.ColorRectangle;
 import com.timgapps.warfare.Warfare;
 
 public class ConstructedWindow extends Group {

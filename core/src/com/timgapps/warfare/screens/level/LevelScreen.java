@@ -1,7 +1,6 @@
 package com.timgapps.warfare.screens.level;
 
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -20,14 +19,15 @@ import com.badlogic.gdx.utils.Array;
 import com.boontaran.MessageListener;
 import com.boontaran.games.StageGame;
 import com.timgapps.warfare.Units.GameUnits.unitTypes.EnemyUnits;
+import com.timgapps.warfare.screens.level.background.BackgroundBuilder;
 import com.timgapps.warfare.screens.level.gui_elements.UnitButtons;
 import com.timgapps.warfare.screens.level.timer.CountDownTimer;
 import com.timgapps.warfare.screens.map.windows.team_upgrade_window.team_unit.TeamUnit;
 import com.timgapps.warfare.GameManager;
-import com.timgapps.warfare.screens.level.LevelWindows.ColorRectangle;
-import com.timgapps.warfare.screens.level.LevelWindows.GameOverScreen;
-import com.timgapps.warfare.screens.level.LevelWindows.LevelCompletedScreen;
-import com.timgapps.warfare.screens.level.LevelWindows.PauseScreen;
+import com.timgapps.warfare.screens.level.level_windows.ColorRectangle;
+import com.timgapps.warfare.screens.level.level_windows.GameOverScreen;
+import com.timgapps.warfare.screens.level.level_windows.LevelCompletedScreen;
+import com.timgapps.warfare.screens.level.level_windows.PauseScreen;
 import com.timgapps.warfare.Units.GameUnits.Barricade;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitModel;
 import com.timgapps.warfare.Units.GameUnits.GameUnitModel;
@@ -95,6 +95,7 @@ public class LevelScreen extends StageGame {
     private CountDownTimer countDownTimer;
     private boolean isCompleted;
     public static float screenScale;
+    private BackgroundBuilder backgroundBuilder;
 //    private BoosterButton boosterButton;
 
     // метод строит уровень
@@ -108,6 +109,8 @@ public class LevelScreen extends StageGame {
         System.out.println("V_HEIGHT = " + Warfare.V_HEIGHT);
 
 //        stage.getViewport().update(Warfare.V_WIDTH, Warfare.V_HEIGHT, true);
+
+        setBackGround("level_bg");
 
 
         isCompleted = false;
@@ -225,12 +228,16 @@ public class LevelScreen extends StageGame {
     public LevelScreen(final GameManager gameManager) {
 //        this.levelNumber = levelNumber;
         this.gameManager = gameManager;
+        backgroundBuilder = new BackgroundBuilder();
 
         shapeRenderer = new ShapeRenderer();
 
 //        System.out.println("Level Number " + levelNumber);
 //        setBackGround("level_bg_new_mount");
-        setBackGround("level_bg");
+
+        /** 13.02.2021 закоментировал **/
+//        setBackGround("level_bg");
+
         arrayEnemies = new ArrayList<EnemyUnitModel>();
         arrayPlayers = new ArrayList<PlayerUnitModel>();
         arrayModels = new ArrayList<GameUnitModel>();
@@ -452,21 +459,28 @@ public class LevelScreen extends StageGame {
 
     private void setBackGround(String region) {
         clearBackground();
-        Image bg = new Image(Warfare.atlas.findRegion(region));
+//        Image bg = new Image(Warfare.atlas.findRegion(region));
+        Group backGround = backgroundBuilder.build(levelNumber);
         float scaleX = getScale(getWidth(), Warfare.V_WIDTH);
         float scaleY = getScale(getHeight(), Warfare.V_HEIGHT);
 
+        System.out.println("BackGround Width = " + backGround.getWidth());
+        System.out.println("BackGround Height = " + backGround.getHeight());
+
         System.out.println("ScaleX = " + scaleX);
         System.out.println("ScaleY = " + scaleY);
-        bg.setWidth(bg.getWidth() * scaleX);
-        bg.setHeight(bg.getHeight() * scaleY);
+//        bg.setWidth(bg.getWidth() * scaleX);
+//        bg.setHeight(bg.getHeight() * scaleY);
 
-//        bg.setScaleX(scaleX);
-//        bg.setScaleY(scaleY);
-//        bg.scaleBy(scaleX, scaleY);
-//        addChild(bg);
-        addBackground(bg, false, false);
-//        addBackground(bg, false, false);
+//        backGround.setWidth(backGround.getWidth() * scaleX);
+//        backGround.setHeight(backGround.getHeight() * scaleY);
+
+        backGround.setScale(scaleX, scaleY);
+
+//        backGround.setWidth(bg.getWidth() * scaleX);
+//        backGround.setHeight(bg.getHeight() * scaleY);
+
+        addBackground(backGround, false, false);
     }
 
     private float getScale(float screenSize, float gameSize) {
@@ -843,6 +857,8 @@ public class LevelScreen extends StageGame {
         super.hide();
         hud.clear();
         levelCreator.clear();
+        background.clear();
         dispose();
+        System.out.println("background = " + background.toString());
     }
 }

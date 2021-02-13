@@ -1,17 +1,15 @@
 package com.timgapps.warfare.screens.level;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.maps.MapLayer;
-import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.boontaran.MessageListener;
 import com.timgapps.warfare.GameManager;
-import com.timgapps.warfare.screens.level.LevelWindows.GameOverScreen;
-import com.timgapps.warfare.screens.level.LevelWindows.LevelCompletedScreen;
-import com.timgapps.warfare.screens.level.LevelWindows.PauseScreen;
+import com.timgapps.warfare.screens.level.level_windows.GameOverScreen;
+import com.timgapps.warfare.screens.level.level_windows.LevelCompletedScreen;
+import com.timgapps.warfare.screens.level.level_windows.PauseScreen;
 //import com.timgapps.warfare.Units.GameUnits.Enemy.Skeleton;
 //import com.timgapps.warfare.Units.GameUnits.Enemy.Skeleton3;
 //import com.timgapps.warfare.Units.GameUnits.Enemy.Zombie;
