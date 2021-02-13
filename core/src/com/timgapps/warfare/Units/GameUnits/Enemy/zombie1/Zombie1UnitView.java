@@ -23,7 +23,7 @@ public class Zombie1UnitView extends Zombie2UnitView {
             frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Walk" + i)));
         frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Walk1")));
         frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Walk0")));
-        walkAnimation = new Animation(0.15f, frames);
+        walkAnimation = new Animation(0.1f, frames);
         frames.clear();
 
         for (int i = 0; i < 4; i++)
@@ -41,7 +41,7 @@ public class Zombie1UnitView extends Zombie2UnitView {
         frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Stay2")));
         frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Stay1")));
         frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Stay0")));
-        stayAnimation = new Animation(0.18f, frames);
+        stayAnimation = new Animation(0.12f, frames);
         frames.clear();
 
 //        for (int i = 0; i < 3; i++)
