@@ -13,7 +13,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.timgapps.warfare.screens.level.Finger;
 import com.timgapps.warfare.GameManager;
 import com.timgapps.warfare.screens.map.actions.CoinsAction;
-import com.timgapps.warfare.Units.GameUnits.unitTypes.PlayerUnits;
 import com.timgapps.warfare.Warfare;
 import com.timgapps.warfare.screens.reward_for_stars.gui_elements.Hilite;
 
@@ -34,7 +33,9 @@ public class RewardForStars extends Group {
     private Finger finger;
     private StarsBar starsBar;
     private final int BG_PANEL_WIDTH = 140;
-    private final int barWidth = 184;
+    private final int BAR_WIDTH = 224;
+//    BAR_WIDTH = 224
+//    private final int barWidth = 184;
     private final int barHeight = 32;
     private int deltaCountStars;
     private int lastRewardCountStars;
@@ -139,7 +140,7 @@ public class RewardForStars extends Group {
         addActor(receivedImg);
 
         // создаем бары под изображениями наград за звезды
-        starsBar = new StarsBar(getX() + BG_PANEL_WIDTH / 2 - barWidth - 8,
+        starsBar = new StarsBar(getX() + BG_PANEL_WIDTH / 2 - BAR_WIDTH - 8,
                 getY() - barHeight - 16,
                 data,
                 lastRewardCountStars    // кол-во звёзд за последнюю награду
@@ -161,6 +162,18 @@ public class RewardForStars extends Group {
                 showToast();
             }
         });
+
+        this.setDebug(true);
+    }
+
+    public void showNextRewardLabel(Label nextRewardLabel) {
+        nextRewardLabel.setPosition((getWidth() - nextRewardLabel.getWidth()) / 2, getHeight() / 2 + rewardImage.getHeight());
+        addActor(nextRewardLabel);
+    }
+
+    public void hideNextRewardLabel() {
+//        nextRewardLabel.setPosition();
+
     }
 
 
@@ -196,6 +209,7 @@ public class RewardForStars extends Group {
     public void setHilite(boolean isHilited) {
         hilite.setHilite(isHilited);
     }
+
 
     /**
      * метод для получения награды за звезды при клике на награду

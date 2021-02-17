@@ -1,11 +1,11 @@
 package com.timgapps.warfare.screens.map.windows.upgrade_window.gui_elements;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.timgapps.warfare.Warfare;
 
-import javafx.scene.Group;
 
 public class ResourceIcon extends Group {
     private Image image;

@@ -12,7 +12,8 @@ class StarsBar extends Actor {
     float x, y;
     boolean isReceived;
 //    private Pixmap progressPixmap;
-    protected final int barWidth = 184;
+    protected final int BAR_WIDTH = 224;
+//    private final int BAR_WIDTH = 224;
     protected final int barHeight = 32;
     private RewardForStarsData data;
     private int starsCount;                 // текущее кол-во звезд
@@ -70,13 +71,13 @@ class StarsBar extends Actor {
             // deltaCountStars      - кол-во звезд между текущим кол-вом и кол-вом за последнюю награду
             if (starsCount < rewardStarsCount) {
                 if (deltaCountStars >= 0) {
-                    calculatedWidth = deltaCountStars * (barWidth - 2) / (rewardStarsCount - lastRewardCountStars);
+                    calculatedWidth = deltaCountStars * (BAR_WIDTH - 2) / (rewardStarsCount - lastRewardCountStars);
                     if (calculatedWidth <= 0) calculatedWidth = 2;
                 } else {
                     calculatedWidth = 2;
                 }
             } else {
-                calculatedWidth = barWidth;
+                calculatedWidth = BAR_WIDTH;
             }
 
 //            if ((starsCount >= lastRewardCountStars) && (starsCount <= rewardStarsCount)) {
@@ -85,9 +86,9 @@ class StarsBar extends Actor {
 //            }
             progressPixmap = createProceduralPixmap(calculatedWidth - 2, barHeight - 2, new Color(0xf2d900ff));
         } else {    // получена - темно-оранжевый цвет
-            progressPixmap = createProceduralPixmap(barWidth - 2, barHeight - 2, new Color(0xf2d900ff));
+            progressPixmap = createProceduralPixmap(BAR_WIDTH - 2, barHeight - 2, new Color(0xf2d900ff));
         }
-        Pixmap backPixmap = createProceduralPixmap(barWidth, barHeight, new Color(0x464642));
+        Pixmap backPixmap = createProceduralPixmap(BAR_WIDTH, barHeight, new Color(0x464642));
         barTexture = new Texture(progressPixmap);
         bgBarTexture = new Texture(backPixmap);
         progressPixmap.dispose();

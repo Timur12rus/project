@@ -3,14 +3,10 @@ package com.timgapps.warfare.screens.reward_for_stars;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.AlphaAction;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
-import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -31,7 +27,8 @@ public class RewardForStarsScreen extends StageGame implements ScreenCloser {
     private ArrayList<RewardForStars> rewardForStarsList;
     private BackButton backButton;
     private Texture bgTexture;
-    protected final int barWidth = 184;
+    protected final int BAR_WIDTH = 224;        // (184)
+    //    protected final int barWidth = 184;
     protected final int barHeight = 32;
     private final int BG_PANEL_WIDTH = 140;
     private Label countLabel;
@@ -43,6 +40,10 @@ public class RewardForStarsScreen extends StageGame implements ScreenCloser {
     private GameManager gameManager;
     private CoinsPanel coinsPanel;
     private StarsPanelSmall starsPanelSmall;
+    private Label titleLabel, textLabel, nextRewardLabel;
+    private final float SPACING_BETWEEN_REWARDS = 230; // (190)
+    private int index;      // индекс следующей награды за звезды
+    private float tableScrollPosX = 32;
 
     @Override
     public void show() {
@@ -56,13 +57,48 @@ public class RewardForStarsScreen extends StageGame implements ScreenCloser {
         coinsPanel = gameManager.getCoinsPanel();
 //        coinsPanel.setVisible(true);
 
+        Label.LabelStyle titleLabelStyle = new Label.LabelStyle();
+        titleLabelStyle.fontColor = Color.WHITE;
+        titleLabelStyle.font = Warfare.font20;
+
+//        GREEN
+//        CHARTREUSE
+//        LIME
+//        FOREST
+//        OLIVE
+
+        Label.LabelStyle textLabelStyle = new Label.LabelStyle();
+        textLabelStyle.fontColor = new Color(0x3c644eff);
+//        textLabelStyle.fontColor = Color.CHARTREUSE;
+        textLabelStyle.font = Warfare.font20;
+
+        Label.LabelStyle nextRewardLabelStyle = new Label.LabelStyle();
+//        textLabelStyle.fontColor = new Color(0x3c644eff);
+//        new Color(0xf2d900ff)
+//        nextRewardLabelStyle.fontColor = Color.CHARTREUSE;
+        nextRewardLabelStyle.fontColor = new Color(0xf2d900ff);
+        nextRewardLabelStyle.font = Warfare.font20;
+
+        String titleText = "Rewards for stars";
+        String textLabelText = "Collect stars to get reward";
+        String nextRewardText = "Next reward";
+
+        // Надпись "награда за звезды"
+        titleLabel = new Label(titleText, titleLabelStyle);
+        titleLabel.setPosition((getWidth() - titleLabel.getWidth()) / 2, getHeight() - 64);
+        // надпись "собирай звезды чтобы получить награду"
+        textLabel = new Label(textLabelText, textLabelStyle);
+        textLabel.setPosition((getWidth() - textLabel.getWidth()) / 2, getHeight() - 102);
+        // надпись "следующая награда"
+        nextRewardLabel = new Label(nextRewardText, nextRewardLabelStyle);
+//        nextRewardLabel.setPosition((getWidth() - nextRewardLabel.getWidth()) / 2, getHeight() - 64);
 
         /** получим текущее кол-во звезд **/
 //        starsCount = 7;
         starsCount = gameManager.getSavedGame().getStarsCount();
         // для теста
 //        starsCount = 110;
-        System.out.println("starsCount = " + starsCount);
+//        System.out.println("starsCount = " + starsCount);
 
         backButton = new BackButton(this);
         backButton.setPosition(64, 64);
@@ -92,8 +128,12 @@ public class RewardForStarsScreen extends StageGame implements ScreenCloser {
         table.setWidth(scrollTableWidth);
         table.setHeight(360);
         table.add(scroller).fill().expand();
-        table.setPosition(0, 240);
+        // установим позицию таблицы со скроллом со списком наград за звезды (
+        table.setPosition(tableScrollPosX, 240);
         addChild(table);
+        addChild(titleLabel);
+        addChild(textLabel);
+
     }
 
     private void redrawScreen() {
@@ -103,7 +143,8 @@ public class RewardForStarsScreen extends StageGame implements ScreenCloser {
         rewardForStarsList.clear();
         scrollTable.clearChildren();
         coinsPanel.setVisible(true);
-        int index = 0;  // индекс текущего количества звезд, используется в рассчете поз. х smallStarsPanel
+//        int index = 0;  // индекс текущего количества звезд, используется в рассчете поз. х smallStarsPanel
+//        int index = 0;  // индекс текущего количества звезд, используется в рассчете поз. х smallStarsPanel
         int lastCount = 0, rewardCount = 0;     // кол-во звезд за последнюю награду и текущую награду
         int calculatedWidth = 0;       // вычисленная координата для starsSmallPanel
         float groupWidth = 0;
@@ -123,7 +164,7 @@ public class RewardForStarsScreen extends StageGame implements ScreenCloser {
             rewardForStarsList.add(new RewardForStars(this,
                     rewardForStarsDataList.get(i), gameManager, deltaCountStars, lastRewardCountStars));
 
-            rewardForStarsList.get(i).setPosition(190 * i + rewardForStarsList.get(i).getWidth(), 144);
+            rewardForStarsList.get(i).setPosition(SPACING_BETWEEN_REWARDS * i + rewardForStarsList.get(i).getWidth(), 144);
 //            rewardForStarsList.get(i)
             group.addActor(rewardForStarsList.get(i));      // добавляем RewardForStars в корневую группу
             rewardForStarsList.get(i).redraw();
@@ -132,7 +173,6 @@ public class RewardForStarsScreen extends StageGame implements ScreenCloser {
 
             Label.LabelStyle countStarsLabelStyle = new Label.LabelStyle();
             countStarsLabelStyle.fontColor = new Color(0x3c644eff);
-//        countStarsLabelStyle.fontColor = Color.FOREST;
             countStarsLabelStyle.font = Warfare.font20;
 
             countLabel = new Label("" + rewardForStarsList.get(i).getRewardCountStars(), countStarsLabelStyle);
@@ -142,31 +182,35 @@ public class RewardForStarsScreen extends StageGame implements ScreenCloser {
             group.addActor(countLabel);
             // получим кол-во звезд, для достижения текущей награды
             int rewardStarsCount = rewardForStarsList.get(i).getRewardCountStars();
+            // здесь определим индекс следующей награды за звезды
             if ((starsCount >= lastRewardCountStars) && (starsCount <= rewardStarsCount)) {
                 lastCount = lastRewardCountStars;
                 rewardCount = rewardStarsCount;
                 index = i;
             }
         }
-        rewardForStarsList.get(index).setHilite(true);
+        // подсветим следующую награду
+        setNextRewardForStars(index);
         // получим кол-во звезд, для достижения текущей награды
 //        int rewardStarsCount = rewardForStarsList.get(i).getRewardCountStars();
         int deltaCountStars = starsCount - lastCount;
         if (starsCount < rewardCount) {
             if (deltaCountStars >= 0) {
-                calculatedWidth = deltaCountStars * (barWidth - 2) / (rewardCount - lastCount);
+                calculatedWidth = deltaCountStars * (BAR_WIDTH - 2) / (rewardCount - lastCount);
+                // (= 1 * (240 - 2) / 3
                 if (calculatedWidth <= 0) calculatedWidth = 2;
             } else {
                 calculatedWidth = 2;
             }
         } else {
-            calculatedWidth = barWidth;
+            calculatedWidth = BAR_WIDTH;
         }
 
         starsPanelSmall.setStarsCount(starsCount);
-        xPos = (index) * (184 + 8) + calculatedWidth;
+        xPos = (index) * (BAR_WIDTH + 8) + calculatedWidth - tableScrollPosX + 2;
+//        xPos = (index) * (BAR_WIDTH + 8) + calculatedWidth;
 //        groupWidth += 190 * rewardForStarsList.size() + rewardForStarsList.get(0).getWidth();
-        groupWidth = 190 * rewardForStarsList.size() + rewardForStarsList.get(0).getWidth();
+        groupWidth = SPACING_BETWEEN_REWARDS * rewardForStarsList.size() + rewardForStarsList.get(0).getWidth();
         group.setSize(groupWidth, 360);
         starsPanelSmall.setPosition(xPos - starsPanelSmall.getWidth() / 2, 0);
         if (starsCount == 0) {
@@ -177,6 +221,11 @@ public class RewardForStarsScreen extends StageGame implements ScreenCloser {
 
         group.addActor(starsPanelSmall);
         scrollTable.add(group).width(groupWidth).height(360);
+    }
+
+    public void setNextRewardForStars(int index) {
+        rewardForStarsList.get(index).setHilite(true);
+        rewardForStarsList.get(index).showNextRewardLabel(nextRewardLabel);
     }
 
     public CoinsPanel getCoinsPanel() {
@@ -226,6 +275,29 @@ public class RewardForStarsScreen extends StageGame implements ScreenCloser {
         Pixmap bgPixmap = createProceduralPixmap((int) getWidth(), (int) getHeight(), new Color(0x6da86bff));
         bgTexture = new Texture(bgPixmap);
         addBackground(new Image(bgTexture), false, false);
+
+        Image starOne = new Image(Warfare.atlas.findRegion("star_vector"));
+        Image starTwo = new Image(Warfare.atlas.findRegion("star_vector"));
+        Image starThree = new Image(Warfare.atlas.findRegion("star_vector"));
+        Image starFour = new Image(Warfare.atlas.findRegion("star_vector"));
+        Image starFive = new Image(Warfare.atlas.findRegion("star_vector"));
+
+        starOne.setPosition(240, 490);
+        starTwo.setPosition(940, 540);
+        starTwo.setScale(1.2f);
+        starTwo.setRotation(-10);
+        starThree.setPosition(1000, 50);
+        starThree.setScale(2f);
+        starFour.setPosition(640, 170);
+        starFour.setScale(1.1f);
+        starFour.setRotation(-25);
+        starFive.setPosition(300, 70);
+        starFive.setRotation(-10);
+        addChild(starOne);
+        addChild(starTwo);
+        addChild(starThree);
+        addChild(starFour);
+        addChild(starFive);
     }
 
     private Pixmap createProceduralPixmap(int width, int height, Color color) {
