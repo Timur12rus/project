@@ -3,6 +3,7 @@ package com.timgapps.warfare.screens.reward_for_stars;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.actions.AlphaAction;
@@ -44,6 +45,7 @@ public class RewardForStarsScreen extends StageGame implements ScreenCloser {
     private final float SPACING_BETWEEN_REWARDS = 230; // (190)
     private int index;      // индекс следующей награды за звезды
     private float tableScrollPosX = 32;
+    private ScrollPane scroller;
 
     @Override
     public void show() {
@@ -120,7 +122,8 @@ public class RewardForStarsScreen extends StageGame implements ScreenCloser {
 //        scrollTable.debug();
 
 //        scrollTable.add(group).width(groupWidth).height(360);
-        final ScrollPane scroller = new ScrollPane(scrollTable);
+        scroller = new ScrollPane(scrollTable);
+//        final ScrollPane scroller = new ScrollPane(scrollTable);
         scroller.debug();
         Table table = new Table();
         table.debug();
@@ -143,6 +146,7 @@ public class RewardForStarsScreen extends StageGame implements ScreenCloser {
         rewardForStarsList.clear();
         scrollTable.clearChildren();
         coinsPanel.setVisible(true);
+        scroller.setScrollX(index * BAR_WIDTH - BAR_WIDTH / 2);
 //        int index = 0;  // индекс текущего количества звезд, используется в рассчете поз. х smallStarsPanel
 //        int index = 0;  // индекс текущего количества звезд, используется в рассчете поз. х smallStarsPanel
         int lastCount = 0, rewardCount = 0;     // кол-во звезд за последнюю награду и текущую награду
@@ -207,7 +211,7 @@ public class RewardForStarsScreen extends StageGame implements ScreenCloser {
         }
 
         starsPanelSmall.setStarsCount(starsCount);
-        xPos = (index) * (BAR_WIDTH + 8) + calculatedWidth - tableScrollPosX + 2;
+        xPos = (index) * (BAR_WIDTH + 8) + calculatedWidth - tableScrollPosX;
 //        xPos = (index) * (BAR_WIDTH + 8) + calculatedWidth;
 //        groupWidth += 190 * rewardForStarsList.size() + rewardForStarsList.get(0).getWidth();
         groupWidth = SPACING_BETWEEN_REWARDS * rewardForStarsList.size() + rewardForStarsList.get(0).getWidth();
@@ -242,17 +246,19 @@ public class RewardForStarsScreen extends StageGame implements ScreenCloser {
 
     public void showToast(int starsCount) {
         if (isStartToastAction == false) {
-            System.out.println("show Toast!");
+//            System.out.println("show Toast!");
             Label.LabelStyle labelStyle = new Label.LabelStyle();
             labelStyle.fontColor = Color.RED;
             labelStyle.font = Warfare.font40;
-            Label toastLabel = new Label("Collect " + starsCount + " stars for reward", labelStyle);
-            toastLabel.setPosition(Warfare.V_WIDTH / 2 - 200, Warfare.V_HEIGHT / 2);
+            String toastText = "Collect " + starsCount + " stars for reward";
+            final Label toastLabel = new Label("" + toastText, labelStyle);
+            toastLabel.setPosition((Warfare.V_WIDTH - toastLabel.getWidth()) / 2, Warfare.V_HEIGHT / 2);
             addChild(toastLabel);
             Action checkEndOfAction = new Action() {
                 @Override
                 public boolean act(float delta) {
                     isStartToastAction = false;
+                    removeToastLabel(toastLabel);
                     return true;
                 }
             };
@@ -260,8 +266,10 @@ public class RewardForStarsScreen extends StageGame implements ScreenCloser {
             alphaActionStart.setAlpha(1);
             alphaActionStart.setDuration(0.02f);
             MoveToAction mta = new MoveToAction();
-            mta.setPosition(Warfare.V_WIDTH / 2 - 200, Warfare.V_HEIGHT / 2 + 260);
+            mta.setPosition((Warfare.V_WIDTH - toastLabel.getWidth()) / 2, Warfare.V_HEIGHT / 2 + 210);
+//            mta.setPosition(Warfare.V_WIDTH / 2 - 200, Warfare.V_HEIGHT / 2 + 210);
             mta.setDuration(0.7f);
+            mta.setInterpolation(Interpolation.pow3Out);
             AlphaAction alphaActionEnd = new AlphaAction();
             alphaActionEnd.setAlpha(0);
             alphaActionEnd.setDuration(1f);
@@ -269,6 +277,10 @@ public class RewardForStarsScreen extends StageGame implements ScreenCloser {
             toastLabel.addAction(sa);
             isStartToastAction = true;
         }
+    }
+
+    private void removeToastLabel(Label label) {
+        removeChild(label);
     }
 
     private void createBackground() {

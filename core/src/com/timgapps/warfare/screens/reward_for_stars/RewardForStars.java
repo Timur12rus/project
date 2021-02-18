@@ -34,7 +34,7 @@ public class RewardForStars extends Group {
     private StarsBar starsBar;
     private final int BG_PANEL_WIDTH = 140;
     private final int BAR_WIDTH = 224;
-//    BAR_WIDTH = 224
+    //    BAR_WIDTH = 224
 //    private final int barWidth = 184;
     private final int barHeight = 32;
     private int deltaCountStars;
@@ -81,12 +81,12 @@ public class RewardForStars extends Group {
                 break;
             case RewardForStarsData.REWARD_ARCHER:
                 rewardImage = new Image(Warfare.atlas.findRegion(data.getImageString()));
-                name = "Archer";
+//                name = "Archer";
                 deltaX = -12;
                 break;
             case RewardForStarsData.REWARD_GNOME:
                 rewardImage = new Image(Warfare.atlas.findRegion(data.getImageString()));
-                name = "Gnome";
+//                name = "Gnome";
                 deltaX = -10;
                 break;
             case RewardForStarsData.REWARD_BOX:
@@ -95,16 +95,27 @@ public class RewardForStars extends Group {
                 } else {        // в противном случае
                     rewardImage = new Image(Warfare.atlas.findRegion("boxImage4"));
                 }
-                name = "Box";
+//                name = "Box";
                 deltaX = -16;
                 break;
             case RewardForStarsData.REWARD_KNIGHT:
                 rewardImage = new Image(Warfare.atlas.findRegion(data.getImageString()));
-                name = "Knight";
+//                name = "Knight";
+                deltaX = -12;
+                break;
+            case RewardForStarsData.REWARD_SHOOTER:
+                rewardImage = new Image(Warfare.atlas.findRegion(data.getImageString()));
+//                name = data.getName();
+                deltaX = -12;
+                break;
+            case RewardForStarsData.REWARD_VIKING:
+                rewardImage = new Image(Warfare.atlas.findRegion(data.getImageString()));
+//                name = data.getName();
                 deltaX = -12;
                 break;
         }
 
+        name = data.getName();
         rewardImage.debug();
 
         starsNum = data.getStarsCount();        // кол-во звезд, необходимое для получения награды
