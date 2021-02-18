@@ -103,7 +103,6 @@ public class ArcherView extends PlayerUnitView {
 
     private void createAnimations() {
         String name = model.getPlayerUnitData().getUnitId().toString().toLowerCase();
-        System.out.println("Name = " + name);
         Array<TextureRegion> frames = new Array<TextureRegion>();
         for (int i = 0; i < 3; i++)
             frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Walk" + i)));

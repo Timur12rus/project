@@ -92,7 +92,7 @@ public class PlayerUnitData extends UnitData {
                 name = "Shooter";
                 damage = 10;
                 health = 30;
-                speed = 0.5f;
+                speed = 1f;
                 energyPrice = 20;
                 prepareTime = 25;
                 deltaX = -100;
@@ -102,6 +102,8 @@ public class PlayerUnitData extends UnitData {
                 barDeltaY = 8;
                 starsCount = 4;
                 unitLevel = 1;
+                isHired = true;     // куплен
+                isUnlock = true;
                 unitPrice = 200;               // стоимость юнита
                 break;
             case Knight:

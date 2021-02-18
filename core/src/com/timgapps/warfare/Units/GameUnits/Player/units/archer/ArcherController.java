@@ -13,8 +13,6 @@ import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnitModel;
 import java.util.ArrayList;
 
 public class ArcherController extends PlayerUnitController implements PlayerShooterAi {
-    private boolean isHaveTarget;
-    private boolean isHaveVerticalDirection;
     private Direction verticalDirectionMovement = Direction.NONE;
     private final float ATTACK_DISTANCE = 300;
     private final float DISTANCE_TO_BARRICADE = 300;
@@ -98,8 +96,8 @@ public class ArcherController extends PlayerUnitController implements PlayerShoo
                 Vector2 playerPosition = new Vector2(model.getX(), model.getY());
                 distanceToBarricade = (barricadePosition.x - playerPosition.x);     // расстояние до баррикады
                 if (distanceToBarricade <= DISTANCE_TO_BARRICADE) {
-                    System.out.println("distanceToBaricade = " + distanceToBarricade);
-                    System.out.println("DISTANCE_TO_BARRICADE = " + DISTANCE_TO_BARRICADE);
+//                    System.out.println("distanceToBaricade = " + distanceToBarricade);
+//                    System.out.println("DISTANCE_TO_BARRICADE = " + DISTANCE_TO_BARRICADE);
                     model.setBarricadeIsDetected(true);
                     stay();
                 } else {

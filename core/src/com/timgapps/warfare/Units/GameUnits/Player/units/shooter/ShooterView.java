@@ -11,6 +11,8 @@ import com.timgapps.warfare.Warfare;
 
 public class ShooterView extends PlayerUnitView {
     private PlayerUnitController controller;
+    private int numOfThrowsArrow;
+    private final int NUM_ARROWS = 2;
 
     public ShooterView(LevelScreen levelScreen, PlayerUnitModel model, PlayerUnitController controller) {
         super(levelScreen, model, controller);
@@ -55,8 +57,8 @@ public class ShooterView extends PlayerUnitView {
                     currentState = State.WALKING;
                     resetStateTime();
                 }
-            } else if (model.isAttack() || model.isShoot()) {       // если юнит в состоянии атакует или стреляет
-                if (model.isStay() == false) {                      // если юнит не в состоянии стоит
+            } else if (model.isAttack() || model.isShoot()) {       // если юнит в состоянии "атакует" или "стреляет"
+                if (model.isStay() == false) {                      // если юнит не в состоянии "стоит"
                     if (currentState != State.ATTACK) {
                         currentState = State.ATTACK;
                         resetStateTime();
@@ -73,8 +75,14 @@ public class ShooterView extends PlayerUnitView {
                             if (model.isShooted()) {
                                 model.setIsShooted(false);
                             }
-                            currentState = State.STAY;
-                            model.setIsStay(true);
+                            numOfThrowsArrow++;
+                            if (numOfThrowsArrow > 1) {
+                                currentState = State.STAY;
+                                model.setIsStay(true);
+                                numOfThrowsArrow = 0;
+                            }
+//                            currentState = State.STAY;
+//                            model.setIsStay(true);
                             resetStateTime();
                         }
                     }
@@ -103,7 +111,6 @@ public class ShooterView extends PlayerUnitView {
 
     private void createAnimations() {
         String name = model.getPlayerUnitData().getUnitId().toString().toLowerCase();
-        System.out.println("Name = " + name);
         Array<TextureRegion> frames = new Array<TextureRegion>();
         for (int i = 0; i < 3; i++)
             frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Walk" + i)));
@@ -113,7 +120,6 @@ public class ShooterView extends PlayerUnitView {
 
         for (int i = 0; i < 5; i++)
             frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Attack" + i)));
-//            frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Attack0")));
         attackAnimation = new Animation(0.1f, frames);
         frames.clear();
 
