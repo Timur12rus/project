@@ -297,7 +297,7 @@ public class RewardForStarsScreen extends StageGame implements ScreenCloser {
         starOne.setPosition(240, 490);
         starTwo.setPosition(940, 540);
         starTwo.setScale(1.2f);
-        starTwo.setRotation(-10);
+        starTwo.setRotation(25);
         starThree.setPosition(1000, 50);
         starThree.setScale(2f);
         starFour.setPosition(640, 170);

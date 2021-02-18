@@ -13,7 +13,6 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
 import com.badlogic.gdx.utils.I18NBundle;
-import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.boontaran.games.StageGame;
 import com.timgapps.warfare.screens.get_reward_screen.GetRewardScreen;
@@ -203,8 +202,8 @@ public class Warfare extends Game {
                     hideRewardForStarsScreen();
 
                     // TODO для теста (нужно будет раскоментировать ниже)
-                    showGetRewardScreen();
-//                    showMap(0, 0);
+//                    showGetRewardScreen();
+                    showMap(0, 0);
                 }
             }
         });
@@ -217,7 +216,7 @@ public class Warfare extends Game {
             @Override
             public void call(int code) {
                 if (code == getRewardScreen.ON_BACK) {
-                    hidGetReward();
+                    hideGetReward();
                     showMap(0, 0);
                 }
             }
@@ -270,7 +269,7 @@ public class Warfare extends Game {
 //        rewardForStarsScreen = null;
     }
 
-    private void hidGetReward() {
+    private void hideGetReward() {
         getRewardScreen.hide();
 //        getRewardScreen = null;
     }

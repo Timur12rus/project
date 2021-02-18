@@ -30,7 +30,7 @@ public class GetRewardScreen extends StageGame implements ScreenCloser {
             gameManager.saveGame();
         }
 
-        indexOfReward = 2;
+//        indexOfReward = 2;
 //        if (indexOfReward != 2) {
 //            flashEffect = new FlashEffect(this, gameManager.getRewardForStarsDataList().get(indexOfReward),
 //                    new Vector2(getWidth() / 2, getHeight() / 2));
@@ -44,26 +44,27 @@ public class GetRewardScreen extends StageGame implements ScreenCloser {
         coinsPanel = gameManager.getCoinsPanel();
     }
 
+    // метод для получениия награды за звезды
     public void getRewardForStars(RewardForStarsData data) {
         switch (data.getTypeOfReward()) {
-            case com.timgapps.warfare.screens.reward_for_stars.RewardForStarsData.REWARD_STONE:                           // если награда "КАМЕНЬ"
+            case RewardForStarsData.REWARD_STONE:                           // если награда "КАМЕНЬ"
                 for (int i = 0; i < gameManager.getCollection().size(); i++) {
                     if (gameManager.getCollection().get(i).getUnitId() == PlayerUnits.Rock) {
                         addRewardUnitToTeam(i);
                     }
                 }
                 break;
-            case com.timgapps.warfare.screens.reward_for_stars.RewardForStarsData.REWARD_ARCHER:
+            case RewardForStarsData.REWARD_ARCHER:
                 for (int i = 0; i < gameManager.getCollection().size(); i++) {
                     if (gameManager.getCollection().get(i).getUnitId() == PlayerUnits.Archer) {
                         addRewardUnitToTeam(i);
                     }
                 }
                 break;
-            case com.timgapps.warfare.screens.reward_for_stars.RewardForStarsData.REWARD_BOX:
+            case RewardForStarsData.REWARD_BOX:
                 gameManager.addCoinsCount(100);
                 break;
-            case com.timgapps.warfare.screens.reward_for_stars.RewardForStarsData.REWARD_GNOME:
+            case RewardForStarsData.REWARD_GNOME:
                 for (int i = 0; i < gameManager.getCollection().size(); i++) {
                     if (gameManager.getCollection().get(i).getUnitId() == PlayerUnits.Gnome) {
                         addRewardUnitToTeam(i);
@@ -73,6 +74,20 @@ public class GetRewardScreen extends StageGame implements ScreenCloser {
             case RewardForStarsData.REWARD_KNIGHT:
                 for (int i = 0; i < gameManager.getCollection().size(); i++) {
                     if (gameManager.getCollection().get(i).getUnitId() == PlayerUnits.Knight) {
+                        addRewardUnitToTeam(i);
+                    }
+                }
+                break;
+            case RewardForStarsData.REWARD_SHOOTER:
+                for (int i = 0; i < gameManager.getCollection().size(); i++) {
+                    if (gameManager.getCollection().get(i).getUnitId() == PlayerUnits.Shooter) {
+                        addRewardUnitToTeam(i);
+                    }
+                }
+                break;
+            case RewardForStarsData.REWARD_VIKING:
+                for (int i = 0; i < gameManager.getCollection().size(); i++) {
+                    if (gameManager.getCollection().get(i).getUnitId() == PlayerUnits.Viking) {
                         addRewardUnitToTeam(i);
                     }
                 }
@@ -109,6 +124,7 @@ public class GetRewardScreen extends StageGame implements ScreenCloser {
         } else {
             // TODO сделать чтобы юнит добавлялся в коллекцию, если в команде больше 5 юнитов
 //            //
+//            gameManager.getCollection().get(i).getUnitData().setUnlock();
 //            gameManager.getTeam().add(gameManager.getCollection().get(i));  // добавляем в команду полученный юнит из коллекции
 //            gameManager.getSavedGame().getTeamDataList().add(gameManager.getSavedGame().getCollectionDataList().get(i));
         }
