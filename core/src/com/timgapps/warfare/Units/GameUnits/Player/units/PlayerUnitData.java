@@ -70,6 +70,8 @@ public class PlayerUnitData extends UnitData {
                 starsCount = 15;
                 unitLevel = 1;
                 unitPrice = 200;               // стоимость юнита
+                isHired = true;     // куплен
+                isUnlock = true;
                 break;
             case Archer:
                 name = "Archer";

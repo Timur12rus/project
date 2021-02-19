@@ -62,8 +62,8 @@ public class VikingView extends PlayerUnitView {
                             } else if (model.isAttackBarricade()) {
                                 controller.hitBarricade();
                             }
-                            currentState = GameUnitView.State.STAY;
-                            model.setIsStay(true);
+//                            currentState = GameUnitView.State.STAY;
+//                            model.setIsStay(true);
                             resetStateTime();
                         }
                     }
@@ -110,7 +110,7 @@ public class VikingView extends PlayerUnitView {
         dieAnimation = new Animation(0.1f, frames);
         frames.clear();
 
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 2; i++)
             frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Stay" + i)));
         stayAnimation = new Animation(0.18f, frames);
         frames.clear();
