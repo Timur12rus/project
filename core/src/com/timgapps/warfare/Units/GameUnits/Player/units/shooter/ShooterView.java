@@ -11,8 +11,9 @@ import com.timgapps.warfare.Warfare;
 
 public class ShooterView extends PlayerUnitView {
     private PlayerUnitController controller;
-    private int numOfThrowsArrow;
+    private int numOfThrowsArrow = 0;
     private final int NUM_ARROWS = 2;
+    private boolean firstAttackIsEnd = false;
 
     public ShooterView(LevelScreen levelScreen, PlayerUnitModel model, PlayerUnitController controller) {
         super(levelScreen, model, controller);
@@ -57,34 +58,66 @@ public class ShooterView extends PlayerUnitView {
                     currentState = State.WALKING;
                     resetStateTime();
                 }
+
+                /** АТАКА **/
             } else if (model.isAttack() || model.isShoot()) {       // если юнит в состоянии "атакует" или "стреляет"
                 if (model.isStay() == false) {                      // если юнит не в состоянии "стоит"
-                    if (currentState != State.ATTACK) {
+//                    if (currentState != State.ATTACK) {
+                    System.out.println("secondAttackAnimation is finished = " + secondAttackAnimation.isAnimationFinished(stateTime));
+                    if (currentState != State.ATTACK && !firstAttackIsEnd) {
                         currentState = State.ATTACK;
+                        System.out.println("Set state = Attack!!!");
                         resetStateTime();
                     } else {
+                        System.out.println("secondAttackAnimation is finished = " + secondAttackAnimation.isAnimationFinished(stateTime));
                         // если кадры анимации стрельбы == 4 и юнит не выпустил стрелу, выпускаем стрелу
                         if (attackAnimation.getKeyFrameIndex(stateTime) == 3 && !model.isShooted() && model.isShoot()) {
                             controller.throwBullet();
                             model.setIsShooted(true);
+                            System.out.println("KeyFrame = 3");
+                            firstAttackIsEnd = true;
                         }
                         if (attackAnimation.isAnimationFinished(stateTime)) {
+                            System.out.println("Current State = " + currentState);
+//                            firstAttackIsEnd = true;
                             if (model.isAttack()) {
                                 controller.hit();
                             }
-                            if (model.isShooted()) {
+                            if (model.isShoot()) {
                                 model.setIsShooted(false);
                             }
-                            numOfThrowsArrow++;
-                            if (numOfThrowsArrow > 1) {
-                                currentState = State.STAY;
-                                model.setIsStay(true);
-                                numOfThrowsArrow = 0;
-                            }
 //                            currentState = State.STAY;
+//                            System.out.println("Set State = STAY");
 //                            model.setIsStay(true);
-                            resetStateTime();
+//                            resetStateTime();
+                            if (currentState != State.ATTACK2) {
+                                currentState = State.ATTACK2;
+                                System.out.println("Set State = ATTACK2");
+                                resetStateTime();
+                            } else {
+                                if (secondAttackAnimation.getKeyFrameIndex(stateTime) == 3 && !model.isShooted() && model.isShoot()) {
+                                    controller.throwBullet();
+                                    model.setIsShooted(true);
+                                    System.out.println("State = ATTACK2");
+                                }
+                            }
+                        } else {
+                            if (currentState == State.ATTACK2 && secondAttackAnimation.isAnimationFinished(stateTime)) {
+                                if (model.isAttack()) {
+                                    controller.hit();
+                                }
+                                if (model.isShooted()) {
+                                    model.setIsShooted(false);
+                                }
+//                                numOfThrowsArrow = 0;
+                                firstAttackIsEnd = false;
+                                currentState = State.STAY;
+                                System.out.println("Set State = STAY!!!!!");
+                                model.setIsStay(true);
+                                resetStateTime();
+                            }
                         }
+//                        }
                     }
                 } else {
                     if (stayAnimation.isAnimationFinished(stateTime)) {
@@ -109,6 +142,7 @@ public class ShooterView extends PlayerUnitView {
         model.setCurrentState(currentState);
     }
 
+
     private void createAnimations() {
         String name = model.getPlayerUnitData().getUnitId().toString().toLowerCase();
         Array<TextureRegion> frames = new Array<TextureRegion>();
@@ -120,7 +154,14 @@ public class ShooterView extends PlayerUnitView {
 
         for (int i = 0; i < 5; i++)
             frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Attack" + i)));
+        frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Attack3")));
         attackAnimation = new Animation(0.1f, frames);
+        frames.clear();
+
+        for (int i = 1; i < 5; i++)
+            frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Attack" + i)));
+        frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Attack3")));
+        secondAttackAnimation = new Animation(0.1f, frames);
         frames.clear();
 
         for (int i = 0; i < 4; i++)

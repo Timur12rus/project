@@ -17,6 +17,7 @@ public class GameUnitView extends Actor {
     protected Animation dieAnimation;             // анимация для уничтожения
     protected Animation stayAnimation;            // анимация для стоит
     protected Animation runAnimation;            // анимация для бежит
+    protected Animation secondAttackAnimation;   // анимация второй атаки
     protected ShapeRenderer shapeRenderer;
     protected boolean isDebug = true;
     protected LevelScreen levelScreen;
@@ -29,7 +30,7 @@ public class GameUnitView extends Actor {
     protected State currentState;
 
     public enum State {
-        WALKING, ATTACK, STAY, DIE, RUN, HART
+        WALKING, ATTACK, ATTACK2, STAY, DIE, RUN, HART
     }
 
     public GameUnitView(LevelScreen levelScreen, GameUnitModel model, GameUnitController controller) {

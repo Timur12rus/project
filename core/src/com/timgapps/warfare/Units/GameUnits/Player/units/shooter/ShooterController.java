@@ -13,13 +13,6 @@ import com.timgapps.warfare.Units.GameUnits.Player.units.archer.ArcherController
 import java.util.ArrayList;
 
 public class ShooterController extends ArcherController {
-    private boolean isHaveTarget;
-    private boolean isHaveVerticalDirection;
-    private ArcherController.Direction verticalDirectionMovement = ArcherController.Direction.NONE;
-    private final float ATTACK_DISTANCE = 300;
-    private final float DISTANCE_TO_BARRICADE = 300;
-    private boolean isReachedEnemyYPos;
-
     public ShooterController(LevelScreen levelScreen, PlayerUnitModel model) {
         super(levelScreen, model);
     }
@@ -27,5 +20,10 @@ public class ShooterController extends ArcherController {
     @Override
     public void update(float delta) {
         super.update(delta);
+    }
+
+    @Override
+    public void throwBullet() {
+        new Arrow(levelScreen, new Vector2(model.getX() + 64, model.getY() + 16), 2, new Vector2(10, 0));
     }
 }

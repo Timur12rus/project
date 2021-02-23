@@ -72,7 +72,7 @@ public class Skeleton2Controller extends EnemyUnitController implements EnemyWar
     }
 
     public void move() {
-        System.out.println("Move");
+//        System.out.println("Move");
 //        model.setIsMove(true);
 //        if (!model.isStay()) {
 //            velocity.set(model.getSpeed(), 0);

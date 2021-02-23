@@ -53,6 +53,9 @@ public class PlayerUnitView extends GameUnitView {
         if (currentState == State.ATTACK) {
             batch.draw((TextureRegion) attackAnimation.getKeyFrame(stateTime, false), getX() + deltaX, getY() + deltaY);
         }
+        if (currentState == State.ATTACK2) {
+            batch.draw((TextureRegion) secondAttackAnimation.getKeyFrame(stateTime, false), getX() + deltaX, getY() + deltaY);
+        }
         if (currentState == State.STAY) {
             batch.draw((TextureRegion) stayAnimation.getKeyFrame(stateTime, false), getX() + deltaX, getY() + deltaY);
         }

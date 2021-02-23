@@ -220,7 +220,7 @@ public class GnomeController extends PlayerUnitController implements PlayerWarri
     // метод для движения вправо
     @Override
     public void move() {
-        System.out.println("move");
+//        System.out.println("move");
         model.setIsMove(true);
         model.setIsAttack(false);
         model.setIsStay(false);
