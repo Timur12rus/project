@@ -48,4 +48,8 @@ public class PlayerUnitController extends GameUnitController {
 
     public void throwBullet() {
     }
+
+    public EnemyUnitModel getTargetEnemy() {
+        return targetEnemy;
+    }
 }

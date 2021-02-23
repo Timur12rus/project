@@ -87,7 +87,7 @@ public class CoinsAction extends Group {
         super.act(delta);
         if (isEndCoinsAction) {
             this.remove();
-            System.out.println("REMOVE");
+//            System.out.println("REMOVE");
         }
     }
 }

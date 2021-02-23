@@ -177,4 +177,8 @@ public class PlayerUnitModel extends GameUnitModel {
     public String getName() {
         return name;
     }
+
+    public EnemyUnitModel getTargetEnemy() {
+        return targetEnemy;
+    }
 }

@@ -43,7 +43,7 @@ public class Arrow extends Bullet {
         if (isTouchedEnemy && !isDestroyed) {
             if (targetEnemy != null) {
                 targetEnemy.subHealth(damage);
-                System.out.println("TargetEnemy health = " + targetEnemy.getHealth());
+//                System.out.println("TargetEnemy health = " + targetEnemy.getHealth());
                 targetEnemy = null;
             }
             isTouchedEnemy = false;

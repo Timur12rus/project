@@ -207,7 +207,7 @@ public class ThorController extends PlayerUnitController implements PlayerWarrio
     // метод для движения вправо
     @Override
     public void move() {
-        System.out.println("move");
+//        System.out.println("move");
         model.setIsMove(true);
         model.setIsAttack(false);
         model.setIsStay(false);
