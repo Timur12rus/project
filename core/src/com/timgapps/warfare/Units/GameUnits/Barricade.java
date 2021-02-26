@@ -222,5 +222,4 @@ public class Barricade extends Group {
     public boolean isBarricadeDestroyed() {
         return isDestroyed;
     }
-
 }

@@ -1,10 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.2" orientation="orthogonal" renderorder="left-down" width="96" height="10" tilewidth="16" tileheight="16" nextobjectid="12">
- <objectgroup name="Skeleton1">
-  <object id="5" x="800" y="64" width="16" height="16"/>
+<map version="1.0" tiledversion="1.0.2" orientation="orthogonal" renderorder="left-down" width="96" height="10" tilewidth="16" tileheight="16" nextobjectid="63">
+ <objectgroup name="tower">
+  <object id="9" x="16" y="16" width="80" height="96"/>
  </objectgroup>
- <objectgroup name="Skeleton2">
-  <object id="9" x="960" y="80" width="16" height="16"/>
-  <object id="10" x="1200" y="64" width="16" height="16"/>
+ <objectgroup name="screen">
+  <object id="8" x="8.9697" y="189.909" width="1428" height="144"/>
+ </objectgroup>
+ <objectgroup name="barricade">
+  <object id="10" x="1050" y="-53" width="128" height="32"/>
+ </objectgroup>
+ <objectgroup name="Zombie1">
+  <object id="49" x="912" y="70" width="16" height="16"/>
+  <object id="52" x="1104" y="26" width="16" height="16"/>
+  <object id="53" x="720" y="48" width="16" height="16"/>
+  <object id="56" x="1744" y="80" width="16" height="16"/>
+  <object id="57" x="2000" y="32" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup name="ZombieRunner1">
+  <object id="60" x="2944" y="48" width="32" height="32"/>
+  <object id="62" x="1600" y="99" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup name="Zombie2">
+  <object id="54" x="1264" y="58" width="16" height="16"/>
+  <object id="59" x="2304" y="96" width="16" height="16"/>
  </objectgroup>
 </map>

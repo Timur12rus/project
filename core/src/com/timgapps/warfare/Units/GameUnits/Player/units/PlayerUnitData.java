@@ -25,6 +25,37 @@ public class PlayerUnitData extends UnitData {
     // метод задает начальные значения параметров юнита
     public void setDefaultData(PlayerUnits unitId) {
         switch (unitId) {
+            case Thor:
+                name = "Thor";
+                damage = 10;
+                health = 28;
+                speed = 1.8f;
+                energyPrice = 15;
+                prepareTime = 3;
+                deltaX = -100;
+//                deltaX = -124;
+                deltaY = -8;
+                barDeltaX = -84;        // смещение healthBar по оси х
+                barDeltaY = 0;
+                unitLevel = 1;
+                isUnlock = true;
+                isHired = true;     // куплен
+                break;
+            case Archer:
+                name = "Archer";
+                damage = 5;
+                health = 18;
+                speed = 1f;
+                energyPrice = 20;
+                prepareTime = 30;
+                deltaX = -124;
+                deltaY = 0;
+                barDeltaX = -64;        // смещение healthBar по оси х
+                barDeltaY = 8;
+                starsCount = 4;
+                unitLevel = 1;
+                isHired = true;     // куплен
+                break;
             case Gnome:
                 name = "Gnome";
                 damage = 12;
@@ -36,7 +67,7 @@ public class PlayerUnitData extends UnitData {
                 deltaY = 0;
                 barDeltaX = -84;
                 barDeltaY = 0;
-                starsCount = 15;
+                starsCount = 24;
                 unitLevel = 1;
                 isHired = true;     // куплен
                 break;
@@ -67,34 +98,17 @@ public class PlayerUnitData extends UnitData {
                 deltaY = 0;
                 barDeltaX = -56;
                 barDeltaY = 0;
-                starsCount = 15;
+                starsCount = 60;
                 unitLevel = 1;
                 unitPrice = 200;               // стоимость юнита
                 isHired = true;     // куплен
-                isUnlock = true;
-                break;
-            case Archer:
-                name = "Archer";
-                damage = 5;
-                health = 18;
-                speed = 0.8f;
-                energyPrice = 20;
-                prepareTime = 30;
-                deltaX = -124;
-//                deltaX = -100;
-//                deltaX = -174;
-                deltaY = 0;
-                barDeltaX = -64;        // смещение healthBar по оси х
-                barDeltaY = 8;
-                starsCount = 4;
-                unitLevel = 1;
-                isHired = true;     // куплен
+//                isUnlock = true;     // разблокирован
                 break;
             case Shooter:
                 name = "Shooter";
-                damage = 10;
-                health = 30;
-                speed = 1f;
+                damage = 2;
+                health = 24;
+                speed = 0.8f;
                 energyPrice = 20;
                 prepareTime = 25;
                 deltaX = -100;
@@ -102,16 +116,16 @@ public class PlayerUnitData extends UnitData {
                 deltaY = 0;
                 barDeltaX = -64;        // смещение healthBar по оси х
                 barDeltaY = 8;
-                starsCount = 4;
+                starsCount = 48;
                 unitLevel = 1;
                 isHired = true;     // куплен
-                isUnlock = true;
+//                isUnlock = true;    // разблокирован
                 unitPrice = 200;               // стоимость юнита
                 break;
             case Knight:
                 name = "Knight";
                 damage = 15;
-                health = 20;
+                health = 50;
                 speed = 0.4f;
                 energyPrice = 25;
                 prepareTime = 18;
@@ -119,30 +133,13 @@ public class PlayerUnitData extends UnitData {
                 deltaY = -24;
                 barDeltaX = -84;        // смещение healthBar по оси х
                 barDeltaY = 0;
-                starsCount = 50;
+                starsCount = 39;
                 unitLevel = 1;
-                isHired = true;     // куплен
-                break;
-            case Thor:
-                name = "Thor";
-                damage = 10;
-                health = 28;
-                speed = 1.8f;
-//                speed = 0.9f;
-                energyPrice = 15;
-                prepareTime = 3;
-                deltaX = -100;
-//                deltaX = -124;
-                deltaY = -8;
-                barDeltaX = -84;        // смещение healthBar по оси х
-                barDeltaY = 0;
-                unitLevel = 1;
-                isUnlock = true;
                 isHired = true;     // куплен
                 break;
             case Rock:
                 name = "Stone";
-                damage = 10;
+                damage = 40;
                 health = 50;
                 speed = 0;
                 starsCount = 1;

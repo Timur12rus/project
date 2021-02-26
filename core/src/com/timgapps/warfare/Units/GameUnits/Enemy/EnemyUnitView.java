@@ -45,8 +45,14 @@ public class EnemyUnitView extends GameUnitView {
 //                Warfare.atlas.findRegion(model.getUnitData().getName().toLowerCase() + "Stay1").getRegionHeight());
 
         if (!model.getUnitData().getUnitId().equals(EnemyUnits.Goblin)) {
-            setSize(Warfare.atlas.findRegion(model.getUnitData().getUnitId().name().toLowerCase() + "Stay1").getRegionWidth(),
-                    Warfare.atlas.findRegion(model.getUnitData().getUnitId().name().toLowerCase() + "Stay1").getRegionHeight());
+            if (model.getUnitData().getUnitId().equals(EnemyUnits.ZombieRunner1)) {
+                System.out.println("!!!! = " + EnemyUnits.Zombie1.name().toLowerCase() + "Stay1");
+                setSize(Warfare.atlas.findRegion(EnemyUnits.Zombie1.name().toLowerCase() + "Stay1").getRegionWidth(),
+                        Warfare.atlas.findRegion(EnemyUnits.Zombie1.name().toLowerCase() + "Stay1").getRegionHeight());
+            } else {
+                setSize(Warfare.atlas.findRegion(model.getUnitData().getUnitId().name().toLowerCase() + "Stay1").getRegionWidth(),
+                        Warfare.atlas.findRegion(model.getUnitData().getUnitId().name().toLowerCase() + "Stay1").getRegionHeight());
+            }
         } else {
             setSize(Warfare.atlas.findRegion(model.getUnitData().getUnitId().name().toLowerCase() + "Walk0").getRegionWidth(),
                     Warfare.atlas.findRegion(model.getUnitData().getUnitId().name().toLowerCase() + "Walk0").getRegionHeight());

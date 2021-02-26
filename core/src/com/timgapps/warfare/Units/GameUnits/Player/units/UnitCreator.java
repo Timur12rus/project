@@ -128,7 +128,6 @@ public class UnitCreator {
                         createPlayerUnit(playerUnitModel, vikingView);
                         break;
                 }
-
                 levelScreen.addPlayerUnitToPlayerArray(playerUnitModel);
                 levelScreen.addUnitModel(playerUnitModel);
                 break;
@@ -137,13 +136,13 @@ public class UnitCreator {
                 EnemyUnits enemyUnitId = EnemyUnits.None;
                 boolean isHaveBonus = false;
                 for (EnemyUnits enemyUnit : EnemyUnits.values()) {
-                    if (unitName.contains(enemyUnit.name())) {
-//                    if (unitName.equals(enemyUnit.name())) {
+                    if (unitName.contains("_bonus")) {
+                        isHaveBonus = true;
+                        unitName.replace("_bonus", "");
+                    }
+                    if (unitName.equals(enemyUnit.name())) {
                         System.out.println("unitName = " + unitName + " unitId = " + enemyUnit.name());
                         enemyUnitId = enemyUnit;
-                        if (unitName.contains("_bonus")) {
-                            isHaveBonus = true;
-                        }
                     }
                 }
                 EnemyUnitModel enemyUnitModel = new EnemyUnitModel(levelScreen, position, new EnemyUnitData(enemyUnitId), isHaveBonus);
@@ -153,7 +152,7 @@ public class UnitCreator {
                         Zombie1UnitView zombie1View = new Zombie1UnitView(levelScreen, enemyUnitModel, zombie1Controller);
                         createEnemyUnit(enemyUnitModel, zombie1View);
                         break;
-                    case Zombie1Runner:
+                    case ZombieRunner1:
                         Zombie1RunnerController zombie1RunnerController = new Zombie1RunnerController(levelScreen, enemyUnitModel);
                         Zombie1RunnerUnitView zombie1RunnerView = new Zombie1RunnerUnitView(levelScreen, enemyUnitModel, zombie1RunnerController);
                         createEnemyUnit(enemyUnitModel, zombie1RunnerView);

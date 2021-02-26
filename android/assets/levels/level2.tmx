@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.2" orientation="orthogonal" renderorder="left-down" width="96" height="10" tilewidth="16" tileheight="16" nextobjectid="22">
+<map version="1.0" tiledversion="1.0.2" orientation="orthogonal" renderorder="left-down" width="96" height="10" tilewidth="16" tileheight="16" nextobjectid="23">
  <objectgroup name="tower">
   <object id="9" x="16" y="16" width="80" height="96"/>
  </objectgroup>
@@ -12,12 +12,10 @@
  <objectgroup name="Zombie1">
   <object id="5" x="816" y="96" width="16" height="16"/>
   <object id="11" x="1312" y="96" width="16" height="16"/>
-  <object id="16" x="1504" y="64" width="16" height="16"/>
-  <object id="18" x="1808" y="80" width="16" height="16"/>
+  <object id="16" x="1581.33" y="73.3333" width="16" height="16"/>
+  <object id="18" x="1856" y="85.3333" width="16" height="16"/>
   <object id="19" x="2032" y="48" width="16" height="16"/>
   <object id="21" x="2192" y="80" width="16" height="16"/>
- </objectgroup>
- <objectgroup name="Zombie1_bonus">
   <object id="14" x="1056" y="48" width="16" height="16"/>
  </objectgroup>
 </map>

@@ -4,31 +4,23 @@
   <object id="9" x="16" y="16" width="80" height="96"/>
  </objectgroup>
  <objectgroup name="screen">
-  <object id="8" x="0.969697" y="4.90909" width="1428" height="144"/>
+  <object id="8" x="0.969697" y="5000" width="2658.3" height="144"/>
  </objectgroup>
  <objectgroup name="barricade">
-  <object id="10" x="1216" y="0" width="128" height="144"/>
+  <object id="10" x="1050" y="3.33333" width="128" height="144"/>
  </objectgroup>
  <objectgroup name="Zombie2">
-  <object id="5" x="880" y="48" width="16" height="16"/>
-  <object id="11" x="1152" y="80" width="16" height="16"/>
-  <object id="17" x="1456" y="96" width="16" height="16"/>
-  <object id="25" x="1824" y="80" width="16" height="16"/>
-  <object id="38" x="1088" y="48" width="16" height="16"/>
-  <object id="42" x="1456" y="48" width="16" height="16"/>
-  <object id="43" x="1936" y="80" width="16" height="16"/>
-  <object id="44" x="1392" y="64" width="16" height="16"/>
-  <object id="46" x="1520" y="112" width="16" height="16"/>
+  <object id="5" x="743.667" y="56" width="16" height="16"/>
+  <object id="25" x="2632.33" y="85" width="16" height="16"/>
+  <object id="43" x="3067" y="86.6667" width="16" height="16"/>
  </objectgroup>
  <objectgroup name="Zombie1">
-  <object id="16" x="1296" y="64" width="16" height="16"/>
-  <object id="18" x="1008" y="80" width="16" height="16"/>
-  <object id="20" x="1632" y="80" width="16" height="16"/>
-  <object id="23" x="1712" y="48" width="16" height="16"/>
-  <object id="24" x="1584" y="32" width="16" height="16"/>
-  <object id="28" x="1856" y="32" width="16" height="16"/>
-  <object id="35" x="960" y="32" width="16" height="16"/>
-  <object id="36" x="1264" y="96" width="16" height="16"/>
-  <object id="45" x="1520" y="64" width="16" height="16"/>
+  <object id="16" x="1643" y="90.6667" width="16" height="16"/>
+  <object id="18" x="1022.67" y="74.6667" width="16" height="16"/>
+  <object id="20" x="2458.33" y="48" width="16" height="16"/>
+  <object id="23" x="2207.67" y="96" width="16" height="16"/>
+  <object id="24" x="1914.67" y="54.6667" width="16" height="16"/>
+  <object id="28" x="2831.67" y="60" width="16" height="16"/>
+  <object id="36" x="1364.67" y="62.3333" width="16" height="16"/>
  </objectgroup>
 </map>

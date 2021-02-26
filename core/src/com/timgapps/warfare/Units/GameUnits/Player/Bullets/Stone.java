@@ -29,10 +29,10 @@ public class Stone extends Bullet {
     public Stone(LevelScreen levelScreen, Vector2 position, PlayerUnitData data) {
         super(levelScreen, position, 0);
         this.data = data;
-//        this.health = data.getHealth();
-//        this.damage = data.getDamage();
-        health = 10;
-        damage = 5;
+        this.health = data.getHealth();
+        this.damage = data.getDamage();
+//        health = 10;
+//        damage = 5;
         energyPrice = data.getEnergyPrice();
         targetPos = new Vector2();
         targetPos.set(position.x, position.y);             // позиция цель
@@ -119,7 +119,8 @@ public class Stone extends Bullet {
             try {
                 for (EnemyUnitModel enemy : levelScreen.getArrayEnemies()) {
                     if (Intersector.overlaps(body, enemy.getBody())) {
-                        enemy.subHealth(45);
+                        enemy.subHealth(damage);
+//                        enemy.subHealth(45);
                     }
                 }
             } catch (Exception e) {

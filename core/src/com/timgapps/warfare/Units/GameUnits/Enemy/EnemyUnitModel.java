@@ -27,6 +27,7 @@ public class EnemyUnitModel extends GameUnitModel {
     private boolean isMoveToTarget;
     private EnemyUnitModel targetPlayer;
     private boolean isHaveBonus;
+    private boolean isStarted;
 
     public EnemyUnitModel(LevelScreen levelScreen, Vector2 position, EnemyUnitData enemyUnitData, boolean isHaveBonus) {
         super(levelScreen, position);
@@ -39,7 +40,8 @@ public class EnemyUnitModel extends GameUnitModel {
         bodyWidth = enemyUnitData.getBodyWidth();
 //        bodyWidth = 62;       // skeleton1
 //        bodyWidth = 56;       // skeleton1
-        bodyHeight = enemyUnitData.getBodyHeight();;
+        bodyHeight = enemyUnitData.getBodyHeight();
+        ;
 //        bodyWidth = 48;
 //        bodyHeight = 24;
         xPosDamageLabel = 8;        // смещение надписи получаемого урона по оси х
@@ -213,4 +215,7 @@ public class EnemyUnitModel extends GameUnitModel {
         return isAttacked;
     }
 
+    public void setIsStarted(boolean isStarted) {
+        this.isStarted = isStarted;
+    }
 }
