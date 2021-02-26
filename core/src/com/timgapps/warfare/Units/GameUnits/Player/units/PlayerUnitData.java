@@ -47,9 +47,9 @@ public class PlayerUnitData extends UnitData {
                 speed = 1.6f;
                 energyPrice = 20;
                 prepareTime = 12;
-                deltaX = -124;          // смещение изображения юнита относительно тела юнита (прямоугольника)
+                deltaX = -90;          // смещение изображения юнита относительно тела юнита (прямоугольника)
                 deltaY = 0;
-                barDeltaX = -84;
+                barDeltaX = -56;
                 barDeltaY = 0;
                 starsCount = 15;
                 unitLevel = 1;
@@ -60,12 +60,12 @@ public class PlayerUnitData extends UnitData {
                 name = "Viking";
                 damage = 14;
                 health = 30;
-                speed = 1.2f;
+                speed = 1.5f;
                 energyPrice = 15;
                 prepareTime = 10;
-                deltaX = -124;          // смещение изображения юнита относительно тела юнита (прямоугольника)
+                deltaX = -90;          // смещение изображения юнита относительно тела юнита (прямоугольника)
                 deltaY = 0;
-                barDeltaX = -84;
+                barDeltaX = -56;
                 barDeltaY = 0;
                 starsCount = 15;
                 unitLevel = 1;
@@ -256,10 +256,6 @@ public class PlayerUnitData extends UnitData {
 
     public int getEnergyPrice() {
         return energyPrice;
-    }
-
-    public float getDeltaX() {
-        return deltaX;
     }
 
     public float getDeltaY() {

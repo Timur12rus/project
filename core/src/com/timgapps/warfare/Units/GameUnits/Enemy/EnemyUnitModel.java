@@ -36,9 +36,14 @@ public class EnemyUnitModel extends GameUnitModel {
         health = enemyUnitData.getHealth();
         speed = enemyUnitData.getSpeed();
         name = enemyUnitData.getName();
+        bodyWidth = enemyUnitData.getBodyWidth();
+//        bodyWidth = 62;       // skeleton1
+//        bodyWidth = 56;       // skeleton1
+        bodyHeight = enemyUnitData.getBodyHeight();;
+//        bodyWidth = 48;
+//        bodyHeight = 24;
         xPosDamageLabel = 8;        // смещение надписи получаемого урона по оси х
-        bodyWidth = 48;
-        bodyHeight = 24;
+
         body = createBody();
         bloodSpray = new ParticleEffect();
         bloodSpray.load(Gdx.files.internal("effects/bloodSpray.paty"), Gdx.files.internal("effects/")); //file);

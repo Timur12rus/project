@@ -203,7 +203,7 @@ public class BarbarianController extends PlayerUnitController implements PlayerW
     @Override
     public void moveToTarget() {
         if (model.isHited()) {
-            velocity.set(targetEnemy.getX(), targetEnemy.getY()).sub(new Vector2(model.getX(), model.getY())).nor().scl(model.getSpeed() * 0.7f);
+            velocity.set(targetEnemy.getX(), targetEnemy.getY()).sub(new Vector2(model.getX(), model.getY())).nor().scl(model.getSpeed() * 0.6f);
         } else {
             velocity.set(targetEnemy.getX(), targetEnemy.getY()).sub(new Vector2(model.getX(), model.getY())).nor().scl(model.getSpeed());
         }

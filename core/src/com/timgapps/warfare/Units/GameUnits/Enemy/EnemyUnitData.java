@@ -9,9 +9,12 @@ public class EnemyUnitData extends UnitData {
     private float health;
     private float speed;
     private String name;
+    private float bodyWidth, bodyHeight;
 
     public EnemyUnitData(EnemyUnits unitId) {
         this.unitId = unitId;
+        bodyWidth = 48;
+        bodyHeight = 24;
         init();
     }
 
@@ -26,6 +29,7 @@ public class EnemyUnitData extends UnitData {
                 deltaY = 0;
                 barDeltaX = 4;
                 barDeltaY = 6;
+                bodyWidth = 56;
                 break;
             case Zombie1Runner:
                 damage = 30;
@@ -36,6 +40,7 @@ public class EnemyUnitData extends UnitData {
                 deltaY = 0;
                 barDeltaX = 4;
                 barDeltaY = 6;
+                bodyWidth = 56;
                 break;
             case Zombie2:
                 damage = 10;
@@ -44,8 +49,9 @@ public class EnemyUnitData extends UnitData {
                 name = "Zombie2";
                 deltaX = -72;
                 deltaY = 0;
-                barDeltaX = -84;
+                barDeltaX = 4;
                 barDeltaY = 0;
+                bodyWidth = 56;
                 break;
             case Zombie3:
                 damage = 10;
@@ -54,18 +60,32 @@ public class EnemyUnitData extends UnitData {
                 name = "Zombie3";
                 deltaX = -78;
                 deltaY = 0;
-                barDeltaX = -84;
+                barDeltaX = 4;
                 barDeltaY = 0;
+                bodyWidth = 56;
                 break;
             case Skeleton1:
                 damage = 10;
                 health = 78;
                 speed = -1.2f;
                 name = "Skeleton1";
-                deltaX = -78;
+                deltaX = -100;
+//                deltaX = -36;
                 deltaY = 0;
-                barDeltaX = -84;
+                barDeltaX = 4;
                 barDeltaY = 0;
+                bodyWidth = 62;
+                break;
+            case Skeleton2:
+                damage = 6;
+                health = 50;
+                speed = -1.2f;
+                name = "Skeleton2";
+                deltaX = -100;
+                deltaY = 0;
+                barDeltaX = 4;
+                barDeltaY = 0;
+                bodyWidth = 62;
                 break;
             case Ork1:
                 damage = 10;
@@ -74,7 +94,7 @@ public class EnemyUnitData extends UnitData {
                 name = "Ork1";
                 deltaX = -78;
                 deltaY = 0;
-                barDeltaX = -84;
+                barDeltaX = 4;
                 barDeltaY = 0;
                 break;
             case Troll1:
@@ -84,8 +104,9 @@ public class EnemyUnitData extends UnitData {
                 name = "Troll1";
                 deltaX = -78;
                 deltaY = 0;
-                barDeltaX = -84;
+                barDeltaX = 14;
                 barDeltaY = 0;
+                bodyWidth = 96;
                 break;
             case Troll2:
                 damage = 15;
@@ -94,18 +115,9 @@ public class EnemyUnitData extends UnitData {
                 name = "Troll2";
                 deltaX = -78;
                 deltaY = 0;
-                barDeltaX = -84;
+                barDeltaX = 14;
                 barDeltaY = 0;
-                break;
-            case Skeleton2:
-                damage = 6;
-                health = 50;
-                speed = -1.2f;
-                name = "Skeleton2";
-                deltaX = -78;
-                deltaY = 0;
-                barDeltaX = -84;
-                barDeltaY = 0;
+                bodyWidth = 96;
                 break;
             case Wizard:
                 damage = 10;
@@ -114,7 +126,7 @@ public class EnemyUnitData extends UnitData {
                 name = "Wizard";
                 deltaX = -78;
                 deltaY = 0;
-                barDeltaX = -84;
+                barDeltaX = 4;
                 barDeltaY = 0;
                 break;
             case Ent1:
@@ -124,7 +136,7 @@ public class EnemyUnitData extends UnitData {
                 name = "Ent1";
                 deltaX = -78;
                 deltaY = 0;
-                barDeltaX = -84;
+                barDeltaX = 4;
                 barDeltaY = 0;
                 break;
             case Goblin:
@@ -135,7 +147,7 @@ public class EnemyUnitData extends UnitData {
                 deltaX = -42;
 //                deltaX = -78;
                 deltaY = 0;
-                barDeltaX = -84;
+                barDeltaX = 4;
                 barDeltaY = 0;
                 break;
         }
@@ -179,6 +191,14 @@ public class EnemyUnitData extends UnitData {
 
     public float getBarDeltaY() {
         return barDeltaY;
+    }
+
+    public float getBodyWidth() {
+        return bodyWidth;
+    }
+
+    public float getBodyHeight() {
+        return bodyHeight;
     }
 
 }

@@ -16,6 +16,7 @@ public class Skeleton1UnitView extends EnemyUnitView {
         super(levelScreen, model, controller);
         this.controller = controller;
         createAnimations();
+//        deltaX = -100;    // skeleton1
     }
 
     @Override

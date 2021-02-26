@@ -11,6 +11,7 @@ import com.timgapps.warfare.Warfare;
 
 public class BarbarianView extends PlayerUnitView {
     private PlayerUnitController controller;
+    private boolean firstAttackIsEnd = false;
 
     public BarbarianView(LevelScreen levelScreen, PlayerUnitModel model, PlayerUnitController controller) {
         super(levelScreen, model, controller);
@@ -46,29 +47,48 @@ public class BarbarianView extends PlayerUnitView {
                 } else {
                     if (currentState != State.WALKING) {
                         currentState = State.WALKING;
+                        firstAttackIsEnd = false;
                         resetStateTime();
                     }
                 }
             } else if (model.isAttack() || model.isAttackBarricade()) {
                 if (model.isStay() == false) {
-                    if (currentState != State.ATTACK) {
+                    if (currentState != State.ATTACK && !firstAttackIsEnd) {
                         currentState = State.ATTACK;
                         resetStateTime();
                     } else {
-                        if (attackAnimation.isAnimationFinished(stateTime)) {
-                            if (model.isAttack()) {
-                                controller.hit();
-                            } else if (model.isAttackBarricade()) {
-                                controller.hitBarricade();
+                        if (!firstAttackIsEnd) {
+                            if (attackAnimation.isAnimationFinished(stateTime)) {
+                                if (model.isAttack()) {
+                                    controller.hit();
+                                } else if (model.isAttackBarricade()) {
+                                    controller.hitBarricade();
+                                }
+                                firstAttackIsEnd = true;
                             }
-                            currentState = State.STAY;
-                            model.setIsStay(true);
-                            resetStateTime();
+                        } else {
+                            if (currentState != State.ATTACK2) {
+                                currentState = State.ATTACK2;
+                                resetStateTime();
+                            } else {
+                                if (secondAttackAnimation.isAnimationFinished(stateTime)) {
+                                    if (model.isAttack()) {
+                                        controller.hit();
+                                    } else if (model.isAttackBarricade()) {
+                                        controller.hitBarricade();
+                                    }
+                                    firstAttackIsEnd = false;
+                                    currentState = State.STAY;
+                                    model.setIsStay(true);
+                                    resetStateTime();
+                                }
+                            }
                         }
                     }
                 } else {
                     if (stayAnimation.isAnimationFinished(stateTime)) {
                         model.setIsStay(false);
+                        firstAttackIsEnd = false;
                     }
                 }
             } else {
@@ -102,6 +122,11 @@ public class BarbarianView extends PlayerUnitView {
         for (int i = 0; i < 4; i++)
             frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Attack" + i)));
         attackAnimation = new Animation(0.1f, frames);
+        frames.clear();
+
+        for (int i = 0; i < 6; i++)
+            frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Attack1" + i)));
+        secondAttackAnimation = new Animation(0.1f, frames);
         frames.clear();
 
         for (int i = 0; i < 4; i++)

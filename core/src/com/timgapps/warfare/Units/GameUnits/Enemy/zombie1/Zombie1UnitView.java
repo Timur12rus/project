@@ -12,6 +12,7 @@ import com.timgapps.warfare.Warfare;
 public class Zombie1UnitView extends Zombie2UnitView {
     public Zombie1UnitView(LevelScreen levelScreen, EnemyUnitModel model, Zombie2Controller controller) {
         super(levelScreen, model, controller);
+        deltaX = -72;
     }
 
     @Override
