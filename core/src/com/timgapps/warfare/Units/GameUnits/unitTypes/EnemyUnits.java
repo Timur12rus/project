@@ -5,6 +5,7 @@ public enum EnemyUnits {
     ZombieRunner1,
     Zombie2,
     Zombie3,
+    ZombieWait1,
     Skeleton1,
     Skeleton2,
     Ork1,

@@ -45,7 +45,8 @@ public class EnemyUnitView extends GameUnitView {
 //                Warfare.atlas.findRegion(model.getUnitData().getName().toLowerCase() + "Stay1").getRegionHeight());
 
         if (!model.getUnitData().getUnitId().equals(EnemyUnits.Goblin)) {
-            if (model.getUnitData().getUnitId().equals(EnemyUnits.ZombieRunner1)) {
+            if (model.getUnitData().getUnitId().equals(EnemyUnits.ZombieRunner1) ||
+                    model.getUnitData().getUnitId().equals(EnemyUnits.ZombieWait1)) {
                 System.out.println("!!!! = " + EnemyUnits.Zombie1.name().toLowerCase() + "Stay1");
                 setSize(Warfare.atlas.findRegion(EnemyUnits.Zombie1.name().toLowerCase() + "Stay1").getRegionWidth(),
                         Warfare.atlas.findRegion(EnemyUnits.Zombie1.name().toLowerCase() + "Stay1").getRegionHeight());

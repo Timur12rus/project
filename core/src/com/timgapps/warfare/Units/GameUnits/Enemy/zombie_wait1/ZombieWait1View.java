@@ -1,23 +1,39 @@
-package com.timgapps.warfare.Units.GameUnits.Enemy.zombie1;
+package com.timgapps.warfare.Units.GameUnits.Enemy.zombie_wait1;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
-import com.timgapps.warfare.screens.level.LevelScreen;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitModel;
-import com.timgapps.warfare.Units.GameUnits.Enemy.zombie2.Zombie2Controller;
-import com.timgapps.warfare.Units.GameUnits.Enemy.zombie2.Zombie2UnitView;
+import com.timgapps.warfare.Units.GameUnits.Enemy.zombie1.Zombie1UnitView;
 import com.timgapps.warfare.Warfare;
+import com.timgapps.warfare.screens.level.LevelScreen;
 
-public class Zombie1UnitView extends Zombie2UnitView {
-    public Zombie1UnitView(LevelScreen levelScreen, EnemyUnitModel model, Zombie2Controller controller) {
+// зомби1, который ждет пока не появится вражеский юнит
+public class ZombieWait1View extends Zombie1UnitView {
+    private float stayCounter = 120;
+
+    public ZombieWait1View(LevelScreen levelScreen, EnemyUnitModel model, ZombieWait1Controller controller) {
         super(levelScreen, model, controller);
-        deltaX = -72;
+    }
+
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+        if (model.isWait()) {
+            if (stayAnimation.isAnimationFinished(stateTime) && stayCounter < 0) {
+                stayCounter = 120;
+                resetStateTime();
+            }
+            if (levelScreen.getState() != LevelScreen.PAUSED) {
+                stayCounter--;
+            }
+        }
     }
 
     @Override
     protected void createAnimations() {
-        String name = model.getUnitData().getUnitId().toString().toLowerCase();
+//        String name = model.getUnitData().getUnitId().toString().toLowerCase();
+        String name = "zombie1";
         System.out.println("Name = " + name);
         Array<TextureRegion> frames = new Array<TextureRegion>();
         for (int i = 0; i < 3; i++)

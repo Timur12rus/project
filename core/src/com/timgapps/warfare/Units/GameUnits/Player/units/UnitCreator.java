@@ -11,6 +11,8 @@ import com.timgapps.warfare.Units.GameUnits.Enemy.troll1.Troll1Controller;
 import com.timgapps.warfare.Units.GameUnits.Enemy.troll1.Troll1UnitView;
 import com.timgapps.warfare.Units.GameUnits.Enemy.troll2.Troll2Controller;
 import com.timgapps.warfare.Units.GameUnits.Enemy.troll2.Troll2UnitView;
+import com.timgapps.warfare.Units.GameUnits.Enemy.zombie_wait1.ZombieWait1Controller;
+import com.timgapps.warfare.Units.GameUnits.Enemy.zombie_wait1.ZombieWait1View;
 import com.timgapps.warfare.screens.level.LevelScreen;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitData;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitModel;
@@ -156,6 +158,11 @@ public class UnitCreator {
                         Zombie1RunnerController zombie1RunnerController = new Zombie1RunnerController(levelScreen, enemyUnitModel);
                         Zombie1RunnerUnitView zombie1RunnerView = new Zombie1RunnerUnitView(levelScreen, enemyUnitModel, zombie1RunnerController);
                         createEnemyUnit(enemyUnitModel, zombie1RunnerView);
+                        break;
+                    case ZombieWait1:
+                        ZombieWait1Controller zombieWait1Controller = new ZombieWait1Controller(levelScreen, enemyUnitModel);
+                        ZombieWait1View zombieWait1View = new ZombieWait1View(levelScreen, enemyUnitModel, zombieWait1Controller);
+                        createEnemyUnit(enemyUnitModel, zombieWait1View);
                         break;
                     case Zombie2:
                         Zombie2Controller zombie2Controller = new Zombie2Controller(levelScreen, enemyUnitModel);

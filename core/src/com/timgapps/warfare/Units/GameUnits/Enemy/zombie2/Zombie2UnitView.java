@@ -24,91 +24,96 @@ public class Zombie2UnitView extends EnemyUnitView {
     public void act(float delta) {
         super.act(delta);
         currentState = model.getCurrentState();
-        if (model.isDestroyed()) {
-            if (currentState != State.DIE) {
-                currentState = State.DIE;
-                System.out.println("!DIE");
-                resetStateTime();
-            } else {
+
+        if (model.isWait()) {       // если юнит ожидает время (т.е. в начале уровня некоторые юниты стоят и ждут время или появление
+                                     // первого игрового юнита
+        } else {
+            if (model.isDestroyed()) {
+                if (currentState != State.DIE) {
+                    currentState = State.DIE;
+                    System.out.println("!DIE");
+                    resetStateTime();
+                } else {
 //                System.out.println("Else");
-                if (dieAnimation.isAnimationFinished(stateTime)) {
-                    levelScreen.removeEnemyUnitFromArray(model);
-                    model.disposeBloodSpray();
+                    if (dieAnimation.isAnimationFinished(stateTime)) {
+                        levelScreen.removeEnemyUnitFromArray(model);
+                        model.disposeBloodSpray();
 //                    this.remove();
-                    if (!isAddAction) {
-                        this.addAction(fadeOutAction);
-                        isAddAction = true;
+                        if (!isAddAction) {
+                            this.addAction(fadeOutAction);
+                            isAddAction = true;
+                        }
                     }
                 }
-            }
-        } else {
-            if (model.isMove()) {
-                if (!model.isStay()) {
+            } else {
+                if (model.isMove()) {
+                    if (!model.isStay()) {
+                        if (currentState != State.WALKING) {
+                            currentState = State.WALKING;
+                            resetStateTime();
+                        } else {
+                            if (walkAnimation.isAnimationFinished(stateTime)) {
+                                Random random = new Random();
+                                if (random.nextBoolean()) {
+                                    currentState = State.STAY;
+                                    model.setIsStay(true);
+                                } else {
+                                    currentState = State.WALKING;
+                                    model.setIsStay(false);
+                                }
+                                resetStateTime();
+                            }
+                        }
+                    } else if (currentState != State.STAY) {
+                        currentState = State.STAY;
+                        resetStateTime();
+                    } else {
+                        if (stayAnimation.isAnimationFinished(stateTime)) {
+                            model.setIsStay(false);
+                        }
+                    }
+                } else if (model.isAttack() || model.isAttackTower()) {
+                    if (!model.isStay()) {
+                        if (currentState != State.ATTACK) {
+                            currentState = State.ATTACK;
+                            resetStateTime();
+                        } else {
+                            if (attackAnimation.isAnimationFinished(stateTime)) {
+                                if (model.isAttack()) {
+                                    controller.hit();
+                                } else if (model.isAttackTower()) {
+                                    controller.hitTower();
+                                }
+                                currentState = State.STAY;
+                                model.setIsStay(true);
+                                resetStateTime();
+                            }
+                        }
+                    } else if (currentState != State.STAY) {
+                        currentState = State.STAY;
+                        resetStateTime();
+                    } else {
+                        if (stayAnimation.isAnimationFinished(stateTime)) {
+                            model.setIsStay(false);
+                        }
+                    }
+                } else if (model.isStay()) {
+                    if (currentState != State.STAY) {
+                        currentState = State.STAY;
+                        resetStateTime();
+                    } else {
+                        if (stayAnimation.isAnimationFinished(stateTime)) {
+                            model.setIsStay(false);
+                            resetStateTime();
+                        }
+                    }
+                } else {
                     if (currentState != State.WALKING) {
                         currentState = State.WALKING;
                         resetStateTime();
-                    } else {
-                        if (walkAnimation.isAnimationFinished(stateTime)) {
-                            Random random = new Random();
-                            if (random.nextBoolean()) {
-                                currentState = State.STAY;
-                                model.setIsStay(true);
-                            } else {
-                                currentState = State.WALKING;
-                                model.setIsStay(false);
-                            }
-                            resetStateTime();
-                        }
                     }
-                } else if (currentState != State.STAY) {
-                    currentState = State.STAY;
-                    resetStateTime();
-                } else {
-                    if (stayAnimation.isAnimationFinished(stateTime)) {
-                        model.setIsStay(false);
-                    }
+                    model.setIsMove(true);
                 }
-            } else if (model.isAttack() || model.isAttackTower()) {
-                if (!model.isStay()) {
-                    if (currentState != State.ATTACK) {
-                        currentState = State.ATTACK;
-                        resetStateTime();
-                    } else {
-                        if (attackAnimation.isAnimationFinished(stateTime)) {
-                            if (model.isAttack()) {
-                                controller.hit();
-                            } else if (model.isAttackTower()) {
-                                controller.hitTower();
-                            }
-                            currentState = State.STAY;
-                            model.setIsStay(true);
-                            resetStateTime();
-                        }
-                    }
-                } else if (currentState != State.STAY) {
-                    currentState = State.STAY;
-                    resetStateTime();
-                } else {
-                    if (stayAnimation.isAnimationFinished(stateTime)) {
-                        model.setIsStay(false);
-                    }
-                }
-            } else if (model.isStay()) {
-                if (currentState != State.STAY) {
-                    currentState = State.STAY;
-                    resetStateTime();
-                } else {
-                    if (stayAnimation.isAnimationFinished(stateTime)) {
-                        model.setIsStay(false);
-                        resetStateTime();
-                    }
-                }
-            } else {
-                if (currentState != State.WALKING) {
-                    currentState = State.WALKING;
-                    resetStateTime();
-                }
-                model.setIsMove(true);
             }
         }
         model.setCurrentState(currentState);

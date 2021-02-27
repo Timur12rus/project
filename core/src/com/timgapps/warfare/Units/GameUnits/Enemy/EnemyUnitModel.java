@@ -28,6 +28,7 @@ public class EnemyUnitModel extends GameUnitModel {
     private EnemyUnitModel targetPlayer;
     private boolean isHaveBonus;
     private boolean isStarted;
+    private boolean isWait;
 
     public EnemyUnitModel(LevelScreen levelScreen, Vector2 position, EnemyUnitData enemyUnitData, boolean isHaveBonus) {
         super(levelScreen, position);
@@ -41,7 +42,6 @@ public class EnemyUnitModel extends GameUnitModel {
 //        bodyWidth = 62;       // skeleton1
 //        bodyWidth = 56;       // skeleton1
         bodyHeight = enemyUnitData.getBodyHeight();
-        ;
 //        bodyWidth = 48;
 //        bodyHeight = 24;
         xPosDamageLabel = 8;        // смещение надписи получаемого урона по оси х
@@ -54,6 +54,14 @@ public class EnemyUnitModel extends GameUnitModel {
         isTouchedTower = false;
         isAttackTower = false;
         unitBit = ENEMY_BIT;
+    }
+
+    public void setIsWait(boolean isWait) {
+        this.isWait = isWait;
+    }
+
+    public boolean isWait() {
+        return isWait;
     }
 
     // метод задает юнита "игрока-цель"
