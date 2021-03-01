@@ -75,7 +75,10 @@ public class UnitCreator {
             }
         }
         for (EnemyUnits enemyUnit : EnemyUnits.values()) {
-            if (unitName.equals(enemyUnit.name())) {
+            if (unitName.contains(enemyUnit.name())) {
+//            if (unitName.equals(enemyUnit.name())) {      // 27.02.2020
+                System.out.println("Contains = true");
+                System.out.println("unitNAME !!! = " + unitName);
                 typeOfUnit = ENEMEY_UNIT;
                 break;
             }
@@ -137,10 +140,11 @@ public class UnitCreator {
                 // TODO нужно сделать для вражеских юнитов
                 EnemyUnits enemyUnitId = EnemyUnits.None;
                 boolean isHaveBonus = false;
+                // TODO исправить, чтобы появлялись с бонусами
                 for (EnemyUnits enemyUnit : EnemyUnits.values()) {
                     if (unitName.contains("_bonus")) {
                         isHaveBonus = true;
-                        unitName.replace("_bonus", "");
+                        unitName = unitName.replace("_bonus", "");
                     }
                     if (unitName.equals(enemyUnit.name())) {
                         System.out.println("unitName = " + unitName + " unitId = " + enemyUnit.name());
