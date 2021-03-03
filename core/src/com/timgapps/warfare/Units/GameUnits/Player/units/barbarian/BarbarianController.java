@@ -145,7 +145,7 @@ public class BarbarianController extends PlayerUnitController implements PlayerW
             target = targetEnemies.get(0);                             // вражеский юнит - "цель", к которому будет двигаться игровой юнит
             // найдем самого близкого вражеского юнита к игровому
             for (EnemyUnitModel enemyUnitModel : targetEnemies) {
-                float distanceToEnemy = new Vector2(enemyUnitModel.getX(), enemyUnitModel.getY()).sub(playerPosition).len();
+                float distanceToEnemy = (new Vector2(enemyUnitModel.getX(), enemyUnitModel.getY()).sub(playerPosition)).len();
                 if (distanceToEnemy < minDistance) {
                     minDistance = distanceToEnemy;
                     target = enemyUnitModel;

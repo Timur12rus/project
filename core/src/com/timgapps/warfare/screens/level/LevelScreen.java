@@ -156,6 +156,7 @@ public class LevelScreen extends StageGame {
         levelCreator.createScreens();
         pausedScreen.redraw();
         energyCount = 10;
+        coinsCount = gameManager.getCoinsCount();
 
         // создаем вражеских юнитов
         levelMap = new TiledMap();
@@ -366,7 +367,11 @@ public class LevelScreen extends StageGame {
         this.levelNumber = levelNumber;
     }
 
+    // метод вызывается после нажатия кнопки "ОК" в окне завершения уровня
     public void onCompleted() {
+        //TODO возможно нужно будет переделать, чтобы монеты добавлялись позже, при выходе из экрана уровня на карте, пока сделаю
+        // чтобы просто менялось значение монет в панели монет
+//        gameManager.getCoinsPanel().setCoinsCount(coinsCount + getRewardCoinsCount());
         call(ON_COMPLETED);                       // при получении сообщений от которой мы передаем сообщение ON_COMPLETED
     }
 
@@ -758,7 +763,7 @@ public class LevelScreen extends StageGame {
          */
         gameManager.setCoinsCount(coinsCount + getRewardCoinsCount());
         gameManager.addScoreCount(getRewardScoreCount());
-//        gameManager.addStarsCount(starsCount);
+
         /** добавим к панели звёзд полученное кол-во звёзд */
 //        если получили звезд за уровень больше чем было, то прибавим это кол-во к общему кол-ву звезд у игрока
         if (starsCount > starsOfLevel) {

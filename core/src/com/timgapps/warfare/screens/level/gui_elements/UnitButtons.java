@@ -42,10 +42,10 @@ public class UnitButtons extends Group {
             removeActor(unitImageButton);
         }
 
-        unitButtonArrayList.clear();
         width = 0;
         height = 0;
         unitButtonHeight = 0;
+        unitButtonArrayList.clear();
         addUnitButtons();
 
         float stoneButtonPosX = 0;
@@ -72,7 +72,7 @@ public class UnitButtons extends Group {
     }
 
     public void show() {
-        redraw();
+        redraw();       // обновляем кнопки вызова юнитов
         this.setVisible(true);
     }
 
@@ -120,6 +120,8 @@ public class UnitButtons extends Group {
         }
         if (fireBoosterButton == null) {
             fireBoosterButton = new FireBoosterButton(levelScreen, new PlayerUnitData(PlayerUnits.Firebooster));
+        } else {
+            fireBoosterButton.redraw();
         }
         unitButtonArrayList.add(fireBoosterButton);
     }

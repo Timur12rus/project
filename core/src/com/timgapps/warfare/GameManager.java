@@ -97,16 +97,17 @@ public class GameManager {
             savedGame.createRewardForStarsDataList();
 
             // установим кол-во ресурсов
-//            foodCount = 6;
-//            ironCount = 2;
-//            woodCount = 4;
+            foodCount = 2;
+            ironCount = 2;
+            woodCount = 1;
 
-            foodCount = 600;
-            ironCount = 200;
-            woodCount = 400;
+//            foodCount = 600;
+//            ironCount = 200;
+//            woodCount = 400;
 
             /** количество монет у игрока **/
-            coinsCount = 5000;
+//            coinsCount = 5000;           // это для теста
+            coinsCount = 0;
             // для теста
 //            coinsCount = 100;
             scoreCount = 0;
@@ -177,19 +178,6 @@ public class GameManager {
         }
         /** получи кол-во здоровья ОСАДНОЙ БАШНИ **/
         towerHealth = 50;
-    }
-
-    /**
-     * метод возвращает позицию камеры
-     **/
-    public Vector2 getCameraPosition() {
-        Vector2 cameraPosition = new Vector2();
-        if (savedGame.getCameraPosition() == null) {
-            cameraPosition.set(Warfare.V_WIDTH / 2, Warfare.V_HEIGHT / 2);
-        } else {
-            cameraPosition.set(savedGame.getCameraPosition());
-        }
-        return cameraPosition;
     }
 
     // метод сохраняет позяцию камеры в savedGame
@@ -409,7 +397,6 @@ public class GameManager {
     public void addCoinsCount(int count) {
         coinsCount += count;
 //        coinsPanel.setCoinsCount(coinsCount);       // обновим количество монет в панели для монет (coinsPanel)
-
         savedGame.addCoinsCount(count);
 
     }

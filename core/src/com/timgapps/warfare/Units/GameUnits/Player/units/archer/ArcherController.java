@@ -126,8 +126,8 @@ public class ArcherController extends PlayerUnitController implements PlayerShoo
 
     // метод для выпуска стрелы
     public void throwBullet() {
-        new Arrow(levelScreen, new Vector2(model.getX(), model.getY()), 2, new Vector2(10, 0));
-//        new Arrow(levelScreen, new Vector2(model.getX(), model.getY()), model.getDamage(), new Vector2(10, 0));
+//        new Arrow(levelScreen, new Vector2(model.getX(), model.getY()), 2, new Vector2(10, 0));
+        new Arrow(levelScreen, new Vector2(model.getX(), model.getY()), model.getDamage(), new Vector2(10, 0));
     }
 
     @Override

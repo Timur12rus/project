@@ -8,7 +8,6 @@ import com.timgapps.warfare.Units.GameUnits.unitTypes.PlayerUnits;
 public class TeamUnit {
     private PlayerUnitData data;
     private UnitImageButton unitImageButton;
-    private CreateUnitButton createUnitButton;
     private UnitImage unitImage;
     private PlayerUnits unitId;
     private int damage;

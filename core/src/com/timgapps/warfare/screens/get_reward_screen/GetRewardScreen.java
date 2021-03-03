@@ -20,6 +20,7 @@ public class GetRewardScreen extends StageGame implements ScreenCloser {
 
     public GetRewardScreen(GameManager gameManager) {
         this.gameManager = gameManager;
+        coinsPanel = gameManager.getCoinsPanel();
         for (int i = 0; i < gameManager.getRewardForStarsDataList().size() - 1; i++) {
             if (gameManager.getStarsCount() >= gameManager.getRewardForStarsDataList().get(i).getStarsCount() &&
                     !gameManager.getRewardForStarsDataList().get(i).getIsReceived()) {     // если звезд больше, чем нужно для награды
@@ -41,7 +42,7 @@ public class GetRewardScreen extends StageGame implements ScreenCloser {
         backButton.setPosition(64, 64);
         addOverlayChild(backButton);
 
-        coinsPanel = gameManager.getCoinsPanel();
+
     }
 
     // метод для получениия награды за звезды

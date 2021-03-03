@@ -86,6 +86,28 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
     private boolean isStartCameraZoom = false;
     //    private float cameraZoomValue = 8;
     private float cameraZoomValue = 0.5f;
+    private float accumulateDeltaZoomValue;
+    private Interpolation interpolation;
+    private float timeToCameraZoomTarget, cameraZoomTarget, cameraZoomOrigin, cameraZoomDuration;
+
+    @Override
+    protected void update(float delta) {
+        super.update(delta);
+        if (isStartCameraZoom) {
+            if (cameraZoomValue < 1) {
+                if (cameraZoomValue + 0.05f > 1) {
+                    cameraZoomValue = 1;
+                    isStartCameraZoom = false;
+                } else {
+                    cameraZoomValue += 0.05f;
+                }
+            } else {
+                cameraZoomValue = 1;
+                isStartCameraZoom = false;
+            }
+        }
+        camera.zoom = cameraZoomValue;
+    }
 
     public MapScreen(GameManager gameManager, int coinsReward, int scoreReward) {
         this.coinsReward = coinsReward;
@@ -94,6 +116,9 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
 //        setBackGround("map");
         this.gameManager = gameManager;
         levelIcons = gameManager.getLevelIcons();
+        cameraZoomTarget = 1;
+        cameraZoomOrigin = 0.5f;
+        timeToCameraZoomTarget = 2;
 
 //        new Color(0x35a1afff);
         greenRectangle = new ColorRectangle(0, 0, 1536, 1024, new Color(0x84a327ff));
@@ -348,16 +373,13 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
         showCoinsPanel();
     }
 
+    // метод запускает увеличение камеры на карте при запуске игры
     private void zoomActionCamera() {
         isStartCameraZoom = true;
     }
 
-
     // метод обновляет позицию камеры
     public void updateCameraPosition() {
-        int lastCompletedNum = gameManager.getLastCompletedNum();
-
-
         float levelIconPosX = levelIcons.get(selectedLevelId).getX();
         float levelIconPosY = levelIcons.get(selectedLevelId).getY();
         if (levelIconPosX <= camera.viewportWidth / 2) {
@@ -957,26 +979,6 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
     @Override
     public void setEndCoinsAction() {
         coinsAction.setEndCoinsAction();
-    }
-
-    @Override
-    protected void update(float delta) {
-        super.update(delta);
-        if (isStartCameraZoom) {
-            if (cameraZoomValue < 1) {
-//                cameraZoomValue -= 0.2f;
-                cameraZoomValue += 0.05f;
-            } else {
-                cameraZoomValue = 1;
-                isStartCameraZoom = false;
-            }
-            camera.zoom = cameraZoomValue;
-        }
-
-//        if (!getRewardIsChecked) {
-//            checkGetRewardForStars();
-//            getRewardIsChecked = true;
-//        }
     }
 }
 

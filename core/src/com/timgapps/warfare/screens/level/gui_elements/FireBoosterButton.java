@@ -20,6 +20,14 @@ public class FireBoosterButton extends StoneButton {
     }
 
     @Override
+    public void redraw() {
+        super.redraw();
+        setInActive();
+        percentage = 0;
+        isReadyUnitButton = false;
+    }
+
+    @Override
     public void setPosX(float posX) {
         super.setPosX(posX);
         xMax -= greenTargetWidth / 2;

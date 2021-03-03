@@ -62,7 +62,6 @@ public class LevelCreator {
 //                    call(ON_FAILED);                       // при получении сообщений от которой мы передаем сообщение ON_FAILED
 
                 }
-
                 if (message == GameOverScreen.ON_RETRY) {
                     levelScreen.onRetry();
 //                    call(ON_RETRY);
@@ -106,12 +105,6 @@ public class LevelCreator {
         tilePixelHeight = prop.get("tileheight", Integer.class);
         levelWidth = mapWidth * tilePixelWidth;
         levelHeight = mapHeight * tilePixelHeight;
-
-        // сканируем все слои и получаем объекты
-//        for (MapLayer layer : map.getLayers()) {
-//            String name = layer.getName();
-//            createEnemyUnit(layer.getObjects(), name);
-//        }
     }
 
     // метод освобождает ресурсы
@@ -124,41 +117,6 @@ public class LevelCreator {
         levelScreen.removeScreen(gameOverScreen);
         map.dispose();
     }
-
-//    private void createEnemyUnit(MapObjects objects, String LayerName) {
-//
-////        for (MapObject object : objects) {
-////            Rectangle rectangle;
-////            float x = object.getProperties().get("x", Float.class);
-////            float y = object.getProperties().get("y", Float.class);
-////            rectangle = new Rectangle(x, y, 32, 32);
-////            if (LayerName.equals("zombie")) {
-////                Zombie zombie = new Zombie(level, rectangle.x, rectangle.y + 172, 100, 3);
-//////                Skeleton skeleton = new Skeleton(level, rectangle.x + 60, rectangle.y + 172, 100, 5);
-////                level.addEnemyUnitToEnemyArray(zombie);
-////            }
-////            if (LayerName.equals("zombie1")) {
-////                Zombie1 zombie1 = new Zombie1(level, rectangle.x, rectangle.y + 172, 100, 3);
-////                level.addEnemyUnitToEnemyArray(zombie1);
-////            }
-////            if (LayerName.equals("zombie3")) {
-////                Zombie3 zombie3 = new Zombie3(level, rectangle.x, rectangle.y + 172, 100, 3);
-////                level.addEnemyUnitToEnemyArray(zombie3);
-////            }
-//////            if (LayerName.equals("goblin1")) {
-//////                Goblin1 goblin1 = new Goblin1(level, rectangle.x, rectangle.y + 172, 100, 3);
-//////                level.addEnemyUnitToEnemyArray(goblin1);
-//////            }
-//////            if (LayerName.equals("skeleton1")) {
-//////                Skeleton skeleton = new Skeleton(level, rectangle.x, rectangle.y + 172, 100, 3);
-//////                level.addEnemyUnitToEnemyArray(skeleton);
-//////            }
-//////            if (LayerName.equals("skeleton3")) {
-//////                Skeleton3 skeleton3 = new Skeleton3(level, rectangle.x, rectangle.y + 172, 100, 3);
-//////                level.addEnemyUnitToEnemyArray(skeleton3);
-//////            }
-////        }
-//    }
 }
 
 
