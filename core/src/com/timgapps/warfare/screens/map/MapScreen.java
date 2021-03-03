@@ -82,6 +82,10 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
     private final int H_RECT = 8;
     private boolean getRewardIsChecked;
     private boolean isScreenShown;
+    private boolean isFirstStart = true;
+    private boolean isStartCameraZoom = false;
+    //    private float cameraZoomValue = 8;
+    private float cameraZoomValue = 0.5f;
 
     public MapScreen(GameManager gameManager, int coinsReward, int scoreReward) {
         this.coinsReward = coinsReward;
@@ -127,7 +131,8 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
 //                    showButtons();
                     resumeLevelMap();
                 } else if (message == missionInfoWindow.ON_START) { //
-                    call(ON_LEVEL_SELECTED);
+                    selectLevel();
+//                    call(ON_LEVEL_SELECTED);
                 }
             }
         });
@@ -293,6 +298,16 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
         }
         cameraXpos = camera.position.x;
         cameraYpos = camera.position.y;
+
+        selectedLevelId = gameManager.getLastCompletedNum();
+        zoomActionCamera();
+    }
+
+
+    // метод выбора уровня
+    public void selectLevel() {
+        gameManager.setCameraPosition(new Vector2(cameraXpos, cameraYpos));
+        call(ON_LEVEL_SELECTED);
     }
 
     public void setIsTouchedIcon(boolean isTouchedIcon) {
@@ -328,8 +343,42 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
         isScreenShown = false;
         redrawLevelIcons();
         resumeLevelMap();
+        updateCameraPosition();
         coinsPanel.setCoinsCount(gameManager.getCoinsCount());
         showCoinsPanel();
+    }
+
+    private void zoomActionCamera() {
+        isStartCameraZoom = true;
+    }
+
+
+    // метод обновляет позицию камеры
+    public void updateCameraPosition() {
+        int lastCompletedNum = gameManager.getLastCompletedNum();
+
+
+        float levelIconPosX = levelIcons.get(selectedLevelId).getX();
+        float levelIconPosY = levelIcons.get(selectedLevelId).getY();
+        if (levelIconPosX <= camera.viewportWidth / 2) {
+            camera.position.x = camera.viewportWidth / 2;
+        } else {
+            camera.position.x = levelIconPosX;
+        }
+        if (levelIconPosX > levelWidth - camera.viewportWidth / 2) {
+            camera.position.x = (levelWidth - camera.viewportWidth / 2);
+        }
+
+        if (levelIconPosY <= camera.viewportHeight / 2) {
+            camera.position.y = camera.viewportHeight / 2;
+        } else {
+            camera.position.y = levelIconPosY;
+        }
+        if (levelIconPosY > levelHeight - camera.viewportHeight / 2) {
+            camera.position.y = (levelHeight - camera.viewportHeight / 2);
+        }
+        cameraXpos = camera.position.x;
+        cameraYpos = camera.position.y;
     }
 
     private void showCoinsPanel() {
@@ -386,7 +435,9 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
             if (cameraYpos + y > camera.viewportHeight / 2 + 300) {
                 y = 0;
             }
+            System.out.println("Camera position = " + new Vector2(camera.position.x, camera.position.y));
             camera.translate(-x, y);
+            System.out.println("Camera position After translate = " + new Vector2(camera.position.x, camera.position.y));
             if (fade != null) {
                 fade.setPosition(camera.position.x - camera.viewportWidth / 2,
                         camera.position.y - camera.viewportHeight / 2);
@@ -469,6 +520,7 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
                     levelIcons.get(i).setRectY((int) y / 32);
                     levelIcons.get(i).toFront();
                     addChild(levelIcons.get(i), rectangle.x - 16, rectangle.y - 16);
+                    System.out.println("LevelIcon[" + i + "] = (" + levelIcons.get(i).getX() + ", " + levelIcons.get(i).getY());
                 }
             }
         }
@@ -910,6 +962,17 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
     @Override
     protected void update(float delta) {
         super.update(delta);
+        if (isStartCameraZoom) {
+            if (cameraZoomValue < 1) {
+//                cameraZoomValue -= 0.2f;
+                cameraZoomValue += 0.05f;
+            } else {
+                cameraZoomValue = 1;
+                isStartCameraZoom = false;
+            }
+            camera.zoom = cameraZoomValue;
+        }
+
 //        if (!getRewardIsChecked) {
 //            checkGetRewardForStars();
 //            getRewardIsChecked = true;

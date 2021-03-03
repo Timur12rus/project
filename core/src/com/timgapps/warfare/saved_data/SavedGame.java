@@ -1,5 +1,6 @@
 package com.timgapps.warfare.saved_data;
 
+import com.badlogic.gdx.math.Vector2;
 import com.timgapps.warfare.screens.map.windows.team_upgrade_window.team_unit.TeamUnit;
 import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnitData;
 import com.timgapps.warfare.screens.map.gui_elements.LevelIcon;
@@ -28,6 +29,8 @@ public class SavedGame implements Serializable {
     private int indexOfRewardStars;
     private int rewardStarsCount;   // кол-во звезд для следующей награды за звезды
     private int helpStatus;         // статус обучения
+    private Vector2 cameraPosition;
+    private int lastCompletedLevelNum = 1;
 
 
     public SavedGame() {
@@ -67,6 +70,35 @@ public class SavedGame implements Serializable {
         levelIconDataList.add(new LevelIconData(24, 15, 30, LevelIcon.MEDIUM, true, false));
         levelIconDataList.add(new LevelIconData(25, 15, 30, LevelIcon.MEDIUM, true, false));
 //        levelIconDataList.add(new LevelIconData(19, 15, 30, LevelIcon.MEDIUM, true, false));
+    }
+
+    // метод устанавливает номер последнего завершенного уровня
+    public void setLastCompletedLevelNum(int lastCompletedLevelNum) {
+        this.lastCompletedLevelNum = lastCompletedLevelNum;
+    }
+
+    // метод возвращает номер последнего завершенного уровня
+    public int getLastCompletedLevelNum() {
+        return lastCompletedLevelNum;
+    }
+
+    /**
+     * метод устанавливает позицию камеры
+     **/
+    public void setCameraPosition(Vector2 cameraPosition) {
+        if (this.cameraPosition == null) {
+            this.cameraPosition = new Vector2();
+        }
+        this.cameraPosition.set(cameraPosition);
+        System.out.println("Set camera position is SAVED GAME!!!!!!");
+        System.out.println("New camera position");
+    }
+
+    /**
+     * метод возвращает позицию камеры
+     **/
+    public Vector2 getCameraPosition() {
+        return cameraPosition;
     }
 
     /**

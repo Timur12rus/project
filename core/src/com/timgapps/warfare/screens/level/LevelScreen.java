@@ -777,6 +777,9 @@ public class LevelScreen extends StageGame {
         if (levelNumber == 1) {
             gameManager.setHelpStatus(GameManager.HELP_STARS_PANEL);
         }
+        // сохраним номер текущего завершенного уровня (это будет пока последний завершенный уровень)
+        gameManager.setLastCompletedLevelNum(levelNumber);
+
         float towerHealth = siegeTower.getHealth();         // кол-во здоровья у башни после окончания уровня
         float fullTowerHealth = siegeTower.getFullHealth(); // кол-во полного здоровья у башни
         levelCreator.showLevelCompletedScreen(starsCount, towerHealth / fullTowerHealth * 100);

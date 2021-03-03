@@ -2,6 +2,7 @@ package com.timgapps.warfare;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.math.Vector2;
 import com.boontaran.DataManager;
 import com.timgapps.warfare.screens.map.gui_elements.CoinsPanel;
 import com.timgapps.warfare.screens.map.windows.team_upgrade_window.team_unit.TeamUnit;
@@ -56,6 +57,7 @@ public class GameManager {
     public static final int HELP_GET_GIFT = 4;
     public static final int NONE = 5;
     private int helpStatus;
+    private Vector2 cameraPosition;
 
     public GameManager() {
 
@@ -64,6 +66,7 @@ public class GameManager {
 
         // создаем объект для сохранения игры
         savedGame = loadSavedGame();
+        cameraPosition = new Vector2();
 
         /** создадим массив уровней (LevelIcons) для хранения информации и данных уровней (кол-во звёзд, заблокировани или разблокирован **/
         //TODO сделать сохранение и загрузку данных об уровнях в  массив <LevelIconData> в объекте сохранения игры savedGame()
@@ -77,6 +80,10 @@ public class GameManager {
         if (savedGame == null) {
             savedGame = new SavedGame();
             savedGame.setHelpStatus(GameManager.HELP_UNIT_CREATE);      // установим статус обучалки - "создание юнита"
+
+            // зададим положение камеры и сохраним ее значение в savedGame
+//            cameraPosition.set(Warfare.V_WIDTH / 2, Warfare.V_HEIGHT / 2);
+            setCameraPosition(new Vector2(Warfare.V_WIDTH / 2, Warfare.V_HEIGHT / 2));
 
             /** создаем массив "ДАННЫХ" об уровнях (LevelIconData) **/
             savedGame.createLevelIconDataList();
@@ -109,6 +116,8 @@ public class GameManager {
             savedGame.setFoodCount(foodCount);
             savedGame.setIronCount(ironCount);
             savedGame.setWoodCount(woodCount);
+
+
             /** создадим КОМАНДУ - массив юнитов в команде */
 
             /** установим значения по умолчанию  для данных TeamUnit **/
@@ -169,6 +178,34 @@ public class GameManager {
         /** получи кол-во здоровья ОСАДНОЙ БАШНИ **/
         towerHealth = 50;
     }
+
+    /**
+     * метод возвращает позицию камеры
+     **/
+    public Vector2 getCameraPosition() {
+        Vector2 cameraPosition = new Vector2();
+        if (savedGame.getCameraPosition() == null) {
+            cameraPosition.set(Warfare.V_WIDTH / 2, Warfare.V_HEIGHT / 2);
+        } else {
+            cameraPosition.set(savedGame.getCameraPosition());
+        }
+        return cameraPosition;
+    }
+
+    // метод сохраняет позяцию камеры в savedGame
+    public void setCameraPosition(Vector2 cameraPosition) {
+        savedGame.setCameraPosition(cameraPosition);
+        System.out.println("Save Camera Position = " + cameraPosition);
+    }
+
+    public void setLastCompletedLevelNum(int lastCompletedLevelNum) {
+        savedGame.setLastCompletedLevelNum(lastCompletedLevelNum);
+    }
+
+    public int getLastCompletedNum() {
+        return savedGame.getLastCompletedLevelNum();
+    }
+
 
     // метод проверяет стала ли доступна награда за звезды для получения (т.е. получили звезды за прохождение уровня, и проверяем, доступна ли награда)
     public boolean checkStarsCountForReward() {
