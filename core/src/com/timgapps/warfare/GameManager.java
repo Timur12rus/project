@@ -180,6 +180,14 @@ public class GameManager {
         towerHealth = 50;
     }
 
+    public void activateFireBooster() {
+        savedGame.setIsHaveFireBooster(true);
+    }
+
+    public boolean isHaveFireBooster() {
+        return savedGame.isHaveFireBooster();
+    }
+
     // метод сохраняет позяцию камеры в savedGame
     public void setCameraPosition(Vector2 cameraPosition) {
         savedGame.setCameraPosition(cameraPosition);

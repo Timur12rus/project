@@ -113,6 +113,11 @@ public class RewardForStars extends Group {
 //                name = data.getName();
                 deltaX = -12;
                 break;
+            case RewardForStarsData.REWARD_FIREBOOSTER:
+                rewardImage = new Image(Warfare.atlas.findRegion(data.getImageString()));
+//                name = data.getName();
+                deltaX = -12;
+                break;
         }
 
         name = data.getName();

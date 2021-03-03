@@ -31,6 +31,7 @@ public class SavedGame implements Serializable {
     private int helpStatus;         // статус обучения
     private Vector2 cameraPosition;
     private int lastCompletedLevelNum = 1;
+    private boolean isHaveFireBooster;
 
 
     public SavedGame() {
@@ -70,6 +71,16 @@ public class SavedGame implements Serializable {
         levelIconDataList.add(new LevelIconData(24, 15, 30, LevelIcon.MEDIUM, true, false));
         levelIconDataList.add(new LevelIconData(25, 15, 30, LevelIcon.MEDIUM, true, false));
 //        levelIconDataList.add(new LevelIconData(19, 15, 30, LevelIcon.MEDIUM, true, false));
+    }
+
+    // метод устанавливает имеет ли игрок "огненную атаку"
+    public void setIsHaveFireBooster(boolean isHaveFireBooster) {
+        this.isHaveFireBooster = isHaveFireBooster;
+    }
+
+    // метод возвращает, имеет ли игрок "огненную атаку"
+    public boolean isHaveFireBooster() {
+        return isHaveFireBooster;
     }
 
     // метод устанавливает номер последнего завершенного уровня
@@ -129,6 +140,7 @@ public class SavedGame implements Serializable {
         rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_STONE, 1, PlayerUnits.Rock.name().toLowerCase() + "UnitImage"));
         rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_ARCHER, 4, PlayerUnits.Archer.name().toLowerCase() + "UnitImage"));
         rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_BOX, 9, "boxImage0"));
+        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_FIREBOOSTER, 15, "fireboosterActive"));
         rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_GNOME, 24, PlayerUnits.Gnome.name().toLowerCase() + "UnitImage"));
         rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_BOX, 30, "boxImage0"));
         rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_KNIGHT, 39, PlayerUnits.Knight.name().toLowerCase() + "UnitImage"));

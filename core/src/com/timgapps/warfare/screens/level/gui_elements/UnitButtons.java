@@ -118,11 +118,13 @@ public class UnitButtons extends Group {
 //                });
 //            }
         }
-        if (fireBoosterButton == null) {
-            fireBoosterButton = new FireBoosterButton(levelScreen, new PlayerUnitData(PlayerUnits.Firebooster));
-        } else {
-            fireBoosterButton.redraw();
+        if (levelScreen.getGameManager().isHaveFireBooster()) {
+            if (fireBoosterButton == null) {
+                fireBoosterButton = new FireBoosterButton(levelScreen, new PlayerUnitData(PlayerUnits.Firebooster));
+            } else {
+                fireBoosterButton.redraw();
+            }
+            unitButtonArrayList.add(fireBoosterButton);
         }
-        unitButtonArrayList.add(fireBoosterButton);
     }
 }

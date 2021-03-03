@@ -13,6 +13,7 @@ public class RewardForStarsData implements Serializable {
     public static final int REWARD_KNIGHT = 5;
     public static final int REWARD_SHOOTER = 6;
     public static final int REWARD_VIKING = 7;
+    public static final int REWARD_FIREBOOSTER = 8;
 
     private int typeOfReward;
     private int starsCount;     // кол-во звезд необходимое для получения награды
@@ -43,6 +44,8 @@ public class RewardForStarsData implements Serializable {
                 return "Shooter";
             case REWARD_VIKING:
                 return "Viking";
+            case REWARD_FIREBOOSTER:
+                return "Fire";
             case REWARD_BOX:
                 return "Box";
         }

@@ -65,6 +65,9 @@ public class GetRewardScreen extends StageGame implements ScreenCloser {
             case RewardForStarsData.REWARD_BOX:
                 gameManager.addCoinsCount(100);
                 break;
+            case RewardForStarsData.REWARD_FIREBOOSTER:
+                gameManager.activateFireBooster();          // делаем активной "огненую атаку"
+                break;
             case RewardForStarsData.REWARD_GNOME:
                 for (int i = 0; i < gameManager.getCollection().size(); i++) {
                     if (gameManager.getCollection().get(i).getUnitId() == PlayerUnits.Gnome) {
