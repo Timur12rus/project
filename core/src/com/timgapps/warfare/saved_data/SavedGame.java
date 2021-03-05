@@ -70,7 +70,11 @@ public class SavedGame implements Serializable {
         levelIconDataList.add(new LevelIconData(23, 15, 30, LevelIcon.MEDIUM, true, false));
         levelIconDataList.add(new LevelIconData(24, 15, 30, LevelIcon.MEDIUM, true, false));
         levelIconDataList.add(new LevelIconData(25, 15, 30, LevelIcon.MEDIUM, true, false));
-//        levelIconDataList.add(new LevelIconData(19, 15, 30, LevelIcon.MEDIUM, true, false));
+        levelIconDataList.add(new LevelIconData(26, 15, 30, LevelIcon.MEDIUM, true, false));
+        levelIconDataList.add(new LevelIconData(27, 15, 30, LevelIcon.MEDIUM, true, false));
+        levelIconDataList.add(new LevelIconData(28, 15, 30, LevelIcon.MEDIUM, true, false));
+        levelIconDataList.add(new LevelIconData(29, 15, 30, LevelIcon.MEDIUM, true, false));
+        levelIconDataList.add(new LevelIconData(30, 15, 30, LevelIcon.MEDIUM, true, false));
     }
 
     // метод устанавливает имеет ли игрок "огненную атаку"

@@ -89,6 +89,8 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
     private float accumulateDeltaZoomValue;
     private Interpolation interpolation;
     private float timeToCameraZoomTarget, cameraZoomTarget, cameraZoomOrigin, cameraZoomDuration;
+    private final float LEVEL_WIDTH = 1792; // (56 x 32)
+    private final float LEVEL_HEIGHT = 1024; // (32 x 32)
 
     @Override
     protected void update(float delta) {
@@ -121,7 +123,7 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
         timeToCameraZoomTarget = 2;
 
 //        new Color(0x35a1afff);
-        greenRectangle = new ColorRectangle(0, 0, 1536, 1024, new Color(0x84a327ff));
+        greenRectangle = new ColorRectangle(0, 0, LEVEL_WIDTH, LEVEL_HEIGHT, new Color(0x84a327ff));
 //        greenRectangle = new ColorRectangle(0, 0, 1536, 1024, new Color(0x8eb353ff));
         addChild(greenRectangle);
 
@@ -445,7 +447,7 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
             if (cameraXpos - x < camera.viewportWidth / 2) {
                 x = 0;
             }
-            if (cameraXpos - x > (1536 - camera.viewportWidth / 2)) {
+            if (cameraXpos - x > (levelWidth - camera.viewportWidth / 2)) {
 //            if (cameraXpos - x > (camera.viewportWidth / 2 + 256)) {
 //            if (cameraXpos - x > camera.viewportWidth + 320) {
                 x = 0;
