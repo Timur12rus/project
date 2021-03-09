@@ -106,6 +106,9 @@ public class LevelIcon extends Group {
         });
 
     }
+    public void setStarsCount(int starsCount) {
+        this.starsCount = starsCount;
+    }
 
     public void setRectX(int x) {
         rectX = x;
@@ -127,9 +130,7 @@ public class LevelIcon extends Group {
      * метод для обновления кол-ва звезд за уровень (из трех)
      **/
     public void updateStarsCount() {
-//        if (starsCount > getData().getStarsCount())  //если новое кол-во звезд больше, чем предыдущее то установим новое текущее кол-во
         starsCount = data.getStarsCount();
-//        this.starsCount = starsCount;
         checkIsActive();
     }
 

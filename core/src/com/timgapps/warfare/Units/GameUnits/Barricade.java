@@ -21,7 +21,7 @@ public class Barricade extends Group {
     private LevelScreen levelScreen;
     private Image rockBig, rockMiddle, rockSmall;
     //    private Body body;
-    private float health = 130;
+    private float health = 130;     // кол-во здоровья у баррикады
     private Rectangle body;
     private Texture healthTexture;
     private Texture backTexture;
@@ -63,6 +63,11 @@ public class Barricade extends Group {
         barricadeExplosion3 = new BarricadeExplosion(this);
 
         createBarricade(typeOfBarricade);
+
+        // если игрок играет на уровне = 1, то установим кол-во здоровья баррикады меньше
+        if (levelScreen.getLevelNumber() == 1 || levelScreen.getLevelNumber() == 2) {
+            health = 50;
+        }
 
         barricadeExplosion1.setPosition(posX - 20, posY + 140);
         barricadeExplosion3.setPosition(posX - 10, posY + 80);

@@ -429,19 +429,6 @@ public class LevelScreen extends StageGame {
         return scoreReward;
     }
 
-    /**
-     * метод устанавливает количество звезд после прохождения уровня
-     **/
-    private void setStarsCountToLevelIcon() {
-        // установим количество звезд за уровень для текущего уровня, установив кол-во звезд в объекте данных - Data
-        gameManager.getLevelIcons().get(levelNumber - 1).getData().setStarsCount(calculateStarsCount());
-
-        // обновим кол-во звезд за уровень для текущего уровня
-        gameManager.getLevelIcons().get(levelNumber - 1).updateStarsCount();
-
-//        gameManager.getLevelIcons().get(levelNumber - 1).updateStarsCount(calculateStarsCount());
-    }
-
     public ArrayList<EnemyUnitModel> getArrayEnemies() {
         return arrayEnemies;
     }
@@ -747,16 +734,12 @@ public class LevelScreen extends StageGame {
      * метод завершения уровня, вызывается после того, как разрушилась баррикада
      **/
     public void levelCompleted() {
-//        isActiveScreen = false;
         isCompleted = true;
         fade.setVisible(true);     // затемняем задний план
         unitButtons.hide();
         countDownTimer.stop();
-//        tableUnitButtons.setVisible(false);      // кнопки юитов делаем невидимыми
-//        tableUnitButtons.remove();               // кнопки юитов делаем невидимыми
         hud.hideEnergyPanel();
         int starsCount = calculateStarsCount();         // вычисляем кол-во звезд полученных за уровень
-        int starsSum = gameManager.getStarsCount();     // текущее кол-во звезд у игрока
         int starsOfLevel = gameManager.getLevelIcons().get(levelNumber - 1).getData().getStarsCount();  // кол-во звезд у уровня
         /** установим кол-во монет в менеджере и сохраняем игру
          * позже просто выведем анимацию добавления монет, очков и звезд полученных за уровень
@@ -768,23 +751,20 @@ public class LevelScreen extends StageGame {
 //        если получили звезд за уровень больше чем было, то прибавим это кол-во к общему кол-ву звезд у игрока
         if (starsCount > starsOfLevel) {
             int addStarsCount = starsCount - starsOfLevel;      // кол-во звезд, которое добавим к общему кол-ву
-            gameManager.addStarsCount(addStarsCount);           //
+            gameManager.addStarsCount(addStarsCount);           // добавим кол-во звезд к общему кол-ву звезд у игрока
+            // установим кол-во полученных звезд текущему значку уровня (уровню)
+            gameManager.getLevelIcons().get(levelNumber - 1).setFinished();
+            gameManager.getLevelIcons().get(levelNumber - 1).getData().setStarsCount(starsCount);
+            // обновим кол-во звезд за уровень для текущего уровня
+            gameManager.getLevelIcons().get(levelNumber - 1).updateStarsCount();
         }
-//        gameManager.getStarsPanel().addStarsCount(starsCount);
-//        gameManager.getSavedGame().addStarsCount(starsCount);
-        gameManager.getSavedGame().setIndexRewardStars(gameManager.getStarsPanel().getIndexOfRewardStars());    // установим
-        gameManager.getStarsPanel().updateCountReward();    // обновим кол-во наград за звёзды
-        setStarsCountToLevelIcon();             // установим кол-во полученных звезд текущему значку уровня (уровню)
-        gameManager.getLevelIcons().get(levelNumber - 1).setFinished();
-//        gameManager.getLevelIcons().get(levelNumber).setActive();
-//        unlockNextLevels();
+
+        // сохраним номер текущего завершенного уровня (это будет пока последний завершенный уровень)
+        gameManager.setLastCompletedLevelNum(levelNumber);
         gameManager.saveGame();
         if (levelNumber == 1) {
             gameManager.setHelpStatus(GameManager.HELP_STARS_PANEL);
         }
-        // сохраним номер текущего завершенного уровня (это будет пока последний завершенный уровень)
-        gameManager.setLastCompletedLevelNum(levelNumber);
-
         float towerHealth = siegeTower.getHealth();         // кол-во здоровья у башни после окончания уровня
         float fullTowerHealth = siegeTower.getFullHealth(); // кол-во полного здоровья у башни
         levelCreator.showLevelCompletedScreen(starsCount, towerHealth / fullTowerHealth * 100);
@@ -834,14 +814,6 @@ public class LevelScreen extends StageGame {
 
     public void addUnitModel(GameUnitModel model) {
         arrayModels.add(model);
-    }
-
-    public void removeUnitModelFromArray(GameUnitModel unitModel) {
-        for (GameUnitModel model : arrayModels) {
-            if (model.equals(unitModel)) {
-                arrayModels.remove(model);
-            }
-        }
     }
 
     public ArrayList<GameUnitModel> getArrayModels() {

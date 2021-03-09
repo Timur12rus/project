@@ -100,26 +100,21 @@ public class RewardForStars extends Group {
                 break;
             case RewardForStarsData.REWARD_KNIGHT:
                 rewardImage = new Image(Warfare.atlas.findRegion(data.getImageString()));
-//                name = "Knight";
                 deltaX = -12;
                 break;
             case RewardForStarsData.REWARD_SHOOTER:
                 rewardImage = new Image(Warfare.atlas.findRegion(data.getImageString()));
-//                name = data.getName();
                 deltaX = -12;
                 break;
             case RewardForStarsData.REWARD_VIKING:
                 rewardImage = new Image(Warfare.atlas.findRegion(data.getImageString()));
-//                name = data.getName();
                 deltaX = -12;
                 break;
             case RewardForStarsData.REWARD_FIREBOOSTER:
                 rewardImage = new Image(Warfare.atlas.findRegion(data.getImageString()));
-//                name = data.getName();
                 deltaX = -12;
                 break;
         }
-
         name = data.getName();
         rewardImage.debug();
 
@@ -186,12 +181,6 @@ public class RewardForStars extends Group {
         nextRewardLabel.setPosition((getWidth() - nextRewardLabel.getWidth()) / 2, getHeight() / 2 + rewardImage.getHeight());
         addActor(nextRewardLabel);
     }
-
-    public void hideNextRewardLabel() {
-//        nextRewardLabel.setPosition();
-
-    }
-
 
     public void redraw() {
         if (data.getIsReceived()) {         // если награда получена

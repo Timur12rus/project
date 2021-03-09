@@ -28,7 +28,6 @@ public class LevelIconData implements Serializable {
     public void setStarsCount(int count) {
         if (count > starsCount)
             starsCount = count;
-//        System.out.println("setStarsCount = " + count);
     }
 
     public int getStarsCount() {

@@ -27,11 +27,11 @@ public class SavedGame implements Serializable {
     private long giftTimeFirst;      // время необходимое для получения первого подарка (время которое нужно подождать)
     private long giftTimeSecond;      // время необходимое для получения второго подарка (время которое нужно подождать)
     private int indexOfRewardStars;
-    private int rewardStarsCount;   // кол-во звезд для следующей награды за звезды
     private int helpStatus;         // статус обучения
     private Vector2 cameraPosition;
     private int lastCompletedLevelNum = 1;
     private boolean isHaveFireBooster;
+    private boolean isHaveFullRewardsForStars;      // игрок имеет все награды за звезды
 
 
     public SavedGame() {
@@ -164,6 +164,20 @@ public class SavedGame implements Serializable {
 //        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_GNOME, 45));
 //        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_GNOME, 80));
 //        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_GNOME, 100));
+    }
+
+    /**
+     * метод устанавливает получил ли игрок все награды за звезды
+     **/
+    public void setIsHaveFullRewardsForStars(boolean isHaveFullRewardsForStars) {
+        this.isHaveFullRewardsForStars = isHaveFullRewardsForStars;
+    }
+
+    /**
+     * метод возвращает получил ли игрок все награды за звезды
+     **/
+    public boolean isHaveFullRewardsForStars() {
+        return isHaveFullRewardsForStars;
     }
 
     /**

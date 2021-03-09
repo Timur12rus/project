@@ -50,7 +50,7 @@ public class GameManager {
     private DataManager manager;
     private long giftTimeFirst;      // время до получения первого подарка
     private long giftTimeSecond;      // время до получения второго подарка
-    private int indexOfRewardStars;
+    private int indexOfNextRewardStars;     // индекс следующей награды за звезды
     public static final int HELP_UNIT_CREATE = 1;
     public static final int HELP_STARS_PANEL = 2;
     public static final int HELP_TEAM_UPGRADE = 3;
@@ -58,6 +58,7 @@ public class GameManager {
     public static final int NONE = 5;
     private int helpStatus;
     private Vector2 cameraPosition;
+    private boolean isHaveFullRewardsForStars;      // игрок получил все награды за звезды
 
     public GameManager() {
 
@@ -87,6 +88,7 @@ public class GameManager {
 
             /** создаем массив "ДАННЫХ" об уровнях (LevelIconData) **/
             savedGame.createLevelIconDataList();
+            savedGame.setIndexRewardStars(0);
 
             /** Добавляем бойцов в команду **/
             // TODO: 31.01.2020  Здесь нужно будет изменить код, так чтобы брать данные из сохранненного объекта
@@ -101,13 +103,14 @@ public class GameManager {
             ironCount = 2;
             woodCount = 1;
 
-//            foodCount = 600;
-//            ironCount = 200;
-//            woodCount = 400;
+            foodCount = 600;
+            ironCount = 200;
+            woodCount = 400;
 
             /** количество монет у игрока **/
-//            coinsCount = 5000;           // это для теста
             coinsCount = 0;
+            coinsCount = 5000;           // это для теста
+
             // для теста
 //            coinsCount = 100;
             scoreCount = 0;
@@ -154,23 +157,26 @@ public class GameManager {
             starsCount = savedGame.getStarsCount();
         }
 
+        /** получил ли игрок все награды за звезды **/
+        isHaveFullRewardsForStars = savedGame.isHaveFullRewardsForStars();
+
         /** получим массив с ДАННЫМИ о наградах за звезды */
         rewardForStarsDataList = savedGame.getRewardForStarsDataList();
 
         /** получим индекс следующей награды за звёзды */
-        indexOfRewardStars = savedGame.getIndexOfRewardStars();
+        indexOfNextRewardStars = savedGame.getIndexOfRewardStars();
+        System.out.println("IndexRewardForStars = " + indexOfNextRewardStars);
 
         /** получим кол-во звезд для следующей награды **/
         int rewardStarsCount;
-
-        if (indexOfRewardStars < rewardForStarsDataList.size()) {
-            rewardStarsCount = rewardForStarsDataList.get(indexOfRewardStars).getStarsCount();
+        if (indexOfNextRewardStars < rewardForStarsDataList.size()) {
+            rewardStarsCount = rewardForStarsDataList.get(indexOfNextRewardStars).getStarsCount();
         } else {
             rewardStarsCount = rewardForStarsDataList.get(rewardForStarsDataList.size() - 1).getStarsCount();
         }
         coinsPanel = new CoinsPanel(coinsCount);
         scorePanel = new ScorePanel(scoreCount);
-        starsPanel = new StarsPanel(starsCount, rewardStarsCount, rewardForStarsDataList, indexOfRewardStars);
+        starsPanel = new StarsPanel(this);
         giftTimeFirst = savedGame.getGiftTimeFirst();       // получим сохраненное время для получения первого подарка
         giftTimeSecond = savedGame.getGiftTimeSecond();     // получим сохраненное время для получения второго подарка
         for (int i = 0; i < savedGame.getLevelIconDataList().size(); i++) {
@@ -202,7 +208,6 @@ public class GameManager {
         return savedGame.getLastCompletedLevelNum();
     }
 
-
     // метод проверяет стала ли доступна награда за звезды для получения (т.е. получили звезды за прохождение уровня, и проверяем, доступна ли награда)
     public boolean checkStarsCountForReward() {
         boolean isHaveReward = false;
@@ -214,17 +219,15 @@ public class GameManager {
         return isHaveReward;
     }
 
-    public void updateRewardsForStars() {
-        for (RewardForStarsData rewardForStarsData : rewardForStarsDataList) {
-            if (starsCount >= rewardForStarsData.getStarsCount() && !rewardForStarsData.getIsReceived()) {     // если звезд больше, чем нужно для награды
-                rewardForStarsData.setReceived();
-            }
-            saveGame();
-        }
-    }
-
+    // метод возвращает кол-во звезд у игрока
     public int getStarsCount() {
         return starsCount;
+    }
+
+    // метод возвращает необходимое кол-во звезд следующей награды
+    public int getStarsCountForReward() {
+        System.out.println("Index of Next Reward = " + indexOfNextRewardStars);
+        return rewardForStarsDataList.get(indexOfNextRewardStars).getStarsCount();
     }
 
     // метод проверяет, имеется ли доступная награда за звезды
@@ -391,10 +394,29 @@ public class GameManager {
         return starsPanel;
     }
 
+    // метод добавляет количество звезд к имеющемуся кол-ву звезд у игрока
     public void addStarsCount(int starsCount) {
         this.starsCount += starsCount;
         savedGame.addStarsCount(starsCount);
-        starsPanel.addStarsCount(starsCount);
+        updateIndexOfNextRewardStars();     // обновим индекс следующей награды за звезды
+        starsPanel.redraw();                // обновим значения панели с наградами за звезды
+    }
+
+    // обновим индекс следующей награды за звезды
+    private void updateIndexOfNextRewardStars() {
+        if (indexOfNextRewardStars < rewardForStarsDataList.size() - 1) {
+            if (starsCount >= rewardForStarsDataList.get(indexOfNextRewardStars).getStarsCount()) {
+                indexOfNextRewardStars++;
+                savedGame.setIndexRewardStars(indexOfNextRewardStars);
+            }
+        } else {
+            isHaveFullRewardsForStars = true;       // игрок оплучил все награды за звезды
+            savedGame.setIsHaveFullRewardsForStars(true);
+        }
+    }
+
+    public int getIndexOfNextRewardStars() {
+        return indexOfNextRewardStars;
     }
 
     /**

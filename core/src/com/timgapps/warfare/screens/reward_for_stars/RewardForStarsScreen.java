@@ -174,7 +174,6 @@ public class RewardForStarsScreen extends StageGame implements ScreenCloser {
             rewardForStarsList.get(i).redraw();
 
             /** добавим цифры - кол-во звёзд необходимое для получения награды **/
-
             Label.LabelStyle countStarsLabelStyle = new Label.LabelStyle();
             countStarsLabelStyle.fontColor = new Color(0x3c644eff);
             countStarsLabelStyle.font = Warfare.font20;
@@ -194,7 +193,9 @@ public class RewardForStarsScreen extends StageGame implements ScreenCloser {
             }
         }
         // подсветим следующую награду
-        setNextRewardForStars(index);
+        if (!gameManager.getSavedGame().isHaveFullRewardsForStars()) {
+            setNextRewardForStars(index);
+        }
         // получим кол-во звезд, для достижения текущей награды
 //        int rewardStarsCount = rewardForStarsList.get(i).getRewardCountStars();
         int deltaCountStars = starsCount - lastCount;
@@ -230,6 +231,10 @@ public class RewardForStarsScreen extends StageGame implements ScreenCloser {
     public void setNextRewardForStars(int index) {
         rewardForStarsList.get(index).setHilite(true);
         rewardForStarsList.get(index).showNextRewardLabel(nextRewardLabel);
+    }
+
+    private void hideHilite() {
+        
     }
 
     public CoinsPanel getCoinsPanel() {
