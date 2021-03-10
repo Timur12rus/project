@@ -9,7 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.boontaran.games.StageGame;
 import com.timgapps.warfare.Warfare;
-import com.timgapps.warfare.screens.reward_for_stars.GiftAnimation;
 import com.timgapps.warfare.screens.reward_for_stars.IconAnimation;
 
 public class ResourcesAction extends Group {

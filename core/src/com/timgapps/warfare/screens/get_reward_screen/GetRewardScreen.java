@@ -21,6 +21,7 @@ public class GetRewardScreen extends StageGame implements ScreenCloser {
     public GetRewardScreen(GameManager gameManager) {
         this.gameManager = gameManager;
         coinsPanel = gameManager.getCoinsPanel();
+        coinsPanel.redraw();
         for (int i = 0; i < gameManager.getRewardForStarsDataList().size() - 1; i++) {
             if (gameManager.getStarsCount() >= gameManager.getRewardForStarsDataList().get(i).getStarsCount() &&
                     !gameManager.getRewardForStarsDataList().get(i).getIsReceived()) {     // если звезд больше, чем нужно для награды
@@ -28,21 +29,11 @@ public class GetRewardScreen extends StageGame implements ScreenCloser {
                 gameManager.getRewardForStarsDataList().get(i).setReceived();
                 indexOfReward = i;
             }
-            gameManager.saveGame();
         }
-
-//        indexOfReward = 2;
-//        if (indexOfReward != 2) {
-//            flashEffect = new FlashEffect(this, gameManager.getRewardForStarsDataList().get(indexOfReward),
-//                    new Vector2(getWidth() / 2, getHeight() / 2));
-//        } else {
-//
-//        }
+        gameManager.saveGame();
         backButton = new BackButton(this);
         backButton.setPosition(64, 64);
         addOverlayChild(backButton);
-
-
     }
 
     // метод для получениия награды за звезды
@@ -64,6 +55,9 @@ public class GetRewardScreen extends StageGame implements ScreenCloser {
                 break;
             case RewardForStarsData.REWARD_BOX:
                 gameManager.addCoinsCount(100);
+                gameManager.addFoodCount(2);
+                gameManager.addIronCount(2);
+                gameManager.addWoodCount(2);
                 break;
             case RewardForStarsData.REWARD_FIREBOOSTER:
                 gameManager.activateFireBooster();          // делаем активной "огненую атаку"

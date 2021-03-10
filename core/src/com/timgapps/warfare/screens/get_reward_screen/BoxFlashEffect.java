@@ -22,10 +22,11 @@ public class BoxFlashEffect extends FlashEffect {
         boxActor = new BoxActor();
         boxActor.setPosition(position.x - rewardImage.getWidth() / 2, position.y - rewardImage.getHeight() / 2);
         stageGame.addChild(boxActor);
-        gameManager.addCoinsCount(100);
-        gameManager.addFoodCount(2);
-        gameManager.addIronCount(2);
-        gameManager.addWoodCount(2);
+//        gameManager.addCoinsCount(100);
+//        gameManager.addFoodCount(2);
+//        gameManager.addIronCount(2);
+//        gameManager.addWoodCount(2);
+//        gameManager.saveGame();
     }
 
     @Override
@@ -105,7 +106,7 @@ public class BoxFlashEffect extends FlashEffect {
             @Override
             public boolean act(float delta) {
                 coinsAction.isEndAnimation();
-                gameManager.getCoinsPanel().addCoins(100);
+                gameManager.getCoinsPanel().redraw();
                 isEnd = true;
                 return true;
             }

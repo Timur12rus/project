@@ -305,7 +305,7 @@ public class LevelScreen extends StageGame {
 
 //        new FireRockShoot(this);
 
-        coinsCount = gameManager.getCoinsCount();
+//        coinsCount = gameManager.getCoinsCount();
         hud = new HUD(this);
 //        hud.setPosition(32, getHeight() - hud.getHeight());
         addOverlayChild(hud);
@@ -744,7 +744,8 @@ public class LevelScreen extends StageGame {
         /** установим кол-во монет в менеджере и сохраняем игру
          * позже просто выведем анимацию добавления монет, очков и звезд полученных за уровень
          */
-        gameManager.setCoinsCount(coinsCount + getRewardCoinsCount());
+        gameManager.addCoinsCount(gameManager.getLevelIcons().get(levelNumber - 1).getData().getCoinsCount());
+//        gameManager.setCoinsCount(coinsCount + getRewardCoinsCount());
         gameManager.addScoreCount(getRewardScoreCount());
 
         /** добавим к панели звёзд полученное кол-во звёзд */

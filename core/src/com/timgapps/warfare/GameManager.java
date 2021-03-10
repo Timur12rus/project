@@ -61,7 +61,6 @@ public class GameManager {
     private boolean isHaveFullRewardsForStars;      // игрок получил все награды за звезды
 
     public GameManager() {
-
         /** загрузим данные игры **/
         /** создадим КОМАНДУ - массив юнитов в команде**/
 
@@ -174,7 +173,7 @@ public class GameManager {
         } else {
             rewardStarsCount = rewardForStarsDataList.get(rewardForStarsDataList.size() - 1).getStarsCount();
         }
-        coinsPanel = new CoinsPanel(coinsCount);
+        coinsPanel = new CoinsPanel(this);
         scorePanel = new ScorePanel(scoreCount);
         starsPanel = new StarsPanel(this);
         giftTimeFirst = savedGame.getGiftTimeFirst();       // получим сохраненное время для получения первого подарка

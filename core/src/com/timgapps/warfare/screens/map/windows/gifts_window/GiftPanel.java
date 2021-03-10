@@ -222,7 +222,8 @@ class GiftPanel extends Group {
             timeLabel.setVisible(true);
             boxImage.closeBox();
             // добавим к общему кол-ву монет монеты (награду)
-            coinsPanel.addCoins(COINS_COUNT_REWARD);
+            coinsPanel.redraw();
+//            coinsPanel.addCoins(COINS_COUNT_REWARD);
 //            coinsPanel.startAddCoinsAction();
             startCoinsAction.setEndCoinsAction();
         }

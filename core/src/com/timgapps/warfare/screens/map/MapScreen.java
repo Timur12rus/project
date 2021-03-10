@@ -247,7 +247,10 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
 
         // добавим панель с монетами на экран
         coinsPanel = gameManager.getCoinsPanel();
-        coinsPanel.setCoinsCount(gameManager.getCoinsCount());
+        /** !!!!!!!!!!!!!!!!!!!!! 10.03.2021
+        // coinsPanel.setCoinsCount(gameManager.getCoinsCount());
+         **/
+
 //        coinsPanel.addAction(Actions.fadeIn(0.1f));
 //        if (coinsPanel.isVisible()) {
 //            coinsPanel.setVisible(true);
@@ -371,7 +374,8 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
         redrawLevelIcons();
         resumeLevelMap();
         updateCameraPosition();
-        coinsPanel.setCoinsCount(gameManager.getCoinsCount());
+        coinsPanel.redraw();
+//        coinsPanel.setCoinsCount(gameManager.getCoinsCount());
         showCoinsPanel();
     }
 
@@ -764,7 +768,8 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
             public boolean act(float delta) {
 //                isEndCoinsAction = true;
                 // добавим к общему кол-ву монет монеты (награду)
-                coinsPanel.addCoins(coinsReward);
+                coinsPanel.redraw();
+//                coinsPanel.addCoins(coinsReward);
                 return true;
             }
         };
@@ -889,14 +894,9 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
         }
     };
 
-    private void setGiftPrepared(boolean flag) {
-        giftIcon.setVisibleRoundCirlce(flag);
-    }
-
     public GiftIcon getGiftIcon() {
         return giftIcon;
     }
-
 
     private void showMissionInfo(int selectedLevelId) {
         isFocused = false;

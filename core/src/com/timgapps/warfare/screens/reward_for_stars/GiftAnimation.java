@@ -133,8 +133,9 @@ public class GiftAnimation {
             public boolean act(float delta) {
                 // добавим к общему кол-ву монет монеты (награду)
                 coinsPanel.setVisible(true);
-                coinsPanel.addCoins(COINS_COUNT_REWARD);
-                coinsPanel.addAction(sizeAction);
+                coinsPanel.redraw();
+//                coinsPanel.addCoins(COINS_COUNT_REWARD);
+//                coinsPanel.addAction(sizeAction);
                 return true;
             }
         };
