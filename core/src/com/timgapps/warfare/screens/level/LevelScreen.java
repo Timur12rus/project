@@ -21,7 +21,8 @@ import com.boontaran.games.StageGame;
 import com.timgapps.warfare.Units.GameUnits.unitTypes.EnemyUnits;
 import com.timgapps.warfare.screens.level.background.BackgroundBuilder;
 import com.timgapps.warfare.screens.level.gui_elements.UnitButtons;
-import com.timgapps.warfare.screens.level.timer.CountDownTimer;
+import com.timgapps.warfare.screens.level.timer.Bat;
+import com.timgapps.warfare.screens.level.timer.MonsterTimer;
 import com.timgapps.warfare.screens.map.windows.team_upgrade_window.team_unit.TeamUnit;
 import com.timgapps.warfare.GameManager;
 import com.timgapps.warfare.screens.level.level_windows.ColorRectangle;
@@ -39,6 +40,8 @@ import com.timgapps.warfare.Warfare;
 
 import java.util.ArrayList;
 import java.util.Random;
+
+import javax.management.monitor.MonitorSettingException;
 
 public class LevelScreen extends StageGame {
     // добавим несколько констант для хранения состояния игры
@@ -92,7 +95,8 @@ public class LevelScreen extends StageGame {
     private boolean isShowLevelCompletedScreen;
     private UnitButtons unitButtons;
     private TiledMap levelMap;
-    private CountDownTimer countDownTimer;
+    //    private CountDownTimer countDownTimer;
+    private MonsterTimer monsterTimer;
     private boolean isCompleted;
     public static float screenScale;
     private BackgroundBuilder backgroundBuilder;
@@ -200,8 +204,14 @@ public class LevelScreen extends StageGame {
 //        monsterWave.start();
 
         // создаем счетчик начала "волны врагов"
-        countDownTimer = new CountDownTimer(this);
-        countDownTimer.reset();
+//        countDownTimer = new CountDownTimer(this);
+//        monsterTimer.reset();           // сбросим счетчик отсчета времени до начала волны монстров
+//        countDownTimer.reset();
+//        new MonsterTimer(this);
+//        new MonsterTimer(this);
+        monsterTimer = new MonsterTimer(this);
+        new Bat(this, new Vector2(500, 240));
+//        monsterTimer.reset();
     }
 
     private float getScreenScale() {
@@ -360,7 +370,8 @@ public class LevelScreen extends StageGame {
 
 //        // создаем счетчик начала "волны врагов"
 //        countDownTimer = new CountDownTimer(this);
-
+//        monsterTimer = new MonsterTimer(this);
+        monsterTimer = new MonsterTimer(this);
     }
 
     public void setLevelNumber(int levelNumber) {
@@ -500,7 +511,7 @@ public class LevelScreen extends StageGame {
     protected void update(float delta) {
         super.update(delta);
         if (state != PAUSED) {
-            countDownTimer.update(delta);
+//            countDownTimer.update(delta);
 //            System.out.println("camera Pos y = " + camera.position);
 
             // Трясем камеру
@@ -531,6 +542,10 @@ public class LevelScreen extends StageGame {
 //            }
 
             compareActorsYPos();
+        }
+
+        if (state == PLAY) {
+            monsterTimer.update(delta);
         }
         // finger
 //        if (finger != null) {
@@ -737,7 +752,8 @@ public class LevelScreen extends StageGame {
         isCompleted = true;
         fade.setVisible(true);     // затемняем задний план
         unitButtons.hide();
-        countDownTimer.stop();
+//        monsterTimer.stop();
+//        countDownTimer.stop();
         hud.hideEnergyPanel();
         int starsCount = calculateStarsCount();         // вычисляем кол-во звезд полученных за уровень
         int starsOfLevel = gameManager.getLevelIcons().get(levelNumber - 1).getData().getStarsCount();  // кол-во звезд у уровня
