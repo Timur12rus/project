@@ -19,6 +19,7 @@ public class Bat extends Actor {
     private double speed = 3.4f;
     private double speedV;
     private Animation flyAnimation;            // анимация для ходьбы
+    private float delatPositionY;
 
     public Bat(LevelScreen levelScreen, Vector2 position) {
         this.levelScreen = levelScreen;
@@ -27,11 +28,14 @@ public class Bat extends Actor {
         frames.add(new TextureRegion(Warfare.atlas.findRegion("bat0")));
         frames.add(new TextureRegion(Warfare.atlas.findRegion("bat1")));
         frames.add(new TextureRegion(Warfare.atlas.findRegion("bat2")));
-        flyAnimation = new Animation(0.17f, frames);
+        frames.add(new TextureRegion(Warfare.atlas.findRegion("bat1")));
+        frames.add(new TextureRegion(Warfare.atlas.findRegion("bat0")));
+        flyAnimation = new Animation(0.1f, frames);
         frames.clear();
         levelScreen.addChild(this, position.x, position.y);
         speedV = ((Math.random() * ((4f - 2f) + 1)) + 2f) * 0.1f;
-        speed = ((Math.random() * ((4f - 2.8f) + 1)) + 2.8f);
+        speed = ((Math.random() * ((5f - 3f) + 1)) + 3f);
+        setPosition(position.x, position.y - 160);
     }
 
     @Override
@@ -42,9 +46,10 @@ public class Bat extends Actor {
                 speedV += delta * 2;
             }
             position.x -= speed;
-            position.y += speedV;
+//            position.y += speedV;
+            delatPositionY += speedV;
 //            position.y += 0.2;
-            setPosition(position.x, position.y);
+            setPosition(position.x, position.y - 160);
         }
     }
 
@@ -55,6 +60,6 @@ public class Bat extends Actor {
             stateTime += Gdx.graphics.getDeltaTime();
         }
         batch.setColor(1, 1, 1, 1f);
-        batch.draw((TextureRegion) flyAnimation.getKeyFrame(stateTime, true), getX(), getY());
+        batch.draw((TextureRegion) flyAnimation.getKeyFrame(stateTime, true), getX(), position.y + delatPositionY);
     }
 }

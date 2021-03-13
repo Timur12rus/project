@@ -210,7 +210,7 @@ public class LevelScreen extends StageGame {
 //        new MonsterTimer(this);
 //        new MonsterTimer(this);
         monsterTimer = new MonsterTimer(this);
-        new Bat(this, new Vector2(500, 240));
+//        new Bat(this, new Vector2(500, 240));
 //        monsterTimer.reset();
     }
 
@@ -857,5 +857,8 @@ public class LevelScreen extends StageGame {
         background.clear();
         dispose();
         System.out.println("background = " + background.toString());
+        System.out.println("Hide!!!");
+        stage.clear();
+//        for (Actor actor : stage.clear();)
     }
 }

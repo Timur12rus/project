@@ -67,7 +67,7 @@ public class EnemyUnitData extends UnitData {
             case Zombie3:
                 damage = 10;
                 health = 39;
-                speed = -1.2f;
+                speed = -2f;
                 name = "Zombie3";
                 deltaX = -78;
                 deltaY = 0;

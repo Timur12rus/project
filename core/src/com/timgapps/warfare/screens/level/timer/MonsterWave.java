@@ -26,10 +26,10 @@ public class MonsterWave {
         levelScreen.createEnemyUnit(EnemyUnits.Zombie3, new Vector2(2000, 210));
 
         new Bat(levelScreen, new Vector2(1300, 380));
-        new Bat(levelScreen, new Vector2(1500, 360));
-        new Bat(levelScreen, new Vector2(1700, 390));
+        new Bat(levelScreen, new Vector2(1500, 320));
+        new Bat(levelScreen, new Vector2(2200, 390));
         new Bat(levelScreen, new Vector2(1800, 340));
-        new Bat(levelScreen, new Vector2(1600, 370));
-        new Bat(levelScreen, new Vector2(1600, 370));
+        new Bat(levelScreen, new Vector2(1650, 420));
+        new Bat(levelScreen, new Vector2(2000, 350));
     }
 }
