@@ -102,13 +102,13 @@ public class GameManager {
             ironCount = 2;
             woodCount = 1;
 
-            foodCount = 600;
-            ironCount = 200;
-            woodCount = 400;
+//            foodCount = 600;
+//            ironCount = 200;
+//            woodCount = 400;
 
             /** количество монет у игрока **/
             coinsCount = 0;
-            coinsCount = 5000;           // это для теста
+//            coinsCount = 5000;           // это для теста
 
             // для теста
 //            coinsCount = 100;

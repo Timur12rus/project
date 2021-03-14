@@ -371,7 +371,7 @@ public class LevelScreen extends StageGame {
 //        // создаем счетчик начала "волны врагов"
 //        countDownTimer = new CountDownTimer(this);
 //        monsterTimer = new MonsterTimer(this);
-        monsterTimer = new MonsterTimer(this);
+//        monsterTimer = new MonsterTimer(this);
     }
 
     public void setLevelNumber(int levelNumber) {
@@ -742,6 +742,7 @@ public class LevelScreen extends StageGame {
         unitButtons.hide();
 //        tableUnitButtons.setVisible(false); // кнопки юитов делаем невидимыми
         hud.hideEnergyPanel();
+        monsterTimer.hide();
         levelCreator.showGameOverScreen();
     }
 

@@ -19,7 +19,7 @@ import com.timgapps.warfare.screens.level.LevelScreen;
 public class TimerIcon extends Group {
     private Image icon, bg;
     private Label textLabel;
-    private final float TIME_TO_WAVE = 5;
+    private final float TIME_TO_WAVE = 30;
     //    private final float TIMER_COUNT = 30;
     private boolean isStarted;
     private boolean isStop;
@@ -98,8 +98,6 @@ public class TimerIcon extends Group {
                 Actions.fadeOut(1f),
                 checkEndOfAction);
         addAction(sequenceAction);
-//        clearActions();
-//        this.remove();
     }
 
     public void stop() {

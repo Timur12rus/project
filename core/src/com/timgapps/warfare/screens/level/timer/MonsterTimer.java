@@ -5,7 +5,7 @@ import com.timgapps.warfare.screens.level.LevelScreen;
 // таймер до запуска волны монстров
 public class MonsterTimer {
     private LevelScreen levelScreen;
-    private final float TIME_TO_WAVE = 5;     // время до начала отсчета волны
+    private final float TIME_TO_WAVE = 150;     // время до начала отсчета волны
     //    private final float TIME_TO_WAVE = 150;     // время до начала отсчета волны
     private TimerIcon timerIcon;            // счетчик для запуска анимации значака "волны монстров"
     private float time;         // время, которое прошло с момента начала уровня
@@ -31,10 +31,8 @@ public class MonsterTimer {
         }
     }
 
-    public void reset() {
-        time = 0;
+    public void hide() {
         waveIsStarted = false;
-        timerIcon.reset();
-        timerIcon.toFront();
+        timerIcon.clear();
     }
 }
