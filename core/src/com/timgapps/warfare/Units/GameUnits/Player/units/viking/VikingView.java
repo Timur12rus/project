@@ -12,12 +12,13 @@ import com.timgapps.warfare.Warfare;
 
 public class VikingView extends PlayerUnitView {
     private PlayerUnitController controller;
+    private boolean firstAttackIsEnd = false;
 
     public VikingView(LevelScreen levelScreen, PlayerUnitModel model, PlayerUnitController controller) {
         super(levelScreen, model, controller);
         this.controller = controller;
         createAnimations();
-        currentState = GameUnitView.State.STAY;
+        currentState = State.STAY;
     }
 
     @Override
@@ -25,8 +26,8 @@ public class VikingView extends PlayerUnitView {
         super.act(delta);
         currentState = model.getCurrentState();
         if (model.isDestroyed()) {
-            if (currentState != GameUnitView.State.DIE) {
-                currentState = GameUnitView.State.DIE;
+            if (currentState != State.DIE) {
+                currentState = State.DIE;
                 resetStateTime();
             } else {
                 if (dieAnimation.isAnimationFinished(stateTime)) {
@@ -39,51 +40,73 @@ public class VikingView extends PlayerUnitView {
         } else {
             // если юнит в состоянии атакует цель(isAttack = true), но в д
             if (model.isMoveToTarget() == true) {
-                if (!model.isHited()) {
-                    if (currentState != GameUnitView.State.RUN) {
-                        currentState = GameUnitView.State.RUN;
-                        resetStateTime();
-                    }
-                } else {
-                    if (currentState != GameUnitView.State.WALKING) {
-                        currentState = GameUnitView.State.WALKING;
-                        resetStateTime();
-                    }
+//                if (!model.isHited()) {
+                if (currentState != State.RUN) {
+                    currentState = State.RUN;
+                    firstAttackIsEnd = false;
+                    resetStateTime();
                 }
+//                } else {
+//                    if (currentState != State.WALKING) {
+//                        currentState = State.WALKING;
+//                        firstAttackIsEnd = false;
+//                        resetStateTime();
+//                    }
+//                }
             } else if (model.isAttack() || model.isAttackBarricade()) {
                 if (model.isStay() == false) {
-                    if (currentState != GameUnitView.State.ATTACK) {
-                        currentState = GameUnitView.State.ATTACK;
+                    if (currentState != State.ATTACK && !firstAttackIsEnd) {
+                        currentState = State.ATTACK;
                         resetStateTime();
                     } else {
-                        if (attackAnimation.isAnimationFinished(stateTime)) {
-                            if (model.isAttack()) {
-                                controller.hit();
-                            } else if (model.isAttackBarricade()) {
-                                controller.hitBarricade();
+                        if (!firstAttackIsEnd) {
+                            if (attackAnimation.isAnimationFinished(stateTime)) {
+                                if (model.isAttack()) {
+                                    controller.hit();
+                                } else if (model.isAttackBarricade()) {
+                                    controller.hitBarricade();
+                                }
+                                firstAttackIsEnd = true;
+                                resetStateTime();
                             }
-//                            currentState = GameUnitView.State.STAY;
-//                            model.setIsStay(true);
-                            resetStateTime();
+                        } else {
+                            if (currentState != State.ATTACK) {
+                                currentState = State.ATTACK;
+                                resetStateTime();
+                            } else {
+                                if (attackAnimation.isAnimationFinished(stateTime)) {
+                                    if (model.isAttack()) {
+                                        controller.hit();
+                                    } else if (model.isAttackBarricade()) {
+                                        controller.hitBarricade();
+                                    }
+                                    firstAttackIsEnd = false;
+                                    currentState = State.STAY;
+                                    model.setIsStay(true);
+                                    resetStateTime();
+                                }
+                            }
                         }
                     }
                 } else {
                     if (stayAnimation.isAnimationFinished(stateTime)) {
                         model.setIsStay(false);
+                        firstAttackIsEnd = false;
                     }
                 }
             } else {
-                if (!model.isHited()) {
-                    if (currentState != GameUnitView.State.RUN) {
-                        currentState = GameUnitView.State.RUN;
-                        resetStateTime();
-                    }
-                } else {
-                    if (currentState != GameUnitView.State.WALKING) {
-                        currentState = GameUnitView.State.WALKING;
-                        resetStateTime();
-                    }
+//                if (!model.isHited()) {
+                if (currentState != State.RUN) {
+                    currentState = State.RUN;
+                    firstAttackIsEnd = false;
+                    resetStateTime();
                 }
+//                } else {
+//                    if (currentState != State.WALKING) {
+//                        currentState = State.WALKING;
+//                        resetStateTime();
+//                    }
+//                }
                 model.setIsMove(true);
             }
         }
@@ -100,12 +123,18 @@ public class VikingView extends PlayerUnitView {
         walkAnimation = new Animation(0.12f, frames);
         frames.clear();
 
-        for (int i = 0; i < 4; i++)
-            frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Attack" + i)));
-        attackAnimation = new Animation(0.1f, frames);
+            frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Attack0")));
+            frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Attack0")));
+            frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Attack1")));
+            frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Attack1")));
+            frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Attack2")));
+            frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Attack3")));
+            frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Attack4")));
+            frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Attack5")));
+        attackAnimation = new Animation(0.05f, frames);
         frames.clear();
 
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < 5; i++)
             frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Die" + i)));
         dieAnimation = new Animation(0.1f, frames);
         frames.clear();
@@ -118,6 +147,7 @@ public class VikingView extends PlayerUnitView {
         for (int i = 0; i < 3; i++)
             frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Run" + i)));
         frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Run1")));
+//        frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Run0")));
         runAnimation = new Animation(0.11f, frames);
 //        runAnimation = new Animation(0.13f, frames);
         frames.clear();

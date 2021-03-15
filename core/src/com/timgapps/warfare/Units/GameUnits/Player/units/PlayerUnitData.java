@@ -91,8 +91,8 @@ public class PlayerUnitData extends UnitData {
                 name = "Viking";
                 damage = 14;
                 health = 30;
-                speed = 1.5f;
-                energyPrice = 15;
+                speed = 1.8f;
+                energyPrice = 25;
                 prepareTime = 10;
                 deltaX = -90;          // смещение изображения юнита относительно тела юнита (прямоугольника)
                 deltaY = 0;
