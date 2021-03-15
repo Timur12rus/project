@@ -211,7 +211,7 @@ public class GameManager {
     public boolean checkStarsCountForReward() {
         boolean isHaveReward = false;
         for (RewardForStarsData rewardForStarsData : rewardForStarsDataList)
-            if (savedGame.getStarsCount() >= rewardForStarsData.getStarsCount() && !rewardForStarsData.getIsReceived()) {
+            if (savedGame.getStarsCount() >= rewardForStarsData.getStarsCount() && !rewardForStarsData.isReceived()) {
 //                rewardForStarsData.setReceived();
                 isHaveReward = true;
             }
@@ -232,7 +232,7 @@ public class GameManager {
     // метод проверяет, имеется ли доступная награда за звезды
     public boolean isHaveReward() {
         for (RewardForStarsData rewardForStarsData : rewardForStarsDataList) {
-            if (starsCount >= rewardForStarsData.getStarsCount() && !rewardForStarsData.getIsReceived()) {     // если звезд больше, чем нужно для награды
+            if (starsCount >= rewardForStarsData.getStarsCount() && !rewardForStarsData.isReceived()) {     // если звезд больше, чем нужно для награды
                 return true;
             }
         }

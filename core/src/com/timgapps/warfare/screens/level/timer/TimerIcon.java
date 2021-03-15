@@ -74,6 +74,13 @@ public class TimerIcon extends Group {
         }
     }
 
+    @Override
+    public void act(float delta) {
+        if (levelScreen.getState() != LevelScreen.PAUSED) {
+            super.act(delta);
+        }
+    }
+
     public void startAppearanceAction() {
 //        addAction(Actions.moveBy(-icon.getWidth() - 100 - 200, 0, 2));
         addAction(Actions.moveBy(-icon.getWidth() - 100 - 200, 0, 1, new Interpolation.Elastic(5, 0.8f, 2, 0.4f)));
@@ -112,59 +119,6 @@ public class TimerIcon extends Group {
         isStarted = true;
         time = TIME_TO_WAVE;
         startAppearanceAction();
-//        addAction(Actions.fadeIn(1.6f));
-
-    }
-
-
-    public void startAction() {
-        actionIsStarted = true;
-        MoveToAction moveToActionOne = new MoveToAction();
-        moveToActionOne.setPosition(iconPosX - 6, iconPosY - 6);
-        moveToActionOne.setDuration(0.5f);
-        moveToActionOne.setInterpolation(Interpolation.smooth);
-
-        SizeToAction sizeToActionOne = new SizeToAction();
-        sizeToActionOne.setSize(icon.getWidth() + 12, icon.getHeight() + 12);
-        sizeToActionOne.setDuration(0.5f);
-        sizeToActionOne.setInterpolation(Interpolation.smooth);
-
-        ParallelAction parallelActionOne = new ParallelAction();
-        parallelActionOne.addAction(moveToActionOne);
-        parallelActionOne.addAction(sizeToActionOne);
-
-        MoveToAction moveToActionTwo = new MoveToAction();
-        moveToActionTwo.setPosition(iconPosX, iconPosY);
-        moveToActionTwo.setDuration(0.5f);
-        moveToActionTwo.setInterpolation(Interpolation.smooth);
-
-        SizeToAction sizeToActionTwo = new SizeToAction();
-        sizeToActionTwo.setSize(icon.getWidth(), icon.getHeight());
-        sizeToActionTwo.setDuration(0.5f);
-        sizeToActionTwo.setInterpolation(Interpolation.smooth);
-
-        ParallelAction parallelActionTwo = new ParallelAction();
-        parallelActionTwo.addAction(moveToActionTwo);
-        parallelActionTwo.addAction(sizeToActionTwo);
-
-        SequenceAction sequenceAction = new SequenceAction();
-        sequenceAction.addAction(parallelActionOne);
-        sequenceAction.addAction(parallelActionTwo);
-
-        RepeatAction repeatAction = new RepeatAction();
-        repeatAction.setCount(RepeatAction.FOREVER);
-        repeatAction.setAction(sequenceAction);
-        icon.addAction(repeatAction);
-    }
-
-    public void reset() {
-//        setVisible(false);
-        isStarted = false;
-        isStop = false;
-        isEnd = false;
-        actionIsStarted = false;
-        clearActions();
-        this.toFront();
     }
 
     public boolean isStarted() {

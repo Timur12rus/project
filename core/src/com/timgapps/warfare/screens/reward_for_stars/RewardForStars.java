@@ -64,7 +64,7 @@ public class RewardForStars extends Group {
         starsCount = gameManager.getSavedGame().getStarsCount();
 
         Label.LabelStyle labelStyle = new Label.LabelStyle();
-        if (data.getIsReceived()) {
+        if (data.isReceived()) {
             labelStyle.fontColor = Color.LIGHT_GRAY;
         } else {
             labelStyle.fontColor = Color.WHITE;
@@ -90,7 +90,7 @@ public class RewardForStars extends Group {
                 deltaX = -10;
                 break;
             case RewardForStarsData.REWARD_BOX:
-                if (!data.getIsReceived()) {            // если награда (сундук) не получена
+                if (!data.isReceived()) {            // если награда (сундук) не получена
                     rewardImage = new Image(Warfare.atlas.findRegion(data.getImageString()));
                 } else {        // в противном случае
                     rewardImage = new Image(Warfare.atlas.findRegion("boxImage4"));
@@ -137,7 +137,7 @@ public class RewardForStars extends Group {
             }
         }
 
-        if (data.getIsReceived()) {         // если награда получена
+        if (data.isReceived()) {         // если награда получена
             receivedImg.setVisible(true);
         } else {
             receivedImg.setVisible(false);
@@ -183,7 +183,7 @@ public class RewardForStars extends Group {
     }
 
     public void redraw() {
-        if (data.getIsReceived()) {         // если награда получена
+        if (data.isReceived()) {         // если награда получена
             receivedImg.setVisible(true);
         } else {
             receivedImg.setVisible(false);
@@ -200,8 +200,11 @@ public class RewardForStars extends Group {
     }
 
     private void showToast() {
-        if (!data.getIsChecked()) {     // если награда не доступна
+        if (!data.isReceived()) {     // если награда не доступна
+//        if (!data.getIsChecked()) {     // если награда не доступна
             rewardForStarsScreen.showToast(data.getStarsCount());
+        } else {
+            rewardForStarsScreen.showToast("Reward has already been received");
         }
 
         //TODO сделать надпсь "награда уже получена"

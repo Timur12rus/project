@@ -33,7 +33,7 @@ class StarsBar extends Actor {
 
     // метод перерисовывает элемент
     public void redraw(int starsCount) {
-        this.isReceived = data.getIsReceived(); // получена ли награда
+        this.isReceived = data.isReceived(); // получена ли награда
         this.starsCount = starsCount;
         this.rewardStarsCount = data.getStarsCount();
         deltaCountStars = starsCount - lastRewardCountStars;

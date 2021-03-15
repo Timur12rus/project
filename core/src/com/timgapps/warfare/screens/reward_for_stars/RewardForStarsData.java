@@ -71,7 +71,7 @@ public class RewardForStarsData implements Serializable {
     }
 
     // получена ли награда
-    public boolean getIsReceived() {
+    public boolean isReceived() {
         return isReceived;
     }
 

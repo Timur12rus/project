@@ -132,7 +132,8 @@ public class RewardForStarsScreen extends StageGame implements ScreenCloser {
         table.setHeight(360);
         table.add(scroller).fill().expand();
         // установим позицию таблицы со скроллом со списком наград за звезды (
-        table.setPosition(tableScrollPosX, 240);
+        table.setPosition(tableScrollPosX, 200);
+//        table.setPosition(tableScrollPosX, 240);
         addChild(table);
         addChild(titleLabel);
         addChild(textLabel);
@@ -223,7 +224,6 @@ public class RewardForStarsScreen extends StageGame implements ScreenCloser {
         } else {
             starsPanelSmall.setVisible(true);
         }
-
         group.addActor(starsPanelSmall);
         scrollTable.add(group).width(groupWidth).height(360);
     }
@@ -234,7 +234,7 @@ public class RewardForStarsScreen extends StageGame implements ScreenCloser {
     }
 
     private void hideHilite() {
-        
+
     }
 
     public CoinsPanel getCoinsPanel() {
@@ -250,12 +250,17 @@ public class RewardForStarsScreen extends StageGame implements ScreenCloser {
     }
 
     public void showToast(int starsCount) {
+        String toastText = "Collect " + starsCount + " stars for reward";
+        showToast(toastText);
+    }
+
+    public void showToast(String toastText) {
         if (isStartToastAction == false) {
 //            System.out.println("show Toast!");
             Label.LabelStyle labelStyle = new Label.LabelStyle();
             labelStyle.fontColor = Color.RED;
             labelStyle.font = Warfare.font40;
-            String toastText = "Collect " + starsCount + " stars for reward";
+//            String toastText = "Collect " + starsCount + " stars for reward";
             final Label toastLabel = new Label("" + toastText, labelStyle);
             toastLabel.setPosition((Warfare.V_WIDTH - toastLabel.getWidth()) / 2, Warfare.V_HEIGHT / 2);
             addChild(toastLabel);
