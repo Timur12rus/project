@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Vector2;
 import com.boontaran.DataManager;
+import com.timgapps.warfare.Utils.Setting;
 import com.timgapps.warfare.screens.map.gui_elements.CoinsPanel;
 import com.timgapps.warfare.screens.map.windows.team_upgrade_window.team_unit.TeamUnit;
 import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnitData;
@@ -180,6 +181,14 @@ public class GameManager {
         giftTimeSecond = savedGame.getGiftTimeSecond();     // получим сохраненное время для получения второго подарка
         for (int i = 0; i < savedGame.getLevelIconDataList().size(); i++) {
             levelIcons.add(new LevelIcon(savedGame.getLevelIconDataList().get(i)));
+        }
+
+        // Для теста
+        if (Setting.DEBUG_GAME) {
+            for (LevelIcon levelIcon : levelIcons) {
+                levelIcon.getData().setActive();
+                levelIcon.getData().setFinished();
+            }
         }
         /** получи кол-во здоровья ОСАДНОЙ БАШНИ **/
         towerHealth = 50;

@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class ArcherController extends PlayerUnitController implements PlayerShooterAi {
     private Direction verticalDirectionMovement = Direction.NONE;
-    private final float ATTACK_DISTANCE = 300;
+    private final float ATTACK_DISTANCE = 320;
     private final float DISTANCE_TO_BARRICADE = 300;
     private final float MIN_DISTANCE = 48;
     private boolean isReachedEnemyYPos;

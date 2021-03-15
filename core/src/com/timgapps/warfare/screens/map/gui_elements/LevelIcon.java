@@ -41,7 +41,6 @@ public class LevelIcon extends Group {
 
         /** инициализируем объект данных уровня **/
         this.data = data;
-        this.isActive = isActive;
 
         /** неактивный значок **/
         inactiveLevelIcon = new Image(Warfare.atlas.findRegion("levelIcon_inactive"));

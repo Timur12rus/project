@@ -31,6 +31,10 @@ public class MonsterTimer {
         }
     }
 
+    public boolean isTimerIconStarted() {
+        return timerIcon.isStarted();
+    }
+
     public void hide() {
         waveIsStarted = false;
         timerIcon.clear();

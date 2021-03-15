@@ -37,11 +37,8 @@ import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnitModel;
 import com.timgapps.warfare.Units.GameUnits.Player.units.UnitCreator;
 import com.timgapps.warfare.Units.GameUnits.unitTypes.PlayerUnits;
 import com.timgapps.warfare.Warfare;
-
 import java.util.ArrayList;
 import java.util.Random;
-
-import javax.management.monitor.MonitorSettingException;
 
 public class LevelScreen extends StageGame {
     // добавим несколько констант для хранения состояния игры
@@ -737,6 +734,8 @@ public class LevelScreen extends StageGame {
     }
 
     public void levelFailed() {
+        // скрываем значок таймера волны монстров, если он на экране
+        hideMonsterTimer();
         state = LEVEL_FAILED;
         fade.setVisible(true);         // затемняем задний план
         unitButtons.hide();
@@ -753,8 +752,6 @@ public class LevelScreen extends StageGame {
         isCompleted = true;
         fade.setVisible(true);     // затемняем задний план
         unitButtons.hide();
-//        monsterTimer.stop();
-//        countDownTimer.stop();
         hud.hideEnergyPanel();
         int starsCount = calculateStarsCount();         // вычисляем кол-во звезд полученных за уровень
         int starsOfLevel = gameManager.getLevelIcons().get(levelNumber - 1).getData().getStarsCount();  // кол-во звезд у уровня
@@ -764,6 +761,9 @@ public class LevelScreen extends StageGame {
         gameManager.addCoinsCount(gameManager.getLevelIcons().get(levelNumber - 1).getData().getCoinsCount());
 //        gameManager.setCoinsCount(coinsCount + getRewardCoinsCount());
         gameManager.addScoreCount(getRewardScoreCount());
+
+        // скрываем значок таймера волны монстров, если он на экране
+        hideMonsterTimer();
 
         /** добавим к панели звёзд полученное кол-во звёзд */
 //        если получили звезд за уровень больше чем было, то прибавим это кол-во к общему кол-ву звезд у игрока
@@ -786,6 +786,12 @@ public class LevelScreen extends StageGame {
         float towerHealth = siegeTower.getHealth();         // кол-во здоровья у башни после окончания уровня
         float fullTowerHealth = siegeTower.getFullHealth(); // кол-во полного здоровья у башни
         levelCreator.showLevelCompletedScreen(starsCount, towerHealth / fullTowerHealth * 100);
+    }
+
+    private void hideMonsterTimer() {
+        if (monsterTimer.isTimerIconStarted()) {
+            monsterTimer.hide();
+        }
     }
 
     public boolean isCompleted() {
