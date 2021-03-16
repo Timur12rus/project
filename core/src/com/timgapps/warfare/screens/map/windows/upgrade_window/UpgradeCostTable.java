@@ -6,7 +6,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.timgapps.warfare.Units.GameUnits.unitTypes.PlayerUnits;
 import com.timgapps.warfare.Warfare;
+import com.timgapps.warfare.screens.map.windows.team_upgrade_window.team_unit.TeamUnit;
 
 // горизонтальная таблица с кол-вом ресурсов для апгрейда
 public class UpgradeCostTable extends Table {
@@ -15,7 +17,7 @@ public class UpgradeCostTable extends Table {
     private Label foodCostLabel, ironCostLabel, woodCostLabel, upgradeToLevelLabel;
     private int foodCostValue, ironCostValue, woodCostValue;        // значение количества ресурсов, необходимое для апргрейда
     private Image foodIcon, ironIcon, woodIcon;
-//    private String upgradeToLevelText = "Upgrade to Level ";
+    //    private String upgradeToLevelText = "Upgrade to Level ";
     private int nextUnitLevel;          // номер следующего уровня юнита
 
     public UpgradeCostTable() {
@@ -34,10 +36,6 @@ public class UpgradeCostTable extends Table {
         ironIcon = new Image(Warfare.atlas.findRegion("iron_icon"));
         woodIcon = new Image(Warfare.atlas.findRegion("wood_icon"));
 
-        foodCostValue = 2;
-        ironCostValue = 2;
-        woodCostValue = 1;
-
         foodCostLabel = new Label("" + foodCostValue, labelStyle);
         ironCostLabel = new Label("" + ironCostValue, labelStyle);
         woodCostLabel = new Label("" + woodCostValue, labelStyle);
@@ -55,10 +53,18 @@ public class UpgradeCostTable extends Table {
     }
 
 
-    public void redraw() {
+    public void redraw(TeamUnit teamUnit) {
+        foodCostValue = teamUnit.getUnitData().getFoodValueForUpgrade();
+        ironCostValue = teamUnit.getUnitData().getIronValueForUpgrade();
+        woodCostValue = teamUnit.getUnitData().getWoodValueForUpgrade();
         foodCostLabel.setText("" + foodCostValue);
         ironCostLabel.setText("" + ironCostValue);
         woodCostLabel.setText("" + woodCostValue);
+        if (teamUnit.getUnitData().getUnitId().equals(PlayerUnits.Rock)) {
+            setVisible(false);
+        } else {
+            setVisible(true);
+        }
     }
 
     public int getFoodCostValue() {

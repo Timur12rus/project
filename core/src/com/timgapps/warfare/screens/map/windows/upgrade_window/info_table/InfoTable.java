@@ -143,7 +143,7 @@ public class InfoTable extends Table {
 //        healthAddValueLabel.clearActions();
         healthValueLabel.setText("" + data.getHealth());        // текст значения здоровья
         damageValueLabel.setText("" + data.getDamage());        // текст значения урон
-        speedValueLabel.setText("" + (int) data.getSpeed() * 10 * 2);       // текст значения скорость
+        speedValueLabel.setText("" + (int) (data.getSpeed() * 10));       // текст значения скорость
         timePrepearValue = data.getPrepareTime();           // время приготовления
         timePrepearValueLabel.setText("" + timePrepearValue);
 //        healthAddValueLabel.addAction(Actions.moveBy(48, 0));

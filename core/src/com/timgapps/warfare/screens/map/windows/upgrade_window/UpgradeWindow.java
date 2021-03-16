@@ -259,6 +259,8 @@ public class UpgradeWindow extends Group implements UpgradeEffectStarter {
         blockTable.setVisible(false);          // скроем сообщение "соберите кол-во звезд"
         bottomGroup.hideHireButton();            // скрываем кнопку "нанять" и надпись "нанять этого юнита"
         bottomGroup.hideUpgradeButton();        // скрываем кнопку "апгрейда" и надпись "улучшить до уровня"
+        // обновим таблицу со стоимостью апгрейда
+        upgradeCostTable.redraw(teamUnit);
         upgradeCostTable.setVisible(false);
         // добавим объект - изображение юнита со значком уровня юнита
         imageContainer.clear();
@@ -277,9 +279,7 @@ public class UpgradeWindow extends Group implements UpgradeEffectStarter {
         boolean isUnlock = teamUnit.getUnitData().isUnlock();
         if (isUnlock == true) {               // если юнит разблокирован
             if (teamUnit.getUnitData().isHired()) {          // если юнит "призван" (куплен, не заблокирован)
-//                unitImage.showLevelIcon();
                 int i = 0;
-
                 if (gameManager.getCollection().contains(teamUnit)) {
                     System.out.println("EQUALS !");
                     if (teamUnit.getUnitData().isHired()) {
@@ -301,6 +301,7 @@ public class UpgradeWindow extends Group implements UpgradeEffectStarter {
                     checkRecourcesAndCoinsCount();
                     infoTable.showUpgradeLabels();
                     upgradeCostTable.setVisible(true);
+                    upgradeCostTable.redraw(teamUnit);
                     bottomGroup.setNextLevel(nextUnitLevel);
                     bottomGroup.hideHireButton();
                     bottomGroup.showUpgradeButton();

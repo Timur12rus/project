@@ -16,6 +16,9 @@ public class PlayerUnitData extends UnitData {
     private int prepareTime;        // время приготовления
     private boolean isHired;           // призван ли юнит (т.е. доступен ли он)
     private int unitPrice;              // цена юнита, чтобы его купить
+    private int foodValueForUpgrade;
+    private int ironValueForUpgrade;
+    private int woodValueForUpgrade;
 
     public PlayerUnitData(PlayerUnits unitId) {
         this.unitId = unitId;
@@ -40,6 +43,9 @@ public class PlayerUnitData extends UnitData {
                 unitLevel = 1;
                 isUnlock = true;
                 isHired = true;     // куплен
+                foodValueForUpgrade = 2;
+                ironValueForUpgrade = 1;
+                woodValueForUpgrade = 1;
                 break;
             case Archer:
                 name = "Archer";
@@ -55,6 +61,9 @@ public class PlayerUnitData extends UnitData {
                 starsCount = 4;
                 unitLevel = 1;
                 isHired = true;     // куплен
+                foodValueForUpgrade = 2;
+                ironValueForUpgrade = 1;
+                woodValueForUpgrade = 2;
                 break;
             case Gnome:
                 name = "Gnome";
@@ -70,6 +79,9 @@ public class PlayerUnitData extends UnitData {
                 starsCount = 24;
                 unitLevel = 1;
                 isHired = true;     // куплен
+                foodValueForUpgrade = 2;
+                ironValueForUpgrade = 2;
+                woodValueForUpgrade = 1;
                 break;
             case Barbarian:
                 name = "Barbarian";
@@ -86,6 +98,9 @@ public class PlayerUnitData extends UnitData {
                 unitLevel = 1;
                 isUnlock = true;
                 unitPrice = 250;             // стоимость юнита
+                foodValueForUpgrade = 2;
+                ironValueForUpgrade = 1;
+                woodValueForUpgrade = 1;
                 break;
             case Viking:
                 name = "Viking";
@@ -102,7 +117,9 @@ public class PlayerUnitData extends UnitData {
                 unitLevel = 1;
                 unitPrice = 200;               // стоимость юнита
                 isHired = true;     // куплен
-//                isUnlock = true;     // разблокирован
+                foodValueForUpgrade = 2;
+                ironValueForUpgrade = 2;
+                woodValueForUpgrade = 2;
                 break;
             case Shooter:
                 name = "Shooter";
@@ -119,14 +136,16 @@ public class PlayerUnitData extends UnitData {
                 starsCount = 48;
                 unitLevel = 1;
                 isHired = true;     // куплен
-//                isUnlock = true;    // разблокирован
                 unitPrice = 200;               // стоимость юнита
+                foodValueForUpgrade = 2;
+                ironValueForUpgrade = 2;
+                woodValueForUpgrade = 2;
                 break;
             case Knight:
                 name = "Knight";
                 damage = 15;
-                health = 50;
-                speed = 0.4f;
+                health = 60;
+                speed = 0.6f;
                 energyPrice = 25;
                 prepareTime = 18;
                 deltaX = -142;
@@ -136,6 +155,9 @@ public class PlayerUnitData extends UnitData {
                 starsCount = 39;
                 unitLevel = 1;
                 isHired = true;     // куплен
+                foodValueForUpgrade = 2;
+                ironValueForUpgrade = 2;
+                woodValueForUpgrade = 1;
                 break;
             case Rock:
                 name = "Stone";
@@ -172,6 +194,18 @@ public class PlayerUnitData extends UnitData {
         if (unitId.equals(PlayerUnits.Thor)) {
             setUnlock();        // разблокируем юнита "THOR" , первый доступный юнит
         }
+    }
+
+    public int getFoodValueForUpgrade() {
+        return foodValueForUpgrade;
+    }
+
+    public int getWoodValueForUpgrade() {
+        return woodValueForUpgrade;
+    }
+
+    public int getIronValueForUpgrade() {
+        return ironValueForUpgrade;
     }
 
     public int getUnitPrice() {
