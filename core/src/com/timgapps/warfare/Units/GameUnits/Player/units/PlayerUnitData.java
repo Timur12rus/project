@@ -88,7 +88,7 @@ public class PlayerUnitData extends UnitData {
                 damage = 20;
                 health = 25;
                 speed = 1.6f;
-                energyPrice = 20;
+                energyPrice = 15;
                 prepareTime = 12;
                 deltaX = -90;          // смещение изображения юнита относительно тела юнита (прямоугольника)
                 deltaY = 0;
@@ -126,7 +126,7 @@ public class PlayerUnitData extends UnitData {
                 damage = 2;
                 health = 24;
                 speed = 0.8f;
-                energyPrice = 20;
+                energyPrice = 25;
                 prepareTime = 25;
                 deltaX = -100;
 //                deltaX = -174;
@@ -146,7 +146,7 @@ public class PlayerUnitData extends UnitData {
                 damage = 15;
                 health = 60;
                 speed = 0.6f;
-                energyPrice = 25;
+                energyPrice = 30;
                 prepareTime = 18;
                 deltaX = -142;
                 deltaY = -24;
@@ -165,7 +165,8 @@ public class PlayerUnitData extends UnitData {
                 health = 50;
                 speed = 0;
                 starsCount = 1;
-                energyPrice = 8;
+                energyPrice = 6;
+//                energyPrice = 8;
                 prepareTime = 30;
                 unitLevel = 1;
                 isHired = true;     // куплен

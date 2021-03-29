@@ -137,7 +137,7 @@ public class GoblinUnitView extends EnemyUnitView {
         frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Walk2")));
         frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Walk1")));
         frames.add(new TextureRegion(Warfare.atlas.findRegion(name + "Walk0")));
-        walkAnimation = new Animation(0.09f, frames);
+        walkAnimation = new Animation(0.08f, frames);
         frames.clear();
 
         System.out.println(name + "Die");

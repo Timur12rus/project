@@ -107,7 +107,7 @@ public class GetRewardScreen extends StageGame implements ScreenCloser {
      **/
     private void addRewardUnitToTeam(int i) {
 //        unlockRewardForStars(i);                                               // разблокируем награду
-        gameManager.getCollection().get(i).getUnitData().setUnlock();     // снимаем блокировку юнита
+        gameManager.getCollection().get(i).getUnitData().setUnlock();            // снимаем блокировку юнита
         gameManager.getCollection().get(i).getUnitImageButton().unlock();
         gameManager.getCollection().get(i).getUnitImageButton().redraw();
 
@@ -121,7 +121,6 @@ public class GetRewardScreen extends StageGame implements ScreenCloser {
             gameManager.getSavedGame().getCollectionDataList().remove(i);
         } else {
             // TODO сделать чтобы юнит добавлялся в коллекцию, если в команде больше 5 юнитов
-//            //
 //            gameManager.getCollection().get(i).getUnitData().setUnlock();
 //            gameManager.getTeam().add(gameManager.getCollection().get(i));  // добавляем в команду полученный юнит из коллекции
 //            gameManager.getSavedGame().getTeamDataList().add(gameManager.getSavedGame().getCollectionDataList().get(i));
@@ -132,7 +131,8 @@ public class GetRewardScreen extends StageGame implements ScreenCloser {
     public void show() {
         super.show();
         backButton.addAction(Actions.fadeOut(0));
-        if (indexOfReward != 2) {
+        if (gameManager.getRewardForStarsDataList().get(indexOfReward).getTypeOfReward() != RewardForStarsData.REWARD_BOX) {
+//        if (indexOfReward != 2) {
             flashEffect = new FlashEffect(this, gameManager, indexOfReward,
                     new Vector2(getWidth() / 2, getHeight() / 2));
             flashEffect.start();
@@ -141,6 +141,7 @@ public class GetRewardScreen extends StageGame implements ScreenCloser {
                     new Vector2(getWidth() / 2, getHeight() / 2));
             flashEffect.start();
         }
+        coinsPanel.setPosition(getWidth() - coinsPanel.getWidth() - 32, getHeight() - coinsPanel.getHeight() - 32);
         addChild(coinsPanel);
     }
 

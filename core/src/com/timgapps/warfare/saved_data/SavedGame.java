@@ -33,7 +33,6 @@ public class SavedGame implements Serializable {
     private boolean isHaveFireBooster;
     private boolean isHaveFullRewardsForStars;      // игрок имеет все награды за звезды
 
-
     public SavedGame() {
 //    public SavedGame(ArrayList<TeamEntity> team) {
 //        this.team = team;
@@ -54,21 +53,28 @@ public class SavedGame implements Serializable {
         levelIconDataList.add(new LevelIconData(7, 15, 30, LevelIcon.MEDIUM, true, false));
         levelIconDataList.add(new LevelIconData(8, 15, 30, LevelIcon.MEDIUM, true, false));
         levelIconDataList.add(new LevelIconData(9, 15, 30, LevelIcon.MEDIUM, true, false));
-        levelIconDataList.add(new LevelIconData(10, 15, 30, LevelIcon.MEDIUM, true, false));
+        levelIconDataList.add(new LevelIconData(10, 15, 30, LevelIcon.MEDIUM, true, false));        // уровень сложности правилыный
         levelIconDataList.add(new LevelIconData(11, 15, 30, LevelIcon.MEDIUM, true, false));
         levelIconDataList.add(new LevelIconData(12, 15, 30, LevelIcon.MEDIUM, true, false));
-        levelIconDataList.add(new LevelIconData(13, 15, 30, LevelIcon.MEDIUM, true, false));
-        levelIconDataList.add(new LevelIconData(14, 15, 30, LevelIcon.MEDIUM, true, false));
-        levelIconDataList.add(new LevelIconData(15, 15, 30, LevelIcon.MEDIUM, true, false));
-        levelIconDataList.add(new LevelIconData(16, 15, 30, LevelIcon.MEDIUM, true, false));
+        levelIconDataList.add(new LevelIconData(13, 15, 30, LevelIcon.HARD, true, false));
+
+        levelIconDataList.add(new LevelIconData(14, 15, 30, LevelIcon.EASY, true, false));          // уровень сложности правильный(много zombie1, но их уничтожит огненные шары)
+
+        levelIconDataList.add(new LevelIconData(15, 15, 30, LevelIcon.EASY, true, false));           // уровень сложности правилыный
+        levelIconDataList.add(new LevelIconData(16, 15, 30, LevelIcon.MEDIUM, true, false));         // уровень сложности правилыный
         levelIconDataList.add(new LevelIconData(17, 15, 30, LevelIcon.MEDIUM, true, false));
-        levelIconDataList.add(new LevelIconData(18, 15, 30, LevelIcon.MEDIUM, true, false));
-        levelIconDataList.add(new LevelIconData(19, 15, 30, LevelIcon.MEDIUM, true, false));
+
+        levelIconDataList.add(new LevelIconData(18, 15, 30, LevelIcon.EASY, true, false));          // уровень сложности правильный, уничтожаем часть врагов огненными шарами
+
+        levelIconDataList.add(new LevelIconData(19, 15, 30, LevelIcon.EASY, true, false));           // уровень сложности правильный, уничтожаем часть врагов огненными шарами
+
         levelIconDataList.add(new LevelIconData(20, 15, 30, LevelIcon.MEDIUM, true, false));
         levelIconDataList.add(new LevelIconData(21, 15, 30, LevelIcon.MEDIUM, true, false));
-        levelIconDataList.add(new LevelIconData(22, 15, 30, LevelIcon.MEDIUM, true, false));
+
+        levelIconDataList.add(new LevelIconData(22, 15, 30, LevelIcon.EASY, true, false));        // уровень сложности правильный, уничтожаем часть врагов огненными шарами
+
         levelIconDataList.add(new LevelIconData(23, 15, 30, LevelIcon.MEDIUM, true, false));
-        levelIconDataList.add(new LevelIconData(24, 15, 30, LevelIcon.MEDIUM, true, false));
+        levelIconDataList.add(new LevelIconData(24, 15, 30, LevelIcon.HARD, true, false));      //
         levelIconDataList.add(new LevelIconData(25, 15, 30, LevelIcon.MEDIUM, true, false));
         levelIconDataList.add(new LevelIconData(26, 15, 30, LevelIcon.MEDIUM, true, false));
         levelIconDataList.add(new LevelIconData(27, 15, 30, LevelIcon.MEDIUM, true, false));

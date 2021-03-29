@@ -276,7 +276,8 @@ public class RewardForStarsScreen extends StageGame implements ScreenCloser {
             alphaActionStart.setAlpha(1);
             alphaActionStart.setDuration(0.02f);
             MoveToAction mta = new MoveToAction();
-            mta.setPosition((Warfare.V_WIDTH - toastLabel.getWidth()) / 2, Warfare.V_HEIGHT / 2 + 210);
+            mta.setPosition((getWidth() - toastLabel.getWidth()) / 2, getHeight() / 2 + 210);
+//            mta.setPosition((Warfare.V_WIDTH - toastLabel.getWidth()) / 2, Warfare.V_HEIGHT / 2 + 210);
 //            mta.setPosition(Warfare.V_WIDTH / 2 - 200, Warfare.V_HEIGHT / 2 + 210);
             mta.setDuration(0.7f);
             mta.setInterpolation(Interpolation.pow3Out);

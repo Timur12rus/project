@@ -124,6 +124,6 @@
   <object id="40" name="28" x="1632" y="448" width="32" height="32"/>
   <object id="41" name="29" x="1600" y="288" width="32" height="32"/>
   <object id="42" name="30" x="1632" y="96" width="32" height="32"/>
-  <object id="43" name="27" x="1664" y="640" width="32" height="32"/>
+  <object id="43" name="27" x="1632" y="640" width="32" height="32"/>
  </objectgroup>
 </map>

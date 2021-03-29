@@ -1,6 +1,89 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.2" orientation="orthogonal" renderorder="left-down" width="96" height="10" tilewidth="16" tileheight="16" nextobjectid="8">
- <objectgroup name="zombie">
-  <object id="5" x="800" y="64" width="16" height="16"/>
+<map version="1.0" tiledversion="1.0.2" orientation="orthogonal" renderorder="left-down" width="96" height="10" tilewidth="16" tileheight="16" nextobjectid="395">
+ <objectgroup name="tower">
+  <object id="9" x="16" y="16" width="80" height="96"/>
+ </objectgroup>
+ <objectgroup name="screen">
+  <object id="8" x="8.9697" y="189.909" width="1280" height="144"/>
+ </objectgroup>
+ <objectgroup name="barricade">
+  <object id="10" x="1050" y="-53" width="128" height="32"/>
+ </objectgroup>
+ <objectgroup name="ZombieWait1">
+  <object id="345" x="850.667" y="103.333" width="16" height="16"/>
+  <object id="346" x="1104" y="64" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup name="ZombieWait1_bonus">
+  <object id="358" x="946" y="23" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup name="Zombie2">
+  <object id="343" x="1008" y="75" width="16" height="16"/>
+  <object id="344" x="915" y="92" width="16" height="16"/>
+  <object id="350" x="1344" y="80" width="16" height="16"/>
+  <object id="353" x="1696" y="71" width="16" height="16"/>
+  <object id="357" x="784" y="86" width="16" height="16"/>
+  <object id="375" x="2928" y="32" width="16" height="16"/>
+  <object id="376" x="3104" y="-32" width="16" height="16"/>
+  <object id="377" x="2608" y="80" width="16" height="16"/>
+  <object id="386" x="4368" y="32" width="16" height="16"/>
+  <object id="388" x="4096" y="-48" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup name="Zombie1">
+  <object id="351" x="1504" y="54" width="16" height="16"/>
+  <object id="378" x="3056" y="48" width="16" height="16"/>
+  <object id="379" x="3248" y="32" width="16" height="16"/>
+  <object id="389" x="4512" y="-32" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup name="Zombie1_bonus"/>
+ <objectgroup name="ZombieRunner1_bonus">
+  <object id="368" x="5232" y="48" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup name="ZombieRunner1">
+  <object id="369" x="5632" y="16" width="16" height="16"/>
+  <object id="370" x="5968" y="52" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup name="Ork1">
+  <object id="354" x="1808" y="39" width="16" height="16"/>
+  <object id="364" x="2048" y="54" width="16" height="16"/>
+  <object id="365" x="1649" y="25" width="16" height="16"/>
+  <object id="366" x="1760" y="96" width="16" height="16"/>
+  <object id="367" x="1888" y="16" width="16" height="16"/>
+  <object id="373" x="2658" y="0" width="16" height="16"/>
+  <object id="374" x="2800" y="96"/>
+  <object id="380" x="3328" y="96" width="16" height="16"/>
+  <object id="381" x="3424" y="-32" width="16" height="16"/>
+  <object id="384" x="3984" y="64" width="16" height="16"/>
+  <object id="385" x="4224" y="-16" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup name="Ent1">
+  <object id="347" x="1216" y="48" width="16" height="16"/>
+  <object id="348" x="1408" y="108" width="16" height="16"/>
+  <object id="372" x="2482" y="64" width="16" height="16"/>
+  <object id="382" x="2560" y="-16" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup name="Skeleton1_bonus"/>
+ <objectgroup name="Goblin_bonus"/>
+ <objectgroup name="Goblin"/>
+ <objectgroup name="Skeleton1">
+  <object id="359" x="3840" y="48" width="16" height="16"/>
+  <object id="360" x="4072" y="86" width="16" height="16"/>
+  <object id="362" x="3952" y="12" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup name="Skeleton1_bonus"/>
+ <objectgroup name="Skeleton2">
+  <object id="356" x="2199" y="27" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup name="Skeleton2_bonus">
+  <object id="355" x="1952" y="96" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup name="Troll1">
+  <object id="394" x="864" y="60" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup name="Troll2">
+  <object id="383" x="3840" y="-16" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup name="Wizard">
+  <object id="390" x="6320" y="-48" width="16" height="16"/>
+  <object id="391" x="8224" y="-64" width="16" height="16"/>
  </objectgroup>
 </map>

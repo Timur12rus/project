@@ -248,7 +248,7 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
         // добавим панель с монетами на экран
         coinsPanel = gameManager.getCoinsPanel();
         /** !!!!!!!!!!!!!!!!!!!!! 10.03.2021
-        // coinsPanel.setCoinsCount(gameManager.getCoinsCount());
+         // coinsPanel.setCoinsCount(gameManager.getCoinsCount());
          **/
 
 //        coinsPanel.addAction(Actions.fadeIn(0.1f));
@@ -386,8 +386,15 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
 
     // метод обновляет позицию камеры
     public void updateCameraPosition() {
-        float levelIconPosX = levelIcons.get(selectedLevelId).getX();
-        float levelIconPosY = levelIcons.get(selectedLevelId).getY();
+        float levelIconPosX;
+        float levelIconPosY;
+        try {
+            levelIconPosX = levelIcons.get(selectedLevelId).getX();
+            levelIconPosY = levelIcons.get(selectedLevelId).getY();
+        } catch (Exception e) {
+            levelIconPosX = levelIcons.get(selectedLevelId - 1).getX();
+            levelIconPosY = levelIcons.get(selectedLevelId - 1).getY();
+        }
         if (levelIconPosX <= camera.viewportWidth / 2) {
             camera.position.x = camera.viewportWidth / 2;
         } else {

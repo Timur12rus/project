@@ -1,6 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.2" orientation="orthogonal" renderorder="left-down" width="96" height="10" tilewidth="16" tileheight="16" nextobjectid="8">
- <objectgroup name="zombie">
-  <object id="5" x="800" y="64" width="16" height="16"/>
+<map version="1.0" tiledversion="1.0.2" orientation="orthogonal" renderorder="left-down" width="96" height="10" tilewidth="16" tileheight="16" nextobjectid="247">
+ <objectgroup name="tower">
+  <object id="9" x="16" y="16" width="80" height="96"/>
+ </objectgroup>
+ <objectgroup name="screen">
+  <object id="8" x="8.9697" y="189.909" width="1280" height="144"/>
+ </objectgroup>
+ <objectgroup name="barricade">
+  <object id="10" x="1050" y="-53" width="128" height="32"/>
+ </objectgroup>
+ <objectgroup name="ZombieWait1"/>
+ <objectgroup name="ZombieWait1_bonus">
+  <object id="231" x="1154" y="66.3333" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup name="Zombie2">
+  <object id="234" x="1780" y="96" width="16" height="16"/>
+  <object id="235" x="1424" y="49" width="16" height="16"/>
+  <object id="228" x="1322.67" y="102.333" width="16" height="16"/>
+  <object id="242" x="1584" y="106" width="16" height="16"/>
+  <object id="246" x="2464" y="96" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup name="Zombie1">
+  <object id="243" x="1728" y="32" width="16" height="16"/>
+  <object id="244" x="2064" y="72" width="16" height="16"/>
+  <object id="245" x="2352" y="32" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup name="Zombie1_bonus"/>
+ <objectgroup name="ZombieRunner1_bonus">
+  <object id="233" x="2244" y="99" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup name="ZombieRunner1">
+  <object id="239" x="3992" y="70" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup name="Ent1">
+  <object id="223" x="951" y="48" width="16" height="16"/>
+  <object id="226" x="1293" y="32" width="16" height="16"/>
+  <object id="227" x="1216" y="86" width="16" height="16"/>
+  <object id="229" x="1408" y="118" width="16" height="16"/>
+  <object id="232" x="1632" y="66" width="16" height="16"/>
+  <object id="236" x="1872" y="54" width="16" height="16"/>
+  <object id="237" x="1024" y="112" width="16" height="16"/>
  </objectgroup>
 </map>

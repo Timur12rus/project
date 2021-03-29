@@ -1,6 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.2" orientation="orthogonal" renderorder="left-down" width="96" height="10" tilewidth="16" tileheight="16" nextobjectid="8">
- <objectgroup name="zombie">
-  <object id="5" x="800" y="64" width="16" height="16"/>
+<map version="1.0" tiledversion="1.0.2" orientation="orthogonal" renderorder="left-down" width="96" height="10" tilewidth="16" tileheight="16" nextobjectid="134">
+ <objectgroup name="tower">
+  <object id="9" x="16" y="16" width="80" height="96"/>
+ </objectgroup>
+ <objectgroup name="screen">
+  <object id="8" x="8.9697" y="189.909" width="1280" height="144"/>
+ </objectgroup>
+ <objectgroup name="barricade">
+  <object id="10" x="1050" y="-53" width="128" height="32"/>
+ </objectgroup>
+ <objectgroup name="ZombieWait1">
+  <object id="63" x="959" y="59" width="16" height="16"/>
+  <object id="110" x="824" y="96.3333" width="16" height="16"/>
+  <object id="131" x="688" y="64" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup name="Zombie1">
+  <object id="73" x="1499.33" y="41.6663" width="16" height="16"/>
+  <object id="74" x="1539.33" y="92" width="16" height="16"/>
+  <object id="75" x="1946" y="80" width="16" height="16"/>
+  <object id="85" x="2388.67" y="52.6667" width="16" height="16"/>
+  <object id="91" x="3271" y="50" width="16" height="16"/>
+  <object id="93" x="3931" y="22" width="16" height="16"/>
+  <object id="101" x="3741" y="64" width="16" height="16"/>
+  <object id="103" x="4701" y="48" width="16" height="16"/>
+  <object id="90" x="3021.42" y="67.909" width="16" height="16"/>
+  <object id="123" x="2036" y="33.3333" width="16" height="16"/>
+  <object id="128" x="4528" y="16" width="16" height="16"/>
+  <object id="130" x="624" y="85" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup name="ZombieRunner1_bonus"/>
+ <objectgroup name="ZombieRunner1">
+  <object id="89" x="6147.7" y="36.1818" width="16" height="16"/>
+  <object id="102" x="7047.85" y="-5.27269" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup name="Zombie2_bonus">
+  <object id="86" x="2601.67" y="77" width="16" height="16"/>
+  <object id="96" x="4334.58" y="43.3636" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup name="Zombie2">
+  <object id="72" x="1584" y="57.6667" width="16" height="16"/>
+  <object id="81" x="2178" y="50" width="16" height="16"/>
+  <object id="87" x="2868" y="86" width="16" height="16"/>
+  <object id="94" x="4071" y="64" width="16" height="16"/>
+  <object id="109" x="1342.67" y="77.3333" width="16" height="16"/>
+  <object id="114" x="3540" y="8" width="16" height="16"/>
+  <object id="68" x="1481.33" y="111.667" width="16" height="16"/>
+  <object id="127" x="5200" y="64" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup name="Skeleton1_bonus">
+  <object id="120" x="3444.64" y="70.9394" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup name="Skeleton1">
+  <object id="118" x="2477.33" y="83.3333" width="16" height="16"/>
+  <object id="125" x="5712" y="32" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup name="Ent1">
+  <object id="132" x="1088" y="94" width="16" height="16"/>
  </objectgroup>
 </map>

@@ -77,8 +77,6 @@ public class UnitCreator {
         for (EnemyUnits enemyUnit : EnemyUnits.values()) {
             if (unitName.contains(enemyUnit.name())) {
 //            if (unitName.equals(enemyUnit.name())) {      // 27.02.2020
-                System.out.println("Contains = true");
-                System.out.println("unitNAME !!! = " + unitName);
                 typeOfUnit = ENEMEY_UNIT;
                 break;
             }

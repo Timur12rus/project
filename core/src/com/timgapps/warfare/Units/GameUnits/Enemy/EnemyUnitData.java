@@ -67,7 +67,8 @@ public class EnemyUnitData extends UnitData {
             case Zombie3:
                 damage = 10;
                 health = 39;
-                speed = -2f;
+                speed = -2.5f;
+//                speed = -2f;
                 name = "Zombie3";
                 deltaX = -78;
                 deltaY = 0;
@@ -90,7 +91,8 @@ public class EnemyUnitData extends UnitData {
             case Skeleton2:
                 damage = 6;
                 health = 50;
-                speed = -1.2f;
+                speed = -1.8f;
+//                speed = -1.2f;
                 name = "Skeleton2";
                 deltaX = -100;
                 deltaY = 0;
@@ -142,7 +144,8 @@ public class EnemyUnitData extends UnitData {
                 break;
             case Ent1:
                 damage = 10;
-                health = 30;
+                health = 120;
+//                health = 30;
                 speed = -0.5f;
                 name = "Ent1";
                 deltaX = -78;
@@ -153,7 +156,8 @@ public class EnemyUnitData extends UnitData {
             case Goblin:
                 damage = 30;
                 health = 80;
-                speed = -1.1f;
+                speed = -2.5f;
+//                speed = -1.1f;
                 name = "Goblin";
                 deltaX = -42;
 //                deltaX = -78;

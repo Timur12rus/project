@@ -1,6 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.2" orientation="orthogonal" renderorder="left-down" width="96" height="10" tilewidth="16" tileheight="16" nextobjectid="8">
- <objectgroup name="zombie">
-  <object id="5" x="800" y="64" width="16" height="16"/>
+<map version="1.0" tiledversion="1.0.2" orientation="orthogonal" renderorder="left-down" width="96" height="10" tilewidth="16" tileheight="16" nextobjectid="293">
+ <objectgroup name="tower">
+  <object id="9" x="16" y="16" width="80" height="96"/>
+ </objectgroup>
+ <objectgroup name="screen">
+  <object id="8" x="8.9697" y="189.909" width="1280" height="144"/>
+ </objectgroup>
+ <objectgroup name="barricade">
+  <object id="10" x="1050" y="-53" width="128" height="32"/>
+ </objectgroup>
+ <objectgroup name="ZombieWait1">
+  <object id="288" x="1008" y="32" width="16" height="16"/>
+  <object id="289" x="944" y="96" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup name="ZombieWait1_bonus">
+  <object id="290" x="816" y="80" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup name="Zombie2"/>
+ <objectgroup name="Zombie1"/>
+ <objectgroup name="Zombie1_bonus"/>
+ <objectgroup name="ZombieRunner1_bonus">
+  <object id="267" x="5328" y="64" width="16" height="16"/>
+  <object id="284" x="10000" y="48" width="24" height="24"/>
+ </objectgroup>
+ <objectgroup name="ZombieRunner1">
+  <object id="239" x="2600" y="26" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup name="Ork1"/>
+ <objectgroup name="Ent1">
+  <object id="291" x="1120" y="80" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup name="Skeleton1_bonus">
+  <object id="292" x="1952" y="68" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup name="Goblin_bonus">
+  <object id="268" x="7952" y="44" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup name="Goblin">
+  <object id="285" x="14000" y="8" width="32" height="48"/>
+ </objectgroup>
+ <objectgroup name="Skeleton1"/>
+ <objectgroup name="Skeleton2"/>
+ <objectgroup name="Troll1">
+  <object id="286" x="768" y="50" width="16" height="16"/>
  </objectgroup>
 </map>
