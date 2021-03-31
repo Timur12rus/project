@@ -72,6 +72,7 @@ public class Warfare extends Game implements MyAssetsLoader {
         font10 = assetManager.get("font10.ttf", BitmapFont.class);
 //         если ресурсы загружены, создаем менеджер с данными о кол-ве ресурсов, монет, составе команды у игрока
         gameManager = new GameManager();
+//        loadingScreen.hide();
         if (gameManager.isHaveReward()) {
             showGetRewardScreen();
         } else {
@@ -116,10 +117,6 @@ public class Warfare extends Game implements MyAssetsLoader {
         font20.dispose();
         font10.dispose();
         super.dispose();
-    }
-
-    public void startGame() {
-
     }
 
     private void showMap(int coinsReward, int scoreReward) {
