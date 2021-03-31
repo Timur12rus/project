@@ -16,11 +16,13 @@ import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.boontaran.games.StageGame;
 import com.timgapps.warfare.screens.get_reward_screen.GetRewardScreen;
+import com.timgapps.warfare.screens.loading_screen.LoadingScreen;
+import com.timgapps.warfare.screens.loading_screen.MyAssetsLoader;
 import com.timgapps.warfare.screens.reward_for_stars.RewardForStarsScreen;
 import com.timgapps.warfare.screens.level.LevelScreen;
 import com.timgapps.warfare.screens.map.MapScreen;
 
-public class Warfare extends Game {
+public class Warfare extends Game implements MyAssetsLoader {
 
     public static final int V_WIDTH = 1280;      // 800        //1280
     public static final int V_HEIGHT = 720;     // 480        //720
@@ -39,8 +41,8 @@ public class Warfare extends Game {
     private MapScreen mapScreen;
     private RewardForStarsScreen rewardForStarsScreen;
     private GetRewardScreen getRewardScreen;
+    private LoadingScreen loadingScreen;
 
-    private Viewport mViewport;
     private OrthographicCamera mOrthographicCamera;
 
     private GameManager gameManager;
@@ -62,6 +64,22 @@ public class Warfare extends Game {
         super.pause();
     }
 
+    public void onAssetsLoaded() {  // получаем загруженный атлас текстур и шрифт
+        path_to_atlas = "images/pack.atlas";
+        atlas = assetManager.get(path_to_atlas, TextureAtlas.class);
+        font40 = assetManager.get("font40.ttf", BitmapFont.class);
+        font20 = assetManager.get("font20.ttf", BitmapFont.class);
+        font10 = assetManager.get("font10.ttf", BitmapFont.class);
+//         если ресурсы загружены, создаем менеджер с данными о кол-ве ресурсов, монет, составе команды у игрока
+        gameManager = new GameManager();
+        if (gameManager.isHaveReward()) {
+            showGetRewardScreen();
+        } else {
+            /** Вызываем метод для запуска карты уровней **/
+            showMap(0, 0);
+        }
+    }
+
     @Override
     public void create() {
         StageGame.setAppSize(V_WIDTH, V_HEIGHT);
@@ -69,59 +87,22 @@ public class Warfare extends Game {
         Gdx.input.setCatchBackKey(true);    // метод setCatchBackKey определяет перехватывать ли кнопку <-Back на устройстве
 
         mOrthographicCamera = new OrthographicCamera(V_WIDTH, V_HEIGHT);
-//        mOrthographicCamera = new OrthographicCamera(Gdxs.graphics.getWidth(), Gdx.graphics.getHeight());
-//        mViewport = new StretchViewport(V_WIDTH, V_HEIGHT, mOrthographicCamera); // The width and height do not need to be in pixels
         batch.setProjectionMatrix(mOrthographicCamera.combined);
 
-
 //        Locale locale = Locale.getDefault();
-//        bundle = I18NBundle.createBundle(Gdx.files.inte rnal("MyBundle"), locale); // передаем методу createBundle() путь к  папке с файлами конфигурации, в
+//        bundle = I18NBundle.createBundle(Gdx.files.internal("MyBundle"), locale); // передаем методу createBundle() путь к  папке с файлами конфигурации, в
         // которых будут прописаны пути к ресурсам, а также текущую локаль
         path_to_atlas = "images/pack.atlas";
-
         loadingAssets = true; // присваиваем переменной значение true;
         assetManager = new AssetManager();  //Создаем объект класса AssetManager
-        assetManager.load(path_to_atlas, TextureAtlas.class);  // методом load() выполняем сначала загрузку атласа(путь к атласу, и передаем класс TextureAtlas.class)
 
-
-        // Подготовим шрифт для работы
-        // Для начала создадим обработчик шрифта
-        FileHandleResolver resolver = new InternalFileHandleResolver();
-        assetManager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
-        assetManager.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
-
-        FreetypeFontLoader.FreeTypeFontLoaderParameter sizeParams = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
-        sizeParams.fontFileName = "fonts/Nickname.ttf";
-//        sizeParams.fontFileName = "fonts/GROBOLD.ttf";
-        sizeParams.fontParameters.size = 40;    // 40
-//        sizeParams.fontParameters.size = 40;    // 40
-        assetManager.load("font40.ttf", BitmapFont.class, sizeParams);
-
-        FreetypeFontLoader.FreeTypeFontLoaderParameter sizeParams20 = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
-        sizeParams20.fontFileName = "fonts/Nickname.ttf";
-//        sizeParams20.fontFileName = "fonts/GROBOLD.ttf";
-        sizeParams20.fontParameters.size = 30;    // 40
-//        sizeParams20.fontParameters.size = 30;    // 40
-        assetManager.load("font20.ttf", BitmapFont.class, sizeParams20);
-
-        FreetypeFontLoader.FreeTypeFontLoaderParameter sizeParams10 = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
-        sizeParams10.fontFileName = "fonts/Nickname.ttf";
-        sizeParams10.fontParameters.size = 18;
-        assetManager.load("font10.ttf", BitmapFont.class, sizeParams10);
+        loadingScreen = new LoadingScreen(assetManager, this);
+        setScreen(loadingScreen);
+        /*** 29.03.2021   **/
     }
 
     @Override
     public void render() {
-        // этот метод render() выполняется каждый раз, когда должна быть выполнена визуализиция
-        // обновление логики игры обычно пишут в этом методе
-
-        // проверяем загружены ли ресурсы
-        if (loadingAssets) {
-            if (assetManager.update()) {
-                loadingAssets = false;
-                onAssetsLoaded();
-            }
-        }
         super.render();
     }
 
@@ -131,32 +112,14 @@ public class Warfare extends Game {
         // в нем неоходимо освобождать занимаемую ресурсами память
         atlas.dispose();
         assetManager.dispose();
+        font40.dispose();
+        font20.dispose();
+        font10.dispose();
         super.dispose();
     }
 
-    private void onAssetsLoaded() {  // получаем загруженный атлас текстур и шрифт
-        atlas = assetManager.get(path_to_atlas, TextureAtlas.class);
+    public void startGame() {
 
-//        catatlas = assetManager.get("catatlas.atlas", TextureAtlas.class);
-
-        font40 = assetManager.get("font40.ttf", BitmapFont.class);
-        font20 = assetManager.get("font20.ttf", BitmapFont.class);
-        font10 = assetManager.get("font10.ttf", BitmapFont.class);
-
-        /** Вызываем метод для запуска игрового уровня **/
-//        showLevel();
-
-        gameManager = new GameManager();
-
-        if (gameManager.isHaveReward()) {
-//            gameManager.updateRewardsForStars();
-            showGetRewardScreen();
-        } else {
-
-            /** Вызываем метод для запуска карты уровней **/
-            showMap(0, 0);
-        }
-//        showIntro();
     }
 
     private void showMap(int coinsReward, int scoreReward) {
@@ -266,27 +229,18 @@ public class Warfare extends Game {
 
     private void hideRewardForStarsScreen() {
         rewardForStarsScreen.hide();
-//        rewardForStarsScreen = null;
     }
 
     private void hideGetReward() {
         getRewardScreen.hide();
-//        getRewardScreen = null;
     }
 
     private void hideLevel() {
         levelScreen.hide();
-//        level.dispose();
-//        level = null;
     }
 
     public void hideLevelMap() {
         mapScreen.hide();
-//        levelMap = null;
     }
 
-//    private void showLevel() {
-//        levelScreen = new LevelScreen(gameManager);
-//        setScreen(levelScreen);
-//    }
 }
