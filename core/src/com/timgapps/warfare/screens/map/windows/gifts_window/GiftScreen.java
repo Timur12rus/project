@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.boontaran.MessageEvent;
+import com.timgapps.warfare.screens.map.gifts_panel.MyGiftsPanel;
 import com.timgapps.warfare.screens.map.win_creator.ConstructedWindow;
 import com.timgapps.warfare.GameManager;
 import com.timgapps.warfare.screens.map.MapScreen;
@@ -21,26 +22,27 @@ public class GiftScreen extends Group {
     private ImageButton closeButton;
     private Label rewardTitle; // отображаем текст заголовка
     private GameManager gameManager;
-    private GiftPanel giftPanel, buffPanel;
-    private GiftsTable giftsTable;
+    private GiftPanel giftPanelLeft, giftPanelRight;
     private MapScreen mapScreen;
+    private MyGiftsPanel leftGiftPanel, rightGiftPanel;
 
     // экран - окно, с двумя панелями подарков, кнопкой закрыть
     public GiftScreen(MapScreen mapScreen, GameManager gameManager) {
         this.mapScreen = mapScreen;
         this.gameManager = gameManager;
         constructedWindow = new ConstructedWindow(700, 550, "Gifts");
-        constructedWindow.setX((Warfare.V_WIDTH - constructedWindow.getWidth()) / 2);       // устанавливаем позицию заголовка
-        constructedWindow.setY(Warfare.V_HEIGHT / 2 - constructedWindow.getHeight() / 2);
         addActor(constructedWindow);
+        setSize(constructedWindow.getWidth(), constructedWindow.getHeight());
         initializeLabels();
 
-        // таблица с панелями подарков (GiftPanel's)
-        giftsTable = new GiftsTable();
-        giftsTable.debug();
-        giftsTable.setPosition(constructedWindow.getX() + (constructedWindow.getWidth() - giftsTable.getWidth()) / 2,
-                constructedWindow.getY() + 64);
-        addActor(giftsTable);
+        leftGiftPanel = new MyGiftsPanel(mapScreen, gameManager, MyGiftsPanel.RESOURCES_GIFT);
+        leftGiftPanel.debug();
+        rightGiftPanel = new MyGiftsPanel(mapScreen, gameManager, MyGiftsPanel.RESOURCE_AND_COINS_GIFT);
+        leftGiftPanel.setPosition(constructedWindow.getWidth() / 2 - leftGiftPanel.getWidth() - 32, constructedWindow.getY() + 64);
+        rightGiftPanel.setPosition(constructedWindow.getWidth() / 2 + 32, constructedWindow.getY() + 64);
+        addActor(leftGiftPanel);
+        addActor(rightGiftPanel);
+
         closeButton = constructedWindow.getCloseButton();
         closeButton.addListener(new ClickListener() {
             @Override
@@ -60,24 +62,6 @@ public class GiftScreen extends Group {
         rewardTitle.setPosition(constructedWindow.getX() + constructedWindow.getWidth() / 2 - rewardTitle.getWidth() / 2,
                 constructedWindow.getY() + constructedWindow.getHeight() - rewardTitle.getHeight() - 8);
         addActor(rewardTitle);
-    }
-
-    /**
-     * таблица с панелями подарков (GiftPanel's)
-     **/
-    class GiftsTable extends Table {
-        public GiftsTable() {
-            float giftPanelX = constructedWindow.getX() + (constructedWindow.getWidth() - 190 * 2 + 64) / 2;
-            float giftPanelY = constructedWindow.getY() + 64;
-            // первая панель подарков (левая)
-            giftPanel = new com.timgapps.warfare.screens.map.windows.gifts_window.GiftPanel(mapScreen, giftPanelX, giftPanelY, gameManager, com.timgapps.warfare.screens.map.windows.gifts_window.GiftPanel.RESOURCE_AND_COINS_GIFT);
-            // вторая панель подарков (правая)
-            buffPanel = new com.timgapps.warfare.screens.map.windows.gifts_window.GiftPanel(mapScreen, giftPanelX + 190 + 64, giftPanelY, gameManager, com.timgapps.warfare.screens.map.windows.gifts_window.GiftPanel.RESOURCES_GIFT);
-            add(giftPanel).padLeft(32).padRight(32);
-            add(buffPanel).padLeft(32).padRight(32);
-            setWidth(giftPanel.getWidth() * 2 + 64 * 2);
-            setHeight(giftPanel.getHeight());
-        }
     }
 }
 

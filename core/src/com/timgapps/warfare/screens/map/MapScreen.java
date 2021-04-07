@@ -3,6 +3,7 @@ package com.timgapps.warfare.screens.map;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g3d.particles.ParallelArray;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
@@ -16,7 +17,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -24,7 +27,12 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.boontaran.MessageListener;
 import com.boontaran.games.StageGame;
 import com.boontaran.games.tiled.TileLayer;
+import com.timgapps.warfare.screens.map.actions.AddOverlayActionHelper;
+import com.timgapps.warfare.screens.map.actions.MyCoinsAction;
+import com.timgapps.warfare.screens.map.actions.MyResourcesAction;
+import com.timgapps.warfare.screens.map.gifts_panel.gui_elements.GiftImageIcon;
 import com.timgapps.warfare.screens.map.gui_elements.CoinsPanel;
+import com.timgapps.warfare.screens.map.gui_elements.Geom;
 import com.timgapps.warfare.screens.map.windows.MissionInfoWindow;
 import com.timgapps.warfare.screens.map.windows.gifts_window.GiftScreen;
 import com.timgapps.warfare.screens.map.windows.team_upgrade_window.TeamUpgradeScreen;
@@ -45,7 +53,7 @@ import java.util.ArrayList;
 
 import static java.lang.Integer.parseInt;
 
-public class MapScreen extends StageGame implements StartCoinsAction, StartResourcesAction {
+public class MapScreen extends StageGame implements AddOverlayActionHelper {
     // создаем несколько констант для создания callBack сообщений, которые будут передаваться в зависимости от нажатия кнопок
     public static final int ON_BACK = 1;
     public static final int ON_LEVEL_SELECTED = 2;
@@ -76,7 +84,6 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
     private float cameraXpos;
     private float cameraYpos;
     private ColorRectangle greenRectangle;
-    private CoinsAction coinsAction;
     private ResourcesAction resourcesAction;
     private final int W_RECT = 10;
     private final int H_RECT = 8;
@@ -147,7 +154,7 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
         /** создадим окно с описанием уровня **/
         missionInfoWindow = new MissionInfoWindow();
         missionInfoWindow.setVisible(false);
-        addOverlayChild(missionInfoWindow);
+        addChildOnOverlay(missionInfoWindow);
 //        addChild(missionInfoScreen);
 
         missionInfoWindow.addListener(new MessageListener() {
@@ -164,9 +171,7 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
             }
         });
 
-        giftIcon = new com.timgapps.warfare.screens.map.gui_elements.GiftIcon(gameManager);
-//        giftIcon.setPosition(getWidth() - giftIcon.getWidth() - 32, getHeight() / 3);
-//        giftIcon.setPosition(getWidth() - giftIcon.getWidth() - 32, getHeight() / 3);
+        giftIcon = new GiftIcon(gameManager);
         giftIcon.addListener(new ClickListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -182,7 +187,7 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                isFocused = false;
+//                isFocused = false;
                 showGiftScreen();
             }
         });
@@ -191,8 +196,9 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
         /** создадим окно с вознаграждениями **/
         giftScreen = new GiftScreen(this, gameManager);
         giftScreen.setVisible(false);
+        giftScreen.setPosition((getWidth() - giftScreen.getWidth()) / 2,
+                (getHeight() - giftScreen.getHeight()) / 2);
         addOverlayChild(giftScreen);
-//        addChild(giftScreen);
 
         giftScreen.addListener(new MessageListener() {
             @Override
@@ -203,7 +209,6 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
                 } else if (message == giftScreen.ON_SHOW_ANIMATIONS) {
                     showAddCoinsAnimation();
                 }
-//
             }
         });
 
@@ -211,20 +216,13 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
 //        teamUpgradeIcon.setPosition(32, getHeight() / 3);
         giftIcon.setPosition(32, 96);
         teamUpgradeIcon.setPosition(32, giftIcon.getY() + giftIcon.getHeight() + 64);
-
-
-//        giftIcon.setPosition(getWidth() - giftIcon.getWidth() - 32, getHeight() / 3);
-        addOverlayChild(teamUpgradeIcon);
-        addOverlayChild(giftIcon);
+        addChildOnOverlay(teamUpgradeIcon);
+        addChildOnOverlay(giftIcon);
+        gameManager.addGeom(teamUpgradeIcon, "teamUpgradeIcon");
 
         Label.LabelStyle teamLabelStyle = new Label.LabelStyle();
         teamLabelStyle.fontColor = Color.WHITE;
         teamLabelStyle.font = Warfare.font10;
-//        teamLabel = new Label("Team", teamLabelStyle);
-//        teamLabel.setPosition(teamUpgradeIcon.getX() + (teamUpgradeIcon.getWidth() - teamLabel.getWidth()) / 2,
-//                teamUpgradeIcon.getY() - teamLabel.getHeight());
-//        addOverlayChild(teamLabel);
-//        gameManager.setHelpStatus(gameManager.HELP_TEAM_UPGRADE);
         teamUpgradeIcon.addListener(new ClickListener() {
 
             @Override
@@ -241,6 +239,7 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
+//                isFocused = false;
                 showTeamUpgradeScreen();
             }
         });
@@ -250,27 +249,19 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
         /** !!!!!!!!!!!!!!!!!!!!! 10.03.2021
          // coinsPanel.setCoinsCount(gameManager.getCoinsCount());
          **/
-
-//        coinsPanel.addAction(Actions.fadeIn(0.1f));
-//        if (coinsPanel.isVisible()) {
-//            coinsPanel.setVisible(true);
-//        }
-
-//        coinsPanel.setVisible(true);
         coinsPanel.setPosition(getWidth() - coinsPanel.getWidth() - 32, getHeight() - coinsPanel.getHeight() - 32);
         coinsPanel.setPos(new Vector2(coinsPanel.getX(), coinsPanel.getY()));
-//        addOverlayChild(coinsPanel);
 
         // Добавим пенель с очками
         scorePanel = gameManager.getScorePanel();
         scorePanel.setPosition(32, getHeight() - scorePanel.getHeight() - 32);
-        addOverlayChild(scorePanel);
+        addChildOnOverlay(scorePanel);
 
         // Добавим панель с наградой за зведзды
         starsPanel = gameManager.getStarsPanel();
         starsPanel.setVisible(true);
         starsPanel.setPosition(32, scorePanel.getY() - starsPanel.getHeight());
-        addOverlayChild(starsPanel);
+        addChildOnOverlay(starsPanel);
         starsPanel.addListener(new ClickListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -290,7 +281,7 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
             public void clicked(InputEvent event, float x, float y) {
 //                coinsPanel.remove();
 //                call(ON_SHOW_REWARD_FOR_STARS_SCREEN);
-                isFocused = false;
+//                isFocused = false;
                 showRewardForStarsScreen();
 
             }
@@ -304,7 +295,7 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
         /** создадим окно апргейда команды и передаём информацию о составе команды(manager)**/
         teamUpgradeScreen = new TeamUpgradeScreen(gameManager);
         teamUpgradeScreen.setVisible(false);
-        addOverlayChild(teamUpgradeScreen);
+        addChildOnOverlay(teamUpgradeScreen);
 
         teamUpgradeScreen.addListener(new MessageListener() {
             @Override
@@ -318,8 +309,8 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
 
         // запустим анимацию  получения монет к общему кол-ву монет
         if (coinsReward > 0) {
-            showAddCoinsAnimation();
-            showAddScoreAnimation();
+//            showAddCoinsAnimation();
+//            showAddScoreAnimation();
 
             //TODO нужно сделать сохранение в SavedGame() кол-во монет и очков
 //            gameManager.setCoinsCount(coinsPanel.getCoinsCount());
@@ -348,6 +339,15 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
         return isScreenShown;
     }
 
+    private void clearOverlayActions() {
+        for (Actor actor : overlay.getActors()) {
+            if (actor instanceof Image) {
+//                actor.clearActions();
+                removeOverlayChild(actor);
+            }
+        }
+    }
+
     // метод для показа экрана наград за звезды
     private void showRewardForStarsScreen() {
 //        hide();
@@ -363,6 +363,7 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
     @Override
     public void hide() {
         super.hide();
+//        clearOverlayActions();
         removeOverlayChild(coinsPanel);
 //        dispose();
     }
@@ -377,6 +378,7 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
         coinsPanel.redraw();
 //        coinsPanel.setCoinsCount(gameManager.getCoinsCount());
         showCoinsPanel();
+//        clearOverlayActions();
     }
 
     // метод запускает увеличение камеры на карте при запуске игры
@@ -417,7 +419,7 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
     }
 
     private void showCoinsPanel() {
-        addOverlayChild(coinsPanel);
+        addChildOnOverlay(coinsPanel);
     }
 
     /**
@@ -429,10 +431,9 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
         fade.toFront();
         fade.setPosition(cameraXpos - camera.viewportWidth / 2, cameraYpos - camera.viewportHeight / 2);
         giftIcon.setVisible(false);
-        teamUpgradeIcon.setVisible(false);
-//        if (finger != null) {
-//            finger.setVisible(false);
-//        }
+        teamUpgradeIcon.addAction(Actions.fadeOut(0));
+        teamUpgradeIcon.setTouchable(Touchable.disabled);
+//        teamUpgradeIcon.setVisible(false);
         fade.setVisible(true);
     }
 
@@ -444,7 +445,9 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
 //        if (finger != null && gameManager.getHelpStatus() != GameManager.HELP_GET_GIFT) {
 //            finger.setVisible(true);
 //        }
-        teamUpgradeIcon.setVisible(true);
+        teamUpgradeIcon.addAction(Actions.fadeIn(0));
+        teamUpgradeIcon.setTouchable(Touchable.enabled);
+//        teamUpgradeIcon.setVisible(true);
     }
 
 
@@ -470,9 +473,9 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
             if (cameraYpos + y > camera.viewportHeight / 2 + 300) {
                 y = 0;
             }
-            System.out.println("Camera position = " + new Vector2(camera.position.x, camera.position.y));
+//            System.out.println("Camera position = " + new Vector2(camera.position.x, camera.position.y));
             camera.translate(-x, y);
-            System.out.println("Camera position After translate = " + new Vector2(camera.position.x, camera.position.y));
+//            System.out.println("Camera position After translate = " + new Vector2(camera.position.x, camera.position.y));
             if (fade != null) {
                 fade.setPosition(camera.position.x - camera.viewportWidth / 2,
                         camera.position.y - camera.viewportHeight / 2);
@@ -693,12 +696,10 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
 //        teamUpgradeScreen.updateTeam();
 //        teamUpgradeScreen.updateCollection();
         teamUpgradeScreen.setVisible(true);
-        teamUpgradeIcon.hideFinger();
 
         // TODO нужно исправить!!!!!!!!
         if (gameManager.getHelpStatus() == GameManager.HELP_TEAM_UPGRADE) {
             gameManager.setHelpStatus(GameManager.HELP_GET_GIFT);
-            teamUpgradeIcon.hideFinger();
         }
     }
 
@@ -707,15 +708,9 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
         hideButtons();
         isFocused = false;
         giftScreen.setVisible(true);
-    }
-
-    /**
-     * метод устанавливает фоновое изображение
-     **/
-    private void setBackGround(String region) {
-        clearBackground();
-        Image bg = new Image(Warfare.atlas.findRegion(region));
-        addBackground(bg, false, false);
+//        giftScreen.setPosition(getWidth() / 2 - giftScreen.getWidth() / 2,
+//                getHeight() / 2 - giftScreen.getHeight() / 2);
+//        giftScreen.toFront();
     }
 
     /**
@@ -742,130 +737,13 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
             starsPanel.hideFinger();
         }
 
-        if (helpStatus == GameManager.HELP_TEAM_UPGRADE) {
-            teamUpgradeIcon.showFinger();
-            gameManager.setHelpStatus(GameManager.HELP_GET_GIFT);
-        }
-
         if (helpStatus == GameManager.HELP_GET_GIFT) {
             giftIcon.showFinger();
         }
     }
 
     private void showAddCoinsAnimation() {
-        Image coinOne = new Image(Warfare.atlas.findRegion("coin_icon"));
-        Image coinTwo = new Image(Warfare.atlas.findRegion("coin_icon"));
-        Image coinThree = new Image(Warfare.atlas.findRegion("coin_icon"));
-
-        // установим позицию для добавляемых монет, к которым будут применены action'ы
-        coinOne.setPosition(getWidth() / 2, getHeight() / 2);
-        coinTwo.setPosition(getWidth() / 2, getHeight() / 2);
-        coinThree.setPosition(getWidth() / 2, getHeight() / 2);
-
-        addOverlayChild(coinOne);
-        addOverlayChild(coinTwo);
-        addOverlayChild(coinThree);
-
-        float endXPos = coinsPanel.getX() + coinsPanel.getWidth() / 2;
-        float endYPos = coinsPanel.getY();
-
-        // action проверки завершения действия
-        Action checkEndOfAction = new Action() {
-            @Override
-            public boolean act(float delta) {
-//                isEndCoinsAction = true;
-                // добавим к общему кол-ву монет монеты (награду)
-                coinsPanel.redraw();
-//                coinsPanel.addCoins(coinsReward);
-                return true;
-            }
-        };
-
-        // action для первой монеты
-        SequenceAction moveActionCoinOne = new SequenceAction(Actions.fadeIn(0),
-                Actions.moveTo(getWidth() / 2 - 32, getHeight() / 2 - 32, 0.8f, new Interpolation.SwingOut(1)),
-                Actions.moveTo(endXPos, endYPos, 0.8f),
-                Actions.fadeOut(0)
-        );
-
-        // action для второй монеты
-        SequenceAction moveActionCoinTwo = new SequenceAction(Actions.fadeIn(0),
-                Actions.moveTo(getWidth() / 2 + 32, getHeight() / 2 - 32, 0.8f, new Interpolation.SwingOut(1)),
-                Actions.moveTo(endXPos, endYPos, 0.8f),
-                Actions.fadeOut(0)
-        );
-
-        // action для третьей монеты
-        SequenceAction moveActionCoinThree = new SequenceAction(Actions.fadeIn(0),
-                Actions.moveTo(getWidth() / 2 + 32, getHeight() / 2 + 32, 0.8f, new Interpolation.SwingOut(1)),
-                Actions.moveTo(endXPos, endYPos, 0.8f),
-                Actions.fadeOut(0),
-                checkEndOfAction
-        );
-
-        coinOne.addAction(moveActionCoinOne);
-        coinTwo.addAction(moveActionCoinTwo);
-        coinThree.addAction(moveActionCoinThree);
     }
-
-    /**
-     * метод для запуска анимации добавления очков
-     **/
-    private void showAddScoreAnimation() {
-        Image scoreOne = new Image(Warfare.atlas.findRegion("score_icon"));
-        Image scoreTwo = new Image(Warfare.atlas.findRegion("score_icon"));
-        Image scoreThree = new Image(Warfare.atlas.findRegion("score_icon"));
-
-        // установим позицию для добавляемых монет, к которым будут применены action'ы
-        scoreOne.setPosition(getWidth() / 2, getHeight() / 2);
-        scoreTwo.setPosition(getWidth() / 2, getHeight() / 2);
-        scoreThree.setPosition(getWidth() / 2, getHeight() / 2);
-
-        addOverlayChild(scoreOne);
-        addOverlayChild(scoreTwo);
-        addOverlayChild(scoreThree);
-
-        float endXPos = scorePanel.getX() + scorePanel.getWidth() / 3;
-        float endYPos = scorePanel.getY();
-
-        // action проверки завершения действия
-        Action checkEndOfAction = new Action() {
-            @Override
-            public boolean act(float delta) {
-//                isEndCoinsAction = true;
-                // добавим к общему кол-ву монет монеты (награду)
-                scorePanel.addScore(scoreReward);
-                return true;
-            }
-        };
-
-        // action для первого значка
-        SequenceAction moveActionCoinOne = new SequenceAction(Actions.fadeIn(0),
-                Actions.moveTo(getWidth() / 2 - 64, getHeight() / 2 - 64, 0.8f, new Interpolation.SwingOut(1)),
-                Actions.moveTo(endXPos, endYPos, 0.8f),
-                Actions.fadeOut(0)
-        );
-
-        // action для второго значка
-        SequenceAction moveActionCoinTwo = new SequenceAction(Actions.fadeIn(0),
-                Actions.moveTo(getWidth() / 2 - 16, getHeight() / 2 + 32, 0.8f, new Interpolation.SwingOut(1)),
-                Actions.moveTo(endXPos, endYPos, 0.8f),
-                Actions.fadeOut(0)
-        );
-
-        // action для третьего значка
-        SequenceAction moveActionCoinThree = new SequenceAction(Actions.fadeIn(0),
-                Actions.moveTo(getWidth() / 2 + 32, getHeight() / 2 + 32, 0.8f, new Interpolation.SwingOut(1)),
-                Actions.moveTo(endXPos, endYPos, 0.8f),
-                Actions.fadeOut(0),
-                checkEndOfAction
-        );
-
-        scoreOne.addAction(moveActionCoinOne);
-        scoreTwo.addAction(moveActionCoinTwo);
-        scoreThree.addAction(moveActionCoinThree);
-    }
-
 
     /**
      * слушатель, назначаем его значкам уровней на нашей карте уровней
@@ -887,7 +765,7 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
 
         @Override
         public void clicked(InputEvent event, float x, float y) {
-            isFocused = false;
+//            isFocused = false;
             //будем воспроизводить звук щелчка и передавать в callBack сообщенме onLevelSelected
             selectedLevelId = ((LevelIcon) event.getTarget()).getId();
 
@@ -942,52 +820,78 @@ public class MapScreen extends StageGame implements StartCoinsAction, StartResou
         return teamUpgradeIcon;
     }
 
+//    @Override
+//    public void startCoinsAction() {
+//        new MyCoinsAction(this,
+//                new Vector2(((getWidth() - giftScreen.getWidth()) / 2 + giftScreen.getWidth() / 4), giftScreen.getY() + giftScreen.getHeight() / 2),
+//                gameManager, 55);
+////        coinsAction = new CoinsAction();
+////        coinsAction.setStartPosition(Warfare.V_WIDTH / 2 - 160, Warfare.V_HEIGHT / 2);
+////        coinsAction.setEndPosition(coinsPanel.getX(), coinsPanel.getY());
+////        coinsAction.start();
+////        addChildOnOverlay(coinsAction);
+//    }
+
+//    @Override
+//    public void startResourcesAction(int resourcesCount) {
+////        resourcesAction = new ResourcesAction(gameManager, resourcesCount);
+////        resourcesAction = new ResourcesAction(gameManager, resourcesCount);
+//
+////        new MyResourcesAction(this, gameManager, 2);
+//        new MyResourcesAction(this,
+//                new Vector2(((getWidth() - giftScreen.getWidth()) / 2 + giftScreen.getWidth() / 4), giftScreen.getY() + giftScreen.getHeight() / 2),
+//                gameManager, 2);
+////        if (resourcesCount == 1) {
+////            resourcesAction.setStartPosition(Warfare.V_WIDTH / 2 - 160, Warfare.V_HEIGHT / 2);
+////        } else if (resourcesCount == 2) {
+////            resourcesAction.setStartPosition(Warfare.V_WIDTH / 2 + 80, Warfare.V_HEIGHT / 2);
+////        }
+////        resourcesAction.setEndPosition(teamUpgradeIcon.getX(), teamUpgradeIcon.getY());
+////        resourcesAction.start();
+////        addOverlayChild(resourcesAction);
+//    }
+
+
     @Override
-    public void startCoinsAction() {
-        coinsAction = new CoinsAction();
-        coinsAction.setStartPosition(Warfare.V_WIDTH / 2 - 160, Warfare.V_HEIGHT / 2);
-        coinsAction.setEndPosition(coinsPanel.getX(), coinsPanel.getY());
-        coinsAction.start();
-        addOverlayChild(coinsAction);
+    public void addChildOnOverlay(Actor actor) {
+        addOverlayChild(actor);
     }
 
     @Override
-    public void startResourcesAction(int resourcesCount) {
-        resourcesAction = new ResourcesAction(gameManager, resourcesCount);
-        if (resourcesCount == 1) {
-            resourcesAction.setStartPosition(Warfare.V_WIDTH / 2 - 160, Warfare.V_HEIGHT / 2);
-        } else if (resourcesCount == 2) {
-            resourcesAction.setStartPosition(Warfare.V_WIDTH / 2 + 80, Warfare.V_HEIGHT / 2);
-        }
-        resourcesAction.setEndPosition(teamUpgradeIcon.getX(), teamUpgradeIcon.getY());
-        resourcesAction.start();
-        addOverlayChild(resourcesAction);
+    public void removeChildFromOverlay(Actor actor) {
+        removeOverlayChild(actor);
     }
 
+    // TODO исправить что то не так со значком апгрейда юнитов
     @Override
-    public boolean isEndResourcesAction() {
-        if (resourcesAction != null) {
-            return resourcesAction.isEndResourcesAction();
-        }
-        return false;
-    }
+    public void startIconAction() {
+        teamUpgradeIcon.addAction(Actions.fadeIn(0));
+        Action checkEndOfAction = new Action() {
+            @Override
+            public boolean act(float delta) {
+                if (!isScreenShown) {
+                    teamUpgradeIcon.addAction(Actions.fadeIn(0));
+                } else {
+                    teamUpgradeIcon.addAction(Actions.fadeOut(0));
+                }
+                return true;
+            }
+        };
+        SequenceAction moveAction = new SequenceAction(Actions.fadeIn(0),
+                Actions.fadeOut(0.4f),
+                checkEndOfAction
+        );
 
-    @Override
-    public void setEndResourcesAction() {
-        resourcesAction.setEndResourcesAction();
-    }
+        SequenceAction sizeAction = new SequenceAction(
+//                Actions.sizeTo(64, 64, 1f),
+//                Actions.sizeTo(32, 32, 1f)
 
-    @Override
-    public boolean isEndCoinsAction() {
-        if (coinsAction != null) {
-            return coinsAction.isEndCoinsAction();
-        }
-        return false;
-    }
-
-    @Override
-    public void setEndCoinsAction() {
-        coinsAction.setEndCoinsAction();
+//                Actions.sizeBy(-8, -8, 0.2f)
+                Actions.sizeBy(8, 8, 0.2f),
+                Actions.sizeBy(-8, -8, 0.2f),
+                Actions.fadeOut(0.6f)
+        );
+        teamUpgradeIcon.addAction(moveAction);
     }
 }
 

@@ -3,9 +3,12 @@ package com.timgapps.warfare;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.boontaran.DataManager;
 import com.timgapps.warfare.Utils.Setting;
 import com.timgapps.warfare.screens.map.gui_elements.CoinsPanel;
+import com.timgapps.warfare.screens.map.gui_elements.Geom;
+import com.timgapps.warfare.screens.map.gui_elements.GeomHolder;
 import com.timgapps.warfare.screens.map.windows.team_upgrade_window.team_unit.TeamUnit;
 import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnitData;
 import com.timgapps.warfare.screens.map.gui_elements.LevelIcon;
@@ -60,6 +63,7 @@ public class GameManager {
     private int helpStatus;
     private Vector2 cameraPosition;
     private boolean isHaveFullRewardsForStars;      // игрок получил все награды за звезды
+    private GeomHolder geomHolder;
 
     public GameManager() {
         /** загрузим данные игры **/
@@ -68,6 +72,8 @@ public class GameManager {
         // создаем объект для сохранения игры
         savedGame = loadSavedGame();
         cameraPosition = new Vector2();
+
+        geomHolder = new GeomHolder(); // объект с геомами
 
         /** создадим массив уровней (LevelIcons) для хранения информации и данных уровней (кол-во звёзд, заблокировани или разблокирован **/
         //TODO сделать сохранение и загрузку данных об уровнях в  массив <LevelIconData> в объекте сохранения игры savedGame()
@@ -205,7 +211,7 @@ public class GameManager {
     // метод сохраняет позяцию камеры в savedGame
     public void setCameraPosition(Vector2 cameraPosition) {
         savedGame.setCameraPosition(cameraPosition);
-        System.out.println("Save Camera Position = " + cameraPosition);
+//        System.out.println("Save Camera Position = " + cameraPosition);
     }
 
     public void setLastCompletedLevelNum(int lastCompletedLevelNum) {
@@ -582,5 +588,13 @@ public class GameManager {
      * метод совершает покупку юнита (т.е. делаем его isHared = true, добавляет в команду если в коменде < 5 юнитов
      **/
     public void setUnitIsHared(PlayerUnits id) {
+    }
+
+    public void addGeom(Actor actor, String name) {
+        geomHolder.addGeom(new Geom(actor, name, geomHolder));
+    }
+
+    public Geom getGeom(String geomName) {
+        return geomHolder.getGeom(geomName);
     }
 }

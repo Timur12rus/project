@@ -1,19 +1,13 @@
 package com.timgapps.warfare.screens.map.windows.gifts_window;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Array;
+import com.timgapps.warfare.screens.map.gifts_panel.gui_elements.BoxImage;
 import com.timgapps.warfare.screens.map.gui_elements.CoinsPanel;
-import com.timgapps.warfare.screens.reward_for_stars.IconAnimation;
 import com.timgapps.warfare.screens.map.windows.upgrade_window.gui_elements.ColorButton;
 import com.timgapps.warfare.GameManager;
 import com.timgapps.warfare.screens.map.gui_elements.GiftIcon;
@@ -29,7 +23,6 @@ import java.util.TimeZone;
 class GiftPanel extends Group {
     private Image background;
     private Label timeLabel;
-    private Label doneLabel;
     private GiftRewardTable rewardTable;
     private ColorButton claimButton;
     private BoxImage boxImage;
@@ -48,26 +41,14 @@ class GiftPanel extends Group {
     private int giftsType;
     private boolean isEndCoinsAction = false;
     private CoinsPanel coinsPanel;
-    private float xPos, yPos;
-    private static final int FOOD = 1;
-    private static final int IRON = 2;
-    private static final int WOOD = 3;
     private GameManager gameManager;
     private GiftIcon giftIcon;
-    private IconAnimation iconAnimation;
-    private MapScreen mapScreen;
-    private ResoursesGiftAnimation resoursesGiftAnimation;
     private StartCoinsAction startCoinsAction;
     private StartResourcesAction startResourcesAction;
 
     // панель с горизонтальной таблицей GiftRewardTable и кнопкой "ПОЛУЧИТЬ"
     public GiftPanel(MapScreen mapScreen, float x, float y, GameManager gameManager, int giftsType) {
         this.giftIcon = mapScreen.getGiftIcon();
-        this.mapScreen = mapScreen;
-        this.startCoinsAction = mapScreen;
-        this.startResourcesAction = mapScreen;
-        xPos = x;
-        yPos = y;
         this.giftsType = giftsType;
         this.gameManager = gameManager;
         date = new Date();      // получим текущее время
@@ -130,42 +111,6 @@ class GiftPanel extends Group {
                 showAddGiftsAnimation();
             }
         });
-    }
-
-    class BoxImage extends Actor {
-        Animation openBoxAnimation;     // анимация отркырия ящика
-        private boolean isStarted;
-        private float stateTime = 0;
-        private TextureRegion textureBox;
-
-        public BoxImage() {
-            textureBox = new TextureRegion(Warfare.atlas.findRegion("boxImage0"));
-            setSize(textureBox.getRegionWidth(), textureBox.getRegionHeight());
-            Array<TextureRegion> frames = new Array<TextureRegion>();
-            for (int i = 0; i < 6; i++)
-                frames.add(new TextureRegion(Warfare.atlas.findRegion("boxImage" + i)));
-            openBoxAnimation = new Animation(0.2f, frames);
-            frames.clear();
-        }
-
-        @Override
-        public void draw(Batch batch, float parentAlpha) {
-            super.draw(batch, parentAlpha);
-            stateTime += Gdx.graphics.getDeltaTime();
-            if (isStarted) {
-                batch.draw((TextureRegion) openBoxAnimation.getKeyFrame(stateTime, false), getX(), getY());
-            } else {
-                batch.draw(textureBox, getX(), getY());
-            }
-        }
-
-        void startAnimation() {
-            isStarted = true;
-        }
-
-        void closeBox() {
-            isStarted = false;
-        }
     }
 
     private void showAddGiftsAnimation() {

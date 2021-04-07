@@ -57,6 +57,7 @@ public class GiftRewardTable extends Group {
 
         addActor(rewardLabel);
         addActor(rewardTable);
+        setSize(rewardTable.getWidth(), rewardTable.getHeight());
 
     }
 
