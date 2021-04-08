@@ -9,28 +9,29 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.timgapps.warfare.GameManager;
 import com.timgapps.warfare.Warfare;
-import com.timgapps.warfare.screens.map.gifts_panel.gui_elements.GiftImageIcon;
 
 import java.util.ArrayList;
-import java.util.Vector;
 
 public class MyCoinsAction {
-    private ArrayList<GiftImageIcon> coins;
+    private ArrayList<Image> coins;
     private Vector2 startPosition, endPosition;
     private int coinsNum;
     private AddOverlayActionHelper addOverlayActionHelper;
+    private int coinsCount;
+    private GameManager gameManager;
 
     public MyCoinsAction(AddOverlayActionHelper addOverlayActionHelper, Vector2 startPosition, GameManager gameManager, int coinsNum) {
         this.coinsNum = coinsNum;
         this.addOverlayActionHelper = addOverlayActionHelper;
         this.startPosition = startPosition;
-        coins = new ArrayList<GiftImageIcon>();
+        this.gameManager = gameManager;
+        coins = new ArrayList<Image>();
         for (int i = 0; i < 6; i++) {
-            coins.add(new GiftImageIcon(Warfare.atlas.findRegion("coin_icon")));
+            coins.add(new Image(Warfare.atlas.findRegion("coin_icon")));
         }
         endPosition = new Vector2(gameManager.getCoinsPanel().getX(), gameManager.getCoinsPanel().getY());
         int index = 0;
-        for (GiftImageIcon coin : coins) {
+        for (Image coin : coins) {
             coin.setPosition(startPosition.x, startPosition.y);
             addOverlayActionHelper.addChildOnOverlay(coin);
             coin.toFront();
@@ -46,8 +47,12 @@ public class MyCoinsAction {
         Action checkEndOfAction = new Action() {
             @Override
             public boolean act(float delta) {
-                actor.addAction(Actions.fadeOut(0));
+                actor.setVisible(false);
+                coinsCount++;
 //                addOverlayActionHelper.removeChildFromOverlay(actor);
+                if (coinsCount > 4) {
+                    gameManager.getCoinsPanel().redraw();
+                }
                 return true;
             }
         };
@@ -60,6 +65,12 @@ public class MyCoinsAction {
                 checkEndOfAction
         );
         actor.addAction(moveActionCoin);
+    }
+
+    public void clear() {
+        for (Image coin : coins) {
+            coin.remove();
+        }
     }
 
     private Vector2 generateAmount(int index) {

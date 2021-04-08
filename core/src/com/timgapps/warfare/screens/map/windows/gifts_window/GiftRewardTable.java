@@ -25,7 +25,6 @@ public class GiftRewardTable extends Group {
         rewardLabel = new Label("", rewardsLabelStyle);
         rewardLabel.setText("Reward:");
         Table rewardTable = new Table();
-//        Table rewardTable = new Table().debug();
         Image coinImage = new Image(Warfare.atlas.findRegion("coin_icon"));
 
         /** Label для надписи КОЛИЧЕСТВА МОНЕТ **/
@@ -52,13 +51,10 @@ public class GiftRewardTable extends Group {
         setWidth(coinImage.getWidth() * 2 + 24 + coinsCountLabel.getWidth() + resourcesCountLabel.getWidth());
         rewardLabel.setPosition(0, 0);
         rewardTable.setPosition(0, -rewardTable.getHeight() - 24);
-
         height = rewardLabel.getHeight() + rewardTable.getHeight() + 24;
-
         addActor(rewardLabel);
         addActor(rewardTable);
         setSize(rewardTable.getWidth(), rewardTable.getHeight());
-
     }
 
     public void setCoinsCount(int coins) {

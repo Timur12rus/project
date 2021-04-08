@@ -44,7 +44,7 @@ public class BoxImage extends Actor {
         isStarted = true;
     }
 
-    public void closeBox() {
+    public void close() {
         stateTime = 0;
         isStarted = false;
     }

@@ -30,6 +30,8 @@ public class MyGiftsPanel extends Group {
     private GiftRewardTable rewardTable;
     private GameManager gameManager;
     private AddOverlayActionHelper addOverlayActionHelper;
+    private MyCoinsAction myCoinsAction;
+    private MyResourcesAction myResourcesAction;
 
     public MyGiftsPanel(final AddOverlayActionHelper addOverlayActionHelper, GameManager gameManager, int panelType) {
         this.panelType = panelType;
@@ -69,28 +71,14 @@ public class MyGiftsPanel extends Group {
             }
         });
     }
-//
-//    @Override
-//    public void act(float delta) {
-//        super.act(delta);
-//        if (boxImage.isAnimationFinished) {
-//            showAddGiftsAnimation(addOverlayActionHelper);
-//        }
-//    }
-//
-//    private  void addGiftsToManager() {
-//        if (panelType == RESOURCE_AND_COINS_GIFT) {
-//            gameManager.addCoinsCount(numOfCoins);
-//        }
-//    }
 
     private void showAddGiftsAnimation(AddOverlayActionHelper addOverlayActionHelper) {
         float startXPos = getX() + getParent().getX() + boxImage.getX();
         float startYPos = getY() + boxImage.getY() + 128 + getParent().getY();
         if (panelType == RESOURCE_AND_COINS_GIFT) {
             gameManager.addCoinsCount(numOfCoins);
-            new MyCoinsAction(addOverlayActionHelper, new Vector2(startXPos, startYPos), gameManager, 55);
-            new MyResourcesAction(addOverlayActionHelper, new Vector2(startXPos, startYPos), gameManager, 1);
+            myCoinsAction = new MyCoinsAction(addOverlayActionHelper, new Vector2(startXPos, startYPos), gameManager, 55);
+            myResourcesAction = new MyResourcesAction(addOverlayActionHelper, new Vector2(startXPos, startYPos), gameManager, 1);
 
 //            gameManager.setGiftTimeFirst(giftTime);      // сохраним значение текщего времени для получения подарка
 //            giftIcon.setGiftTimeFirst(giftTime);
@@ -98,11 +86,23 @@ public class MyGiftsPanel extends Group {
         if (panelType == RESOURCES_GIFT) {
 //            gameManager.setGiftTimeSecond(giftTime);      // сохраним значение текщего времени для получения подарка
 //            giftIcon.setGiftTimeSecond(giftTime);
-            new MyResourcesAction(addOverlayActionHelper, new Vector2(startXPos, startYPos), gameManager, 2);
+            myResourcesAction = new MyResourcesAction(addOverlayActionHelper, new Vector2(startXPos, startYPos), gameManager, 2);
 //            new MyCoinsAction(addOverlayActionHelper, new Vector2(startXPos, startYPos), gameManager, 55);
-
         }
-//        showAddCoinsAnimation();
-//        hideClaimButton();
+    }
+
+    public void removeActions() {
+        if (myCoinsAction != null) {
+            myCoinsAction.clear();
+        }
+
+        if (myResourcesAction != null) {
+            myResourcesAction.clear();
+        }
+    }
+
+    public void redraw() {
+        boxImage.close();
+//        timerCount.redraw();
     }
 }

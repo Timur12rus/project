@@ -20,4 +20,8 @@ public class TimeCounter {
         counter = 0;
     }
 
+    public void redraw() {
+
+    }
+
 }

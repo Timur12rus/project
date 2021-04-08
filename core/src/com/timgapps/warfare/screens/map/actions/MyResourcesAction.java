@@ -8,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.timgapps.warfare.GameManager;
 import com.timgapps.warfare.Warfare;
-import com.timgapps.warfare.screens.map.gifts_panel.gui_elements.GiftImageIcon;
 
 import java.util.Random;
 
@@ -53,14 +52,13 @@ public class MyResourcesAction {
             @Override
             public boolean act(float delta) {
                 addOverlayActionHelper.startIconAction();
+//                resourceOne.setVisible(false);
+                resourceOne.remove();
 //                addOverlayActionHelper.removeChildFromOverlay(resourceOne);
-//                resourceOne.addAction(Actions.fadeOut(0));
-                resourceOne.setVisible(false);
-                addOverlayActionHelper.removeChildFromOverlay(resourceOne);
                 if (resourceTwo != null) {
-//                    resourceTwo.addAction(Actions.fadeOut(0));
                     resourceTwo.setVisible(false);
-                    addOverlayActionHelper.removeChildFromOverlay(resourceTwo);
+                    resourceTwo.remove();
+//                    addOverlayActionHelper.removeChildFromOverlay(resourceTwo);
                 }
                 return true;
             }
@@ -72,7 +70,6 @@ public class MyResourcesAction {
                 Actions.fadeIn(0),
                 Actions.moveTo(startPosition.x - 32, startPosition.y + 32, 0.8f, new Interpolation.SwingOut(1)),
                 Actions.moveTo(endPosition.x, endPosition.y, 0.6f),
-//                Actions.fadeOut(0),
                 checkEndOfAction
         );
 
@@ -80,12 +77,10 @@ public class MyResourcesAction {
         // action для второго изображения ресурса
         if (resourceTwo != null) {
             SequenceAction moveActionResTwo = new SequenceAction(
-//                    Actions.fadeIn(0),
                     Actions.delay(0.28f),
                     Actions.fadeIn(0),
                     Actions.moveTo(startPosition.x + 56, startPosition.y + 64, 0.8f, new Interpolation.SwingOut(1)),
                     Actions.moveTo(endPosition.x, endPosition.y, 0.6f)
-//                    Actions.fadeOut(0)
             );
             resourceTwo.addAction(moveActionResTwo);
         }
@@ -103,12 +98,12 @@ public class MyResourcesAction {
                 gameManager.addFoodCount(1);                // добавляем в менеджер ресурс (мы его получилил)
                 break;
             case IRON:
-                resourceImage = new GiftImageIcon(Warfare.atlas.findRegion("iron_icon"));
+                resourceImage = new Image(Warfare.atlas.findRegion("iron_icon"));
 //                resourceImage = new GiftImageIcon(Warfare.atlas.findRegion("iron_icon"));
                 gameManager.addIronCount(1);                 // добавляем в менеджер ресурс (мы его получилил)
                 break;
             case WOOD:
-                resourceImage = new GiftImageIcon(Warfare.atlas.findRegion("wood_icon"));
+                resourceImage = new Image(Warfare.atlas.findRegion("wood_icon"));
 //                resourceImage = new GiftImageIcon(Warfare.atlas.findRegion("wood_icon"));
                 gameManager.addWoodCount(1);                  // добавляем в менеджер ресурс (мы его получилил)
                 break;
@@ -116,5 +111,12 @@ public class MyResourcesAction {
                 throw new IllegalStateException("Unexpected value: " + resourceType);
         }
         return resourceImage;
+    }
+
+    public void clear() {
+        resourceOne.remove();
+        if (resourceTwo != null) {
+            resourceTwo.remove();
+        }
     }
 }

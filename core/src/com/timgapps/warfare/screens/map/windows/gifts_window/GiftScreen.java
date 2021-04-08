@@ -15,6 +15,8 @@ import com.timgapps.warfare.GameManager;
 import com.timgapps.warfare.screens.map.MapScreen;
 import com.timgapps.warfare.Warfare;
 
+import javax.xml.bind.SchemaOutputResolver;
+
 public class GiftScreen extends Group {
     public static final int ON_SHOW_ANIMATIONS = 1;
     public static final int ON_RESUME = 2;
@@ -22,7 +24,6 @@ public class GiftScreen extends Group {
     private ImageButton closeButton;
     private Label rewardTitle; // отображаем текст заголовка
     private GameManager gameManager;
-    private GiftPanel giftPanelLeft, giftPanelRight;
     private MapScreen mapScreen;
     private MyGiftsPanel leftGiftPanel, rightGiftPanel;
 
@@ -50,6 +51,19 @@ public class GiftScreen extends Group {
                 fire(new MessageEvent(ON_RESUME));
             }
         });
+    }
+
+    // метод перерисовывает окно
+    public void redraw() {
+        leftGiftPanel.redraw();
+        rightGiftPanel.redraw();
+    }
+
+    public void removeActions() {
+        System.out.println("Remove actions");
+        leftGiftPanel.removeActions();
+        rightGiftPanel.removeActions();
+
     }
 
     // метод создает надписи заголовка окна

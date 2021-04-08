@@ -28,19 +28,12 @@ import com.boontaran.MessageListener;
 import com.boontaran.games.StageGame;
 import com.boontaran.games.tiled.TileLayer;
 import com.timgapps.warfare.screens.map.actions.AddOverlayActionHelper;
-import com.timgapps.warfare.screens.map.actions.MyCoinsAction;
-import com.timgapps.warfare.screens.map.actions.MyResourcesAction;
-import com.timgapps.warfare.screens.map.gifts_panel.gui_elements.GiftImageIcon;
 import com.timgapps.warfare.screens.map.gui_elements.CoinsPanel;
-import com.timgapps.warfare.screens.map.gui_elements.Geom;
 import com.timgapps.warfare.screens.map.windows.MissionInfoWindow;
 import com.timgapps.warfare.screens.map.windows.gifts_window.GiftScreen;
 import com.timgapps.warfare.screens.map.windows.team_upgrade_window.TeamUpgradeScreen;
 import com.timgapps.warfare.GameManager;
-import com.timgapps.warfare.screens.map.actions.CoinsAction;
 import com.timgapps.warfare.screens.map.actions.ResourcesAction;
-import com.timgapps.warfare.screens.map.actions.StartCoinsAction;
-import com.timgapps.warfare.screens.map.actions.StartResourcesAction;
 import com.timgapps.warfare.screens.level.level_windows.ColorRectangle;
 import com.timgapps.warfare.Warfare;
 import com.timgapps.warfare.screens.map.gui_elements.GiftIcon;
@@ -343,7 +336,8 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper {
         for (Actor actor : overlay.getActors()) {
             if (actor instanceof Image) {
 //                actor.clearActions();
-                removeOverlayChild(actor);
+                actor.remove();
+//                removeOverlayChild(actor);
             }
         }
     }
@@ -363,7 +357,8 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper {
     @Override
     public void hide() {
         super.hide();
-//        clearOverlayActions();
+        giftScreen.removeActions();
+        teamUpgradeIcon.clearActions();
         removeOverlayChild(coinsPanel);
 //        dispose();
     }
@@ -707,6 +702,7 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper {
         isScreenShown = true;
         hideButtons();
         isFocused = false;
+        giftScreen.redraw();
         giftScreen.setVisible(true);
 //        giftScreen.setPosition(getWidth() / 2 - giftScreen.getWidth() / 2,
 //                getHeight() / 2 - giftScreen.getHeight() / 2);
@@ -816,42 +812,6 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper {
         return gameManager;
     }
 
-    public TeamUpgradeIcon getTeamUpgradeIcon() {
-        return teamUpgradeIcon;
-    }
-
-//    @Override
-//    public void startCoinsAction() {
-//        new MyCoinsAction(this,
-//                new Vector2(((getWidth() - giftScreen.getWidth()) / 2 + giftScreen.getWidth() / 4), giftScreen.getY() + giftScreen.getHeight() / 2),
-//                gameManager, 55);
-////        coinsAction = new CoinsAction();
-////        coinsAction.setStartPosition(Warfare.V_WIDTH / 2 - 160, Warfare.V_HEIGHT / 2);
-////        coinsAction.setEndPosition(coinsPanel.getX(), coinsPanel.getY());
-////        coinsAction.start();
-////        addChildOnOverlay(coinsAction);
-//    }
-
-//    @Override
-//    public void startResourcesAction(int resourcesCount) {
-////        resourcesAction = new ResourcesAction(gameManager, resourcesCount);
-////        resourcesAction = new ResourcesAction(gameManager, resourcesCount);
-//
-////        new MyResourcesAction(this, gameManager, 2);
-//        new MyResourcesAction(this,
-//                new Vector2(((getWidth() - giftScreen.getWidth()) / 2 + giftScreen.getWidth() / 4), giftScreen.getY() + giftScreen.getHeight() / 2),
-//                gameManager, 2);
-////        if (resourcesCount == 1) {
-////            resourcesAction.setStartPosition(Warfare.V_WIDTH / 2 - 160, Warfare.V_HEIGHT / 2);
-////        } else if (resourcesCount == 2) {
-////            resourcesAction.setStartPosition(Warfare.V_WIDTH / 2 + 80, Warfare.V_HEIGHT / 2);
-////        }
-////        resourcesAction.setEndPosition(teamUpgradeIcon.getX(), teamUpgradeIcon.getY());
-////        resourcesAction.start();
-////        addOverlayChild(resourcesAction);
-//    }
-
-
     @Override
     public void addChildOnOverlay(Actor actor) {
         addOverlayChild(actor);
@@ -859,7 +819,7 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper {
 
     @Override
     public void removeChildFromOverlay(Actor actor) {
-        removeOverlayChild(actor);
+        actor.remove();
     }
 
     // TODO исправить что то не так со значком апгрейда юнитов
@@ -878,7 +838,7 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper {
             }
         };
         SequenceAction moveAction = new SequenceAction(Actions.fadeIn(0),
-                Actions.fadeOut(0.4f),
+                Actions.fadeOut(0.8f),
                 checkEndOfAction
         );
 
