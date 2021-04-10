@@ -1,4 +1,4 @@
-package com.timgapps.warfare.screens.map.gifts_panel.gui_elements;
+package com.timgapps.warfare.screens.map.windows.gifts_window.gifts_panel.gui_elements;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;

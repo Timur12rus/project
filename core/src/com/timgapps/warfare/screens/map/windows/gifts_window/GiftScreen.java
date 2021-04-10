@@ -5,17 +5,14 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.boontaran.MessageEvent;
-import com.timgapps.warfare.screens.map.gifts_panel.MyGiftsPanel;
+import com.timgapps.warfare.screens.map.windows.gifts_window.gifts_panel.MyGiftsPanel;
 import com.timgapps.warfare.screens.map.win_creator.ConstructedWindow;
 import com.timgapps.warfare.GameManager;
 import com.timgapps.warfare.screens.map.MapScreen;
 import com.timgapps.warfare.Warfare;
-
-import javax.xml.bind.SchemaOutputResolver;
 
 public class GiftScreen extends Group {
     public static final int ON_SHOW_ANIMATIONS = 1;
@@ -60,10 +57,8 @@ public class GiftScreen extends Group {
     }
 
     public void removeActions() {
-        System.out.println("Remove actions");
         leftGiftPanel.removeActions();
         rightGiftPanel.removeActions();
-
     }
 
     // метод создает надписи заголовка окна

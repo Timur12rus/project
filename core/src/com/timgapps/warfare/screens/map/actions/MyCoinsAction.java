@@ -49,7 +49,6 @@ public class MyCoinsAction {
             public boolean act(float delta) {
                 actor.setVisible(false);
                 coinsCount++;
-//                addOverlayActionHelper.removeChildFromOverlay(actor);
                 if (coinsCount > 4) {
                     gameManager.getCoinsPanel().redraw();
                 }

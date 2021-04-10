@@ -1,4 +1,4 @@
-package com.timgapps.warfare.screens.map.gifts_panel;
+package com.timgapps.warfare.screens.map.windows.gifts_window.gifts_panel;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -8,21 +8,20 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.timgapps.warfare.GameManager;
 import com.timgapps.warfare.Warfare;
+import com.timgapps.warfare.screens.level.timer.TimerIcon;
 import com.timgapps.warfare.screens.map.actions.AddOverlayActionHelper;
 import com.timgapps.warfare.screens.map.actions.MyCoinsAction;
 import com.timgapps.warfare.screens.map.actions.MyResourcesAction;
-import com.timgapps.warfare.screens.map.gifts_panel.gui_elements.BoxImage;
 import com.timgapps.warfare.screens.map.windows.gifts_window.GiftRewardTable;
+import com.timgapps.warfare.screens.map.windows.gifts_window.gifts_panel.gui_elements.BoxImage;
 import com.timgapps.warfare.screens.map.windows.upgrade_window.gui_elements.ColorButton;
 
-import java.util.Date;
-
-public class MyGiftsPanel extends Group {
+public class MyGiftsPanel extends Group implements GiftsPanelGuiController {
     public static final int RESOURCES_GIFT = 1;             // тип панели с подарками (русурсы)
     public static final int RESOURCE_AND_COINS_GIFT = 2;    // тип панели с подарками (ресурс и монеты)
     private int numOfResources;                             // кол-во ресурсов
     private int numOfCoins;                                 // кол-во монет
-    private BoxImage boxImage;
+    private com.timgapps.warfare.screens.map.windows.gifts_window.gifts_panel.gui_elements.BoxImage boxImage;
     private ColorButton claimButton;
     private TimeCounter timeCounter;
     private int panelType;                                  // тип панели (ресурсы или ресурс с монетами)
@@ -66,10 +65,19 @@ public class MyGiftsPanel extends Group {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 boxImage.startAnimation();
-//                addGiftsToManager();
                 showAddGiftsAnimation(addOverlayActionHelper);
+                timeCounter.reset();
+                rewardTable.setVisible(false);
             }
         });
+
+        timeCounter = new TimeCounter(this, gameManager, panelType);
+    }
+
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+        timeCounter.update(delta);
     }
 
     private void showAddGiftsAnimation(AddOverlayActionHelper addOverlayActionHelper) {
@@ -79,15 +87,9 @@ public class MyGiftsPanel extends Group {
             gameManager.addCoinsCount(numOfCoins);
             myCoinsAction = new MyCoinsAction(addOverlayActionHelper, new Vector2(startXPos, startYPos), gameManager, 55);
             myResourcesAction = new MyResourcesAction(addOverlayActionHelper, new Vector2(startXPos, startYPos), gameManager, 1);
-
-//            gameManager.setGiftTimeFirst(giftTime);      // сохраним значение текщего времени для получения подарка
-//            giftIcon.setGiftTimeFirst(giftTime);
         }
         if (panelType == RESOURCES_GIFT) {
-//            gameManager.setGiftTimeSecond(giftTime);      // сохраним значение текщего времени для получения подарка
-//            giftIcon.setGiftTimeSecond(giftTime);
             myResourcesAction = new MyResourcesAction(addOverlayActionHelper, new Vector2(startXPos, startYPos), gameManager, 2);
-//            new MyCoinsAction(addOverlayActionHelper, new Vector2(startXPos, startYPos), gameManager, 55);
         }
     }
 
@@ -104,5 +106,24 @@ public class MyGiftsPanel extends Group {
     public void redraw() {
         boxImage.close();
 //        timerCount.redraw();
+    }
+
+
+    @Override
+    public void addTimeLabel(Actor actor) {
+        actor.setPosition((background.getWidth() - actor.getWidth()) / 2,
+                background.getY() + background.getHeight() - 8 - actor.getHeight());
+        addActor(actor);
+
+    }
+
+    @Override
+    public void showClaimButton() {
+        claimButton.setVisible(true);
+    }
+
+    @Override
+    public void hideClaimButton() {
+        claimButton.setVisible(false);
     }
 }

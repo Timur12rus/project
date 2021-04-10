@@ -1,22 +1,5 @@
-package com.timgapps.warfare.screens.map.windows.gifts_window;
-
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.timgapps.warfare.screens.map.gifts_panel.gui_elements.BoxImage;
-import com.timgapps.warfare.screens.map.gui_elements.CoinsPanel;
-import com.timgapps.warfare.screens.map.windows.upgrade_window.gui_elements.ColorButton;
-import com.timgapps.warfare.GameManager;
-import com.timgapps.warfare.screens.map.gui_elements.GiftIcon;
-import com.timgapps.warfare.screens.map.MapScreen;
-import com.timgapps.warfare.Warfare;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.TimeZone;
+//package com.timgapps.warfare.screens.map.windows.gifts_window;
+//
 //
 //class GiftPanel extends Group {
 //    private Image background;

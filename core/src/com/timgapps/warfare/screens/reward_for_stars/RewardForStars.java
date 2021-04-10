@@ -12,7 +12,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.timgapps.warfare.screens.level.Finger;
 import com.timgapps.warfare.GameManager;
-import com.timgapps.warfare.screens.map.actions.CoinsAction;
 import com.timgapps.warfare.Warfare;
 import com.timgapps.warfare.screens.reward_for_stars.gui_elements.Hilite;
 
@@ -40,13 +39,8 @@ public class RewardForStars extends Group {
     private int deltaCountStars;
     private int lastRewardCountStars;
     private int starsCount;                         // текущее кол-во звёзд у игрока
-    private float xPos;     // позиция Х panelStarsSmall
     private Hilite hilite;
-    private CoinsAction coinsAction;
-    private boolean isGotReward;        // получени ли награда
-    private SequenceAction getRewardAction;
     private float timeCount = 120;
-    private boolean startCountTimer;
 
     public RewardForStars(RewardForStarsScreen rewardForStarsScreen, RewardForStarsData data, GameManager gameManager,
                           int deltaCountStars, int lastRewardCountStars) {
@@ -173,7 +167,6 @@ public class RewardForStars extends Group {
                 showToast();
             }
         });
-
         this.setDebug(true);
     }
 
@@ -201,145 +194,14 @@ public class RewardForStars extends Group {
 
     private void showToast() {
         if (!data.isReceived()) {     // если награда не доступна
-//        if (!data.getIsChecked()) {     // если награда не доступна
             rewardForStarsScreen.showToast(data.getStarsCount());
         } else {
             rewardForStarsScreen.showToast("Reward has already been received");
         }
-
-        //TODO сделать надпсь "награда уже получена"
-//        if (data.getIsReceived()) {
-//            showToast();
-//        }
-
     }
 
     public void setHilite(boolean isHilited) {
         hilite.setHilite(isHilited);
-    }
-
-
-    /**
-     * метод для получения награды за звезды при клике на награду
-     **/
-//    public void getRewardForStars() {
-//        setReceived();
-//        nameLabel.setColor(Color.LIGHT_GRAY);
-//        switch (data.getTypeOfReward()) {
-//            case com.timgapps.warfare.screens.reward_for_stars.RewardForStarsData.REWARD_STONE:                           // если награда "КАМЕНЬ"
-//                for (int i = 0; i < gameManager.getCollection().size(); i++) {
-//                    if (gameManager.getCollection().get(i).getUnitId() == PlayerUnits.Rock) {
-//                        addRewardUnitToTeam(i);
-//                        Image actorImage = new Image(Warfare.atlas.findRegion(data.getImageString()));
-//                        rewardForStarsScreen.startAddAction(actorImage, getX() + rewardForStarsScreen.getScrollTableX(), getY() + 240, deltaX);
-//                        gameManager.setHelpStatus(GameManager.HELP_TEAM_UPGRADE);
-//                    }
-//                }
-//                break;
-//            case com.timgapps.warfare.screens.reward_for_stars.RewardForStarsData.REWARD_ARCHER:
-//                for (int i = 0; i < gameManager.getCollection().size(); i++) {
-//                    if (gameManager.getCollection().get(i).getUnitId() == PlayerUnits.Archer) {
-//                        addRewardUnitToTeam(i);
-//                        Image actorImage = new Image(Warfare.atlas.findRegion(data.getImageString()));
-////                        setStartPosition(getX() + rewardForStarsScreen.getScrollTableX(),
-////                                getY() + 240);
-//                        rewardForStarsScreen.startAddAction(actorImage, getX() + rewardForStarsScreen.getScrollTableX(), getY() + 240, deltaX);
-//                    }
-//                }
-//                break;
-//            case com.timgapps.warfare.screens.reward_for_stars.RewardForStarsData.REWARD_BOX:
-//                rewardImage.setDrawable(new Image(Warfare.atlas.findRegion("boxImage4")).getDrawable());
-//                gameManager.addCoinsCount(100);
-//                com.timgapps.warfare.screens.reward_for_stars.GiftAnimation coinsAnimation = new com.timgapps.warfare.screens.reward_for_stars.GiftAnimation(rewardForStarsScreen,
-//                        getX() + rewardForStarsScreen.getScrollTableX(),
-//                        getY() + 240, com.timgapps.warfare.screens.reward_for_stars.GiftAnimation.COIN_GIFT);
-////                        getY() + rewardForStarsScreen.getScrollTableY());
-//
-//                gameManager.setCoinsCount(gameManager.getCoinsCount() + 100);
-//                coinsAction = new CoinsAction();
-//                coinsAction.setStartPosition(getX() + rewardForStarsScreen.getScrollTableX(),
-//                        getY() + 240);
-//                coinsAction.setEndPosition(rewardForStarsScreen.getCoinsPanel().getX(), rewardForStarsScreen.getCoinsPanel().getY());
-//                coinsAction.start();
-//                rewardForStarsScreen.addChild(coinsAction);
-//                com.timgapps.warfare.screens.reward_for_stars.GiftAnimation resoursesAnimation = new com.timgapps.warfare.screens.reward_for_stars.GiftAnimation(rewardForStarsScreen,
-//                        getX() + rewardForStarsScreen.getScrollTableX(),
-//                        getY() + 240, GiftAnimation.RESOURSES_GIFT);
-//
-////                coinsAnimation.start();
-//                resoursesAnimation.start();
-//                break;
-//            case com.timgapps.warfare.screens.reward_for_stars.RewardForStarsData.REWARD_GNOME:
-//                for (int i = 0; i < gameManager.getCollection().size(); i++) {
-//                    if (gameManager.getCollection().get(i).getUnitId() == PlayerUnits.Gnome) {
-//                        addRewardUnitToTeam(i);
-//                        Image actorImage = new Image(Warfare.atlas.findRegion(data.getImageString()));
-//                        rewardForStarsScreen.startAddAction(actorImage, getX() + rewardForStarsScreen.getScrollTableX(), getY() + 240, deltaX);
-//                    }
-//                }
-//                break;
-//            case RewardForStarsData.REWARD_KNIGHT:
-//                for (int i = 0; i < gameManager.getCollection().size(); i++) {
-//                    if (gameManager.getCollection().get(i).getUnitId() == PlayerUnits.Knight) {
-//                        addRewardUnitToTeam(i);
-//                        Image actorImage = new Image(Warfare.atlas.findRegion(data.getImageString()));
-//                        rewardForStarsScreen.startAddAction(actorImage, getX() + rewardForStarsScreen.getScrollTableX(), getY() + 240, deltaX);
-//                    }
-//                }
-//                break;
-//        }
-//        starsBar.setIsReceived(true);
-////         сохраним данные
-//        data.setReceived();                                  // награда получена
-//        gameManager.getStarsPanel().updateCountReward();
-//        gameManager.saveGame();
-//    }
-
-    /**
-     * метод добавляет полученного юнита в команду
-     **/
-    private void addRewardUnitToTeam(int i) {
-//        unlockRewardForStars(i);                                               // разблокируем награду
-        gameManager.getCollection().get(i).getUnitData().setUnlock();     // снимаем блокировку юнита
-        gameManager.getCollection().get(i).getUnitImageButton().unlock();
-        gameManager.getCollection().get(i).getUnitImageButton().redraw();
-
-        if (gameManager.getTeam().size() < 5) {
-            // добавим полученный юнит в команду
-            gameManager.getTeam().add(gameManager.getCollection().get(i));  // добавляем в команду полученный юнит из коллекции
-            gameManager.getSavedGame().getTeamDataList().add(gameManager.getSavedGame().getCollectionDataList().get(i));
-
-            // удалим юнит из коллекции
-            gameManager.getCollection().remove(i);
-            gameManager.getSavedGame().getCollectionDataList().remove(i);
-        } else {
-            // TODO сделать чтобы юнит добавлялся в коллекцию, если в команде больше 5 юнитов
-//            //
-//            gameManager.getTeam().add(gameManager.getCollection().get(i));  // добавляем в команду полученный юнит из коллекции
-//            gameManager.getSavedGame().getTeamDataList().add(gameManager.getSavedGame().getCollectionDataList().get(i));
-        }
-    }
-
-    /**
-     * метод разблокирует юнита и делает его доступным в коллекции
-     **/
-    private void unlockRewardForStars(int index) {
-        gameManager.getCollection().get(index).getUnitData().setUnlock();     // снимаем блокировку юнита
-        gameManager.getCollection().get(index).getUnitImageButton().unlock();
-    }
-
-    public void setChecked() {
-        data.setChecked();
-        bg.setVisible(false);
-        bgYellow.setVisible(true);
-    }
-
-    public void setReceived() {
-        bgOrange.setVisible(false);
-        bg.setVisible(true);
-        bgYellow.setVisible(false);
-        receivedImg.setVisible(true);
-
     }
 
     public int getRewardCountStars() {

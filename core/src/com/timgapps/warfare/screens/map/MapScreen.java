@@ -3,7 +3,6 @@ package com.timgapps.warfare.screens.map;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g3d.particles.ParallelArray;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
@@ -11,7 +10,6 @@ import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Action;
@@ -19,7 +17,6 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -33,7 +30,6 @@ import com.timgapps.warfare.screens.map.windows.MissionInfoWindow;
 import com.timgapps.warfare.screens.map.windows.gifts_window.GiftScreen;
 import com.timgapps.warfare.screens.map.windows.team_upgrade_window.TeamUpgradeScreen;
 import com.timgapps.warfare.GameManager;
-import com.timgapps.warfare.screens.map.actions.ResourcesAction;
 import com.timgapps.warfare.screens.level.level_windows.ColorRectangle;
 import com.timgapps.warfare.Warfare;
 import com.timgapps.warfare.screens.map.gui_elements.GiftIcon;
@@ -60,15 +56,14 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper {
     private GiftScreen giftScreen;
     //    public static BitmapFont font40;
     private TeamUpgradeIcon teamUpgradeIcon;      // кнопка для вызова окна апгрейда юнитов
-    //    private ImageButton upgradeTeamButton;      // кнопка для вызова окна апгрейда юнитов
     private GiftIcon giftIcon;
     private GameManager gameManager;
     private CoinsPanel coinsPanel;              // панель с монетами
     private ScorePanel scorePanel;              // панель с игровыми очками
     private StarsPanel starsPanel;              // панель с наградой за звезды
     private boolean isEndCoinsAction = false;
-    private int coinsReward = 0;
-    private int scoreReward = 0;
+    private int coinsReward;
+    private int scoreReward;
     private TiledMap map;
     private int mapWidth, mapHeight, tilePixelWidth, tilePixelHeight, levelWidth, levelHeight;
     private boolean isFocused = true;
@@ -77,17 +72,12 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper {
     private float cameraXpos;
     private float cameraYpos;
     private ColorRectangle greenRectangle;
-    private ResourcesAction resourcesAction;
     private final int W_RECT = 10;
     private final int H_RECT = 8;
-    private boolean getRewardIsChecked;
     private boolean isScreenShown;
     private boolean isFirstStart = true;
     private boolean isStartCameraZoom = false;
-    //    private float cameraZoomValue = 8;
     private float cameraZoomValue = 0.5f;
-    private float accumulateDeltaZoomValue;
-    private Interpolation interpolation;
     private float timeToCameraZoomTarget, cameraZoomTarget, cameraZoomOrigin, cameraZoomDuration;
     private final float LEVEL_WIDTH = 1792; // (56 x 32)
     private final float LEVEL_HEIGHT = 1024; // (32 x 32)
@@ -678,18 +668,12 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper {
         return layer.getCell(x, y);
     }
 
-    public void setCoinsReward(int coinsCount) {
-        coinsReward = coinsCount;
-    }
-
     private void showTeamUpgradeScreen() {
         isScreenShown = true;
         isFocused = false;
         hideButtons();
         teamUpgradeScreen.redrawTeamTable();
         teamUpgradeScreen.redrawCollectionTable();
-//        teamUpgradeScreen.updateTeam();
-//        teamUpgradeScreen.updateCollection();
         teamUpgradeScreen.setVisible(true);
 
         // TODO нужно исправить!!!!!!!!
@@ -704,9 +688,6 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper {
         isFocused = false;
         giftScreen.redraw();
         giftScreen.setVisible(true);
-//        giftScreen.setPosition(getWidth() / 2 - giftScreen.getWidth() / 2,
-//                getHeight() / 2 - giftScreen.getHeight() / 2);
-//        giftScreen.toFront();
     }
 
     /**
@@ -815,11 +796,6 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper {
     @Override
     public void addChildOnOverlay(Actor actor) {
         addOverlayChild(actor);
-    }
-
-    @Override
-    public void removeChildFromOverlay(Actor actor) {
-        actor.remove();
     }
 
     // TODO исправить что то не так со значком апгрейда юнитов
