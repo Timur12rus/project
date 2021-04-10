@@ -14,7 +14,7 @@ public class TimeCounter {
     private Date date;
     private SimpleDateFormat formatForDate;
     private Label timeLabel;
-//    private final long DELTA_TIME_FIRST = 300000L;
+    //    private final long DELTA_TIME_FIRST = 300000L;
 //    private final long DELTA_TIME_SECOND = 600000L;
     private final long DELTA_TIME_FIRST = 10000L;
     private final long DELTA_TIME_SECOND = 20000L;
@@ -56,15 +56,16 @@ public class TimeCounter {
         // текст оставшееся время в формате времени
         timeLabel = new Label("" + formatForDate.format(timeToGift - date.getTime()), timeLabelStyle);
         giftsPanelGuiController.addTimeLabel(timeLabel);
-        if (timeToGift - date.getTime() < 0) {
-            timeLabel.setVisible(false);
-            isStop = true;
-            giftsPanelGuiController.showClaimButton();
-        } else {
-            timeLabel.setVisible(true);
-            isStop = false;
-            giftsPanelGuiController.hideClaimButton();
-        }
+        redraw();
+//        if (timeToGift - date.getTime() < 0) {
+//            timeLabel.setVisible(false);
+//            isStop = true;
+//            giftsPanelGuiController.showClaimButton();
+//        } else {
+//            timeLabel.setVisible(true);
+//            isStop = false;
+//            giftsPanelGuiController.hideClaimButton();
+//        }
     }
 
     /**
@@ -78,8 +79,8 @@ public class TimeCounter {
         if (giftsType == RESOURCES_GIFT) {
             gameManager.setGiftTimeSecond(timeToGift);      // сохраним значение текщего времени для получения подарка
         }
-        isStop = false;
-        timeLabel.setVisible(true);
+//        isStop = false;
+//        timeLabel.setVisible(true);
         giftsPanelGuiController.hideClaimButton();
 //        giftsPanelGuiController.showClaimButton();
     }
@@ -102,7 +103,23 @@ public class TimeCounter {
         }
     }
 
+    // перерисовывает надпись с оставшимся временем, если оно вышло делает надпись не видимой
     public void redraw() {
+        if (timeToGift - date.getTime() < 0) {
+            timeLabel.setVisible(false);
+            isStop = true;
+            giftsPanelGuiController.showClaimButton();
+        } else {
+            timeLabel.setVisible(true);
+            isStop = false;
+            giftsPanelGuiController.hideClaimButton();
+        }
 
+
+//        if (!isStop) {
+//            timeLabel.setVisible(true);
+//        } else {
+//            timeLabel.setVisible(false);
+//        }
     }
 }

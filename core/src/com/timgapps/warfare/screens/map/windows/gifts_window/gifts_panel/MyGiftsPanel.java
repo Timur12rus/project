@@ -1,9 +1,12 @@
 package com.timgapps.warfare.screens.map.windows.gifts_window.gifts_panel;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.timgapps.warfare.GameManager;
@@ -66,12 +69,25 @@ public class MyGiftsPanel extends Group implements GiftsPanelGuiController {
             public void clicked(InputEvent event, float x, float y) {
                 boxImage.startAnimation();
                 showAddGiftsAnimation(addOverlayActionHelper);
-                timeCounter.reset();
-                rewardTable.setVisible(false);
+                timeCounter.reset();           // сбросим счетчик
+                rewardTable.setVisible(false); //делаем невидимым таблицу в с данными о вознаграждении
+                showRewardTable();
             }
         });
-
         timeCounter = new TimeCounter(this, gameManager, panelType);
+    }
+
+    // метод делает видимым таблицу в с данными о вознаграждении
+    private void showRewardTable() {
+        Action checkEndOfAction = new Action() {
+            @Override
+            public boolean act(float delta) {
+                redraw();
+                return true;
+            }
+        };
+        SequenceAction sa = new SequenceAction(Actions.delay(2), checkEndOfAction);
+        addAction(sa);
     }
 
     @Override
@@ -101,11 +117,14 @@ public class MyGiftsPanel extends Group implements GiftsPanelGuiController {
         if (myResourcesAction != null) {
             myResourcesAction.clear();
         }
+//        clearActions();
     }
 
+    // метод перерисовывает панель с подарками (после окончания действия добавления монет или (ресурсов)
     public void redraw() {
         boxImage.close();
-//        timerCount.redraw();
+        timeCounter.redraw();
+        rewardTable.setVisible(true);
     }
 
 
@@ -125,5 +144,9 @@ public class MyGiftsPanel extends Group implements GiftsPanelGuiController {
     @Override
     public void hideClaimButton() {
         claimButton.setVisible(false);
+    }
+
+    public void clearAction() {
+        clearActions();
     }
 }
