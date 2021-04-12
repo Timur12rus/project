@@ -12,22 +12,16 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.timgapps.warfare.Warfare;
 
 
-public class TeamUpgradeIcon extends Group {
+public class TeamUpgradeIcon extends IconOnMap {
     private Image upgradeIcon, upgradeIconDown;
     private Label teamLabel;
     private ImageButton imageButton;
 
     public TeamUpgradeIcon() {
         upgradeIcon = new Image(Warfare.atlas.findRegion("teamButton"));
-//        upgradeIcon.setBounds(0, 0, 50, 60);
         upgradeIconDown = new Image(Warfare.atlas.findRegion("teamButtonDwn"));
         upgradeIconDown.setVisible(false);
         setSize(upgradeIconDown.getWidth(), upgradeIconDown.getHeight());
-
-//        imageButton = new ImageButton(upgradeIcon.getDrawable(), upgradeIconDown.getDrawable());
-//        setSize(imageButton.getWidth(), imageButton.getHeight());
-//        imageButton.setBounds(upgradeIconDown.getImageX(), upgradeIcon.getImageY(),
-//                              upgradeIconDown.getImageWidth(), upgradeIconDown.getImageHeight());
 
         Label.LabelStyle teamLabelStyle = new Label.LabelStyle();
         teamLabelStyle.fontColor = Color.WHITE;
@@ -37,9 +31,7 @@ public class TeamUpgradeIcon extends Group {
                 14);
         addActor(upgradeIcon);
         addActor(upgradeIconDown);
-//        addActor(imageButton);
         addActor(teamLabel);
-//        greenArrow = new Image(Warfare.atlas.findRegion("greenArrow"));
 
         addCaptureListener(new EventListener() { // добавляет слушателя события корневому элементу, отключая его для дочерних элементов
             @Override

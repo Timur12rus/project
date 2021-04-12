@@ -26,6 +26,7 @@ import com.boontaran.games.StageGame;
 import com.boontaran.games.tiled.TileLayer;
 import com.timgapps.warfare.screens.map.actions.AddOverlayActionHelper;
 import com.timgapps.warfare.screens.map.gui_elements.CoinsPanel;
+import com.timgapps.warfare.screens.map.interfaces.RoundCircleController;
 import com.timgapps.warfare.screens.map.windows.MissionInfoWindow;
 import com.timgapps.warfare.screens.map.windows.gifts_window.GiftScreen;
 import com.timgapps.warfare.screens.map.windows.team_upgrade_window.TeamUpgradeScreen;
@@ -42,7 +43,7 @@ import java.util.ArrayList;
 
 import static java.lang.Integer.parseInt;
 
-public class MapScreen extends StageGame implements AddOverlayActionHelper {
+public class MapScreen extends StageGame implements AddOverlayActionHelper, RoundCircleController {
     // создаем несколько констант для создания callBack сообщений, которые будут передаваться в зависимости от нажатия кнопок
     public static final int ON_BACK = 1;
     public static final int ON_LEVEL_SELECTED = 2;
@@ -713,10 +714,6 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper {
             gameManager.setHelpStatus(GameManager.HELP_TEAM_UPGRADE);
             starsPanel.hideFinger();
         }
-
-        if (helpStatus == GameManager.HELP_GET_GIFT) {
-            giftIcon.showFinger();
-        }
     }
 
     private void showAddCoinsAnimation() {
@@ -828,6 +825,21 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper {
                 Actions.fadeOut(0.6f)
         );
         teamUpgradeIcon.addAction(moveAction);
+    }
+
+    @Override
+    public void showRoundCircle() {
+        giftIcon.showRoundCircle();
+    }
+
+    @Override
+    public void hideRoundCircle() {
+        giftIcon.hideRoundCircle();
+    }
+
+    @Override
+    public boolean isRoundCircleVisible() {
+        return giftIcon.roundCircleIsVisible();
     }
 }
 

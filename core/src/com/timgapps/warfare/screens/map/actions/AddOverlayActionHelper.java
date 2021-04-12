@@ -6,4 +6,5 @@ public interface AddOverlayActionHelper {
     void addChildOnOverlay(Actor actor);
 
     void startIconAction();
+
 }

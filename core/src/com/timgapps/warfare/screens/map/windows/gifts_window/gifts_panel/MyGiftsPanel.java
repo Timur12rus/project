@@ -15,6 +15,7 @@ import com.timgapps.warfare.screens.level.timer.TimerIcon;
 import com.timgapps.warfare.screens.map.actions.AddOverlayActionHelper;
 import com.timgapps.warfare.screens.map.actions.MyCoinsAction;
 import com.timgapps.warfare.screens.map.actions.MyResourcesAction;
+import com.timgapps.warfare.screens.map.interfaces.RoundCircleController;
 import com.timgapps.warfare.screens.map.windows.gifts_window.GiftRewardTable;
 import com.timgapps.warfare.screens.map.windows.gifts_window.gifts_panel.gui_elements.BoxImage;
 import com.timgapps.warfare.screens.map.windows.upgrade_window.gui_elements.ColorButton;
@@ -24,21 +25,21 @@ public class MyGiftsPanel extends Group implements GiftsPanelGuiController {
     public static final int RESOURCE_AND_COINS_GIFT = 2;    // тип панели с подарками (ресурс и монеты)
     private int numOfResources;                             // кол-во ресурсов
     private int numOfCoins;                                 // кол-во монет
-    private com.timgapps.warfare.screens.map.windows.gifts_window.gifts_panel.gui_elements.BoxImage boxImage;
+    private BoxImage boxImage;
     private ColorButton claimButton;
     private TimeCounter timeCounter;
     private int panelType;                                  // тип панели (ресурсы или ресурс с монетами)
     private Image background;
     private GiftRewardTable rewardTable;
     private GameManager gameManager;
-    private AddOverlayActionHelper addOverlayActionHelper;
     private MyCoinsAction myCoinsAction;
     private MyResourcesAction myResourcesAction;
+    private RoundCircleController roundCircleController;
 
     public MyGiftsPanel(final AddOverlayActionHelper addOverlayActionHelper, GameManager gameManager, int panelType) {
         this.panelType = panelType;
         this.gameManager = gameManager;
-        this.addOverlayActionHelper = addOverlayActionHelper;
+        roundCircleController = (RoundCircleController) addOverlayActionHelper;
         this.debug();
         claimButton = new ColorButton("Claim", ColorButton.YELLOW_BUTTON);
         background = new Image(Warfare.atlas.findRegion("gifts_bg"));
@@ -93,7 +94,10 @@ public class MyGiftsPanel extends Group implements GiftsPanelGuiController {
     @Override
     public void act(float delta) {
         super.act(delta);
-        timeCounter.update(delta);
+        timeCounter.update();
+        if (timeCounter.isStop() && !roundCircleController.isRoundCircleVisible()) {
+            roundCircleController.showRoundCircle();
+        }
     }
 
     private void showAddGiftsAnimation(AddOverlayActionHelper addOverlayActionHelper) {
@@ -117,7 +121,6 @@ public class MyGiftsPanel extends Group implements GiftsPanelGuiController {
         if (myResourcesAction != null) {
             myResourcesAction.clear();
         }
-//        clearActions();
     }
 
     // метод перерисовывает панель с подарками (после окончания действия добавления монет или (ресурсов)
@@ -133,20 +136,17 @@ public class MyGiftsPanel extends Group implements GiftsPanelGuiController {
         actor.setPosition((background.getWidth() - actor.getWidth()) / 2,
                 background.getY() + background.getHeight() - 8 - actor.getHeight());
         addActor(actor);
-
     }
 
     @Override
     public void showClaimButton() {
         claimButton.setVisible(true);
+//        roundCircleController.showRoundCircle();
     }
 
     @Override
     public void hideClaimButton() {
         claimButton.setVisible(false);
-    }
-
-    public void clearAction() {
-        clearActions();
+        roundCircleController.hideRoundCircle();
     }
 }
