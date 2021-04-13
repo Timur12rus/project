@@ -15,13 +15,13 @@ import com.timgapps.warfare.Warfare;
 public class TeamUpgradeIcon extends IconOnMap {
     private Image upgradeIcon, upgradeIconDown;
     private Label teamLabel;
-    private ImageButton imageButton;
 
     public TeamUpgradeIcon() {
         upgradeIcon = new Image(Warfare.atlas.findRegion("teamButton"));
         upgradeIconDown = new Image(Warfare.atlas.findRegion("teamButtonDwn"));
         upgradeIconDown.setVisible(false);
         setSize(upgradeIconDown.getWidth(), upgradeIconDown.getHeight());
+        roundCircle.setPosition(getWidth() - roundCircle.getWidth(), getHeight() - roundCircle.getHeight());
 
         Label.LabelStyle teamLabelStyle = new Label.LabelStyle();
         teamLabelStyle.fontColor = Color.WHITE;

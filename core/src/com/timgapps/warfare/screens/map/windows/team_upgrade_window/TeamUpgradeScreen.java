@@ -159,7 +159,6 @@ public class TeamUpgradeScreen extends Group {
     // перерисовывает таблицу с юнитами в коллекции
     public void redrawCollectionTable() {
         collectionTable.redraw(unitCollection);
-
         final Table scrollTable = new Table();
         scrollTable.left().top();
         scrollTable.add(collectionTable).width(collectionTable.getWidth()).height(collectionTable.getHeight());

@@ -58,6 +58,7 @@ public class GetRewardScreen extends StageGame implements ScreenCloser {
                 gameManager.addFoodCount(2);
                 gameManager.addIronCount(2);
                 gameManager.addWoodCount(2);
+                gameManager.checkCanUpgrade();      // проверим, возможен ли апгрейд какого-либо юнита
                 break;
             case RewardForStarsData.REWARD_FIREBOOSTER:
                 gameManager.activateFireBooster();          // делаем активной "огненую атаку"

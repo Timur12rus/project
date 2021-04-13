@@ -64,6 +64,7 @@ public class GameManager {
     private Vector2 cameraPosition;
     private boolean isHaveFullRewardsForStars;      // игрок получил все награды за звезды
     private GeomHolder geomHolder;
+    private boolean isCanUpgrade;                   // индикатор, может ли быть апгрейд юнитов
 
     public GameManager() {
         /** загрузим данные игры **/
@@ -198,6 +199,7 @@ public class GameManager {
         }
         /** получи кол-во здоровья ОСАДНОЙ БАШНИ **/
         towerHealth = 50;
+        checkCanUpgrade();
     }
 
     public void activateFireBooster() {
@@ -596,5 +598,32 @@ public class GameManager {
 
     public Geom getGeom(String geomName) {
         return geomHolder.getGeom(geomName);
+    }
+
+    // метод проверяет, возможен ли апгрейд юнита, при имеющемся кол-ве ресурсов
+    public void checkCanUpgrade() {
+        System.out.println("---------------------------------------------------");
+        isCanUpgrade = false;
+        for (TeamUnit teamUnit : team) {
+            System.out.println("TeamUnit = " + teamUnit.getUnitData().getName());
+            int upgradeFoodValue = teamUnit.getUnitData().getFoodValueForUpgrade();
+            int upgradeIronValue = teamUnit.getUnitData().getIronValueForUpgrade();
+            int upgradeWoodValue = teamUnit.getUnitData().getWoodValueForUpgrade();
+            if (((foodCount >= upgradeFoodValue) || (ironCount >= upgradeIronValue) || (woodCount >= upgradeWoodValue))
+                && (teamUnit.getUnitData().getUnitLevel() < 10)) {
+                // TODO сделать roundCircle.setVisible(true)
+                // TODO сделать teamUnit.canUpgrade(true)
+                isCanUpgrade = true;
+            }
+//            else {
+//                // TODO сделать roundCircle.setVisible(false)
+//                // TODO сделать teamUnit.canUpgrade(true)
+//                isCanUpgrade = false;
+//            }
+        }
+    }
+
+    public boolean isCanUpgrade() {
+        return isCanUpgrade;
     }
 }

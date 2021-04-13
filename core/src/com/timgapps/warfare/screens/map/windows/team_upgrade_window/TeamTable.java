@@ -34,7 +34,7 @@ public class TeamTable extends Table {
         redraw(team);
     }
 
-
+    // метод перерисовывает таблицу с командой юнитов
     public void redraw(ArrayList<TeamUnit> team) {
         this.team = team;
         clear();

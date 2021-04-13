@@ -182,6 +182,7 @@ public class GiftAnimation {
             default:
                 throw new IllegalStateException("Unexpected value: " + resourceType);
         }
+        gameManager.checkCanUpgrade();  // проверим, возможен ли апгрейд какого-либо юнита
         return resourceImage;
     }
 

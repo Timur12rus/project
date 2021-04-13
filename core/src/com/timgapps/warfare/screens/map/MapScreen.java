@@ -431,6 +431,13 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper, Roun
 //        if (finger != null && gameManager.getHelpStatus() != GameManager.HELP_GET_GIFT) {
 //            finger.setVisible(true);
 //        }
+        gameManager.checkCanUpgrade();
+        System.out.println("IsCan Upgrade = " + gameManager.isCanUpgrade());
+        if (gameManager.isCanUpgrade()) {
+            teamUpgradeIcon.showRoundCircle();
+        } else {
+            teamUpgradeIcon.hideRoundCircle();
+        }
         teamUpgradeIcon.addAction(Actions.fadeIn(0));
         teamUpgradeIcon.setTouchable(Touchable.enabled);
 //        teamUpgradeIcon.setVisible(true);
