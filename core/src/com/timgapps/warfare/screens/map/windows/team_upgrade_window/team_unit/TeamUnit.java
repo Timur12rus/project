@@ -1,8 +1,11 @@
 package com.timgapps.warfare.screens.map.windows.team_upgrade_window.team_unit;
 
 import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnitData;
+import com.timgapps.warfare.screens.map.windows.upgrade_window.UpgradeWindow;
 import com.timgapps.warfare.screens.map.windows.upgrade_window.gui_elements.UnitImage;
 import com.timgapps.warfare.Units.GameUnits.unitTypes.PlayerUnits;
+
+import org.omg.PortableInterceptor.DISCARDING;
 
 // Сущность юнит из команды или коллекции (сущность)
 public class TeamUnit {
@@ -21,6 +24,8 @@ public class TeamUnit {
     private int energyCost;
     private final int MAX_UNIT_LEVEL = 10;
     private boolean isHired;           // призван ли юнит (т.е. куплени ли он, нужно ли будет его покупать)
+    private boolean isCanUpgrade;       // может ли быть улучшен юнит
+    private int upgradeCost;            // кол-во монет, необходимых для апгрейда
 
     @Override
     public String toString() {
@@ -47,6 +52,7 @@ public class TeamUnit {
         unitLevel = data.getUnitLevel();
         unitImage = new UnitImage(unitId, unitLevel, energyCost);
         isHired = data.isHired();     // призван ли юнит (т.е. куплен ли он)
+        upgradeCost = unitLevel * UpgradeWindow.COST_UPGRADE;
     }
 
     public boolean isHired() {
@@ -153,6 +159,36 @@ public class TeamUnit {
         data.setUnitLevel(unitLevel);
         data.setHealth(health);
         data.setDamage(damage);
+    }
+
+    // метод устанавливает может ли юинт быть улучшенным
+    public void setCanUpgrade(boolean isCanUpgrade) {
+        this.isCanUpgrade = isCanUpgrade;
+    }
+
+    // устанавливает кол-во монет для апгрейда
+    public void setUpgradeCost(int upgradeCost) {
+        this.upgradeCost = upgradeCost;
+    }
+
+    public int getUpgradeCost() {
+        return upgradeCost;
+    }
+
+    public boolean isCanUpgrade() {
+        return isCanUpgrade;
+    }
+
+    // метод запускает действие движения значка уровня юнита вверх-вниз
+    public void startCanUpgradeAction() {
+        if (isCanUpgrade) {
+            unitImageButton.startLevelIconAction(); // запускаем действие движения значка уровня юнита, если юнит может быть улучшен
+        }
+    }
+
+    // метод очищает действие движения значка уровня юнита вверх-вниз
+    public void clearCanUpgradeAction() {
+        unitImageButton.clearLevelIconAction();
     }
 }
 

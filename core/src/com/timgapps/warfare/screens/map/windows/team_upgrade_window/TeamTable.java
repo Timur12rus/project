@@ -38,7 +38,11 @@ public class TeamTable extends Table {
     public void redraw(ArrayList<TeamUnit> team) {
         this.team = team;
         clear();
+
         for (int i = 0; i < this.team.size(); i++) {
+            if (team.get(i).isCanUpgrade()) {
+                team.get(i).startCanUpgradeAction();
+            }
             add(this.team.get(i).getUnitImageButton()).width(this.team.get(i).getImageButtonWidth()).height(this.team.get(i).getImageButtonHeight()).padLeft(12).padRight(12).left();
         }
         /** проверим, если количество юнитов в команде, меньше ячеек,

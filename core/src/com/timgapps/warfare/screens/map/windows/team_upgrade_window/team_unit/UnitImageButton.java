@@ -1,10 +1,15 @@
 package com.timgapps.warfare.screens.map.windows.team_upgrade_window.team_unit;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
+import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnitData;
@@ -43,7 +48,7 @@ public class UnitImageButton extends Group {
         inactiveImage.setVisible(false);
         lockImage.setVisible(false);
 
-        unitLevelIcon.setPosition(getWidth() - unitLevelIcon.getWidth(), getHeight() - unitLevelIcon.getHeight() + 10);
+//        unitLevelIcon.setPosition(getWidth() - unitLevelIcon.getWidth(), getHeight() - unitLevelIcon.getHeight() + 10);
         lockIcon.setPosition(getWidth() - lockIcon.getWidth(), getHeight() - lockIcon.getHeight() + 10);
 
         redraw();
@@ -65,8 +70,37 @@ public class UnitImageButton extends Group {
         addClickListener();
     }
 
+    // метод запускает действие движения значка уровня юнита, если юнит может быть улучшен
+    public void startLevelIconAction() {
+//        MoveToAction actionOne = new MoveToAction();
+//        actionOne.setDuration(0.5f);
+//        actionOne.setInterpolation(Interpolation.smooth);
+//
+//        MoveToAction actionTwo = new MoveToAction();
+//        actionTwo.setDuration(0.5f);
+//        actionTwo.setInterpolation(Interpolation.smooth);
+
+
+        SequenceAction sequenceAction = new SequenceAction(
+                Actions.moveBy(0, 8, 0.4f, Interpolation.smooth),
+                Actions.moveBy(0, -8, 0.4f, Interpolation.smooth)
+        );
+        RepeatAction repeatAction = new RepeatAction();
+
+        repeatAction.setCount(RepeatAction.FOREVER);
+        repeatAction.setAction(sequenceAction);
+        unitLevelIcon.addAction(repeatAction);
+    }
+
+    public void clearLevelIconAction() {
+        unitLevelIcon.clearActions();
+        unitLevelIcon.setPosition(getWidth() - unitLevelIcon.getWidth(), getHeight() - unitLevelIcon.getHeight() + 10);
+//        unitLevelIcon.
+    }
+
     // перерисовывает кнопку-изображение (значок) юнита в зависимости от доступности юнита
     public void redraw() {
+        unitLevelIcon.setPosition(getWidth() - unitLevelIcon.getWidth(), getHeight() - unitLevelIcon.getHeight() + 10);
         this.isUnlock = playerUnitData.isUnlock();
         this.isCalled = playerUnitData.isHired();
         if (isUnlock) {                         // если разблокирован
@@ -167,12 +201,6 @@ public class UnitImageButton extends Group {
 
     public void unlock() {
         isUnlock = true;
-        lockImage.setVisible(false);
-        activeImage.setVisible(true);
-    }
-
-    public void call() {
-        isCalled = true;
         lockImage.setVisible(false);
         activeImage.setVisible(true);
     }

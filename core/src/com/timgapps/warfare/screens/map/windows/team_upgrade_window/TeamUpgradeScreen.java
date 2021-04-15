@@ -153,11 +153,18 @@ public class TeamUpgradeScreen extends Group {
 
     // перерисовывает таблицу с юнитами в команде
     public void redrawTeamTable() {
+        for (TeamUnit unit : team) {
+            unit.clearCanUpgradeAction();
+        }
+        gameManager.checkCanUpgrade();
         teamTable.redraw(team);
     }
 
     // перерисовывает таблицу с юнитами в коллекции
     public void redrawCollectionTable() {
+        for (TeamUnit unit : unitCollection) {
+            unit.clearCanUpgradeAction();
+        }
         collectionTable.redraw(unitCollection);
         final Table scrollTable = new Table();
         scrollTable.left().top();
@@ -193,10 +200,6 @@ public class TeamUpgradeScreen extends Group {
         replacedUnitImage.setVisible(false);
         System.out.println("replacedUNitImage.isVisible() = " + replacedUnitImage.isVisible());
         isReplaceActive = false;
-    }
-
-    public void hide() {
-        this.setVisible(false);
     }
 
     /**
@@ -325,10 +328,10 @@ public class TeamUpgradeScreen extends Group {
         return upgradeWindow.isVisible();
     }
 
-    public void setUpgradeScreenVisible(boolean visible) {
-//        upgradeWindow.setVisible(visible);
+    // метод скрывает окно с таблицей юнитов  (команду и коллекцию)
+    public void hide() {
+        this.setVisible(false);
         upgradeWindow.hideUpgradeWindow();
-//        upgradeWindow.setVisible(visible);
     }
 
     @Override

@@ -609,11 +609,13 @@ public class GameManager {
             int upgradeFoodValue = teamUnit.getUnitData().getFoodValueForUpgrade();
             int upgradeIronValue = teamUnit.getUnitData().getIronValueForUpgrade();
             int upgradeWoodValue = teamUnit.getUnitData().getWoodValueForUpgrade();
-            if (((foodCount >= upgradeFoodValue) || (ironCount >= upgradeIronValue) || (woodCount >= upgradeWoodValue))
-                && (teamUnit.getUnitData().getUnitLevel() < 10)) {
+            teamUnit.setCanUpgrade(false);
+            if (((coinsCount >= teamUnit.getUpgradeCost()) && (foodCount >= upgradeFoodValue) && (ironCount >= upgradeIronValue) && (woodCount >= upgradeWoodValue))
+                    && (teamUnit.getUnitData().getUnitLevel() < 10)) {
                 // TODO сделать roundCircle.setVisible(true)
                 // TODO сделать teamUnit.canUpgrade(true)
                 isCanUpgrade = true;
+                teamUnit.setCanUpgrade(true);
             }
 //            else {
 //                // TODO сделать roundCircle.setVisible(false)

@@ -123,13 +123,12 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper, Roun
 
         fade = new ColorRectangle(0, 0, getWidth(), getHeight(), new Color(0, 0, 0, 0.7f));
         fade.setVisible(false);
+
+        // если нажимаем на fade, скрываем окно, которое сейчас открыто, и возвращаемся на карту
         fade.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                if (teamUpgradeScreen.isUpgradeScreenVisible()) {
-                    teamUpgradeScreen.setUpgradeScreenVisible(false);
-                }
                 resumeLevelMap();
             }
         });
@@ -702,6 +701,10 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper, Roun
      * метод для возврата к карте уровней для выбора уровня
      **/
     private void resumeLevelMap() {
+        if (teamUpgradeScreen.isUpgradeScreenVisible()) {
+            teamUpgradeScreen.hide();
+//                    teamUpgradeScreen.setUpgradeScreenVisible(false);
+        }
         isScreenShown = false;
         /** скрываем окно с описанием уровня **/
         missionInfoWindow.hide();

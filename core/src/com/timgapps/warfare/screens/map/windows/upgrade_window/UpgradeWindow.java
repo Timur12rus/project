@@ -39,7 +39,7 @@ public class UpgradeWindow extends Group implements UpgradeEffectStarter {
     private UnitImage unitImage;            // изображение юнита
     private int coinsCount;
     private int upgradeCost;
-    private final int COST_UPGRADE = 50;
+    public static final int COST_UPGRADE = 50;
     private GameManager gameManager;
     private String noResources = "Not enought resources!";
     private String noCoins = "Not enought coins!";
@@ -290,14 +290,16 @@ public class UpgradeWindow extends Group implements UpgradeEffectStarter {
                 } else {
                     selectButton.setVisible(false);
                 }
-                System.out.println("IS HIRED  = " + teamUnit.getUnitData().isHired());
+//                System.out.println("IS HIRED  = " + teamUnit.getUnitData().isHired());
                 nextUnitLevel = teamUnit.getUnitLevel();
                 nextUnitLevel++;
                 if (teamUnit.getUnitLevel() >= teamUnit.getMaxUnitLevel()) {    // если уровень юнита >= максимальному уровню юнита
                     maxLevelReached.setVisible(true);
                 } else {
-                    System.out.println("Show LABELS UPGRADE!!!!");
-                    upgradeCost = teamUnit.getUnitLevel() * COST_UPGRADE;       // стоимость апгрейда (монет)
+//                    System.out.println("Show LABELS UPGRADE!!!!");
+                    upgradeCost = teamUnit.getUpgradeCost();
+//                    upgradeCost = teamUnit.getUnitLevel() * COST_UPGRADE;       // стоимость апгрейда (монет)
+                    teamUnit.setUpgradeCost(upgradeCost);
                     checkRecourcesAndCoinsCount();
                     infoTable.showUpgradeLabels();
                     upgradeCostTable.setVisible(true);
@@ -409,6 +411,7 @@ public class UpgradeWindow extends Group implements UpgradeEffectStarter {
         teamUnit.getUnitData().setUnitLevel(nextUnitLevel);
         teamUnit.addHealth(infoTable.getAddHealthValue());
         teamUnit.addDamage(infoTable.getAddDamageValue());
+        teamUnit.setUpgradeCost(teamUnit.getUnitLevel() * COST_UPGRADE);       // стоимость апгрейда (монет));
 
         if (teamUnit.getUnitLevel() >= teamUnit.getMaxUnitLevel()) {
 //            bottomGroup.showUpgradeButton();

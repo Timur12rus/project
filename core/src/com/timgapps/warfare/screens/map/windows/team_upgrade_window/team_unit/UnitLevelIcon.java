@@ -42,22 +42,11 @@ public class UnitLevelIcon extends Group {
         }
     }
 
-    public boolean isActiveIcon() {
-        return isActiveIcon;
-    }
+    public void resetPosY() {
 
-    public void setIsReady(boolean isReady) {
-        this.isReady = isReady;
-    }
-
-    public boolean isReady() {
-        return isReady;
     }
 
     public void setLevelValue(int levelValue) {
-//        if (levelValue >= 10) {
-//            levelLabel.setX(levelLabel.getX() - 4);
-//        }
         if (levelValue < 10) {
             levelLabel.setWidth(13);
         } else {
