@@ -117,10 +117,6 @@ public class InfoTable extends Table {
     }
 
     public void startAction() {
-//        Actions.moveTo(x + 32, y + 32, 0.8f, new Interpolation.SwingOut(1)),
-//                Actions.moveTo(endXPos, endYPos, 0.6f),
-//                Actions.fadeOut(0)
-
         ParallelAction moveHealthAction = new ParallelAction(
                 Actions.moveBy(-48, 0, 1.1f,Interpolation.pow3Out),
 //                Actions.moveBy(-48, 0, 1.8f, Interpolation.pow3Out),

@@ -66,13 +66,19 @@ public class ResourcesTable extends Group {
         addActor(woodImage);
     }
 
-    public void startActions() {
+    public void startActions(boolean isShowResoursesImage) {
         foodImage.clearActions();
         ironImage.clearActions();
         woodImage.clearActions();
-        foodImage.setVisible(true);
-        ironImage.setVisible(true);
-        woodImage.setVisible(true);
+//        if (isShowResoursesImage) {
+            foodImage.setVisible(isShowResoursesImage);
+            ironImage.setVisible(isShowResoursesImage);
+            woodImage.setVisible(isShowResoursesImage);
+//        } else {
+//            foodImage.setVisible(false);
+//            ironImage.setVisible(false);
+//            woodImage.setVisible(false);
+//        }
         /**
          SequenceAction sa = new SequenceAction(mtaUp, mtaDown);
          levelIcon.addAction(sa);

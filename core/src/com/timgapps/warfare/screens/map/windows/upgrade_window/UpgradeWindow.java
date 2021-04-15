@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.timgapps.warfare.Units.GameUnits.unitTypes.PlayerUnits;
 import com.timgapps.warfare.screens.map.windows.upgrade_window.bottom_group.BottomGroup;
 import com.timgapps.warfare.screens.map.windows.upgrade_window.gui_elements.ColorButton;
 import com.timgapps.warfare.screens.map.windows.upgrade_window.gui_elements.UnitImage;
@@ -402,7 +403,11 @@ public class UpgradeWindow extends Group implements UpgradeEffectStarter {
         bottomGroup.hideUpgradeButton();
 
         /** применим действия к значкам ресурсов (движение и мерцание картинки юнита) **/
-        resourcesTable.startActions();
+        boolean isShowResourcesImages = false;
+        if (!teamUnit.getUnitId().equals(PlayerUnits.Rock)) {
+            isShowResourcesImages = true;
+        }
+        resourcesTable.startActions(isShowResourcesImages);
         infoTable.startAction();
 
 //        upgradeEffectActor.start();
