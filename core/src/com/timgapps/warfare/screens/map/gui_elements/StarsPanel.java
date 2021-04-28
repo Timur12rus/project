@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.timgapps.warfare.GameManager;
+import com.timgapps.warfare.Utils.StringHolder;
 import com.timgapps.warfare.screens.level.Finger;
 import com.timgapps.warfare.screens.reward_for_stars.RewardForStarsData;
 import com.timgapps.warfare.Warfare;
@@ -48,7 +49,7 @@ public class StarsPanel extends Group {
         Label.LabelStyle textLabelStyle = new Label.LabelStyle();
         textLabelStyle.fontColor = Color.ORANGE;
         textLabelStyle.font = Warfare.font10;
-        textLabel = new Label("Reward for stars", textLabelStyle);
+        textLabel = new Label(Warfare.stringHolder.getString(StringHolder.REWARD_FOR_STARS), textLabelStyle);
 
         /** Изображение ЗНАЧОК ЗВЕЗДА **/
         starIcon = new Image(Warfare.atlas.findRegion("star_icon"));

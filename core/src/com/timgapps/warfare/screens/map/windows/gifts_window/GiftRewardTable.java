@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.timgapps.warfare.Utils.StringHolder;
 import com.timgapps.warfare.Warfare;
 
 public class GiftRewardTable extends Group {
@@ -23,7 +24,7 @@ public class GiftRewardTable extends Group {
         rewardsLabelStyle.font = Warfare.font20;
 
         rewardLabel = new Label("", rewardsLabelStyle);
-        rewardLabel.setText("Reward:");
+        rewardLabel.setText(Warfare.stringHolder.getString(StringHolder.REWARD) + ":");
         Table rewardTable = new Table();
         Image coinImage = new Image(Warfare.atlas.findRegion("coin_icon"));
 

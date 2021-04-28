@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.boontaran.MessageEvent;
+import com.timgapps.warfare.Utils.StringHolder;
 import com.timgapps.warfare.screens.map.windows.upgrade_window.UpgradeWindow;
 import com.timgapps.warfare.screens.map.win_creator.ConstructedWindow;
 import com.timgapps.warfare.screens.map.windows.team_upgrade_window.team_unit.TeamUnit;
@@ -57,7 +58,7 @@ public class TeamUpgradeScreen extends Group {
         this.gameManager = gameManager;
         // через manager получим массив юнитов каманды
         team = gameManager.getTeam();
-        teamText = "TEAM";
+        teamText = Warfare.stringHolder.getString(StringHolder.TEAM);
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.fontColor = Color.DARK_GRAY;
         labelStyle.font = Warfare.font40;
@@ -310,7 +311,7 @@ public class TeamUpgradeScreen extends Group {
         Array<Cell> cells = collectionTable.getCells();
         System.out.println("UpdateCollectionTable()!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         for (int i = 0; i < unitCollection.size(); i++) {
-            System.out.println("collection[" + i + "] = " + unitCollection.get(i).toString());
+//            System.out.println("collection[" + i + "] = " + unitCollection.get(i).toString());
 //            cells.get(i).setActor(unitCollection.get(i));
         }
     }

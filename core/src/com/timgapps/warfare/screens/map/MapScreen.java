@@ -135,7 +135,7 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper, Roun
         addChild(fade);
 
         /** создадим окно с описанием уровня **/
-        missionInfoWindow = new MissionInfoWindow();
+        missionInfoWindow = new MissionInfoWindow(this);
         missionInfoWindow.setVisible(false);
         addChildOnOverlay(missionInfoWindow);
 //        addChild(missionInfoScreen);

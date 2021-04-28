@@ -7,13 +7,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.timgapps.warfare.Units.GameUnits.unitTypes.PlayerUnits;
+import com.timgapps.warfare.Utils.StringHolder;
 import com.timgapps.warfare.Warfare;
 import com.timgapps.warfare.screens.map.windows.team_upgrade_window.team_unit.TeamUnit;
 
 // горизонтальная таблица с кол-вом ресурсов для апгрейда
 public class UpgradeCostTable extends Table {
     private Label upgradeCostLabel;     // надпись "стоимость апгрейда"
-    private String upgradeCostText = "Upgrade cost";
+    private String upgradeCostText = Warfare.stringHolder.getString(StringHolder.UPGRADE_COST);
     private Label foodCostLabel, ironCostLabel, woodCostLabel, upgradeToLevelLabel;
     private int foodCostValue, ironCostValue, woodCostValue;        // значение количества ресурсов, необходимое для апргрейда
     private Image foodIcon, ironIcon, woodIcon;

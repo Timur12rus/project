@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.timgapps.warfare.Utils.StringHolder;
 import com.timgapps.warfare.Warfare;
 
 
@@ -26,7 +27,7 @@ public class TeamUpgradeIcon extends IconOnMap {
         Label.LabelStyle teamLabelStyle = new Label.LabelStyle();
         teamLabelStyle.fontColor = Color.WHITE;
         teamLabelStyle.font = Warfare.font20;
-        teamLabel = new Label("KOMAHDA", teamLabelStyle);
+        teamLabel = new Label(Warfare.stringHolder.getString(StringHolder.TEAM), teamLabelStyle);
         teamLabel.setPosition((getWidth() - teamLabel.getWidth()) / 2,
                 14);
         addActor(upgradeIcon);

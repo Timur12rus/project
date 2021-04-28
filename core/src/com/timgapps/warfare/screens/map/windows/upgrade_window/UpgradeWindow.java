@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.timgapps.warfare.Units.GameUnits.unitTypes.PlayerUnits;
+import com.timgapps.warfare.Utils.StringHolder;
 import com.timgapps.warfare.screens.map.windows.upgrade_window.bottom_group.BottomGroup;
 import com.timgapps.warfare.screens.map.windows.upgrade_window.gui_elements.ColorButton;
 import com.timgapps.warfare.screens.map.windows.upgrade_window.gui_elements.UnitImage;
@@ -42,8 +43,8 @@ public class UpgradeWindow extends Group implements UpgradeEffectStarter {
     private int upgradeCost;
     public static final int COST_UPGRADE = 50;
     private GameManager gameManager;
-    private String noResources = "Not enought resources!";
-    private String noCoins = "Not enought coins!";
+    private String noResources = Warfare.stringHolder.getString(StringHolder.NOT_ENOUGHTH_RESOURCES);
+    private String noCoins = Warfare.stringHolder.getString(StringHolder.NOT_ENOUGHTH_COINS);
     private boolean isStartToastAction = false;
     private boolean canBeUpgrade, canHire;
     private TeamUnit teamUnit;
@@ -55,7 +56,7 @@ public class UpgradeWindow extends Group implements UpgradeEffectStarter {
     private TeamUpgradeScreen teamUpgradeScreen;
     private Label unitNameLabel;
     private String unitName;
-    private com.timgapps.warfare.screens.map.windows.upgrade_window.BlockTable blockTable;
+    private BlockTable blockTable;
     private UpgradeCostTable upgradeCostTable;
     private Label maxLevelReached;  // надпись "максимальный уровнень достигнут"
     private BottomGroup bottomGroup;
@@ -238,6 +239,7 @@ public class UpgradeWindow extends Group implements UpgradeEffectStarter {
         nextUnitLevel = 0;
         System.out.println("Show UpgradeWindow!");
         infoTable.redraw(teamUnit.getUnitData());       // обновляем данные в infoTable
+        unitNameLabel.setText(teamUnit.getName());      // обновляем имя юнита
         unitNameLabel.setText(teamUnit.getName());      // обновляем имя юнита
         System.out.println("Name = " + teamUnit.getName());      // обновляем имя юнита
         unitNameLabel.setPosition(container.getX() + (container.getWidth() - unitNameLabel.getWidth()) / 2,

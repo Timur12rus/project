@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnitData;
+import com.timgapps.warfare.Utils.StringHolder;
 import com.timgapps.warfare.Warfare;
 
 // таблица содержит данные о характеристиках юнита
@@ -36,10 +37,10 @@ public class InfoTable extends Table {
     private Label healthAddValueLabel;      // текст на сколько прибавится "здоровье"
     private Label damageAddValueLabel;      // текст на сколько прибавится "здоровье"
 
-    private String healthText = "Health";
-    private String damageText = "Damage";
-    private String speedText = "Speed";
-    private String timePrepearText = "Time prepear";
+    private String healthText = Warfare.stringHolder.getString(StringHolder.HEALTH);
+    private String damageText = Warfare.stringHolder.getString(StringHolder.DAMAGE);
+    private String speedText = Warfare.stringHolder.getString(StringHolder.SPEED);
+    private String timePrepearText = Warfare.stringHolder.getString(StringHolder.TIME_TO_APPEARANCE);
     private float paddingLeft = 48;
     private PlayerUnitData data;
     private int addHealthValue = 2;
@@ -118,7 +119,7 @@ public class InfoTable extends Table {
 
     public void startAction() {
         ParallelAction moveHealthAction = new ParallelAction(
-                Actions.moveBy(-48, 0, 1.1f,Interpolation.pow3Out),
+                Actions.moveBy(-48, 0, 1.1f, Interpolation.pow3Out),
 //                Actions.moveBy(-48, 0, 1.8f, Interpolation.pow3Out),
                 Actions.fadeOut(1)
         );

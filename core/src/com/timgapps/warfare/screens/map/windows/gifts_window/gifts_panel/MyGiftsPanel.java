@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.timgapps.warfare.GameManager;
+import com.timgapps.warfare.Utils.StringHolder;
 import com.timgapps.warfare.Warfare;
 import com.timgapps.warfare.screens.level.timer.TimerIcon;
 import com.timgapps.warfare.screens.map.actions.AddOverlayActionHelper;
@@ -41,7 +42,7 @@ public class MyGiftsPanel extends Group implements GiftsPanelGuiController {
         this.gameManager = gameManager;
         roundCircleController = (RoundCircleController) addOverlayActionHelper;
         this.debug();
-        claimButton = new ColorButton("Claim", ColorButton.YELLOW_BUTTON);
+        claimButton = new ColorButton(Warfare.stringHolder.getString(StringHolder.CLAIM), ColorButton.YELLOW_BUTTON);
         background = new Image(Warfare.atlas.findRegion("gifts_bg"));
         boxImage = new BoxImage();
         background.setPosition(0, claimButton.getHeight() + 16);

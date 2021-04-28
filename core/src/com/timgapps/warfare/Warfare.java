@@ -3,24 +3,22 @@ package com.timgapps.warfare;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.assets.loaders.FileHandleResolver;
-import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
-import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
 import com.badlogic.gdx.utils.I18NBundle;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import com.boontaran.games.StageGame;
+import com.timgapps.warfare.Utils.Lang;
+import com.timgapps.warfare.Utils.StringHolder;
 import com.timgapps.warfare.screens.get_reward_screen.GetRewardScreen;
 import com.timgapps.warfare.screens.loading_screen.LoadingScreen;
 import com.timgapps.warfare.screens.loading_screen.MyAssetsLoader;
 import com.timgapps.warfare.screens.reward_for_stars.RewardForStarsScreen;
 import com.timgapps.warfare.screens.level.LevelScreen;
 import com.timgapps.warfare.screens.map.MapScreen;
+
+import java.util.Locale;
 
 public class Warfare extends Game implements MyAssetsLoader {
 
@@ -42,6 +40,8 @@ public class Warfare extends Game implements MyAssetsLoader {
     private RewardForStarsScreen rewardForStarsScreen;
     private GetRewardScreen getRewardScreen;
     private LoadingScreen loadingScreen;
+    private Lang lang;
+    public static StringHolder stringHolder;
 
     private OrthographicCamera mOrthographicCamera;
 
@@ -68,8 +68,8 @@ public class Warfare extends Game implements MyAssetsLoader {
         path_to_atlas = "images/pack.atlas";
         atlas = assetManager.get(path_to_atlas, TextureAtlas.class);
         font40 = assetManager.get("font40.ttf", BitmapFont.class);
-        font20 = assetManager.get("font20.ttf", BitmapFont.class);
-        font10 = assetManager.get("font10.ttf", BitmapFont.class);
+        font20 = assetManager.get("font30.ttf", BitmapFont.class);
+        font10 = assetManager.get("font18.ttf", BitmapFont.class);
 //         если ресурсы загружены, создаем менеджер с данными о кол-ве ресурсов, монет, составе команды у игрока
         gameManager = new GameManager();
 //        loadingScreen.hide();
@@ -90,13 +90,15 @@ public class Warfare extends Game implements MyAssetsLoader {
         mOrthographicCamera = new OrthographicCamera(V_WIDTH, V_HEIGHT);
         batch.setProjectionMatrix(mOrthographicCamera.combined);
 
-//        Locale locale = Locale.getDefault();
+        Locale locale = Locale.getDefault();
+//        System.out.println("Locale = " + locale);
 //        bundle = I18NBundle.createBundle(Gdx.files.internal("MyBundle"), locale); // передаем методу createBundle() путь к  папке с файлами конфигурации, в
         // которых будут прописаны пути к ресурсам, а также текущую локаль
+//        locale = Locale.
+        stringHolder = new StringHolder(locale);
         path_to_atlas = "images/pack.atlas";
         loadingAssets = true; // присваиваем переменной значение true;
         assetManager = new AssetManager();  //Создаем объект класса AssetManager
-
         loadingScreen = new LoadingScreen(assetManager, this);
         setScreen(loadingScreen);
         /*** 29.03.2021   **/

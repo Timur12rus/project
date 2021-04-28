@@ -40,7 +40,7 @@ public class TeamUnit {
     public TeamUnit(PlayerUnitData data) {
         this.unitId = data.getUnitId();
         this.data = data;
-        this.name = data.getName();
+        this.name = data.getNameLabel();
         unitImageButton = new UnitImageButton(data);
         speed = (int) (data.getSpeed() * 10 * 2);           // скорость юнита отображаемая в характеристиках в таблице апгрейда
         addHealthValue = 2;

@@ -3,14 +3,15 @@ package com.timgapps.warfare.screens.map.windows.upgrade_window.bottom_group;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.timgapps.warfare.Utils.StringHolder;
 import com.timgapps.warfare.Warfare;
 
 // группа из кнопки апгрейда, кнопки нанять, надписи "Улучишть до уровня", "Нанять",
 public class BottomGroup extends Group {
     private Label upgradeLabel;
     private Label hireLabel;
-    private String upgradeToLevelText = "Upgrade to Level ";
-    private String hireLabelText = "Hire this unit: ";
+    private String upgradeToLevelText = Warfare.stringHolder.getString(StringHolder.UPGRADE_TO_LEVEL) + " ";
+    private String hireLabelText = Warfare.stringHolder.getString(StringHolder.HIRE_THIS_UNIT);
     private CoinButton upgradeButton;              // кнопка для апгрейда юнита
     private CoinButton hireButton;                // кнопка для найма(покупки) юнита
     private float WIDTH = 550;

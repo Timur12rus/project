@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.boontaran.MessageEvent;
+import com.timgapps.warfare.Utils.StringHolder;
 import com.timgapps.warfare.screens.map.windows.gifts_window.gifts_panel.MyGiftsPanel;
 import com.timgapps.warfare.screens.map.win_creator.ConstructedWindow;
 import com.timgapps.warfare.GameManager;
@@ -66,7 +67,7 @@ public class GiftScreen extends Group {
         Label.LabelStyle rewardTitleLabelStyle = new Label.LabelStyle();
         rewardTitleLabelStyle.fontColor = Color.DARK_GRAY;
         rewardTitleLabelStyle.font = Warfare.font40;
-        rewardTitle = new Label("Daily gifts", rewardTitleLabelStyle);
+        rewardTitle = new Label(Warfare.stringHolder.getString(StringHolder.DAILY_GIFTS), rewardTitleLabelStyle);
         rewardTitle.setAlignment(Align.center);
         rewardTitle.setPosition(constructedWindow.getX() + constructedWindow.getWidth() / 2 - rewardTitle.getWidth() / 2,
                 constructedWindow.getY() + constructedWindow.getHeight() - rewardTitle.getHeight() - 8);

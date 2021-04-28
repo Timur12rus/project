@@ -9,6 +9,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.boontaran.MessageEvent;
+import com.boontaran.games.StageGame;
+import com.timgapps.warfare.Utils.StringHolder;
 import com.timgapps.warfare.screens.map.windows.upgrade_window.gui_elements.ColorButton;
 import com.timgapps.warfare.screens.map.win_creator.ConstructedWindow;
 import com.timgapps.warfare.screens.map.LevelIconData;
@@ -36,10 +38,10 @@ public class MissionInfoWindow extends Group {
     private Image coinImage;
     private RewardTable rewardTable;
 
-    public MissionInfoWindow() {
+    public MissionInfoWindow(StageGame stageGame) {
         constructedWindow = new ConstructedWindow(610, 350, "Mission");
-        constructedWindow.setX((Warfare.V_WIDTH - constructedWindow.getWidth()) / 2); // устанавливаем позицию заголовка
-        constructedWindow.setY(((Warfare.V_HEIGHT / 2 - constructedWindow.getHeight() / 2)));
+        constructedWindow.setX((stageGame.getWidth() - constructedWindow.getWidth()) / 2); // устанавливаем позицию заголовка
+        constructedWindow.setY(((stageGame.getHeight() - constructedWindow.getHeight()) / 2));
         addActor(constructedWindow);
 
         // создадим надписи "миссия" и "уровень сложности"
@@ -52,7 +54,7 @@ public class MissionInfoWindow extends Group {
                 difficulty.getY() - rewardTable.getHeight() + 24);
 
         // кнопка "СТАРТ" для начала миссии
-        startButton = new ColorButton("start", ColorButton.GREEN_BUTTON);
+        startButton = new ColorButton(Warfare.stringHolder.getString(StringHolder.START), ColorButton.GREEN_BUTTON);
         startButton.setX((constructedWindow.getX() + (constructedWindow.getWidth() - startButton.getWidth()) / 2));
         startButton.setY(constructedWindow.getY() + 42);
         addActor(startButton);
@@ -83,7 +85,6 @@ public class MissionInfoWindow extends Group {
         this.coinsCount = data.getCoinsCount();                    // количество монет
         this.scoreCount = data.getScoreCount();                  // количество очков
         this.levelOfDifficulty = data.getLevelOfDifficulty();    // уровень сложност
-
         // обновим данные о миссии
         updateData();
     }
@@ -103,9 +104,15 @@ public class MissionInfoWindow extends Group {
     }
 
     private void updateData() {
-        missionTitle.setText("Mission " + id);
-        difficulty.setText(levelOfDifficulty);
+        missionTitle.setText(Warfare.stringHolder.getString(StringHolder.MISSION) + " " + id);
+        difficulty.setText("" + levelOfDifficulty);
+        difficulty.getPrefWidth();
+        difficulty.setPosition(constructedWindow.getX() + (constructedWindow.getWidth() / 2 - difficulty.getWidth() / 2), missionTitle.getY() - difficulty.getHeight() - 16);
+//        difficulty.setPosition(constructedWindow.getX() + (constructedWindow.getWidth() - difficulty.getWidth()) / 2, missionTitle.getY() - difficulty.getHeight() - 16);
         rewardTable.setCoinsCount(coinsCount);
+
+        rewardTable.setPosition(constructedWindow.getX() + (constructedWindow.getWidth() - rewardTable.getWidth()) / 2,
+                difficulty.getY() - rewardTable.getHeight() + 24);
     }
 
     @Override

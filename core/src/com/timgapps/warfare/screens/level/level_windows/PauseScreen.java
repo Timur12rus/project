@@ -6,6 +6,8 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.boontaran.MessageEvent;
+import com.timgapps.warfare.Utils.StringHolder;
+import com.timgapps.warfare.screens.map.windows.upgrade_window.gui_elements.BigColorButton;
 import com.timgapps.warfare.screens.map.windows.upgrade_window.gui_elements.ColorButton;
 import com.timgapps.warfare.screens.level.LevelScreen;
 import com.timgapps.warfare.Warfare;
@@ -36,10 +38,13 @@ public class PauseScreen extends Group {
 
         missionLabel = new Label("", labelStyle);
         missionLabel = new Label("Mission 10", labelStyle);
-        pauseLabel = new Label("Pause", pauseLabelStyle);
+        pauseLabel = new Label(Warfare.stringHolder.getString(StringHolder.PAUSE), pauseLabelStyle);
 
-        mapButton = new ColorButton("Map", ColorButton.GREEN_BUTTON);
-        continueButton = new ColorButton("Continue", ColorButton.GREEN_BUTTON);
+        mapButton = new BigColorButton(Warfare.stringHolder.getString(StringHolder.MAP), ColorButton.GREEN_BUTTON);
+//        mapButton = new ColorButton(Warfare.stringHolder.getString(StringHolder.MAP), ColorButton.GREEN_BUTTON);
+        continueButton = new BigColorButton(Warfare.stringHolder.getString(StringHolder.CONTINUE), ColorButton.GREEN_BUTTON);
+//        continueButton = new ColorButton(Warfare.stringHolder.getString(StringHolder.CONTINUE), ColorButton.GREEN_BUTTON);
+//        continueButton.setButtonWidth(1.4f);
 
         setSize(mapButton.getWidth() * 2 + 32, missionLabel.getHeight() + pauseLabel.getHeight() + 196);
 
@@ -72,7 +77,7 @@ public class PauseScreen extends Group {
     }
 
     public void redraw() {
-        missionLabel.setText("Mission " + levelScreen.getLevelNumber());
+        missionLabel.setText(Warfare.stringHolder.getString(StringHolder.MISSION) + " " + levelScreen.getLevelNumber());
         missionLabel.setPosition(getWidth() / 2 - missionLabel.getWidth() / 2, getHeight() / 2 + 32);
     }
 

@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.boontaran.games.StageGame;
+import com.timgapps.warfare.Utils.StringHolder;
 import com.timgapps.warfare.screens.map.gui_elements.CoinsPanel;
 import com.timgapps.warfare.GameManager;
 import com.timgapps.warfare.Warfare;
@@ -81,9 +82,9 @@ public class RewardForStarsScreen extends StageGame implements ScreenCloser {
         nextRewardLabelStyle.fontColor = new Color(0xf2d900ff);
         nextRewardLabelStyle.font = Warfare.font20;
 
-        String titleText = "Rewards for stars";
-        String textLabelText = "Collect stars to get reward";
-        String nextRewardText = "Next reward";
+        String titleText = Warfare.stringHolder.getString(StringHolder.REWARD_FOR_STARS);
+        String textLabelText = Warfare.stringHolder.getString(StringHolder.COLLECT_STARS_TO_GET_REWARD);
+        String nextRewardText = Warfare.stringHolder.getString(StringHolder.NEXT_REWARD);
 
         // Надпись "награда за звезды"
         titleLabel = new Label(titleText, titleLabelStyle);

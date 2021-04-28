@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.boontaran.MessageEvent;
+import com.timgapps.warfare.Utils.StringHolder;
 import com.timgapps.warfare.screens.map.windows.upgrade_window.gui_elements.ColorButton;
 import com.timgapps.warfare.screens.level.LevelScreen;
 import com.timgapps.warfare.Warfare;
@@ -48,11 +49,11 @@ public class GameOverScreen extends Group {
 //        retryLabelStyle.fontColor = Color.DARK_GRAY;
         retryLabelStyle.font = Warfare.font20;
 
-        defeatLabel = new Label("Defeat!", defeatLabelStyle);
-        missionLabel = new Label("Mission " + levelNumber, missionLabelStyle);
-        retryLabel = new Label("Retry:", retryLabelStyle);
+        defeatLabel = new Label(Warfare.stringHolder.getString(StringHolder.DEFEAT), defeatLabelStyle);
+        missionLabel = new Label(Warfare.stringHolder.getString(StringHolder.MISSION) + " " + levelNumber, missionLabelStyle);
+        retryLabel = new Label(Warfare.stringHolder.getString(StringHolder.RETRY), retryLabelStyle);
 
-        mapButton = new ColorButton("Map", ColorButton.GREEN_BUTTON);
+        mapButton = new ColorButton(Warfare.stringHolder.getString(StringHolder.MAP), ColorButton.GREEN_BUTTON);
         retryButton = new ColorButton("2 Steps", ColorButton.GREEN_BUTTON);
 
         mapButton.addListener(new ClickListener() {

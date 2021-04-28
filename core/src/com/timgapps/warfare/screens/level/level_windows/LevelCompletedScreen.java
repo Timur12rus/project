@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.boontaran.MessageEvent;
+import com.timgapps.warfare.Utils.StringHolder;
 import com.timgapps.warfare.screens.map.windows.upgrade_window.gui_elements.ColorButton;
 import com.timgapps.warfare.screens.level.LevelScreen;
 import com.timgapps.warfare.Warfare;
@@ -55,10 +56,10 @@ public class LevelCompletedScreen extends Group {
         rewardLabelStyle.fontColor = Color.GRAY;
         rewardLabelStyle.font = Warfare.font20;
 
-        missionLabel = new Label("Mission " + levelNumber, labelStyle);
-        victoryLabel = new Label("Victory!", victoryLabelStyle);
-        towerSavedLabel = new Label("Tower saved of: ", towerSavedLevelStyle);
-        rewardLabel = new Label("Reward:", rewardLabelStyle);
+        missionLabel = new Label(Warfare.stringHolder.getString(StringHolder.MISSION) + " " + levelNumber, labelStyle);
+        victoryLabel = new Label(Warfare.stringHolder.getString(StringHolder.VICTORY) + "!", victoryLabelStyle);
+        towerSavedLabel = new Label(Warfare.stringHolder.getString(StringHolder.TOWER_SAVED) + ": ", towerSavedLevelStyle);
+        rewardLabel = new Label(Warfare.stringHolder.getString(StringHolder.REWARD) + ": ", rewardLabelStyle);
 
         missionLabel.setPosition(stars.getX() + (stars.getWidth() - missionLabel.getWidth()) / 2, getY() - 36 - missionLabel.getHeight());
         victoryLabel.setPosition(stars.getX() + (stars.getWidth() - victoryLabel.getWidth()) / 2, stars.getY() + stars.getHeight() + 16);

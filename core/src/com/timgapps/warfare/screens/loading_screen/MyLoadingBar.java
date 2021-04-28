@@ -8,12 +8,11 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.timgapps.warfare.Utils.StringHolder;
 import com.timgapps.warfare.Warfare;
 
 public class MyLoadingBar extends Actor {
@@ -42,7 +41,7 @@ public class MyLoadingBar extends Actor {
         p.color = Color.GREEN;
         p.size = 30;
 //        p.borderColor = Color.GOLD;
-        p.characters = "0123456789%LOADINGЗАГРУЗКА...";
+        p.characters = "0123456789%LOADINGЗАГРУЗКАзагрузка.";
 
         loadingBarProgressStart = new TextureRegion(loadingBarProgress, 0, 0, 20, loadingBarProgress.getHeight());
         loadingBarProgressBody = new TextureRegion(loadingBarProgress, 20, 0, 356, loadingBarProgress.getHeight());
@@ -87,7 +86,8 @@ public class MyLoadingBar extends Actor {
                 loadingBarProgressBody.getRegionWidth() * assetManager.getProgress(),
                 loadingBarProgressBody.getRegionHeight());
         batch.draw(loadingBarProgressEnd, initialPosX + loadingBarProgressStart.getRegionWidth() + loadingBarProgressBody.getRegionWidth() * assetManager.getProgress(), initialPosY);
-        font.draw(batch, "ЗАГРУЗКА...", initialPosX,
+        font.draw(batch, Warfare.stringHolder.getString(StringHolder.LOADING), initialPosX,
+//        font.draw(batch, "ЗАГРУЗКА...", initialPosX,
                 initialPosY + loadingBarBackground.getHeight() + 26);
         font.draw(batch, "" + (int) (assetManager.getProgress() * 100) + "%", initialPosX + 340,
                 initialPosY + loadingBarBackground.getHeight() + 26);

@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.timgapps.warfare.Utils.StringHolder;
 import com.timgapps.warfare.screens.map.LevelIconData;
 import com.timgapps.warfare.Warfare;
 
@@ -30,9 +31,9 @@ public class LevelIcon extends Group {
 
     private LevelIconData data; // объект данных уровня
 
-    public static final String EASY = "Easy";
-    public static final String MEDIUM = "Medium";
-    public static final String HARD = "Hard";
+    public static final String EASY = Warfare.stringHolder.getString(StringHolder.EASY);
+    public static final String MEDIUM = Warfare.stringHolder.getString(StringHolder.MEDIUM);
+    public static final String HARD = Warfare.stringHolder.getString(StringHolder.HARD);
     private int rectX, rectY;
 
 
@@ -105,6 +106,7 @@ public class LevelIcon extends Group {
         });
 
     }
+
     public void setStarsCount(int starsCount) {
         this.starsCount = starsCount;
     }
@@ -176,8 +178,7 @@ public class LevelIcon extends Group {
             for (int i = 0; i < starsCount; i++) {
                 activeStars.get(i).setVisible(true);
             }
-        }
-        else {
+        } else {
             isActive = false;
             inactiveLevelIcon.setVisible(true);
             activeStars.get(0).setVisible(false);

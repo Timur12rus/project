@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.timgapps.warfare.Utils.StringHolder;
 import com.timgapps.warfare.Warfare;
 
 /**
@@ -20,8 +21,8 @@ public class BlockTable extends Table {
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.fontColor = Color.DARK_GRAY;
         labelStyle.font = Warfare.font20;
-        label = new Label("" + "collect " + starsCount, labelStyle);
-        label1 = new Label(" for unlock unit", labelStyle);
+        label = new Label("" + Warfare.stringHolder.getString(StringHolder.COLLECT) + " " + starsCount, labelStyle);
+        label1 = new Label(" " + Warfare.stringHolder.getString(StringHolder.FOR_UNLOCK_UNIT), labelStyle);
         star = new Image(Warfare.atlas.findRegion("star_active"));
         blockIcon = new Image(Warfare.atlas.findRegion("lockIcon"));
         add(blockIcon).width(blockIcon.getWidth()).padRight(12);
@@ -33,6 +34,6 @@ public class BlockTable extends Table {
 
     void setLabelStarsCount(int count) {
         starsCount = count;
-        label.setText("" + "collect " + starsCount);
+        label.setText("" + Warfare.stringHolder.getString(StringHolder.COLLECT) + " " + starsCount);
     }
 }

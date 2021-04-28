@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.timgapps.warfare.Utils.StringHolder;
 import com.timgapps.warfare.screens.level.Finger;
 import com.timgapps.warfare.GameManager;
 import com.timgapps.warfare.Warfare;
@@ -29,7 +30,7 @@ public class GiftIcon extends IconOnMap {
         Label.LabelStyle teamLabelStyle = new Label.LabelStyle();
         teamLabelStyle.fontColor = Color.WHITE;
         teamLabelStyle.font = Warfare.font20;
-        giftsLabel = new Label("Podarki", teamLabelStyle);
+        giftsLabel = new Label(Warfare.stringHolder.getString(StringHolder.GIFTS), teamLabelStyle);
         giftsLabel.setPosition((getWidth() - giftsLabel.getWidth()) / 2,
                 14);
 

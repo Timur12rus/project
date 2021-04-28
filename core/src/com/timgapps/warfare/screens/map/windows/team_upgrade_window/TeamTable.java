@@ -3,6 +3,7 @@ package com.timgapps.warfare.screens.map.windows.team_upgrade_window;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.timgapps.warfare.Utils.StringHolder;
 import com.timgapps.warfare.screens.map.windows.team_upgrade_window.team_unit.TeamUnit;
 import com.timgapps.warfare.Warfare;
 
@@ -29,7 +30,7 @@ public class TeamTable extends Table {
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.fontColor = Color.DARK_GRAY;
         labelStyle.font = Warfare.font40;
-        collectionText = "Collection";
+        collectionText = Warfare.stringHolder.getString(StringHolder.COLLECTION);
         collectionLabel = new Label(collectionText, labelStyle);
         redraw(team);
     }

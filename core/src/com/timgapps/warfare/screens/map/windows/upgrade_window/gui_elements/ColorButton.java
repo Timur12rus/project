@@ -13,42 +13,32 @@ import com.timgapps.warfare.Warfare;
 
 public class ColorButton extends Group {
     private Label textLabel;
-    private Image bg, bgDown;
+    protected Image bg, bgDown;
     private Label.LabelStyle labelStyle;
     public static final int GREEN_BUTTON = 1;
     public static final int YELLOW_BUTTON = 2;
     public static final int RED_BUTTON = 3;
-
-//    private int buttonColor;
+    protected int buttonColor;
 
     public ColorButton(String text, int buttonColor) {
-
-        switch (buttonColor) {
-            case GREEN_BUTTON:
-                bg = new Image(Warfare.atlas.findRegion("button_ok"));
-                bgDown = new Image(Warfare.atlas.findRegion("button_ok_dwn"));
-                break;
-            case YELLOW_BUTTON:
-                bg = new Image(Warfare.atlas.findRegion("yellowButton"));
-                bgDown = new Image(Warfare.atlas.findRegion("yellowButton_dwn"));
-                break;
-            case RED_BUTTON:
-
-                break;
-        }
+        this.buttonColor = buttonColor;
+        createButtonImage();
         addActor(bg);
         addActor(bgDown);
         bgDown.setVisible(false);
         setSize(bg.getWidth(), bg.getHeight());  // устанавливаем её размер по размеру текстуры
 
         labelStyle = new Label.LabelStyle();
-//        style.fontColor = new Color(0x000000ff);
         labelStyle.fontColor = Color.DARK_GRAY;
         labelStyle.font = Warfare.font40;
 
         textLabel = new Label("" + text, labelStyle);
         textLabel.setPosition(getWidth() / 2 - textLabel.getWidth() / 2, getHeight() / 2 - textLabel.getHeight() / 2);
         addActor(textLabel);
+
+//        if (textLabel.getWidth() > bg.getWidth()) {
+//            setButtonWidth((textLabel.getWidth() + 24) / bg.getWidth());
+//        }
 
         /** добавляет слушателя события корневому элементу, отключая его для дочерних элементов **/
         addCaptureListener(new EventListener() { // добавляет слушателя события корневому элементу, отключая его для дочерних элементов
@@ -74,5 +64,28 @@ public class ColorButton extends Group {
                 super.touchUp(event, x, y, pointer, button);
             }
         });
+    }
+
+    protected void createButtonImage() {
+        switch (buttonColor) {
+            case GREEN_BUTTON:
+                bg = new Image(Warfare.atlas.findRegion("button_ok"));
+                bgDown = new Image(Warfare.atlas.findRegion("button_ok_dwn"));
+                break;
+            case YELLOW_BUTTON:
+                bg = new Image(Warfare.atlas.findRegion("yellowButton"));
+                bgDown = new Image(Warfare.atlas.findRegion("yellowButton_dwn"));
+                break;
+            case RED_BUTTON:
+
+                break;
+        }
+    }
+
+    public void setButtonWidth(float scale) {
+        bg.setScaleX(scale);
+        bgDown.setScaleX(scale);
+        setSize(bg.getWidth() * scale, bg.getHeight());
+        textLabel.setPosition(getWidth() / 2 - textLabel.getWidth() / 2, getHeight() / 2 - textLabel.getHeight() / 2);
     }
 }

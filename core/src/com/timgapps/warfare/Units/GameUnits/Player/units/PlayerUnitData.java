@@ -2,13 +2,16 @@ package com.timgapps.warfare.Units.GameUnits.Player.units;
 
 import com.timgapps.warfare.Units.GameUnits.UnitData;
 import com.timgapps.warfare.Units.GameUnits.unitTypes.PlayerUnits;
+import com.timgapps.warfare.Utils.StringHolder;
+import com.timgapps.warfare.Warfare;
 
 public class PlayerUnitData extends UnitData {
     private PlayerUnits unitId;
     private int damage;
     private int health;
     private float speed;
-    private String name;
+    private String name;        // имя юнита (используется в названиях файлов анимации)
+    private String nameLabel;   // имя юнита в надписи юнита
     private int unitLevel;
     private boolean isUnlock = false;
     private int starsCount;
@@ -29,6 +32,7 @@ public class PlayerUnitData extends UnitData {
     public void setDefaultData(PlayerUnits unitId) {
         switch (unitId) {
             case Thor:
+                nameLabel = Warfare.stringHolder.getString(StringHolder.THOR);
                 name = "Thor";
                 damage = 10;
                 health = 28;
@@ -48,6 +52,7 @@ public class PlayerUnitData extends UnitData {
                 woodValueForUpgrade = 1;
                 break;
             case Archer:
+                nameLabel = Warfare.stringHolder.getString(StringHolder.ARCHER);
                 name = "Archer";
                 damage = 5;
                 health = 18;
@@ -66,6 +71,7 @@ public class PlayerUnitData extends UnitData {
                 woodValueForUpgrade = 2;
                 break;
             case Gnome:
+                nameLabel = Warfare.stringHolder.getString(StringHolder.GNOME);
                 name = "Gnome";
                 damage = 12;
                 health = 34;
@@ -84,6 +90,7 @@ public class PlayerUnitData extends UnitData {
                 woodValueForUpgrade = 1;
                 break;
             case Barbarian:
+                nameLabel = Warfare.stringHolder.getString(StringHolder.BARBARIAN);
                 name = "Barbarian";
                 damage = 20;
                 health = 25;
@@ -103,6 +110,7 @@ public class PlayerUnitData extends UnitData {
                 woodValueForUpgrade = 1;
                 break;
             case Viking:
+                nameLabel = Warfare.stringHolder.getString(StringHolder.VIKING);
                 name = "Viking";
                 damage = 14;
                 health = 30;
@@ -122,6 +130,7 @@ public class PlayerUnitData extends UnitData {
                 woodValueForUpgrade = 2;
                 break;
             case Shooter:
+                nameLabel = Warfare.stringHolder.getString(StringHolder.SHOOTER);
                 name = "Shooter";
                 damage = 2;
                 health = 24;
@@ -142,6 +151,7 @@ public class PlayerUnitData extends UnitData {
                 woodValueForUpgrade = 2;
                 break;
             case Knight:
+                nameLabel = Warfare.stringHolder.getString(StringHolder.KNIGHT);
                 name = "Knight";
                 damage = 15;
                 health = 60;
@@ -160,6 +170,7 @@ public class PlayerUnitData extends UnitData {
                 woodValueForUpgrade = 1;
                 break;
             case Rock:
+                nameLabel = Warfare.stringHolder.getString(StringHolder.STONE);
                 name = "Stone";
                 damage = 40;
                 health = 50;
@@ -172,7 +183,8 @@ public class PlayerUnitData extends UnitData {
                 isHired = true;     // куплен
                 break;
             case Firebooster:
-                name = "FireBooster";
+                nameLabel = Warfare.stringHolder.getString(StringHolder.FIRESTONE);
+                name = "Firer";
                 damage = 10;
                 health = 50;
                 speed = 0;
@@ -183,7 +195,7 @@ public class PlayerUnitData extends UnitData {
                 isUnlock = true;
                 break;
             case None:
-                name = "None";
+                nameLabel = "None";
                 damage = 0;
                 health = 0;
                 speed = 0;
@@ -235,6 +247,11 @@ public class PlayerUnitData extends UnitData {
     // метод возвращает имя юнита
     public String getName() {
         return name;
+    }
+
+    // метод возвращает имя юнита (переведенное в зависимости от локализации)
+    public String getNameLabel() {
+        return nameLabel;
     }
 
     /**
