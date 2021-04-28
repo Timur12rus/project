@@ -37,6 +37,7 @@ public class MissionInfoWindow extends Group {
     private String levelOfDifficulty;
     private Image coinImage;
     private RewardTable rewardTable;
+    Label.LabelStyle difficultlyLabelStyle;
 
     public MissionInfoWindow(StageGame stageGame) {
         constructedWindow = new ConstructedWindow(610, 350, "Mission");
@@ -105,10 +106,12 @@ public class MissionInfoWindow extends Group {
 
     private void updateData() {
         missionTitle.setText(Warfare.stringHolder.getString(StringHolder.MISSION) + " " + id);
-        difficulty.setText("" + levelOfDifficulty);
-        difficulty.getPrefWidth();
-        difficulty.setPosition(constructedWindow.getX() + (constructedWindow.getWidth() / 2 - difficulty.getWidth() / 2), missionTitle.getY() - difficulty.getHeight() - 16);
-//        difficulty.setPosition(constructedWindow.getX() + (constructedWindow.getWidth() - difficulty.getWidth()) / 2, missionTitle.getY() - difficulty.getHeight() - 16);
+        difficulty.remove();
+        difficulty = new Label("" + levelOfDifficulty, difficultlyLabelStyle);
+        addActor(difficulty);
+//        difficulty.setText(levelOfDifficulty);
+//        difficulty.setPosition(constructedWindow.getX() + (constructedWindow.getWidth() / 2 - difficulty.getWidth() / 2), missionTitle.getY() - difficulty.getHeight() - 16);
+        difficulty.setPosition(constructedWindow.getX() + (constructedWindow.getWidth() - difficulty.getWidth()) / 2, missionTitle.getY() - difficulty.getHeight() - 32);
         rewardTable.setCoinsCount(coinsCount);
 
         rewardTable.setPosition(constructedWindow.getX() + (constructedWindow.getWidth() - rewardTable.getWidth()) / 2,
@@ -146,7 +149,7 @@ public class MissionInfoWindow extends Group {
                 constructedWindow.getY() + constructedWindow.getHeight() - missionTitle.getHeight() - 8);
         addActor(missionTitle);
 
-        Label.LabelStyle difficultlyLabelStyle = new Label.LabelStyle();
+        difficultlyLabelStyle = new Label.LabelStyle();
         difficultlyLabelStyle.fontColor = Color.FOREST;
         difficultlyLabelStyle.font = Warfare.font20;
         difficulty = new Label("" + levelOfDifficulty, difficultlyLabelStyle);

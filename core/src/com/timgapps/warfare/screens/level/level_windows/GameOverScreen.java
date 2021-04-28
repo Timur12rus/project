@@ -26,9 +26,8 @@ public class GameOverScreen extends Group {
 
     private Label defeatLabel;
     private Label missionLabel;
-    private Label retryLabel;
+//    private Label retryLabel;
     private Table buttonsTable;
-    private boolean isEndAction;
 
     private ColorButton mapButton, retryButton;
 
@@ -43,18 +42,17 @@ public class GameOverScreen extends Group {
         missionLabelStyle.fontColor = Color.GOLD;
         missionLabelStyle.font = Warfare.font40;
 
-        Label.LabelStyle retryLabelStyle = new Label.LabelStyle();
-        retryLabelStyle.fontColor = Color.FOREST;
-//        retryLabelStyle.fontColor = Color.CHARTREUSE;
-//        retryLabelStyle.fontColor = Color.DARK_GRAY;
-        retryLabelStyle.font = Warfare.font20;
+//        Label.LabelStyle retryLabelStyle = new Label.LabelStyle();
+//        retryLabelStyle.fontColor = Color.FOREST;
+////
+//        retryLabelStyle.font = Warfare.font20;
 
         defeatLabel = new Label(Warfare.stringHolder.getString(StringHolder.DEFEAT), defeatLabelStyle);
         missionLabel = new Label(Warfare.stringHolder.getString(StringHolder.MISSION) + " " + levelNumber, missionLabelStyle);
-        retryLabel = new Label(Warfare.stringHolder.getString(StringHolder.RETRY), retryLabelStyle);
+//        retryLabel = new Label(Warfare.stringHolder.getString(StringHolder.RETRY), retryLabelStyle);
 
         mapButton = new ColorButton(Warfare.stringHolder.getString(StringHolder.MAP), ColorButton.GREEN_BUTTON);
-        retryButton = new ColorButton("2 Steps", ColorButton.GREEN_BUTTON);
+        retryButton = new ColorButton(Warfare.stringHolder.getString(StringHolder.RETRY), ColorButton.GREEN_BUTTON);
 
         mapButton.addListener(new ClickListener() {
             @Override
@@ -76,8 +74,8 @@ public class GameOverScreen extends Group {
 
         buttonsTable = new Table().debug();
 
-        buttonsTable.add(retryLabel).colspan(2).align(Align.right).padRight((mapButton.getWidth() - retryLabel.getWidth()) / 2);
-        buttonsTable.row();
+//        buttonsTable.add(retryLabel).colspan(2).align(Align.right).padRight((mapButton.getWidth() - retryLabel.getWidth()) / 2);
+//        buttonsTable.row();
         buttonsTable.add(mapButton);
         buttonsTable.add(retryButton).padLeft(32);
         buttonsTable.setWidth(mapButton.getWidth() + retryButton.getWidth() + 32);
