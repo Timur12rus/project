@@ -6,7 +6,6 @@ import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -64,7 +63,7 @@ public class RewardForStars extends Group {
             labelStyle.fontColor = Color.WHITE;
         }
 
-        labelStyle.font = Warfare.font20;
+        labelStyle.font = Warfare.font30;
 
         switch (data.getTypeOfReward()) {
             case RewardForStarsData.REWARD_STONE:

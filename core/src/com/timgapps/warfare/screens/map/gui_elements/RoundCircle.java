@@ -13,7 +13,7 @@ class RoundCircle extends Group {
     public RoundCircle() {
         Label.LabelStyle countLabelStyle = new Label.LabelStyle();
         countLabelStyle.fontColor = Color.WHITE;
-        countLabelStyle.font = Warfare.font10;
+        countLabelStyle.font = Warfare.font18;
         label = new Label("!", countLabelStyle);
         bg = new Image(Warfare.atlas.findRegion("redCircle"));
         setSize(bg.getWidth(), bg.getHeight());

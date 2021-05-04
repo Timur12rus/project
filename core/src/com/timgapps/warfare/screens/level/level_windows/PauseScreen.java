@@ -34,7 +34,7 @@ public class PauseScreen extends Group {
 
         Label.LabelStyle pauseLabelStyle = new Label.LabelStyle();
         pauseLabelStyle.fontColor = Color.WHITE;
-        pauseLabelStyle.font = Warfare.font20;
+        pauseLabelStyle.font = Warfare.font30;
 
         missionLabel = new Label("", labelStyle);
         missionLabel = new Label("Mission 10", labelStyle);

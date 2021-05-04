@@ -29,8 +29,6 @@ public class LoadingScreen extends StageGame {
     private boolean loadingAssets = false; // будем присваивать true в процессе загрузки ресурсов
     private MyAssetsLoader myAssetsLoader;
     private boolean isAssetsLoaded;
-    private boolean isStartedGame;
-    private float delayTime;
     private MyLoadingBar loadingBar;
     private BlackRectangle blackRectangle;
 
@@ -76,32 +74,18 @@ public class LoadingScreen extends StageGame {
         font30Params.fontFileName = "fonts/Nickname.ttf";
         font30Params.fontParameters.size = 30;    // 30
         font30Params.fontParameters.characters = "!/:.-+0123456789абвгдежзиклмнопрстуфхчцшщыьъэюяABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-//        font30Params.fontParameters.borderColor = Color.GREEN;
 //        font40Params.fontParameters.borderWidth = 2;
+//        font30Params.fontParameters.borderColor = Color.WHITE;
         assetManager.load("font30.ttf", BitmapFont.class, font30Params);
 
         FreetypeFontLoader.FreeTypeFontLoaderParameter font18Params = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
         font18Params.fontFileName = "fonts/Nickname.ttf";
         font18Params.fontParameters.size = 18;      // 18
         font18Params.fontParameters.characters = "!/:.-+0123456789абвгдежзиклмнопрстуфхчцшщыьъэюяABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+//        font40Params.fontParameters.borderWidth = 1;
 //        font18Params.fontParameters.borderColor = Color.BLACK;
-//        font40Params.fontParameters.borderWidth = 4;
         assetManager.load("font18.ttf", BitmapFont.class, font18Params);
     }
-
-//    public void starFadeOutAction() {
-//        Action checkEndOfAction = new Action() {
-//            @Override
-//            public boolean act(float delta) {
-//                isStartedGame = true;
-//                return true;
-//            }
-//        };
-//        SequenceAction fadeOutAction = new SequenceAction(Actions.fadeOut(2f),
-//                checkEndOfAction
-//        );
-//        loadingBar.addAction(fadeOutAction);
-//    }
 
     @Override
     protected void update(float delta) {

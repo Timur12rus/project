@@ -17,22 +17,25 @@ import com.timgapps.warfare.screens.loading_screen.MyAssetsLoader;
 import com.timgapps.warfare.screens.reward_for_stars.RewardForStarsScreen;
 import com.timgapps.warfare.screens.level.LevelScreen;
 import com.timgapps.warfare.screens.map.MapScreen;
+import com.timgapps.warfare.video_reward.VideoEventListener;
 
 import java.util.Locale;
 
-public class Warfare extends Game implements MyAssetsLoader {
+public class Warfare extends Game implements VideoEventListener, MyAssetsLoader {
 
     public static final int V_WIDTH = 1280;      // 800        //1280
     public static final int V_HEIGHT = 720;     // 480        //720
     private GameCallback gameCallback;
+    public static final int LOAD_REWARDED_VIDEO = 1;
+    public static final int SHOW_REWARDED_VIDEO = 2;
 
     public static SpriteBatch batch;
     private boolean loadingAssets = false; // будем присваивать true в процессе загрузки ресурсов
     private AssetManager assetManager;
     public static TextureAtlas atlas; // через переменную класса TextureAtlas мы будем работать с атласом текстур
     public static BitmapFont font40;
-    public static BitmapFont font20;
-    public static BitmapFont font10;
+    public static BitmapFont font30;
+    public static BitmapFont font18;
     private I18NBundle bundle;   // для выбора ресурсов в зависимости от локализации использеются класс I18NBundle
     private String path_to_atlas; // в зависимости от локали в переменную path_to_atlas будет возвращаться путь к нужному нам атласу
     private LevelScreen levelScreen;
@@ -68,8 +71,8 @@ public class Warfare extends Game implements MyAssetsLoader {
         path_to_atlas = "images/pack.atlas";
         atlas = assetManager.get(path_to_atlas, TextureAtlas.class);
         font40 = assetManager.get("font40.ttf", BitmapFont.class);
-        font20 = assetManager.get("font30.ttf", BitmapFont.class);
-        font10 = assetManager.get("font18.ttf", BitmapFont.class);
+        font30 = assetManager.get("font30.ttf", BitmapFont.class);
+        font18 = assetManager.get("font18.ttf", BitmapFont.class);
 //         если ресурсы загружены, создаем менеджер с данными о кол-ве ресурсов, монет, составе команды у игрока
         gameManager = new GameManager();
 //        loadingScreen.hide();
@@ -116,8 +119,8 @@ public class Warfare extends Game implements MyAssetsLoader {
         atlas.dispose();
         assetManager.dispose();
         font40.dispose();
-        font20.dispose();
-        font10.dispose();
+        font30.dispose();
+        font18.dispose();
         super.dispose();
     }
 
@@ -242,4 +245,18 @@ public class Warfare extends Game implements MyAssetsLoader {
         mapScreen.hide();
     }
 
+    @Override
+    public void onRewardedEvent(String type, int amount) {
+
+    }
+
+    @Override
+    public void onRewardedVideoAdLoadedEvent() {
+
+    }
+
+    @Override
+    public void onRewardedVideoAdClosedEvent() {
+
+    }
 }

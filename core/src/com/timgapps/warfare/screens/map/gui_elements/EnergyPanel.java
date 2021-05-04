@@ -29,7 +29,7 @@ public class EnergyPanel extends Group {
         Label.LabelStyle energyLabelStyle = new Label.LabelStyle();
         energyLabelStyle.fontColor = Color.CYAN;
 //        energyLabelStyle.fontColor = new Color(0x35a1afff);
-        energyLabelStyle.font = Warfare.font20;
+        energyLabelStyle.font = Warfare.font30;
         energyCountLabel = new Label("" + levelScreen.getEnergyCount(), energyLabelStyle);        // надпись "КОЛИЧЕСТВО ЭНЕРГИИ"
 
         table = new Table();

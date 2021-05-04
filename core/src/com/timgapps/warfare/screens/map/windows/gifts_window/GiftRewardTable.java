@@ -21,7 +21,7 @@ public class GiftRewardTable extends Group {
 
         Label.LabelStyle rewardsLabelStyle = new Label.LabelStyle();
         rewardsLabelStyle.fontColor = Color.GRAY;
-        rewardsLabelStyle.font = Warfare.font20;
+        rewardsLabelStyle.font = Warfare.font30;
 
         rewardLabel = new Label("", rewardsLabelStyle);
         rewardLabel.setText(Warfare.stringHolder.getString(StringHolder.REWARD) + ":");
@@ -31,12 +31,12 @@ public class GiftRewardTable extends Group {
         /** Label для надписи КОЛИЧЕСТВА МОНЕТ **/
         Label.LabelStyle coinsCountLabelStyle = new Label.LabelStyle();
         coinsCountLabelStyle.fontColor = Color.ORANGE;
-        coinsCountLabelStyle.font = Warfare.font20;
+        coinsCountLabelStyle.font = Warfare.font30;
         coinsCountLabel = new Label("", coinsCountLabelStyle);
         coinsCountLabel.setText("" + coinsCount);
         Label.LabelStyle resoursesCountLabelStyle = new Label.LabelStyle();
         resoursesCountLabelStyle.fontColor = new Color(0xa06846ff);
-        resoursesCountLabelStyle.font = Warfare.font20;
+        resoursesCountLabelStyle.font = Warfare.font30;
         resourcesCountLabel = new Label("", resoursesCountLabelStyle);
         resourcesCountLabel.setText("" + resourcesCount);
         Image resourseImage = new Image(Warfare.atlas.findRegion("boxIcon"));

@@ -20,7 +20,7 @@ public class RewardTable extends Group {
 
         Label.LabelStyle rewardsLabelStyle = new Label.LabelStyle();
         rewardsLabelStyle.fontColor = Color.GRAY;
-        rewardsLabelStyle.font = Warfare.font20;
+        rewardsLabelStyle.font = Warfare.font30;
 
         rewardLabel = new Label("", rewardsLabelStyle);
         rewardLabel.setText(Warfare.stringHolder.getString(StringHolder.REWARD) + ":");
@@ -31,12 +31,12 @@ public class RewardTable extends Group {
         /** Label для надписи КОЛИЧЕСТВА МОНЕТ **/
         Label.LabelStyle coinsCountLabelStyle = new Label.LabelStyle();
         coinsCountLabelStyle.fontColor = Color.ORANGE;
-        coinsCountLabelStyle.font = Warfare.font20;
+        coinsCountLabelStyle.font = Warfare.font30;
 
         Label.LabelStyle scoreCountLabelStyle = new Label.LabelStyle();
 //        scoreCountLabelStyle.fontColor = Color.CYAN;
         scoreCountLabelStyle.fontColor = new Color(0x35a1afff);
-        scoreCountLabelStyle.font = Warfare.font20;
+        scoreCountLabelStyle.font = Warfare.font30;
 
         coinsCountLabel = new Label("", coinsCountLabelStyle);
         coinsCountLabel.setText("" + coinsCount);

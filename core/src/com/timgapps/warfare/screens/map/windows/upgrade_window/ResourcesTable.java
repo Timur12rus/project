@@ -5,8 +5,6 @@ import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.actions.AlphaAction;
-import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -38,7 +36,7 @@ public class ResourcesTable extends Group {
 
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.fontColor = Color.DARK_GRAY;
-        labelStyle.font = Warfare.font20;
+        labelStyle.font = Warfare.font30;
         foodCountLabel = new Label("" + foodCount, labelStyle);
         ironCountLabel = new Label("" + ironCount, labelStyle);
         woodCountLabel = new Label("" + woodCount, labelStyle);

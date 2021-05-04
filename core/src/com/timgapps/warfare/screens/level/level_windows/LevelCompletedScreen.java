@@ -46,15 +46,15 @@ public class LevelCompletedScreen extends Group {
 
         Label.LabelStyle victoryLabelStyle = new Label.LabelStyle();
         victoryLabelStyle.fontColor = Color.WHITE;
-        victoryLabelStyle.font = Warfare.font20;
+        victoryLabelStyle.font = Warfare.font30;
 
         Label.LabelStyle towerSavedLevelStyle = new Label.LabelStyle();
         towerSavedLevelStyle.fontColor = Color.GRAY;
-        towerSavedLevelStyle.font = Warfare.font20;
+        towerSavedLevelStyle.font = Warfare.font30;
 
         Label.LabelStyle rewardLabelStyle = new Label.LabelStyle();
         rewardLabelStyle.fontColor = Color.GRAY;
-        rewardLabelStyle.font = Warfare.font20;
+        rewardLabelStyle.font = Warfare.font30;
 
         missionLabel = new Label(Warfare.stringHolder.getString(StringHolder.MISSION) + " " + levelNumber, labelStyle);
         victoryLabel = new Label(Warfare.stringHolder.getString(StringHolder.VICTORY) + "!", victoryLabelStyle);

@@ -64,7 +64,7 @@ public class TeamUpgradeScreen extends Group {
         labelStyle.font = Warfare.font40;
         Label.LabelStyle greenLabelStyle = new Label.LabelStyle();
         greenLabelStyle.fontColor = Color.FOREST;
-        greenLabelStyle.font = Warfare.font20;
+        greenLabelStyle.font = Warfare.font30;
         replaceUnitText = "Select unit to replace";
         replaceUnitLabel = new Label(replaceUnitText, greenLabelStyle);
         /** Создадим фон для окна, где будет отображаться команда**/

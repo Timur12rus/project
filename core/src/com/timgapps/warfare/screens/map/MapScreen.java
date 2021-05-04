@@ -205,7 +205,7 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper, Roun
 
         Label.LabelStyle teamLabelStyle = new Label.LabelStyle();
         teamLabelStyle.fontColor = Color.WHITE;
-        teamLabelStyle.font = Warfare.font10;
+        teamLabelStyle.font = Warfare.font18;
         teamUpgradeIcon.addListener(new ClickListener() {
 
             @Override

@@ -20,7 +20,7 @@ public class BlockTable extends Table {
         Label label1;
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.fontColor = Color.DARK_GRAY;
-        labelStyle.font = Warfare.font20;
+        labelStyle.font = Warfare.font30;
         label = new Label("" + Warfare.stringHolder.getString(StringHolder.COLLECT) + " " + starsCount, labelStyle);
         label1 = new Label(" " + Warfare.stringHolder.getString(StringHolder.FOR_UNLOCK_UNIT), labelStyle);
         star = new Image(Warfare.atlas.findRegion("star_active"));

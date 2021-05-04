@@ -34,7 +34,7 @@ public class ResourceIcon extends Group {
 
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.fontColor = Color.DARK_GRAY;
-        labelStyle.font = Warfare.font20;
+        labelStyle.font = Warfare.font30;
 
 
     }

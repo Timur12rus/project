@@ -30,7 +30,7 @@ public class Bonus extends Group {
         imageHeight = image.getHeight();
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.fontColor = Color.CYAN;
-        labelStyle.font = Warfare.font20;
+        labelStyle.font = Warfare.font30;
         label = new Label(" + 15", labelStyle);
         addActor(image);
         addActor(label);

@@ -38,7 +38,7 @@ public class TimeCounter {
 
         Label.LabelStyle timeLabelStyle = new Label.LabelStyle();
         timeLabelStyle.fontColor = Color.LIGHT_GRAY;
-        timeLabelStyle.font = Warfare.font20;
+        timeLabelStyle.font = Warfare.font30;
 
         // задаём кол-во времени, которое нужно для ожидания подарка ресурсов
         if (giftsType == RESOURCE_AND_COINS_GIFT) {

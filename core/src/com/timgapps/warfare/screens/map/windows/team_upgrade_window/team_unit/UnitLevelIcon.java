@@ -16,7 +16,7 @@ public class UnitLevelIcon extends Group {
         levelImage = new Image(Warfare.atlas.findRegion("levelIcon"));
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.fontColor = Color.DARK_GRAY;
-        labelStyle.font = Warfare.font20;
+        labelStyle.font = Warfare.font30;
         levelLabel = new Label("", labelStyle);
         levelLabel.setText("" + unitLevel);
         if (unitLevel < 10) {

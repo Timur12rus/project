@@ -23,12 +23,12 @@ public class ScorePanel extends Group {
 
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.fontColor = new Color(0x35a1afff);
-        labelStyle.font = Warfare.font20;
+        labelStyle.font = Warfare.font30;
         scoreValueLabel = new Label("" + scoreCount, labelStyle);
 
         Label.LabelStyle playerLabelStyle = new Label.LabelStyle();
         playerLabelStyle.fontColor = Color.WHITE;
-        playerLabelStyle.font = Warfare.font20;
+        playerLabelStyle.font = Warfare.font30;
         playerLevelLabel = new Label("" + playerLevel, playerLabelStyle);
 
         /** Изображение ЗНАЧОК ОЧКИ **/

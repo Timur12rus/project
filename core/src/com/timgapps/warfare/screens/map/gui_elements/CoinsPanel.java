@@ -3,9 +3,6 @@ package com.timgapps.warfare.screens.map.gui_elements;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -30,7 +27,7 @@ public class CoinsPanel extends Group {
         background = new TextureRegionDrawable(Warfare.atlas.findRegion("coinsPanel"));
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.fontColor = Color.YELLOW;
-        labelStyle.font = Warfare.font20;
+        labelStyle.font = Warfare.font30;
 
         coinsValueLabel = new Label("", labelStyle);
         table = new Table().debug();

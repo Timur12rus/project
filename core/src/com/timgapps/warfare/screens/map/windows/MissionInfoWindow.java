@@ -151,7 +151,7 @@ public class MissionInfoWindow extends Group {
 
         difficultlyLabelStyle = new Label.LabelStyle();
         difficultlyLabelStyle.fontColor = Color.FOREST;
-        difficultlyLabelStyle.font = Warfare.font20;
+        difficultlyLabelStyle.font = Warfare.font30;
         difficulty = new Label("" + levelOfDifficulty, difficultlyLabelStyle);
 
         difficulty.setPosition(constructedWindow.getX() + (constructedWindow.getWidth() - difficulty.getWidth()) / 2, missionTitle.getY() - difficulty.getHeight() - 16);

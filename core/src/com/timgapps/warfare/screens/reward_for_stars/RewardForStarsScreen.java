@@ -62,7 +62,7 @@ public class RewardForStarsScreen extends StageGame implements ScreenCloser {
 
         Label.LabelStyle titleLabelStyle = new Label.LabelStyle();
         titleLabelStyle.fontColor = Color.WHITE;
-        titleLabelStyle.font = Warfare.font20;
+        titleLabelStyle.font = Warfare.font30;
 
 //        GREEN
 //        CHARTREUSE
@@ -73,14 +73,14 @@ public class RewardForStarsScreen extends StageGame implements ScreenCloser {
         Label.LabelStyle textLabelStyle = new Label.LabelStyle();
         textLabelStyle.fontColor = new Color(0x3c644eff);
 //        textLabelStyle.fontColor = Color.CHARTREUSE;
-        textLabelStyle.font = Warfare.font20;
+        textLabelStyle.font = Warfare.font30;
 
         Label.LabelStyle nextRewardLabelStyle = new Label.LabelStyle();
 //        textLabelStyle.fontColor = new Color(0x3c644eff);
 //        new Color(0xf2d900ff)
 //        nextRewardLabelStyle.fontColor = Color.CHARTREUSE;
         nextRewardLabelStyle.fontColor = new Color(0xf2d900ff);
-        nextRewardLabelStyle.font = Warfare.font20;
+        nextRewardLabelStyle.font = Warfare.font30;
 
         String titleText = Warfare.stringHolder.getString(StringHolder.REWARD_FOR_STARS);
         String textLabelText = Warfare.stringHolder.getString(StringHolder.COLLECT_STARS_TO_GET_REWARD);
@@ -179,7 +179,7 @@ public class RewardForStarsScreen extends StageGame implements ScreenCloser {
             /** добавим цифры - кол-во звёзд необходимое для получения награды **/
             Label.LabelStyle countStarsLabelStyle = new Label.LabelStyle();
             countStarsLabelStyle.fontColor = new Color(0x3c644eff);
-            countStarsLabelStyle.font = Warfare.font20;
+            countStarsLabelStyle.font = Warfare.font30;
 
             countLabel = new Label("" + rewardForStarsList.get(i).getRewardCountStars(), countStarsLabelStyle);
             countLabel.setText("" + rewardForStarsList.get(i).getRewardCountStars());
@@ -356,7 +356,7 @@ public class RewardForStarsScreen extends StageGame implements ScreenCloser {
         public StarsPanelSmall() {
             Label.LabelStyle labelStyle = new Label.LabelStyle();
             labelStyle.fontColor = Color.WHITE;
-            labelStyle.font = Warfare.font20;
+            labelStyle.font = Warfare.font30;
             starsCountLabel = new Label("" + starsCount, labelStyle);
             bg = new Image(Warfare.atlas.findRegion("star_panel_small"));
             star = new Image(Warfare.atlas.findRegion("star_icon"));

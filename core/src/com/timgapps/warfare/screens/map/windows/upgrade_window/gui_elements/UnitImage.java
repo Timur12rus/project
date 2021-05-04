@@ -48,10 +48,10 @@ public class UnitImage extends Group {
         levelIcon.setPosition(image.getWidth(), image.getHeight() - levelIcon.getHeight());
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.fontColor = Color.DARK_GRAY;
-        labelStyle.font = Warfare.font20;
+        labelStyle.font = Warfare.font30;
         Label.LabelStyle energyLabelStyle = new Label.LabelStyle();
         energyLabelStyle.fontColor = new Color(0x35a1afff);
-        energyLabelStyle.font = Warfare.font20;
+        energyLabelStyle.font = Warfare.font30;
         /** текст, отображает текущий уровень юнита**/
         energyLabel = new Label("" + energyCost, energyLabelStyle);
 

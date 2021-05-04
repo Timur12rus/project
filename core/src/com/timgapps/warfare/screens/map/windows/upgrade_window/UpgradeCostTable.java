@@ -24,7 +24,7 @@ public class UpgradeCostTable extends Table {
     public UpgradeCostTable() {
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.fontColor = Color.DARK_GRAY;
-        labelStyle.font = Warfare.font20;
+        labelStyle.font = Warfare.font30;
         upgradeCostLabel = new Label(upgradeCostText, labelStyle);          // текст "СТОИМОСТЬ УЛУЧШЕНИЯ"
 //        upgradeToLevelLabel = new Label(upgradeToLevelText + nextUnitLevel, labelStyle);
         upgradeCostLabel.setAlignment(Align.center);

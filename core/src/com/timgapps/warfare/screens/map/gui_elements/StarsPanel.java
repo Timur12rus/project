@@ -2,17 +2,11 @@ package com.timgapps.warfare.screens.map.gui_elements;
 
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.timgapps.warfare.GameManager;
 import com.timgapps.warfare.Utils.StringHolder;
-import com.timgapps.warfare.screens.level.Finger;
 import com.timgapps.warfare.screens.reward_for_stars.RewardForStarsData;
 import com.timgapps.warfare.Warfare;
 
@@ -43,12 +37,12 @@ public class StarsPanel extends Group {
         rewardIcon = new Image(Warfare.atlas.findRegion("rockUnitImage"));
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.fontColor = Color.WHITE;
-        labelStyle.font = Warfare.font20;
+        labelStyle.font = Warfare.font30;
         starsCountLabel = new Label("" + starsCount + "/" + rewardStarsCount, labelStyle);
 
         Label.LabelStyle textLabelStyle = new Label.LabelStyle();
         textLabelStyle.fontColor = Color.ORANGE;
-        textLabelStyle.font = Warfare.font10;
+        textLabelStyle.font = Warfare.font18;
         textLabel = new Label(Warfare.stringHolder.getString(StringHolder.REWARD_FOR_STARS), textLabelStyle);
 
         /** Изображение ЗНАЧОК ЗВЕЗДА **/

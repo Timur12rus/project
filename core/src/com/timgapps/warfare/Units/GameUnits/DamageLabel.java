@@ -16,7 +16,7 @@ public class DamageLabel extends Actor {
         this.y = y;
         Label.LabelStyle greenLabelStyle = new Label.LabelStyle();
         greenLabelStyle.fontColor = Color.RED;
-        greenLabelStyle.font = Warfare.font20;
+        greenLabelStyle.font = Warfare.font30;
 
         Label damageLabel = new Label("" + damage, greenLabelStyle);
         damageLabel.setPosition(x, y);

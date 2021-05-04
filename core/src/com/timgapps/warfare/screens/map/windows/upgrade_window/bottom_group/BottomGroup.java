@@ -22,13 +22,13 @@ public class BottomGroup extends Group {
     public BottomGroup() {
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.fontColor = Color.DARK_GRAY;
-        labelStyle.font = Warfare.font20;
+        labelStyle.font = Warfare.font30;
         Label.LabelStyle greenLabelStyle = new Label.LabelStyle();
         greenLabelStyle.fontColor = Color.FOREST;
-        greenLabelStyle.font = Warfare.font20;
+        greenLabelStyle.font = Warfare.font30;
         Label.LabelStyle redLabelStyle = new Label.LabelStyle();
         redLabelStyle.fontColor = Color.RED;
-        redLabelStyle.font = Warfare.font20;
+        redLabelStyle.font = Warfare.font30;
         setSize(WIDTH, HEIGHT);
 
         upgradeButton = new CoinButton();        // зеленая кнопка для апгрейда

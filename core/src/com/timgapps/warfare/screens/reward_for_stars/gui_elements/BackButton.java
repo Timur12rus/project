@@ -26,7 +26,7 @@ public class BackButton extends Group {
         backDown.setVisible(false);
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.fontColor = Color.WHITE;
-        labelStyle.font = Warfare.font20;
+        labelStyle.font = Warfare.font30;
         backLabel = new Label("Back", labelStyle);
         back.setPosition((bg.getWidth() - back.getWidth()) / 2 - 4, bg.getHeight() / 2);
         backDown.setPosition(back.getX() - (backDown.getWidth() - back.getWidth()) / 2,

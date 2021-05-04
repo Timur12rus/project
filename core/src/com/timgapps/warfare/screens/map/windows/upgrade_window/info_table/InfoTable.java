@@ -5,10 +5,8 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Interpolation;
-import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -57,11 +55,11 @@ public class InfoTable extends Table {
 
         labelStyle = new Label.LabelStyle();
         labelStyle.fontColor = Color.DARK_GRAY;
-        labelStyle.font = Warfare.font20;
+        labelStyle.font = Warfare.font30;
 
         greenLabelStyle = new Label.LabelStyle();
         greenLabelStyle.fontColor = Color.FOREST;
-        greenLabelStyle.font = Warfare.font20;
+        greenLabelStyle.font = Warfare.font30;
 
         healthLabel = new Label(healthText, labelStyle);                // текст "ЗДОРОВЬЕ"
         damageLabel = new Label(damageText, labelStyle);                // текст "УРОН"
