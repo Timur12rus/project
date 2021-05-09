@@ -49,6 +49,7 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper, Roun
     public static final int ON_LEVEL_SELECTED = 2;
     public static final int ON_SHOW_GET_REWARD = 3;
     public static final int ON_SHOW_REWARD_FOR_STARS_SCREEN = 4;
+    public static final int ON_SHOW_REWARDED_VIDEO = 5;
     public static final int ON_SHARE = 4;
     private int selectedLevelId = 1;
     private ArrayList<LevelIcon> levelIcons;

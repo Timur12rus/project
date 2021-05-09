@@ -41,9 +41,9 @@ public class AndroidLauncher extends AndroidApplication {
     private final String ADMOB_APP_ID = "ca-app-pub-3940256099942544/5224354917";
     private RelativeLayout layout; // макет экрана с относительной разметокой
     private RewardedAd mRewardedAd;
-    private RewardedAd rewardedAd;
     RewardedAdCallback rewardedAdCallback;
     RewardedAdLoadCallback rewardedAdLoadCallback;
+    private boolean rewardedAdIsLoaded;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,14 +66,55 @@ public class AndroidLauncher extends AndroidApplication {
                 Toast.makeText(AndroidLauncher.this, "AdMob Sdk Initialize " + initializationStatus.toString(), Toast.LENGTH_LONG).show();
             }
         });
-        rewardedAd = new RewardedAd(this, ADMOB_APP_ID);
 
-        setupAds();
+        rewardedAdLoadCallback = new RewardedAdLoadCallback() {
+            @Override
+            public void onAdLoaded(@NonNull RewardedAd rewardedAd) {
+//                super.onAdLoaded(rewardedAd);
+                Toast.makeText(AndroidLauncher.this, "Rewarded Ad is Loaded", Toast.LENGTH_LONG).show();
+                rewardedAdIsLoaded = true;
+            }
+
+            @Override
+            public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+//                super.onAdFailedToLoad(loadAdError);
+                Toast.makeText(AndroidLauncher.this, "Rewarded Ad is Loaded", Toast.LENGTH_LONG).show();
+                rewardedAdIsLoaded = false;
+            }
+        };
+
+        rewardedAdCallback = new RewardedAdCallback() {
+            @Override
+            public void onRewardedAdOpened() {
+                // Ad opened.
+                Toast.makeText(AndroidLauncher.this, "Rewarded Ad is Opened", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onRewardedAdClosed() {
+                // Ad closed.
+                Toast.makeText(AndroidLauncher.this, "Rewarded Ad Closed", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onUserEarnedReward(@NonNull RewardItem reward) {
+                // User earned reward.
+                Toast.makeText(AndroidLauncher.this, "You won the reward :" + reward.getAmount(), Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onRewardedAdFailedToShow(AdError adError) {
+                // Ad failed to display.
+                Toast.makeText(AndroidLauncher.this, "Rewarded Ad failed to show due to error:" + adError.toString(), Toast.LENGTH_LONG).show();
+            }
+        };
 
         // In KITKAT (4.4) and next releases, hide the virtual buttons
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             hideVirtualButtons();
         }
+
+        loadRewardedVideoAd();
     }
 
     // инициализируем интерфейс GameCallBack() для организации взаимодействия
@@ -84,146 +125,88 @@ public class AndroidLauncher extends AndroidApplication {
             if (message == Warfare.LOAD_REWARDED_VIDEO) {
                 loadRewardedVideoAd();
             } else if (message == Warfare.SHOW_REWARDED_VIDEO) {
-                AndroidLauncher.this.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        showRewardedVideoAd();
-                    }
-                });
+//                AndroidLauncher.this.runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+                showRewardedVideoAd();
+//                    }
+//                });
             }
         }
     };
 
-    // метод для показа объявления с вознаграждением
-    public void showRewardedVideoAd() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (mRewardedAd != null) {
-                    Activity activityContext = getParent();
-                    RewardedAdCallback adCallback = new RewardedAdCallback() {
-                        @Override
-                        public void onRewardedAdOpened() {
-                            // Ad opened.
-                        }
-
-                        @Override
-                        public void onRewardedAdClosed() {
-                            // Ad closed.
-                        }
-
-                        @Override
-                        public void onUserEarnedReward(@NonNull RewardItem reward) {
-                            // User earned reward.
-                        }
-
-                        @Override
-                        public void onRewardedAdFailedToShow(AdError adError) {
-                            // Ad failed to display.
-                        }
-                    };
-                    mRewardedAd.show(activityContext, adCallback);
-                } else {
-                    loadRewardedVideoAd();
-                }
-            }
-        });
-    }
-
-    // метод для установки настроек рекламы
-    public void setupAds() {
-        AdRequest adRequest = new AdRequest.Builder().build();
-        RewardedAd.load(this, "ca-app-pub-3940256099942544/5224354917",
-                adRequest, new RewardedAdLoadCallback() {
-                    @Override
-                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
-                        // Handle the error.
-                        Log.d(TAG, loadAdError.getMessage());
-                        mRewardedAd = null;
-                    }
-
-                    @Override
-                    public void onAdLoaded(@NonNull RewardedAd rewardedAd) {
-                        mRewardedAd = rewardedAd;
-                        Log.d(TAG, "Ad was loaded.");
-                    }
-                });
-
-        mRewardedAd.setFullScreenContentCallback(new FullScreenContentCallback() {
-            @Override
-            public void onAdShowedFullScreenContent() {
-                // Called when ad is shown.
-                Log.d(TAG, "Ad was shown.");
-                mRewardedAd = null;
-            }
-
-            @Override
-            public void onAdFailedToShowFullScreenContent(AdError adError) {
-                // Called when ad fails to show.
-                Log.d(TAG, "Ad failed to show.");
-            }
-
-            @Override
-            public void onAdDismissedFullScreenContent() {
-                // Called when ad is dismissed.
-                // Don't forget to set the ad reference to null so you
-                // don't show the ad a second time.
-                Log.d(TAG, "Ad was dismissed.");
-            }
-        });
-    }
-
     // метод для загрузки рекламного объявления
     private void loadRewardedVideoAd() {
-        RewardedAd.load(this, "ca-app-pub-3940256099942544/5224354917",
-                adRequest, new RewardedAdLoadCallback() {
-                    @Override
-                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
-                        // Handle the error.
-                        Log.d(TAG, loadAdError.getMessage());
-                        mRewardedAd = null;
-                    }
+        if (!rewardedAdIsLoaded) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    loadReward();
+                }
+            });
 
-                    @Override
-                    public void onAdLoaded(@NonNull RewardedAd rewardedAd) {
-                        mRewardedAd = rewardedAd;
-                        Log.d(TAG, "Ad was loaded.");
-                    }
-                });
 
-        mRewardedAd.setFullScreenContentCallback(new FullScreenContentCallback() {
-            @Override
-            public void onAdShowedFullScreenContent() {
-                // Called when ad is shown.
-                Log.d(TAG, "Ad was shown.");
-                mRewardedAd = null;
-            }
-
-            @Override
-            public void onAdFailedToShowFullScreenContent(AdError adError) {
-                // Called when ad fails to show.
-                Log.d(TAG, "Ad failed to show.");
-            }
-
-            @Override
-            public void onAdDismissedFullScreenContent() {
-                // Called when ad is dismissed.
-                // Don't forget to set the ad reference to null so you
-                // don't show the ad a second time.
-                Log.d(TAG, "Ad was dismissed.");
-            }
-
+//        mRewardedAd.setFullScreenContentCallback(new FullScreenContentCallback() {
 //            @Override
-//            public void onWindowFocusChanged(boolean hasFocus) {
-//                super.onWindowFocusChanged(hasFocus);
-//                if (hasFocus) {
-//                    // In KITKAT (4.4) and next releases, hide the virtual buttons
-//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-//                        hideVirtualButtons();
-//                    }
-//                }
+//            public void onAdShowedFullScreenContent() {
+//                // Called when ad is shown.
+//                Log.d(TAG, "Ad was shown.");
+//                mRewardedAd = null;
 //            }
-        });
+//
+//            @Override
+//            public void onAdFailedToShowFullScreenContent(AdError adError) {
+//                // Called when ad fails to show.
+//                Log.d(TAG, "Ad failed to show.");
+//            }
+//
+//            @Override
+//            public void onAdDismissedFullScreenContent() {
+//                // Called when ad is dismissed.
+//                // Don't forget to set the ad reference to null so you
+//                // don't show the ad a second time.
+//                Log.d(TAG, "Ad was dismissed.");
+//            }
+//
+////            @Override
+////            public void onWindowFocusChanged(boolean hasFocus) {
+////                super.onWindowFocusChanged(hasFocus);
+////                if (hasFocus) {
+////                    // In KITKAT (4.4) and next releases, hide the virtual buttons
+////                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+////                        hideVirtualButtons();
+////                    }
+////                }
+////            }
+//        });
+        }
+    }
+
+    private void loadReward() {
+        AdRequest adRequest = new AdRequest.Builder().build();
+        RewardedAd.load(this, ADMOB_APP_ID,
+                adRequest, rewardedAdLoadCallback);
+    }
+
+    // метод для показа объявления с вознаграждением
+    public void showRewardedVideoAd() {
+        if (rewardedAdIsLoaded) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (mRewardedAd != null) {
+                        Activity activityContext = getParent();
+                        mRewardedAd.show(activityContext, rewardedAdCallback);
+                    } else {
+                        loadRewardedVideoAd();
+                    }
+                }
+            });
+        } else {
+            // загружаем видео, если оно не загружено
+            loadRewardedVideoAd();
+            Toast.makeText(AndroidLauncher.this, "Rewarded Ad is not Loaded ", Toast.LENGTH_LONG).show();
+        }
     }
 
     // метод скрывает кнопки виртуальные с экрана

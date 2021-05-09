@@ -6,6 +6,7 @@ import com.google.android.gms.ads.AdError;
 import com.google.android.gms.ads.OnUserEarnedRewardListener;
 import com.google.android.gms.ads.rewarded.RewardItem;
 
+// аналого VideoEventListener
 public interface RewardedAdCallback extends OnUserEarnedRewardListener {
 
     void onRewardedAdOpened();
