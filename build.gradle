@@ -3,7 +3,6 @@ buildscript {
         mavenLocal()
         mavenCentral()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
-//        maven { url "https://https://repo.maven.apache.org/maven2/" }
         google()
         jcenter()
     }
@@ -82,7 +81,6 @@ project(":android") {
 //        implementation 'com.google.android.gms:play-services-ads:19.4.0'
         implementation 'com.google.android.gms:play-services-ads:20.0.0'
         implementation fileTree(dir: '../core/libs', include: 'game_lib.jar')
-        implementation 'com.android.support:multidex:1.0.3'
     }
 }
 

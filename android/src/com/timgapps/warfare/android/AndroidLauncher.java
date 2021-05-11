@@ -70,15 +70,20 @@ public class AndroidLauncher extends AndroidApplication {
         rewardedAdLoadCallback = new RewardedAdLoadCallback() {
             @Override
             public void onAdLoaded(@NonNull RewardedAd rewardedAd) {
-//                super.onAdLoaded(rewardedAd);
+                super.onAdLoaded(rewardedAd);
+                mRewardedAd = rewardedAd;
+//                Log.d("TAG", mRewardedAd.toString());
+//                Log.d("TAG", rewardedAd.toString());
+                System.out.println("mRewarded = " + mRewardedAd.toString());
+                System.out.println("Rewarded = " + rewardedAd.toString());
                 Toast.makeText(AndroidLauncher.this, "Rewarded Ad is Loaded", Toast.LENGTH_LONG).show();
                 rewardedAdIsLoaded = true;
             }
 
             @Override
             public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
-//                super.onAdFailedToLoad(loadAdError);
-                Toast.makeText(AndroidLauncher.this, "Rewarded Ad is Loaded", Toast.LENGTH_LONG).show();
+                super.onAdFailedToLoad(loadAdError);
+                Toast.makeText(AndroidLauncher.this, "Rewarded Ad is Fail Loaded!!!", Toast.LENGTH_LONG).show();
                 rewardedAdIsLoaded = false;
             }
         };
@@ -113,7 +118,6 @@ public class AndroidLauncher extends AndroidApplication {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             hideVirtualButtons();
         }
-
         loadRewardedVideoAd();
     }
 
@@ -194,18 +198,22 @@ public class AndroidLauncher extends AndroidApplication {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    if (mRewardedAd != null) {
-                        Activity activityContext = getParent();
-                        mRewardedAd.show(activityContext, rewardedAdCallback);
-                    } else {
-                        loadRewardedVideoAd();
-                    }
+                    Activity activityContext = getParent();
+                    mRewardedAd.show(activityContext, rewardedAdCallback);
+//                    if (mRewardedAd != null) {
+////                    if (mRewardedAd != null) {
+//                        Activity activityContext = getParent();
+//                        mRewardedAd.show(activityContext, rewardedAdCallback);
+//                    } else {
+//                        loadRewardedVideoAd();
+//                    }
                 }
             });
         } else {
             // загружаем видео, если оно не загружено
+//            Toast.makeText(AndroidLauncher.this, "Rewarded Ad is Loaded", Toast.LENGTH_LONG).show();
+//            Toast.makeText(AndroidLauncher.this, "Rewarded Ad is not Loaded ", Toast.LENGTH_LONG).show();
             loadRewardedVideoAd();
-            Toast.makeText(AndroidLauncher.this, "Rewarded Ad is not Loaded ", Toast.LENGTH_LONG).show();
         }
     }
 

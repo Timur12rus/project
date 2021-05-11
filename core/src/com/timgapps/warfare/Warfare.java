@@ -22,7 +22,6 @@ import com.timgapps.warfare.video_reward.VideoEventListener;
 import java.util.Locale;
 
 public class Warfare extends Game implements VideoEventListener, MyAssetsLoader {
-
     public static final int V_WIDTH = 1280;      // 800        //1280
     public static final int V_HEIGHT = 720;     // 480        //720
     private GameCallback gameCallback;
@@ -149,6 +148,11 @@ public class Warfare extends Game implements VideoEventListener, MyAssetsLoader 
 //                    levelMap = null;
                     hideLevelMap();
                     showRewardForStarsScreen();
+                } else if (code == MapScreen.ON_SHOW_REWARDED_VIDEO) {
+//                    levelMap = null;
+//                    hideLevelMap();
+//                    showRewardForStarsScreen();
+                    gameCallback.sendMessage(SHOW_REWARDED_VIDEO);
                 }
             }
         });

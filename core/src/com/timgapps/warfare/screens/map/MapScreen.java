@@ -83,6 +83,7 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper, Roun
     private float timeToCameraZoomTarget, cameraZoomTarget, cameraZoomOrigin, cameraZoomDuration;
     private final float LEVEL_WIDTH = 1792; // (56 x 32)
     private final float LEVEL_HEIGHT = 1024; // (32 x 32)
+    private Image videoRewardButton;
 
     @Override
     protected void update(float delta) {
@@ -291,6 +292,18 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper, Roun
             }
         });
 
+        // кнопка для простмотра видеорекламы
+        videoRewardButton = new Image(Warfare.atlas.findRegion("boxImage5"));
+        videoRewardButton.setPosition(64, 64);
+        addOverlayChild(videoRewardButton);
+        videoRewardButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                call(ON_SHOW_REWARDED_VIDEO);
+            }
+        });
+
         // запустим анимацию  получения монет к общему кол-ву монет
         if (coinsReward > 0) {
 //            showAddCoinsAnimation();
@@ -364,7 +377,17 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper, Roun
         coinsPanel.redraw();
 //        coinsPanel.setCoinsCount(gameManager.getCoinsCount());
         showCoinsPanel();
+        showRewardButton();
 //        clearOverlayActions();
+    }
+
+    //  метод показывает кнопку для воспроизведения видеорекламы
+    private void showRewardButton() {
+        videoRewardButton.setVisible(true);
+    }
+
+    private void hideRewardButton() {
+        videoRewardButton.setVisible(false);
     }
 
     // метод запускает увеличение камеры на карте при запуске игры
