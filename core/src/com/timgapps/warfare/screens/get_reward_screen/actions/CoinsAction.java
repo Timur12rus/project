@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.boontaran.games.StageGame;
+import com.timgapps.warfare.GameManager;
 import com.timgapps.warfare.Warfare;
 
 public class CoinsAction {
@@ -56,11 +57,24 @@ public class CoinsAction {
                     Actions.fadeIn(0),
                     Actions.moveTo(startPosition.x + deltaX, startPosition.y + deltaY, 0.7f, Interpolation.pow3Out),
                     Actions.moveTo(endPosition.x, endPosition.y, 0.8f, Interpolation.pow3In)        // TODO испрвить здесь какой-то баг при запуске бывает
-
             );
             moveCoinAction.addAction(isEndAnimation);
             image.addAction(moveCoinAction);
         }
+    }
+
+    public void endAnimation(GameManager gameManager) {
+        gameManager.getCoinsPanel().redraw();
+        coinOne.clearActions();
+        coinTwo.clearActions();
+        coinThree.clearActions();
+        coinFour.clearActions();
+        coinFive.clearActions();
+        coinOne.remove();
+        coinTwo.remove();
+        coinThree.remove();
+        coinFour.remove();
+        coinFive.remove();
     }
 
     public boolean isEndAnimation() {

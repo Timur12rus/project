@@ -5,6 +5,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.timgapps.warfare.Game;
 import com.timgapps.warfare.GameCallback;
 import com.timgapps.warfare.Warfare;
+import com.timgapps.warfare.screens.map.interfaces.RewardedVideoAdListener;
 
 public class DesktopLauncher {
 	public DesktopLauncher() {
@@ -12,7 +13,17 @@ public class DesktopLauncher {
 		config.width = 1280;
 		config.height = 720;
 
-		new LwjglApplication(new Warfare(callback), config);
+		new LwjglApplication(new Warfare(callback, new RewardedVideoAdListener() {
+			@Override
+			public boolean isErnedReward() {
+				return false;
+			}
+
+			@Override
+			public void resetIsErnedReward() {
+
+			}
+		}), config);
 	}
 
 	private GameCallback callback = new GameCallback() {

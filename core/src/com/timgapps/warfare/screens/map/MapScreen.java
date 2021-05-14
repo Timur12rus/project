@@ -24,8 +24,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.boontaran.MessageListener;
 import com.boontaran.games.StageGame;
 import com.boontaran.games.tiled.TileLayer;
+import com.timgapps.warfare.screens.get_reward_screen.actions.CoinsAction;
 import com.timgapps.warfare.screens.map.actions.AddOverlayActionHelper;
+import com.timgapps.warfare.screens.map.actions.MyCoinsAction;
 import com.timgapps.warfare.screens.map.gui_elements.CoinsPanel;
+import com.timgapps.warfare.screens.map.interfaces.RewardedVideoAdListener;
 import com.timgapps.warfare.screens.map.interfaces.RoundCircleController;
 import com.timgapps.warfare.screens.map.windows.MissionInfoWindow;
 import com.timgapps.warfare.screens.map.windows.gifts_window.GiftScreen;
@@ -56,7 +59,6 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper, Roun
     private MissionInfoWindow missionInfoWindow;
     private TeamUpgradeScreen teamUpgradeScreen;
     private GiftScreen giftScreen;
-    //    public static BitmapFont font40;
     private TeamUpgradeIcon teamUpgradeIcon;      // кнопка для вызова окна апгрейда юнитов
     private GiftIcon giftIcon;
     private GameManager gameManager;
@@ -84,10 +86,20 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper, Roun
     private final float LEVEL_WIDTH = 1792; // (56 x 32)
     private final float LEVEL_HEIGHT = 1024; // (32 x 32)
     private Image videoRewardButton;
+    private RewardedVideoAdListener rewardedVideoAdListener;
+    private boolean rewardedVideoStarted;
+    private MyCoinsAction rewardCoinsAction;
 
     @Override
     protected void update(float delta) {
         super.update(delta);
+        if (rewardedVideoStarted) {
+            if (rewardedVideoAdListener.isErnedReward()) {
+                rewardedVideoAdListener.resetIsErnedReward();
+                rewardedVideoStarted = false;
+                rewardPlayer();
+            }
+        }
         if (isStartCameraZoom) {
             if (cameraZoomValue < 1) {
                 if (cameraZoomValue + 0.05f > 1) {
@@ -104,11 +116,32 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper, Roun
         camera.zoom = cameraZoomValue;
     }
 
-    public MapScreen(GameManager gameManager, int coinsReward, int scoreReward) {
+    private void rewardPlayer() {
+//        showAddCoinsAnimation();
+        gameManager.addCoinsCount(50);
+        startCoinsAnimation();
+    }
+
+    private void startCoinsAnimation() {
+        System.out.println("Start Animation");
+        if (rewardCoinsAction != null) {
+            rewardCoinsAction.clear();
+        }
+//        gameManager.addCoinsCount(50);
+        rewardCoinsAction = new MyCoinsAction(this, new Vector2(getWidth() / 2, getHeight() / 2), gameManager, 50);
+//        Vector2 coinsStartPosition = new Vector2(cameraXpos, cameraYpos - 38);
+//        final CoinsAction coinsAction = new CoinsAction(this, new Vector2(coinsStartPosition));
+//        Vector2 coinsEndPosition = new Vector2(coinsStartPosition.x + gameManager.getCoinsPanel().getPos().x / 2,
+//                coinsStartPosition.y + gameManager.getCoinsPanel().getPos().y / 2);
+//
+//        coinsAction.setEndPosition(coinsEndPosition);
+//        coinsAction.startAnimation();
+    }
+
+    public MapScreen(GameManager gameManager, int coinsReward, int scoreReward, final RewardedVideoAdListener rewardedVideoAdListener) {
         this.coinsReward = coinsReward;
         this.scoreReward = scoreReward;
-//        setBackGround("map");
-//        setBackGround("map");
+        this.rewardedVideoAdListener = rewardedVideoAdListener;
         this.gameManager = gameManager;
         levelIcons = gameManager.getLevelIcons();
         cameraZoomTarget = 1;
@@ -198,7 +231,6 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper, Roun
         });
 
         teamUpgradeIcon = new TeamUpgradeIcon();
-//        teamUpgradeIcon.setPosition(32, getHeight() / 3);
         giftIcon.setPosition(32, 96);
         teamUpgradeIcon.setPosition(32, giftIcon.getY() + giftIcon.getHeight() + 64);
         addChildOnOverlay(teamUpgradeIcon);
@@ -224,7 +256,6 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper, Roun
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
-//                isFocused = false;
                 showTeamUpgradeScreen();
             }
         });
@@ -300,7 +331,11 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper, Roun
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                call(ON_SHOW_REWARDED_VIDEO);
+                if (rewardedVideoAdListener.isLoaded()) {
+                    rewardedVideoStarted = true;
+                    call(ON_SHOW_REWARDED_VIDEO);
+                }
+//                startCoinsAnimation();
             }
         });
 
@@ -320,7 +355,6 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper, Roun
         selectedLevelId = gameManager.getLastCompletedNum();
         zoomActionCamera();
     }
-
 
     // метод выбора уровня
     public void selectLevel() {
@@ -364,7 +398,6 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper, Roun
         giftScreen.removeActions();
         teamUpgradeIcon.clearActions();
         removeOverlayChild(coinsPanel);
-//        dispose();
     }
 
     @Override
@@ -375,10 +408,8 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper, Roun
         resumeLevelMap();
         updateCameraPosition();
         coinsPanel.redraw();
-//        coinsPanel.setCoinsCount(gameManager.getCoinsCount());
         showCoinsPanel();
         showRewardButton();
-//        clearOverlayActions();
     }
 
     //  метод показывает кнопку для воспроизведения видеорекламы
@@ -535,9 +566,7 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper, Roun
             }
         }
 
-//        redrawLevelIcons();
         levelIcons.get(0).setVisible(true);
-//        showLevelIcons(mapLayer.getObjects(), layerName);
     }
 
     private void redrawLevelIcons() {
@@ -551,10 +580,6 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper, Roun
                 clearFog();
                 showLevelIcons(mapLayer.getObjects());
             }
-//            else {
-//                TileLayer tLayer = new TileLayer(camera, map, layerName, stage.getBatch());
-//                addChild(tLayer);
-//            }
         }
     }
 
@@ -586,8 +611,6 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper, Roun
         for (MapObject object : objects) {
             float x = object.getProperties().get("x", Float.class);
             float y = object.getProperties().get("y", Float.class);
-//            int fogRectX = (int) x / 32;
-//            int fogRectY = 31 - (int) y / 32;
 
             TiledMapTileLayer fogTileLayer = (TiledMapTileLayer) map.getLayers().get("fog");
             for (com.timgapps.warfare.screens.map.gui_elements.LevelIcon levelIcon : levelIcons) {
@@ -606,7 +629,6 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper, Roun
         }
         levelIcons.get(0).setVisible(true);
     }
-
 
     // метод очищает область вокруг значка уровня на карте от "тумана войны"
     private void clearFog() {
@@ -727,7 +749,6 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper, Roun
     private void resumeLevelMap() {
         if (teamUpgradeScreen.isUpgradeScreenVisible()) {
             teamUpgradeScreen.hide();
-//                    teamUpgradeScreen.setUpgradeScreenVisible(false);
         }
         isScreenShown = false;
         /** скрываем окно с описанием уровня **/
@@ -737,7 +758,6 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper, Roun
         isFocused = true;
         showButtons();
         checkHelpStatus(gameManager.getHelpStatus());
-//        teamUpgradeScreen.hide();
     }
 
 // TODO showAddCoinAnimation() !~!!!!!!!!!!!!!!

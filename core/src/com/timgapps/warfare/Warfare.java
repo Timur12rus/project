@@ -14,6 +14,7 @@ import com.timgapps.warfare.Utils.StringHolder;
 import com.timgapps.warfare.screens.get_reward_screen.GetRewardScreen;
 import com.timgapps.warfare.screens.loading_screen.LoadingScreen;
 import com.timgapps.warfare.screens.loading_screen.MyAssetsLoader;
+import com.timgapps.warfare.screens.map.interfaces.RewardedVideoAdListener;
 import com.timgapps.warfare.screens.reward_for_stars.RewardForStarsScreen;
 import com.timgapps.warfare.screens.level.LevelScreen;
 import com.timgapps.warfare.screens.map.MapScreen;
@@ -44,20 +45,14 @@ public class Warfare extends Game implements VideoEventListener, MyAssetsLoader 
     private LoadingScreen loadingScreen;
     private Lang lang;
     public static StringHolder stringHolder;
-
     private OrthographicCamera mOrthographicCamera;
-
     private GameManager gameManager;
     private int levelId;
-//    private LevMap levMap;
+    private RewardedVideoAdListener rewardedVideoAdListener;
 
-
-    public Warfare(GameCallback gameCallback) {    // это конструктор для класса CrazyCatapult с переменной класса GameCallback
+    public Warfare(GameCallback gameCallback, RewardedVideoAdListener rewardedVideoAdListener) {    // это конструктор для класса CrazyCatapult с переменной класса GameCallback
         this.gameCallback = gameCallback;
-        System.out.println("Create Game");
-//
-//        this.googleServices = googleServices;
-//        this.googleServices.setVideoEventListener(this);
+        this.rewardedVideoAdListener = rewardedVideoAdListener;
     }
 
     @Override
@@ -125,7 +120,7 @@ public class Warfare extends Game implements VideoEventListener, MyAssetsLoader 
 
     private void showMap(int coinsReward, int scoreReward) {
         if (mapScreen == null) {
-            mapScreen = new MapScreen(gameManager, coinsReward, scoreReward);
+            mapScreen = new MapScreen(gameManager, coinsReward, scoreReward, rewardedVideoAdListener);
         }
         setScreen(mapScreen);
         mapScreen.setCallback(new StageGame.Callback() {
