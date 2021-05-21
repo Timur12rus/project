@@ -24,7 +24,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.boontaran.MessageListener;
 import com.boontaran.games.StageGame;
 import com.boontaran.games.tiled.TileLayer;
-import com.timgapps.warfare.screens.get_reward_screen.actions.CoinsAction;
 import com.timgapps.warfare.screens.map.actions.AddOverlayActionHelper;
 import com.timgapps.warfare.screens.map.actions.MyCoinsAction;
 import com.timgapps.warfare.screens.map.gui_elements.CoinsPanel;
@@ -32,6 +31,7 @@ import com.timgapps.warfare.screens.map.interfaces.RewardedVideoAdListener;
 import com.timgapps.warfare.screens.map.interfaces.RoundCircleController;
 import com.timgapps.warfare.screens.map.windows.MissionInfoWindow;
 import com.timgapps.warfare.screens.map.windows.gifts_window.GiftScreen;
+import com.timgapps.warfare.screens.map.windows.reward_video_window.RewardVideoWindow;
 import com.timgapps.warfare.screens.map.windows.team_upgrade_window.TeamUpgradeScreen;
 import com.timgapps.warfare.GameManager;
 import com.timgapps.warfare.screens.level.level_windows.ColorRectangle;
@@ -53,11 +53,13 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper, Roun
     public static final int ON_SHOW_GET_REWARD = 3;
     public static final int ON_SHOW_REWARD_FOR_STARS_SCREEN = 4;
     public static final int ON_SHOW_REWARDED_VIDEO = 5;
+    public static final int ON_LOAD_REWARD_VIDEO = 6;
     public static final int ON_SHARE = 4;
     private int selectedLevelId = 1;
     private ArrayList<LevelIcon> levelIcons;
     private MissionInfoWindow missionInfoWindow;
     private TeamUpgradeScreen teamUpgradeScreen;
+    private RewardVideoWindow rewardVideoWindow;
     private GiftScreen giftScreen;
     private TeamUpgradeIcon teamUpgradeIcon;      // кнопка для вызова окна апгрейда юнитов
     private GiftIcon giftIcon;
@@ -87,17 +89,23 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper, Roun
     private final float LEVEL_HEIGHT = 1024; // (32 x 32)
     private Image videoRewardButton;
     private RewardedVideoAdListener rewardedVideoAdListener;
-    private boolean rewardedVideoStarted;
+    private boolean onShowRewardVideo;
+    private boolean onLoadRewardVideo;
     private MyCoinsAction rewardCoinsAction;
 
     @Override
     protected void update(float delta) {
         super.update(delta);
-        if (rewardedVideoStarted) {
+        if (onShowRewardVideo) {
             if (rewardedVideoAdListener.isErnedReward()) {
                 rewardedVideoAdListener.resetIsErnedReward();
-                rewardedVideoStarted = false;
+                onShowRewardVideo = false;
                 rewardPlayer();
+            }
+        }
+        if (onLoadRewardVideo) {
+            if (rewardedVideoAdListener.isLoaded()) {
+                showRewardVideo();
             }
         }
         if (isStartCameraZoom) {
@@ -171,10 +179,8 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper, Roun
 
         /** создадим окно с описанием уровня **/
         missionInfoWindow = new MissionInfoWindow(this);
-        missionInfoWindow.setVisible(false);
+        missionInfoWindow.hide();
         addChildOnOverlay(missionInfoWindow);
-//        addChild(missionInfoScreen);
-
         missionInfoWindow.addListener(new MessageListener() {
             @Override
             protected void receivedMessage(int message, Actor actor) {
@@ -185,6 +191,23 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper, Roun
                 } else if (message == missionInfoWindow.ON_START) { //
                     selectLevel();
 //                    call(ON_LEVEL_SELECTED);
+                }
+            }
+        });
+
+        // создадим окно с предложением посмотреть рекламу
+        rewardVideoWindow = new RewardVideoWindow();
+//        rewardVideoWindow.setVisible(false);
+        rewardVideoWindow.setPosition((getWidth() - rewardVideoWindow.getWidth()) / 2,
+                (getHeight() - rewardVideoWindow.getHeight()) / 2);
+        addOverlayChild(rewardVideoWindow);
+        rewardVideoWindow.addListener(new MessageListener() {
+            @Override
+            protected void receivedMessage(int message, Actor actor) {
+                if (message == rewardVideoWindow.ON_RESUME) {
+                    resumeLevelMap();
+                } else if (message == rewardVideoWindow.ON_REWARD) { //
+                    showRewardVideo();
                 }
             }
         });
@@ -299,7 +322,6 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper, Roun
 //                call(ON_SHOW_REWARD_FOR_STARS_SCREEN);
 //                isFocused = false;
                 showRewardForStarsScreen();
-
             }
         });
 
@@ -329,15 +351,32 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper, Roun
         addOverlayChild(videoRewardButton);
         videoRewardButton.addListener(new ClickListener() {
             @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                isFocused = false;
+                return super.touchDown(event, x, y, pointer, button);
+            }
+
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                super.touchUp(event, x, y, pointer, button);
+                isFocused = true;
+            }
+
+            @Override
             public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-                if (rewardedVideoAdListener.isLoaded()) {
-                    rewardedVideoStarted = true;
-                    call(ON_SHOW_REWARDED_VIDEO);
-                }
-//                startCoinsAnimation();
+                showRewardVideoWindow();
+//                rewardVideoWindow.show();
             }
         });
+//                super.clicked(event, x, y);
+////                if (rewardedVideoAdListener.isLoaded()) {
+////                    onShowRewardVideo = true;
+////                    call(ON_SHOW_REWARDED_VIDEO);
+////                }
+//                rewardVideoWindow.show();
+//    }
+//});
+
 
         // запустим анимацию  получения монет к общему кол-ву монет
         if (coinsReward > 0) {
@@ -349,11 +388,31 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper, Roun
 //            gameManager.setScoreCount(scorePanel.getScoreCount());
 //            gameManager.saveGame();
         }
+
         cameraXpos = camera.position.x;
         cameraYpos = camera.position.y;
 
         selectedLevelId = gameManager.getLastCompletedNum();
+
         zoomActionCamera();
+
+    }
+
+    // метод для просмотра видеорекламы
+    private void showRewardVideo() {
+        if (rewardedVideoAdListener.isLoaded()) {
+            onShowRewardVideo = true;
+            onLoadRewardVideo = false;
+            call(ON_SHOW_REWARDED_VIDEO);
+        } else {
+            if (!onLoadRewardVideo) {
+                // показываем в окне индикатор загузки рекламы (...)
+                rewardVideoWindow.loadRewardVideo();
+                onLoadRewardVideo = true;
+                onShowRewardVideo = false;
+                call(ON_LOAD_REWARD_VIDEO);
+            }
+        }
     }
 
     // метод выбора уровня
@@ -755,6 +814,7 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper, Roun
         missionInfoWindow.hide();
         teamUpgradeScreen.setVisible(false);
         giftScreen.setVisible(false);
+        rewardVideoWindow.hide();
         isFocused = true;
         showButtons();
         checkHelpStatus(gameManager.getHelpStatus());
@@ -831,6 +891,13 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper, Roun
                 missionInfoWindow.setVisible(true);
             }
         }
+    }
+
+    private void showRewardVideoWindow() {
+        isFocused = false;
+        isScreenShown = true;
+        hideButtons();
+        rewardVideoWindow.show();
     }
 
     /**

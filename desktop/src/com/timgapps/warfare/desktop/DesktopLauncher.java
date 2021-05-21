@@ -8,32 +8,42 @@ import com.timgapps.warfare.Warfare;
 import com.timgapps.warfare.screens.map.interfaces.RewardedVideoAdListener;
 
 public class DesktopLauncher {
-	public DesktopLauncher() {
-		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		config.width = 1280;
-		config.height = 720;
+    public DesktopLauncher() {
+        LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+        config.width = 1280;
+        config.height = 720;
 
-		new LwjglApplication(new Warfare(callback, new RewardedVideoAdListener() {
+        new LwjglApplication(new Warfare(callback, new RewardedVideoAdListener() {
+            @Override
+            public boolean isErnedReward() {
+                return false;
+            }
+
+            @Override
+            public void resetIsErnedReward() {
+            }
+
 			@Override
-			public boolean isErnedReward() {
+			public void resetIsLoaded() {
+
+			}
+
+			@Override
+			public boolean isLoaded() {
 				return false;
 			}
-
-			@Override
-			public void resetIsErnedReward() {
-
-			}
 		}), config);
-	}
+    }
 
-	private GameCallback callback = new GameCallback() {
-		@Override
-		public void sendMessage(int message) {
+    private GameCallback callback = new GameCallback() {
+        @Override
+        public void sendMessage(int message) {
 //            System.out.println("DesktopLauncher sendMessage: " + message);
 
-		}
-	};
-	public static void main (String[] arg) {
-		new DesktopLauncher();
-	}
+        }
+    };
+
+    public static void main(String[] arg) {
+        new DesktopLauncher();
+    }
 }

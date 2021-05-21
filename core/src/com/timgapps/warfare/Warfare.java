@@ -112,9 +112,9 @@ public class Warfare extends Game implements VideoEventListener, MyAssetsLoader 
         // в нем неоходимо освобождать занимаемую ресурсами память
         atlas.dispose();
         assetManager.dispose();
-        font40.dispose();
-        font30.dispose();
-        font18.dispose();
+//        font40.dispose();
+//        font30.dispose();
+//        font18.dispose();
         super.dispose();
     }
 
@@ -148,6 +148,8 @@ public class Warfare extends Game implements VideoEventListener, MyAssetsLoader 
 //                    hideLevelMap();
 //                    showRewardForStarsScreen();
                     gameCallback.sendMessage(SHOW_REWARDED_VIDEO);
+                } else if (code == MapScreen.ON_LOAD_REWARD_VIDEO) {
+                    gameCallback.sendMessage(LOAD_REWARDED_VIDEO);
                 }
             }
         });

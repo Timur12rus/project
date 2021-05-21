@@ -49,6 +49,8 @@ public class StringHolder {
     public static final String GIFTS = "gifts";
     public static final String FIRESTONE = "firestone";
     public static final String HIRE_THIS_UNIT = "hire this unit";
+    public static final String SPEACH_VIDEO_REWARD = "speach_video_reward";
+    public static final String WATCH = "watch";
 
     private HashMap<String, String> strings;
 
@@ -121,6 +123,8 @@ public class StringHolder {
                 strings.put(GIFTS, "gifts");
                 strings.put(FIRESTONE, "firestone");
                 strings.put(HIRE_THIS_UNIT, "hire this unit:");
+                strings.put(SPEACH_VIDEO_REWARD, "watch video and \nget reward");
+                strings.put(WATCH, "watch");
                 break;
             case ru:
                 strings.put(LOADING, "загрузка...");
@@ -166,6 +170,8 @@ public class StringHolder {
                 strings.put(GIFTS, "подарки");
                 strings.put(FIRESTONE, "огонь");
                 strings.put(HIRE_THIS_UNIT, "нанять:");
+                strings.put(SPEACH_VIDEO_REWARD, "посмотри видео и\nполучи награду");
+                strings.put(WATCH, "смотреть");
                 break;
         }
     }
