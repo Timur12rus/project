@@ -235,10 +235,6 @@ public class RewardForStarsScreen extends StageGame implements ScreenCloser {
         rewardForStarsList.get(index).showNextRewardLabel(nextRewardLabel);
     }
 
-    private void hideHilite() {
-
-    }
-
     public CoinsPanel getCoinsPanel() {
         return coinsPanel;
     }
@@ -263,8 +259,8 @@ public class RewardForStarsScreen extends StageGame implements ScreenCloser {
             labelStyle.fontColor = Color.RED;
             labelStyle.font = Warfare.font40;
 //            String toastText = "Collect " + starsCount + " stars for reward";
-            final Label toastLabel = new Label("" + toastText, labelStyle);
-            toastLabel.setPosition((Warfare.V_WIDTH - toastLabel.getWidth()) / 2, Warfare.V_HEIGHT / 2);
+            final Label toastLabel = new Label(toastText, labelStyle);
+            toastLabel.setPosition((getWidth() - toastLabel.getWidth()) / 2, getHeight() / 2);
             addChild(toastLabel);
             Action checkEndOfAction = new Action() {
                 @Override

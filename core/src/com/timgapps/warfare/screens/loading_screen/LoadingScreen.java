@@ -65,7 +65,7 @@ public class LoadingScreen extends StageGame {
         FreetypeFontLoader.FreeTypeFontLoaderParameter font40Params = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
         font40Params.fontFileName = "fonts/Nickname.ttf";
         font40Params.fontParameters.size = 40;    // 40
-        font40Params.fontParameters.characters = "!/:.-+0123456789абвгдежзиклмнопрстуфхчцшщыьъэюяABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+        font40Params.fontParameters.characters = "!/:%.-+0123456789абвгдежзийклмнопрстуфхчцшщыьъэюяABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 //        font40Params.fontParameters.borderWidth = 4;
 //        font40Params.fontParameters.borderColor = Color.BLACK;
         assetManager.load("font40.ttf", BitmapFont.class, font40Params);
@@ -73,7 +73,7 @@ public class LoadingScreen extends StageGame {
         FreetypeFontLoader.FreeTypeFontLoaderParameter font30Params = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
         font30Params.fontFileName = "fonts/Nickname.ttf";
         font30Params.fontParameters.size = 30;    // 30
-        font30Params.fontParameters.characters = "!/:.-+0123456789абвгдежзиклмнопрстуфхчцшщыьъэюяABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+        font30Params.fontParameters.characters = "!/:%.-+0123456789абвгдежзийклмнопрстуфхчцшщыьъэюяABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 //        font40Params.fontParameters.borderWidth = 2;
 //        font30Params.fontParameters.borderColor = Color.WHITE;
         assetManager.load("font30.ttf", BitmapFont.class, font30Params);
@@ -81,7 +81,7 @@ public class LoadingScreen extends StageGame {
         FreetypeFontLoader.FreeTypeFontLoaderParameter font18Params = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
         font18Params.fontFileName = "fonts/Nickname.ttf";
         font18Params.fontParameters.size = 18;      // 18
-        font18Params.fontParameters.characters = "!/:.-+0123456789абвгдежзиклмнопрстуфхчцшщыьъэюяABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+        font18Params.fontParameters.characters = "!/:%.-+0123456789абвгдежзийклмнопрстуфхчцшщыьъэюяABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 //        font40Params.fontParameters.borderWidth = 1;
 //        font18Params.fontParameters.borderColor = Color.BLACK;
         assetManager.load("font18.ttf", BitmapFont.class, font18Params);

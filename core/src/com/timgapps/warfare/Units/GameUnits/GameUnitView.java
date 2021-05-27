@@ -53,6 +53,7 @@ public class GameUnitView extends Actor {
 //        super.act(delta);
         if (levelScreen.getState() != LevelScreen.PAUSED) {
             super.act(delta);
+            stateTime += delta;
             controller.update(delta);
         }
         setPosition(model.getPosition().x, model.getPosition().y);      // обновляем позицию view по координатам позиции модели
@@ -70,9 +71,9 @@ public class GameUnitView extends Actor {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
-        if (levelScreen.getState() != LevelScreen.PAUSED) {
-            stateTime += Gdx.graphics.getDeltaTime();
-        }
+//        if (levelScreen.getState() != LevelScreen.PAUSED) {
+//            stateTime += Gdx.graphics.getDeltaTime();
+//        }
         batch.end();
         if (Setting.DEBUG_GAME) {
             shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);

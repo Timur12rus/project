@@ -32,7 +32,17 @@ public class DesktopLauncher {
 			public boolean isLoaded() {
 				return false;
 			}
-		}), config);
+
+            @Override
+            public boolean isOnline() {
+                return true;
+            }
+
+            @Override
+            public boolean isError() {
+                return false;
+            }
+        }), config);
     }
 
     private GameCallback callback = new GameCallback() {

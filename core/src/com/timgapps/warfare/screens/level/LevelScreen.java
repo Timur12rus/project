@@ -23,6 +23,7 @@ import com.timgapps.warfare.screens.level.background.BackgroundBuilder;
 import com.timgapps.warfare.screens.level.gui_elements.UnitButtons;
 import com.timgapps.warfare.screens.level.timer.Bat;
 import com.timgapps.warfare.screens.level.timer.MonsterTimer;
+import com.timgapps.warfare.screens.map.interfaces.RewardVideoButtonController;
 import com.timgapps.warfare.screens.map.windows.team_upgrade_window.team_unit.TeamUnit;
 import com.timgapps.warfare.GameManager;
 import com.timgapps.warfare.screens.level.level_windows.ColorRectangle;
@@ -37,6 +38,7 @@ import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnitModel;
 import com.timgapps.warfare.Units.GameUnits.Player.units.UnitCreator;
 import com.timgapps.warfare.Units.GameUnits.unitTypes.PlayerUnits;
 import com.timgapps.warfare.Warfare;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -97,6 +99,7 @@ public class LevelScreen extends StageGame {
     private boolean isCompleted;
     public static float screenScale;
     private BackgroundBuilder backgroundBuilder;
+    private RewardVideoButtonController rewardVideoButtonController;
 //    private BoosterButton boosterButton;
 
     // метод строит уровень
@@ -112,7 +115,6 @@ public class LevelScreen extends StageGame {
 //        stage.getViewport().update(Warfare.V_WIDTH, Warfare.V_HEIGHT, true);
 
         setBackGround("level_bg");
-
 
         isCompleted = false;
         if (arrayModels != null) {
@@ -174,7 +176,6 @@ public class LevelScreen extends StageGame {
 //        unitCreator.createUnit("Ork1", new Vector2(1800, 250));
 //        unitCreator.createUnit("Troll2", new Vector2(900, 260));
 
-
         String layerName;
         for (MapLayer layer : levelMap.getLayers()) {
             layerName = layer.getName();
@@ -219,7 +220,6 @@ public class LevelScreen extends StageGame {
         }
     }
 
-
     public void createEnemyUnit(MapObjects objects, String layerName) {
         System.out.println("layerName = " + layerName);
         for (MapObject object : objects) {
@@ -233,9 +233,10 @@ public class LevelScreen extends StageGame {
         unitCreator.createUnit(unitId.name(), position);
     }
 
-    public LevelScreen(final GameManager gameManager) {
+    public LevelScreen(final GameManager gameManager, RewardVideoButtonController rewardVideoButtonController) {
 //        this.levelNumber = levelNumber;
         this.gameManager = gameManager;
+        this.rewardVideoButtonController = rewardVideoButtonController;
         backgroundBuilder = new BackgroundBuilder();
 
         shapeRenderer = new ShapeRenderer();
@@ -743,6 +744,8 @@ public class LevelScreen extends StageGame {
         hud.hideEnergyPanel();
         monsterTimer.hide();
         levelCreator.showGameOverScreen();
+
+        rewardVideoButtonController.showRewardVideoButton();  // покажем кнопку для показа видеорекламы
     }
 
     /**
@@ -753,6 +756,8 @@ public class LevelScreen extends StageGame {
         fade.setVisible(true);     // затемняем задний план
         unitButtons.hide();
         hud.hideEnergyPanel();
+        rewardVideoButtonController.showRewardVideoButton();  // покажем кнопку для показа видеорекламы
+
         int starsCount = calculateStarsCount();         // вычисляем кол-во звезд полученных за уровень
         int starsOfLevel = gameManager.getLevelIcons().get(levelNumber - 1).getData().getStarsCount();  // кол-во звезд у уровня
         /** установим кол-во монет в менеджере и сохраняем игру
@@ -826,10 +831,13 @@ public class LevelScreen extends StageGame {
         if (healthTowerPercent > 0 && healthTowerPercent < 33) {
             starsCount = 1;
         }
-        if (healthTowerPercent >= 33 && healthTowerPercent < 66) {
+        if (healthTowerPercent >= 33 && healthTowerPercent < 100) {
             starsCount = 2;
         }
-        if (healthTowerPercent >= 66 && healthTowerPercent <= 100) {
+//        if (healthTowerPercent >= 33 && healthTowerPercent < 66) {
+//            starsCount = 2;
+//        }
+        if (healthTowerPercent == 100) {
             starsCount = 3;
         }
 //        System.out.println("starsCount = " + starsCount);

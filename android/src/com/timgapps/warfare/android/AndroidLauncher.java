@@ -2,6 +2,8 @@ package com.timgapps.warfare.android;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -32,10 +34,12 @@ public class AndroidLauncher extends AndroidApplication implements RewardedVideo
     private final String ADMOB_APP_ID = "ca-app-pub-3940256099942544/5224354917";
     private RelativeLayout layout; // макет экрана с относительной разметокой
     private RewardedAd mRewardedAd;
-    RewardedAdCallback rewardedAdCallback;
-    RewardedAdLoadCallback rewardedAdLoadCallback;
+    public RewardedAdCallback rewardedAdCallback;
+    public RewardedAdLoadCallback rewardedAdLoadCallback;
     private boolean rewardedAdIsLoaded;
     private boolean isErnedReward;
+    private boolean rewardedAdIsError;
+    private boolean isInitializationComplete;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,12 +56,7 @@ public class AndroidLauncher extends AndroidApplication implements RewardedVideo
         layout.addView(gameView);    // передаем игровое окно главному окну
         setContentView(layout);
 
-        MobileAds.initialize(this, new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(@NonNull InitializationStatus initializationStatus) {
-                Toast.makeText(AndroidLauncher.this, "AdMob Sdk Initialize " + initializationStatus.toString(), Toast.LENGTH_LONG).show();
-            }
-        });
+        initializeAdmob();
 
 //        List<String> testDeviceIds = Arrays.asList("C0A9AE37B2BE90F15F47628353CE7C27");
 //        List<String> testDeviceIds = Arrays.asList("33BE2250B43518CCDA7DE426D04EE231");
@@ -73,6 +72,7 @@ public class AndroidLauncher extends AndroidApplication implements RewardedVideo
             public void onAdLoaded(@NonNull RewardedAd rewardedAd) {
                 super.onAdLoaded(rewardedAd);
                 mRewardedAd = rewardedAd;
+                rewardedAdIsError = false;
                 mRewardedAd.setImmersiveMode(true);
                 System.out.println("mRewarded = " + mRewardedAd.toString());
                 System.out.println("Rewarded = " + rewardedAd.toString());
@@ -87,6 +87,7 @@ public class AndroidLauncher extends AndroidApplication implements RewardedVideo
                 Toast.makeText(AndroidLauncher.this, "Rewarded Ad is Fail Loaded!!!", Toast.LENGTH_LONG).show();
                 Toast.makeText(AndroidLauncher.this, loadAdError.toString(), Toast.LENGTH_LONG).show();
                 rewardedAdIsLoaded = false;
+                rewardedAdIsError = true;
             }
         };
 
@@ -101,6 +102,7 @@ public class AndroidLauncher extends AndroidApplication implements RewardedVideo
             public void onRewardedAdClosed() {
                 // Ad closed.
                 Toast.makeText(AndroidLauncher.this, "Rewarded Ad Closed", Toast.LENGTH_LONG).show();
+                rewardedAdIsLoaded = false;
                 loadRewardedVideoAd();
             }
 
@@ -146,16 +148,8 @@ public class AndroidLauncher extends AndroidApplication implements RewardedVideo
 
     // метод для загрузки рекламного объявления
     private void loadRewardedVideoAd() {
-//        if (!rewardedAdIsLoaded) {
+        rewardedAdIsError = false;
         new RewardedVideoTask().execute();
-//            runOnUiThread(new Runnable() {
-//                @Override
-//                public void run() {
-////                    new RewardedVideoTask().execute();
-//                    loadAd();
-//                }
-//            });
-//        }
     }
 
     @Override
@@ -171,11 +165,42 @@ public class AndroidLauncher extends AndroidApplication implements RewardedVideo
     @Override
     public void resetIsLoaded() {
         rewardedAdIsLoaded = false;
+        rewardedAdIsError = false;
     }
 
     @Override
     public boolean isLoaded() {
+        rewardedAdIsError = false;
         return rewardedAdIsLoaded;
+    }
+
+    @Override
+    public boolean isOnline() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(this.CONNECTIVITY_SERVICE);
+        NetworkInfo ni = cm.getActiveNetworkInfo();
+        return ni != null && ni.isConnected();
+    }
+
+    @Override
+    public boolean isError() {
+        return rewardedAdIsError;
+//        return isError();
+    }
+
+    @Override
+    public boolean isInitializationComplete() {
+        return isInitializationComplete;
+    }
+
+    @Override
+    public void initializeAdmob() {
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(@NonNull InitializationStatus initializationStatus) {
+                isInitializationComplete = true;
+                Toast.makeText(AndroidLauncher.this, "AdMob Sdk Initialize " + initializationStatus.toString(), Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     private class RewardedVideoTask extends AsyncTask<Void, Void, AdRequest> {
@@ -201,9 +226,6 @@ public class AndroidLauncher extends AndroidApplication implements RewardedVideo
     }
 
     private void loadReward(AdRequest adRequest) {
-//        AdRequest adRequest = new AdRequest.Builder().build();
-//        RewardedAd.load(this, ADMOB_APP_ID,
-//                adRequest, rewardedAdLoadCallback);
         RewardedAd.load(this, ADMOB_APP_ID,
                 adRequest, rewardedAdLoadCallback);
     }
@@ -216,13 +238,6 @@ public class AndroidLauncher extends AndroidApplication implements RewardedVideo
                 public void run() {
                     Activity activityContext = getParent();
                     mRewardedAd.show(activityContext, rewardedAdCallback);
-//                    if (mRewardedAd != null) {
-////                    if (mRewardedAd != null) {
-//                        Activity activityContext = getParent();
-//                        mRewardedAd.show(activityContext, rewardedAdCallback);
-//                    } else {
-//                        loadRewardedVideoAd();
-//                    }
                 }
             });
         } else {

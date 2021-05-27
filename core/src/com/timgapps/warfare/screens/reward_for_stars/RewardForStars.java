@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.timgapps.warfare.Utils.StringHolder;
 import com.timgapps.warfare.screens.level.Finger;
 import com.timgapps.warfare.GameManager;
 import com.timgapps.warfare.Warfare;
@@ -195,7 +196,7 @@ public class RewardForStars extends Group {
         if (!data.isReceived()) {     // если награда не доступна
             rewardForStarsScreen.showToast(data.getStarsCount());
         } else {
-            rewardForStarsScreen.showToast("Reward has already been received");
+            rewardForStarsScreen.showToast(Warfare.stringHolder.getString(StringHolder.REWARD_ALREADY_RECIVED));
         }
     }
 

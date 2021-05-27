@@ -19,7 +19,7 @@ public class LevelCompletedScreen extends Group {
     private Label missionLabel;
     private Label rewardLabel;
 
-    private com.timgapps.warfare.screens.level.level_windows.Stars stars;
+    private Stars stars;
     private int levelNumber;
 
     private ColorButton okButton;

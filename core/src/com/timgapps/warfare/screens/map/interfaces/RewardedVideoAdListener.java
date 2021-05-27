@@ -8,4 +8,13 @@ public interface RewardedVideoAdListener {
     void resetIsLoaded();
 
     boolean isLoaded();
+
+    boolean isOnline();
+
+    boolean isError();
+
+    boolean isInitializationComplete();
+
+    void initializeAdmob();
+
 }

@@ -27,6 +27,8 @@ import com.boontaran.games.tiled.TileLayer;
 import com.timgapps.warfare.screens.map.actions.AddOverlayActionHelper;
 import com.timgapps.warfare.screens.map.actions.MyCoinsAction;
 import com.timgapps.warfare.screens.map.gui_elements.CoinsPanel;
+import com.timgapps.warfare.screens.map.gui_elements.VideoRewardButton;
+import com.timgapps.warfare.screens.map.interfaces.RewardVideoButtonController;
 import com.timgapps.warfare.screens.map.interfaces.RewardedVideoAdListener;
 import com.timgapps.warfare.screens.map.interfaces.RoundCircleController;
 import com.timgapps.warfare.screens.map.windows.MissionInfoWindow;
@@ -46,7 +48,7 @@ import java.util.ArrayList;
 
 import static java.lang.Integer.parseInt;
 
-public class MapScreen extends StageGame implements AddOverlayActionHelper, RoundCircleController {
+public class MapScreen extends StageGame implements AddOverlayActionHelper, RoundCircleController, RewardVideoButtonController {
     // создаем несколько констант для создания callBack сообщений, которые будут передаваться в зависимости от нажатия кнопок
     public static final int ON_BACK = 1;
     public static final int ON_LEVEL_SELECTED = 2;
@@ -87,11 +89,12 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper, Roun
     private float timeToCameraZoomTarget, cameraZoomTarget, cameraZoomOrigin, cameraZoomDuration;
     private final float LEVEL_WIDTH = 1792; // (56 x 32)
     private final float LEVEL_HEIGHT = 1024; // (32 x 32)
-    private Image videoRewardButton;
+    private VideoRewardButton rewardVideoButton;
     private RewardedVideoAdListener rewardedVideoAdListener;
     private boolean onShowRewardVideo;
     private boolean onLoadRewardVideo;
     private MyCoinsAction rewardCoinsAction;
+    private boolean isShowRewardVideoButton = true;
 
     @Override
     protected void update(float delta) {
@@ -101,6 +104,7 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper, Roun
                 rewardedVideoAdListener.resetIsErnedReward();
                 onShowRewardVideo = false;
                 rewardPlayer();
+                hideRewardVideoButton();
             }
         }
         if (onLoadRewardVideo) {
@@ -196,7 +200,7 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper, Roun
         });
 
         // создадим окно с предложением посмотреть рекламу
-        rewardVideoWindow = new RewardVideoWindow();
+        rewardVideoWindow = new RewardVideoWindow(this, rewardedVideoAdListener);
 //        rewardVideoWindow.setVisible(false);
         rewardVideoWindow.setPosition((getWidth() - rewardVideoWindow.getWidth()) / 2,
                 (getHeight() - rewardVideoWindow.getHeight()) / 2);
@@ -346,10 +350,10 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper, Roun
         });
 
         // кнопка для простмотра видеорекламы
-        videoRewardButton = new Image(Warfare.atlas.findRegion("boxImage5"));
-        videoRewardButton.setPosition(64, 64);
-        addOverlayChild(videoRewardButton);
-        videoRewardButton.addListener(new ClickListener() {
+        rewardVideoButton = new VideoRewardButton();
+        rewardVideoButton.setPosition(getWidth() / 2 - rewardVideoButton.getWidth() / 2, 96);
+        addOverlayChild(rewardVideoButton);
+        rewardVideoButton.addListener(new ClickListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 isFocused = false;
@@ -364,19 +368,11 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper, Roun
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                showRewardVideoWindow();
-//                rewardVideoWindow.show();
+                if (rewardVideoButton.isEndAction()) {
+                    showRewardVideoWindow();
+                }
             }
         });
-//                super.clicked(event, x, y);
-////                if (rewardedVideoAdListener.isLoaded()) {
-////                    onShowRewardVideo = true;
-////                    call(ON_SHOW_REWARDED_VIDEO);
-////                }
-//                rewardVideoWindow.show();
-//    }
-//});
-
 
         // запустим анимацию  получения монет к общему кол-ву монет
         if (coinsReward > 0) {
@@ -391,11 +387,8 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper, Roun
 
         cameraXpos = camera.position.x;
         cameraYpos = camera.position.y;
-
         selectedLevelId = gameManager.getLastCompletedNum();
-
         zoomActionCamera();
-
     }
 
     // метод для просмотра видеорекламы
@@ -442,6 +435,7 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper, Roun
     // метод для показа экрана наград за звезды
     private void showRewardForStarsScreen() {
 //        hide();
+//        rewardVideoButton.clearAction();
         isScreenShown = true;
         call(ON_SHOW_REWARD_FOR_STARS_SCREEN);
     }
@@ -468,16 +462,11 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper, Roun
         updateCameraPosition();
         coinsPanel.redraw();
         showCoinsPanel();
-        showRewardButton();
-    }
 
-    //  метод показывает кнопку для воспроизведения видеорекламы
-    private void showRewardButton() {
-        videoRewardButton.setVisible(true);
-    }
-
-    private void hideRewardButton() {
-        videoRewardButton.setVisible(false);
+        // проверим, вернулись ли мы на карту после выхода из уровня
+        if (isShowRewardVideoButton && !rewardVideoButton.isShown()) {
+            rewardVideoButton.show();
+        }
     }
 
     // метод запускает увеличение камеры на карте при запуске игры
@@ -532,6 +521,9 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper, Roun
         giftIcon.setVisible(false);
         teamUpgradeIcon.addAction(Actions.fadeOut(0));
         teamUpgradeIcon.setTouchable(Touchable.disabled);
+        if (isShowRewardVideoButton) {
+            rewardVideoButton.setVisible(false);
+        }
 //        teamUpgradeIcon.setVisible(false);
         fade.setVisible(true);
     }
@@ -553,6 +545,9 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper, Roun
         }
         teamUpgradeIcon.addAction(Actions.fadeIn(0));
         teamUpgradeIcon.setTouchable(Touchable.enabled);
+        if (isShowRewardVideoButton) {
+            rewardVideoButton.setVisible(true);
+        }
 //        teamUpgradeIcon.setVisible(true);
     }
 
@@ -805,7 +800,7 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper, Roun
     /**
      * метод для возврата к карте уровней для выбора уровня
      **/
-    private void resumeLevelMap() {
+    public void resumeLevelMap() {
         if (teamUpgradeScreen.isUpgradeScreenVisible()) {
             teamUpgradeScreen.hide();
         }
@@ -961,6 +956,21 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper, Roun
     @Override
     public boolean isRoundCircleVisible() {
         return giftIcon.roundCircleIsVisible();
+    }
+
+
+    @Override
+    public void showRewardVideoButton() {
+        isShowRewardVideoButton = true;
+        rewardVideoButton.setVisible(true);
+        rewardVideoButton.show();
+    }
+
+    @Override
+    public void hideRewardVideoButton() {
+        isShowRewardVideoButton = false;
+        rewardVideoButton.setVisible(false);
+        rewardVideoButton.resetAction();
     }
 }
 

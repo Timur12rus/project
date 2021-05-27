@@ -49,8 +49,10 @@ public class StringHolder {
     public static final String GIFTS = "gifts";
     public static final String FIRESTONE = "firestone";
     public static final String HIRE_THIS_UNIT = "hire this unit";
-    public static final String SPEACH_VIDEO_REWARD = "speach_video_reward";
+    public static final String SPEACH_VIDEO_REWARD = "speach video reward";
     public static final String WATCH = "watch";
+    public static final String CONNECTION_ERROR = "internet connection Error!";
+    public static final String REWARD_ALREADY_RECIVED = "reward has already been received!";
 
     private HashMap<String, String> strings;
 
@@ -125,6 +127,8 @@ public class StringHolder {
                 strings.put(HIRE_THIS_UNIT, "hire this unit:");
                 strings.put(SPEACH_VIDEO_REWARD, "watch video and \nget reward");
                 strings.put(WATCH, "watch");
+                strings.put(CONNECTION_ERROR, "internet connection Error!");
+                strings.put(REWARD_ALREADY_RECIVED, "reward has already been received!");
                 break;
             case ru:
                 strings.put(LOADING, "загрузка...");
@@ -172,6 +176,8 @@ public class StringHolder {
                 strings.put(HIRE_THIS_UNIT, "нанять:");
                 strings.put(SPEACH_VIDEO_REWARD, "посмотри видео и\nполучи награду");
                 strings.put(WATCH, "смотреть");
+                strings.put(CONNECTION_ERROR, "ошибка интернет соединения!");
+                strings.put(REWARD_ALREADY_RECIVED, "награда уже получена!");
                 break;
         }
     }

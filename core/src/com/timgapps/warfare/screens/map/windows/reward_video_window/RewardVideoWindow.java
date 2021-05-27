@@ -11,6 +11,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.boontaran.MessageEvent;
 import com.timgapps.warfare.Utils.StringHolder;
 import com.timgapps.warfare.Warfare;
+import com.timgapps.warfare.screens.map.MapScreen;
+import com.timgapps.warfare.screens.map.interfaces.RewardedVideoAdListener;
 import com.timgapps.warfare.screens.map.win_creator.ConstructedWindow;
 import com.timgapps.warfare.screens.map.windows.upgrade_window.gui_elements.ColorButton;
 
@@ -21,12 +23,137 @@ public class RewardVideoWindow extends Group {
     private ImageButton closeButton;
     private ColorButton watchButton;
     private Image speachBalloon;
-    private Label speachLabel, rewardLabel, coinsCountLabel, loadLabel;
+    private Label speachLabel, rewardLabel, coinsCountLabel, loadLabel, internetConnectionErrorLabel;
     private int coinsCount = 50;
     public static final int ON_REWARD = 1;
     public static final int ON_RESUME = 2;
+    private final int LOADING = 1;
+    private final int LOADED = 2;
+    private final int SHOWN = 3;
+    private final int ERROR = 4;
+    private int videoStatus;
+    private RewardedVideoAdListener rewardedVideoAdListener;
+    private boolean isShown;
+    private Table rewardTable;
+    private MapScreen mapScreen;
 
-    public RewardVideoWindow() {
+    public RewardVideoWindow(MapScreen mapScreen, RewardedVideoAdListener rewardedVideoAdListener) {
+        this.mapScreen = mapScreen;
+        createWindow();
+        this.rewardedVideoAdListener = rewardedVideoAdListener;
+    }
+
+    public void showRewardVideo() {
+        watchButton.setVisible(false);
+        if (isOnline()) {
+            if (rewardedVideoAdListener.isLoaded()) {
+                hide();
+                mapScreen.resumeLevelMap();
+                fire(new MessageEvent(ON_REWARD));
+                rewardedVideoAdListener.resetIsLoaded();
+                videoStatus = SHOWN;
+            } else {
+                if (videoStatus != LOADING) {
+                    if (!rewardedVideoAdListener.isInitializationComplete()) {
+                        rewardedVideoAdListener.initializeAdmob();
+                    }
+                    showLoading();
+                    videoStatus = LOADING;
+                    loadRewardVideo();
+                } else {
+                    // если при загрузке получена ошибка, выводим ошибку
+                    if (rewardedVideoAdListener.isError()) {
+                        showErrorConnection();
+                        videoStatus = ERROR;
+                    } else {
+                        showLoading();
+                        if (!rewardedVideoAdListener.isInitializationComplete()) {
+                            rewardedVideoAdListener.initializeAdmob();
+                        }
+                    }
+                }
+            }
+        } else {
+            showErrorConnection();
+            internetConnectionErrorLabel.setVisible(true);
+        }
+        // проверяем соединение с интренетом
+        // если интернет подключен
+            // сделана ли инициализайия Admob
+                    // делаем инициализацию AdMob
+            // если реклама загружена
+            // показваем рекламу
+        // else загружаем рекламу (videoStatus = LOADING)
+        // else выводим сообщение "интернет не подключен!" (videoStatus = ERROR)
+
+//        fire(new MessageEvent(ON_REWARD));
+    }
+
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+        if (videoStatus == LOADING) {
+            if (rewardedVideoAdListener.isLoaded()) {
+                videoStatus = LOADED;
+                loadLabel.setVisible(false);
+                if (isShown) {
+                    showRewardVideo();
+                }
+            } else {
+                if (rewardedVideoAdListener.isError()) {
+                    videoStatus = ERROR;
+                    showErrorConnection();
+                }
+            }
+        }
+    }
+
+    public void showLoading() {
+        internetConnectionErrorLabel.setVisible(false);
+        speachLabel.setVisible(false);
+        rewardTable.setVisible(false);
+        watchButton.setVisible(false);
+        loadLabel.setVisible(true);
+    }
+
+    public void showErrorConnection() {
+        internetConnectionErrorLabel.setVisible(true);
+        speachLabel.setVisible(false);
+        rewardTable.setVisible(false);
+        watchButton.setVisible(false);
+        loadLabel.setVisible(false);
+    }
+
+    public void loadRewardVideo() {
+        loadLabel.setVisible(true);
+        speachLabel.setVisible(false);
+        rewardTable.setVisible(false);
+        watchButton.setVisible(false);
+        internetConnectionErrorLabel.setVisible(false);
+    }
+
+    public void show() {
+        loadLabel.setVisible(false);
+        internetConnectionErrorLabel.setVisible(false);
+        speachLabel.setVisible(true);
+        rewardTable.setVisible(true);
+        watchButton.setVisible(true);
+        setVisible(true);
+        isShown = true;
+    }
+
+    public void hide() {
+//        mapScreen.resumeLevelMap();
+        setVisible(false);
+        loadLabel.setVisible(false);
+        internetConnectionErrorLabel.setVisible(false);
+        speachLabel.setVisible(true);
+        rewardTable.setVisible(true);
+        watchButton.setVisible(true);
+        isShown = false;
+    }
+
+    private void createWindow() {
         constructedWindow = new ConstructedWindow(610, 350, "");
         setSize(constructedWindow.getWidth(), constructedWindow.getHeight());
 
@@ -41,8 +168,10 @@ public class RewardVideoWindow extends Group {
         rewardLabel.setText(Warfare.stringHolder.getString(StringHolder.REWARD) + ":");
         rewardLabel.setPosition(getWidth() / 2 - rewardLabel.getWidth() / 2, getHeight() / 2);
 
-        loadLabel = new Label("", labelStyle);
-        loadLabel.setText("Loading ...");
+        loadLabel = new Label(Warfare.stringHolder.getString(StringHolder.LOADING), labelStyle);
+
+        internetConnectionErrorLabel = new Label(Warfare.stringHolder.getString(StringHolder.CONNECTION_ERROR), labelStyle);
+
 
         Label.LabelStyle coinsCountLabelStyle = new Label.LabelStyle();
         coinsCountLabelStyle.fontColor = Color.ORANGE;
@@ -50,7 +179,7 @@ public class RewardVideoWindow extends Group {
         coinsCountLabel = new Label("50", coinsCountLabelStyle);
         coinsCountLabel.setText("" + coinsCount);
 
-        Table rewardTable = new Table();
+        rewardTable = new Table();
         Image coinImage = new Image(Warfare.atlas.findRegion("coin_icon"));
         rewardTable.add(coinsCountLabel);
         rewardTable.add(coinImage).width(48).height(48).padLeft(2);
@@ -60,6 +189,9 @@ public class RewardVideoWindow extends Group {
         speachLabel.setPosition((getWidth() - speachLabel.getWidth()) / 2, (getHeight() - speachLabel.getHeight()) / 2 + 48);
         rewardTable.setPosition((getWidth() - rewardTable.getWidth()) / 2, speachLabel.getY() - 32);
         watchButton.setPosition((getWidth() - watchButton.getWidth()) / 2, rewardTable.getY() - rewardTable.getHeight() - 48 - watchButton.getHeight());
+        loadLabel.setPosition((getWidth() - loadLabel.getWidth()) / 2, speachLabel.getY() - 32);
+        internetConnectionErrorLabel.setPosition((getWidth() - internetConnectionErrorLabel.getWidth()) / 2,
+                speachLabel.getY() - 32);
         hide();
 
 //        addActor(speachBalloon);
@@ -67,6 +199,7 @@ public class RewardVideoWindow extends Group {
         addActor(speachLabel);
         addActor(rewardTable);
         addActor(loadLabel);
+        addActor(internetConnectionErrorLabel);
         addActor(watchButton);
 
         // кнопка "ЗАКРЫТЬ" для закрытия окна с информацией о миссии
@@ -82,28 +215,14 @@ public class RewardVideoWindow extends Group {
         watchButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                hide();
-                fire(new MessageEvent(ON_REWARD));
+//                hide();
+                showRewardVideo();
             }
         });
     }
 
-    public void loadRewardVideo() {
-        loadLabel.setVisible(true);
-        speachLabel.setVisible(false);
-        rewardLabel.setVisible(false);
-        watchButton.setVisible(false);
-    }
-
-    public void show() {
-        loadLabel.setVisible(false);
-        speachLabel.setVisible(true);
-        rewardLabel.setVisible(true);
-        watchButton.setVisible(true);
-        setVisible(true);
-    }
-
-    public void hide() {
-        setVisible(false);
+    // метод проевреят соедниенение с интренетом
+    private boolean isOnline() {
+        return rewardedVideoAdListener.isOnline();
     }
 }

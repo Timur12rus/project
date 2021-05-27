@@ -28,10 +28,6 @@ public class Stars extends Group {
     private int count = 0;
 
     public Stars() {
-//
-//        this.towerHealth = towerHealth;
-//        this.fullTowerHealth = fullTowerHealth;`
-
         starOne = new Image(Warfare.atlas.findRegion("star"));
         starTwo = new Image(Warfare.atlas.findRegion("star"));
         starThree = new Image(Warfare.atlas.findRegion("star"));

@@ -10,16 +10,16 @@ import com.timgapps.warfare.GameManager;
 import com.timgapps.warfare.Warfare;
 
 public class GiftIcon extends IconOnMap {
-    private Image rewardIcon, rewardIconDown;
     private GameManager gameManager;
     private Label giftsLabel;
 
     public GiftIcon(GameManager gameManager) {
         this.gameManager = gameManager;
-        rewardIcon = new Image(Warfare.atlas.findRegion("rewardButton"));
-        rewardIconDown = new Image(Warfare.atlas.findRegion("rewardButton_dwn"));
-        rewardIconDown.setVisible(false);
-        setSize(rewardIcon.getWidth(), rewardIcon.getHeight());
+        buttonIcon = new Image(Warfare.atlas.findRegion("rewardButton"));
+        buttonIconDown = new Image(Warfare.atlas.findRegion("rewardButton_dwn"));
+        buttonIconDown.setVisible(false);
+        setSize();
+        addClickListener();
         roundCircle.setPosition(getWidth() - roundCircle.getWidth(), getHeight() - roundCircle.getHeight());
 
         Label.LabelStyle teamLabelStyle = new Label.LabelStyle();
@@ -30,28 +30,8 @@ public class GiftIcon extends IconOnMap {
                 14);
 
         /** добавим неактивный значок и активный **/
-        addActor(rewardIcon);
-        addActor(rewardIconDown);
+        addActor(buttonIcon);
+        addActor(buttonIconDown);
         addActor(giftsLabel);
-
-        addListener(new ClickListener() { // создаем слушателя события нажатия кнопки
-            // переопределяем метод TouchDown(), который называется прикасание
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                rewardIconDown.setVisible(true); // устанавливаем видимость для фона нажатой кнопки, а также оставим вызов метода суперкласса
-                return super.touchDown(event, x, y, pointer, button);
-            }
-
-            @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                rewardIconDown.setVisible(false);
-                super.touchUp(event, x, y, pointer, button);
-            }
-        });
-    }
-
-    @Override
-    public void act(float delta) {
-        super.act(delta);
     }
 }

@@ -46,6 +46,7 @@ public class CoinsPanel extends Group {
     public void redraw() {
         coinsCount = gameManager.getCoinsCount();
         coinsValueLabel.setText("" + coinsCount);
+//        gameManager.saveGame();
     }
 
     public void setPos(Vector2 pos) {

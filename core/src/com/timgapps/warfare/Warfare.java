@@ -57,7 +57,7 @@ public class Warfare extends Game implements VideoEventListener, MyAssetsLoader 
 
     @Override
     public void pause() {
-        gameManager.saveGame();
+//        gameManager.saveGame();
         super.pause();
     }
 
@@ -140,7 +140,6 @@ public class Warfare extends Game implements VideoEventListener, MyAssetsLoader 
                     hideLevelMap();
                     showGetRewardScreen();
                 } else if (code == MapScreen.ON_SHOW_REWARD_FOR_STARS_SCREEN) {
-//                    levelMap = null;
                     hideLevelMap();
                     showRewardForStarsScreen();
                 } else if (code == MapScreen.ON_SHOW_REWARDED_VIDEO) {
@@ -195,7 +194,7 @@ public class Warfare extends Game implements VideoEventListener, MyAssetsLoader 
 
     private void showLevel(int id) { // метод показа игрового уровня, передаем идентификатор уровня
         if (levelScreen == null) {
-            levelScreen = new LevelScreen(gameManager);
+            levelScreen = new LevelScreen(gameManager, mapScreen);
         }
         levelScreen.setLevelNumber(id);
         setScreen(levelScreen);
