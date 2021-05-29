@@ -34,7 +34,7 @@ import com.timgapps.warfare.screens.map.interfaces.RoundCircleController;
 import com.timgapps.warfare.screens.map.windows.MissionInfoWindow;
 import com.timgapps.warfare.screens.map.windows.gifts_window.GiftScreen;
 import com.timgapps.warfare.screens.map.windows.reward_video_window.RewardVideoWindow;
-import com.timgapps.warfare.screens.map.windows.team_upgrade_window.TeamUpgradeScreen;
+import com.timgapps.warfare.screens.map.windows.team_window.TeamScreen;
 import com.timgapps.warfare.GameManager;
 import com.timgapps.warfare.screens.level.level_windows.ColorRectangle;
 import com.timgapps.warfare.Warfare;
@@ -60,7 +60,7 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper, Roun
     private int selectedLevelId = 1;
     private ArrayList<LevelIcon> levelIcons;
     private MissionInfoWindow missionInfoWindow;
-    private TeamUpgradeScreen teamUpgradeScreen;
+    private TeamScreen teamScreen;
     private RewardVideoWindow rewardVideoWindow;
     private GiftScreen giftScreen;
     private TeamUpgradeIcon teamUpgradeIcon;      // кнопка для вызова окна апгрейда юнитов
@@ -335,14 +335,14 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper, Roun
         checkHelpStatus(helpStatus);
 
         /** создадим окно апргейда команды и передаём информацию о составе команды(manager)**/
-        teamUpgradeScreen = new TeamUpgradeScreen(gameManager);
-        teamUpgradeScreen.setVisible(false);
-        addChildOnOverlay(teamUpgradeScreen);
+        teamScreen = new TeamScreen(gameManager);
+        teamScreen.setVisible(false);
+        addChildOnOverlay(teamScreen);
 
-        teamUpgradeScreen.addListener(new MessageListener() {
+        teamScreen.addListener(new MessageListener() {
             @Override
             protected void receivedMessage(int message, Actor actor) {
-                if (message == teamUpgradeScreen.ON_RESUME) {
+                if (message == teamScreen.ON_RESUME) {
 //                    Warfare.media.playSound("click.ogg");
                     resumeLevelMap();
                 }
@@ -779,9 +779,9 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper, Roun
         isScreenShown = true;
         isFocused = false;
         hideButtons();
-        teamUpgradeScreen.redrawTeamTable();
-        teamUpgradeScreen.redrawCollectionTable();
-        teamUpgradeScreen.setVisible(true);
+        teamScreen.redrawTeamTable();
+        teamScreen.redrawCollectionTable();
+        teamScreen.setVisible(true);
 
         // TODO нужно исправить!!!!!!!!
         if (gameManager.getHelpStatus() == GameManager.HELP_TEAM_UPGRADE) {
@@ -801,13 +801,13 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper, Roun
      * метод для возврата к карте уровней для выбора уровня
      **/
     public void resumeLevelMap() {
-        if (teamUpgradeScreen.isUpgradeScreenVisible()) {
-            teamUpgradeScreen.hide();
+        if (teamScreen.isUpgradeScreenVisible()) {
+            teamScreen.hide();
         }
         isScreenShown = false;
         /** скрываем окно с описанием уровня **/
         missionInfoWindow.hide();
-        teamUpgradeScreen.setVisible(false);
+        teamScreen.setVisible(false);
         giftScreen.setVisible(false);
         rewardVideoWindow.hide();
         isFocused = true;

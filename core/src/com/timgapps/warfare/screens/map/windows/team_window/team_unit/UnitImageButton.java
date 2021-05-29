@@ -1,4 +1,4 @@
-package com.timgapps.warfare.screens.map.windows.team_upgrade_window.team_unit;
+package com.timgapps.warfare.screens.map.windows.team_window.team_unit;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Interpolation;
@@ -7,7 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -24,7 +23,7 @@ public class UnitImageButton extends Group {
     protected boolean isReadyUnitButton;
     protected PlayerUnitData playerUnitData;
     protected float height;
-    protected UnitLevelIcon unitLevelIcon;
+    protected com.timgapps.warfare.screens.map.windows.team_window.team_unit.UnitLevelIcon unitLevelIcon;
     protected Image lockIcon;
     protected boolean isCalled;     // юнит призван (куплен)
     protected boolean isTouchedDown;

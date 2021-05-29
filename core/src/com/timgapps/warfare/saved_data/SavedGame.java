@@ -1,7 +1,7 @@
 package com.timgapps.warfare.saved_data;
 
 import com.badlogic.gdx.math.Vector2;
-import com.timgapps.warfare.screens.map.windows.team_upgrade_window.team_unit.TeamUnit;
+import com.timgapps.warfare.screens.map.windows.team_window.team_unit.TeamUnit;
 import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnitData;
 import com.timgapps.warfare.screens.map.gui_elements.LevelIcon;
 import com.timgapps.warfare.screens.map.LevelIconData;

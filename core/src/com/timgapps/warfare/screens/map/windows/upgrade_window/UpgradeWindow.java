@@ -18,10 +18,10 @@ import com.timgapps.warfare.screens.map.windows.upgrade_window.bottom_group.Bott
 import com.timgapps.warfare.screens.map.windows.upgrade_window.gui_elements.ColorButton;
 import com.timgapps.warfare.screens.map.windows.upgrade_window.gui_elements.UnitImage;
 import com.timgapps.warfare.screens.map.windows.upgrade_window.info_table.InfoTable;
-import com.timgapps.warfare.screens.map.windows.team_upgrade_window.team_unit.TeamUnit;
-import com.timgapps.warfare.screens.map.windows.team_upgrade_window.TeamUpgradeScreen;
+import com.timgapps.warfare.screens.map.windows.team_window.team_unit.TeamUnit;
+import com.timgapps.warfare.screens.map.windows.team_window.TeamScreen;
 import com.timgapps.warfare.screens.map.win_creator.ConstructedWindow;
-import com.timgapps.warfare.screens.map.windows.team_upgrade_window.team_unit.UnitLevelIcon;
+import com.timgapps.warfare.screens.map.windows.team_window.team_unit.UnitLevelIcon;
 import com.timgapps.warfare.GameManager;
 import com.timgapps.warfare.Warfare;
 
@@ -53,7 +53,7 @@ public class UpgradeWindow extends Group implements UpgradeEffectStarter {
     private TextureRegionDrawable textureRegionDrawableBg;
     //    private ColorButton selectUnitButton;  // кнопка "ВЫБРАТЬ" для игрового юнита,
     // если игровой юнит не состоит в коменде, а нах-ся в коллекции
-    private TeamUpgradeScreen teamUpgradeScreen;
+    private TeamScreen teamScreen;
     private Label unitNameLabel;
     private String unitName;
     private BlockTable blockTable;
@@ -64,8 +64,8 @@ public class UpgradeWindow extends Group implements UpgradeEffectStarter {
     private int nextUnitLevel;
     private UpgradeEffectActor upgradeEffectActor;
 
-    public UpgradeWindow(GameManager gameManager, TeamUpgradeScreen teamUpgradeScreen) {
-        this.teamUpgradeScreen = teamUpgradeScreen;
+    public UpgradeWindow(GameManager gameManager, TeamScreen teamScreen) {
+        this.teamScreen = teamScreen;
         this.gameManager = gameManager;
         this.team = gameManager.getTeam();              // команда - массив типа TeamEntity
         coinsCount = gameManager.getCoinsCount();       // кол-во монет у игрока
@@ -221,12 +221,12 @@ public class UpgradeWindow extends Group implements UpgradeEffectStarter {
             teamUnit.getUnitData().setIsHired(true);
 
             // добавим текущий юнит в команду, если есть свободные места, если нет - оставим в коллекции
-            teamUpgradeScreen.addUnitToTeamFromCollection(teamUnit);
+            teamScreen.addUnitToTeamFromCollection(teamUnit);
             gameManager.updateTeam(team);
             gameManager.updateCollection();
             gameManager.saveGame();
-            teamUpgradeScreen.redrawTeamTable();
-            teamUpgradeScreen.redrawCollectionTable();
+            teamScreen.redrawTeamTable();
+            teamScreen.redrawCollectionTable();
             // перерисуем кнопку-изображение (значок) юнита
             teamUnit.getUnitImageButton().redraw();
             show(teamUnit);                         // перерисовываем окно апгрейда юнита (то, в котором сейчас находимся)
@@ -353,11 +353,11 @@ public class UpgradeWindow extends Group implements UpgradeEffectStarter {
      * убираем коллекцию с экрана и отображаем выбранного для замены юнита
      **/
     private void showReplace() {
-        teamUpgradeScreen.showReplaceUnit(teamUnit);
+        teamScreen.showReplaceUnit(teamUnit);
     }
 
     private void showReplaceUnit(TeamUnit teamUnit) {
-        teamUpgradeScreen.showReplaceUnit(teamUnit);
+        teamScreen.showReplaceUnit(teamUnit);
     }
 
     /**
@@ -434,7 +434,7 @@ public class UpgradeWindow extends Group implements UpgradeEffectStarter {
         /** обновим данные юнита и сохраним его данные **/
         teamUnit.updateTeamEntityData();
         teamUnit.getUnitImageButton().redraw();
-        teamUpgradeScreen.redrawTeamTable();     // перерисуем таблицу с команой юнитов
+        teamScreen.redrawTeamTable();     // перерисуем таблицу с команой юнитов
 //        teamUpgradeScreen.updateTeam();     // перерисуем таблицу с команой юнитов
 
         /** обновим количество монет и установим новое кол-во монет в панели монет **/

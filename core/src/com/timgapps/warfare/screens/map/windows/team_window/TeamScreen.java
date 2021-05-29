@@ -1,4 +1,4 @@
-package com.timgapps.warfare.screens.map.windows.team_upgrade_window;
+package com.timgapps.warfare.screens.map.windows.team_window;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -14,9 +14,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.boontaran.MessageEvent;
 import com.timgapps.warfare.Utils.StringHolder;
+import com.timgapps.warfare.screens.map.windows.team_window.team_unit.TeamUnit;
 import com.timgapps.warfare.screens.map.windows.upgrade_window.UpgradeWindow;
 import com.timgapps.warfare.screens.map.win_creator.ConstructedWindow;
-import com.timgapps.warfare.screens.map.windows.team_upgrade_window.team_unit.TeamUnit;
 import com.timgapps.warfare.GameManager;
 import com.timgapps.warfare.Warfare;
 
@@ -27,14 +27,14 @@ import java.util.ArrayList;
  **/
 
 // экран с командой и коллекцией юнитов
-public class TeamUpgradeScreen extends Group {
+public class TeamScreen extends Group {
     public static final int ON_RESUME = 1;
     private UpgradeWindow upgradeWindow;
     private ConstructedWindow constructedWindow;
     private ImageButton closeButton;
-    private ArrayList<TeamUnit> team;                 // массив юнитов из КОМАНДЫ
-    private ArrayList<TeamUnit> unitCollection;       // массив юнитов из КОЛЛЕКЦИИ
-    private TeamUnit replaceUnit;                     // заменяющий юнит из коллекциии, заменяет юнита в команде при процессе замены
+    private ArrayList<com.timgapps.warfare.screens.map.windows.team_window.team_unit.TeamUnit> team;                 // массив юнитов из КОМАНДЫ
+    private ArrayList<com.timgapps.warfare.screens.map.windows.team_window.team_unit.TeamUnit> unitCollection;       // массив юнитов из КОЛЛЕКЦИИ
+    private com.timgapps.warfare.screens.map.windows.team_window.team_unit.TeamUnit replaceUnit;                     // заменяющий юнит из коллекциии, заменяет юнита в команде при процессе замены
     private float paddingLeft = 48;
     private float paddingTop = 24;
     private Label replaceUnitLabel;
@@ -42,19 +42,19 @@ public class TeamUpgradeScreen extends Group {
     private Image replacedUnitImage;
     private boolean isReplaceActive = false; // переменная - флаг, нужна для того, чтобы изменить поведение листнера,
     // при замене юнита из коллекции в команду
-    private TeamTable teamTable;            // таблица с комендой юнитов
+    private com.timgapps.warfare.screens.map.windows.team_window.TeamTable teamTable;            // таблица с комендой юнитов
     private Table tableCollection;      // таблица-контейнер, в него добавляется scroll с коллекцией юнитов
     private CollectionTable collectionTable;
     private Label teamLabel;
     private String teamText;
     private GameManager gameManager;
     private boolean toRaplaceUnitFromCollectionToTeam = false;
-    private TeamUnit clickedTeamUnit;
+    private com.timgapps.warfare.screens.map.windows.team_window.team_unit.TeamUnit clickedTeamUnit;
 
     /**
      * передаем в конструктор список team, который содержит в себе КОМАНДУ ЮНИТОВ
      **/
-    public TeamUpgradeScreen(GameManager gameManager) {
+    public TeamScreen(GameManager gameManager) {
         this.gameManager = gameManager;
         // через manager получим массив юнитов каманды
         team = gameManager.getTeam();
@@ -154,7 +154,7 @@ public class TeamUpgradeScreen extends Group {
 
     // перерисовывает таблицу с юнитами в команде
     public void redrawTeamTable() {
-        for (TeamUnit unit : team) {
+        for (com.timgapps.warfare.screens.map.windows.team_window.team_unit.TeamUnit unit : team) {
             unit.clearCanUpgradeAction();
         }
         gameManager.checkCanUpgrade();
@@ -163,7 +163,7 @@ public class TeamUpgradeScreen extends Group {
 
     // перерисовывает таблицу с юнитами в коллекции
     public void redrawCollectionTable() {
-        for (TeamUnit unit : unitCollection) {
+        for (com.timgapps.warfare.screens.map.windows.team_window.team_unit.TeamUnit unit : unitCollection) {
             unit.clearCanUpgradeAction();
         }
         collectionTable.redraw(unitCollection);
@@ -178,7 +178,7 @@ public class TeamUpgradeScreen extends Group {
     /**
      * метод показывает заменяющего юнита (нового), которого игрок хочет добавить в команду
      **/
-    public void showReplaceUnit(TeamUnit teamUnit) {
+    public void showReplaceUnit(com.timgapps.warfare.screens.map.windows.team_window.team_unit.TeamUnit teamUnit) {
         /** делаем таблицу с командой юнитов невидимой, скрываем её **/
         tableCollection.setVisible(false);
         replaceUnit = teamUnit;   // юнит из коллекции, который заменит юнита в команде
@@ -206,14 +206,14 @@ public class TeamUpgradeScreen extends Group {
     /**
      * метод показывает запускает экран UpgradeWindow (экран с характеристиками юнита и ресурсами для апгрейда)
      **/
-    private void showUpgradeWindow(TeamUnit teamUnit) {             // selectButton - false или true, показать кнопку
+    private void showUpgradeWindow(com.timgapps.warfare.screens.map.windows.team_window.team_unit.TeamUnit teamUnit) {             // selectButton - false или true, показать кнопку
         upgradeWindow.show(teamUnit);
     }
 
     /**
      * слушатель для кнопок-юнитов в команде и юнитов в коллекции
      **/
-    private void addClickListener(final TeamUnit teamUnit) {
+    private void addClickListener(final com.timgapps.warfare.screens.map.windows.team_window.team_unit.TeamUnit teamUnit) {
         teamUnit.getUnitImageButton().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -231,7 +231,7 @@ public class TeamUpgradeScreen extends Group {
     }
 
     // метод добавляет юнита в команду, если есть свободные ячейки
-    public void addUnitToTeamFromCollection(TeamUnit teamUnit) {
+    public void addUnitToTeamFromCollection(com.timgapps.warfare.screens.map.windows.team_window.team_unit.TeamUnit teamUnit) {
         // если есть свободные ячейки
         if (team.size() < teamTable.getMaxNumOfUnits()) {
             team.add(teamUnit);                      // добавляем юнита в команду

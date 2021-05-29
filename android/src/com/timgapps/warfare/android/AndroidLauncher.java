@@ -147,10 +147,10 @@ public class AndroidLauncher extends AndroidApplication implements RewardedVideo
     };
 
     // метод для загрузки рекламного объявления
-    private void loadRewardedVideoAd() {
-        rewardedAdIsError = false;
-        new RewardedVideoTask().execute();
-    }
+//    private void loadRewardedVideoAd() {
+//        rewardedAdIsError = false;
+//        new RewardedVideoTask().execute();
+//    }
 
     @Override
     public boolean isErnedReward() {
@@ -201,6 +201,13 @@ public class AndroidLauncher extends AndroidApplication implements RewardedVideo
                 Toast.makeText(AndroidLauncher.this, "AdMob Sdk Initialize " + initializationStatus.toString(), Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    // метод для загрузки рекламного объявления
+    @Override
+    public void loadRewardedVideoAd() {
+        rewardedAdIsError = false;
+        new RewardedVideoTask().execute();
     }
 
     private class RewardedVideoTask extends AsyncTask<Void, Void, AdRequest> {

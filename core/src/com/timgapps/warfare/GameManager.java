@@ -9,7 +9,7 @@ import com.timgapps.warfare.Utils.Setting;
 import com.timgapps.warfare.screens.map.gui_elements.CoinsPanel;
 import com.timgapps.warfare.screens.map.gui_elements.Geom;
 import com.timgapps.warfare.screens.map.gui_elements.GeomHolder;
-import com.timgapps.warfare.screens.map.windows.team_upgrade_window.team_unit.TeamUnit;
+import com.timgapps.warfare.screens.map.windows.team_window.team_unit.TeamUnit;
 import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnitData;
 import com.timgapps.warfare.screens.map.gui_elements.LevelIcon;
 import com.timgapps.warfare.screens.reward_for_stars.RewardForStarsData;

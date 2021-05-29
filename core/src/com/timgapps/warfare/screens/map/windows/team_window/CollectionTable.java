@@ -1,7 +1,7 @@
-package com.timgapps.warfare.screens.map.windows.team_upgrade_window;
+package com.timgapps.warfare.screens.map.windows.team_window;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.timgapps.warfare.screens.map.windows.team_upgrade_window.team_unit.TeamUnit;
+import com.timgapps.warfare.screens.map.windows.team_window.team_unit.TeamUnit;
 
 import java.util.ArrayList;
 
@@ -10,10 +10,10 @@ import java.util.ArrayList;
  * unitCollection - массив юнитов в коллекции
  **/
 public class CollectionTable extends Table {
-    private ArrayList<TeamUnit> unitCollection;
+    private ArrayList<com.timgapps.warfare.screens.map.windows.team_window.team_unit.TeamUnit> unitCollection;
     private float width, height;
 
-    public CollectionTable(ArrayList<TeamUnit> unitCollection) {
+    public CollectionTable(ArrayList<com.timgapps.warfare.screens.map.windows.team_window.team_unit.TeamUnit> unitCollection) {
         this.unitCollection = unitCollection;
 //        for (int j = 0; j < unitCollection.size(); j++) {
 
@@ -33,7 +33,7 @@ public class CollectionTable extends Table {
     }
 
     // метод перерисовывает значки в коллекции юнитов
-    public void redraw(ArrayList<TeamUnit> unitCollection) {
+    public void redraw(ArrayList<com.timgapps.warfare.screens.map.windows.team_window.team_unit.TeamUnit> unitCollection) {
         this.unitCollection = unitCollection;
         clear();
         this.left().top();

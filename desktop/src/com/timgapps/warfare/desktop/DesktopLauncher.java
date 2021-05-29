@@ -42,6 +42,21 @@ public class DesktopLauncher {
             public boolean isError() {
                 return false;
             }
+
+            @Override
+            public boolean isInitializationComplete() {
+                return false;
+            }
+
+            @Override
+            public void initializeAdmob() {
+
+            }
+
+            @Override
+            public void loadRewardedVideoAd() {
+
+            }
         }), config);
     }
 

@@ -36,6 +36,7 @@ public class RewardVideoWindow extends Group {
     private boolean isShown;
     private Table rewardTable;
     private MapScreen mapScreen;
+    private boolean adMobInitializing;      // происходит ли инициализация adMob
 
     public RewardVideoWindow(MapScreen mapScreen, RewardedVideoAdListener rewardedVideoAdListener) {
         this.mapScreen = mapScreen;
@@ -45,6 +46,7 @@ public class RewardVideoWindow extends Group {
 
     public void showRewardVideo() {
         watchButton.setVisible(false);
+        videoStatus = 0;
         if (isOnline()) {
             if (rewardedVideoAdListener.isLoaded()) {
                 hide();
@@ -54,24 +56,30 @@ public class RewardVideoWindow extends Group {
                 videoStatus = SHOWN;
             } else {
                 if (videoStatus != LOADING) {
-                    if (!rewardedVideoAdListener.isInitializationComplete()) {
-                        rewardedVideoAdListener.initializeAdmob();
-                    }
-                    showLoading();
                     videoStatus = LOADING;
+                    showLoading();
                     loadRewardVideo();
-                } else {
-                    // если при загрузке получена ошибка, выводим ошибку
-                    if (rewardedVideoAdListener.isError()) {
-                        showErrorConnection();
-                        videoStatus = ERROR;
-                    } else {
-                        showLoading();
-                        if (!rewardedVideoAdListener.isInitializationComplete()) {
-                            rewardedVideoAdListener.initializeAdmob();
-                        }
-                    }
+                    rewardedVideoAdListener.loadRewardedVideoAd();
                 }
+//                if (videoStatus != LOADING) {
+//                    if (!rewardedVideoAdListener.isInitializationComplete()) {
+//                        rewardedVideoAdListener.initializeAdmob();
+//                    }
+//                    showLoading();
+//                    videoStatus = LOADING;
+//                    loadRewardVideo();
+//                } else {
+//                    // если при загрузке получена ошибка, выводим ошибку
+//                    if (rewardedVideoAdListener.isError()) {
+//                        showErrorConnection();
+//                        videoStatus = ERROR;
+//                    } else {
+//                        showLoading();
+//                        if (!rewardedVideoAdListener.isInitializationComplete()) {
+//                            rewardedVideoAdListener.initializeAdmob();
+//                        }
+//                    }
+//                }
             }
         } else {
             showErrorConnection();
@@ -79,10 +87,10 @@ public class RewardVideoWindow extends Group {
         }
         // проверяем соединение с интренетом
         // если интернет подключен
-            // сделана ли инициализайия Admob
-                    // делаем инициализацию AdMob
-            // если реклама загружена
-            // показваем рекламу
+        // сделана ли инициализайия Admob
+        // делаем инициализацию AdMob
+        // если реклама загружена
+        // показваем рекламу
         // else загружаем рекламу (videoStatus = LOADING)
         // else выводим сообщение "интернет не подключен!" (videoStatus = ERROR)
 
@@ -93,18 +101,39 @@ public class RewardVideoWindow extends Group {
     public void act(float delta) {
         super.act(delta);
         if (videoStatus == LOADING) {
-            if (rewardedVideoAdListener.isLoaded()) {
-                videoStatus = LOADED;
-                loadLabel.setVisible(false);
-                if (isShown) {
-                    showRewardVideo();
+            if (rewardedVideoAdListener.isInitializationComplete()) {   // если admob инициализирован
+                adMobInitializing = false;
+                if (rewardedVideoAdListener.isLoaded()) {               // если реклама загружена
+                    if (videoStatus != LOADED) {
+                        videoStatus = LOADED;
+                        showRewardVideo();
+                    }
+                } else {
+                    if (rewardedVideoAdListener.isError()) {
+                        if (videoStatus != ERROR) {
+                            videoStatus = ERROR;
+                            showErrorConnection();
+                        }
+                    }
                 }
             } else {
-                if (rewardedVideoAdListener.isError()) {
-                    videoStatus = ERROR;
-                    showErrorConnection();
+                if (!adMobInitializing) {
+                    rewardedVideoAdListener.initializeAdmob();
+                    adMobInitializing = true;
                 }
             }
+//            if (rewardedVideoAdListener.isLoaded()) {
+//                videoStatus = LOADED;
+//                loadLabel.setVisible(false);
+//                if (isShown) {
+//                    showRewardVideo();
+//                }
+//            } else {
+//                if (rewardedVideoAdListener.isError()) {
+//                    videoStatus = ERROR;
+//                    showErrorConnection();
+//                }
+//            }
         }
     }
 

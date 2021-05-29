@@ -1,11 +1,11 @@
-package com.timgapps.warfare.screens.map.windows.team_upgrade_window;
+package com.timgapps.warfare.screens.map.windows.team_window;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.timgapps.warfare.Utils.StringHolder;
-import com.timgapps.warfare.screens.map.windows.team_upgrade_window.team_unit.TeamUnit;
 import com.timgapps.warfare.Warfare;
+import com.timgapps.warfare.screens.map.windows.team_window.team_unit.TeamUnit;
 
 import java.util.ArrayList;
 
@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * Таблица с "ЮНИТАМИ В КОМАНДЕ", используется в классе TeamUpgradeScreen
  */
 public class TeamTable extends Table {
-    private ArrayList<TeamUnit> team; // массив юнитов "КОМАНДА"
+    private ArrayList<com.timgapps.warfare.screens.map.windows.team_window.team_unit.TeamUnit> team; // массив юнитов "КОМАНДА"
     private float width, height;
     private int numOfUnits = 5;
     private Label collectionLabel;
@@ -23,7 +23,7 @@ public class TeamTable extends Table {
     /**
      * таблица с командой юнитов
      **/
-    public TeamTable(ArrayList<TeamUnit> team) {
+    public TeamTable(ArrayList<com.timgapps.warfare.screens.map.windows.team_window.team_unit.TeamUnit> team) {
         this.team = team;
         this.left().top();
         // надпись "КОЛЛЕКЦИЯ"

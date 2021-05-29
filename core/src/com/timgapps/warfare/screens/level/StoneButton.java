@@ -1,9 +1,8 @@
 package com.timgapps.warfare.screens.level;
 
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.timgapps.warfare.screens.map.windows.team_upgrade_window.team_unit.CreateUnitButton;
+import com.timgapps.warfare.screens.map.windows.team_window.team_unit.CreateUnitButton;
 import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnitData;
 import com.timgapps.warfare.Units.GameUnits.Player.Bullets.Stone;
 import com.timgapps.warfare.Warfare;

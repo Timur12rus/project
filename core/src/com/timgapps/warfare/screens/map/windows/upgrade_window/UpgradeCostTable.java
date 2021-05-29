@@ -9,7 +9,7 @@ import com.badlogic.gdx.utils.Align;
 import com.timgapps.warfare.Units.GameUnits.unitTypes.PlayerUnits;
 import com.timgapps.warfare.Utils.StringHolder;
 import com.timgapps.warfare.Warfare;
-import com.timgapps.warfare.screens.map.windows.team_upgrade_window.team_unit.TeamUnit;
+import com.timgapps.warfare.screens.map.windows.team_window.team_unit.TeamUnit;
 
 // горизонтальная таблица с кол-вом ресурсов для апгрейда
 public class UpgradeCostTable extends Table {

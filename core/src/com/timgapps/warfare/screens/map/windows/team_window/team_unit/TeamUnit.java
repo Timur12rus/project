@@ -1,11 +1,9 @@
-package com.timgapps.warfare.screens.map.windows.team_upgrade_window.team_unit;
+package com.timgapps.warfare.screens.map.windows.team_window.team_unit;
 
 import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnitData;
 import com.timgapps.warfare.screens.map.windows.upgrade_window.UpgradeWindow;
 import com.timgapps.warfare.screens.map.windows.upgrade_window.gui_elements.UnitImage;
 import com.timgapps.warfare.Units.GameUnits.unitTypes.PlayerUnits;
-
-import org.omg.PortableInterceptor.DISCARDING;
 
 // Сущность юнит из команды или коллекции (сущность)
 public class TeamUnit {

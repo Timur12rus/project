@@ -17,4 +17,6 @@ public interface RewardedVideoAdListener {
 
     void initializeAdmob();
 
+    void loadRewardedVideoAd();
+
 }

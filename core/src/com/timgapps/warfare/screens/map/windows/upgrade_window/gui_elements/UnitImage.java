@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.timgapps.warfare.screens.map.windows.team_upgrade_window.team_unit.UnitLevelIcon;
+import com.timgapps.warfare.screens.map.windows.team_window.team_unit.UnitLevelIcon;
 import com.timgapps.warfare.Units.GameUnits.unitTypes.PlayerUnits;
 import com.timgapps.warfare.Warfare;
 import com.timgapps.warfare.screens.map.windows.upgrade_window.UpgradeEffectStarter;

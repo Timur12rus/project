@@ -1,16 +1,13 @@
 package com.timgapps.warfare.screens.level.gui_elements;
 
 import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnitData;
-import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnitModel;
 import com.timgapps.warfare.Units.GameUnits.unitTypes.PlayerUnits;
 import com.timgapps.warfare.screens.level.LevelScreen;
 import com.timgapps.warfare.screens.level.StoneButton;
-import com.timgapps.warfare.screens.map.windows.team_upgrade_window.team_unit.CreateUnitButton;
-import com.timgapps.warfare.screens.map.windows.team_upgrade_window.team_unit.TeamUnit;
-import com.timgapps.warfare.screens.map.windows.team_upgrade_window.team_unit.UnitImageButton;
+import com.timgapps.warfare.screens.map.windows.team_window.team_unit.CreateUnitButton;
+import com.timgapps.warfare.screens.map.windows.team_window.team_unit.TeamUnit;
+import com.timgapps.warfare.screens.map.windows.team_window.team_unit.UnitImageButton;
 
 import java.util.ArrayList;
 
