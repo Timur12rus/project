@@ -154,7 +154,7 @@ public class TeamScreen extends Group {
 
     // перерисовывает таблицу с юнитами в команде
     public void redrawTeamTable() {
-        for (com.timgapps.warfare.screens.map.windows.team_window.team_unit.TeamUnit unit : team) {
+        for (TeamUnit unit : team) {
             unit.clearCanUpgradeAction();
         }
         gameManager.checkCanUpgrade();
@@ -163,9 +163,10 @@ public class TeamScreen extends Group {
 
     // перерисовывает таблицу с юнитами в коллекции
     public void redrawCollectionTable() {
-        for (com.timgapps.warfare.screens.map.windows.team_window.team_unit.TeamUnit unit : unitCollection) {
+        for (TeamUnit unit : unitCollection) {
             unit.clearCanUpgradeAction();
         }
+        gameManager.checkCanUpgrade();
         collectionTable.redraw(unitCollection);
         final Table scrollTable = new Table();
         scrollTable.left().top();

@@ -252,6 +252,7 @@ public class UpgradeWindow extends Group implements UpgradeEffectStarter {
         unitImage.setUpgradeEffectStarter(this);
         unitImage.clearAction();
         unitImage.setLevelValue(teamUnit.getUnitLevel());
+        unitImage.stopUpgradeEffect();
 
         // обновим кол-во ресурсов в таблице
         resourcesTable.updateResources(gameManager.getFoodCount(), gameManager.getIronCount(), gameManager.getWoodCount());
@@ -409,6 +410,7 @@ public class UpgradeWindow extends Group implements UpgradeEffectStarter {
         if (!teamUnit.getUnitId().equals(PlayerUnits.Rock)) {
             isShowResourcesImages = true;
         }
+        // запустим движение значков ресурсов
         resourcesTable.startActions(isShowResourcesImages);
         infoTable.startAction();
 

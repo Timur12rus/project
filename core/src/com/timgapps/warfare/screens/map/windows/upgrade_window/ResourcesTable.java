@@ -69,9 +69,9 @@ public class ResourcesTable extends Group {
         ironImage.clearActions();
         woodImage.clearActions();
 //        if (isShowResoursesImage) {
-            foodImage.setVisible(isShowResoursesImage);
-            ironImage.setVisible(isShowResoursesImage);
-            woodImage.setVisible(isShowResoursesImage);
+        foodImage.setVisible(isShowResoursesImage);
+        ironImage.setVisible(isShowResoursesImage);
+        woodImage.setVisible(isShowResoursesImage);
 //        } else {
 //            foodImage.setVisible(false);
 //            ironImage.setVisible(false);
@@ -141,5 +141,16 @@ public class ResourcesTable extends Group {
     @Override
     public float getHeight() {
         return height;
+    }
+
+    // перерисовывает значки ресурсов, которые будут задействованы анимации
+    public void redraw() {
+        isEndAction = false;
+        foodImage.clearActions();
+        ironImage.clearActions();
+        woodImage.clearActions();
+        foodImage.setPosition(table.getX(), foodImage.getHeight() * 2 + 32);
+        ironImage.setPosition(table.getX(), ironImage.getHeight() * 1 + 16);
+        woodImage.setPosition(table.getX(), table.getY());
     }
 }

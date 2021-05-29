@@ -25,6 +25,7 @@ import com.boontaran.MessageListener;
 import com.boontaran.games.StageGame;
 import com.boontaran.games.tiled.TileLayer;
 import com.timgapps.warfare.screens.map.actions.AddOverlayActionHelper;
+import com.timgapps.warfare.screens.map.actions.IconAction;
 import com.timgapps.warfare.screens.map.actions.MyCoinsAction;
 import com.timgapps.warfare.screens.map.gui_elements.CoinsPanel;
 import com.timgapps.warfare.screens.map.gui_elements.VideoRewardButton;
@@ -914,33 +915,40 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper, Roun
     // TODO исправить что то не так со значком апгрейда юнитов
     @Override
     public void startIconAction() {
-        teamUpgradeIcon.addAction(Actions.fadeIn(0));
-        Action checkEndOfAction = new Action() {
-            @Override
-            public boolean act(float delta) {
-                if (!isScreenShown) {
-                    teamUpgradeIcon.addAction(Actions.fadeIn(0));
-                } else {
-                    teamUpgradeIcon.addAction(Actions.fadeOut(0));
-                }
-                return true;
-            }
-        };
-        SequenceAction moveAction = new SequenceAction(Actions.fadeIn(0),
-                Actions.fadeOut(0.8f),
-                checkEndOfAction
-        );
 
-        SequenceAction sizeAction = new SequenceAction(
-//                Actions.sizeTo(64, 64, 1f),
-//                Actions.sizeTo(32, 32, 1f)
+        /** 29.05.2021
+         *
+         */
+//        teamUpgradeIcon.addAction(Actions.fadeIn(0));
+//        Action checkEndOfAction = new Action() {
+//            @Override
+//            public boolean act(float delta) {
+//                if (!isScreenShown) {
+//                    teamUpgradeIcon.addAction(Actions.fadeIn(0));
+//                } else {
+//                    teamUpgradeIcon.addAction(Actions.fadeOut(0));
+//                }
+//                return true;
+//            }
+//        };
+//        SequenceAction moveAction = new SequenceAction(Actions.fadeIn(0),
+//                Actions.fadeOut(0.8f),
+//                checkEndOfAction
+//        );
+//        teamUpgradeIcon.addAction(moveAction);
 
-//                Actions.sizeBy(-8, -8, 0.2f)
-                Actions.sizeBy(8, 8, 0.2f),
-                Actions.sizeBy(-8, -8, 0.2f),
-                Actions.fadeOut(0.6f)
-        );
-        teamUpgradeIcon.addAction(moveAction);
+        new IconAction(this, new Image(Warfare.atlas.findRegion("teamButton")),
+                new Vector2(teamUpgradeIcon.getX(), teamUpgradeIcon.getY()));
+    }
+
+    @Override
+    public void removeChildOnOverlay(Actor actor) {
+        removeChildOnOverlay(actor);
+    }
+
+    @Override
+    public void removeAllActionImages() {
+
     }
 
     @Override

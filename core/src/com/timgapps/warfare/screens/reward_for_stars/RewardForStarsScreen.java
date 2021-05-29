@@ -47,6 +47,7 @@ public class RewardForStarsScreen extends StageGame implements ScreenCloser {
     private int index;      // индекс следующей награды за звезды
     private float tableScrollPosX = 32;
     private ScrollPane scroller;
+    private Label toastLabel;
 
     @Override
     public void show() {
@@ -149,6 +150,11 @@ public class RewardForStarsScreen extends StageGame implements ScreenCloser {
         scrollTable.clearChildren();
         coinsPanel.redraw();
         coinsPanel.setVisible(true);
+        if (toastLabel != null) {
+            removeToastLabel(toastLabel);
+        }
+        isStartToastAction = false;
+        System.out.println("Redraw screen");
         scroller.setScrollX(index * BAR_WIDTH - BAR_WIDTH / 2);
 //        int index = 0;  // индекс текущего количества звезд, используется в рассчете поз. х smallStarsPanel
 //        int index = 0;  // индекс текущего количества звезд, используется в рассчете поз. х smallStarsPanel
@@ -259,7 +265,11 @@ public class RewardForStarsScreen extends StageGame implements ScreenCloser {
             labelStyle.fontColor = Color.RED;
             labelStyle.font = Warfare.font40;
 //            String toastText = "Collect " + starsCount + " stars for reward";
-            final Label toastLabel = new Label(toastText, labelStyle);
+            if (toastLabel != null) {
+                toastLabel = null;
+            }
+            toastLabel = new Label(toastText, labelStyle);
+//            final Label toastLabel = new Label(toastText, labelStyle);
             toastLabel.setPosition((getWidth() - toastLabel.getWidth()) / 2, getHeight() / 2);
             addChild(toastLabel);
             Action checkEndOfAction = new Action() {

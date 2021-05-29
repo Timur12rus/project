@@ -7,4 +7,8 @@ public interface AddOverlayActionHelper {
 
     void startIconAction();
 
+    void removeChildOnOverlay(Actor actor);
+
+    void removeAllActionImages();
+
 }
