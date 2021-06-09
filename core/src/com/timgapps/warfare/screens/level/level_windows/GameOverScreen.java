@@ -58,6 +58,7 @@ public class GameOverScreen extends Group {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 fire(new MessageEvent(ON_MAP));
+                Warfare.media.playSound("clickButton.ogg");
 //                if (CrazyCatapult.soundEnabled)
 //                    CrazyCatapult.media.playSound("click.ogg");
             }
@@ -67,6 +68,7 @@ public class GameOverScreen extends Group {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 fire(new MessageEvent(ON_RETRY));
+                Warfare.media.playSound("clickButton.ogg");
 //                if (CrazyCatapult.soundEnabled)
 //                    CrazyCatapult.media.playSound("click.ogg");
             }

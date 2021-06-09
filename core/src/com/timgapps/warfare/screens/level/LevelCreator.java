@@ -29,7 +29,7 @@ public class LevelCreator {
     private GameManager gameManager;
 
     public LevelCreator(LevelScreen levelScreen, GameManager gameManager) {
-//    public LevelCreator(LevelScreen levelScreen, int levelNumber) {
+//    public LevelCreator(LevelScreen lnevelScreen, int levelNumber) {
         this.levelScreen = levelScreen;
         this.gameManager = gameManager;
 //        loadLevel(levelNumber);

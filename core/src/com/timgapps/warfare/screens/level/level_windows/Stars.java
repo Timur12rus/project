@@ -62,10 +62,7 @@ public class Stars extends Group {
 
         setWidth(starOne.getWidth() * 3 + 12);
         setHeight(starOne.getHeight() + 16);
-
         startStarsActions(starsCount);
-
-
     }
 
     public void startStarsActions(int starsCount) {
@@ -87,11 +84,11 @@ public class Stars extends Group {
             }
         };
 
-
         SequenceAction maStarFirst = new SequenceAction(
-                Actions.moveTo(0, 0, 0.5f), Actions.moveTo(-2, 2, 0.1f), checkEndOfActionFirstStar);
+                Actions.moveTo(0, 0, 0.5f),
+                Actions.moveTo(-2, 2, 0.1f),
+                checkEndOfActionFirstStar);
         starOne.addAction(maStarFirst);
-
     }
 
     @Override
@@ -102,6 +99,7 @@ public class Stars extends Group {
                 @Override
                 public boolean act(float delta) {
                     secondStarActionIsEnd = true;
+                    Warfare.media.playSound("star.ogg");
                     return true;
                 }
             };
@@ -125,6 +123,7 @@ public class Stars extends Group {
                 @Override
                 public boolean act(float delta) {
                     thirdStarActionIsEnd = true;
+                    Warfare.media.playSound("star.ogg");
                     return true;
                 }
             };
@@ -145,6 +144,8 @@ public class Stars extends Group {
         if (thirdStarActionIsEnd) {
 //            thirdStarActionIsEnd = false;
             isEndActions = true;
+            Warfare.media.playSound("star.ogg");
+            thirdStarActionIsEnd = false;
         }
 
     }

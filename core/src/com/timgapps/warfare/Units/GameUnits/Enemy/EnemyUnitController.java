@@ -3,6 +3,7 @@ package com.timgapps.warfare.Units.GameUnits.Enemy;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.timgapps.warfare.Warfare;
 import com.timgapps.warfare.screens.level.LevelScreen;
 import com.timgapps.warfare.Units.GameUnits.GameUnitController;
 import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnitModel;
@@ -22,6 +23,12 @@ public class EnemyUnitController extends GameUnitController {
     public void hit() {
         if (targetPlayer != null) {
             targetPlayer.subHealth(model.getDamage());
+            if (model.getUnitData().getUnitId().toString().contains("Zombie")) {
+                Warfare.media.playSound("zombieAttack.ogg");
+            } else {
+                Warfare.media.playSound("hitEnemy.ogg");
+            }
+
         }
     }
 

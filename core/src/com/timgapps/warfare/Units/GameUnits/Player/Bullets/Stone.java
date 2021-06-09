@@ -107,6 +107,7 @@ public class Stone extends Bullet {
         image = null;
         isDestroyed = true;
         destroyEffect.start();
+        Warfare.media.playSound("stoneCrash_01.ogg");
     }
 
     // метод для получения урона от противника

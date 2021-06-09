@@ -18,6 +18,7 @@ public class Arrow extends Bullet {
         isDebug = true;
         deltaX = 12;
         deltaY = 42;
+        Warfare.media.playSound("shootArrow.ogg");
     }
 
     @Override
@@ -43,6 +44,7 @@ public class Arrow extends Bullet {
         if (isTouchedEnemy && !isDestroyed) {
             if (targetEnemy != null) {
                 targetEnemy.subHealth(damage);
+                Warfare.media.playSound("hit1.ogg");
 //                System.out.println("TargetEnemy health = " + targetEnemy.getHealth());
                 targetEnemy = null;
             }

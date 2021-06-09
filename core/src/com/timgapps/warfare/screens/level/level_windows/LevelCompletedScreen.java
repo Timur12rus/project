@@ -92,6 +92,7 @@ public class LevelCompletedScreen extends Group {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 fire(new MessageEvent(ON_OK));
+                Warfare.media.playSound("clickButton.ogg");
 //                if (CrazyCatapult.soundEnabled)
 //                    CrazyCatapult.media.playSound("click.ogg");
             }
@@ -121,6 +122,7 @@ public class LevelCompletedScreen extends Group {
         levelScreen.setState(LevelScreen.LEVEL_COMPLETED);
         isStarted = true;
         stars.startStarsActions(starsCount);
+        Warfare.media.playSound("star.ogg");
     }
 
     public boolean isStarted() {        // запущено ли действие для звёзд (движение)

@@ -34,6 +34,11 @@ public class Explosion extends Actor {
         isEndAnimation = false;
     }
 
+
+    public boolean isStarted() {
+        return isStarted;
+    }
+
     protected void createAnimation() {
         Array<TextureRegion> frames = new Array<TextureRegion>();
         // получим кадры и добавим анимацию

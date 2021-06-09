@@ -237,6 +237,7 @@ public class RewardVideoWindow extends Group {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 hide();
+                Warfare.media.playSound("clickButton.ogg");
                 fire(new MessageEvent(ON_RESUME));
             }
         });
@@ -245,6 +246,7 @@ public class RewardVideoWindow extends Group {
             @Override
             public void clicked(InputEvent event, float x, float y) {
 //                hide();
+                Warfare.media.playSound("clickButton.ogg");
                 showRewardVideo();
             }
         });

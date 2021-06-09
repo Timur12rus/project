@@ -90,6 +90,7 @@ public class TeamScreen extends Group {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 hideReplaceUnit();
+                Warfare.media.playSound("clickButton.ogg");
                 fire(new MessageEvent(ON_RESUME));
             }
         });
@@ -219,7 +220,7 @@ public class TeamScreen extends Group {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-
+                // будет другой звук для нажатий на юнитов
                 /** если флаг isReplaceActive - false, то вызываем окно апгрейда, если true - заменяем юнит в команде на юнит из коллекции **/
                 if (!isReplaceActive)
                     showUpgradeWindow(teamUnit);

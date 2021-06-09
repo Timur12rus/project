@@ -156,6 +156,7 @@ public class Barricade extends Group {
             setToDestroy();
             barricadeHealthBar.remove();
             barricadeExplosion1.start();
+            Warfare.media.playSound("explosion_bomb.ogg");
         }
 
         /** добавим цифры получаемого урона **/
@@ -192,12 +193,14 @@ public class Barricade extends Group {
         if (numOfExplosions < 4) {
             if (barricadeExplosion1.isEnd() && !barricadeExplosion2.isStarted()) {
                 barricadeExplosion2.start();
+                Warfare.media.playSound("explosion_bomb1.ogg");
                 barricadeExplosion1.remove();
                 barricadeExplosion1.setVisible(false);
             }
 
             if (barricadeExplosion2.isEnd() && !barricadeExplosion3.isStarted()) {
                 barricadeExplosion3.start();
+                Warfare.media.playSound("explosion_bomb.ogg");
                 barricadeExplosion2.remove();
                 barricadeExplosion2.setVisible(false);
             }

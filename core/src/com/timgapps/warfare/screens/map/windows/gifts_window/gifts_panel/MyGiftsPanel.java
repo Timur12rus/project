@@ -69,6 +69,7 @@ public class MyGiftsPanel extends Group implements GiftsPanelGuiController {
         claimButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                Warfare.media.playSound("clickButton.ogg");
                 boxImage.startAnimation();
                 showAddGiftsAnimation(addOverlayActionHelper);
                 timeCounter.reset();           // сбросим счетчик

@@ -3,6 +3,7 @@ package com.timgapps.warfare.Units.GameUnits.Player.units.archer;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.timgapps.warfare.Warfare;
 import com.timgapps.warfare.screens.level.LevelScreen;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitModel;
 import com.timgapps.warfare.Units.GameUnits.Player.Bullets.Arrow;
@@ -127,6 +128,7 @@ public class ArcherController extends PlayerUnitController implements PlayerShoo
     // метод для выпуска стрелы
     public void throwBullet() {
 //        new Arrow(levelScreen, new Vector2(model.getX(), model.getY()), 2, new Vector2(10, 0));
+//        Warfare.media.playSound("shootArrow.ogg");
         new Arrow(levelScreen, new Vector2(model.getX(), model.getY()), model.getDamage(), new Vector2(10, 0));
     }
 

@@ -55,7 +55,9 @@ public class BackButton extends Group {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
+                Warfare.media.playSound("clickButton.ogg");
                 closeScreen();
+
             }
 
             @Override

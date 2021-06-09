@@ -90,6 +90,7 @@ public class UpgradeWindow extends Group implements UpgradeEffectStarter {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
+                Warfare.media.playSound("clickButton.ogg");
                 hideUpgradeWindow();
                 showReplace();
             }
@@ -101,6 +102,7 @@ public class UpgradeWindow extends Group implements UpgradeEffectStarter {
             @Override
             public void clicked(InputEvent event, float x, float y) {
 //                fire(new MessageEvent(ON_RESUME));
+                Warfare.media.playSound("clickButton.ogg");
                 if (toastLabel.isVisible()) toastLabel.setVisible(false);
 //                unitImage.clearAction();
                 hideUpgradeWindow();
@@ -130,6 +132,7 @@ public class UpgradeWindow extends Group implements UpgradeEffectStarter {
                 } else {
                     applyActionsToToast();
                 }
+                Warfare.media.playSound("clickButton.ogg");
             }
         });
 
@@ -143,6 +146,7 @@ public class UpgradeWindow extends Group implements UpgradeEffectStarter {
                 } else {
                     applyActionsToToast();
                 }
+                Warfare.media.playSound("clickButton.ogg");
             }
         });
         createBlockTable();     // таблица : собрите n-ое кол-во звезд для разблокировки

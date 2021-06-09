@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.boontaran.games.StageGame;
 import com.timgapps.warfare.Utils.Lang;
+import com.timgapps.warfare.Utils.Media;
 import com.timgapps.warfare.Utils.StringHolder;
 import com.timgapps.warfare.screens.get_reward_screen.GetRewardScreen;
 import com.timgapps.warfare.screens.loading_screen.LoadingScreen;
@@ -36,6 +37,7 @@ public class Warfare extends Game implements VideoEventListener, MyAssetsLoader 
     public static BitmapFont font40;
     public static BitmapFont font30;
     public static BitmapFont font18;
+    public static Media media;  // инициализируем объект класса Media, который загружает звуки
     private I18NBundle bundle;   // для выбора ресурсов в зависимости от локализации использеются класс I18NBundle
     private String path_to_atlas; // в зависимости от локали в переменную path_to_atlas будет возвращаться путь к нужному нам атласу
     private LevelScreen levelScreen;
@@ -92,10 +94,12 @@ public class Warfare extends Game implements VideoEventListener, MyAssetsLoader 
 //        bundle = I18NBundle.createBundle(Gdx.files.internal("MyBundle"), locale); // передаем методу createBundle() путь к  папке с файлами конфигурации, в
         // которых будут прописаны пути к ресурсам, а также текущую локаль
 //        locale = Locale.
+
         stringHolder = new StringHolder(locale);
         path_to_atlas = "images/pack.atlas";
         loadingAssets = true; // присваиваем переменной значение true;
         assetManager = new AssetManager();  //Создаем объект класса AssetManager
+        media = new Media(assetManager);
         loadingScreen = new LoadingScreen(assetManager, this);
         setScreen(loadingScreen);
         /*** 29.03.2021   **/

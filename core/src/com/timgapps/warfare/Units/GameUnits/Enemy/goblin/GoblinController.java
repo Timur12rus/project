@@ -4,11 +4,13 @@ import com.timgapps.warfare.Units.GameUnits.Effects.Explosion;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitController;
 import com.timgapps.warfare.Units.GameUnits.Enemy.EnemyUnitModel;
 import com.timgapps.warfare.Units.GameUnits.Enemy.interfacesAi.EnemyWarriorAi;
+import com.timgapps.warfare.Warfare;
 import com.timgapps.warfare.screens.level.LevelScreen;
 
 public class GoblinController extends EnemyUnitController implements EnemyWarriorAi {
     private Explosion explosion;
     private boolean exposionIsStarted;
+    private boolean isFitilPlaySound;
 
     public GoblinController(LevelScreen levelScreen, EnemyUnitModel model) {
         super(levelScreen, model);
@@ -21,6 +23,10 @@ public class GoblinController extends EnemyUnitController implements EnemyWarrio
     public void update(float delta) {
         super.update(delta);
         if (!model.isDestroyed()) {
+            if (model.getPosition().x < levelScreen.getWidth() + 100 && !isFitilPlaySound) {
+                isFitilPlaySound = true;
+                Warfare.media.playSound("fitil.ogg");
+            }
             checkCollisions();
             if (model.isTouchedPlayer()) {
                 if (targetPlayer != null) {
@@ -40,10 +46,14 @@ public class GoblinController extends EnemyUnitController implements EnemyWarrio
                 move();
             }
         } else {
-            if (!exposionIsStarted) {
-                exposionIsStarted = true;
+            if (!explosion.isStarted()) {
+                if (isFitilPlaySound) {
+                    Warfare.media.stopSound("fitil.ogg");
+                }
+//                exposionIsStarted = true;
                 explosion.setPosition(model.getPosition().x - explosion.getWidth() / 2, model.getPosition().y);
                 explosion.start();
+                Warfare.media.playSound("explosion_bomb1.ogg");
             }
             velocity.set(0, 0);
             model.setVelocity(velocity);
@@ -90,7 +100,6 @@ public class GoblinController extends EnemyUnitController implements EnemyWarrio
             model.subHealth(model.getHealth());
         }
     }
-
 
 
     public void move() {

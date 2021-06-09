@@ -59,6 +59,7 @@ public class PauseScreen extends Group {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 hideScreen();
+                Warfare.media.playSound("clickButton.ogg");
                 fire(new MessageEvent(ON_MAP));
             }
         });

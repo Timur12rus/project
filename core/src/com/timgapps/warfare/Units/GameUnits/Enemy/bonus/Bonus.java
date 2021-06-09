@@ -85,6 +85,7 @@ public class Bonus extends Group {
     }
 
     private void click() {
+        Warfare.media.playSound("clickButton.ogg");
         if (!isClicked) {
             isClicked = true;
 //            image.remove();

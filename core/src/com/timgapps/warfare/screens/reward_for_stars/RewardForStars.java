@@ -165,6 +165,7 @@ public class RewardForStars extends Group {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 showToast();
+                Warfare.media.playSound("clickButton.ogg");
             }
         });
         this.setDebug(true);

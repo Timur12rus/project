@@ -234,6 +234,7 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper, Roun
             @Override
             public void clicked(InputEvent event, float x, float y) {
 //                isFocused = false;
+                Warfare.media.playSound("clickButton.ogg");
                 showGiftScreen();
             }
         });
@@ -285,6 +286,7 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper, Roun
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 showTeamUpgradeScreen();
+                Warfare.media.playSound("clickButton.ogg");
             }
         });
 
@@ -326,6 +328,7 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper, Roun
 //                coinsPanel.remove();
 //                call(ON_SHOW_REWARD_FOR_STARS_SCREEN);
 //                isFocused = false;
+                Warfare.media.playSound("clickButton.ogg");
                 showRewardForStarsScreen();
             }
         });
@@ -370,6 +373,7 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper, Roun
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (rewardVideoButton.isEndAction()) {
+                    Warfare.media.playSound("clickButton.ogg");
                     showRewardVideoWindow();
                 }
             }
@@ -850,6 +854,7 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper, Roun
         @Override
         public void clicked(InputEvent event, float x, float y) {
 //            isFocused = false;
+            Warfare.media.playSound("clickButton.ogg");
             //будем воспроизводить звук щелчка и передавать в callBack сообщенме onLevelSelected
             selectedLevelId = ((LevelIcon) event.getTarget()).getId();
 

@@ -46,6 +46,7 @@ public class GiftScreen extends Group {
         closeButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                Warfare.media.playSound("clickButton.ogg");
                 fire(new MessageEvent(ON_RESUME));
             }
         });

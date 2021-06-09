@@ -46,7 +46,7 @@ public class SiegeTower extends Group {
     private boolean isMove;                 // флаг, движется ли башня
     private float angleFWheel = 0;
     private float velocity;
-    private final float MAX_VELOCITY = 6;
+    private final float MAX_VELOCITY = 4;
     private float deltaAngle;
     private boolean isStart, isStop;
     private boolean isAttack;
@@ -57,6 +57,7 @@ public class SiegeTower extends Group {
     private float distanceToEnemy;
     private float attackPauseTime;
     private final float DAMAGE = 6;
+    private boolean isRemoved = false;
 
     public SiegeTower(LevelScreen levelScreen, float x, float y, float health, float damage) {
         this.levelScreen = levelScreen;
@@ -109,8 +110,9 @@ public class SiegeTower extends Group {
         smoke.setPosition(getX() + tower.getWidth() - 32, 364);
         addActor(fire);
         levelScreen.addChild(this, x, y);
+        Warfare.media.playSound("towerStop.ogg");
         shapeRenderer = new ShapeRenderer();
-        System.out.println("TOWER POSITION = " + getX() + ", " + getY());
+//        System.out.println("TOWER POSITION = " + getX() + ", " + getY());
     }
 
     @Override
@@ -122,7 +124,11 @@ public class SiegeTower extends Group {
             }
             smoke.update(delta);
             if (explosion1.isEnd()) {
-                explosion2.start();
+                if (!explosion2.isStarted()) {
+                    Warfare.media.playSound("explosion_bomb1.ogg");
+                    Warfare.media.playSound("towerCrash2.ogg");
+                    explosion2.start();
+                }
             }
             if (health > 0) {       // если башня не уничтожена
                 if (isMove) {
@@ -137,7 +143,7 @@ public class SiegeTower extends Group {
                         isAttack = false;
                     }
                     if (targetEnemy != null) {
-                        System.out.println("TARGET TOWER ENEMY = " + targetEnemy.getName());
+//                        System.out.println("TARGET TOWER ENEMY = " + targetEnemy.getName());
                         if (targetEnemy.isDestroyed()) {
                             targetEnemy = null;
                             isHaveTarget = false;
@@ -162,7 +168,7 @@ public class SiegeTower extends Group {
 
     private void attack() {
         isAttack = true;
-        throwArrow();
+//        throwArrow();
     }
 
     private void throwArrow() {
@@ -270,7 +276,11 @@ public class SiegeTower extends Group {
     public void checkToDestroy() {
         if (isDestroyed) {
             if (explosion2.isEnd()) {
-                this.remove();
+                if (!isRemoved) {
+                    this.remove();
+                    isRemoved = true;
+//                    Warfare.media.playSound("towerCrash2.ogg");
+                }
                 levelScreen.levelFailed();
 //                levelScreen.gameOver();
             }
@@ -286,8 +296,11 @@ public class SiegeTower extends Group {
         health -= damage;
         if (health <= 0) {
             health = 0;
-            explosion1.start();      // запускаем анимацию взрыва
-            setToDestroy();         // делаеме тело не активным
+            if (!explosion1.isStarted()) {
+                Warfare.media.playSound("explosion_bomb.ogg");
+                explosion1.start();      // запускаем анимацию взрыва
+                setToDestroy();         // делаеме тело не активным
+            }
         }
 
         if (health <= (fullHealth * 0.85)) {
@@ -314,6 +327,7 @@ public class SiegeTower extends Group {
     public void startMove() {
         isStart = true;
         isMove = true;
+        Warfare.media.playSound("towerStart.ogg");
     }
 
     // метод для вращения колес
@@ -321,10 +335,12 @@ public class SiegeTower extends Group {
         // если машина должна остановиться
         if (isStart) {
             if (velocity < MAX_VELOCITY) {
-                velocity += 0.05f;
+//                velocity += 0.05f;
+                velocity += 0.03f;
             }
             if (deltaAngle < 4) {
-                deltaAngle += 0.8f;
+                deltaAngle += 0.6f;
+//                deltaAngle += 0.8f;
             }
             angleFWheel -= deltaAngle;
             if (angleFWheel < -360) {
@@ -332,8 +348,8 @@ public class SiegeTower extends Group {
             }
         } else if (isStop) {        // если машина должна остановиться
             if (velocity > 0) {
-                velocity -= 0.05f;      // уменьшаем скорость
-//                System.out.println("velocityTower = " + velocity);
+                velocity -= 0.03f;      // уменьшаем скорость
+//                velocity -= 0.05f;      // уменьшаем скорость
             } else {
                 velocity = 0;
                 isMove = false;
@@ -341,7 +357,8 @@ public class SiegeTower extends Group {
             }
 //            System.out.println("deltaAngle = " + deltaAngle);
             if (deltaAngle > 0) {
-                deltaAngle -= 0.05f;
+//                deltaAngle -= 0.05f;
+                deltaAngle -= 0.03f;
             } else {
                 deltaAngle = 0;
             }

@@ -5,6 +5,8 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.AssetLoader;
 import com.badlogic.gdx.assets.loaders.FileHandleResolver;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -85,6 +87,28 @@ public class LoadingScreen extends StageGame {
 //        font40Params.fontParameters.borderWidth = 1;
 //        font18Params.fontParameters.borderColor = Color.BLACK;
         assetManager.load("font18.ttf", BitmapFont.class, font18Params);
+
+        // загржаем в менеджер звуки и музыку
+//        assetManager.load("sounds/hitEnemy.ogg", Sound.class);
+        assetManager.load("sounds/hitToZombie.ogg", Sound.class);
+        assetManager.load("sounds/hitStone.ogg", Sound.class);
+        assetManager.load("sounds/shootArrow.ogg", Sound.class);
+        assetManager.load("sounds/zombieAttack.ogg", Sound.class);
+        assetManager.load("sounds/clickButton.ogg", Sound.class);
+        assetManager.load("sounds/hit0.ogg", Sound.class);
+        assetManager.load("sounds/hit1.ogg", Sound.class);
+        assetManager.load("sounds/hit2.ogg", Sound.class);
+        assetManager.load("sounds/hit3.ogg", Sound.class);
+        assetManager.load("sounds/hitEnemy.ogg", Sound.class);
+        assetManager.load("sounds/explosion_bomb.ogg", Sound.class);
+        assetManager.load("sounds/explosion_bomb1.ogg", Sound.class);
+        assetManager.load("sounds/towerStop.ogg", Sound.class);
+        assetManager.load("sounds/towerStart.ogg", Sound.class);
+        assetManager.load("sounds/towerCrash.ogg", Sound.class);
+        assetManager.load("sounds/towerCrash2.ogg", Sound.class);
+        assetManager.load("sounds/fitil.ogg", Sound.class);
+        assetManager.load("sounds/star.ogg", Sound.class);
+        assetManager.load("sounds/stoneCrash_01.ogg", Sound.class);
     }
 
     @Override
