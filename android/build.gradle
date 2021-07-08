@@ -124,3 +124,7 @@ idea {
         }
     }
 }
+
+dependencies {
+    implementation 'com.google.firebase:firebase-ads:19.4.0'
+}

@@ -456,6 +456,7 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper, Roun
         giftScreen.removeActions();
         teamUpgradeIcon.clearActions();
         removeOverlayChild(coinsPanel);
+//        Warfare.media.stopMusic("mapMusic.ogg");
     }
 
     @Override
@@ -467,6 +468,7 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper, Roun
         updateCameraPosition();
         coinsPanel.redraw();
         showCoinsPanel();
+//        Warfare.media.playMusic("mapMusic.ogg", true);
 
         // проверим, вернулись ли мы на карту после выхода из уровня
         if (isShowRewardVideoButton && !rewardVideoButton.isShown()) {

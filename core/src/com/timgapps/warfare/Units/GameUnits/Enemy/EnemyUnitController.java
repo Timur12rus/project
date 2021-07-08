@@ -23,11 +23,12 @@ public class EnemyUnitController extends GameUnitController {
     public void hit() {
         if (targetPlayer != null) {
             targetPlayer.subHealth(model.getDamage());
-            if (model.getUnitData().getUnitId().toString().contains("Zombie")) {
-                Warfare.media.playSound("zombieAttack.ogg");
-            } else {
-                Warfare.media.playSound("hitEnemy.ogg");
-            }
+            Warfare.media.playSound("hitEnemy.ogg");
+//            if (model.getUnitData().getUnitId().toString().contains("Zombie")) {
+//                Warfare.media.playSound("zombieAttack.ogg");
+//            } else {
+//                Warfare.media.playSound("hitEnemy.ogg");
+//            }
 
         }
     }
@@ -35,6 +36,7 @@ public class EnemyUnitController extends GameUnitController {
     public void hitTower() {
         if (levelScreen.getSiegeTower().getHealth() > 0) {
             levelScreen.getSiegeTower().subHealth(model.getDamage());
+            Warfare.media.playSound("hitEnemy.ogg");
         }
     }
 

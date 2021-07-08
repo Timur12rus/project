@@ -8,6 +8,7 @@ import com.timgapps.warfare.screens.level.StoneButton;
 public class FireBoosterButton extends StoneButton {
     public FireBoosterButton(LevelScreen levelScreen, PlayerUnitData data) {
         super(levelScreen, data);
+        appearanceTime = 2;
 //        greenTarget.scaleBy(1);
 //        redTarget.scaleBy(1);
         greenTarget.scaleBy(1, 0.5f);

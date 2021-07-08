@@ -183,6 +183,7 @@ public class FireRock extends Bullet {
 //                System.out.println("POSITION X = " + position.x);
                 levelScreen.addChild(explosion);
                 explosion.start();
+                Warfare.media.playSound("explosion_bomb.ogg");
             }
         }
         if (levelScreen.getState() != LevelScreen.PAUSED && waitTimeToDestroy > 0) {

@@ -358,6 +358,7 @@ public class LevelScreen extends StageGame {
             protected void receivedMessage(int message, Actor actor) {
                 if (message == pausedScreen.ON_MAP) {   // у нас только одна кнопка,
 //                    savePlayerData();
+                    Warfare.media.stopMusic("battleMusic1.ogg");
                     call(ON_FAILED);                       // при получении  сообщений от которой мы передаем сообщение ON_EXIT
                 } else if (message == pausedScreen.ON_CONTINUE) {
                     resumeLevel();      // возвращаемся к игре, если получено сообщение ON_CONTINUE
@@ -395,6 +396,7 @@ public class LevelScreen extends StageGame {
     public void show() {
         super.show();
         build(levelNumber);
+        Warfare.media.playMusic("battleMusic1.ogg", false);
     }
 
     public void createPlayerUnit(PlayerUnits unitId) {
@@ -564,6 +566,7 @@ public class LevelScreen extends StageGame {
             isShowLevelCompletedScreen = true;
 //            barricade.remove();
             levelCompleted();   // запускаем метод завершения уровня
+            Warfare.media.stopMusic("battleMusic.ogg");
         }
 
 //        if (state != PLAY) {
@@ -734,6 +737,9 @@ public class LevelScreen extends StageGame {
     }
 
     public void levelFailed() {
+        Warfare.media.stopMusic("battleMusic1.ogg");
+        Warfare.media.playMusic("failedMusic.ogg", false);
+
         // скрываем значок таймера волны монстров, если он на экране
         hideMonsterTimer();
         state = LEVEL_FAILED;
@@ -751,6 +757,8 @@ public class LevelScreen extends StageGame {
      * метод завершения уровня, вызывается после того, как разрушилась баррикада
      **/
     public void levelCompleted() {
+        Warfare.media.stopMusic("battleMusic1.ogg");
+        Warfare.media.playMusic("victory.ogg", false);
         isCompleted = true;
         fade.setVisible(true);     // затемняем задний план
         unitButtons.hide();
@@ -867,11 +875,12 @@ public class LevelScreen extends StageGame {
     public void hide() {
         super.hide();
         hud.clear();
+        Warfare.media.stopMusic("victory.ogg");
         levelCreator.clear();
         background.clear();
         dispose();
-        System.out.println("background = " + background.toString());
-        System.out.println("Hide!!!");
+//        System.out.println("background = " + background.toString());
+//        System.out.println("Hide!!!");
         stage.clear();
 //        for (Actor actor : stage.clear();)
     }

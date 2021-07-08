@@ -1,6 +1,7 @@
 package com.timgapps.warfare.Units.GameUnits.Player.Bullets.throwFireRock;
 
 import com.badlogic.gdx.math.Vector2;
+import com.timgapps.warfare.Warfare;
 import com.timgapps.warfare.screens.level.LevelScreen;
 
 import java.util.ArrayList;
@@ -35,6 +36,7 @@ public class FireRockShoot {
             new FireRock(levelScreen, fourthPosition, 10, 1.5f);
             new FireRock(levelScreen, fifthPosition, 10, 2f);
             new FireRock(levelScreen, fourthPosition, 10, 2.5f);
+        Warfare.media.playSound("fireBall3.ogg");
 
 //        new FireRock(levelScreen, firstPosition, 10, 0f);
 //        new FireRock(levelScreen, secondPosition, 10, 0.6f);

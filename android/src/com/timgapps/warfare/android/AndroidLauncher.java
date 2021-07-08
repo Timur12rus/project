@@ -114,6 +114,8 @@ public class AndroidLauncher extends AndroidApplication implements RewardedVideo
                 loadRewardedVideoAd();
             }
 
+
+
             @Override
             public void onRewardedAdFailedToShow(AdError adError) {
                 // Ad failed to display.

@@ -32,6 +32,7 @@ public class Explosion extends Actor {
         setVisible(true);
         isStarted = true;
         isEndAnimation = false;
+        Warfare.media.playSound("explosion_bomb.ogg");
     }
 
 

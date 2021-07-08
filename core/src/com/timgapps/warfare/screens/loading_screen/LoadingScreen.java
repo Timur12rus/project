@@ -109,6 +109,15 @@ public class LoadingScreen extends StageGame {
         assetManager.load("sounds/fitil.ogg", Sound.class);
         assetManager.load("sounds/star.ogg", Sound.class);
         assetManager.load("sounds/stoneCrash_01.ogg", Sound.class);
+        assetManager.load("sounds/fireBall1.ogg", Sound.class);
+        assetManager.load("sounds/fireBall.ogg", Sound.class);
+        assetManager.load("sounds/fireBall2.ogg", Sound.class);
+        assetManager.load("sounds/fireBall3.ogg", Sound.class);
+        assetManager.load("musics/mapMusic.ogg", Music.class);
+        assetManager.load("musics/battleMusic1.ogg", Music.class);
+        assetManager.load("musics/battleMusic.ogg", Music.class);
+        assetManager.load("musics/victory.ogg", Music.class);
+        assetManager.load("musics/failedMusic.ogg", Music.class);
     }
 
     @Override

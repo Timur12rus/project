@@ -126,6 +126,7 @@ public class Warfare extends Game implements VideoEventListener, MyAssetsLoader 
         if (mapScreen == null) {
             mapScreen = new MapScreen(gameManager, coinsReward, scoreReward, rewardedVideoAdListener);
         }
+        Warfare.media.playMusic("mapMusic.ogg", true);
         setScreen(mapScreen);
         mapScreen.setCallback(new StageGame.Callback() {
             @Override
@@ -138,15 +139,18 @@ public class Warfare extends Game implements VideoEventListener, MyAssetsLoader 
                     // при получении кода ON_LEVEL_SELECTED вызываем метод открытия уровня
                     // передаем в showLevel номер выбранного уровня
                     levelId = mapScreen.getSelectedLevelId();
+                    Warfare.media.stopMusic("mapMusic.ogg");
                     hideLevelMap();
                     showLevel(levelId);
                 } else if (code == MapScreen.ON_SHOW_GET_REWARD) {
+                    Warfare.media.stopMusic("mapMusic.ogg");
                     hideLevelMap();
                     showGetRewardScreen();
                 } else if (code == MapScreen.ON_SHOW_REWARD_FOR_STARS_SCREEN) {
                     hideLevelMap();
                     showRewardForStarsScreen();
                 } else if (code == MapScreen.ON_SHOW_REWARDED_VIDEO) {
+                    Warfare.media.stopMusic("mapMusic.ogg");
 //                    levelMap = null;
 //                    hideLevelMap();
 //                    showRewardForStarsScreen();
