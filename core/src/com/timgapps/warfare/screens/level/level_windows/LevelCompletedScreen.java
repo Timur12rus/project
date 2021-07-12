@@ -111,6 +111,7 @@ public class LevelCompletedScreen extends Group {
             if (stars.getIsEndActions() && !rewardTable.isVisible()) {
                 rewardTable.setVisible(true);
                 okButton.setVisible(true);
+                Warfare.media.playMusic("victory.ogg", false);
             }
         }
     }
@@ -122,7 +123,6 @@ public class LevelCompletedScreen extends Group {
         levelScreen.setState(LevelScreen.LEVEL_COMPLETED);
         isStarted = true;
         stars.startStarsActions(starsCount);
-        Warfare.media.playSound("star.ogg");
     }
 
     public boolean isStarted() {        // запущено ли действие для звёзд (движение)

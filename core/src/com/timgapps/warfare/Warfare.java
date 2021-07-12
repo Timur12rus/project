@@ -126,6 +126,9 @@ public class Warfare extends Game implements VideoEventListener, MyAssetsLoader 
         if (mapScreen == null) {
             mapScreen = new MapScreen(gameManager, coinsReward, scoreReward, rewardedVideoAdListener);
         }
+        Warfare.media.stopMusic("battleMusic.ogg");
+        Warfare.media.stopMusic("victory.ogg");
+        Warfare.media.stopMusic("failedMusic.ogg");
         Warfare.media.playMusic("mapMusic.ogg", true);
         setScreen(mapScreen);
         mapScreen.setCallback(new StageGame.Callback() {

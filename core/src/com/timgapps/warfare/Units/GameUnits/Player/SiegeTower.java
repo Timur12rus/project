@@ -354,6 +354,7 @@ public class SiegeTower extends Group {
                 velocity = 0;
                 isMove = false;
                 isStop = false;
+                Warfare.media.playMusic("battleMusic1.ogg", false);
             }
 //            System.out.println("deltaAngle = " + deltaAngle);
             if (deltaAngle > 0) {

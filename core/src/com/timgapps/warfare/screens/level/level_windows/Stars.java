@@ -95,11 +95,12 @@ public class Stars extends Group {
     public void act(float delta) {
         super.act(delta);
         if (firstStarActionIsEnd) {
+            Warfare.media.playSound("star.ogg");
             Action checkEndOfActionSecondStar = new Action() {
                 @Override
                 public boolean act(float delta) {
                     secondStarActionIsEnd = true;
-                    Warfare.media.playSound("star.ogg");
+//                    Warfare.media.playSound("star.ogg");
                     return true;
                 }
             };
@@ -119,6 +120,7 @@ public class Stars extends Group {
 
 
         if (secondStarActionIsEnd) {
+            Warfare.media.playSound("star.ogg");
             Action checkEndOfActionThirdStar = new Action() {
                 @Override
                 public boolean act(float delta) {

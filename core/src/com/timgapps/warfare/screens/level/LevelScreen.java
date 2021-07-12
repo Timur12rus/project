@@ -396,7 +396,7 @@ public class LevelScreen extends StageGame {
     public void show() {
         super.show();
         build(levelNumber);
-        Warfare.media.playMusic("battleMusic1.ogg", false);
+//        Warfare.media.playMusic("battleMusic1.ogg", false);
     }
 
     public void createPlayerUnit(PlayerUnits unitId) {
@@ -758,7 +758,7 @@ public class LevelScreen extends StageGame {
      **/
     public void levelCompleted() {
         Warfare.media.stopMusic("battleMusic1.ogg");
-        Warfare.media.playMusic("victory.ogg", false);
+//        Warfare.media.playMusic("victory.ogg", false);
         isCompleted = true;
         fade.setVisible(true);     // затемняем задний план
         unitButtons.hide();
@@ -875,7 +875,6 @@ public class LevelScreen extends StageGame {
     public void hide() {
         super.hide();
         hud.clear();
-        Warfare.media.stopMusic("victory.ogg");
         levelCreator.clear();
         background.clear();
         dispose();

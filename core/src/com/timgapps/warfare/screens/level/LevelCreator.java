@@ -7,6 +7,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.boontaran.MessageListener;
 import com.timgapps.warfare.GameManager;
+import com.timgapps.warfare.Warfare;
 import com.timgapps.warfare.screens.level.level_windows.GameOverScreen;
 import com.timgapps.warfare.screens.level.level_windows.LevelCompletedScreen;
 import com.timgapps.warfare.screens.level.level_windows.PauseScreen;
@@ -45,6 +46,7 @@ public class LevelCreator {
             protected void receivedMessage(int message, Actor actor) {
                 if (message == LevelCompletedScreen.ON_OK) {   // у нас только одна кнопка,
                     clear();                        // освобождаем ресурсы
+                    Warfare.media.stopMusic("victory.ogg");
                     levelScreen.onCompleted();
                 }
             }
@@ -57,12 +59,14 @@ public class LevelCreator {
             protected void receivedMessage(int message, Actor actor) {
                 if (message == gameOverScreen.ON_MAP) {
 //                    savePlayerData();
+                    Warfare.media.stopMusic("failedMusic.ogg");
                     clear();
                     levelScreen.onFailed();
 //                    call(ON_FAILED);                       // при получении сообщений от которой мы передаем сообщение ON_FAILED
 
                 }
                 if (message == GameOverScreen.ON_RETRY) {
+                    Warfare.media.stopMusic("failedMusic.ogg");
                     levelScreen.onRetry();
 //                    call(ON_RETRY);
                 }
