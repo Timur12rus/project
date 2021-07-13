@@ -4,7 +4,7 @@ buildscript {
         mavenCentral()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         google()
-        jcenter()
+//        jcenter()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.5.4'
@@ -41,7 +41,6 @@ allprojects {
 
 project(":desktop") {
     apply plugin: "java"
-
 
     dependencies {
         implementation project(":core")
@@ -87,7 +86,6 @@ project(":android") {
 project(":core") {
     apply plugin: "java"
 
-
     dependencies {
         implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
         implementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
@@ -97,7 +95,7 @@ project(":core") {
         implementation files("libs/game_lib.jar")
     }
 }
-
-tasks.eclipse.doLast {
-    delete ".project"
-}
+//
+//tasks.eclipse.doLast {
+//    delete ".project"
+//}

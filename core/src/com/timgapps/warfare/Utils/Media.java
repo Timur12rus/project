@@ -12,8 +12,10 @@ public class Media { // Класс для работы с музыкой
     }
 
     public void playSound(String name) {
-        Sound sound = assetManager.get("sounds/" + name, Sound.class);
-        sound.play();
+        if (!Setting.DEBUG_NO_SOUND) {
+            Sound sound = assetManager.get("sounds/" + name, Sound.class);
+            sound.play();
+        }
     }
 
     public void stopSound(String name) {
@@ -22,9 +24,11 @@ public class Media { // Класс для работы с музыкой
     }
 
     public void playMusic(String name, boolean loop) {
-        Music music = assetManager.get("musics/" + name, Music.class);
-        music.setLooping(loop);  // метод setLooping устанавливает повтор воспроизведения
-        music.play();
+        if (!Setting.DEBUG_NO_SOUND) {
+            Music music = assetManager.get("musics/" + name, Music.class);
+            music.setLooping(loop);  // метод setLooping устанавливает повтор воспроизведения
+            music.play();
+        }
     }
 
     public void stopMusic(String name) {

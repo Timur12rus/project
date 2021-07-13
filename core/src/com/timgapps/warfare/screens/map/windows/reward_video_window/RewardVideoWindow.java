@@ -109,6 +109,8 @@ public class RewardVideoWindow extends Group {
                         showRewardVideo();
                     }
                 } else {
+                    //TODO сделать так, чтобы если плохой интернет и показал ошибку в логах, чтобы вывел сообщение
+                    // "ошибка интерент соединения"
                     if (rewardedVideoAdListener.isError()) {
                         if (videoStatus != ERROR) {
                             videoStatus = ERROR;

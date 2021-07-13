@@ -78,9 +78,4 @@ public class VideoRewardButton extends IconOnMap {
         isEndAction = false;
         buttonIcon.clearActions();
     }
-
-    public void clearAction() {
-        isEndAction = true;
-//        buttonIcon.clearActions();
-    }
 }

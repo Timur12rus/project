@@ -12,12 +12,10 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -93,22 +91,29 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper, Roun
     private VideoRewardButton rewardVideoButton;
     private RewardedVideoAdListener rewardedVideoAdListener;
     private boolean onShowRewardVideo;
-    private boolean onLoadRewardVideo;
+    private boolean onLoadingRewardVideo;
     private MyCoinsAction rewardCoinsAction;
     private boolean isShowRewardVideoButton = true;
+    private boolean isErned = false;        // флаг награда получена после просмотра видео
 
     @Override
     protected void update(float delta) {
         super.update(delta);
-        if (onShowRewardVideo) {
-            if (rewardedVideoAdListener.isErnedReward()) {
+        if (onShowRewardVideo) {                                // если видео показывается
+            if (rewardedVideoAdListener.isErnedReward()) {      // проверим награжден ли игрок
                 rewardedVideoAdListener.resetIsErnedReward();
+                isErned = true;                                 // награжден
                 onShowRewardVideo = false;
-                rewardPlayer();
+//                rewardPlayer();
                 hideRewardVideoButton();
             }
         }
-        if (onLoadRewardVideo) {
+
+        if (isErned) {
+            rewardPlayer();
+            isErned = false;
+        }
+        if (onLoadingRewardVideo) {                               // если видео загружается
             if (rewardedVideoAdListener.isLoaded()) {
                 showRewardVideo();
             }
@@ -399,16 +404,17 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper, Roun
     // метод для просмотра видеорекламы
     private void showRewardVideo() {
         if (rewardedVideoAdListener.isLoaded()) {
-            onShowRewardVideo = true;
-            onLoadRewardVideo = false;
-            call(ON_SHOW_REWARDED_VIDEO);
+            isErned = false;                     // игрок не награжден
+            onShowRewardVideo = true;            // видео показывается
+            onLoadingRewardVideo = false;        // видео не загружается
+            call(ON_SHOW_REWARDED_VIDEO);        // показываем видео
         } else {
-            if (!onLoadRewardVideo) {
+            if (!onLoadingRewardVideo) {         // если видео не загружается
                 // показываем в окне индикатор загузки рекламы (...)
-                rewardVideoWindow.loadRewardVideo();
-                onLoadRewardVideo = true;
-                onShowRewardVideo = false;
-                call(ON_LOAD_REWARD_VIDEO);
+                rewardVideoWindow.loadRewardVideo();        // загружаем видео
+                onLoadingRewardVideo = true;                // устанавливаем флаг
+                onShowRewardVideo = false;                  // видео не показывается
+                call(ON_LOAD_REWARD_VIDEO);                 // загружаем видео
             }
         }
     }
@@ -416,6 +422,7 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper, Roun
     // метод выбора уровня
     public void selectLevel() {
         gameManager.setCameraPosition(new Vector2(cameraXpos, cameraYpos));
+        isErned = false;
         call(ON_LEVEL_SELECTED);
     }
 
@@ -425,16 +432,6 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper, Roun
 
     public boolean isScreenShown() {
         return isScreenShown;
-    }
-
-    private void clearOverlayActions() {
-        for (Actor actor : overlay.getActors()) {
-            if (actor instanceof Image) {
-//                actor.clearActions();
-                actor.remove();
-//                removeOverlayChild(actor);
-            }
-        }
     }
 
     // метод для показа экрана наград за звезды
@@ -471,7 +468,7 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper, Roun
 //        Warfare.media.playMusic("mapMusic.ogg", true);
 
         // проверим, вернулись ли мы на карту после выхода из уровня
-        if (isShowRewardVideoButton && !rewardVideoButton.isShown()) {
+        if (isShowRewardVideoButton && !rewardVideoButton.isShown() && !isErned) {
             rewardVideoButton.show();
         }
     }
