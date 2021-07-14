@@ -156,7 +156,8 @@ public class SavedGame implements Serializable {
         rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_KNIGHT, 39, PlayerUnits.Knight.name().toLowerCase() + "UnitImage"));
         rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_BOX, 45, "boxImage0"));
         rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_SHOOTER, 48, PlayerUnits.Shooter.name().toLowerCase() + "UnitImage"));
-        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_VIKING, 60, PlayerUnits.Viking.name().toLowerCase() + "UnitImage"));
+        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_BOX, 56, "boxImage0"));
+        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_VIKING, 64, PlayerUnits.Viking.name().toLowerCase() + "UnitImage"));
 
 //        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_STONE, 1, "rockUnitImage"));
 //        rewardForStarsDataList.add(new RewardForStarsData(RewardForStarsData.REWARD_ARCHER, 4, PlayerUnits.Archer.name().toLowerCase() + "UnitImage"));

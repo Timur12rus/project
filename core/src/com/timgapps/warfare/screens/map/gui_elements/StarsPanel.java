@@ -68,8 +68,11 @@ public class StarsPanel extends Group {
     // метод обновляет данные в пенели звезд (кол-во и следующую награду)
     public void redraw() {
         starsCount = gameManager.getStarsCount();                               // кол-во звезд у игрока
+        System.out.println("starsCount = " + starsCount);
+        gameManager.updateIndexOfNextRewardStars();
         indexOfNextRewardStars = gameManager.getIndexOfNextRewardStars();       // индекс следующей награды
-        // TODO сделать ограничение индекса, т.е. если индекс > последнего индекса в массиве наград, то объявить что наград больше нет
+
+        /** если индекс следующей награды меньше индекса последней награды **/
         if (indexOfNextRewardStars < rewardForStarsDataList.size() - 1) {
             redrawRewardImage(rewardForStarsDataList.get(indexOfNextRewardStars).getTypeOfReward());
             rewardStarsCount = rewardForStarsDataList.get(indexOfNextRewardStars).getStarsCount(); // необходимое кол-во звезд для плучения следующей награды
@@ -116,56 +119,6 @@ public class StarsPanel extends Group {
     public void onUp() {
         rewardIcon.setPosition(rewardIcon.getX(), rewardIcon.getY() + 4);
     }
-
-//    /**
-//     * класс индикатор количество звезд до награды, полоса
-//     **/
-//    class StarsBar extends Actor {
-//        int barWidth, barHeight;
-//        Texture cursorTexture;
-//        float deltaX = 0;
-//
-//        public StarsBar() {
-//            barWidth = 152;
-//            barHeight = 32;
-//            createBar(barWidth, barHeight);
-//            setSize(barWidth, barHeight);
-//        }
-//
-//        private void createBar(int width, int barHeight) {
-//            // тёмный бар
-//            Pixmap barPixmap = createProceduralPixmap(width - 2, barHeight - 2, 1, 191, 137, 0);
-//
-//            // фон бара
-//            Pixmap backPixmap = createProceduralPixmap(width, barHeight, 0.4f, 0, 0, 0);
-//
-//            Pixmap cursorPixmap = createProceduralPixmap(12, barHeight - 2, 0.5f, 1, 1, 0);
-//
-//            barTexture = new Texture(barPixmap);
-//            backTexture = new Texture(backPixmap);
-//            cursorTexture = new Texture(cursorPixmap);
-//        }
-//
-//        private Pixmap createProceduralPixmap(int width, int height, float a, int r, int g, int b) {
-//            Pixmap pixmap = new Pixmap(width, height, Pixmap.Format.RGBA8888);
-//            pixmap.setColor(r, g, b, a);
-//            pixmap.fill();
-//            return pixmap;
-//        }
-//
-//        @Override
-//        public void draw(Batch batch, float parentAlpha) {
-//            super.draw(batch, parentAlpha);
-//            deltaX += 0.6f;
-//            if (deltaX >= (starsCount * (barWidth - 2) / rewardStarsCount) - 8) {
-//                deltaX = 0;
-//            }
-//            batch.draw(backTexture, getX(), getY());
-//            batch.draw(barTexture, getX() + 1, getY() + 1,
-//                    starsCount * (barWidth - 2) / rewardStarsCount, barHeight - 2);
-//            batch.draw(cursorTexture, getX() + deltaX, getY() + 1);
-//        }
-//    }
 
     public void showFinger() {
 //        addActor(finger);

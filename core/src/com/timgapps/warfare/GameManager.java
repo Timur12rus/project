@@ -121,12 +121,15 @@ public class GameManager {
             // для теста
 //            coinsCount = 100;
             scoreCount = 0;
-            starsCount = 0;
+            starsCount = 55;
+//            starsCount = 0;
 
             savedGame.setCoinsCount(coinsCount);
             savedGame.setFoodCount(foodCount);
             savedGame.setIronCount(ironCount);
             savedGame.setWoodCount(woodCount);
+
+            savedGame.setStarsCount(starsCount);
 
 
             /** создадим КОМАНДУ - массив юнитов в команде */
@@ -170,8 +173,11 @@ public class GameManager {
         /** получим массив с ДАННЫМИ о наградах за звезды */
         rewardForStarsDataList = savedGame.getRewardForStarsDataList();
 
+        /** обновим индекс следующей награды за звезды */
+        updateIndexOfNextRewardStars();
+
         /** получим индекс следующей награды за звёзды */
-        indexOfNextRewardStars = savedGame.getIndexOfRewardStars();
+//        indexOfNextRewardStars = savedGame.getIndexOfRewardStars();
         System.out.println("IndexRewardForStars = " + indexOfNextRewardStars);
 
         /** получим кол-во звезд для следующей награды **/
@@ -419,16 +425,21 @@ public class GameManager {
     }
 
     // обновим индекс следующей награды за звезды
-    private void updateIndexOfNextRewardStars() {
-        if (indexOfNextRewardStars < rewardForStarsDataList.size() - 1) {
-            if (starsCount >= rewardForStarsDataList.get(indexOfNextRewardStars).getStarsCount()) {
-                indexOfNextRewardStars++;
-                savedGame.setIndexRewardStars(indexOfNextRewardStars);
+    public void updateIndexOfNextRewardStars() {
+        for (int indexOfNextRewardStars = 0; indexOfNextRewardStars < rewardForStarsDataList.size() - 1; indexOfNextRewardStars++) {
+            if (indexOfNextRewardStars < rewardForStarsDataList.size() - 1) {
+                if (starsCount >= rewardForStarsDataList.get(indexOfNextRewardStars).getStarsCount()) {
+                    indexOfNextRewardStars++;
+                    this.indexOfNextRewardStars = indexOfNextRewardStars;
+                }
+            } else {
+                isHaveFullRewardsForStars = true;       // игрок оплучил все награды за звезды
+                this.indexOfNextRewardStars = rewardForStarsDataList.size() - 1;
+                savedGame.setIsHaveFullRewardsForStars(true);
+                break;
             }
-        } else {
-            isHaveFullRewardsForStars = true;       // игрок оплучил все награды за звезды
-            savedGame.setIsHaveFullRewardsForStars(true);
         }
+        savedGame.setIndexRewardStars(indexOfNextRewardStars);
     }
 
     public int getIndexOfNextRewardStars() {
