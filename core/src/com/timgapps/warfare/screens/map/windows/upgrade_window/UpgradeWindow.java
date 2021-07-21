@@ -347,6 +347,8 @@ public class UpgradeWindow extends Group implements UpgradeEffectStarter {
      * скрываем окно апгрейда
      **/
     public void hideUpgradeWindow() {
+        teamScreen.redrawTeamTable();
+        teamScreen.redrawCollectionTable();
         unitImage.stopUpgradeEffect();           // останавливаем эффект апгрейда (звездочки)
 //        imageContainer.removeActor(unitImage);
         maxLevelReached.setVisible(false);

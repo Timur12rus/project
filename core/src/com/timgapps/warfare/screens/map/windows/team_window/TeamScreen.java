@@ -23,7 +23,7 @@ import com.timgapps.warfare.Warfare;
 import java.util.ArrayList;
 
 /**
- * Класс ЭКРАНА АПГРЕЙДА ИГРОВОЙ КОМАНДЫ
+ * Класс ЭКРАНА ИГРОВОЙ КОМАНДЫ
  **/
 
 // экран с командой и коллекцией юнитов
@@ -268,6 +268,10 @@ public class TeamScreen extends Group {
             /** обновим команду(team) и коллекцию (collection) и сохраним игру **/
             gameManager.updateTeam(team);
             gameManager.updateCollection();
+
+            // TODO исправить баг, нужно сначала убрать действия для значков
+//            redrawTeamTable();
+//            redrawCollectionTable();
 //            gameManager.updateCollection(unitCollection);
             // сохраним состояние игры
             gameManager.saveGame();
@@ -287,6 +291,9 @@ public class TeamScreen extends Group {
         /** обновим данные таблицы коллекции и перестроим её **/
         updateCollectionTable();
 
+        redrawTeamTable();
+        redrawCollectionTable();
+
         hideReplaceUnit();
 //        System.out.println("teamTable.get(0) = " + teamTable.getCell(team.get(0)));
     }
@@ -296,7 +303,9 @@ public class TeamScreen extends Group {
      **/
     private void updateTeamTable() {
         System.out.println("UpdateTeamTable()!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        teamTable.redraw(team);
+
+//        teamTable.redraw(team);
+
         Array<Cell> cells = teamTable.getCells();
         for (int i = 0; i < team.size(); i++) {
             System.out.println("team[" + i + "] = " + team.get(i).toString());
@@ -309,7 +318,9 @@ public class TeamScreen extends Group {
      * метод для обновления таблицы коллекции юнитов
      **/
     private void updateCollectionTable() {
-        collectionTable.redraw(unitCollection);
+
+//        collectionTable.redraw(unitCollection);
+
         Array<Cell> cells = collectionTable.getCells();
         System.out.println("UpdateCollectionTable()!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         for (int i = 0; i < unitCollection.size(); i++) {
