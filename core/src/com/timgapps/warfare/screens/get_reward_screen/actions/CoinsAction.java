@@ -16,13 +16,14 @@ public class CoinsAction {
     private Vector2 endPosition;
     private boolean isEnd;
 
-    public CoinsAction(StageGame stageGame, Vector2 startPosition) {
+    public CoinsAction(StageGame stageGame, Vector2 startPosition, Vector2 endPosition) {
         coinOne = new Image(Warfare.atlas.findRegion("coin_icon"));
         coinTwo = new Image(Warfare.atlas.findRegion("coin_icon"));
         coinThree = new Image(Warfare.atlas.findRegion("coin_icon"));
         coinFour = new Image(Warfare.atlas.findRegion("coin_icon"));
         coinFive = new Image(Warfare.atlas.findRegion("coin_icon"));
         this.startPosition = new Vector2(startPosition.x - 32, startPosition.y + 64);  // позиция coinsPanel
+        this.endPosition = endPosition;
 
         coinOne.setPosition(this.startPosition.x, this.startPosition.y);
         coinTwo.setPosition(this.startPosition.x, this.startPosition.y);
@@ -37,9 +38,9 @@ public class CoinsAction {
         stageGame.addChild(coinFive);
     }
 
-    public void setEndPosition(Vector2 endPosition) {
-        this.endPosition = endPosition;
-    }
+//    public void setEndPosition(Vector2 endPosition) {
+//        this.endPosition = endPosition;
+//    }
 
     // класс-действие для движения монет
     class MoveCoinAction {

@@ -3,6 +3,7 @@ package com.timgapps.warfare.screens.map.gui_elements;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.timgapps.warfare.GameManager;
@@ -66,25 +67,42 @@ public class StarsPanel extends Group {
     }
 
     // метод обновляет данные в пенели звезд (кол-во и следующую награду)
+    // TODO улучшить код!
     public void redraw() {
         starsCount = gameManager.getStarsCount();                               // кол-во звезд у игрока
-        System.out.println("starsCount = " + starsCount);
+//        System.out.println("starsCount = " + starsCount);
         gameManager.updateIndexOfNextRewardStars();
         indexOfNextRewardStars = gameManager.getIndexOfNextRewardStars();       // индекс следующей награды
+//        System.out.println("Index of reward stars in StarsPanel = " + indexOfNextRewardStars);
 
         /** если индекс следующей награды меньше индекса последней награды **/
-        if (indexOfNextRewardStars < rewardForStarsDataList.size() - 1) {
-            redrawRewardImage(rewardForStarsDataList.get(indexOfNextRewardStars).getTypeOfReward());
-            rewardStarsCount = rewardForStarsDataList.get(indexOfNextRewardStars).getStarsCount(); // необходимое кол-во звезд для плучения следующей награды
-            starsCountLabel.setText("" + starsCount + "/" + rewardStarsCount);
-        } else {
-            rewardIcon.setVisible(false);
-            rewardStarsCount = rewardForStarsDataList.get(rewardForStarsDataList.size() - 1).getStarsCount();
-            starsCountLabel.setText("" + starsCount + "/" + rewardStarsCount);
-        }
+//        if (indexOfNextRewardStars < rewardForStarsDataList.size() - 1) {
+
+        redrawRewardImage(rewardForStarsDataList.get(indexOfNextRewardStars).getTypeOfReward());
+        rewardStarsCount = rewardForStarsDataList.get(indexOfNextRewardStars).getStarsCount(); // необходимое кол-во звезд для плучения следующей награды
+        starsCountLabel.setText("" + starsCount + "/" + rewardStarsCount);
+
+//        } else {
+//            rewardIcon.setVisible(false);
+//            rewardStarsCount = rewardForStarsDataList.get(rewardForStarsDataList.size() - 1).getStarsCount();
+//            starsCountLabel.setText("" + starsCount + "/" + rewardStarsCount);
+//            indexOfNextRewardStars = rewardForStarsDataList.size() - 1;
+//        }
         starsBar.redraw();
-        System.out.println("StarsCount = " + starsCount);
-        System.out.println("RewardStarsCount = " + rewardStarsCount);
+//        System.out.println("StarsCount = " + starsCount);
+//        System.out.println("RewardStarsCount = " + rewardStarsCount);
+        // если все награды собраны, делаем панель со звездами невидидмыми
+        if (gameManager.isHaveFullRewardsForStars()) {
+            setVisible(false);
+            setTouchable(Touchable.disabled);
+            starsCountLabel.setVisible(false);
+            rewardIcon.setVisible(false);
+            starsBar.setVisible(false);
+            starIcon.setVisible(false);
+            background.setVisible(false);
+            textLabel.setVisible(false);
+            System.out.println("SetVisible = " + isVisible());
+        }
     }
 
     private void redrawRewardImage(int typeOfRewardForStars) {
@@ -98,13 +116,15 @@ public class StarsPanel extends Group {
                 break;
             case RewardForStarsData.REWARD_GNOME:
                 rewardSmallIcon = new Image(Warfare.atlas.findRegion("gnomeUnitImage"));
-
                 break;
             case RewardForStarsData.REWARD_BOX:
                 rewardSmallIcon = new Image(Warfare.atlas.findRegion("boxImage0"));
                 break;
             case RewardForStarsData.REWARD_KNIGHT:
                 rewardSmallIcon = new Image(Warfare.atlas.findRegion("knightUnitImage"));
+                break;
+            case RewardForStarsData.REWARD_VIKING:
+                rewardSmallIcon = new Image(Warfare.atlas.findRegion("vikingUnitImage"));
                 break;
             default:
                 rewardSmallIcon = new Image(Warfare.atlas.findRegion("rockUnitImage"));

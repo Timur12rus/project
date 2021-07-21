@@ -9,7 +9,7 @@ import com.timgapps.warfare.GameManager;
 /**
  * класс индикатор количество звезд до награды, полоса
  **/
-class StarsBar extends Actor {
+public class StarsBar extends Actor {
     private Texture cursorTexture;
     private float deltaX = 0;
     private Texture barTexture, backTexture;

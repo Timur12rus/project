@@ -39,6 +39,7 @@ public class FlashEffect {
         this.gameManager = gameManager;
         createBackgroundTexture();
         imageString = gameManager.getRewardForStarsDataList().get(indexOfReward).getImageString();
+        System.out.println();
 
         rewardImage = new Image(Warfare.atlas.findRegion(imageString));
 //        rewardImage = new Image(Warfare.atlas.findRegion("gnomeUnitImage"));

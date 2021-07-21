@@ -22,13 +22,36 @@ public class GetRewardScreen extends StageGame implements ScreenCloser {
         this.gameManager = gameManager;
         coinsPanel = gameManager.getCoinsPanel();
         coinsPanel.redraw();
-        for (int i = 0; i < gameManager.getRewardForStarsDataList().size() - 1; i++) {
-            if (gameManager.getStarsCount() >= gameManager.getRewardForStarsDataList().get(i).getStarsCount() &&
-                    !gameManager.getRewardForStarsDataList().get(i).isReceived()) {     // если звезд больше, чем нужно для награды
-                getRewardForStars(gameManager.getRewardForStarsDataList().get(i));
-                gameManager.getRewardForStarsDataList().get(i).setReceived();
-                indexOfReward = i;
+
+        // TODO
+//
+//        for (int i = 0; i < gameManager.getRewardForStarsDataList().size() - 1; i++) {
+//            if (gameManager.getStarsCount() >= gameManager.getRewardForStarsDataList().get(i).getStarsCount() &&
+//                    !gameManager.getRewardForStarsDataList().get(i).isReceived()) {     // если звезд больше, чем нужно для награды
+//                getRewardForStars(gameManager.getRewardForStarsDataList().get(i));
+//                gameManager.getRewardForStarsDataList().get(i).setReceived();
+//                indexOfReward = i;
+////                System.out.println("Index of reward in GetRewardScreen = " + indexOfReward);
+//            }
+//        }
+
+        int indexOfRewardStars = 0;
+        int index = 0;
+        while (index <= gameManager.getRewardForStarsDataList().size() - 1) {
+            // если текущее кол-во звезд >= кол-ва звезд награды с текущим индексом
+            if (gameManager.getStarsCount() >= gameManager.getRewardForStarsDataList().get(indexOfRewardStars).getStarsCount()) {
+                gameManager.getRewardForStarsDataList().get(indexOfRewardStars).setReceived();
+                indexOfReward = indexOfRewardStars;
+                getRewardForStars(gameManager.getRewardForStarsDataList().get(indexOfReward));
+                indexOfRewardStars++;
+                System.out.println("indexOfReward!!! = " + indexOfRewardStars);
             }
+            index++;
+        }
+        int indexLastReward = gameManager.getRewardForStarsDataList().size() - 1;
+        if (gameManager.getStarsCount() >= gameManager.getRewardForStarsDataList().get(indexLastReward).getStarsCount()) {
+            indexOfReward = indexLastReward;
+//            gameManager.isHaveFullRewardsForStars();
         }
         gameManager.saveGame();
         backButton = new BackButton(this);
@@ -137,6 +160,7 @@ public class GetRewardScreen extends StageGame implements ScreenCloser {
             flashEffect = new FlashEffect(this, gameManager, indexOfReward,
                     new Vector2(getWidth() / 2, getHeight() / 2));
             flashEffect.start();
+            System.out.println("Index of reward in GetRewardScreen = " + indexOfReward);
         } else {
             flashEffect = new BoxFlashEffect(this, gameManager, indexOfReward,
                     new Vector2(getWidth() / 2, getHeight() / 2));

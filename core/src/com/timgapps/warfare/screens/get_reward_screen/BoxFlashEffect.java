@@ -90,8 +90,8 @@ public class BoxFlashEffect extends FlashEffect {
         // анимация появления монет и их движения к панели монет
 
         // начало действия анимации открытия ящика
-        final CoinsAction coinsAction = new CoinsAction(stageGame, position);
-        coinsAction.setEndPosition(gameManager.getCoinsPanel().getPos());
+        final CoinsAction coinsAction = new CoinsAction(stageGame, position, gameManager.getCoinsPanel().getPos());
+//        coinsAction.setEndPosition(gameManager.getCoinsPanel().getPos());
         final ResourcesAction resourcesAction = new ResourcesAction(stageGame, position);
         Action startCoinsAction = new Action() {
             @Override
