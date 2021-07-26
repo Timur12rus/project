@@ -416,11 +416,13 @@ public class LevelScreen extends StageGame {
     public void show() {
         super.show();
         build(levelNumber);
+//        Warfare.media.playMusic("battleMusic1.ogg", false);
+    }
+
+    public void showBraveryMessage() {
         if (gameManager.getHelpStatus() == GameHelper.HELP_UNIT_CREATE) {
             gameHelper.showBravery();
         }
-
-//        Warfare.media.playMusic("battleMusic1.ogg", false);
     }
 
     public void createPlayerUnit(PlayerUnits unitId) {

@@ -94,9 +94,17 @@ public class UnitButtons extends Group {
 
     // метод добавляет кнопки юнитов в соответствии с командой
     void addUnitButtons() {
-        for (TeamUnit teamUnit : team) {
+        for (final TeamUnit teamUnit : team) {
             if (teamUnit.getUnitData().getUnitId() != PlayerUnits.Rock) {
-                unitButtonArrayList.add(new CreateUnitButton(levelScreen, teamUnit.getUnitData()));
+                unitButtonArrayList.add(new CreateUnitButton(levelScreen, teamUnit.getUnitData()) {
+                    @Override
+                    public void setActive() {
+                        super.setActive();
+                        if (teamUnit.getUnitData().getUnitId() == PlayerUnits.Thor) {
+                            levelScreen.showBraveryMessage();       // показываем сообщение с информацией о "храбрости"
+                        }
+                    }
+                });
             } else {
                 if (teamUnit.getUnitData().getUnitId() == PlayerUnits.Rock) {
                     stoneButton = new StoneButton(levelScreen, teamUnit.getUnitData());
