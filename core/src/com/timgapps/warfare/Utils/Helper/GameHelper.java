@@ -1,0 +1,100 @@
+package com.timgapps.warfare.Utils.Helper;
+
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.timgapps.warfare.GameManager;
+import com.timgapps.warfare.screens.level.LevelScreen;
+
+// класс помощ в игре
+public class GameHelper implements HelpInterface {
+    public static final int BRAVERY = 0;
+    public static final int HELP_UNIT_CREATE = 1;
+    public static final int HELP_STARS_PANEL = 2;
+    public static final int HELP_TEAM_UPGRADE = 3;
+    public static final int HELP_GET_GIFT = 4;
+    public static final int FINAL_WAVE_MONSTERS = 5;        // финальная волна монстров
+    public static final int NONE = 6;
+    private int status = HELP_UNIT_CREATE;
+    private GameManager gameManager;
+    private LevelScreen levelScreen;
+    private boolean isShowBravey;
+    private boolean isShowMassage;
+
+    public GameHelper(LevelScreen levelScreen, GameManager gameManager) {
+        this.levelScreen = levelScreen;
+        this.gameManager = gameManager;
+        getHelperStatus();
+    }
+
+    // возвращает сохраненный текущий статус
+    private int getHelperStatus() {
+        gameManager.getHelpStatus();
+        return status;
+    }
+
+    public boolean isShowBravey() {
+        return isShowBravey;
+    }
+
+    public boolean isShowMessage() {
+        return isShowMassage;
+    }
+
+    // устанавливает следующий статус
+    private void setNextStatus(int status) {
+        gameManager.setHelpStatus(status);
+    }
+
+    // метод показывает подсказку "очки храбрости"
+    @Override
+    public void showBravery() {
+        levelScreen.setState(LevelScreen.PAUSED);
+        isShowMassage = true;       // флаг, сообщение показано
+        isShowBravey = true;        // флаг, окно показано
+        levelScreen.showFade();
+        BraveryMessage braveryMessage = new BraveryMessage(levelScreen, this);
+        levelScreen.addOverlayChild(braveryMessage);
+        braveryMessage.setPosition((levelScreen.getWidth() - braveryMessage.getWidth()) / 2,
+                (levelScreen.getHeight() - braveryMessage.getHeight()) / 2 + 64);
+
+    }
+
+    @Override
+    public void hideBravery(Actor actor) {
+        isShowMassage = false;       // флаг, сообщение показано
+        levelScreen.hideFade();
+        actor.remove();
+//        levelScreen.removeOverlayChild(actor);
+        levelScreen.setState(LevelScreen.PLAY);
+        setNextStatus(status++);
+        gameManager.setHelpStatus(status);
+    }
+
+
+    // метод показывает подсказку "создат юнита"
+    @Override
+    public void showCreateUnit() {
+
+    }
+
+    @Override
+    public void hideCreateUnit() {
+
+    }
+
+    // метод показывает подсказку "передвинь камень на вражеского юнита"
+    @Override
+    public void showCreateStone() {
+
+    }
+
+    @Override
+    public void hideCreateStone() {
+
+    }
+
+    // метод показывает подсказку "финальная волна"
+    @Override
+    public void showFinalWave() {
+
+    }
+}

@@ -66,10 +66,11 @@ public class UnitButtons extends Group {
         setStoneButtonPosX(this.getX() + stoneButtonPosX);
         setFireBoosterButtonPosX(this.getX() + fireBoosterPosX);
         System.out.println("UnitButtons getX() = " + this.getX());
+        this.setVisible(true);
     }
 
     public void show() {
-        redraw();       // обновляем кнопки вызова юнитов
+//        redraw();       // обновляем кнопки вызова юнитов
         this.setVisible(true);
     }
 

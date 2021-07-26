@@ -340,8 +340,8 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper, Roun
 
 //        gameManager.setHelpStatus(GameManager.HELP_TEAM_UPGRADE);
 
-        int helpStatus = gameManager.getHelpStatus();     // получим статус обучалки
-        checkHelpStatus(helpStatus);
+//        int helpStatus = gameManager.getHelpStatus();     // получим статус обучалки
+//        checkHelpStatus(helpStatus);
 
         /** создадим окно апргейда команды и передаём информацию о составе команды(manager)**/
         teamScreen = new TeamScreen(gameManager);
@@ -816,18 +816,18 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper, Roun
         rewardVideoWindow.hide();
         isFocused = true;
         showButtons();
-        checkHelpStatus(gameManager.getHelpStatus());
+//        checkHelpStatus(gameManager.getHelpStatus());
     }
 
 // TODO showAddCoinAnimation() !~!!!!!!!!!!!!!!
 
-    private void checkHelpStatus(int helpStatus) {
-        if (helpStatus == GameManager.HELP_STARS_PANEL) {
-            starsPanel.showFinger();
-            gameManager.setHelpStatus(GameManager.HELP_TEAM_UPGRADE);
-            starsPanel.hideFinger();
-        }
-    }
+//    private void checkHelpStatus(int helpStatus) {
+//        if (helpStatus == GameManager.HELP_STARS_PANEL) {
+//            starsPanel.showFinger();
+//            gameManager.setHelpStatus(GameManager.HELP_TEAM_UPGRADE);
+//            starsPanel.hideFinger();
+//        }
+//    }
 
     private void showAddCoinsAnimation() {
     }

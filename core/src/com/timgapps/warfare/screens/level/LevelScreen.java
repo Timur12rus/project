@@ -19,6 +19,8 @@ import com.badlogic.gdx.utils.Array;
 import com.boontaran.MessageListener;
 import com.boontaran.games.StageGame;
 import com.timgapps.warfare.Units.GameUnits.unitTypes.EnemyUnits;
+import com.timgapps.warfare.Utils.Helper.GameHelper;
+import com.timgapps.warfare.Utils.Helper.HelpInterface;
 import com.timgapps.warfare.screens.level.background.BackgroundBuilder;
 import com.timgapps.warfare.screens.level.gui_elements.UnitButtons;
 import com.timgapps.warfare.screens.level.timer.MonsterTimer;
@@ -101,6 +103,8 @@ public class LevelScreen extends StageGame {
     private RewardVideoButtonController rewardVideoButtonController;
 //    private BoosterButton boosterButton;
 
+    private GameHelper gameHelper;
+
     // метод строит уровень
     public void build(int levelNumber) {
 
@@ -110,6 +114,7 @@ public class LevelScreen extends StageGame {
         System.out.println("ViewPortHeight = " + stage.getViewport().getScreenHeight());
         System.out.println("V_WIDTH = " + Warfare.V_WIDTH);
         System.out.println("V_HEIGHT = " + Warfare.V_HEIGHT);
+
 
 //        stage.getViewport().update(Warfare.V_WIDTH, Warfare.V_HEIGHT, true);
 
@@ -149,8 +154,8 @@ public class LevelScreen extends StageGame {
         barricade = new Barricade(this, Barricade.ROCKS);
         siegeTower = new SiegeTower(this, -48, 270, gameManager.getTowerHealth(), 2);
         state = PLAY;
-        fade.setVisible(false);
-        unitButtons.show();      // кнопки юитов делаем видимыми
+        hideFade();
+        unitButtons.redraw();      // кнопки юитов делаем видимыми
 //        tableUnitButtons.setVisible(true);      // кнопки юитов делаем невидимыми
         hud.redraw();
 
@@ -211,6 +216,16 @@ public class LevelScreen extends StageGame {
 //        monsterTimer.reset();
     }
 
+    public void hideFade() {
+        fade.setVisible(false);
+        unitButtons.show();
+    }
+
+    public void showFade() {
+        fade.setVisible(true);
+        unitButtons.hide();
+    }
+
     private float getScreenScale() {
         if (getWidth() / getHeight() > (float) appWidth / (float) appHeight) {
             return getWidth() / appWidth;
@@ -238,6 +253,9 @@ public class LevelScreen extends StageGame {
         this.rewardVideoButtonController = rewardVideoButtonController;
         backgroundBuilder = new BackgroundBuilder();
 
+        // класс для создания подсказок в игре
+        gameHelper = new GameHelper(this, gameManager);
+
         shapeRenderer = new ShapeRenderer();
 
 //        System.out.println("Level Number " + levelNumber);
@@ -262,7 +280,7 @@ public class LevelScreen extends StageGame {
 
 
         fade = new ColorRectangle(0, 0, getWidth(), getHeight(), new Color(0, 0, 0, 0.7f));
-        fade.setVisible(false);
+//        hideFade();
         addOverlayChild(fade);
         unitCreator = new UnitCreator(this);
 
@@ -334,23 +352,25 @@ public class LevelScreen extends StageGame {
 
 //        unitButtons.show();
         addOverlayChild(unitButtons);
+        hideFade();
+
         // добавим указатель "ПАЛЕЦ"
-        if (levelNumber == 1) {
-            /** если статус обучалки "как создать юнит", то создадим указатель **/
-            if (gameManager.getHelpStatus() == gameManager.HELP_UNIT_CREATE) {
-                finger = new Finger(unitButtons.getX() + (unitButtonWidth / 2 - Finger.WIDTH / 2) + 48 + 36,
-                        unitButtons.getY() + unitButtonHeight + 16 + Finger.HEIGHT,
-                        Finger.DOWN, new TextureRegion(Warfare.atlas.findRegion("fingerUpRight")));
-                finger.debug();
-                float x = unitButtons.getX() + (unitButtonWidth - Finger.WIDTH) / 2 + 48 + 36;
-                float y = unitButtons.getY() + unitButtonHeight + 16 + Finger.HEIGHT;
-                finger.setPosition(x, y);
-                addChild(finger);
-                finger.setVisible(false);
-            }
-        } else {
-            finger = null;
-        }
+//        if (levelNumber == 1) {
+//            /** если статус обучалки "как создать юнит", то создадим указатель **/
+//            if (gameManager.getHelpStatus() == gameManager.HELP_UNIT_CREATE) {
+//                finger = new Finger(unitButtons.getX() + (unitButtonWidth / 2 - Finger.WIDTH / 2) + 48 + 36,
+//                        unitButtons.getY() + unitButtonHeight + 16 + Finger.HEIGHT,
+//                        Finger.DOWN, new TextureRegion(Warfare.atlas.findRegion("fingerUpRight")));
+//                finger.debug();
+//                float x = unitButtons.getX() + (unitButtonWidth - Finger.WIDTH) / 2 + 48 + 36;
+//                float y = unitButtons.getY() + unitButtonHeight + 16 + Finger.HEIGHT;
+//                finger.setPosition(x, y);
+//                addChild(finger);
+//                finger.setVisible(false);
+//            }
+//        } else {
+//            finger = null;
+//        }
 //        siegeTower.setHealth(30);
         pausedScreen = new PauseScreen(this);
         pausedScreen.addListener(new MessageListener() {
@@ -396,6 +416,10 @@ public class LevelScreen extends StageGame {
     public void show() {
         super.show();
         build(levelNumber);
+        if (gameManager.getHelpStatus() == GameHelper.HELP_UNIT_CREATE) {
+            gameHelper.showBravery();
+        }
+
 //        Warfare.media.playMusic("battleMusic1.ogg", false);
     }
 
@@ -687,9 +711,9 @@ public class LevelScreen extends StageGame {
 //        if (!pausedScreen.isVisible()) {
 //            pausedScreen.setVisible(true);
 //        }
-        fade.setVisible(true);
+        showFade();
 //        tableUnitButtons.setVisible(false); // кнопки юитов делаем невидимыми
-        unitButtons.hide();
+//        unitButtons.hide();
     }
 
     // метод для удаления указателя "палец"
@@ -701,8 +725,8 @@ public class LevelScreen extends StageGame {
     // скрывает экран паузы
     public void hidePauseScreen() {
         pausedScreen.setVisible(false);
-        fade.setVisible(false);
-        unitButtons.setVisible(true); // кнопки юитов делаем видимыми
+        hideFade();
+//        unitButtons.setVisible(true); // кнопки юитов делаем видимыми
     }
 
     // скрывает экран завершения уровня
@@ -711,19 +735,21 @@ public class LevelScreen extends StageGame {
     }
 
     private void pauseLevel(boolean withDialog) {
-//        if (state == PAUSED ) return;
-        if (state != PLAY) return;
-        state = PAUSED;
+//        if (state != PLAY) return;
+        setState(PAUSED);
+        // если сообщение с подсказкой не показано на экране, выводим экран паузы
+        if (!gameHelper.isShowMessage()) {
+            if (!isPausedScreenStart && isPausedScreenHide) {
+                isPausedScreenStart = true;
+                if (withDialog) {
+                    addOverlayChild(pausedScreen);
+                    showPausedScreen();
+                }
+                isPausedScreenHide = false;
+                call(ON_PAUSED);
+            } else return;
+        }
 
-        if (!isPausedScreenStart && isPausedScreenHide) {
-            isPausedScreenStart = true;
-            if (withDialog) {
-                addOverlayChild(pausedScreen);
-                showPausedScreen();
-            }
-            isPausedScreenHide = false;
-            call(ON_PAUSED);
-        } else return;
     }
 
     @Override
@@ -743,8 +769,8 @@ public class LevelScreen extends StageGame {
         // скрываем значок таймера волны монстров, если он на экране
         hideMonsterTimer();
         state = LEVEL_FAILED;
-        fade.setVisible(true);         // затемняем задний план
-        unitButtons.hide();
+        showFade();        // затемняем задний план
+//        unitButtons.hide();
 //        tableUnitButtons.setVisible(false); // кнопки юитов делаем невидимыми
         hud.hideEnergyPanel();
         monsterTimer.hide();
@@ -760,8 +786,8 @@ public class LevelScreen extends StageGame {
         Warfare.media.stopMusic("battleMusic1.ogg");
 //        Warfare.media.playMusic("victory.ogg", false);
         isCompleted = true;
-        fade.setVisible(true);     // затемняем задний план
-        unitButtons.hide();
+        showFade();    // затемняем задний план
+//        unitButtons.hide();
         hud.hideEnergyPanel();
         rewardVideoButtonController.showRewardVideoButton();  // покажем кнопку для показа видеорекламы
 
@@ -792,9 +818,9 @@ public class LevelScreen extends StageGame {
         // сохраним номер текущего завершенного уровня (это будет пока последний завершенный уровень)
         gameManager.setLastCompletedLevelNum(levelNumber);
         gameManager.saveGame();
-        if (levelNumber == 1) {
-            gameManager.setHelpStatus(GameManager.HELP_STARS_PANEL);
-        }
+//        if (levelNumber == 1) {
+//            gameManager.setHelpStatus(GameManager.HELP_STARS_PANEL);
+//        }
         float towerHealth = siegeTower.getHealth();         // кол-во здоровья у башни после окончания уровня
         float fullTowerHealth = siegeTower.getFullHealth(); // кол-во полного здоровья у башни
         levelCreator.showLevelCompletedScreen(starsCount, towerHealth / fullTowerHealth * 100);
@@ -822,6 +848,7 @@ public class LevelScreen extends StageGame {
         removeOverlayChild(screen);
     }
 
+    // устанавливает текущий статус игры (пауза или игра и т.д.)
     public void setState(int state) {
         this.state = state;
     }
@@ -882,5 +909,16 @@ public class LevelScreen extends StageGame {
 //        System.out.println("Hide!!!");
         stage.clear();
 //        for (Actor actor : stage.clear();)
+    }
+
+
+    @Override
+    public void addOverlayChild(Actor actor) {
+        super.addOverlayChild(actor);
+    }
+
+    @Override
+    public void removeOverlayChild(Actor actor) {
+        super.removeOverlayChild(actor);
     }
 }

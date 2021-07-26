@@ -41,7 +41,7 @@ back_forest_image
   index: -1
 barbarianAttack0
   rotate: false
-  xy: 1808, 276
+  xy: 1812, 276
   size: 153, 132
   orig: 153, 132
   offset: 0, 0
@@ -137,6 +137,13 @@ boxImage5
   orig: 128, 115
   offset: 0, 0
   index: -1
+bravelImage
+  rotate: false
+  xy: 1528, 274
+  size: 182, 48
+  orig: 182, 48
+  offset: 0, 0
+  index: -1
 button_close
   rotate: false
   xy: 1478, 574
@@ -167,14 +174,14 @@ button_ok_big_dwn
   index: -1
 coinIcon_new
   rotate: false
-  xy: 1528, 274
+  xy: 1712, 274
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 2
 coin_icon
   rotate: false
-  xy: 1578, 274
+  xy: 1762, 274
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
@@ -186,16 +193,9 @@ div_line
   orig: 679, 55
   offset: 0, 0
   index: -1
-energyIcon
-  rotate: false
-  xy: 1770, 274
-  size: 36, 48
-  orig: 36, 48
-  offset: 0, 0
-  index: -1
 energyIcon_box
   rotate: false
-  xy: 1963, 346
+  xy: 1967, 346
   size: 68, 62
   orig: 68, 62
   offset: 0, 0
@@ -258,16 +258,9 @@ fireRock
   index: -1
 food_icon
   rotate: false
-  xy: 1963, 280
+  xy: 1967, 280
   size: 64, 64
   orig: 64, 64
-  offset: 0, 0
-  index: -1
-isReceived
-  rotate: false
-  xy: 1628, 274
-  size: 48, 48
-  orig: 48, 48
   offset: 0, 0
   index: -1
 knightAttack0
@@ -326,13 +319,6 @@ line
   orig: 120, 32
   offset: 0, 0
   index: -1
-lockIcon
-  rotate: false
-  xy: 1728, 274
-  size: 40, 48
-  orig: 40, 48
-  offset: 0, 0
-  index: -1
 road_image
   rotate: false
   xy: 2, 937
@@ -345,13 +331,6 @@ rock_middle
   xy: 1965, 1967
   size: 79, 78
   orig: 79, 78
-  offset: 0, 0
-  index: -1
-score_icon
-  rotate: false
-  xy: 1678, 274
-  size: 48, 48
-  orig: 48, 48
   offset: 0, 0
   index: -1
 shooterAttack0
@@ -885,6 +864,13 @@ iron_icon
   orig: 64, 64
   offset: 0, 0
   index: -1
+isReceived
+  rotate: false
+  xy: 1014, 7
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
 knightAttack3
   rotate: false
   xy: 698, 173
@@ -1046,6 +1032,13 @@ levelIcon_active_down
   orig: 98, 98
   offset: 0, 0
   index: -1
+lockIcon
+  rotate: false
+  xy: 652, 43
+  size: 40, 48
+  orig: 40, 48
+  offset: 0, 0
+  index: -1
 monstersIcon
   rotate: false
   xy: 1931, 807
@@ -1142,6 +1135,13 @@ scorePanel
   xy: 1854, 45
   size: 180, 58
   orig: 180, 58
+  offset: 0, 0
+  index: -1
+score_icon
+  rotate: false
+  xy: 1993, 1203
+  size: 48, 48
+  orig: 48, 48
   offset: 0, 0
   index: -1
 shooterAttack1
@@ -1771,6 +1771,13 @@ unitButtonDark
   xy: 1923, 846
   size: 96, 104
   orig: 96, 104
+  offset: 0, 0
+  index: -1
+energyIcon
+  rotate: false
+  xy: 308, 24
+  size: 36, 48
+  orig: 36, 48
   offset: 0, 0
   index: -1
 ent1Attack1

@@ -5,6 +5,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.boontaran.DataManager;
+import com.timgapps.warfare.Utils.Helper.GameHelper;
 import com.timgapps.warfare.Utils.Setting;
 import com.timgapps.warfare.screens.map.gui_elements.CoinsPanel;
 import com.timgapps.warfare.screens.map.gui_elements.Geom;
@@ -87,7 +88,7 @@ public class GameManager {
         // если сохранения нет(запускает игру впервый раз), null, то создадим объект для схранниения игры и создадим объект "КОМАНДА" team
         if (savedGame == null) {
             savedGame = new SavedGame();
-            savedGame.setHelpStatus(GameManager.HELP_UNIT_CREATE);      // установим статус обучалки - "создание юнита"
+            setHelpStatus(GameHelper.HELP_UNIT_CREATE);
 
             // зададим положение камеры и сохраним ее значение в savedGame
 //            cameraPosition.set(Warfare.V_WIDTH / 2, Warfare.V_HEIGHT / 2);
@@ -267,6 +268,7 @@ public class GameManager {
 
     public void setHelpStatus(int status) {
         savedGame.setHelpStatus(status);
+        saveGame();
     }
 
     /**

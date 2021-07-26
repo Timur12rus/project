@@ -63,6 +63,12 @@ public class ColorButton extends Group {
                 bgDown.setVisible(false);
                 super.touchUp(event, x, y, pointer, button);
             }
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                click();
+                super.clicked(event, x, y);
+            }
         });
     }
 
@@ -80,6 +86,10 @@ public class ColorButton extends Group {
 
                 break;
         }
+    }
+
+    public void click() {
+        // кнопка нажата
     }
 
     public void setButtonWidth(float scale) {

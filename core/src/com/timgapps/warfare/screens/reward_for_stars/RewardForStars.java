@@ -116,20 +116,20 @@ public class RewardForStars extends Group {
         rewardCountStars = starsNum;
         addActor(bg);                             // добавим фон для группы (прямоугольник)
 
-        if (typeOfReward == RewardForStarsData.REWARD_STONE) {
-            finger = new Finger(rewardImage.getX() + (rewardImage.getWidth() / 2 - Finger.WIDTH / 2) + 108,
-                    rewardImage.getY() + rewardImage.getHeight() + 42 + Finger.HEIGHT,
-                    Finger.DOWN, new TextureRegion(Warfare.atlas.findRegion("fingerUpLeft")));
-            finger.debug();
-            float x = rewardImage.getX() + (rewardImage.getWidth() / 2 - Finger.WIDTH / 2) + 108;
-            float y = rewardImage.getY() + rewardImage.getHeight() + 42 + Finger.HEIGHT;
-            finger.setPosition(x, y);
-            finger.setVisible(false);
-            addActor(finger);
-            if (gameManager.getHelpStatus() == GameManager.HELP_STARS_PANEL) {
-                finger.show();
-            }
-        }
+//        if (typeOfReward == RewardForStarsData.REWARD_STONE) {
+//            finger = new Finger(rewardImage.getX() + (rewardImage.getWidth() / 2 - Finger.WIDTH / 2) + 108,
+//                    rewardImage.getY() + rewardImage.getHeight() + 42 + Finger.HEIGHT,
+//                    Finger.DOWN, new TextureRegion(Warfare.atlas.findRegion("fingerUpLeft")));
+//            finger.debug();
+//            float x = rewardImage.getX() + (rewardImage.getWidth() / 2 - Finger.WIDTH / 2) + 108;
+//            float y = rewardImage.getY() + rewardImage.getHeight() + 42 + Finger.HEIGHT;
+//            finger.setPosition(x, y);
+//            finger.setVisible(false);
+//            addActor(finger);
+////            if (gameManager.getHelpStatus() == GameManager.HELP_STARS_PANEL) {
+////                finger.show();
+////            }
+//        }
 
         if (data.isReceived()) {         // если награда получена
             receivedImg.setVisible(true);
