@@ -93,9 +93,6 @@ public class CreateUnitButton extends UnitImageButton {
             if (playerUnitData.getUnitId() != PlayerUnits.Firebooster) {
                 levelScreen.createPlayerUnit(playerUnitData.getUnitId());
             }
-//            else {
-//                new FireRockShoot1(levelScreen);
-//            }
         }
     }
 

@@ -88,7 +88,7 @@ public class GameManager {
         // если сохранения нет(запускает игру впервый раз), null, то создадим объект для схранниения игры и создадим объект "КОМАНДА" team
         if (savedGame == null) {
             savedGame = new SavedGame();
-            setHelpStatus(GameHelper.HELP_UNIT_CREATE);
+            setHelpStatus(GameHelper.BRAVERY);
 
             // зададим положение камеры и сохраним ее значение в savedGame
 //            cameraPosition.set(Warfare.V_WIDTH / 2, Warfare.V_HEIGHT / 2);

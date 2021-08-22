@@ -21,18 +21,18 @@ public class BraveryMessage extends Group {
 
     public BraveryMessage(LevelScreen levelScreen, final GameHelper gameHelper) {
         // TODO поменять цвает фона
-        float messageBgWidth = 400;
-        float messageBgHeight = 300;
+        float messageBgWidth = 520;
+        float messageBgHeight = 400;
         messageBg = new ColorRectangle(0, 0, 520, 400, new Color(Color.LIGHT_GRAY));
 //        messageBg.setPosition((levelScreen.getWidth() - messageBgWidth) / 2,
 //                (levelScreen.getHeight() - messageBgHeight) / 2);
         setSize(messageBg.getWidth(), messageBg.getHeight());
 
-        Label.LabelStyle labelStyle = new com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle();
+        Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.fontColor = Color.DARK_GRAY;
         labelStyle.font = Warfare.font30;
         bravelLabel = new Label("Bravel", labelStyle);
-        infoLabel = new Label("Bravel nakaplivaets avtomaticheski \n Ispolzuite dlia naima unitov", labelStyle);
+        infoLabel = new Label("Bravel nakaplivaetsia avtomaticheski \n Ispolzuite dlia naima unitov", labelStyle);
         bravelImage = new Image(Warfare.atlas.findRegion("bravelImage"));
 
         bravelLabel.setPosition((getWidth() - bravelLabel.getWidth()) / 2,

@@ -157,10 +157,10 @@ public class GetRewardScreen extends StageGame implements ScreenCloser {
         backButton.addAction(Actions.fadeOut(0));
         if (gameManager.getRewardForStarsDataList().get(indexOfReward).getTypeOfReward() != RewardForStarsData.REWARD_BOX) {
 //        if (indexOfReward != 2) {
+            System.out.println("Index of reward in GetRewardScreen = " + indexOfReward);
             flashEffect = new FlashEffect(this, gameManager, indexOfReward,
                     new Vector2(getWidth() / 2, getHeight() / 2));
             flashEffect.start();
-            System.out.println("Index of reward in GetRewardScreen = " + indexOfReward);
         } else {
             flashEffect = new BoxFlashEffect(this, gameManager, indexOfReward,
                     new Vector2(getWidth() / 2, getHeight() / 2));

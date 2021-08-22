@@ -1,4 +1,4 @@
-package com.timgapps.warfare.screens.level;
+package com.timgapps.warfare.Utils.Helper;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.boontaran.games.StageGame;
 import com.timgapps.warfare.Warfare;
+import com.timgapps.warfare.screens.level.LevelScreen;
 
 public class Finger extends Image {
     private float x, y;
@@ -25,13 +26,15 @@ public class Finger extends Image {
     private int orientation;
     private RepeatAction repeatAction;
     private boolean isStarted = false;
+    private LevelScreen levelScreen;
 
-    public Finger(float x, float y, int orientation, TextureRegion textureRegion) {
+    public Finger(LevelScreen levelScreen, float x, float y, int orientation, TextureRegion textureRegion) {
         super(textureRegion);
-
+        this.levelScreen = levelScreen;
         this.x = x;
         this.y = y;
         this.orientation = orientation;
+        setSize(textureRegion.getRegionWidth(), textureRegion.getRegionHeight());
         float angleRotation = 0;
 
         MoveToAction actionOne = new MoveToAction();
@@ -85,7 +88,9 @@ public class Finger extends Image {
 
     // метод для отображения "пальца-указателя"
     public void show() {
-        if (!isVisible()) setVisible(true);
+        if (!isVisible()) {
+            setVisible(true);
+        }
         if (!isStarted) {
             isStarted = true;
             addAction(repeatAction);
@@ -94,7 +99,20 @@ public class Finger extends Image {
 
     // метод для скрытия "пальца-указателя"
     public void hide() {
-        if (isVisible()) setVisible(false);
+        if (isVisible()) {
+            setVisible(false);
+        }
     }
 
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+        if (levelScreen.getState() != LevelScreen.PLAY) {
+            if (isVisible()) {
+                hide();
+            }
+        } else {
+            show();
+        }
+    }
 }

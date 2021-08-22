@@ -1,7 +1,6 @@
 package com.timgapps.warfare.screens.reward_for_stars;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -10,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.timgapps.warfare.Utils.StringHolder;
-import com.timgapps.warfare.screens.level.Finger;
+import com.timgapps.warfare.Utils.Helper.Finger;
 import com.timgapps.warfare.GameManager;
 import com.timgapps.warfare.Warfare;
 import com.timgapps.warfare.screens.reward_for_stars.gui_elements.Hilite;

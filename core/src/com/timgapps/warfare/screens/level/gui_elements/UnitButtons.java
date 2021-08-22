@@ -23,7 +23,6 @@ public class UnitButtons extends Group {
     private float width, height;
 
     public UnitButtons(LevelScreen levelScreen, ArrayList<TeamUnit> team) {
-//        super();
         this.team = team;
         this.levelScreen = levelScreen;
         unitButtonArrayList = new ArrayList<UnitImageButton>();
@@ -103,6 +102,18 @@ public class UnitButtons extends Group {
                         if (teamUnit.getUnitData().getUnitId() == PlayerUnits.Thor) {
                             levelScreen.showBraveryMessage();       // показываем сообщение с информацией о "храбрости"
                         }
+//                        if (teamUnit.getUnitData().getUnitId() == PlayerUnits.Thor) {
+//                            levelScreen.getGameHelper().showCreateUnit();       // показываем подсказку с "пальцем"
+//                        }
+                    }
+
+                    @Override
+                    public void setInActive() {
+                        super.setInActive();
+                        // если юнит == Thor, то скрываем подсказку о саздании юнита
+//                        if (teamUnit.getUnitData().getUnitId() == PlayerUnits.Thor) {
+//                            levelScreen.getGameHelper().hideCreateUnit();
+//                        }
                     }
                 });
             } else {
@@ -110,19 +121,7 @@ public class UnitButtons extends Group {
                     stoneButton = new StoneButton(levelScreen, teamUnit.getUnitData());
                     unitButtonArrayList.add(stoneButton);
                 }
-//                if (teamUnit.getUnitData().getUnitId() == PlayerUnits.Firebooster) {
-//                    fireBoosterButton = new FireBoosterButton(levelScreen, teamUnit.getUnitData());
-//                    unitButtonArrayList.add(fireBoosterButton);
-//                }
             }
-//            if (teamUnit.getUnitId() != PlayerUnits.Rock) {
-//                this.addListener(new ClickListener() {
-//                    @Override
-//                    public void clicked(InputEvent event, float x, float y) {
-//                        super.clicked(event, x, y);
-//                    }
-//                });
-//            }
         }
         if (levelScreen.getGameManager().isHaveFireBooster()) {
             if (fireBoosterButton == null) {

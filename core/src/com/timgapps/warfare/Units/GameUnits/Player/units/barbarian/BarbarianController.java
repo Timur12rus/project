@@ -18,6 +18,7 @@ public class BarbarianController extends PlayerUnitController implements PlayerW
     // метод обновления логики игрового юнита
     @Override
     public void update(float delta) {
+
         super.update(delta);
 //        System.out.println("isTouchedEnemy" + model.isTouchedEnemy());
         EnemyUnitModel newTargetEnemy = findEnemyUnit();

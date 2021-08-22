@@ -13,22 +13,22 @@ public class GameHelper implements HelpInterface {
     public static final int HELP_GET_GIFT = 4;
     public static final int FINAL_WAVE_MONSTERS = 5;        // финальная волна монстров
     public static final int NONE = 6;
-    private int status = HELP_UNIT_CREATE;
+    private int status = BRAVERY;
     private GameManager gameManager;
     private LevelScreen levelScreen;
     private boolean isShowBravey;
     private boolean isShowMassage;
+    private CreateUnitHelp createUnitHelp;
 
     public GameHelper(LevelScreen levelScreen, GameManager gameManager) {
         this.levelScreen = levelScreen;
         this.gameManager = gameManager;
-        getHelperStatus();
+        status = getHelperStatus();
     }
 
     // возвращает сохраненный текущий статус
     private int getHelperStatus() {
-        gameManager.getHelpStatus();
-        return status;
+        return gameManager.getHelpStatus();
     }
 
     public boolean isShowBravey() {
@@ -65,20 +65,34 @@ public class GameHelper implements HelpInterface {
         actor.remove();
 //        levelScreen.removeOverlayChild(actor);
         levelScreen.setState(LevelScreen.PLAY);
-        setNextStatus(status++);
-        gameManager.setHelpStatus(status);
+        setNextStatus(HELP_UNIT_CREATE);
+        showCreateUnit();
     }
 
 
-    // метод показывает подсказку "создат юнита"
+    // метод показывает подсказку "создать юнита"
     @Override
     public void showCreateUnit() {
+            System.out.println("Status Helper = " + status);
+            if (createUnitHelp == null) {
+                System.out.println("Create UnitHelper()");
+                createUnitHelp = new CreateUnitHelp(levelScreen);
+            }
+            createUnitHelp.show();
+//        }
+    }
 
+    // удаляет подсказку о создании юнита (подсказка "палец")
+    public void clearCreateUnit() {
+        createUnitHelp.clear();
     }
 
     @Override
     public void hideCreateUnit() {
-
+        if (gameManager.getHelpStatus() == HELP_UNIT_CREATE) {
+            System.out.println("STATUS = " + gameManager.getHelpStatus());
+            createUnitHelp.hide();
+        }
     }
 
     // метод показывает подсказку "передвинь камень на вражеского юнита"

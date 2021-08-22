@@ -3,7 +3,6 @@ package com.timgapps.warfare.screens.level;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
@@ -19,8 +18,9 @@ import com.badlogic.gdx.utils.Array;
 import com.boontaran.MessageListener;
 import com.boontaran.games.StageGame;
 import com.timgapps.warfare.Units.GameUnits.unitTypes.EnemyUnits;
+import com.timgapps.warfare.Utils.Helper.Finger;
 import com.timgapps.warfare.Utils.Helper.GameHelper;
-import com.timgapps.warfare.Utils.Helper.HelpInterface;
+import com.timgapps.warfare.Utils.Setting;
 import com.timgapps.warfare.screens.level.background.BackgroundBuilder;
 import com.timgapps.warfare.screens.level.gui_elements.UnitButtons;
 import com.timgapps.warfare.screens.level.timer.MonsterTimer;
@@ -72,13 +72,8 @@ public class LevelScreen extends StageGame {
     private Random random;
     private ArrayList<TeamUnit> team;
     private Barricade barricade;
-    private Image rockBig, rockMiddle, rockSmall;
     private SiegeTower siegeTower;
-
-    private LevelCompletedScreen levelCompletedScreen;
-    private GameOverScreen gameOverScreen;
     private PauseScreen pausedScreen;
-    //    private boolean isActiveScreen = true;      // активный экран или нет
     private ColorRectangle fade;
     private int coinsReward;            // награда - кол-во монет за уровень
     private int scoreReward;            // награда - кол-во очков за уровень
@@ -87,21 +82,16 @@ public class LevelScreen extends StageGame {
     private boolean isPausedScreenHide = true;
     private boolean isPausedScreenAdded = false;
     private LevelCreator levelCreator;
-    private float unitButtonWidth;
-    private float unitButtonHeight;
-    private Finger finger;
     private UnitCreator unitCreator;
     private float waitTime = 300;
     private boolean isShowLevelCompletedScreen;
     private UnitButtons unitButtons;
     private TiledMap levelMap;
-    //    private CountDownTimer countDownTimer;
     private MonsterTimer monsterTimer;
     private boolean isCompleted;
     public static float screenScale;
     private BackgroundBuilder backgroundBuilder;
     private RewardVideoButtonController rewardVideoButtonController;
-//    private BoosterButton boosterButton;
 
     private GameHelper gameHelper;
 
@@ -114,10 +104,6 @@ public class LevelScreen extends StageGame {
         System.out.println("ViewPortHeight = " + stage.getViewport().getScreenHeight());
         System.out.println("V_WIDTH = " + Warfare.V_WIDTH);
         System.out.println("V_HEIGHT = " + Warfare.V_HEIGHT);
-
-
-//        stage.getViewport().update(Warfare.V_WIDTH, Warfare.V_HEIGHT, true);
-
         setBackGround("level_bg");
 
         isCompleted = false;
@@ -173,13 +159,6 @@ public class LevelScreen extends StageGame {
         params.textureMagFilter = Texture.TextureFilter.Linear;
         // загружаем карту
         levelMap = new TmxMapLoader().load("levels/level" + levelNumber + ".tmx", params);
-
-//        unitCreator.createUnit("Goblin", new Vector2(570, 270));
-//        unitCreator.createUnit("Ork1", new Vector2(700, 220));
-//        unitCreator.createUnit("Troll1", new Vector2(1300, 230));
-//        unitCreator.createUnit("Ork1", new Vector2(1800, 250));
-//        unitCreator.createUnit("Troll2", new Vector2(900, 260));
-
         String layerName;
         for (MapLayer layer : levelMap.getLayers()) {
             layerName = layer.getName();
@@ -214,6 +193,10 @@ public class LevelScreen extends StageGame {
         monsterTimer = new MonsterTimer(this);
 //        new Bat(this, new Vector2(500, 240));
 //        monsterTimer.reset();
+
+        if (Setting.DEBUG_GAME) {
+            gameHelper.showCreateUnit();
+        }
     }
 
     public void hideFade() {
@@ -419,8 +402,9 @@ public class LevelScreen extends StageGame {
 //        Warfare.media.playMusic("battleMusic1.ogg", false);
     }
 
+    // показывает сообщение с подсказкой о "храбрости"
     public void showBraveryMessage() {
-        if (gameManager.getHelpStatus() == GameHelper.HELP_UNIT_CREATE) {
+        if (gameManager.getHelpStatus() == GameHelper.BRAVERY) {
             gameHelper.showBravery();
         }
     }
@@ -535,6 +519,10 @@ public class LevelScreen extends StageGame {
     @Override
     protected void update(float delta) {
         super.update(delta);
+//        if (!isCreateUnitHelp) {
+//            gameHelper.showCreateUnit();
+//            isCreateUnitHelp = true;
+//        }
         if (state != PAUSED) {
 //            countDownTimer.update(delta);
 //            System.out.println("camera Pos y = " + camera.position);
@@ -718,12 +706,6 @@ public class LevelScreen extends StageGame {
 //        unitButtons.hide();
     }
 
-    // метод для удаления указателя "палец"
-    public void removeFinger() {
-        if (finger != null)
-            finger.remove();
-    }
-
     // скрывает экран паузы
     public void hidePauseScreen() {
         pausedScreen.setVisible(false);
@@ -789,6 +771,12 @@ public class LevelScreen extends StageGame {
 //        Warfare.media.playMusic("victory.ogg", false);
         isCompleted = true;
         showFade();    // затемняем задний план
+
+        // если подсказка о создании юнита (подсказка с "пальцем"), удаляем "палец"
+        if (gameManager.getHelpStatus() == GameManager.HELP_UNIT_CREATE && levelNumber == 1) {
+            gameHelper.clearCreateUnit();
+            gameManager.setHelpStatus(GameHelper.HELP_STARS_PANEL);
+        }
 //        unitButtons.hide();
         hud.hideEnergyPanel();
         rewardVideoButtonController.showRewardVideoButton();  // покажем кнопку для показа видеорекламы
@@ -922,5 +910,13 @@ public class LevelScreen extends StageGame {
     @Override
     public void removeOverlayChild(Actor actor) {
         super.removeOverlayChild(actor);
+    }
+
+    public GameHelper getGameHelper() {
+        return gameHelper;
+    }
+
+    public UnitButtons getUnitButtons() {
+        return unitButtons;
     }
 }
