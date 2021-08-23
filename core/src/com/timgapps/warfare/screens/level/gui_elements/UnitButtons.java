@@ -87,7 +87,7 @@ public class UnitButtons extends Group {
             fireBoosterButton.setPosX(posX);
     }
 
-    public UnitImageButton getUnitButton(int i) {
+    public UnitImageButton getImageUnitButton(int i) {
         return unitButtonArrayList.get(i);
     }
 

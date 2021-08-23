@@ -122,8 +122,8 @@ public class GameManager {
             // для теста
 //            coinsCount = 100;
             scoreCount = 0;
-            starsCount = 63;
-//            starsCount = 0;
+//            starsCount = 63;
+            starsCount = 0;
 
             savedGame.setCoinsCount(coinsCount);
             savedGame.setFoodCount(foodCount);

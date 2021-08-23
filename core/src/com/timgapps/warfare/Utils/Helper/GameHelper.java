@@ -19,6 +19,7 @@ public class GameHelper implements HelpInterface {
     private boolean isShowBravey;
     private boolean isShowMassage;
     private CreateUnitHelp createUnitHelp;
+    private boolean isShowHelpCreateUnit;
 
     public GameHelper(LevelScreen levelScreen, GameManager gameManager) {
         this.levelScreen = levelScreen;
@@ -73,12 +74,12 @@ public class GameHelper implements HelpInterface {
     // метод показывает подсказку "создать юнита"
     @Override
     public void showCreateUnit() {
-            System.out.println("Status Helper = " + status);
-            if (createUnitHelp == null) {
-                System.out.println("Create UnitHelper()");
-                createUnitHelp = new CreateUnitHelp(levelScreen);
-            }
-            createUnitHelp.show();
+        System.out.println("Status Helper = " + status);
+        if (createUnitHelp == null) {
+            System.out.println("Create UnitHelper()");
+            createUnitHelp = new CreateUnitHelp(levelScreen);
+        }
+        createUnitHelp.show();
 //        }
     }
 

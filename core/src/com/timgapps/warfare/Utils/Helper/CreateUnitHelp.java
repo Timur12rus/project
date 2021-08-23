@@ -14,7 +14,17 @@ public class CreateUnitHelp {
         float y = levelScreen.getUnitButtons().getY() + levelScreen.getUnitButtons().getHeight() + 16 + Finger.HEIGHT;
         finger = new Finger(levelScreen, x, y,
                 Finger.DOWN, new TextureRegion(Warfare.atlas.findRegion("fingerUpRight")));
-        levelScreen.getUnitButtons().getUnitButton(0).addActor(finger);
+        levelScreen.getUnitButtons().getImageUnitButton(0).addActor(finger);
+        float posX = 84;
+//        float posX =  (levelScreen.getUnitButtons().getImageUnitButton(0).getWidth() - finger.getWidth()) / 2;
+        float posY = (levelScreen.getUnitButtons().getImageUnitButton(0).getHeight() + 96);
+
+        finger.setPosition(posX,
+                posY);
+
+//        finger.setPosition(levelScreen.getUnitButtons().getImageUnitButton(0).getWidth(),
+//                levelScreen.getUnitButtons().getImageUnitButton(0).getHeight());
+
 //        finger.setPosition(x, y);
 //        levelScreen.addOverlayChild(finger);
     }

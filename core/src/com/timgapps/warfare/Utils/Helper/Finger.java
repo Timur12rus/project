@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.actions.MoveByAction;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -37,39 +38,44 @@ public class Finger extends Image {
         setSize(textureRegion.getRegionWidth(), textureRegion.getRegionHeight());
         float angleRotation = 0;
 
-        MoveToAction actionOne = new MoveToAction();
+        MoveByAction actionOne = new MoveByAction();
         actionOne.setDuration(0.5f);
         actionOne.setInterpolation(Interpolation.smooth);
 
-        MoveToAction actionTwo = new MoveToAction();
+//        MoveToAction actionTwo = new MoveToAction();
+        MoveByAction actionTwo = new MoveByAction();
         actionTwo.setDuration(0.5f);
         actionTwo.setInterpolation(Interpolation.smooth);
 
         switch (orientation) {
             case DOWN:
                 angleRotation = 180;
-                actionOne.setPosition(x, y + 16);
-                actionTwo.setPosition(x, y);
+//                actionOne.setAmount(x, y + 16);
+//                actionTwo.setAmount(x, y);
+                actionOne.setAmount(0, 16);
+                actionTwo.setAmount(0, -16);
                 break;
             case UP:
                 angleRotation = 0;
-                actionOne.setPosition(x, y + 16);
-                actionTwo.setPosition(x, y);
+//                actionOne.setAmount(x, y + 16);
+//                actionTwo.setAmount(x, y);
+                actionOne.setAmount(0, 16);
+                actionTwo.setAmount(0, -16);
                 break;
             case LEFT:
                 angleRotation = 90;
-                actionOne.setPosition(x, y);
-                actionTwo.setPosition(x + 16, y);
+                actionOne.setAmount(16, 0);
+                actionTwo.setAmount(-16, 0);
                 break;
             case RIGHT:
                 angleRotation = -90;
-                actionOne.setPosition(x, y);
-                actionTwo.setPosition(x + 16, y);
+                actionOne.setAmount(-16, y);
+                actionTwo.setAmount(16, y);
                 break;
             default:
                 angleRotation = 0;
-                actionOne.setPosition(x, y);
-                actionTwo.setPosition(x - 16, y);
+                actionOne.setAmount(0, 0);
+                actionTwo.setAmount(- 16, y);
         }
         setRotation(angleRotation);
 

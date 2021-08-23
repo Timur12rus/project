@@ -92,7 +92,6 @@ public class LevelScreen extends StageGame {
     public static float screenScale;
     private BackgroundBuilder backgroundBuilder;
     private RewardVideoButtonController rewardVideoButtonController;
-
     private GameHelper gameHelper;
 
     // метод строит уровень
@@ -900,7 +899,6 @@ public class LevelScreen extends StageGame {
         stage.clear();
 //        for (Actor actor : stage.clear();)
     }
-
 
     @Override
     public void addOverlayChild(Actor actor) {
