@@ -18,7 +18,7 @@ public class GameHelper implements HelpInterface {
     private LevelScreen levelScreen;
     private boolean isShowBravey;
     private boolean isShowMassage;
-    private CreateUnitHelp createUnitHelp;
+    private CreateUnitHelper createUnitHelper;
     private boolean isShowHelpCreateUnit;
 
     public GameHelper(LevelScreen levelScreen, GameManager gameManager) {
@@ -75,24 +75,22 @@ public class GameHelper implements HelpInterface {
     @Override
     public void showCreateUnit() {
         System.out.println("Status Helper = " + status);
-        if (createUnitHelp == null) {
+        if (createUnitHelper == null) {
             System.out.println("Create UnitHelper()");
-            createUnitHelp = new CreateUnitHelp(levelScreen);
+            createUnitHelper = new CreateUnitHelper(levelScreen);
         }
-        createUnitHelp.show();
-//        }
+        createUnitHelper.showFinger();
     }
 
     // удаляет подсказку о создании юнита (подсказка "палец")
     public void clearCreateUnit() {
-        createUnitHelp.clear();
+        createUnitHelper.clear();
     }
 
     @Override
     public void hideCreateUnit() {
         if (gameManager.getHelpStatus() == HELP_UNIT_CREATE) {
-            System.out.println("STATUS = " + gameManager.getHelpStatus());
-            createUnitHelp.hide();
+            createUnitHelper.hideFinger();
         }
     }
 

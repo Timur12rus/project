@@ -28,6 +28,7 @@ public class Finger extends Image {
     private RepeatAction repeatAction;
     private boolean isStarted = false;
     private LevelScreen levelScreen;
+    private boolean isShown;
 
     public Finger(LevelScreen levelScreen, float x, float y, int orientation, TextureRegion textureRegion) {
         super(textureRegion);
@@ -75,7 +76,7 @@ public class Finger extends Image {
             default:
                 angleRotation = 0;
                 actionOne.setAmount(0, 0);
-                actionTwo.setAmount(- 16, y);
+                actionTwo.setAmount(-16, y);
         }
         setRotation(angleRotation);
 
@@ -113,12 +114,19 @@ public class Finger extends Image {
     @Override
     public void act(float delta) {
         super.act(delta);
+        // если состояние не "игра" то скрываем указатель
         if (levelScreen.getState() != LevelScreen.PLAY) {
             if (isVisible()) {
                 hide();
             }
         } else {
-            show();
+            if (isShown) {
+                show();
+            }
         }
+    }
+
+    public void setIsShown(boolean isShown) {
+        this.isShown = isShown;
     }
 }

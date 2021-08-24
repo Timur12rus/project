@@ -164,38 +164,17 @@ public class LevelScreen extends StageGame {
             System.out.println("Layer NAME = " + layerName);
             for (EnemyUnits enemyUnit : EnemyUnits.values()) {
                 if (layerName.contains(enemyUnit.name())) {
-//                if (enemyUnit.name().equals(layerName)) {
                     createEnemyUnit(layer.getObjects(), layerName);
                 }
             }
-//            if (EnemyUnits.values().toString().equals(layerName)) {
-//                createEnemyUnit(layer.getObjects(), layerName);
-//            }
         }
-//        unitCreator.createUnit("Zombie3", new Vector2(570, 270));
-        // бегущий зомби
-//        unitCreator.createUnit("Zombie1Runner", new Vector2(1100, 250));
-
-//        unitCreator.createUnit("Zombie1", new Vector2(640, 240));
-//        unitCreator.createUnit("Zombie1", new Vector2(300, 240));
-
-        // создание волны с монстрами
-//        MonsterWave monsterWave = new MonsterWave(this);
-//        monsterWave.start();
-
-        // создаем счетчик начала "волны врагов"
-//        countDownTimer = new CountDownTimer(this);
-//        monsterTimer.reset();           // сбросим счетчик отсчета времени до начала волны монстров
-//        countDownTimer.reset();
-//        new MonsterTimer(this);
-//        new MonsterTimer(this);
         monsterTimer = new MonsterTimer(this);
 //        new Bat(this, new Vector2(500, 240));
 //        monsterTimer.reset();
 
-        if (Setting.DEBUG_GAME) {
-            gameHelper.showCreateUnit();
-        }
+//        if (Setting.DEBUG_GAME) {
+//            gameHelper.showCreateUnit();
+//        }
     }
 
     public void hideFade() {
@@ -240,9 +219,6 @@ public class LevelScreen extends StageGame {
 
         shapeRenderer = new ShapeRenderer();
 
-//        System.out.println("Level Number " + levelNumber);
-//        setBackGround("level_bg_new_mount");
-
         /** 13.02.2021 закоментировал **/
 //        setBackGround("level_bg");
 
@@ -251,9 +227,7 @@ public class LevelScreen extends StageGame {
         arrayModels = new ArrayList<GameUnitModel>();
         arrayActors = new ArrayList<Actor>();
         debugRender = new Box2DDebugRenderer(); // объект debugRendered будем использовать для отладки игрового мира, он позволяет выделить границы полигона
-//        /** создадим баррикаду **/
-//        barricade = new Barricade(this, Barricade.ROCKS);
-//        siegeTower = new SiegeTower(this, -48, 270, gameManager.getTowerHealth(), 2);
+
         /** Добавим вражеских юнитов **/
         random = new Random();
         levelCreator = new LevelCreator(this, gameManager);
@@ -262,98 +236,19 @@ public class LevelScreen extends StageGame {
 
 
         fade = new ColorRectangle(0, 0, getWidth(), getHeight(), new Color(0, 0, 0, 0.7f));
-//        hideFade();
         addOverlayChild(fade);
         unitCreator = new UnitCreator(this);
 
-//        unitCreator.createUnit("Zombie1", new Vector2(750, 250));
-
-//        unitCreator.createUnit("Zombie1", new Vector2(1200, 270));
-//        unitCreator.createUnit("Zombie1", new Vector2(750, 250));
-
-//        unitCreator.createUnit("Zombie3", new Vector2(2500, 280));
-//        unitCreator.createUnit("Zombie3", new Vector2(5000, 300));
-//        unitCreator.createUnit("Zombie3", new Vector2(3000, 220));
-
-
-        // TODO TEST 08.11.2020
-//        unitCreator.createUnit("Zombie1", new Vector2(370, 270));
-//        unitCreator.createUnit("Zombie1", new Vector2(470, 270));
-//        unitCreator.createUnit("Zombie3", new Vector2(570, 270));
-//        unitCreator.createUnit("Zombie1", new Vector2(700, 250));
-//        unitCreator.createUnit("Zombie1", new Vector2(640, 240));
-//        unitCreator.createUnit("Zombie1", new Vector2(300, 240));
-//        unitCreator.createUnit("Zombie2", new Vector2(600, 200));
-//        unitCreator.createUnit("Wizard", new Vector2(1100, 250));
-//        unitCreator.createUnit("Skeleton2", new Vector2(900, 270));
-//        unitCreator.createUnit("Ent1", new Vector2(1000, 270));
-
-//        unitCreator.createUnit("Zombie2", new Vector2(600, 230));
-
-////
-
-//        unitCreator.createUnit("Skeleton1", new Vector2(1200, 230));
-
-//        unitCreator.createUnit("Barbarian", new Vector2(200, 240));
-//        unitCreator.createUnit("Viking", new Vector2(200, 240));
-
-//        unitCreator.createUnit("Zombie2", new Vector2(720, 270));
-//        unitCreator.createUnit("Skeleton1", new Vector2(640, 240));
-//        unitCreator.createUnit("Skeleton2", new Vector2(820, 230));
-
-//        unitCreator.createUnit("Thor", new Vector2(100, 200));
-//        unitCreator.createUnit("Thor", new Vector2(200, 220));
-//        unitCreator.createUnit("Gnome", new Vector2(400, 200));
-//        unitCreator.createUnit("Knight", new Vector2(400, 200));
-//        unitCreator.createUnit("Archer", new Vector2(400, 200));
-
-        // молния для теста
-//        Lightning lightning = new Lightning(this, new Vector2(500, 240), -100);
-
-//        new FireRockShoot(this);
-
-//        coinsCount = gameManager.getCoinsCount();
         hud = new HUD(this);
-//        hud.setPosition(32, getHeight() - hud.getHeight());
         addOverlayChild(hud);
+
         // создадим таблицу с юнитами
         team = gameManager.getTeam();
         // создадим таблицу с кнопками юнитов
         unitButtons = new UnitButtons(this, team);
-//        tableUnitButtons = new TableUnitButton(this, team);
-//        unitButtons.debug();
-//        unitButtons.setWidth(team.size() * unitButtonWidth + 24);
-//        unitButtons.setHeight(unitButtonHeight);
 
-//        unitButtons.setPosition((getWidth() - unitButtons.getWidth()) / 2, 24);
-        // TODO fix X coordiante
-//        System.out.println("tableUnitButton X = " + unitButtons.getX());
-//        System.out.println("unitButtonDeltaX = " + (team.get(0).getUnitImageButton().getWidth() + 24) * 2);
-//        unitButtons.setStoneButtonPosX(unitButtons.getX());
-//        tableUnitButtons.setStoneButtonPosX(tableUnitButtons.getX() + (team.get(2).getUnitImageButton().getWidth() + 24) * 2);
-
-//        unitButtons.show();
         addOverlayChild(unitButtons);
         hideFade();
-
-        // добавим указатель "ПАЛЕЦ"
-//        if (levelNumber == 1) {
-//            /** если статус обучалки "как создать юнит", то создадим указатель **/
-//            if (gameManager.getHelpStatus() == gameManager.HELP_UNIT_CREATE) {
-//                finger = new Finger(unitButtons.getX() + (unitButtonWidth / 2 - Finger.WIDTH / 2) + 48 + 36,
-//                        unitButtons.getY() + unitButtonHeight + 16 + Finger.HEIGHT,
-//                        Finger.DOWN, new TextureRegion(Warfare.atlas.findRegion("fingerUpRight")));
-//                finger.debug();
-//                float x = unitButtons.getX() + (unitButtonWidth - Finger.WIDTH) / 2 + 48 + 36;
-//                float y = unitButtons.getY() + unitButtonHeight + 16 + Finger.HEIGHT;
-//                finger.setPosition(x, y);
-//                addChild(finger);
-//                finger.setVisible(false);
-//            }
-//        } else {
-//            finger = null;
-//        }
-//        siegeTower.setHealth(30);
         pausedScreen = new PauseScreen(this);
         pausedScreen.addListener(new MessageListener() {
             @Override
@@ -773,8 +668,8 @@ public class LevelScreen extends StageGame {
 
         // если подсказка о создании юнита (подсказка с "пальцем"), удаляем "палец"
         if (gameManager.getHelpStatus() == GameManager.HELP_UNIT_CREATE && levelNumber == 1) {
-            gameHelper.clearCreateUnit();
             gameManager.setHelpStatus(GameHelper.HELP_STARS_PANEL);
+            gameHelper.clearCreateUnit();
         }
 //        unitButtons.hide();
         hud.hideEnergyPanel();

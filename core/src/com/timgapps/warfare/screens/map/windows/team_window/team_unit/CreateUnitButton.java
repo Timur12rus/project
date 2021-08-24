@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnitData;
 import com.timgapps.warfare.Units.GameUnits.unitTypes.PlayerUnits;
+import com.timgapps.warfare.Utils.Helper.CreateUnitHelper;
 import com.timgapps.warfare.screens.level.LevelScreen;
 import com.timgapps.warfare.Warfare;
 
@@ -17,6 +18,7 @@ public class CreateUnitButton extends UnitImageButton {
     protected float percentage = 0;
     protected LevelScreen levelScreen;
     protected boolean isActive = false;
+    private CreateUnitHelper createUnitHelper;
 
     public CreateUnitButton(LevelScreen levelScreen, PlayerUnitData playerUnitData) {
         super(playerUnitData);
@@ -35,10 +37,7 @@ public class CreateUnitButton extends UnitImageButton {
         lockImage.setVisible(false);
         setInActive();
         unitLevelIcon.setIsActiveIcon(false);
-        System.out.println("isUnlock = " + isUnlock);
-        System.out.println("isCalled = " + isCalled);
         isUnlock = playerUnitData.isUnlock();
-        System.out.println("isUnlock = " + isUnlock);
     }
 
     @Override
@@ -82,6 +81,7 @@ public class CreateUnitButton extends UnitImageButton {
         }
     }
 
+    // метод для вызова юнита, после клика
     @Override
     public void buttonClicked(float x, float y) {
         isTouchedDown = false;
@@ -103,6 +103,9 @@ public class CreateUnitButton extends UnitImageButton {
         if (isActive == true) {
             unitLevelIcon.setIsActiveIcon(false);
             isActive = false;
+            if (createUnitHelper != null) {
+                createUnitHelper.hideFinger();
+            }
         }
     }
 
@@ -113,6 +116,9 @@ public class CreateUnitButton extends UnitImageButton {
             inactiveImage.setVisible(false);
             unitLevelIcon.setIsActiveIcon(true);
             isActive = true;
+            if (createUnitHelper != null) {
+                createUnitHelper.showFinger();
+            }
         }
     }
 
@@ -130,5 +136,9 @@ public class CreateUnitButton extends UnitImageButton {
             batch.draw(darkLayer, getX(), getY() - 10, darkLayer.getRegionWidth(), height - percentage);
             batch.setColor(Color.WHITE);
         }
+    }
+
+    public void setCreateUnitHelper(CreateUnitHelper createUnitHelper) {
+        this.createUnitHelper = createUnitHelper;
     }
 }

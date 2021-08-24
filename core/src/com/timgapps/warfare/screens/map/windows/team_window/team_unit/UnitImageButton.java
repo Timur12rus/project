@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.timgapps.warfare.Units.GameUnits.Player.units.PlayerUnitData;
 import com.timgapps.warfare.Units.GameUnits.unitTypes.PlayerUnits;
+import com.timgapps.warfare.Utils.Helper.CreateUnitHelper;
 import com.timgapps.warfare.Warfare;
 
 // кнопка юнита (в магазине и на сцене для вызова юнита)
@@ -23,7 +24,7 @@ public class UnitImageButton extends Group {
     protected boolean isReadyUnitButton;
     protected PlayerUnitData playerUnitData;
     protected float height;
-    protected com.timgapps.warfare.screens.map.windows.team_window.team_unit.UnitLevelIcon unitLevelIcon;
+    protected UnitLevelIcon unitLevelIcon;
     protected Image lockIcon;
     protected boolean isCalled;     // юнит призван (куплен)
     protected boolean isTouchedDown;
@@ -71,15 +72,6 @@ public class UnitImageButton extends Group {
 
     // метод запускает действие движения значка уровня юнита, если юнит может быть улучшен
     public void startLevelIconAction() {
-//        MoveToAction actionOne = new MoveToAction();
-//        actionOne.setDuration(0.5f);
-//        actionOne.setInterpolation(Interpolation.smooth);
-//
-//        MoveToAction actionTwo = new MoveToAction();
-//        actionTwo.setDuration(0.5f);
-//        actionTwo.setInterpolation(Interpolation.smooth);
-
-
         SequenceAction sequenceAction = new SequenceAction(
                 Actions.moveBy(0, 8, 0.4f, Interpolation.smooth),
                 Actions.moveBy(0, -8, 0.4f, Interpolation.smooth)
@@ -134,7 +126,6 @@ public class UnitImageButton extends Group {
     private void addClickListener() {
         addListener(new ClickListener() { // создаем слушателя события нажатия кнопки
             // переопределяем метод TouchDown(), который называется прикасание
-
 
             @Override
             public void touchDragged(InputEvent event, float x, float y, int pointer) {
@@ -191,7 +182,6 @@ public class UnitImageButton extends Group {
             lockImage.setY(lockImage.getY() + 10);
             activeImage.setY(activeImage.getY() + 10);
             unitLevelIcon.setIsActiveIcon(true);
-//            unitLevelIcon.setY(unitLevelIcon.getY() + 10);
         }
     }
 
