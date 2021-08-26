@@ -14,11 +14,10 @@ public class CreateUnitHelper {
 
     public CreateUnitHelper(LevelScreen levelScreen) {
         this.levelScreen = levelScreen;
-        float x = levelScreen.getUnitButtons().getX() + (levelScreen.getUnitButtons().getWidth() - Finger.WIDTH) / 2 + 48 + 36;
-        float y = levelScreen.getUnitButtons().getY() + levelScreen.getUnitButtons().getHeight() + 16 + Finger.HEIGHT;
+//        float x = levelScreen.getUnitButtons().getX() + (levelScreen.getUnitButtons().getWidth() - Finger.WIDTH) / 2 + 48 + 36;
+//        float y = levelScreen.getUnitButtons().getY() + levelScreen.getUnitButtons().getHeight() + 16 + Finger.HEIGHT;
         createUnitButton = (CreateUnitButton) levelScreen.getUnitButtons().getImageUnitButton(0);
-        finger = new Finger(levelScreen, x, y,
-                Finger.DOWN, new TextureRegion(Warfare.atlas.findRegion("fingerUpRight")));
+        finger = new Finger(levelScreen, Finger.DOWN, new TextureRegion(Warfare.atlas.findRegion("fingerUpRight")));
         createUnitButton.addActor(finger);
         createUnitButton.setCreateUnitHelper(this);
         float posX = 84;

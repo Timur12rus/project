@@ -66,6 +66,7 @@ public class GameManager {
     private boolean isHaveFullRewardsForStars;      // игрок получил все награды за звезды
     private GeomHolder geomHolder;
     private boolean isCanUpgrade;                   // индикатор, может ли быть апгрейд юнитов
+    private GameHelper gameHelper;
 
     public GameManager() {
         /** загрузим данные игры **/
@@ -168,6 +169,8 @@ public class GameManager {
             scoreCount = savedGame.getScoreCount();
             starsCount = savedGame.getStarsCount();
         }
+
+//        gameHelper = new GameHelper();
 
         /** получим массив с ДАННЫМИ о наградах за звезды */
         rewardForStarsDataList = savedGame.getRewardForStarsDataList();

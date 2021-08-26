@@ -3,6 +3,7 @@ package com.timgapps.warfare.screens.map;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
@@ -22,11 +23,13 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.boontaran.MessageListener;
 import com.boontaran.games.StageGame;
 import com.boontaran.games.tiled.TileLayer;
+import com.timgapps.warfare.Utils.Helper.Finger;
 import com.timgapps.warfare.screens.map.actions.AddOverlayActionHelper;
 import com.timgapps.warfare.screens.map.actions.IconAction;
 import com.timgapps.warfare.screens.map.actions.MyCoinsAction;
 import com.timgapps.warfare.screens.map.gui_elements.CoinsPanel;
 import com.timgapps.warfare.screens.map.gui_elements.VideoRewardButton;
+import com.timgapps.warfare.screens.map.helper.MapScreenHelper;
 import com.timgapps.warfare.screens.map.interfaces.RewardVideoButtonController;
 import com.timgapps.warfare.screens.map.interfaces.RewardedVideoAdListener;
 import com.timgapps.warfare.screens.map.interfaces.RoundCircleController;
@@ -45,6 +48,8 @@ import com.timgapps.warfare.screens.map.gui_elements.TeamUpgradeIcon;
 
 import java.util.ArrayList;
 
+import static com.timgapps.warfare.Utils.Helper.GameHelper.HELP_STARS_PANEL;
+import static com.timgapps.warfare.Utils.Helper.GameHelper.HELP_TEAM_UPGRADE;
 import static java.lang.Integer.parseInt;
 
 public class MapScreen extends StageGame implements AddOverlayActionHelper, RoundCircleController, RewardVideoButtonController {
@@ -95,6 +100,8 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper, Roun
     private MyCoinsAction rewardCoinsAction;
     private boolean isShowRewardVideoButton = true;
     private boolean isErned = false;        // флаг награда получена после просмотра видео
+    private MapScreenHelper mapScreenHelper;
+    private Finger finger;
 
     @Override
     protected void update(float delta) {
@@ -156,7 +163,7 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper, Roun
 //        coinsAction.startAnimation();
     }
 
-    public MapScreen(GameManager gameManager, int coinsReward, int scoreReward, final RewardedVideoAdListener rewardedVideoAdListener) {
+    public MapScreen(final GameManager gameManager, int coinsReward, int scoreReward, final RewardedVideoAdListener rewardedVideoAdListener) {
         this.coinsReward = coinsReward;
         this.scoreReward = scoreReward;
         this.rewardedVideoAdListener = rewardedVideoAdListener;
@@ -334,14 +341,19 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper, Roun
 //                call(ON_SHOW_REWARD_FOR_STARS_SCREEN);
 //                isFocused = false;
                 Warfare.media.playSound("clickButton.ogg");
+                if ((mapScreenHelper != null) && (mapScreenHelper.isShowStarsPanelFinger())) {
+                    for (Actor actor : starsPanel.getChildren()) {
+                        if (actor instanceof Finger) {
+                            actor.remove();
+                        }
+                    }
+//                    finger.setVisible(false);
+                    mapScreenHelper.hideStarsPanelFinger();
+                    gameManager.setHelpStatus(HELP_TEAM_UPGRADE);
+                }
                 showRewardForStarsScreen();
             }
         });
-
-//        gameManager.setHelpStatus(GameManager.HELP_TEAM_UPGRADE);
-
-//        int helpStatus = gameManager.getHelpStatus();     // получим статус обучалки
-//        checkHelpStatus(helpStatus);
 
         /** создадим окно апргейда команды и передаём информацию о составе команды(manager)**/
         teamScreen = new TeamScreen(gameManager);
@@ -399,6 +411,9 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper, Roun
         cameraYpos = camera.position.y;
         selectedLevelId = gameManager.getLastCompletedNum();
         zoomActionCamera();
+
+        mapScreenHelper = new MapScreenHelper();
+        gameManager.setHelpStatus(HELP_STARS_PANEL);
     }
 
     // метод для просмотра видеорекламы
@@ -816,18 +831,26 @@ public class MapScreen extends StageGame implements AddOverlayActionHelper, Roun
         rewardVideoWindow.hide();
         isFocused = true;
         showButtons();
-//        checkHelpStatus(gameManager.getHelpStatus());
+        // TEST
+//        checkHelpStatus(HELP_STARS_PANEL);
+        checkHelpStatus(gameManager.getHelpStatus());
     }
 
 // TODO showAddCoinAnimation() !~!!!!!!!!!!!!!!
 
-//    private void checkHelpStatus(int helpStatus) {
-//        if (helpStatus == GameManager.HELP_STARS_PANEL) {
-//            starsPanel.showFinger();
-//            gameManager.setHelpStatus(GameManager.HELP_TEAM_UPGRADE);
-//            starsPanel.hideFinger();
-//        }
-//    }
+    private void checkHelpStatus(int helpStatus) {
+        if (helpStatus == GameManager.HELP_STARS_PANEL) {
+            if (!mapScreenHelper.isShowStarsPanelFinger()) {
+                mapScreenHelper.showStarsPanelFinger();
+                finger = new Finger(Finger.LEFT,
+                        new TextureRegion(Warfare.atlas.findRegion("fingerUpLeft")));
+                starsPanel.addActor(finger);
+                finger.setIsShown(true);
+                finger.setPosition(starsPanel.getWidth() + 48, 12);
+                finger.show();
+            }
+        }
+    }
 
     private void showAddCoinsAnimation() {
     }

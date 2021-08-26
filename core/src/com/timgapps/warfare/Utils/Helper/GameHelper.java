@@ -18,6 +18,7 @@ public class GameHelper implements HelpInterface {
     private LevelScreen levelScreen;
     private boolean isShowBravey;
     private boolean isShowMassage;
+    private boolean isShowStarsPanelFinger;
     private CreateUnitHelper createUnitHelper;
     private boolean isShowHelpCreateUnit;
 
@@ -56,7 +57,6 @@ public class GameHelper implements HelpInterface {
         levelScreen.addOverlayChild(braveryMessage);
         braveryMessage.setPosition((levelScreen.getWidth() - braveryMessage.getWidth()) / 2,
                 (levelScreen.getHeight() - braveryMessage.getHeight()) / 2 + 64);
-
     }
 
     @Override
@@ -69,7 +69,6 @@ public class GameHelper implements HelpInterface {
         setNextStatus(HELP_UNIT_CREATE);
         showCreateUnit();
     }
-
 
     // метод показывает подсказку "создать юнита"
     @Override
@@ -109,5 +108,13 @@ public class GameHelper implements HelpInterface {
     @Override
     public void showFinalWave() {
 
+    }
+
+    public void showStarsPanelFinger() {
+        isShowStarsPanelFinger = true;
+    }
+
+    public boolean isShowStarsPanelFinger() {
+        return isShowStarsPanelFinger;
     }
 }

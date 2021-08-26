@@ -16,7 +16,6 @@ import com.timgapps.warfare.Warfare;
 import com.timgapps.warfare.screens.level.LevelScreen;
 
 public class Finger extends Image {
-    private float x, y;
     private Image fingerImage;
     public static final float WIDTH = 72;
     public static final float HEIGHT = 84;
@@ -30,13 +29,26 @@ public class Finger extends Image {
     private LevelScreen levelScreen;
     private boolean isShown;
 
-    public Finger(LevelScreen levelScreen, float x, float y, int orientation, TextureRegion textureRegion) {
+    public Finger(int orientation, TextureRegion textureRegion) {
+        super(textureRegion);
+//        this.orientation = orientation;
+        setSize(textureRegion.getRegionWidth(), textureRegion.getRegionHeight());
+        createFinger(orientation);
+    }
+
+
+    public Finger(LevelScreen levelScreen, int orientation, TextureRegion textureRegion) {
         super(textureRegion);
         this.levelScreen = levelScreen;
-        this.x = x;
-        this.y = y;
-        this.orientation = orientation;
+//        this.orientation = orientation;
         setSize(textureRegion.getRegionWidth(), textureRegion.getRegionHeight());
+//        addAction(repeatAction);
+        createFinger(orientation);
+
+    }
+
+    private void createFinger(int orientation) {
+
         float angleRotation = 0;
 
         MoveByAction actionOne = new MoveByAction();
@@ -70,13 +82,13 @@ public class Finger extends Image {
                 break;
             case RIGHT:
                 angleRotation = -90;
-                actionOne.setAmount(-16, y);
-                actionTwo.setAmount(16, y);
+                actionOne.setAmount(-16, 0);
+                actionTwo.setAmount(16, 0);
                 break;
             default:
                 angleRotation = 0;
                 actionOne.setAmount(0, 0);
-                actionTwo.setAmount(-16, y);
+                actionTwo.setAmount(-16, 0);
         }
         setRotation(angleRotation);
 
@@ -88,9 +100,6 @@ public class Finger extends Image {
 
         repeatAction.setCount(RepeatAction.FOREVER);
         repeatAction.setAction(sequenceAction);
-
-//        addAction(repeatAction);
-
     }
 
     // метод для отображения "пальца-указателя"
@@ -114,15 +123,19 @@ public class Finger extends Image {
     @Override
     public void act(float delta) {
         super.act(delta);
-        // если состояние не "игра" то скрываем указатель
-        if (levelScreen.getState() != LevelScreen.PLAY) {
-            if (isVisible()) {
-                hide();
+        try {
+            // если состояние не "игра" то скрываем указатель
+            if (levelScreen.getState() != LevelScreen.PLAY) {
+                if (isVisible()) {
+                    hide();
+                }
+            } else {
+                if (isShown) {
+                    show();
+                }
             }
-        } else {
-            if (isShown) {
-                show();
-            }
+        } catch (Exception e) {
+
         }
     }
 
